@@ -2463,12 +2463,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     map.on('zoom', () => {
       queueHoverRefresh();
+      // Keep precinct overlays in sync with zoom thresholds (dots vs polygons).
+      try {
+        if (typeof updatePrecinctVisibility === 'function') updatePrecinctVisibility();
+      } catch (_) {}
     });
     map.on('moveend', () => {
       queueHoverRefresh();
     });
     map.on('zoomend', () => {
       queueHoverRefresh();
+      // Reconcile overlay visibility after animated zoom transitions complete.
+      try {
+        if (typeof updatePrecinctVisibility === 'function') updatePrecinctVisibility();
+      } catch (_) {}
     });
 
     const DEBUG = false;

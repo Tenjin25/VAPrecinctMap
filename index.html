@@ -2508,10 +2508,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let lastPrecinctFillExpr = null; // Cached fill-color expression for precinct overlay.
     let lastPrecinctDotExpr = null; // Cached circle-color expression for precinct dots (statewide zoom).
     let precinctPolygonNormSet = null; // Set<string precinct_norm> from polygon source (used to show centroid fallback for missing polygons).
-    let precinctCentroidsData = null; // Cached centroids GeoJSON so we can annotate with has_polygon after polygons load.
+	    let precinctCentroidsData = null; // Cached centroids GeoJSON so we can annotate with has_polygon after polygons load.
 	    let precinctCentroidsLoaded = false;
 	    let precinctCentroidsLoadInFlight = false;
 	    let precinctCodeIndexByCounty = null; // Map<string countyNorm, Set<string prec_id>> built from precinct centroids.
+      let precinctNormSet = null; // Set<string precinct_norm> from centroid source.
+      let precinctNormsByCounty = null; // Map<string countyNorm, Set<string precinct_norm>>.
       let precinctDotHoverWired = new Set();
 	    let tooltipPinned = false;
 	    let precinctDotHoverRaf = null;
@@ -2871,6 +2873,23 @@ document.addEventListener('DOMContentLoaded', function() {
 	      if (!path) throw new Error(`No OpenElections CSV configured for ${contestType} ${year}`);
 	      const downloadUrl = toAbsoluteUrl(path);
 
+	      function normalizeLocalityKey(raw) {
+	        const s0 = (raw || '').toString().trim().toUpperCase().replace(/\s+/g, ' ');
+	        if (!s0) return '';
+	        const cityOf = s0.match(/^CITY OF\s+(.+)$/);
+	        const s = cityOf ? `${cityOf[1].trim()} CITY` : s0;
+	        const m = s.match(/^(.+?)\s+(COUNTY|CITY|TOWN)$/);
+	        return m ? `${m[1].trim()} ${m[2]}` : s;
+	      }
+
+	      function canonicalCountyFromOpenElections(rawCounty) {
+	        const key = normalizeLocalityKey(rawCounty);
+	        if (!key) return '';
+	        // Bedford City reverted to town status; map legacy rows to modern county bucket.
+	        if (key === 'BEDFORD CITY') return 'BEDFORD COUNTY';
+	        return key;
+	      }
+
 	      function extractPrecinctCode(precinctRaw) {
 	        const p = (precinctRaw || '').toString().trim();
 	        if (!p) return '';
@@ -2881,7 +2900,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	        // - "01_PATTERSON" (OpenElections newer years)
 	        // - "01 PATTERSON" (older years)
 	        // - "LI-1 ..." (some counties)
-	        return u.split(/[_\s]+/, 1)[0].trim();
+	        // - "126-GOSHEN POST" (code/name joined by hyphen)
+	        const firstToken = u.split(/[_\s]+/, 1)[0].trim();
+	        let token = firstToken.replace(/[^A-Z0-9.\-]/g, '').replace(/-+$/, '').trim();
+	        // If a name is appended with a hyphen, keep only the leading code portion.
+	        // Example: "126-GOSHEN" -> "126".
+	        const codePlusName = token.match(/^([A-Z]{0,3}\d{1,4}[A-Z]{0,2})-[A-Z].*$/);
+	        if (codePlusName) token = codePlusName[1];
+	        return token;
 	      }
 
 	      // Aggregate to precinct key "COUNTY - CODE" where CODE is the first token extracted from OpenElections `precinct`.
@@ -2900,7 +2926,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	              (result?.data || []).forEach(r => {
 	                const office = (r.office || '').toString();
 	                if (!officeMatchesContestType(office, contestType)) return;
-	                const county = (r.county || '').toString().trim().toUpperCase();
+	                const county = canonicalCountyFromOpenElections(r.county);
 	                const precinctRaw = (r.precinct || '').toString().trim();
 	                if (!county || !precinctRaw) return;
 	                const code = extractPrecinctCode(precinctRaw);
@@ -2928,7 +2954,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        rows.forEach(r => {
 	          const office = (r.office || '').toString();
 	          if (!officeMatchesContestType(office, contestType)) return;
-	          const county = (r.county || '').toString().trim().toUpperCase();
+	          const county = canonicalCountyFromOpenElections(r.county);
 	          const precinctRaw = (r.precinct || '').toString().trim();
 	          if (!county || !precinctRaw) return;
 	          const code = extractPrecinctCode(precinctRaw);
@@ -5401,6 +5427,30 @@ document.addEventListener('DOMContentLoaded', function() {
           } catch (_) {}
 	        map.addSource('precinct-centroids', { type: 'geojson', data: pts });
 	        precinctCentroidsLoaded = true;
+          // Build centroid norm indexes for robust precinct matching/allocation.
+          try {
+            const nSet = new Set();
+            const byCounty = new Map();
+            (pts?.features || []).forEach(f => {
+              const p = f?.properties || {};
+              const n = (p.precinct_norm || '').toString().trim().toUpperCase();
+              if (!n) return;
+              nSet.add(n);
+              const county = (p.county_nam || p.COUNTYNAME || p.County || p.NAME || '')
+                .toString()
+                .replace(/[^a-z0-9 .\-]/gi, '')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .toUpperCase();
+              if (!county) return;
+              if (!byCounty.has(county)) byCounty.set(county, new Set());
+              byCounty.get(county).add(n);
+            });
+            precinctNormSet = nSet;
+            precinctNormsByCounty = byCounty;
+          } catch (err) {
+            console.warn('Failed to build precinct norm indexes:', err?.message || err);
+          }
 	        // Build a lightweight county -> precinct code index for key-variant matching.
 	        try {
 	          if (!precinctCodeIndexByCounty && pts && pts.features) {
@@ -7785,7 +7835,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Build county aggregates from precinct-level rows.
       const countyAgg = {};
+      const precinctVoteAgg = needsPrecinctDetail ? new Map() : null; // Map precinct_norm -> aggregated row
+      const unmatchedCountyGeoAgg = needsPrecinctDetail ? new Map() : null; // county_norm -> residual geographic votes
       currentPrecinctResults = needsPrecinctDetail ? new Map() : null;
+
+      function addPrecinctVotes(norm, demVotes, repVotes, otherVotes, demCand, repCand) {
+        if (!needsPrecinctDetail || !norm) return;
+        if (!precinctVoteAgg.has(norm)) {
+          precinctVoteAgg.set(norm, {
+            year: Number(year),
+            county: norm,
+            [`${contestType}_dem`]: 0,
+            [`${contestType}_rep`]: 0,
+            [`${contestType}_other`]: 0,
+            [`${contestType}_total`]: 0,
+            [`${contestType}_dem_candidate`]: demCand || '',
+            [`${contestType}_rep_candidate`]: repCand || ''
+          });
+        }
+        const node = precinctVoteAgg.get(norm);
+        node[`${contestType}_dem`] += Number(demVotes || 0);
+        node[`${contestType}_rep`] += Number(repVotes || 0);
+        node[`${contestType}_other`] += Number(otherVotes || 0);
+        node[`${contestType}_total`] += Number(demVotes || 0) + Number(repVotes || 0) + Number(otherVotes || 0);
+        if (!node[`${contestType}_dem_candidate`] && demCand) node[`${contestType}_dem_candidate`] = demCand;
+        if (!node[`${contestType}_rep_candidate`] && repCand) node[`${contestType}_rep_candidate`] = repCand;
+      }
+
       contestData.forEach(row => {
         const rowName = (row.county || '').toString();
         const countyOnly = rowName.includes(' - ') ? rowName.split(' - ')[0] : rowName;
@@ -7800,10 +7876,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const repCand = (row[`${contestType}_rep_candidate`] || '').toString();
 
         if (needsPrecinctDetail) {
-          const norms = precinctNormVariants(rowName);
-          norms.forEach(n => {
-            currentPrecinctResults.set(n, row);
-          });
+          const candidateNorms = precinctNormVariants(rowName);
+          if (candidateNorms.length) {
+            const matchedNorms = candidateNorms.filter(n => !precinctNormSet || precinctNormSet.has(n));
+            if (matchedNorms.length) {
+              // Split a legacy row across all matched modern precincts so totals remain bounded.
+              const share = 1 / matchedNorms.length;
+              matchedNorms.forEach(n => addPrecinctVotes(n, demVotes * share, repVotes * share, otherVotes * share, demCand, repCand));
+            } else {
+              // Geographic row failed direct key matching; hold for county-level redistribution.
+              if (!unmatchedCountyGeoAgg.has(countyNorm)) {
+                unmatchedCountyGeoAgg.set(countyNorm, { dem: 0, rep: 0, other: 0, demCand: demCand || '', repCand: repCand || '' });
+              }
+              const miss = unmatchedCountyGeoAgg.get(countyNorm);
+              miss.dem += demVotes;
+              miss.rep += repVotes;
+              miss.other += otherVotes;
+              if (!miss.demCand && demCand) miss.demCand = demCand;
+              if (!miss.repCand && repCand) miss.repCand = repCand;
+            }
+          }
         }
         if (!countyAgg[countyNorm]) {
           countyAgg[countyNorm] = {
@@ -7825,6 +7917,34 @@ document.addEventListener('DOMContentLoaded', function() {
         countyAgg[countyNorm][`${contestType}_other`] += otherVotes;
         countyAgg[countyNorm][`${contestType}_total`] += totalVotes;
       });
+
+      if (needsPrecinctDetail) {
+        // Redistribute unmatched geographic precinct rows across known county precincts.
+        // This keeps older renamed/retired precincts from disappearing entirely.
+        unmatchedCountyGeoAgg.forEach((miss, countyNorm) => {
+          const countyNorms = precinctNormsByCounty?.get(countyNorm)
+            ? Array.from(precinctNormsByCounty.get(countyNorm))
+            : [];
+          if (!countyNorms.length) return;
+
+          let denom = 0;
+          countyNorms.forEach(n => {
+            const node = precinctVoteAgg.get(n);
+            denom += Number(node?.[`${contestType}_total`] || 0);
+          });
+          const fallbackW = countyNorms.length ? (1 / countyNorms.length) : 0;
+
+          countyNorms.forEach(n => {
+            const base = Number(precinctVoteAgg.get(n)?.[`${contestType}_total`] || 0);
+            const w = denom > 0 ? (base / denom) : fallbackW;
+            addPrecinctVotes(n, miss.dem * w, miss.rep * w, miss.other * w, miss.demCand, miss.repCand);
+          });
+        });
+
+        precinctVoteAgg.forEach((node, norm) => {
+          currentPrecinctResults.set(norm, node);
+        });
+      }
       currentElectionResults = countyAgg;
 
       // Calculate statewide totals

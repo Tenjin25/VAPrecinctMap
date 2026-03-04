@@ -236,6 +236,207 @@ def load_assign_df(assign_zip: Path, member_name: str, keep_county: bool) -> pd.
     return df[["BLOCKID", "DISTRICT"]]
 
 
+def load_vtd_polygons(vtd_zip: Path) -> gpd.GeoDataFrame:
+    shp = find_member(vtd_zip, ".shp")
+    uri = f"zip://{vtd_zip.resolve().as_posix()}!{shp}"
+    vtd = gpd.read_file(uri)
+    if "COUNTYFP20" not in vtd.columns or "VTDST20" not in vtd.columns:
+        raise ValueError("Expected COUNTYFP20 and VTDST20 in VTD polygons")
+    if vtd.crs is None:
+        vtd = vtd.set_crs(epsg=4269, allow_override=True)
+    out = vtd[["COUNTYFP20", "VTDST20", "geometry"]].copy()
+    out["COUNTYFP20"] = out["COUNTYFP20"].astype(str).str.strip().str.zfill(3)
+    out["VTDST20"] = out["VTDST20"].astype(str).str.strip()
+    return out
+
+
+def load_precinct_polygons(precinct_geojson: Path) -> gpd.GeoDataFrame:
+    precincts = gpd.read_file(precinct_geojson)
+    required = {"county_nam", "prec_id", "geometry"}
+    missing = required - set(precincts.columns)
+    if missing:
+        raise ValueError(f"Missing expected precinct columns: {sorted(missing)}")
+    if precincts.crs is None:
+        precincts = precincts.set_crs(epsg=4326, allow_override=True)
+    out = precincts[["county_nam", "prec_id", "geometry"]].copy()
+    out["county_nam"] = out["county_nam"].astype(str).str.strip().str.upper()
+    out["prec_id"] = out["prec_id"].astype(str).map(normalize_precinct_code)
+    out = out[(out["county_nam"] != "") & (out["prec_id"] != "")]
+    return out
+
+
+def pick_district_column(gdf: gpd.GeoDataFrame, candidates: list[str]) -> str:
+    for col in candidates:
+        if col in gdf.columns:
+            return col
+    raise ValueError(f"None of district columns found: {candidates}")
+
+
+def build_scope_mapping_from_overlay(
+    vtd_polys: gpd.GeoDataFrame,
+    district_polys: gpd.GeoDataFrame,
+    district_col: str,
+    county_name_by_fp: dict[str, str],
+) -> dict[str, dict]:
+    if district_polys.crs is None:
+        district_polys = district_polys.set_crs(vtd_polys.crs, allow_override=True)
+    if vtd_polys.crs != district_polys.crs:
+        district_polys = district_polys.to_crs(vtd_polys.crs)
+
+    vtd_proj = vtd_polys.to_crs(epsg=3857)
+    dst_proj = district_polys[[district_col, "geometry"]].to_crs(epsg=3857)
+    inter = gpd.overlay(
+        vtd_proj[["COUNTYFP20", "VTDST20", "geometry"]],
+        dst_proj,
+        how="intersection",
+    )
+    if inter.empty:
+        raise ValueError(f"No intersections found between VTDs and districts ({district_col})")
+
+    inter["weight"] = inter.geometry.area
+    inter = inter[inter["weight"] > 0]
+
+    grouped = (
+        inter.groupby(["COUNTYFP20", "VTDST20", district_col], as_index=False)["weight"]
+        .sum()
+    )
+    grouped["total_weight"] = grouped.groupby(["COUNTYFP20", "VTDST20"])["weight"].transform("sum")
+    grouped["share"] = grouped["weight"] / grouped["total_weight"]
+
+    mapping: dict[tuple[str, str], list[tuple[str, float]]] = defaultdict(list)
+    county_weights: dict[str, list[tuple[str, float]]] = defaultdict(list)
+    code_weights: dict[tuple[str, str], float] = {}
+
+    for _, row in grouped.iterrows():
+        county_fp = str(row["COUNTYFP20"]).zfill(3)
+        county_name = county_name_by_fp.get(county_fp, county_fp).upper()
+        prec_code = normalize_precinct_code(str(row["VTDST20"]))
+        district_id = normalize_district_id(str(row[district_col]))
+        share = float(row["share"])
+        if not county_name or not prec_code or not district_id or share <= 0:
+            continue
+        mapping[(county_name, prec_code)].append((district_id, share))
+        key = (county_name, prec_code)
+        code_weights[key] = max(code_weights.get(key, 0.0), float(row["total_weight"]))
+
+    for key, vals in list(mapping.items()):
+        s = sum(v for _, v in vals)
+        if s <= 0:
+            del mapping[key]
+            continue
+        mapping[key] = [(d, v / s) for d, v in vals]
+
+    county_grouped = (
+        inter.groupby(["COUNTYFP20", district_col], as_index=False)["weight"]
+        .sum()
+    )
+    county_grouped["county_total_weight"] = county_grouped.groupby(["COUNTYFP20"])["weight"].transform("sum")
+    county_grouped["share"] = county_grouped["weight"] / county_grouped["county_total_weight"]
+
+    for _, row in county_grouped.iterrows():
+        county_fp = str(row["COUNTYFP20"]).zfill(3)
+        county_name = county_name_by_fp.get(county_fp, county_fp).upper()
+        district_id = normalize_district_id(str(row[district_col]))
+        share = float(row["share"])
+        if not county_name or not district_id or share <= 0:
+            continue
+        county_weights[county_name].append((district_id, share))
+
+    for county, vals in list(county_weights.items()):
+        s = sum(v for _, v in vals)
+        if s <= 0:
+            del county_weights[county]
+            continue
+        county_weights[county] = [(d, v / s) for d, v in vals]
+
+    return {
+        "precinct_map": mapping,
+        "county_weights": county_weights,
+        "code_weights": code_weights,
+    }
+
+
+def build_scope_mapping_from_precinct_overlay(
+    precinct_polys: gpd.GeoDataFrame,
+    district_polys: gpd.GeoDataFrame,
+    district_col: str,
+) -> dict[str, dict]:
+    if district_polys.crs is None:
+        district_polys = district_polys.set_crs(precinct_polys.crs, allow_override=True)
+    if precinct_polys.crs != district_polys.crs:
+        district_polys = district_polys.to_crs(precinct_polys.crs)
+
+    prec_proj = precinct_polys.to_crs(epsg=3857)
+    dst_proj = district_polys[[district_col, "geometry"]].to_crs(epsg=3857)
+    inter = gpd.overlay(
+        prec_proj[["county_nam", "prec_id", "geometry"]],
+        dst_proj,
+        how="intersection",
+    )
+    if inter.empty:
+        raise ValueError(f"No intersections found between precincts and districts ({district_col})")
+
+    inter["weight"] = inter.geometry.area
+    inter = inter[inter["weight"] > 0]
+
+    grouped = (
+        inter.groupby(["county_nam", "prec_id", district_col], as_index=False)["weight"]
+        .sum()
+    )
+    grouped["total_weight"] = grouped.groupby(["county_nam", "prec_id"])["weight"].transform("sum")
+    grouped["share"] = grouped["weight"] / grouped["total_weight"]
+
+    mapping: dict[tuple[str, str], list[tuple[str, float]]] = defaultdict(list)
+    county_weights: dict[str, list[tuple[str, float]]] = defaultdict(list)
+    code_weights: dict[tuple[str, str], float] = {}
+
+    for _, row in grouped.iterrows():
+        county_name = str(row["county_nam"]).strip().upper()
+        prec_code = normalize_precinct_code(str(row["prec_id"]))
+        district_id = normalize_district_id(str(row[district_col]))
+        share = float(row["share"])
+        if not county_name or not prec_code or not district_id or share <= 0:
+            continue
+        mapping[(county_name, prec_code)].append((district_id, share))
+        key = (county_name, prec_code)
+        code_weights[key] = max(code_weights.get(key, 0.0), float(row["total_weight"]))
+
+    for key, vals in list(mapping.items()):
+        s = sum(v for _, v in vals)
+        if s <= 0:
+            del mapping[key]
+            continue
+        mapping[key] = [(d, v / s) for d, v in vals]
+
+    county_grouped = (
+        inter.groupby(["county_nam", district_col], as_index=False)["weight"]
+        .sum()
+    )
+    county_grouped["county_total_weight"] = county_grouped.groupby(["county_nam"])["weight"].transform("sum")
+    county_grouped["share"] = county_grouped["weight"] / county_grouped["county_total_weight"]
+
+    for _, row in county_grouped.iterrows():
+        county_name = str(row["county_nam"]).strip().upper()
+        district_id = normalize_district_id(str(row[district_col]))
+        share = float(row["share"])
+        if not county_name or not district_id or share <= 0:
+            continue
+        county_weights[county_name].append((district_id, share))
+
+    for county, vals in list(county_weights.items()):
+        s = sum(v for _, v in vals)
+        if s <= 0:
+            del county_weights[county]
+            continue
+        county_weights[county] = [(d, v / s) for d, v in vals]
+
+    return {
+        "precinct_map": mapping,
+        "county_weights": county_weights,
+        "code_weights": code_weights,
+    }
+
+
 def build_scope_mapping(
     weights: pd.DataFrame,
     vtd_df: pd.DataFrame,
@@ -256,6 +457,7 @@ def build_scope_mapping(
 
     mapping: dict[tuple[str, str], list[tuple[str, float]]] = defaultdict(list)
     county_weights: dict[str, list[tuple[str, float]]] = defaultdict(list)
+    code_weights: dict[tuple[str, str], float] = {}
     for _, row in grouped.iterrows():
         county_fp = str(row["COUNTYFP"]).zfill(3)
         county_name = county_name_by_fp.get(county_fp, county_fp).upper()
@@ -265,6 +467,8 @@ def build_scope_mapping(
         if not county_name or not prec_code or not district_id or share <= 0:
             continue
         mapping[(county_name, prec_code)].append((district_id, share))
+        key = (county_name, prec_code)
+        code_weights[key] = max(code_weights.get(key, 0.0), float(row["total_weight"]))
 
     # Normalize any floating drift so each precinct sums to exactly 1.
     for key, vals in list(mapping.items()):
@@ -300,6 +504,7 @@ def build_scope_mapping(
     return {
         "precinct_map": mapping,
         "county_weights": county_weights,
+        "code_weights": code_weights,
     }
 
 
@@ -307,19 +512,31 @@ def build_all_scope_mappings(
     assign_zip: Path,
     tabblock_zip: Path,
     county_geojson: Path,
+    vtd_zip: Path,
+    precinct_geojson: Path,
+    congressional_geojson: Path,
+    state_house_geojson: Path,
+    state_senate_geojson: Path,
 ) -> dict[str, dict]:
     county_names = load_county_name_map(county_geojson)
-    weights = load_block_weights(tabblock_zip)
+    # NOTE: congressional/legislative mappings are built from displayed district geometries
+    # over precinct polygons so contest rows keyed by precinct code align with map IDs.
+    precinct_polys = load_precinct_polygons(precinct_geojson)
+    cd_polys = gpd.read_file(congressional_geojson)
+    cd_col = pick_district_column(cd_polys, ["DISTRICT", "CD119FP", "CD118FP", "district_id", "district"])
+    congressional_map = build_scope_mapping_from_precinct_overlay(precinct_polys, cd_polys, cd_col)
 
-    vtd = load_assign_df(assign_zip, "BlockAssign_ST51_VA_VTD.txt", keep_county=True)
-    cd = load_assign_df(assign_zip, "BlockAssign_ST51_VA_CD.txt", keep_county=False)
-    sldl = load_assign_df(assign_zip, "BlockAssign_ST51_VA_SLDL.txt", keep_county=False)
-    sldu = load_assign_df(assign_zip, "BlockAssign_ST51_VA_SLDU.txt", keep_county=False)
+    # Build state-legislative mappings from displayed district geometries so IDs align with map layers.
+    vtd_polys = load_vtd_polygons(vtd_zip)
+    sldl_polys = gpd.read_file(state_house_geojson)
+    sldu_polys = gpd.read_file(state_senate_geojson)
+    sldl_col = pick_district_column(sldl_polys, ["SLDLST", "DISTRICT", "district_id", "district"])
+    sldu_col = pick_district_column(sldu_polys, ["SLDUST", "DISTRICT", "district_id", "district"])
 
     return {
-        "congressional": build_scope_mapping(weights, vtd, cd, county_names),
-        "state_house": build_scope_mapping(weights, vtd, sldl, county_names),
-        "state_senate": build_scope_mapping(weights, vtd, sldu, county_names),
+        "congressional": congressional_map,
+        "state_house": build_scope_mapping_from_overlay(vtd_polys, sldl_polys, sldl_col, county_names),
+        "state_senate": build_scope_mapping_from_overlay(vtd_polys, sldu_polys, sldu_col, county_names),
     }
 
 
@@ -349,6 +566,137 @@ def parse_year_from_filename(path: Path) -> int:
     if m2:
         return int(m2.group(1))
     raise ValueError(f"Could not parse year from filename: {path.name}")
+
+
+def build_explicit_precinct_district_overrides(
+    openelections_root: Path,
+) -> dict[str, dict[str, dict]]:
+    """
+    Build high-confidence precinct->district mappings from district contests
+    embedded in OpenElections files (e.g., 2023/2025 House, 2023 Senate).
+    """
+    raw: dict[str, dict[tuple[str, str], dict[str, float]]] = {
+        "state_house": defaultdict(lambda: defaultdict(float)),
+        "state_senate": defaultdict(lambda: defaultdict(float)),
+    }
+
+    for csv_path in sorted(openelections_root.rglob("*.csv")):
+        year = parse_year_from_filename(csv_path)
+        with csv_path.open("r", encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                office = row.get("office", "")
+                classified = classify_office(office, year)
+                if not classified:
+                    continue
+                kind, contest_type, office_district = classified
+                if kind != "district" or contest_type not in {"state_house", "state_senate"}:
+                    continue
+                district_id = normalize_district_id(office_district or "")
+                if not district_id:
+                    continue
+
+                county = normalize_locality_key(row.get("county", ""))
+                prec_code = extract_precinct_code(row.get("precinct", ""))
+                if not county or not prec_code:
+                    continue
+
+                try:
+                    votes = float(row.get("votes") or 0)
+                except ValueError:
+                    votes = 0.0
+                if votes <= 0:
+                    continue
+
+                raw[contest_type][(county, prec_code)][district_id] += votes
+
+    out: dict[str, dict[str, dict]] = {
+        "state_house": {"precinct_map": {}, "code_weights": {}},
+        "state_senate": {"precinct_map": {}, "code_weights": {}},
+    }
+    for scope in ("state_house", "state_senate"):
+        for key, dist_votes in raw[scope].items():
+            total = float(sum(dist_votes.values()))
+            if total <= 0:
+                continue
+            pairs = [(d, float(v / total)) for d, v in dist_votes.items() if v > 0]
+            s = sum(v for _, v in pairs)
+            if s <= 0:
+                continue
+            out[scope]["precinct_map"][key] = [(d, v / s) for d, v in pairs]
+            out[scope]["code_weights"][key] = total
+    return out
+
+
+def leading_digits_token(code: str) -> str:
+    m = re.match(r"^(\d+)", (code or "").strip().upper())
+    return m.group(1) if m else ""
+
+
+def combine_candidate_splits(
+    county: str,
+    candidate_codes: set[str],
+    precinct_map: dict[tuple[str, str], list[tuple[str, float]]],
+    code_weights: dict[tuple[str, str], float] | None,
+) -> list[tuple[str, float]] | None:
+    merged: dict[str, float] = defaultdict(float)
+    total_w = 0.0
+    for code in candidate_codes:
+        key = (county, code)
+        splits = precinct_map.get(key)
+        if not splits:
+            continue
+        w = float((code_weights or {}).get(key, 1.0))
+        if w <= 0:
+            continue
+        total_w += w
+        for district_id, share in splits:
+            merged[district_id] += share * w
+    if total_w <= 0 or not merged:
+        return None
+    out = [(d, v / total_w) for d, v in merged.items() if v > 0]
+    s = sum(v for _, v in out)
+    if s <= 0:
+        return None
+    return [(d, v / s) for d, v in out]
+
+
+def resolve_precinct_splits(
+    county: str,
+    prec_code: str,
+    source: dict,
+    county_code_index: dict[str, list[str]],
+) -> list[tuple[str, float]] | None:
+    if not county or not prec_code:
+        return None
+    precinct_map = source.get("precinct_map", {})
+    code_weights = source.get("code_weights", {})
+
+    exact = precinct_map.get((county, prec_code))
+    if exact:
+        return exact
+
+    codes = county_code_index.get(county, [])
+    if not codes:
+        return None
+
+    p = (prec_code or "").strip().upper()
+    p_digits = leading_digits_token(p)
+    candidates: set[str] = set()
+    for c in codes:
+        cu = (c or "").strip().upper()
+        if not cu:
+            continue
+        if cu.startswith(p) or p.startswith(cu):
+            candidates.add(cu)
+            continue
+        c_digits = leading_digits_token(cu)
+        if p_digits and c_digits and p_digits == c_digits:
+            candidates.add(cu)
+
+    if not candidates:
+        return None
+    return combine_candidate_splits(county, candidates, precinct_map, code_weights)
 
 
 def build_district_contests(
@@ -385,6 +733,19 @@ def build_district_contests(
         }
     )
     matched_county_district = defaultdict(lambda: defaultdict(float))
+    explicit_overrides = build_explicit_precinct_district_overrides(openelections_root)
+    scope_code_index: dict[str, dict[str, list[str]]] = {}
+    for scope in SCOPES:
+        idx: dict[str, set[str]] = defaultdict(set)
+        for county_name, code in scope_mappings.get(scope, {}).get("precinct_map", {}).keys():
+            idx[county_name].add(code)
+        scope_code_index[scope] = {k: sorted(v) for k, v in idx.items()}
+    explicit_code_index: dict[str, dict[str, list[str]]] = {}
+    for scope in ("state_house", "state_senate"):
+        idx: dict[str, set[str]] = defaultdict(set)
+        for county_name, code in explicit_overrides.get(scope, {}).get("precinct_map", {}).keys():
+            idx[county_name].add(code)
+        explicit_code_index[scope] = {k: sorted(v) for k, v in idx.items()}
 
     for csv_path in sorted(openelections_root.rglob("*.csv")):
         year = parse_year_from_filename(csv_path)
@@ -413,10 +774,22 @@ def build_district_contests(
                         cov_key = (scope, contest_type, year)
                         coverage[cov_key]["input_votes"] += votes
                         splits = None
-                        if not is_non_geographic_precinct(precinct):
-                            prec_code = extract_precinct_code(precinct)
+                        prec_code = extract_precinct_code(precinct)
+                        if prec_code and scope in {"state_house", "state_senate"}:
+                            splits = resolve_precinct_splits(
+                                county,
+                                prec_code,
+                                explicit_overrides.get(scope, {}),
+                                explicit_code_index.get(scope, {}),
+                            )
+                        if not splits and not is_non_geographic_precinct(precinct):
                             if prec_code:
-                                splits = scope_mappings[scope]["precinct_map"].get((county, prec_code))
+                                splits = resolve_precinct_splits(
+                                    county,
+                                    prec_code,
+                                    scope_mappings[scope],
+                                    scope_code_index.get(scope, {}),
+                                )
 
                         if splits:
                             coverage[cov_key]["direct_matched_votes"] += votes
@@ -649,6 +1022,11 @@ def parse_args() -> argparse.Namespace:
         help="Tabblock ZIP for weights (supports 2020 GEOID20 schema or 2010 GEOID10 schema).",
     )
     parser.add_argument("--county-geojson", default="Data/tl_2020_51_county20.geojson")
+    parser.add_argument("--vtd-zip", default="Data/tl_2020_51_vtd20.zip")
+    parser.add_argument("--precinct-geojson", default="Data/va_precincts.geojson")
+    parser.add_argument("--congressional-geojson", default="Data/tl_2024_51_cd119.geojson")
+    parser.add_argument("--state-house-geojson", default="Data/tl_2022_51_sldl.geojson")
+    parser.add_argument("--state-senate-geojson", default="Data/tl_2022_51_sldu.geojson")
     parser.add_argument("--output-dir", default="Data/district_contests")
     return parser.parse_args()
 
@@ -659,13 +1037,37 @@ def main() -> int:
     assign_zip = Path(args.assign_zip)
     tabblock_zip = Path(args.tabblock_zip)
     county_geojson = Path(args.county_geojson)
+    vtd_zip = Path(args.vtd_zip)
+    precinct_geojson = Path(args.precinct_geojson)
+    congressional_geojson = Path(args.congressional_geojson)
+    state_house_geojson = Path(args.state_house_geojson)
+    state_senate_geojson = Path(args.state_senate_geojson)
     output_dir = Path(args.output_dir)
 
-    for p in (openelections_dir, assign_zip, tabblock_zip, county_geojson):
+    for p in (
+        openelections_dir,
+        assign_zip,
+        tabblock_zip,
+        county_geojson,
+        vtd_zip,
+        precinct_geojson,
+        congressional_geojson,
+        state_house_geojson,
+        state_senate_geojson,
+    ):
         if not p.exists():
             raise FileNotFoundError(f"Required input not found: {p}")
 
-    scope_maps = build_all_scope_mappings(assign_zip, tabblock_zip, county_geojson)
+    scope_maps = build_all_scope_mappings(
+        assign_zip,
+        tabblock_zip,
+        county_geojson,
+        vtd_zip,
+        precinct_geojson,
+        congressional_geojson,
+        state_house_geojson,
+        state_senate_geojson,
+    )
     locality_alias_map = build_locality_alias_map(county_geojson)
     district_acc, totals, coverage = build_district_contests(openelections_dir, scope_maps, locality_alias_map)
     manifest = write_outputs(output_dir, district_acc, totals, coverage)

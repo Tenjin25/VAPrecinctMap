@@ -296,8 +296,8 @@
       "year": 2025,
       "file": "state_house_attorney_general_2025.json",
       "rows": 100,
-      "dem_total": 1803760,
-      "rep_total": 1575770,
+      "dem_total": 1804940,
+      "rep_total": 1577843,
       "major_party_contested": true
     },
     {
@@ -336,8 +336,8 @@
       "year": 2025,
       "file": "state_house_governor_2025.json",
       "rows": 100,
-      "dem_total": 1975565,
-      "rep_total": 1447601,
+      "dem_total": 1976857,
+      "rep_total": 1449586,
       "major_party_contested": true
     },
     {
@@ -386,8 +386,8 @@
       "year": 2025,
       "file": "state_house_lieutenant_governor_2025.json",
       "rows": 100,
-      "dem_total": 1898873,
-      "rep_total": 1503365,
+      "dem_total": 1900104,
+      "rep_total": 1505395,
       "major_party_contested": true
     },
     {
@@ -566,8 +566,8 @@
       "year": 2025,
       "file": "state_senate_attorney_general_2025.json",
       "rows": 40,
-      "dem_total": 1803760,
-      "rep_total": 1575770,
+      "dem_total": 1804940,
+      "rep_total": 1577843,
       "major_party_contested": true
     },
     {
@@ -606,8 +606,8 @@
       "year": 2025,
       "file": "state_senate_governor_2025.json",
       "rows": 40,
-      "dem_total": 1975565,
-      "rep_total": 1447601,
+      "dem_total": 1976857,
+      "rep_total": 1449586,
       "major_party_contested": true
     },
     {
@@ -656,8 +656,8 @@
       "year": 2025,
       "file": "state_senate_lieutenant_governor_2025.json",
       "rows": 40,
-      "dem_total": 1898873,
-      "rep_total": 1503365,
+      "dem_total": 1900104,
+      "rep_total": 1505395,
       "major_party_contested": true
     },
     {

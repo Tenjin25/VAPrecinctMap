@@ -50,15 +50,15 @@
         "color": "#c6dbef"
       },
       "12": {
-        "dem_votes": 19207,
-        "rep_votes": 41718,
+        "dem_votes": 19104,
+        "rep_votes": 41855,
         "other_votes": 74,
-        "total_votes": 60999,
+        "total_votes": 61033,
         "dem_candidate": "Jody M. Wagner",
         "rep_candidate": "William Bill T. Bolling",
         "winner": "Republican",
-        "margin": 22511,
-        "margin_pct": 36.903883670224104,
+        "margin": 22751,
+        "margin_pct": 37.27655530614585,
         "color": "#a50f15"
       },
       "13": {
@@ -86,16 +86,16 @@
         "color": "#08519c"
       },
       "15": {
-        "dem_votes": 20855,
-        "rep_votes": 20875,
+        "dem_votes": 20957,
+        "rep_votes": 20738,
         "other_votes": 42,
-        "total_votes": 41772,
+        "total_votes": 41737,
         "dem_candidate": "Jody M. Wagner",
         "rep_candidate": "William Bill T. Bolling",
-        "winner": "Republican",
-        "margin": 20,
-        "margin_pct": 0.047878961984104185,
-        "color": "#f7f7f7"
+        "winner": "Democratic",
+        "margin": 219,
+        "margin_pct": -0.524714282291492,
+        "color": "#e1f5fe"
       },
       "16": {
         "dem_votes": 23314,
@@ -278,15 +278,15 @@
         "color": "#fb6a4a"
       },
       "3": {
-        "dem_votes": 20770,
-        "rep_votes": 37394,
+        "dem_votes": 20768,
+        "rep_votes": 37396,
         "other_votes": 47,
         "total_votes": 58211,
         "dem_candidate": "Jody M. Wagner",
         "rep_candidate": "William Bill T. Bolling",
         "winner": "Republican",
-        "margin": 16624,
-        "margin_pct": 28.558176289704697,
+        "margin": 16628,
+        "margin_pct": 28.56504784319115,
         "color": "#cb181d"
       },
       "30": {
@@ -410,15 +410,15 @@
         "color": "#3182bd"
       },
       "4": {
-        "dem_votes": 23345,
-        "rep_votes": 32446,
+        "dem_votes": 23332,
+        "rep_votes": 32460,
         "other_votes": 51,
-        "total_votes": 55842,
+        "total_votes": 55843,
         "dem_candidate": "Jody M. Wagner",
         "rep_candidate": "William Bill T. Bolling",
         "winner": "Republican",
-        "margin": 9101,
-        "margin_pct": 16.297768704559292,
+        "margin": 9128,
+        "margin_pct": 16.34582669269201,
         "color": "#ef3b2c"
       },
       "40": {
@@ -434,15 +434,15 @@
         "color": "#08519c"
       },
       "5": {
-        "dem_votes": 18547,
-        "rep_votes": 32038,
+        "dem_votes": 18562,
+        "rep_votes": 32023,
         "other_votes": 32,
         "total_votes": 50617,
         "dem_candidate": "Jody M. Wagner",
         "rep_candidate": "William Bill T. Bolling",
         "winner": "Republican",
-        "margin": 13491,
-        "margin_pct": 26.65310073690657,
+        "margin": 13461,
+        "margin_pct": 26.59383211174112,
         "color": "#cb181d"
       },
       "6": {

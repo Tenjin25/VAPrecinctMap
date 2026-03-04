@@ -50,15 +50,15 @@
         "color": "#c6dbef"
       },
       "12": {
-        "dem_votes": 17660,
-        "rep_votes": 43204,
+        "dem_votes": 17554,
+        "rep_votes": 43341,
         "other_votes": 61,
-        "total_votes": 60925,
+        "total_votes": 60956,
         "dem_candidate": "Stephen C. Shannon",
         "rep_candidate": "Ken T. Cuccinelli, II",
         "winner": "Republican",
-        "margin": 25544,
-        "margin_pct": 41.92695937628231,
+        "margin": 25787,
+        "margin_pct": 42.304285058074676,
         "color": "#67000d"
       },
       "13": {
@@ -86,15 +86,15 @@
         "color": "#08519c"
       },
       "15": {
-        "dem_votes": 19881,
-        "rep_votes": 21785,
+        "dem_votes": 19987,
+        "rep_votes": 21647,
         "other_votes": 47,
-        "total_votes": 41713,
+        "total_votes": 41681,
         "dem_candidate": "Stephen C. Shannon",
         "rep_candidate": "Ken T. Cuccinelli, II",
         "winner": "Republican",
-        "margin": 1904,
-        "margin_pct": 4.564524249035073,
+        "margin": 1660,
+        "margin_pct": 3.982629975288501,
         "color": "#fcae91"
       },
       "16": {
@@ -278,15 +278,15 @@
         "color": "#fb6a4a"
       },
       "3": {
-        "dem_votes": 19974,
-        "rep_votes": 38053,
+        "dem_votes": 19972,
+        "rep_votes": 38055,
         "other_votes": 40,
         "total_votes": 58067,
         "dem_candidate": "Stephen C. Shannon",
         "rep_candidate": "Ken T. Cuccinelli, II",
         "winner": "Republican",
-        "margin": 18079,
-        "margin_pct": 31.13472368126475,
+        "margin": 18083,
+        "margin_pct": 31.141612275474884,
         "color": "#a50f15"
       },
       "30": {
@@ -410,15 +410,15 @@
         "color": "#3182bd"
       },
       "4": {
-        "dem_votes": 22263,
-        "rep_votes": 33466,
+        "dem_votes": 22249,
+        "rep_votes": 33481,
         "other_votes": 40,
-        "total_votes": 55769,
+        "total_votes": 55770,
         "dem_candidate": "Stephen C. Shannon",
         "rep_candidate": "Ken T. Cuccinelli, II",
         "winner": "Republican",
-        "margin": 11203,
-        "margin_pct": 20.088221054707812,
+        "margin": 11232,
+        "margin_pct": 20.13986013986014,
         "color": "#cb181d"
       },
       "40": {
@@ -434,15 +434,15 @@
         "color": "#08519c"
       },
       "5": {
-        "dem_votes": 18371,
-        "rep_votes": 31889,
+        "dem_votes": 18386,
+        "rep_votes": 31873,
         "other_votes": 19,
-        "total_votes": 50279,
+        "total_votes": 50278,
         "dem_candidate": "Stephen C. Shannon",
         "rep_candidate": "Ken T. Cuccinelli, II",
         "winner": "Republican",
-        "margin": 13518,
-        "margin_pct": 26.88597625251099,
+        "margin": 13487,
+        "margin_pct": 26.824853812800825,
         "color": "#cb181d"
       },
       "6": {

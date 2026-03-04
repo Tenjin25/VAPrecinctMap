@@ -206,15 +206,15 @@
         "color": "#6baed6"
       },
       "23": {
-        "dem_votes": 13587,
-        "rep_votes": 5067,
-        "other_votes": 245,
-        "total_votes": 18899,
+        "dem_votes": 13620,
+        "rep_votes": 5042,
+        "other_votes": 247,
+        "total_votes": 18909,
         "dem_candidate": "Mark R. Warner",
         "rep_candidate": "James Jim S. Gilmore, III",
         "winner": "Democratic",
-        "margin": 8520,
-        "margin_pct": -45.08175035716175,
+        "margin": 8578,
+        "margin_pct": -45.364641176159495,
         "color": "#08306b"
       },
       "24": {
@@ -746,27 +746,27 @@
         "color": "#6baed6"
       },
       "64": {
-        "dem_votes": 18572,
-        "rep_votes": 13050,
-        "other_votes": 391,
-        "total_votes": 32013,
+        "dem_votes": 18533,
+        "rep_votes": 13079,
+        "other_votes": 390,
+        "total_votes": 32002,
         "dem_candidate": "Mark R. Warner",
         "rep_candidate": "James Jim S. Gilmore, III",
         "winner": "Democratic",
-        "margin": 5522,
-        "margin_pct": -17.24924249523631,
+        "margin": 5454,
+        "margin_pct": -17.04268483219799,
         "color": "#6baed6"
       },
       "65": {
-        "dem_votes": 18921,
-        "rep_votes": 10075,
-        "other_votes": 388,
-        "total_votes": 29384,
+        "dem_votes": 18926,
+        "rep_votes": 10072,
+        "other_votes": 387,
+        "total_votes": 29385,
         "dem_candidate": "Mark R. Warner",
         "rep_candidate": "James Jim S. Gilmore, III",
         "winner": "Democratic",
-        "margin": 8846,
-        "margin_pct": -30.104818949087942,
+        "margin": 8854,
+        "margin_pct": -30.131019227497024,
         "color": "#08519c"
       },
       "66": {

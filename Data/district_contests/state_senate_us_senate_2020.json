@@ -50,16 +50,16 @@
         "color": "#3182bd"
       },
       "12": {
-        "dem_votes": 64563,
-        "rep_votes": 63826,
+        "dem_votes": 58441,
+        "rep_votes": 66367,
         "other_votes": 126,
-        "total_votes": 128515,
+        "total_votes": 124934,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Daniel Mac Arthur Gade",
-        "winner": "Democratic",
-        "margin": 737,
-        "margin_pct": -0.5734739135509473,
-        "color": "#e1f5fe"
+        "winner": "Republican",
+        "margin": 7926,
+        "margin_pct": 6.344149711047432,
+        "color": "#fb6a4a"
       },
       "13": {
         "dem_votes": 64892,
@@ -86,16 +86,16 @@
         "color": "#08306b"
       },
       "15": {
-        "dem_votes": 63404,
-        "rep_votes": 37293,
+        "dem_votes": 69526,
+        "rep_votes": 34751,
         "other_votes": 98,
-        "total_votes": 100795,
+        "total_votes": 104375,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Daniel Mac Arthur Gade",
         "winner": "Democratic",
-        "margin": 26111,
-        "margin_pct": -25.905054814226897,
-        "color": "#3182bd"
+        "margin": 34775,
+        "margin_pct": -33.31736526946108,
+        "color": "#08519c"
       },
       "16": {
         "dem_votes": 76553,
@@ -278,15 +278,15 @@
         "color": "#3182bd"
       },
       "3": {
-        "dem_votes": 47378,
-        "rep_votes": 71525,
-        "other_votes": 103,
-        "total_votes": 119006,
+        "dem_votes": 47324,
+        "rep_votes": 71549,
+        "other_votes": 100,
+        "total_votes": 118973,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Daniel Mac Arthur Gade",
         "winner": "Republican",
-        "margin": 24147,
-        "margin_pct": 20.290573584525152,
+        "margin": 24225,
+        "margin_pct": 20.361762752893515,
         "color": "#cb181d"
       },
       "30": {
@@ -410,15 +410,15 @@
         "color": "#08306b"
       },
       "4": {
-        "dem_votes": 58230,
-        "rep_votes": 50038,
-        "other_votes": 117,
-        "total_votes": 108385,
+        "dem_votes": 57094,
+        "rep_votes": 50306,
+        "other_votes": 121,
+        "total_votes": 107521,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Daniel Mac Arthur Gade",
         "winner": "Democratic",
-        "margin": 8192,
-        "margin_pct": -7.558241454075748,
+        "margin": 6788,
+        "margin_pct": -6.3131853312376185,
         "color": "#9ecae1"
       },
       "40": {
@@ -434,15 +434,15 @@
         "color": "#08306b"
       },
       "5": {
-        "dem_votes": 36996,
-        "rep_votes": 61919,
+        "dem_votes": 38186,
+        "rep_votes": 61626,
         "other_votes": 98,
-        "total_votes": 99013,
+        "total_votes": 99910,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Daniel Mac Arthur Gade",
         "winner": "Republican",
-        "margin": 24923,
-        "margin_pct": 25.17144213386121,
+        "margin": 23440,
+        "margin_pct": 23.461115003503153,
         "color": "#cb181d"
       },
       "6": {

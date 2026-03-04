@@ -50,15 +50,15 @@
         "color": "#6baed6"
       },
       "12": {
-        "dem_votes": 46930,
-        "rep_votes": 58569,
-        "other_votes": 101,
-        "total_votes": 105600,
+        "dem_votes": 45336,
+        "rep_votes": 59711,
+        "other_votes": 95,
+        "total_votes": 105142,
         "dem_candidate": "Hala Sophia Ayala",
         "rep_candidate": "Winsome Earle Sears",
         "winner": "Republican",
-        "margin": 11639,
-        "margin_pct": 11.021780303030303,
+        "margin": 14375,
+        "margin_pct": 13.67198645641133,
         "color": "#ef3b2c"
       },
       "13": {
@@ -86,15 +86,15 @@
         "color": "#08306b"
       },
       "15": {
-        "dem_votes": 39532,
-        "rep_votes": 29094,
-        "other_votes": 91,
-        "total_votes": 68717,
+        "dem_votes": 41125,
+        "rep_votes": 27952,
+        "other_votes": 98,
+        "total_votes": 69175,
         "dem_candidate": "Hala Sophia Ayala",
         "rep_candidate": "Winsome Earle Sears",
         "winner": "Democratic",
-        "margin": 10438,
-        "margin_pct": -15.189836576101984,
+        "margin": 13173,
+        "margin_pct": -19.04300686664257,
         "color": "#6baed6"
       },
       "16": {
@@ -278,15 +278,15 @@
         "color": "#6baed6"
       },
       "3": {
-        "dem_votes": 29290,
-        "rep_votes": 61970,
+        "dem_votes": 29212,
+        "rep_votes": 62010,
         "other_votes": 91,
-        "total_votes": 91351,
+        "total_votes": 91313,
         "dem_candidate": "Hala Sophia Ayala",
         "rep_candidate": "Winsome Earle Sears",
         "winner": "Republican",
-        "margin": 32680,
-        "margin_pct": 35.77410208974177,
+        "margin": 32798,
+        "margin_pct": 35.91821536911502,
         "color": "#a50f15"
       },
       "30": {
@@ -410,16 +410,16 @@
         "color": "#08306b"
       },
       "4": {
-        "dem_votes": 35179,
-        "rep_votes": 42686,
-        "other_votes": 119,
-        "total_votes": 77984,
+        "dem_votes": 34838,
+        "rep_votes": 42819,
+        "other_votes": 120,
+        "total_votes": 77777,
         "dem_candidate": "Hala Sophia Ayala",
         "rep_candidate": "Winsome Earle Sears",
         "winner": "Republican",
-        "margin": 7507,
-        "margin_pct": 9.626333606893722,
-        "color": "#fb6a4a"
+        "margin": 7981,
+        "margin_pct": 10.261388328168996,
+        "color": "#ef3b2c"
       },
       "40": {
         "dem_votes": 64029,
@@ -434,15 +434,15 @@
         "color": "#08306b"
       },
       "5": {
-        "dem_votes": 21471,
-        "rep_votes": 52243,
+        "dem_votes": 21890,
+        "rep_votes": 52069,
         "other_votes": 69,
-        "total_votes": 73783,
+        "total_votes": 74028,
         "dem_candidate": "Hala Sophia Ayala",
         "rep_candidate": "Winsome Earle Sears",
         "winner": "Republican",
-        "margin": 30772,
-        "margin_pct": 41.70608405730317,
+        "margin": 30179,
+        "margin_pct": 40.76700707840277,
         "color": "#67000d"
       },
       "6": {

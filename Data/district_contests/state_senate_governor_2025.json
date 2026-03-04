@@ -50,15 +50,15 @@
         "color": "#08519c"
       },
       "12": {
-        "dem_votes": 61480,
-        "rep_votes": 51150,
+        "dem_votes": 61071,
+        "rep_votes": 51514,
         "other_votes": 0,
-        "total_votes": 112630,
+        "total_votes": 112585,
         "dem_candidate": "Abigail D. Spanberger",
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
-        "margin": 10330,
-        "margin_pct": -9.171623901269644,
+        "margin": 9557,
+        "margin_pct": -8.488697428609496,
         "color": "#9ecae1"
       },
       "13": {
@@ -86,15 +86,15 @@
         "color": "#08306b"
       },
       "15": {
-        "dem_votes": 54012,
-        "rep_votes": 24321,
+        "dem_votes": 54421,
+        "rep_votes": 23957,
         "other_votes": 0,
-        "total_votes": 78333,
+        "total_votes": 78378,
         "dem_candidate": "Abigail D. Spanberger",
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
-        "margin": 29691,
-        "margin_pct": -37.90356554708744,
+        "margin": 30464,
+        "margin_pct": -38.868049707826174,
         "color": "#08519c"
       },
       "16": {

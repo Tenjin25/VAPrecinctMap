@@ -36,6 +36,16 @@ PARTY_FALLBACK_BLEND_CONGRESSIONAL = 0.35
 CONGRESSIONAL_PARTY_BLEND_BY_COUNTY = {
     "CHESAPEAKE CITY": 0.55,
 }
+STATE_HOUSE_PARTY_BLEND_BY_COUNTY = {
+    "STAFFORD COUNTY": 1.00,
+}
+STATE_SENATE_PARTY_BLEND_BY_COUNTY = {
+    "CHESTERFIELD COUNTY": 0.95,
+    "MONTGOMERY COUNTY": 0.70,
+    "ROANOKE COUNTY": 0.70,
+    "ROANOKE CITY": 0.70,
+    "SALEM CITY": 0.70,
+}
 
 
 def find_member(zip_path: Path, suffix: str) -> str:
@@ -917,6 +927,10 @@ def build_district_contests(
                 party_weight_map = {d: float(v / party_sum) for d, v in party_dist.items() if v > 0}
                 if scope == "congressional":
                     party_blend = CONGRESSIONAL_PARTY_BLEND_BY_COUNTY.get(county, PARTY_FALLBACK_BLEND_CONGRESSIONAL)
+                elif scope == "state_house":
+                    party_blend = STATE_HOUSE_PARTY_BLEND_BY_COUNTY.get(county, PARTY_FALLBACK_BLEND)
+                elif scope == "state_senate":
+                    party_blend = STATE_SENATE_PARTY_BLEND_BY_COUNTY.get(county, PARTY_FALLBACK_BLEND)
                 else:
                     party_blend = PARTY_FALLBACK_BLEND
                 if total_weight_map and party_blend > 0:

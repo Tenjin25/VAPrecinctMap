@@ -125,6 +125,29 @@ def load_csv_precinct_labels(openelections_root: Path) -> dict[tuple[str, str], 
     return best
 
 
+def canonicalize_precinct_code_from_labels(
+    county_up: str,
+    prec_id: str,
+    precinct_labels: dict[tuple[str, str], str],
+) -> str:
+    """
+    Align geometry-only precinct codes to OpenElections codes when there is
+    an unambiguous direct label key in the same county.
+    """
+    if not county_up or not prec_id:
+        return prec_id
+    if (county_up, prec_id) in precinct_labels:
+        return prec_id
+
+    # Handle legacy VA code variants like 5101 -> 101 (e.g., Alleghany).
+    if re.fullmatch(r"5\d{2,}", prec_id):
+        candidate = prec_id[1:]
+        if (county_up, candidate) in precinct_labels:
+            return candidate
+
+    return prec_id
+
+
 def load_vtd_block_crosswalk(crosswalk_zip: Path) -> pd.DataFrame:
     member = find_zip_member(crosswalk_zip, "BlockAssign_ST51_VA_VTD.txt")
     with zipfile.ZipFile(crosswalk_zip, "r") as zf:
@@ -176,8 +199,9 @@ def build_precincts(
         county_fp = str(row.get("COUNTYFP", "")).zfill(3)
         district_raw = str(row.get("DISTRICT", "")).strip()
         county_name = county_names.get(county_fp, county_fp)
-        prec_id = normalize_precinct_code(district_raw)
         county_up = normalize_key(county_name)
+        geom_prec_id = normalize_precinct_code(district_raw)
+        prec_id = canonicalize_precinct_code_from_labels(county_up, geom_prec_id, precinct_labels)
 
         label = precinct_labels.get((county_up, prec_id))
         if not label:

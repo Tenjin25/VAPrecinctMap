@@ -2071,9 +2071,14 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   const precinctBtn = document.getElementById('precinct-toggle');
   if (precinctBtn) {
-    precinctBtn.onclick = function() {
+    precinctBtn.onclick = async function() {
       if (typeof togglePrecinctOverlay === 'function') {
-        togglePrecinctOverlay();
+        try {
+          await togglePrecinctOverlay();
+        } catch (err) {
+          console.error('Precinct toggle failed:', err);
+          try { setStatus(`Precinct toggle failed: ${err?.message || err}`); } catch (_) {}
+        }
       }
     };
   }
@@ -2539,9 +2544,25 @@ document.addEventListener('DOMContentLoaded', function() {
     function setStatus(text, timeout = 4000) {
       const panel = document.getElementById('status-panel');
       const msg = document.getElementById('status-message');
-      if (!panel || !msg) return;
-      // Only log status messages to the console; do not show the floating status panel
-      debugLog(text);
+      const t = (text || '').toString();
+      if (!panel || !msg) {
+        debugLog(t);
+        return;
+      }
+      debugLog(t);
+      // Keep routine status updates in console, but surface real failures in UI.
+      const isError = /\b(error|failed|not found|exception)\b/i.test(t);
+      if (!isError) return;
+      msg.textContent = t;
+      panel.style.display = 'block';
+      try {
+        if (window.__statusHideTimer) clearTimeout(window.__statusHideTimer);
+        if (timeout && Number(timeout) > 0) {
+          window.__statusHideTimer = setTimeout(() => {
+            try { panel.style.display = 'none'; } catch (_) {}
+          }, Number(timeout));
+        }
+      } catch (_) {}
     }
 
     // (saveUIState/restoreUIState defined above as no-ops)
@@ -5179,62 +5200,69 @@ document.addEventListener('DOMContentLoaded', function() {
       if (precinctSourceLoaded || map.getSource('precincts')) return true;
       if (precinctLoadInFlight) return false;
       precinctLoadInFlight = true;
-      setStatus('Loading precinct geometry...');
-      const precincts = await loadJSON(CONFIG.paths.precincts);
-      precincts.features = (precincts.features || []).map(feature => {
-        const original = feature.properties || {};
-        const countyRaw = (original.county_nam || original.COUNTYNAME || original.County || original.NAME || '').toString().trim();
-        const countyNorm = countyRaw.replace(/[^a-z0-9 .\-]/gi, '').replace(/\s+/g, ' ').trim().toUpperCase();
-        const precRaw = (original.prec_id || original.PREC_ID || '').toString().trim();
-        const precinctRaw = countyRaw && precRaw ? `${countyRaw} - ${precRaw}` : countyRaw;
-        const precinctNorm = (precinctRaw || '').replace(/[^a-z0-9 .\-]/gi, '').replace(/\s+/g, ' ').trim().toUpperCase();
-        feature.properties = {
-          county_nam: countyRaw,
-          county_norm: countyNorm,
-          precinct_name: precinctRaw,
-          precinct_norm: precinctNorm,
-          prec_id: precRaw,
-          id: original.id || original.objectid || null
-        };
-        return feature;
-      });
       try {
-        const s = new Set();
-        (precincts.features || []).forEach(f => {
-          const n = (f?.properties?.precinct_norm || '').toString().trim().toUpperCase();
-          if (n) s.add(n);
+        setStatus('Loading precinct geometry...');
+        const precincts = await loadJSON(CONFIG.paths.precincts);
+        precincts.features = (precincts.features || []).map(feature => {
+          const original = feature.properties || {};
+          const countyRaw = (original.county_nam || original.COUNTYNAME || original.County || original.NAME || '').toString().trim();
+          const countyNorm = countyRaw.replace(/[^a-z0-9 .\-]/gi, '').replace(/\s+/g, ' ').trim().toUpperCase();
+          const precRaw = (original.prec_id || original.PREC_ID || '').toString().trim();
+          const precinctRaw = countyRaw && precRaw ? `${countyRaw} - ${precRaw}` : countyRaw;
+          const precinctNorm = (precinctRaw || '').replace(/[^a-z0-9 .\-]/gi, '').replace(/\s+/g, ' ').trim().toUpperCase();
+          feature.properties = {
+            county_nam: countyRaw,
+            county_norm: countyNorm,
+            precinct_name: precinctRaw,
+            precinct_norm: precinctNorm,
+            prec_id: precRaw,
+            id: original.id || original.objectid || null
+          };
+          return feature;
         });
-        precinctPolygonNormSet = s;
-
-        if (precinctCentroidsData && precinctCentroidsData.features) {
-          precinctCentroidsData.features = (precinctCentroidsData.features || []).map(f => {
-            const p = f.properties || {};
-            const n = (p.precinct_norm || '').toString().trim().toUpperCase();
-            f.properties = { ...p, has_polygon: !!(n && precinctPolygonNormSet && precinctPolygonNormSet.has(n)) };
-            return f;
+        try {
+          const s = new Set();
+          (precincts.features || []).forEach(f => {
+            const n = (f?.properties?.precinct_norm || '').toString().trim().toUpperCase();
+            if (n) s.add(n);
           });
-          const src = map.getSource('precinct-centroids');
-          if (src && typeof src.setData === 'function') {
-            try { src.setData(precinctCentroidsData); } catch (_) {}
+          precinctPolygonNormSet = s;
+
+          if (precinctCentroidsData && precinctCentroidsData.features) {
+            precinctCentroidsData.features = (precinctCentroidsData.features || []).map(f => {
+              const p = f.properties || {};
+              const n = (p.precinct_norm || '').toString().trim().toUpperCase();
+              f.properties = { ...p, has_polygon: !!(n && precinctPolygonNormSet && precinctPolygonNormSet.has(n)) };
+              return f;
+            });
+            const src = map.getSource('precinct-centroids');
+            if (src && typeof src.setData === 'function') {
+              try { src.setData(precinctCentroidsData); } catch (_) {}
+            }
           }
+        } catch (_) {}
+        // Do not overwrite window.countiesData (used for county search/zoom).
+        window.precinctsData = precincts;
+        map.addSource('precincts', { type: 'geojson', data: precincts, generateId: true });
+        precinctSourceLoaded = true;
+        addPrecinctLayers();
+        // If a contest is already applied, paint precincts immediately.
+        try {
+          if (lastPrecinctFillExpr && map.getLayer('precinct-fill')) {
+            map.setPaintProperty('precinct-fill', 'fill-color', lastPrecinctFillExpr);
+          }
+        } catch (err) {
+          console.warn('Failed to apply cached precinct colors:', err?.message || err);
         }
-      } catch (_) {}
-      // Do not overwrite window.countiesData (used for county search/zoom).
-      window.precinctsData = precincts;
-      map.addSource('precincts', { type: 'geojson', data: precincts, generateId: true });
-      precinctSourceLoaded = true;
-      precinctLoadInFlight = false;
-      addPrecinctLayers();
-      // If a contest is already applied, paint precincts immediately.
-      try {
-        if (lastPrecinctFillExpr && map.getLayer('precinct-fill')) {
-          map.setPaintProperty('precinct-fill', 'fill-color', lastPrecinctFillExpr);
-        }
+        setStatus('Precinct geometry ready');
+        return true;
       } catch (err) {
-        console.warn('Failed to apply cached precinct colors:', err?.message || err);
+        console.warn('Failed to load precinct geometry:', err?.message || err);
+        setStatus(`Failed to load precinct geometry: ${err?.message || err}`);
+        return false;
+      } finally {
+        precinctLoadInFlight = false;
       }
-      setStatus('Precinct geometry ready');
-      return true;
     }
 
     function addPrecinctLayers() {
@@ -5329,6 +5357,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        addPrecinctCentroidLayers();
 	      } catch (err) {
 	        console.warn('Failed to load precinct centroids:', err?.message || err);
+	        setStatus(`Failed to load precinct centroids: ${err?.message || err}`);
 	      } finally {
 	        precinctCentroidsLoadInFlight = false;
 	      }
@@ -5536,20 +5565,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function togglePrecinctOverlay() {
       precinctsEnabled = !precinctsEnabled;
-      if (precinctsEnabled) {
-        // Always prefer centroids first so statewide zoom is responsive.
-        await ensurePrecinctCentroidsLoaded();
-        if (map.getZoom() >= (CONFIG.precincts?.minZoom || 8.5)) {
-          await ensurePrecinctSourceLoaded();
+      try {
+        if (precinctsEnabled) {
+          // Always prefer centroids first so statewide zoom is responsive.
+          const centroidsOk = await ensurePrecinctCentroidsLoaded();
+          if (!centroidsOk) throw new Error('Precinct centroid source did not load');
+          if (map.getZoom() >= (CONFIG.precincts?.minZoom || 8.5)) {
+            const precinctsOk = await ensurePrecinctSourceLoaded();
+            if (!precinctsOk) throw new Error('Precinct polygon source did not load');
+          }
+        } else {
+          setTooltipPinned(false);
         }
-      } else {
-        setTooltipPinned(false);
+        clearHoverOutline();
+        updatePrecinctVisibility();
+        const contestKey = document.getElementById('contestSelect')?.value;
+        if (contestKey) await applyContest(contestKey);
+        saveUIState();
+      } catch (err) {
+        console.error('togglePrecinctOverlay failed:', err);
+        setStatus(`Precinct overlay failed: ${err?.message || err}`);
       }
-      clearHoverOutline();
-      updatePrecinctVisibility();
-      const contestKey = document.getElementById('contestSelect')?.value;
-      if (contestKey) await applyContest(contestKey);
-      saveUIState();
     }
 
     function addDistrictLayers() {
@@ -7289,7 +7325,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        try {
 	          const firstToken = precRaw.split(/\s+/, 1)[0].trim();
 	          const token0 = (firstToken.includes('_') ? firstToken.split('_', 1)[0] : firstToken).trim().toUpperCase();
-	          baseToken = (token0 || '').toString().replace(/[^A-Z0-9.\-]/g, '').trim();
+	          baseToken = (token0 || '').toString().replace(/[^A-Z0-9.\-]/g, '').trim().replace(/-+$/, '');
 	        } catch (_) { baseToken = ''; }
 	        if (baseToken) addKey(baseToken);
 
@@ -7304,9 +7340,22 @@ document.addEventListener('DOMContentLoaded', function() {
 	        }
 	        try {
 	          const codes = precinctIdx && countyNorm ? precinctIdx.get(countyNorm) : null;
-	          const baseCompact = (baseToken || precRaw).replace(/\s+/g, '');
+	          const baseCompact = (baseToken || precRaw).replace(/\s+/g, '').replace(/-+$/, '');
 	          if (codes && baseCompact) {
 	            const baseNum = baseCompact.match(/^0*([0-9]+)$/);
+	            const baseNumInt = baseNum ? parseInt(baseNum[1], 10) : NaN;
+	            const baseNumDigits = Number.isFinite(baseNumInt) ? String(baseNumInt) : '';
+	            let baseNumericHasExact = false;
+	            if (baseNumDigits) {
+	              codes.forEach(code => {
+	                const c = (code || '').toString().trim().toUpperCase();
+	                const cCompact = c.replace(/\s+/g, '');
+	                const cmExact = cCompact.match(/^0*([0-9]+)$/);
+	                if (!cmExact) return;
+	                if (parseInt(cmExact[1], 10) === baseNumInt) baseNumericHasExact = true;
+	              });
+	            }
+	            const numericSplitCandidates = [];
 	            codes.forEach(code => {
 	              const c = (code || '').toString().trim().toUpperCase();
 	              const cCompact = c.replace(/\s+/g, '');
@@ -7315,10 +7364,25 @@ document.addEventListener('DOMContentLoaded', function() {
 	              // Numeric-only bases should only match the exact numeric portion + a short alpha suffix (e.g. "10" -> "10A").
 	              if (baseNum) {
 	                const cm = cCompact.match(/^0*([0-9]+)([A-Z]{1,2})$/);
-	                if (!cm) return;
-	                if (parseInt(cm[1], 10) !== parseInt(baseNum[1], 10)) return;
-	                const altFull = normalize(`${countyOnly} - ${c}`);
-	                if (altFull) out.add(altFull);
+	                if (cm && parseInt(cm[1], 10) === baseNumInt) {
+	                  const altFull = normalize(`${countyOnly} - ${c}`);
+	                  if (altFull) out.add(altFull);
+	                  return;
+	                }
+	                // Also allow controlled numeric split expansion like 701 -> 7011/7012.
+	                if (!baseNumericHasExact) {
+	                  const cmNum = cCompact.match(/^0*([0-9]+)$/);
+	                  if (cmNum) {
+	                    const cDigits = String(parseInt(cmNum[1], 10));
+	                    if (
+	                      cDigits.startsWith(baseNumDigits) &&
+	                      cDigits.length > baseNumDigits.length &&
+	                      cDigits.length <= (baseNumDigits.length + 2)
+	                    ) {
+	                      numericSplitCandidates.push(c);
+	                    }
+	                  }
+	                }
 	                return;
 	              }
 
@@ -7330,6 +7394,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	              const altFull = normalize(`${countyOnly} - ${c}`);
 	              if (altFull) out.add(altFull);
 	            });
+	            // Guardrail: only apply numeric split expansion when it resolves to a small set.
+	            if (numericSplitCandidates.length > 0 && numericSplitCandidates.length <= 3) {
+	              numericSplitCandidates.forEach(c => {
+	                const altFull = normalize(`${countyOnly} - ${c}`);
+	                if (altFull) out.add(altFull);
+	              });
+	            }
 	          }
 	        } catch (_) {}
 
@@ -7497,7 +7568,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        try {
 	          const firstToken = precRaw.split(/\s+/, 1)[0].trim();
 	          const token0 = (firstToken.includes('_') ? firstToken.split('_', 1)[0] : firstToken).trim();
-	          baseToken = (token0 || '').toString().trim().toUpperCase().replace(/[^A-Z0-9.\-]/g, '').trim();
+	          baseToken = (token0 || '').toString().trim().toUpperCase().replace(/[^A-Z0-9.\-]/g, '').trim().replace(/-+$/, '');
 	        } catch (_) { baseToken = ''; }
 
           // Many older exports use "CODE NAME" or "CODE_NAME ..." where the geometry key
@@ -7505,7 +7576,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // "RICHMOND - 06_WOLF PIT #3" => "RICHMOND - 06"). Add those variants.
           try {
             const tokenRaw = (baseToken || '').toString().trim().toUpperCase();
-            const token = tokenRaw.replace(/[^A-Z0-9.\-]/g, '').trim();
+            const token = tokenRaw.replace(/[^A-Z0-9.\-]/g, '').trim().replace(/-+$/, '');
             const tokenOk = token && (
               /^[A-Z]{0,3}\d{1,4}(?:-\d{1,4})?[A-Z]{0,2}$/.test(token) ||
               /^0*\d{1,3}\.\d{1,3}$/.test(token)
@@ -7577,9 +7648,22 @@ document.addEventListener('DOMContentLoaded', function() {
 	        // base to any known precinct IDs that extend it by a short suffix.
 	        try {
 	          const codes = precinctIdx && countyNorm ? precinctIdx.get(countyNorm) : null;
-	          const baseCompact = (baseToken || precRaw).replace(/\s+/g, '');
+	          const baseCompact = (baseToken || precRaw).replace(/\s+/g, '').replace(/-+$/, '');
 	          if (codes && baseCompact) {
 	            const baseNum = baseCompact.match(/^0*([0-9]+)$/);
+	            const baseNumInt = baseNum ? parseInt(baseNum[1], 10) : NaN;
+	            const baseNumDigits = Number.isFinite(baseNumInt) ? String(baseNumInt) : '';
+	            let baseNumericHasExact = false;
+	            if (baseNumDigits) {
+	              codes.forEach(code => {
+	                const c = (code || '').toString().trim().toUpperCase();
+	                const cCompact = c.replace(/\s+/g, '');
+	                const cmExact = cCompact.match(/^0*([0-9]+)$/);
+	                if (!cmExact) return;
+	                if (parseInt(cmExact[1], 10) === baseNumInt) baseNumericHasExact = true;
+	              });
+	            }
+	            const numericSplitCandidates = [];
 	            codes.forEach(code => {
 	              const c = (code || '').toString().trim().toUpperCase();
 	              const cCompact = c.replace(/\s+/g, '');
@@ -7588,10 +7672,25 @@ document.addEventListener('DOMContentLoaded', function() {
 	              // Numeric-only bases should only match the exact numeric portion + a short alpha suffix (e.g. "10" -> "10A").
 	              if (baseNum) {
 	                const cm = cCompact.match(/^0*([0-9]+)([A-Z]{1,2})$/);
-	                if (!cm) return;
-	                if (parseInt(cm[1], 10) !== parseInt(baseNum[1], 10)) return;
-	                const altFull = normalizeCountyName(`${countyOnly} - ${c}`);
-	                if (altFull) out.add(altFull);
+	                if (cm && parseInt(cm[1], 10) === baseNumInt) {
+	                  const altFull = normalizeCountyName(`${countyOnly} - ${c}`);
+	                  if (altFull) out.add(altFull);
+	                  return;
+	                }
+	                // Also allow controlled numeric split expansion like 701 -> 7011/7012.
+	                if (!baseNumericHasExact) {
+	                  const cmNum = cCompact.match(/^0*([0-9]+)$/);
+	                  if (cmNum) {
+	                    const cDigits = String(parseInt(cmNum[1], 10));
+	                    if (
+	                      cDigits.startsWith(baseNumDigits) &&
+	                      cDigits.length > baseNumDigits.length &&
+	                      cDigits.length <= (baseNumDigits.length + 2)
+	                    ) {
+	                      numericSplitCandidates.push(c);
+	                    }
+	                  }
+	                }
 	                return;
 	              }
 
@@ -7603,6 +7702,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	              const altFull = normalizeCountyName(`${countyOnly} - ${c}`);
 	              if (altFull) out.add(altFull);
 	            });
+	            // Guardrail: only apply numeric split expansion when it resolves to a small set.
+	            if (numericSplitCandidates.length > 0 && numericSplitCandidates.length <= 3) {
+	              numericSplitCandidates.forEach(c => {
+	                const altFull = normalizeCountyName(`${countyOnly} - ${c}`);
+	                if (altFull) out.add(altFull);
+	              });
+	            }
 	          }
 	        } catch (_) {}
 

@@ -50,15 +50,15 @@
         "color": "#3182bd"
       },
       "12": {
-        "dem_votes": 54483,
-        "rep_votes": 56591,
+        "dem_votes": 53974,
+        "rep_votes": 57047,
         "other_votes": 0,
-        "total_votes": 111074,
+        "total_votes": 111021,
         "dem_candidate": "Jay C. Jones",
         "rep_candidate": "Jason S. Miyares",
         "winner": "Republican",
-        "margin": 2108,
-        "margin_pct": 1.897833876514756,
+        "margin": 3073,
+        "margin_pct": 2.767944803235424,
         "color": "#fcae91"
       },
       "13": {
@@ -86,15 +86,15 @@
         "color": "#08306b"
       },
       "15": {
-        "dem_votes": 51065,
-        "rep_votes": 26573,
+        "dem_votes": 51574,
+        "rep_votes": 26117,
         "other_votes": 0,
-        "total_votes": 77638,
+        "total_votes": 77691,
         "dem_candidate": "Jay C. Jones",
         "rep_candidate": "Jason S. Miyares",
         "winner": "Democratic",
-        "margin": 24492,
-        "margin_pct": -31.546407686957416,
+        "margin": 25457,
+        "margin_pct": -32.766987167110734,
         "color": "#08519c"
       },
       "16": {

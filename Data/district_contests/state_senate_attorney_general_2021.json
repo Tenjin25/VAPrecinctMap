@@ -50,15 +50,15 @@
         "color": "#6baed6"
       },
       "12": {
-        "dem_votes": 46767,
-        "rep_votes": 58794,
-        "other_votes": 95,
-        "total_votes": 105656,
+        "dem_votes": 45113,
+        "rep_votes": 59994,
+        "other_votes": 90,
+        "total_votes": 105197,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "Jason Stuart Redding Miyares",
         "winner": "Republican",
-        "margin": 12027,
-        "margin_pct": 11.383168016960703,
+        "margin": 14881,
+        "margin_pct": 14.145840660855347,
         "color": "#ef3b2c"
       },
       "13": {
@@ -86,15 +86,15 @@
         "color": "#08306b"
       },
       "15": {
-        "dem_votes": 39769,
-        "rep_votes": 28886,
-        "other_votes": 86,
-        "total_votes": 68741,
+        "dem_votes": 41423,
+        "rep_votes": 27685,
+        "other_votes": 90,
+        "total_votes": 69198,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "Jason Stuart Redding Miyares",
         "winner": "Democratic",
-        "margin": 10883,
-        "margin_pct": -15.831890720239741,
+        "margin": 13738,
+        "margin_pct": -19.85317494725281,
         "color": "#6baed6"
       },
       "16": {
@@ -278,15 +278,15 @@
         "color": "#6baed6"
       },
       "3": {
-        "dem_votes": 29774,
-        "rep_votes": 61559,
-        "other_votes": 84,
-        "total_votes": 91417,
+        "dem_votes": 29697,
+        "rep_votes": 61598,
+        "other_votes": 85,
+        "total_votes": 91380,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "Jason Stuart Redding Miyares",
         "winner": "Republican",
-        "margin": 31785,
-        "margin_pct": 34.76924423247317,
+        "margin": 31901,
+        "margin_pct": 34.91026482818997,
         "color": "#a50f15"
       },
       "30": {
@@ -410,15 +410,15 @@
         "color": "#08306b"
       },
       "4": {
-        "dem_votes": 35377,
-        "rep_votes": 42619,
-        "other_votes": 72,
-        "total_votes": 78068,
+        "dem_votes": 35036,
+        "rep_votes": 42752,
+        "other_votes": 71,
+        "total_votes": 77859,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "Jason Stuart Redding Miyares",
         "winner": "Republican",
-        "margin": 7242,
-        "margin_pct": 9.276528154941847,
+        "margin": 7716,
+        "margin_pct": 9.910222324972064,
         "color": "#fb6a4a"
       },
       "40": {
@@ -434,15 +434,15 @@
         "color": "#08306b"
       },
       "5": {
-        "dem_votes": 21631,
-        "rep_votes": 52208,
-        "other_votes": 55,
-        "total_votes": 73894,
+        "dem_votes": 22049,
+        "rep_votes": 52036,
+        "other_votes": 56,
+        "total_votes": 74141,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "Jason Stuart Redding Miyares",
         "winner": "Republican",
-        "margin": 30577,
-        "margin_pct": 41.37954367066338,
+        "margin": 29987,
+        "margin_pct": 40.44590712291445,
         "color": "#67000d"
       },
       "6": {

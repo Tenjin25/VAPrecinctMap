@@ -206,15 +206,15 @@
         "color": "#fb6a4a"
       },
       "23": {
-        "dem_votes": 7806,
-        "rep_votes": 3960,
+        "dem_votes": 7813,
+        "rep_votes": 3953,
         "other_votes": 32,
         "total_votes": 11798,
         "dem_candidate": "Ralph Shearer Northam",
         "rep_candidate": "Earl Walker Jackson, Sr.",
         "winner": "Democratic",
-        "margin": 3846,
-        "margin_pct": -32.59874555009324,
+        "margin": 3860,
+        "margin_pct": -32.71740973046279,
         "color": "#08519c"
       },
       "24": {
@@ -746,27 +746,27 @@
         "color": "#ef3b2c"
       },
       "64": {
-        "dem_votes": 8963,
-        "rep_votes": 11169,
+        "dem_votes": 8951,
+        "rep_votes": 11181,
         "other_votes": 78,
         "total_votes": 20210,
         "dem_candidate": "Ralph Shearer Northam",
         "rep_candidate": "Earl Walker Jackson, Sr.",
         "winner": "Republican",
-        "margin": 2206,
-        "margin_pct": 10.915388421573478,
+        "margin": 2230,
+        "margin_pct": 11.034141514101929,
         "color": "#ef3b2c"
       },
       "65": {
-        "dem_votes": 9647,
-        "rep_votes": 8622,
+        "dem_votes": 9653,
+        "rep_votes": 8617,
         "other_votes": 63,
-        "total_votes": 18332,
+        "total_votes": 18333,
         "dem_candidate": "Ralph Shearer Northam",
         "rep_candidate": "Earl Walker Jackson, Sr.",
         "winner": "Democratic",
-        "margin": 1025,
-        "margin_pct": -5.59131573205324,
+        "margin": 1036,
+        "margin_pct": -5.651011836578847,
         "color": "#9ecae1"
       },
       "66": {

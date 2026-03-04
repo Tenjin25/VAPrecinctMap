@@ -206,15 +206,15 @@
         "color": "#a50f15"
       },
       "23": {
-        "dem_votes": 3657,
-        "rep_votes": 3810,
-        "other_votes": 10,
+        "dem_votes": 3661,
+        "rep_votes": 3805,
+        "other_votes": 11,
         "total_votes": 7477,
         "dem_candidate": "Robert Creigh Deeds",
         "rep_candidate": "Robert F. McDonnell",
         "winner": "Republican",
-        "margin": 153,
-        "margin_pct": 2.0462752440818512,
+        "margin": 144,
+        "margin_pct": 1.9259061120770364,
         "color": "#fcae91"
       },
       "24": {
@@ -746,27 +746,27 @@
         "color": "#67000d"
       },
       "64": {
-        "dem_votes": 5254,
-        "rep_votes": 11465,
-        "other_votes": 22,
+        "dem_votes": 5247,
+        "rep_votes": 11473,
+        "other_votes": 21,
         "total_votes": 16741,
         "dem_candidate": "Robert Creigh Deeds",
         "rep_candidate": "Robert F. McDonnell",
         "winner": "Republican",
-        "margin": 6211,
-        "margin_pct": 37.10053162893495,
+        "margin": 6226,
+        "margin_pct": 37.19013201122991,
         "color": "#a50f15"
       },
       "65": {
-        "dem_votes": 5854,
-        "rep_votes": 9405,
+        "dem_votes": 5857,
+        "rep_votes": 9402,
         "other_votes": 30,
         "total_votes": 15289,
         "dem_candidate": "Robert Creigh Deeds",
         "rep_candidate": "Robert F. McDonnell",
         "winner": "Republican",
-        "margin": 3551,
-        "margin_pct": 23.225848649355747,
+        "margin": 3545,
+        "margin_pct": 23.186604748512003,
         "color": "#cb181d"
       },
       "66": {

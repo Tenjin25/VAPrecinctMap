@@ -50,15 +50,15 @@
         "color": "#6baed6"
       },
       "12": {
-        "dem_votes": 47403,
-        "rep_votes": 63746,
-        "other_votes": 260,
-        "total_votes": 111409,
+        "dem_votes": 46975,
+        "rep_votes": 64149,
+        "other_votes": 261,
+        "total_votes": 111385,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "George Felix Allen",
         "winner": "Republican",
-        "margin": 16343,
-        "margin_pct": 14.669371415235751,
+        "margin": 17174,
+        "margin_pct": 15.418593167841271,
         "color": "#ef3b2c"
       },
       "13": {
@@ -86,15 +86,15 @@
         "color": "#08306b"
       },
       "15": {
-        "dem_votes": 53654,
-        "rep_votes": 32490,
+        "dem_votes": 54081,
+        "rep_votes": 32087,
         "other_votes": 210,
-        "total_votes": 86354,
+        "total_votes": 86378,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "George Felix Allen",
         "winner": "Democratic",
-        "margin": 21164,
-        "margin_pct": -24.50841883410149,
+        "margin": 21994,
+        "margin_pct": -25.46250202597884,
         "color": "#3182bd"
       },
       "16": {
@@ -278,15 +278,15 @@
         "color": "#6baed6"
       },
       "3": {
-        "dem_votes": 39428,
-        "rep_votes": 58935,
-        "other_votes": 149,
+        "dem_votes": 39423,
+        "rep_votes": 58939,
+        "other_votes": 150,
         "total_votes": 98512,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "George Felix Allen",
         "winner": "Republican",
-        "margin": 19507,
-        "margin_pct": 19.80164853012831,
+        "margin": 19516,
+        "margin_pct": 19.81078447295761,
         "color": "#ef3b2c"
       },
       "30": {
@@ -410,15 +410,15 @@
         "color": "#08306b"
       },
       "4": {
-        "dem_votes": 49819,
-        "rep_votes": 49773,
-        "other_votes": 142,
-        "total_votes": 99734,
+        "dem_votes": 49774,
+        "rep_votes": 49813,
+        "other_votes": 141,
+        "total_votes": 99728,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "George Felix Allen",
-        "winner": "Democratic",
-        "margin": 46,
-        "margin_pct": -0.04612268634567951,
+        "winner": "Republican",
+        "margin": 39,
+        "margin_pct": 0.03910636932456281,
         "color": "#f7f7f7"
       },
       "40": {
@@ -434,15 +434,15 @@
         "color": "#08306b"
       },
       "5": {
-        "dem_votes": 37557,
-        "rep_votes": 54058,
-        "other_votes": 167,
-        "total_votes": 91782,
+        "dem_votes": 37607,
+        "rep_votes": 54014,
+        "other_votes": 168,
+        "total_votes": 91789,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "George Felix Allen",
         "winner": "Republican",
-        "margin": 16501,
-        "margin_pct": 17.978470724107122,
+        "margin": 16407,
+        "margin_pct": 17.874690867097364,
         "color": "#ef3b2c"
       },
       "6": {

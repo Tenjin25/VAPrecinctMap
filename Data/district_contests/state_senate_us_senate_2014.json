@@ -50,16 +50,16 @@
         "color": "#6baed6"
       },
       "12": {
-        "dem_votes": 26172,
-        "rep_votes": 39593,
-        "other_votes": 2280,
-        "total_votes": 68045,
+        "dem_votes": 26068,
+        "rep_votes": 39700,
+        "other_votes": 2281,
+        "total_votes": 68049,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Edward Walter Gillespie",
         "winner": "Republican",
-        "margin": 13421,
-        "margin_pct": 19.723712249246823,
-        "color": "#ef3b2c"
+        "margin": 13632,
+        "margin_pct": 20.032623550676718,
+        "color": "#cb181d"
       },
       "13": {
         "dem_votes": 35051,
@@ -86,15 +86,15 @@
         "color": "#08306b"
       },
       "15": {
-        "dem_votes": 27921,
-        "rep_votes": 18166,
-        "other_votes": 1413,
-        "total_votes": 47500,
+        "dem_votes": 28025,
+        "rep_votes": 18059,
+        "other_votes": 1412,
+        "total_votes": 47496,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Edward Walter Gillespie",
         "winner": "Democratic",
-        "margin": 9755,
-        "margin_pct": -20.53684210526316,
+        "margin": 9966,
+        "margin_pct": -20.982819605861547,
         "color": "#3182bd"
       },
       "16": {
@@ -278,15 +278,15 @@
         "color": "#c6dbef"
       },
       "3": {
-        "dem_votes": 22510,
-        "rep_votes": 33561,
-        "other_votes": 1606,
-        "total_votes": 57677,
+        "dem_votes": 22509,
+        "rep_votes": 33562,
+        "other_votes": 1605,
+        "total_votes": 57676,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Edward Walter Gillespie",
         "winner": "Republican",
-        "margin": 11051,
-        "margin_pct": 19.160150493264215,
+        "margin": 11053,
+        "margin_pct": 19.16395034329704,
         "color": "#ef3b2c"
       },
       "30": {
@@ -410,15 +410,15 @@
         "color": "#08306b"
       },
       "4": {
-        "dem_votes": 26702,
-        "rep_votes": 28093,
+        "dem_votes": 26686,
+        "rep_votes": 28107,
         "other_votes": 1804,
-        "total_votes": 56599,
+        "total_votes": 56597,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Edward Walter Gillespie",
         "winner": "Republican",
-        "margin": 1391,
-        "margin_pct": 2.4576405943567905,
+        "margin": 1421,
+        "margin_pct": 2.510733784476209,
         "color": "#fcae91"
       },
       "40": {
@@ -434,15 +434,15 @@
         "color": "#08306b"
       },
       "5": {
-        "dem_votes": 20342,
-        "rep_votes": 28659,
-        "other_votes": 1447,
-        "total_votes": 50448,
+        "dem_votes": 20359,
+        "rep_votes": 28644,
+        "other_votes": 1448,
+        "total_votes": 50451,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Edward Walter Gillespie",
         "winner": "Republican",
-        "margin": 8317,
-        "margin_pct": 16.48628290516968,
+        "margin": 8285,
+        "margin_pct": 16.421874690293553,
         "color": "#ef3b2c"
       },
       "6": {

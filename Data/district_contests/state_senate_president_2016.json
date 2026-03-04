@@ -50,15 +50,15 @@
         "color": "#3182bd"
       },
       "12": {
-        "dem_votes": 47604,
-        "rep_votes": 61496,
-        "other_votes": 7345,
-        "total_votes": 116445,
+        "dem_votes": 47169,
+        "rep_votes": 61805,
+        "other_votes": 7397,
+        "total_votes": 116371,
         "dem_candidate": "Hillary R. Clinton",
         "rep_candidate": "Donald J. Trump",
         "winner": "Republican",
-        "margin": 13892,
-        "margin_pct": 11.930095753359955,
+        "margin": 14636,
+        "margin_pct": 12.577016610667608,
         "color": "#ef3b2c"
       },
       "13": {
@@ -86,15 +86,15 @@
         "color": "#08306b"
       },
       "15": {
-        "dem_votes": 52055,
-        "rep_votes": 31358,
-        "other_votes": 4121,
-        "total_votes": 87534,
+        "dem_votes": 52490,
+        "rep_votes": 31049,
+        "other_votes": 4069,
+        "total_votes": 87608,
         "dem_candidate": "Hillary R. Clinton",
         "rep_candidate": "Donald J. Trump",
         "winner": "Democratic",
-        "margin": 20697,
-        "margin_pct": -23.64452669819727,
+        "margin": 21441,
+        "margin_pct": -24.4737923477308,
         "color": "#3182bd"
       },
       "16": {
@@ -278,15 +278,15 @@
         "color": "#6baed6"
       },
       "3": {
-        "dem_votes": 32812,
-        "rep_votes": 63315,
-        "other_votes": 5741,
-        "total_votes": 101868,
+        "dem_votes": 32801,
+        "rep_votes": 63325,
+        "other_votes": 5737,
+        "total_votes": 101863,
         "dem_candidate": "Hillary R. Clinton",
         "rep_candidate": "Donald J. Trump",
         "winner": "Republican",
-        "margin": 30503,
-        "margin_pct": 29.94365256999254,
+        "margin": 30524,
+        "margin_pct": 29.965738295553834,
         "color": "#cb181d"
       },
       "30": {
@@ -410,15 +410,15 @@
         "color": "#08306b"
       },
       "4": {
-        "dem_votes": 43538,
-        "rep_votes": 51237,
-        "other_votes": 6164,
-        "total_votes": 100939,
+        "dem_votes": 43454,
+        "rep_votes": 51300,
+        "other_votes": 6157,
+        "total_votes": 100911,
         "dem_candidate": "Hillary R. Clinton",
         "rep_candidate": "Donald J. Trump",
         "winner": "Republican",
-        "margin": 7699,
-        "margin_pct": 7.627378912016168,
+        "margin": 7846,
+        "margin_pct": 7.775168217538226,
         "color": "#fb6a4a"
       },
       "40": {
@@ -434,15 +434,15 @@
         "color": "#08306b"
       },
       "5": {
-        "dem_votes": 30794,
-        "rep_votes": 61043,
-        "other_votes": 5385,
-        "total_votes": 97222,
+        "dem_votes": 30890,
+        "rep_votes": 60969,
+        "other_votes": 5396,
+        "total_votes": 97255,
         "dem_candidate": "Hillary R. Clinton",
         "rep_candidate": "Donald J. Trump",
         "winner": "Republican",
-        "margin": 30249,
-        "margin_pct": 31.11332825903602,
+        "margin": 30079,
+        "margin_pct": 30.927972854866077,
         "color": "#a50f15"
       },
       "6": {

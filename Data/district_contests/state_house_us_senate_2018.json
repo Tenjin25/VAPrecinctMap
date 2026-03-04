@@ -206,15 +206,15 @@
         "color": "#6baed6"
       },
       "23": {
-        "dem_votes": 17101,
-        "rep_votes": 5830,
-        "other_votes": 373,
-        "total_votes": 23304,
+        "dem_votes": 17148,
+        "rep_votes": 5795,
+        "other_votes": 372,
+        "total_votes": 23315,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Democratic",
-        "margin": 11271,
-        "margin_pct": -48.365087538619974,
+        "margin": 11353,
+        "margin_pct": -48.69397383658589,
         "color": "#08306b"
       },
       "24": {
@@ -746,27 +746,27 @@
         "color": "#ef3b2c"
       },
       "64": {
-        "dem_votes": 16914,
-        "rep_votes": 16254,
+        "dem_votes": 16887,
+        "rep_votes": 16275,
         "other_votes": 691,
-        "total_votes": 33859,
+        "total_votes": 33853,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Democratic",
-        "margin": 660,
-        "margin_pct": -1.9492601671638263,
+        "margin": 612,
+        "margin_pct": -1.8078161462795026,
         "color": "#c6dbef"
       },
       "65": {
-        "dem_votes": 16240,
-        "rep_votes": 12198,
-        "other_votes": 658,
-        "total_votes": 29096,
+        "dem_votes": 16221,
+        "rep_votes": 12212,
+        "other_votes": 659,
+        "total_votes": 29092,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Democratic",
-        "margin": 4042,
-        "margin_pct": -13.891943909815781,
+        "margin": 4009,
+        "margin_pct": -13.780420734222467,
         "color": "#6baed6"
       },
       "66": {

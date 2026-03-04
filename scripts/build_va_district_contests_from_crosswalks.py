@@ -733,6 +733,7 @@ def build_district_contests(
         }
     )
     matched_county_district = defaultdict(lambda: defaultdict(float))
+    matched_county_district_by_party = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
     explicit_overrides = build_explicit_precinct_district_overrides(openelections_root)
     scope_code_index: dict[str, dict[str, list[str]]] = {}
     for scope in SCOPES:
@@ -801,6 +802,7 @@ def build_district_contests(
                                 district_acc[k][party_bucket] += amount
                                 totals[(scope, contest_type, year)][party_bucket] += amount
                                 matched_county_district[county_scope_key][district_id] += amount
+                                matched_county_district_by_party[county_scope_key][party_bucket][district_id] += amount
                                 if party_bucket == "dem" and candidate:
                                     district_acc[k]["dem_cands"][candidate] += amount
                                 elif party_bucket == "rep" and candidate:
@@ -839,11 +841,11 @@ def build_district_contests(
         matched_dist = matched_county_district.get(county_scope_key, {})
         matched_sum = float(sum(matched_dist.values()))
         if matched_sum > 0:
-            alloc_weights = [(d, v / matched_sum) for d, v in matched_dist.items() if v > 0]
+            alloc_weights_total = [(d, v / matched_sum) for d, v in matched_dist.items() if v > 0]
         else:
-            alloc_weights = scope_mappings[scope]["county_weights"].get(county, [])
+            alloc_weights_total = scope_mappings[scope]["county_weights"].get(county, [])
 
-        if not alloc_weights:
+        if not alloc_weights_total:
             continue
 
         to_allocate = float(node["dem"] + node["rep"] + node["other"])
@@ -853,27 +855,37 @@ def build_district_contests(
         coverage[cov_key]["allocated_votes"] += to_allocate
         coverage[cov_key]["matched_votes"] += to_allocate
 
+        def get_bucket_alloc_weights(bucket: str) -> list[tuple[str, float]]:
+            party_dist = matched_county_district_by_party.get(county_scope_key, {}).get(bucket, {})
+            party_sum = float(sum(party_dist.values()))
+            if party_sum > 0:
+                return [(d, v / party_sum) for d, v in party_dist.items() if v > 0]
+            return alloc_weights_total
+
         for bucket in ("dem", "rep", "other"):
             base_votes = float(node[bucket])
             if base_votes <= 0:
                 continue
-            for district_id, share in alloc_weights:
+            bucket_weights = get_bucket_alloc_weights(bucket)
+            for district_id, share in bucket_weights:
                 amount = base_votes * share
                 k = (scope, contest_type, year, district_id)
                 district_acc[k][bucket] += amount
                 totals[(scope, contest_type, year)][bucket] += amount
 
+        dem_weights = get_bucket_alloc_weights("dem")
         for cand, cand_votes in node["dem_cands"].items():
             if cand_votes <= 0:
                 continue
-            for district_id, share in alloc_weights:
+            for district_id, share in dem_weights:
                 k = (scope, contest_type, year, district_id)
                 district_acc[k]["dem_cands"][cand] += cand_votes * share
 
+        rep_weights = get_bucket_alloc_weights("rep")
         for cand, cand_votes in node["rep_cands"].items():
             if cand_votes <= 0:
                 continue
-            for district_id, share in alloc_weights:
+            for district_id, share in rep_weights:
                 k = (scope, contest_type, year, district_id)
                 district_acc[k]["rep_cands"][cand] += cand_votes * share
 

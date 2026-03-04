@@ -8131,21 +8131,23 @@ document.addEventListener('DOMContentLoaded', function() {
       // Optional precinct expression (detail overlay)
       if (needsPrecinctDetail) {
         const exprPrecinct = ['case'];
-        contestData.forEach(row => {
-          const precinctNames = precinctNormVariants(row.county);
+        const precinctRows = (currentPrecinctResults && currentPrecinctResults.size)
+          ? Array.from(currentPrecinctResults.entries()).map(([norm, row]) => ({ precinctNames: [norm], row }))
+          : contestData.map(row => ({ precinctNames: precinctNormVariants(row.county), row }));
+
+        precinctRows.forEach(({ precinctNames, row }) => {
           const demVotes = Number(row[`${contestType}_dem`] || 0);
           const repVotes = Number(row[`${contestType}_rep`] || 0);
           const totalVotes = Number(row[`${contestType}_total`] || 0);
-          if (totalVotes === 0) return;
-          const signedMarginPct = Number(row[`${contestType}_margin_pct`]);
+          if (totalVotes === 0 || !precinctNames?.length) return;
+          const signedMarginPctRaw = Number(row[`${contestType}_margin_pct`]);
+          const curSigned = isNaN(signedMarginPctRaw) ? signedMarginPctFromVotes(demVotes, repVotes, totalVotes) : signedMarginPctRaw;
           const winnerRaw = (row[`${contestType}_winner`] || '').toString().toUpperCase();
           const winner = winnerRaw.startsWith('REP') ? 'R' : (winnerRaw.startsWith('DEM') ? 'D' : (repVotes === demVotes ? 'T' : (repVotes > demVotes ? 'R' : 'D')));
           let color = '#d1d5db';
 
           if (mode === 'flips') {
-            const curSigned = isNaN(signedMarginPct) ? signedMarginPctFromVotes(demVotes, repVotes, totalVotes) : signedMarginPct;
             let prevSigned = 0;
-            // Use first matching norm (variants exist for precinct naming quirks).
             for (const n of precinctNames) {
               if (vizPrevCache?.prevPrecinctMarginByNorm?.has(n)) { prevSigned = vizPrevCache.prevPrecinctMarginByNorm.get(n); break; }
             }
@@ -8154,16 +8156,12 @@ document.addEventListener('DOMContentLoaded', function() {
           } else if (mode === 'winners') {
             color = colorForWinnerMode(winner);
           } else if (mode === 'shift' && prevPrecinctMarginByNorm) {
-            // Signed margin pct: positive => R, negative => D.
-            const curSigned = isNaN(signedMarginPct) ? signedMarginPctFromVotes(demVotes, repVotes, totalVotes) : signedMarginPct;
             let prevSigned = 0;
-            // Use first matching norm (variants exist for precinct naming quirks).
             for (const n of precinctNames) {
               if (prevPrecinctMarginByNorm.has(n)) { prevSigned = prevPrecinctMarginByNorm.get(n); break; }
             }
             color = colorForShiftMode(curSigned - prevSigned);
           } else {
-            const curSigned = isNaN(signedMarginPct) ? signedMarginPctFromVotes(demVotes, repVotes, totalVotes) : signedMarginPct;
             color = colorForMarginMode(Math.abs(curSigned), winner === 'T' ? 'R' : winner);
           }
           precinctNames.forEach(precinctName => {

@@ -2514,6 +2514,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	    let precinctCodeIndexByCounty = null; // Map<string countyNorm, Set<string prec_id>> built from precinct centroids.
       let precinctNormSet = null; // Set<string precinct_norm> from centroid source.
       let precinctNormsByCounty = null; // Map<string countyNorm, Set<string precinct_norm>>.
+      let precinctLabelIndexByCounty = null; // Map<string countyNorm, Array<{norm,labelNorm}>>.
       let precinctDotHoverWired = new Set();
 	    let tooltipPinned = false;
 	    let precinctDotHoverRaf = null;
@@ -2936,11 +2937,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	                const cand = (r.candidate || '').toString().trim();
 	                const votes = Number(r.votes) || 0;
 
-	                if (!byPrecinct.has(key)) byPrecinct.set(key, { dem: 0, rep: 0, other: 0, demCand: '', repCand: '' });
+	                if (!byPrecinct.has(key)) byPrecinct.set(key, { dem: 0, rep: 0, other: 0, demCand: '', repCand: '', label: precinctRaw });
 	                const node = byPrecinct.get(key);
 	                if (party === 'DEM') { node.dem += votes; if (!node.demCand && cand) node.demCand = cand; }
 	                else if (party === 'REP') { node.rep += votes; if (!node.repCand && cand) node.repCand = cand; }
 	                else { node.other += votes; }
+                  if (!node.label && precinctRaw) node.label = precinctRaw;
 	              });
 	            },
 	            error: (err) => reject(err),
@@ -2964,17 +2966,19 @@ document.addEventListener('DOMContentLoaded', function() {
 	          const cand = (r.candidate || '').toString().trim();
 	          const votes = Number(r.votes) || 0;
 
-	          if (!byPrecinct.has(key)) byPrecinct.set(key, { dem: 0, rep: 0, other: 0, demCand: '', repCand: '' });
+	          if (!byPrecinct.has(key)) byPrecinct.set(key, { dem: 0, rep: 0, other: 0, demCand: '', repCand: '', label: precinctRaw });
 	          const node = byPrecinct.get(key);
 	          if (party === 'DEM') { node.dem += votes; if (!node.demCand && cand) node.demCand = cand; }
 	          else if (party === 'REP') { node.rep += votes; if (!node.repCand && cand) node.repCand = cand; }
 	          else { node.other += votes; }
+            if (!node.label && precinctRaw) node.label = precinctRaw;
 	        });
 	      }
 
 	      return Array.from(byPrecinct.entries()).map(([key, v]) => ({
 	        year: y,
 	        county: key,
+          precinct_label: v.label || '',
 	        [`${contestType}_dem`]: v.dem,
 	        [`${contestType}_rep`]: v.rep,
 	        [`${contestType}_other`]: v.other,
@@ -5431,6 +5435,15 @@ document.addEventListener('DOMContentLoaded', function() {
           try {
             const nSet = new Set();
             const byCounty = new Map();
+            const labelIdx = new Map();
+            const normalizePrecinctLabel = (raw) => (raw || '')
+              .toString()
+              .toUpperCase()
+              .replace(/^[A-Z0-9.\-]+\s*-\s*/, '')
+              .replace(/^[A-Z0-9.\-]+\s+/, '')
+              .replace(/[^A-Z0-9 ]/g, ' ')
+              .replace(/\s+/g, ' ')
+              .trim();
             (pts?.features || []).forEach(f => {
               const p = f?.properties || {};
               const n = (p.precinct_norm || '').toString().trim().toUpperCase();
@@ -5445,9 +5458,15 @@ document.addEventListener('DOMContentLoaded', function() {
               if (!county) return;
               if (!byCounty.has(county)) byCounty.set(county, new Set());
               byCounty.get(county).add(n);
+              const labelNorm = normalizePrecinctLabel(p.precinct_name || '');
+              if (labelNorm) {
+                if (!labelIdx.has(county)) labelIdx.set(county, []);
+                labelIdx.get(county).push({ norm: n, labelNorm });
+              }
             });
             precinctNormSet = nSet;
             precinctNormsByCounty = byCounty;
+            precinctLabelIndexByCounty = labelIdx;
           } catch (err) {
             console.warn('Failed to build precinct norm indexes:', err?.message || err);
           }
@@ -7665,6 +7684,47 @@ document.addEventListener('DOMContentLoaded', function() {
 	        return isNonGeographicPrecinctToken(code);
 	      }
 
+        function normalizePrecinctLabel(raw) {
+          return (raw || '')
+            .toString()
+            .toUpperCase()
+            .replace(/^[A-Z0-9.\-]+\s*-\s*/, '')
+            .replace(/^[A-Z0-9.\-]+\s+/, '')
+            .replace(/[^A-Z0-9 ]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+        }
+
+        function matchPrecinctNormsByLabel(countyNorm, labelRaw) {
+          if (!countyNorm || !precinctLabelIndexByCounty) return [];
+          const pool = precinctLabelIndexByCounty.get(countyNorm);
+          if (!pool || !pool.length) return [];
+          const q = normalizePrecinctLabel(labelRaw);
+          if (!q) return [];
+
+          const exact = pool.filter(x => x.labelNorm === q).map(x => x.norm);
+          if (exact.length > 0 && exact.length <= 3) return Array.from(new Set(exact));
+
+          const qTokens = q.split(' ').filter(t => t.length >= 4);
+          if (!qTokens.length) return [];
+
+          const strong = pool
+            .filter(x => qTokens.every(t => x.labelNorm.includes(t)))
+            .map(x => x.norm);
+          if (strong.length > 0 && strong.length <= 3) return Array.from(new Set(strong));
+
+          const scored = pool
+            .map(x => ({ norm: x.norm, score: qTokens.filter(t => x.labelNorm.includes(t)).length }))
+            .filter(x => x.score >= Math.max(1, Math.floor(qTokens.length * 0.6)))
+            .sort((a, b) => b.score - a.score);
+          if (!scored.length) return [];
+          const best = scored[0].score || 0;
+          if (best <= 0) return [];
+          const top = scored.filter(x => x.score === best).map(x => x.norm);
+          if (top.length > 0 && top.length <= 2) return Array.from(new Set(top));
+          return [];
+        }
+
 	      function precinctNormVariants(rowName) {
 	        // rowName format: "COUNTY - PREC"
 	        const raw = (rowName || '').toString();
@@ -7878,7 +7938,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (needsPrecinctDetail) {
           const candidateNorms = precinctNormVariants(rowName);
           if (candidateNorms.length) {
-            const matchedNorms = candidateNorms.filter(n => !precinctNormSet || precinctNormSet.has(n));
+            let matchedNorms = candidateNorms.filter(n => !precinctNormSet || precinctNormSet.has(n));
+            if (!matchedNorms.length) {
+              const labelMatches = matchPrecinctNormsByLabel(countyNorm, row.precinct_label || '');
+              if (labelMatches.length) matchedNorms = labelMatches;
+            }
             if (matchedNorms.length) {
               // Split a legacy row across all matched modern precincts so totals remain bounded.
               const share = 1 / matchedNorms.length;
@@ -7928,15 +7992,18 @@ document.addEventListener('DOMContentLoaded', function() {
           if (!countyNorms.length) return;
 
           let denom = 0;
+          const weightBase = new Map();
           countyNorms.forEach(n => {
             const node = precinctVoteAgg.get(n);
-            denom += Number(node?.[`${contestType}_total`] || 0);
+            const base = Number(node?.[`${contestType}_total`] || 0);
+            const adj = base > 0 ? base : 1; // keep zero-base precincts eligible for small residual share
+            weightBase.set(n, adj);
+            denom += adj;
           });
           const fallbackW = countyNorms.length ? (1 / countyNorms.length) : 0;
 
           countyNorms.forEach(n => {
-            const base = Number(precinctVoteAgg.get(n)?.[`${contestType}_total`] || 0);
-            const w = denom > 0 ? (base / denom) : fallbackW;
+            const w = denom > 0 ? ((weightBase.get(n) || 0) / denom) : fallbackW;
             addPrecinctVotes(n, miss.dem * w, miss.rep * w, miss.other * w, miss.demCand, miss.repCand);
           });
         });

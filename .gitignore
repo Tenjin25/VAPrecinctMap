@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+
+# Raw source archives (some exceed GitHub file size limits)
+Data/*.zip

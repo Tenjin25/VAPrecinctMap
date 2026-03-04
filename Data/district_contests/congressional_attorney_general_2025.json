@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "scope": "congressional",
+    "contest_type": "attorney_general",
+    "year": 2025,
+    "district_count": 11,
+    "input_votes": 3380410,
+    "matched_votes": 2984755,
+    "match_coverage_pct": 88.29565052759872
+  },
+  "general": {
+    "results": {
+      "1": {
+        "dem_votes": 135654,
+        "rep_votes": 166950,
+        "other_votes": 0,
+        "total_votes": 302604,
+        "dem_candidate": "Jay C. Jones",
+        "rep_candidate": "Jason S. Miyares",
+        "winner": "Republican",
+        "margin": 31296,
+        "margin_pct": 10.342229448387991,
+        "color": "#ef3b2c"
+      },
+      "10": {
+        "dem_votes": 167440,
+        "rep_votes": 127297,
+        "other_votes": 0,
+        "total_votes": 294737,
+        "dem_candidate": "Jay C. Jones",
+        "rep_candidate": "Jason S. Miyares",
+        "winner": "Democratic",
+        "margin": 40143,
+        "margin_pct": -13.619939132175466,
+        "color": "#6baed6"
+      },
+      "11": {
+        "dem_votes": 185873,
+        "rep_votes": 74683,
+        "other_votes": 0,
+        "total_votes": 260556,
+        "dem_candidate": "Jay C. Jones",
+        "rep_candidate": "Jason S. Miyares",
+        "winner": "Democratic",
+        "margin": 111190,
+        "margin_pct": -42.674127634750306,
+        "color": "#08306b"
+      },
+      "2": {
+        "dem_votes": 129932,
+        "rep_votes": 127478,
+        "other_votes": 0,
+        "total_votes": 257410,
+        "dem_candidate": "Jay C. Jones",
+        "rep_candidate": "Jason S. Miyares",
+        "winner": "Democratic",
+        "margin": 2454,
+        "margin_pct": -0.9533429159706305,
+        "color": "#e1f5fe"
+      },
+      "3": {
+        "dem_votes": 157371,
+        "rep_votes": 75402,
+        "other_votes": 0,
+        "total_votes": 232773,
+        "dem_candidate": "Jay C. Jones",
+        "rep_candidate": "Jason S. Miyares",
+        "winner": "Democratic",
+        "margin": 81969,
+        "margin_pct": -35.21413566006367,
+        "color": "#08519c"
+      },
+      "4": {
+        "dem_votes": 185006,
+        "rep_votes": 116912,
+        "other_votes": 0,
+        "total_votes": 301918,
+        "dem_candidate": "Jay C. Jones",
+        "rep_candidate": "Jason S. Miyares",
+        "winner": "Democratic",
+        "margin": 68094,
+        "margin_pct": -22.553806000304718,
+        "color": "#3182bd"
+      },
+      "5": {
+        "dem_votes": 132805,
+        "rep_votes": 173984,
+        "other_votes": 0,
+        "total_votes": 306789,
+        "dem_candidate": "Jay C. Jones",
+        "rep_candidate": "Jason S. Miyares",
+        "winner": "Republican",
+        "margin": 41179,
+        "margin_pct": 13.422580340233841,
+        "color": "#ef3b2c"
+      },
+      "6": {
+        "dem_votes": 107542,
+        "rep_votes": 179025,
+        "other_votes": 0,
+        "total_votes": 286567,
+        "dem_candidate": "Jay C. Jones",
+        "rep_candidate": "Jason S. Miyares",
+        "winner": "Republican",
+        "margin": 71483,
+        "margin_pct": 24.944602832845373,
+        "color": "#cb181d"
+      },
+      "7": {
+        "dem_votes": 163605,
+        "rep_votes": 167937,
+        "other_votes": 0,
+        "total_votes": 331542,
+        "dem_candidate": "Jay C. Jones",
+        "rep_candidate": "Jason S. Miyares",
+        "winner": "Republican",
+        "margin": 4332,
+        "margin_pct": 1.3066217854751434,
+        "color": "#fcae91"
+      },
+      "8": {
+        "dem_votes": 137481,
+        "rep_votes": 49078,
+        "other_votes": 0,
+        "total_votes": 186559,
+        "dem_candidate": "Jay C. Jones",
+        "rep_candidate": "Jason S. Miyares",
+        "winner": "Democratic",
+        "margin": 88403,
+        "margin_pct": -47.38608161493147,
+        "color": "#08306b"
+      },
+      "9": {
+        "dem_votes": 61576,
+        "rep_votes": 161721,
+        "other_votes": 0,
+        "total_votes": 223297,
+        "dem_candidate": "Jay C. Jones",
+        "rep_candidate": "Jason S. Miyares",
+        "winner": "Republican",
+        "margin": 100145,
+        "margin_pct": 44.848340998759504,
+        "color": "#67000d"
+      }
+    }
+  }
+}

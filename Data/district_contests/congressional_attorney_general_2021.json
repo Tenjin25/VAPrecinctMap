@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "scope": "congressional",
+    "contest_type": "attorney_general",
+    "year": 2021,
+    "district_count": 11,
+    "input_votes": 2077741,
+    "matched_votes": 2037761,
+    "match_coverage_pct": 98.07579481754462
+  },
+  "general": {
+    "results": {
+      "1": {
+        "dem_votes": 73916,
+        "rep_votes": 130364,
+        "other_votes": 157,
+        "total_votes": 204437,
+        "dem_candidate": "Mark Rankin Herring",
+        "rep_candidate": "Jason Stuart Redding Miyares",
+        "winner": "Republican",
+        "margin": 56448,
+        "margin_pct": 27.611440199181164,
+        "color": "#cb181d"
+      },
+      "10": {
+        "dem_votes": 100859,
+        "rep_votes": 111184,
+        "other_votes": 236,
+        "total_votes": 212279,
+        "dem_candidate": "Mark Rankin Herring",
+        "rep_candidate": "Jason Stuart Redding Miyares",
+        "winner": "Republican",
+        "margin": 10325,
+        "margin_pct": 4.863881966657088,
+        "color": "#fcae91"
+      },
+      "11": {
+        "dem_votes": 105438,
+        "rep_votes": 62545,
+        "other_votes": 247,
+        "total_votes": 168230,
+        "dem_candidate": "Mark Rankin Herring",
+        "rep_candidate": "Jason Stuart Redding Miyares",
+        "winner": "Democratic",
+        "margin": 42893,
+        "margin_pct": -25.49664150270463,
+        "color": "#3182bd"
+      },
+      "2": {
+        "dem_votes": 65760,
+        "rep_votes": 95379,
+        "other_votes": 131,
+        "total_votes": 161270,
+        "dem_candidate": "Mark Rankin Herring",
+        "rep_candidate": "Jason Stuart Redding Miyares",
+        "winner": "Republican",
+        "margin": 29619,
+        "margin_pct": 18.366094127860112,
+        "color": "#ef3b2c"
+      },
+      "3": {
+        "dem_votes": 88995,
+        "rep_votes": 65999,
+        "other_votes": 184,
+        "total_votes": 155178,
+        "dem_candidate": "Mark Rankin Herring",
+        "rep_candidate": "Jason Stuart Redding Miyares",
+        "winner": "Democratic",
+        "margin": 22996,
+        "margin_pct": -14.819110956450013,
+        "color": "#6baed6"
+      },
+      "4": {
+        "dem_votes": 95396,
+        "rep_votes": 81845,
+        "other_votes": 234,
+        "total_votes": 177475,
+        "dem_candidate": "Mark Rankin Herring",
+        "rep_candidate": "Jason Stuart Redding Miyares",
+        "winner": "Democratic",
+        "margin": 13551,
+        "margin_pct": -7.635441611494577,
+        "color": "#9ecae1"
+      },
+      "5": {
+        "dem_votes": 71564,
+        "rep_votes": 135850,
+        "other_votes": 142,
+        "total_votes": 207556,
+        "dem_candidate": "Mark Rankin Herring",
+        "rep_candidate": "Jason Stuart Redding Miyares",
+        "winner": "Republican",
+        "margin": 64286,
+        "margin_pct": 30.972845882557,
+        "color": "#a50f15"
+      },
+      "6": {
+        "dem_votes": 53730,
+        "rep_votes": 142204,
+        "other_votes": 178,
+        "total_votes": 196112,
+        "dem_candidate": "Mark Rankin Herring",
+        "rep_candidate": "Jason Stuart Redding Miyares",
+        "winner": "Republican",
+        "margin": 88474,
+        "margin_pct": 45.11401648037856,
+        "color": "#67000d"
+      },
+      "7": {
+        "dem_votes": 89173,
+        "rep_votes": 131821,
+        "other_votes": 195,
+        "total_votes": 221189,
+        "dem_candidate": "Mark Rankin Herring",
+        "rep_candidate": "Jason Stuart Redding Miyares",
+        "winner": "Republican",
+        "margin": 42648,
+        "margin_pct": 19.28124816333543,
+        "color": "#ef3b2c"
+      },
+      "8": {
+        "dem_votes": 111330,
+        "rep_votes": 51593,
+        "other_votes": 232,
+        "total_votes": 163155,
+        "dem_candidate": "Mark Rankin Herring",
+        "rep_candidate": "Jason Stuart Redding Miyares",
+        "winner": "Democratic",
+        "margin": 59737,
+        "margin_pct": -36.61364959700898,
+        "color": "#08519c"
+      },
+      "9": {
+        "dem_votes": 34268,
+        "rep_votes": 136472,
+        "other_votes": 141,
+        "total_votes": 170881,
+        "dem_candidate": "Mark Rankin Herring",
+        "rep_candidate": "Jason Stuart Redding Miyares",
+        "winner": "Republican",
+        "margin": 102204,
+        "margin_pct": 59.81004324646977,
+        "color": "#67000d"
+      }
+    }
+  }
+}

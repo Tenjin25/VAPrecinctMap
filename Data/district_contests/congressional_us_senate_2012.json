@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "scope": "congressional",
+    "contest_type": "us_senate",
+    "year": 2012,
+    "district_count": 11,
+    "input_votes": 3364823,
+    "matched_votes": 3254980,
+    "match_coverage_pct": 96.73554894269327
+  },
+  "general": {
+    "results": {
+      "1": {
+        "dem_votes": 137023,
+        "rep_votes": 166470,
+        "other_votes": 663,
+        "total_votes": 304156,
+        "dem_candidate": "Timothy Michael Kaine",
+        "rep_candidate": "George Felix Allen",
+        "winner": "Republican",
+        "margin": 29447,
+        "margin_pct": 9.681544996646457,
+        "color": "#fb6a4a"
+      },
+      "10": {
+        "dem_votes": 153822,
+        "rep_votes": 152208,
+        "other_votes": 587,
+        "total_votes": 306617,
+        "dem_candidate": "Timothy Michael Kaine",
+        "rep_candidate": "George Felix Allen",
+        "winner": "Democratic",
+        "margin": 1614,
+        "margin_pct": -0.5263896000547915,
+        "color": "#e1f5fe"
+      },
+      "11": {
+        "dem_votes": 177364,
+        "rep_votes": 102714,
+        "other_votes": 657,
+        "total_votes": 280735,
+        "dem_candidate": "Timothy Michael Kaine",
+        "rep_candidate": "George Felix Allen",
+        "winner": "Democratic",
+        "margin": 74650,
+        "margin_pct": -26.59091313872513,
+        "color": "#3182bd"
+      },
+      "2": {
+        "dem_votes": 137934,
+        "rep_votes": 137037,
+        "other_votes": 379,
+        "total_votes": 275350,
+        "dem_candidate": "Timothy Michael Kaine",
+        "rep_candidate": "George Felix Allen",
+        "winner": "Democratic",
+        "margin": 897,
+        "margin_pct": -0.3257672053749773,
+        "color": "#f7f7f7"
+      },
+      "3": {
+        "dem_votes": 198335,
+        "rep_votes": 95911,
+        "other_votes": 526,
+        "total_votes": 294772,
+        "dem_candidate": "Timothy Michael Kaine",
+        "rep_candidate": "George Felix Allen",
+        "winner": "Democratic",
+        "margin": 102424,
+        "margin_pct": -34.7468551965587,
+        "color": "#08519c"
+      },
+      "4": {
+        "dem_votes": 196148,
+        "rep_votes": 122312,
+        "other_votes": 562,
+        "total_votes": 319022,
+        "dem_candidate": "Timothy Michael Kaine",
+        "rep_candidate": "George Felix Allen",
+        "winner": "Democratic",
+        "margin": 73836,
+        "margin_pct": -23.144485333299897,
+        "color": "#3182bd"
+      },
+      "5": {
+        "dem_votes": 146158,
+        "rep_votes": 166562,
+        "other_votes": 358,
+        "total_votes": 313078,
+        "dem_candidate": "Timothy Michael Kaine",
+        "rep_candidate": "George Felix Allen",
+        "winner": "Republican",
+        "margin": 20404,
+        "margin_pct": 6.517225739272642,
+        "color": "#fb6a4a"
+      },
+      "6": {
+        "dem_votes": 112005,
+        "rep_votes": 171425,
+        "other_votes": 463,
+        "total_votes": 283893,
+        "dem_candidate": "Timothy Michael Kaine",
+        "rep_candidate": "George Felix Allen",
+        "winner": "Republican",
+        "margin": 59420,
+        "margin_pct": 20.93042096846347,
+        "color": "#cb181d"
+      },
+      "7": {
+        "dem_votes": 152284,
+        "rep_votes": 176624,
+        "other_votes": 646,
+        "total_votes": 329554,
+        "dem_candidate": "Timothy Michael Kaine",
+        "rep_candidate": "George Felix Allen",
+        "winner": "Republican",
+        "margin": 24340,
+        "margin_pct": 7.3857395146167235,
+        "color": "#fb6a4a"
+      },
+      "8": {
+        "dem_votes": 192281,
+        "rep_votes": 88440,
+        "other_votes": 667,
+        "total_votes": 281388,
+        "dem_candidate": "Timothy Michael Kaine",
+        "rep_candidate": "George Felix Allen",
+        "winner": "Democratic",
+        "margin": 103841,
+        "margin_pct": -36.90313730507342,
+        "color": "#08519c"
+      },
+      "9": {
+        "dem_votes": 100911,
+        "rep_votes": 165160,
+        "other_votes": 345,
+        "total_votes": 266416,
+        "dem_candidate": "Timothy Michael Kaine",
+        "rep_candidate": "George Felix Allen",
+        "winner": "Republican",
+        "margin": 64249,
+        "margin_pct": 24.11604408143655,
+        "color": "#cb181d"
+      }
+    }
+  }
+}

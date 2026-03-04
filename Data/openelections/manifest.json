@@ -1,0 +1,124 @@
+{
+  "files": [
+    {
+      "input_file": "Election Results_9b503992-5765-47e2-989d-5ed01f31621e.csv",
+      "output_file": "Data/openelections/2025/20251104__va__general__precinct__multi_office__9b503992_5765_47e2_989d_5ed01f31621e.csv",
+      "rows": 27798
+    },
+    {
+      "input_file": "Election Results_a6f500ae-6aed-4237-b29a-8a94a22dfbbb.csv",
+      "output_file": "Data/openelections/2023/20231107__va__general__precinct__multi_office__a6f500ae_6aed_4237_b29a_8a94a22dfbbb.csv",
+      "rows": 42770
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2008_President_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2008/20081104__va__general__precinct__president.csv",
+      "rows": 15073
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2008_U_S_Senate_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2008/20081104__va__general__precinct__u_s_senate.csv",
+      "rows": 11307
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2009_Attorney_General_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2009/20091103__va__general__precinct__attorney_general.csv",
+      "rows": 6174
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2009_Governor_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2009/20091103__va__general__precinct__governor.csv",
+      "rows": 6411
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2009_Lieutenant_Governor_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2009/20091103__va__general__precinct__lieutenant_governor.csv",
+      "rows": 6146
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2012_President_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2012/20121106__va__general__precinct__president.csv",
+      "rows": 14513
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2012_U_S_Senate_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2012/20121106__va__general__precinct__u_s_senate.csv",
+      "rows": 7348
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2013_Attorney_General_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2013/20131105__va__general__precinct__attorney_general.csv",
+      "rows": 7154
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2013_Lieutenant_Governor_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2013/20131105__va__general__precinct__lieutenant_governor.csv",
+      "rows": 7333
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2014_U_S_Senate_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2014/20141104__va__general__precinct__u_s_senate.csv",
+      "rows": 9077
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2016_President_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2016/20161108__va__general__precinct__president.csv",
+      "rows": 15497
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2017_Attorney_General_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2017/20171107__va__general__precinct__attorney_general.csv",
+      "rows": 6830
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2017_Governor_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2017/20171107__va__general__precinct__governor.csv",
+      "rows": 8954
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2017_Lieutenant_Governor_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2017/20171107__va__general__precinct__lieutenant_governor.csv",
+      "rows": 6774
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2018_U_S_Senate_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2018/20181106__va__general__precinct__u_s_senate.csv",
+      "rows": 9717
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2020_President_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2020/20201103__va__general__precinct__president.csv",
+      "rows": 10268
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2020_U_S_Senate_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2020/20201103__va__general__precinct__u_s_senate.csv",
+      "rows": 6923
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2021_Attorney_General_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2021/20211102__va__general__precinct__attorney_general.csv",
+      "rows": 7534
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2021_Governor_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2021/20211102__va__general__precinct__governor.csv",
+      "rows": 10062
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2021_Lieutenant_Governor_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2021/20211102__va__general__precinct__lieutenant_governor.csv",
+      "rows": 7701
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2024_President_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2024/20241105__va__general__precinct__president.csv",
+      "rows": 16840
+    },
+    {
+      "input_file": "Virginia_Elections_Database__2024_U_S_Senate_General_Election_including_precincts.csv",
+      "output_file": "Data/openelections/2024/20241105__va__general__precinct__u_s_senate.csv",
+      "rows": 7456
+    }
+  ]
+}

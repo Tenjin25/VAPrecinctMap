@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "scope": "congressional",
+    "contest_type": "president",
+    "year": 2024,
+    "district_count": 11,
+    "input_votes": 4388228,
+    "matched_votes": 3882717,
+    "match_coverage_pct": 88.48029318440153
+  },
+  "general": {
+    "results": {
+      "1": {
+        "dem_votes": 171656,
+        "rep_votes": 212644,
+        "other_votes": 7328,
+        "total_votes": 391628,
+        "dem_candidate": "Kamala D. Harris",
+        "rep_candidate": "Donald J. Trump",
+        "winner": "Republican",
+        "margin": 40988,
+        "margin_pct": 10.466054521127193,
+        "color": "#ef3b2c"
+      },
+      "10": {
+        "dem_votes": 214939,
+        "rep_votes": 166003,
+        "other_votes": 12317,
+        "total_votes": 393259,
+        "dem_candidate": "Kamala D. Harris",
+        "rep_candidate": "Donald J. Trump",
+        "winner": "Democratic",
+        "margin": 48936,
+        "margin_pct": -12.443707582026095,
+        "color": "#6baed6"
+      },
+      "11": {
+        "dem_votes": 230748,
+        "rep_votes": 104174,
+        "other_votes": 12138,
+        "total_votes": 347060,
+        "dem_candidate": "Kamala D. Harris",
+        "rep_candidate": "Donald J. Trump",
+        "winner": "Democratic",
+        "margin": 126574,
+        "margin_pct": -36.470350947962885,
+        "color": "#08519c"
+      },
+      "2": {
+        "dem_votes": 168950,
+        "rep_votes": 162542,
+        "other_votes": 5819,
+        "total_votes": 337311,
+        "dem_candidate": "Kamala D. Harris",
+        "rep_candidate": "Donald J. Trump",
+        "winner": "Democratic",
+        "margin": 6408,
+        "margin_pct": -1.8997305157554898,
+        "color": "#c6dbef"
+      },
+      "3": {
+        "dem_votes": 196146,
+        "rep_votes": 100052,
+        "other_votes": 5038,
+        "total_votes": 301236,
+        "dem_candidate": "Kamala D. Harris",
+        "rep_candidate": "Donald J. Trump",
+        "winner": "Democratic",
+        "margin": 96094,
+        "margin_pct": -31.899905721759687,
+        "color": "#08519c"
+      },
+      "4": {
+        "dem_votes": 222222,
+        "rep_votes": 145118,
+        "other_votes": 6444,
+        "total_votes": 373784,
+        "dem_candidate": "Kamala D. Harris",
+        "rep_candidate": "Donald J. Trump",
+        "winner": "Democratic",
+        "margin": 77104,
+        "margin_pct": -20.62795625280911,
+        "color": "#3182bd"
+      },
+      "5": {
+        "dem_votes": 170531,
+        "rep_votes": 218258,
+        "other_votes": 5379,
+        "total_votes": 394168,
+        "dem_candidate": "Kamala D. Harris",
+        "rep_candidate": "Donald J. Trump",
+        "winner": "Republican",
+        "margin": 47727,
+        "margin_pct": 12.108288851454201,
+        "color": "#ef3b2c"
+      },
+      "6": {
+        "dem_votes": 142068,
+        "rep_votes": 228455,
+        "other_votes": 6115,
+        "total_votes": 376638,
+        "dem_candidate": "Kamala D. Harris",
+        "rep_candidate": "Donald J. Trump",
+        "winner": "Republican",
+        "margin": 86387,
+        "margin_pct": 22.93634736802978,
+        "color": "#cb181d"
+      },
+      "7": {
+        "dem_votes": 201389,
+        "rep_votes": 202333,
+        "other_votes": 7230,
+        "total_votes": 410952,
+        "dem_candidate": "Kamala D. Harris",
+        "rep_candidate": "Donald J. Trump",
+        "winner": "Republican",
+        "margin": 944,
+        "margin_pct": 0.22971052580350015,
+        "color": "#f7f7f7"
+      },
+      "8": {
+        "dem_votes": 172500,
+        "rep_votes": 62300,
+        "other_votes": 8276,
+        "total_votes": 243076,
+        "dem_candidate": "Kamala D. Harris",
+        "rep_candidate": "Donald J. Trump",
+        "winner": "Democratic",
+        "margin": 110200,
+        "margin_pct": -45.33561519853873,
+        "color": "#08306b"
+      },
+      "9": {
+        "dem_votes": 82007,
+        "rep_votes": 228267,
+        "other_votes": 3330,
+        "total_votes": 313604,
+        "dem_candidate": "Kamala D. Harris",
+        "rep_candidate": "Donald J. Trump",
+        "winner": "Republican",
+        "margin": 146260,
+        "margin_pct": 46.63843573423808,
+        "color": "#67000d"
+      }
+    }
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "scope": "congressional",
+    "contest_type": "president",
+    "year": 2012,
+    "district_count": 11,
+    "input_votes": 3410709,
+    "matched_votes": 3299766,
+    "match_coverage_pct": 96.74721590144453
+  },
+  "general": {
+    "results": {
+      "1": {
+        "dem_votes": 133160,
+        "rep_votes": 169297,
+        "other_votes": 4853,
+        "total_votes": 307310,
+        "dem_candidate": "Barack Obama",
+        "rep_candidate": "Willard M. Romney",
+        "winner": "Republican",
+        "margin": 36137,
+        "margin_pct": 11.759135726139728,
+        "color": "#ef3b2c"
+      },
+      "10": {
+        "dem_votes": 150764,
+        "rep_votes": 155059,
+        "other_votes": 4967,
+        "total_votes": 310790,
+        "dem_candidate": "Barack Obama",
+        "rep_candidate": "Willard M. Romney",
+        "winner": "Republican",
+        "margin": 4295,
+        "margin_pct": 1.3819620965925543,
+        "color": "#fcae91"
+      },
+      "11": {
+        "dem_votes": 175955,
+        "rep_votes": 103989,
+        "other_votes": 4307,
+        "total_votes": 284251,
+        "dem_candidate": "Barack Obama",
+        "rep_candidate": "Willard M. Romney",
+        "winner": "Democratic",
+        "margin": 71966,
+        "margin_pct": -25.317764933104897,
+        "color": "#3182bd"
+      },
+      "2": {
+        "dem_votes": 134882,
+        "rep_votes": 141705,
+        "other_votes": 4587,
+        "total_votes": 281174,
+        "dem_candidate": "Barack Obama",
+        "rep_candidate": "Willard M. Romney",
+        "winner": "Republican",
+        "margin": 6823,
+        "margin_pct": 2.4266112798480655,
+        "color": "#fcae91"
+      },
+      "3": {
+        "dem_votes": 199795,
+        "rep_votes": 96026,
+        "other_votes": 4039,
+        "total_votes": 299860,
+        "dem_candidate": "Barack Obama",
+        "rep_candidate": "Willard M. Romney",
+        "winner": "Democratic",
+        "margin": 103769,
+        "margin_pct": -34.60581604748883,
+        "color": "#08519c"
+      },
+      "4": {
+        "dem_votes": 194566,
+        "rep_votes": 124821,
+        "other_votes": 4408,
+        "total_votes": 323795,
+        "dem_candidate": "Barack Obama",
+        "rep_candidate": "Willard M. Romney",
+        "winner": "Democratic",
+        "margin": 69745,
+        "margin_pct": -21.539863185039916,
+        "color": "#3182bd"
+      },
+      "5": {
+        "dem_votes": 144693,
+        "rep_votes": 167087,
+        "other_votes": 5492,
+        "total_votes": 317272,
+        "dem_candidate": "Barack Obama",
+        "rep_candidate": "Willard M. Romney",
+        "winner": "Republican",
+        "margin": 22394,
+        "margin_pct": 7.058296981769585,
+        "color": "#fb6a4a"
+      },
+      "6": {
+        "dem_votes": 109242,
+        "rep_votes": 171935,
+        "other_votes": 5457,
+        "total_votes": 286634,
+        "dem_candidate": "Barack Obama",
+        "rep_candidate": "Willard M. Romney",
+        "winner": "Republican",
+        "margin": 62693,
+        "margin_pct": 21.872143569848657,
+        "color": "#cb181d"
+      },
+      "7": {
+        "dem_votes": 144801,
+        "rep_votes": 183030,
+        "other_votes": 5184,
+        "total_votes": 333015,
+        "dem_candidate": "Barack Obama",
+        "rep_candidate": "Willard M. Romney",
+        "winner": "Republican",
+        "margin": 38229,
+        "margin_pct": 11.479663078239719,
+        "color": "#ef3b2c"
+      },
+      "8": {
+        "dem_votes": 190673,
+        "rep_votes": 90930,
+        "other_votes": 4411,
+        "total_votes": 286014,
+        "dem_candidate": "Barack Obama",
+        "rep_candidate": "Willard M. Romney",
+        "winner": "Democratic",
+        "margin": 99743,
+        "margin_pct": -34.873467732348765,
+        "color": "#08519c"
+      },
+      "9": {
+        "dem_votes": 93097,
+        "rep_votes": 170474,
+        "other_votes": 6079,
+        "total_votes": 269650,
+        "dem_candidate": "Barack Obama",
+        "rep_candidate": "Willard M. Romney",
+        "winner": "Republican",
+        "margin": 77377,
+        "margin_pct": 28.695345818653813,
+        "color": "#cb181d"
+      }
+    }
+  }
+}

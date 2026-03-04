@@ -696,8 +696,8 @@
       "year": 2020,
       "file": "state_senate_president_2020.json",
       "rows": 40,
-      "dem_total": 2406247,
-      "rep_total": 1969751,
+      "dem_total": 2406310,
+      "rep_total": 1969688,
       "major_party_contested": true
     },
     {
@@ -706,8 +706,8 @@
       "year": 2024,
       "file": "state_senate_president_2024.json",
       "rows": 40,
-      "dem_total": 2335395,
-      "rep_total": 2075085,
+      "dem_total": 2335566,
+      "rep_total": 2074914,
       "major_party_contested": true
     },
     {

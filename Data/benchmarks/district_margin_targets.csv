@@ -10,7 +10,8 @@ state_house,president,2020,82,-10.0,Expected Biden +10
 state_house,president,2020,89,-3.0,Expected Biden +3
 state_house,president,2020,99,5.5,Expected Trump +5 to +6
 state_senate,president,2020,4,0.3,Expected Trump +0.3
-state_senate,president,2020,12,6.0,Expected Trump +6
+state_senate,president,2020,12,5.9,Expected Trump +5.9
+state_senate,president,2024,12,-0.1,Expected Harris +0.1
 state_senate,president,2020,16,-17.0,Expected Biden +17
 state_senate,president,2020,20,2.0,Expected Trump +2
 state_senate,president,2020,24,-9.0,Expected Biden +9

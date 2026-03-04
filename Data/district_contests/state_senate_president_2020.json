@@ -50,15 +50,15 @@
         "color": "#3182bd"
       },
       "12": {
-        "dem_votes": 58282,
-        "rep_votes": 65880,
+        "dem_votes": 58345,
+        "rep_votes": 65817,
         "other_votes": 2475,
         "total_votes": 126637,
         "dem_candidate": "Joseph Robinette Biden, Jr",
         "rep_candidate": "Donald J. Trump",
         "winner": "Republican",
-        "margin": 7598,
-        "margin_pct": 5.999826275101274,
+        "margin": 7472,
+        "margin_pct": 5.900329287648949,
         "color": "#fb6a4a"
       },
       "13": {

@@ -18,7 +18,7 @@ An interactive, browser-based choropleth map of Virginia election results at the
    - [Step 4 — Build precinct centroid GeoJSON](#step-4--build-precinct-centroid-geojson)
    - [Step 5 — Build county-level contest slices](#step-5--build-county-level-contest-slices)
    - [Step 6 — Build district-level contest slices](#step-6--build-district-level-contest-slices)
-7. [Color Ramp](#color-ramp)
+7. [Color Ramp & Rating Categories](#color-ramp--rating-categories)
 8. [Locality Canonicalization](#locality-canonicalization)
 9. [Precinct Matching & Label Enrichment](#precinct-matching--label-enrichment)
 10. [District Vote Apportionment](#district-vote-apportionment)
@@ -374,20 +374,49 @@ One JSON file is written per `(scope, contest_type, year)` triple into `Data/dis
 
 ---
 
-## Color Ramp
+## Color Ramp & Rating Categories
 
-Both county and district layers use a **graduated 11-color margin ramp**, chosen to match the visual convention used by major election cartography outlets.  The ramp encodes two things simultaneously: party (red = Republican, blue = Democrat) and margin (light = competitive, dark = landslide).
+### Visualization modes
 
-| Margin threshold | Republican color | Democrat color |
+The map supports three distinct visualization modes selectable from the controls panel:
+
+| Mode | Description |
+|---|---|
+| **Margins** | Choropleth colored by the absolute two-party margin.  Encodes both *partisan direction* (red vs. blue) and *competitive intensity* (light = close, dark = blowout) in a single color. |
+| **Winners** | Flat solid color by winning party (uniform red or blue), regardless of margin size. Useful for quickly reading which party carried each unit. |
+| **Shift** | Change in the *signed* margin compared to the nearest prior election for the same contest type (e.g. 2020 → 2024 for President).  Positive shift = more Republican; negative shift = more Democratic. |
+
+### Rating category system
+
+Rather than using standard Cook Political Report-style labels, this project defines its own **8-tier rating vocabulary** that describes the *intensity* of a margin rather than just predicting a future outcome.  Each tier has a name that applies symmetrically to both parties.
+
+| Category | Margin range | Rationale |
 |---|---|---|
-| ≥ 40 % | `#67000d` (darkest red) | `#08306b` (darkest blue) |
-| ≥ 30 % | `#a50f15` | `#08519c` |
-| ≥ 20 % | `#cb181d` | `#3182bd` |
-| ≥ 10 % | `#ef3b2c` | `#6baed6` |
-| ≥ 5.5 % | `#fb6a4a` | `#9ecae1` |
-| ≥ 1.0 % | `#fcae91` | `#c6dbef` |
-| ≥ 0.5 % | `#fee8c8` | `#e1f5fe` |
-| < 0.5 % (tie) | `#f7f7f7` (grey) | `#f7f7f7` (grey) |
+| **Annihilation** | ≥ 40.00 % | One party effectively has no opposition |
+| **Dominant** | 30.00 – 39.99 % | One party is structurally dominant; the other is not competitive |
+| **Stronghold** | 20.00 – 29.99 % | Very safe territory; base-vote geography |
+| **Safe** | 10.00 – 19.99 % | Safely in hand barring a wave; roughly equivalent to "Safe" in standard ratings |
+| **Likely** | 5.50 – 9.99 % | Favored, but a modest wave can flip it; equivalent to "Likely" in standard ratings |
+| **Lean** | 1.00 – 5.49 % | Competitive with a clear lean; equivalent to "Lean" in standard ratings |
+| **Tilt** | 0.50 – 0.99 % | Extremely close; a small shift in turnout or late-deciding voters could flip the result |
+| **Tossup** | < 0.50 % | Statistical tie; shown in neutral grey |
+
+Category names are shorthand for margin ranges only — they carry no predictive or future-race connotation.
+
+### Color values
+
+| Category | Republican color | Democrat color |
+|---|---|---|
+| Annihilation (≥ 40 %) | `#67000d` | `#08306b` |
+| Dominant (30 – 39.99 %) | `#a50f15` | `#08519c` |
+| Stronghold (20 – 29.99 %) | `#cb181d` | `#3182bd` |
+| Safe (10 – 19.99 %) | `#ef3b2c` | `#6baed6` |
+| Likely (5.50 – 9.99 %) | `#fb6a4a` | `#9ecae1` |
+| Lean (1.00 – 5.49 %) | `#fcae91` | `#c6dbef` |
+| Tilt (0.50 – 0.99 %) | `#fee8c8` | `#e1f5fe` |
+| Tossup (< 0.50 %) | `#f7f7f7` (neutral grey) | `#f7f7f7` (neutral grey) |
+
+The red palette is drawn from the ColorBrewer `Reds` sequential scheme; the blue palette from `Blues`.  Both use the same 8-stop progression so that equivalent margins read as perceptually equivalent intensities across party lines.
 
 Margin is calculated as `|rep_votes - dem_votes| / total_votes × 100`.
 

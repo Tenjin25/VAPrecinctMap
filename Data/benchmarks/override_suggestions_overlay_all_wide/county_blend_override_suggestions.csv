@@ -1,0 +1,13 @@
+scope,county,param_group,current_value,suggested_value,delta_value,mae_gain,rmse_gain,over_threshold_delta,top_improved_targets
+state_house,CHESTERFIELD COUNTY,state_house_by_county,0.15,0.85,0.7,0.518028,0.560054,1,"[{""scope"": ""state_house"", ""contest_type"": ""president"", ""year"": 2020, ""district"": ""73"", ""abs_error_improvement_pct"": 7.771, ""baseline_abs_error_pct"": 7.793, ""trial_abs_error_pct"": 0.022}]"
+state_senate,CHESTERFIELD COUNTY,state_senate_by_county,0.15,0.0,-0.15,0.378355,0.335508,1,"[{""scope"": ""state_senate"", ""contest_type"": ""president"", ""year"": 2020, ""district"": ""12"", ""abs_error_improvement_pct"": 5.675, ""baseline_abs_error_pct"": 6.142, ""trial_abs_error_pct"": 0.467}]"
+state_senate,MONTGOMERY COUNTY,state_senate_by_county,0.7,0.0,-0.7,0.040247,0.015179,0,"[{""scope"": ""state_senate"", ""contest_type"": ""president"", ""year"": 2020, ""district"": ""4"", ""abs_error_improvement_pct"": 0.604, ""baseline_abs_error_pct"": 1.768, ""trial_abs_error_pct"": 1.164}]"
+congressional,CHESAPEAKE CITY,congressional_by_county,0.55,0.7,0.15,0.028131,0.001678,0,"[{""scope"": ""congressional"", ""contest_type"": ""president"", ""year"": 2020, ""district"": ""2"", ""abs_error_improvement_pct"": 0.422, ""baseline_abs_error_pct"": 0.443, ""trial_abs_error_pct"": 0.021}]"
+state_senate,ROANOKE COUNTY,state_senate_by_county,0.7,0.15,-0.55,0.021269,0.008793,0,"[{""scope"": ""state_senate"", ""contest_type"": ""president"", ""year"": 2020, ""district"": ""4"", ""abs_error_improvement_pct"": 0.319, ""baseline_abs_error_pct"": 1.768, ""trial_abs_error_pct"": 1.449}]"
+state_house,FAIRFAX COUNTY,state_house_by_county,0.0,0.0,0.0,0.0,0.0,0,[]
+state_house,HENRICO COUNTY,state_house_by_county,0.0,0.0,0.0,0.0,0.0,0,[]
+state_house,STAFFORD COUNTY,state_house_by_county,1.0,1.0,0.0,0.0,0.0,0,[]
+state_senate,FAIRFAX COUNTY,state_senate_by_county,0.0,0.0,0.0,0.0,0.0,0,[]
+state_senate,HENRICO COUNTY,state_senate_by_county,0.0,0.0,0.0,0.0,0.0,0,[]
+state_senate,ROANOKE CITY,state_senate_by_county,0.7,0.7,0.0,0.0,0.0,0,[]
+state_senate,SALEM CITY,state_senate_by_county,0.7,0.7,0.0,0.0,0.0,0,[]

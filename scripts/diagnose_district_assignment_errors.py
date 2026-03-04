@@ -254,6 +254,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--congressional-geojson", default="Data/tl_2024_51_cd119.geojson")
     parser.add_argument("--state-house-geojson", default="Data/tl_2022_51_sldl.geojson")
     parser.add_argument("--state-senate-geojson", default="Data/tl_2022_51_sldu.geojson")
+    parser.add_argument(
+        "--mapping-source",
+        choices=("overlay", "blockassign", "auto"),
+        default="overlay",
+        help=(
+            "How to build precinct->district splits. "
+            "'overlay' uses displayed district lines (current map vintages), "
+            "'blockassign' uses BlockAssign_* tables, "
+            "'auto' tries blockassign then falls back to overlay."
+        ),
+    )
     parser.add_argument("--margin-targets-csv", default=builder.DEFAULT_MARGIN_TARGETS_CSV)
     parser.add_argument("--scope", action="append", default=[])
     parser.add_argument("--contest-type", action="append", default=[])
@@ -309,6 +320,7 @@ def main() -> int:
         congressional_geojson,
         state_house_geojson,
         state_senate_geojson,
+        args.mapping_source,
     )
     locality_alias_map = builder.build_locality_alias_map(county_geojson)
     target_filter = {(scope, contest_type, year) for scope, contest_type, year, _ in targets.keys()}

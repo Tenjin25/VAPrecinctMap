@@ -176,8 +176,8 @@
       "year": 2020,
       "file": "congressional_president_2020.json",
       "rows": 11,
-      "dem_total": 2414688,
-      "rep_total": 1961310,
+      "dem_total": 2411996,
+      "rep_total": 1964002,
       "major_party_contested": true
     },
     {
@@ -186,8 +186,8 @@
       "year": 2024,
       "file": "congressional_president_2024.json",
       "rows": 11,
-      "dem_total": 2347474,
-      "rep_total": 2063006,
+      "dem_total": 2337809,
+      "rep_total": 2072671,
       "major_party_contested": true
     },
     {
@@ -426,8 +426,8 @@
       "year": 2020,
       "file": "state_house_president_2020.json",
       "rows": 100,
-      "dem_total": 2393401,
-      "rep_total": 1982597,
+      "dem_total": 2410977,
+      "rep_total": 1965021,
       "major_party_contested": true
     },
     {
@@ -696,8 +696,8 @@
       "year": 2020,
       "file": "state_senate_president_2020.json",
       "rows": 40,
-      "dem_total": 2414362,
-      "rep_total": 1961636,
+      "dem_total": 2406247,
+      "rep_total": 1969751,
       "major_party_contested": true
     },
     {

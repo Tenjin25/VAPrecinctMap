@@ -1,0 +1,157 @@
+{
+  "targets_file": "Data\\benchmarks\\district_margin_targets.csv",
+  "targets_used": 15,
+  "scope_filters": [],
+  "contest_filters": [],
+  "year_filters": [],
+  "baseline_metrics": {
+    "target_count": 15,
+    "missing_count": 0,
+    "over_threshold_count": 11,
+    "mae": 3.0123240520840544,
+    "rmse": 3.8941193977170405,
+    "max_abs_error": 7.792505272652192
+  },
+  "grid": [
+    0.0,
+    0.15,
+    0.3,
+    0.5,
+    0.7,
+    0.85,
+    1.0
+  ],
+  "evaluations_run": 75,
+  "candidate_counts": {
+    "congressional_by_county": 1,
+    "state_house_by_county": 4,
+    "state_senate_by_county": 7
+  },
+  "suggestions_count": 12,
+  "top_suggestions": [
+    {
+      "scope": "state_house",
+      "county": "CHESTERFIELD COUNTY",
+      "param_group": "state_house_by_county",
+      "current_value": 0.15,
+      "suggested_value": 0.85,
+      "delta_value": 0.7,
+      "mae_gain": 0.518028,
+      "rmse_gain": 0.560054,
+      "over_threshold_delta": 1,
+      "top_improved_targets": "[{\"scope\": \"state_house\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"73\", \"abs_error_improvement_pct\": 7.771, \"baseline_abs_error_pct\": 7.793, \"trial_abs_error_pct\": 0.022}]"
+    },
+    {
+      "scope": "state_senate",
+      "county": "CHESTERFIELD COUNTY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.15,
+      "suggested_value": 0.0,
+      "delta_value": -0.15,
+      "mae_gain": 0.378355,
+      "rmse_gain": 0.335508,
+      "over_threshold_delta": 1,
+      "top_improved_targets": "[{\"scope\": \"state_senate\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"12\", \"abs_error_improvement_pct\": 5.675, \"baseline_abs_error_pct\": 6.142, \"trial_abs_error_pct\": 0.467}]"
+    },
+    {
+      "scope": "state_senate",
+      "county": "MONTGOMERY COUNTY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.7,
+      "suggested_value": 0.0,
+      "delta_value": -0.7,
+      "mae_gain": 0.040247,
+      "rmse_gain": 0.015179,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"state_senate\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"4\", \"abs_error_improvement_pct\": 0.604, \"baseline_abs_error_pct\": 1.768, \"trial_abs_error_pct\": 1.164}]"
+    },
+    {
+      "scope": "congressional",
+      "county": "CHESAPEAKE CITY",
+      "param_group": "congressional_by_county",
+      "current_value": 0.55,
+      "suggested_value": 0.7,
+      "delta_value": 0.15,
+      "mae_gain": 0.028131,
+      "rmse_gain": 0.001678,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"congressional\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"2\", \"abs_error_improvement_pct\": 0.422, \"baseline_abs_error_pct\": 0.443, \"trial_abs_error_pct\": 0.021}]"
+    },
+    {
+      "scope": "state_senate",
+      "county": "ROANOKE COUNTY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.7,
+      "suggested_value": 0.15,
+      "delta_value": -0.55,
+      "mae_gain": 0.021269,
+      "rmse_gain": 0.008793,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"state_senate\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"4\", \"abs_error_improvement_pct\": 0.319, \"baseline_abs_error_pct\": 1.768, \"trial_abs_error_pct\": 1.449}]"
+    },
+    {
+      "scope": "state_house",
+      "county": "FAIRFAX COUNTY",
+      "param_group": "state_house_by_county",
+      "current_value": 0.0,
+      "suggested_value": 0.0,
+      "delta_value": 0.0,
+      "mae_gain": 0.0,
+      "rmse_gain": 0.0,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[]"
+    },
+    {
+      "scope": "state_house",
+      "county": "HENRICO COUNTY",
+      "param_group": "state_house_by_county",
+      "current_value": 0.0,
+      "suggested_value": 0.0,
+      "delta_value": 0.0,
+      "mae_gain": 0.0,
+      "rmse_gain": 0.0,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[]"
+    },
+    {
+      "scope": "state_house",
+      "county": "STAFFORD COUNTY",
+      "param_group": "state_house_by_county",
+      "current_value": 1.0,
+      "suggested_value": 1.0,
+      "delta_value": 0.0,
+      "mae_gain": 0.0,
+      "rmse_gain": 0.0,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[]"
+    },
+    {
+      "scope": "state_senate",
+      "county": "FAIRFAX COUNTY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.0,
+      "suggested_value": 0.0,
+      "delta_value": 0.0,
+      "mae_gain": 0.0,
+      "rmse_gain": 0.0,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[]"
+    },
+    {
+      "scope": "state_senate",
+      "county": "HENRICO COUNTY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.0,
+      "suggested_value": 0.0,
+      "delta_value": 0.0,
+      "mae_gain": 0.0,
+      "rmse_gain": 0.0,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[]"
+    }
+  ],
+  "outputs": {
+    "suggestions_csv": "Data\\benchmarks\\override_suggestions_overlay_all_wide\\county_blend_override_suggestions.csv",
+    "summary_json": "Data\\benchmarks\\override_suggestions_overlay_all_wide\\county_blend_override_suggestions_summary.json"
+  }
+}

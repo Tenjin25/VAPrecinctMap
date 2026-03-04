@@ -1,0 +1,189 @@
+{
+  "targets_file": "Data\\benchmarks\\district_margin_targets.csv",
+  "targets_used": 15,
+  "scope_filters": [],
+  "contest_filters": [],
+  "year_filters": [],
+  "outputs": {
+    "raw_error_report_csv": "Data\\benchmarks\\diagnostics_overlay_all\\benchmark_raw_error_report.csv",
+    "county_contributions_csv": "Data\\benchmarks\\diagnostics_overlay_all\\benchmark_county_contributions.csv",
+    "county_coverage_csv": "Data\\benchmarks\\diagnostics_overlay_all\\benchmark_county_coverage.csv",
+    "summary_json": "Data\\benchmarks\\diagnostics_overlay_all\\benchmark_diagnostics_summary.json"
+  },
+  "worst_targets": [
+    {
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "10",
+      "target_margin_pct": -18.0,
+      "raw_margin_pct": -17.946048462558384,
+      "raw_abs_error_pct": 0.05395153744161618,
+      "top_counties": [
+        "LOUDOUN COUNTY:55.0% (alloc 70.4%)",
+        "PRINCE WILLIAM COUNTY:23.9% (alloc 74.5%)",
+        "FAUQUIER COUNTY:10.7% (alloc 65.1%)",
+        "MANASSAS CITY:4.2% (alloc 71.1%)",
+        "FAIRFAX COUNTY:3.5% (alloc 67.9%)",
+        "MANASSAS PARK CITY:1.5% (alloc 73.5%)"
+      ]
+    },
+    {
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "2",
+      "target_margin_pct": -2.0,
+      "raw_margin_pct": -2.4432161422564627,
+      "raw_abs_error_pct": 0.44321614225646266,
+      "top_counties": [
+        "VIRGINIA BEACH CITY:56.5% (alloc 57.9%)",
+        "CHESAPEAKE CITY:17.0% (alloc 70.6%)",
+        "SUFFOLK CITY:12.3% (alloc 62.6%)",
+        "ISLE OF WIGHT COUNTY:5.8% (alloc 58.1%)",
+        "ACCOMACK COUNTY:4.2% (alloc 51.2%)",
+        "NORTHAMPTON COUNTY:1.7% (alloc 66.9%)"
+      ]
+    },
+    {
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "7",
+      "target_margin_pct": -7.0,
+      "raw_margin_pct": -7.3987411614363685,
+      "raw_abs_error_pct": 0.3987411614363685,
+      "top_counties": [
+        "PRINCE WILLIAM COUNTY:32.9% (alloc 75.5%)",
+        "STAFFORD COUNTY:20.1% (alloc 62.7%)",
+        "SPOTSYLVANIA COUNTY:19.0% (alloc 64.6%)",
+        "CULPEPER COUNTY:6.8% (alloc 56.0%)",
+        "ORANGE COUNTY:5.2% (alloc 47.9%)",
+        "CAROLINE COUNTY:4.1% (alloc 49.1%)"
+      ]
+    },
+    {
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2024,
+      "district": "1",
+      "target_margin_pct": 3.0,
+      "raw_margin_pct": 4.01222757327965,
+      "raw_abs_error_pct": 1.0122275732796497,
+      "top_counties": [
+        "HENRICO COUNTY:22.2% (alloc 7.8%)",
+        "CHESTERFIELD COUNTY:20.7% (alloc 21.8%)",
+        "HANOVER COUNTY:12.6% (alloc 9.8%)",
+        "JAMES CITY COUNTY:10.8% (alloc 1.7%)",
+        "YORK COUNTY:8.3% (alloc 2.4%)",
+        "GLOUCESTER COUNTY:4.9% (alloc 1.2%)"
+      ]
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "41",
+      "target_margin_pct": 0.8,
+      "raw_margin_pct": 3.096081978050246,
+      "raw_abs_error_pct": 2.296081978050246,
+      "top_counties": [
+        "MONTGOMERY COUNTY:68.9% (alloc 63.8%)",
+        "ROANOKE COUNTY:31.1% (alloc 65.5%)"
+      ]
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "73",
+      "target_margin_pct": 6.5,
+      "raw_margin_pct": 6.522088412781252,
+      "raw_abs_error_pct": 0.022088412781251954,
+      "top_counties": [
+        "CHESTERFIELD COUNTY:100.0% (alloc 70.1%)"
+      ]
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "82",
+      "target_margin_pct": -10.0,
+      "raw_margin_pct": -12.934059567272204,
+      "raw_abs_error_pct": 2.934059567272204,
+      "top_counties": [
+        "PETERSBURG CITY:31.3% (alloc 66.8%)",
+        "DINWIDDIE COUNTY:29.6% (alloc 55.2%)",
+        "PRINCE GEORGE COUNTY:29.1% (alloc 58.7%)",
+        "SURRY COUNTY:9.9% (alloc 58.8%)"
+      ]
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "89",
+      "target_margin_pct": -3.0,
+      "raw_margin_pct": -6.5913943274540605,
+      "raw_abs_error_pct": 3.5913943274540605,
+      "top_counties": [
+        "CHESAPEAKE CITY:66.3% (alloc 71.7%)",
+        "SUFFOLK CITY:33.7% (alloc 62.3%)"
+      ]
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "99",
+      "target_margin_pct": 5.5,
+      "raw_margin_pct": -0.9168736055811234,
+      "raw_abs_error_pct": 6.416873605581124,
+      "top_counties": [
+        "VIRGINIA BEACH CITY:100.0% (alloc 57.8%)"
+      ]
+    },
+    {
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "12",
+      "target_margin_pct": 6.0,
+      "raw_margin_pct": 6.466704120767042,
+      "raw_abs_error_pct": 0.4667041207670417,
+      "top_counties": [
+        "CHESTERFIELD COUNTY:92.8% (alloc 70.2%)",
+        "COLONIAL HEIGHTS CITY:7.2% (alloc 63.1%)"
+      ]
+    },
+    {
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "16",
+      "target_margin_pct": -17.0,
+      "raw_margin_pct": -16.74480535881114,
+      "raw_abs_error_pct": 0.2551946411888615,
+      "top_counties": [
+        "HENRICO COUNTY:100.0% (alloc 59.1%)",
+        "HANOVER COUNTY:0.0% (alloc 61.4%)"
+      ]
+    },
+    {
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "20",
+      "target_margin_pct": 2.0,
+      "raw_margin_pct": -3.3466301168821246,
+      "raw_abs_error_pct": 5.346630116882125,
+      "top_counties": [
+        "VIRGINIA BEACH CITY:67.0% (alloc 57.8%)",
+        "ACCOMACK COUNTY:15.6% (alloc 51.2%)",
+        "NORFOLK CITY:11.2% (alloc 64.9%)",
+        "NORTHAMPTON COUNTY:6.2% (alloc 66.9%)"
+      ]
+    }
+  ]
+}

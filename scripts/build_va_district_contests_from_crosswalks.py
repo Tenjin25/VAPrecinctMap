@@ -37,16 +37,17 @@ CONGRESSIONAL_PARTY_BLEND_BY_COUNTY = {
     "CHESAPEAKE CITY": 0.55,
 }
 STATE_HOUSE_PARTY_BLEND_BY_COUNTY = {
+    "CHESTERFIELD COUNTY": 0.85,
     "FAIRFAX COUNTY": 0.00,
     "HENRICO COUNTY": 0.00,
     "STAFFORD COUNTY": 1.00,
 }
 STATE_SENATE_PARTY_BLEND_BY_COUNTY = {
-    "CHESTERFIELD COUNTY": 0.15,
+    "CHESTERFIELD COUNTY": 0.00,
     "FAIRFAX COUNTY": 0.00,
     "HENRICO COUNTY": 0.00,
-    "MONTGOMERY COUNTY": 0.70,
-    "ROANOKE COUNTY": 0.70,
+    "MONTGOMERY COUNTY": 0.00,
+    "ROANOKE COUNTY": 0.15,
     "ROANOKE CITY": 0.70,
     "SALEM CITY": 0.70,
 }
@@ -544,41 +545,51 @@ def build_all_scope_mappings(
     congressional_geojson: Path,
     state_house_geojson: Path,
     state_senate_geojson: Path,
+    mapping_source: str = "overlay",
 ) -> dict[str, dict]:
-    county_names = load_county_name_map(county_geojson)
-    try:
-        # Preferred path: use Census block assignment tables so split VTDs/precincts
-        # are apportioned by block-level assignment rather than polygon overlays.
+    mapping_source = (mapping_source or "overlay").strip().lower()
+
+    def build_overlay() -> dict[str, dict]:
+        # Build mappings from displayed district geometries over displayed precinct
+        # polygons, so contest precinct IDs align with the rendered map lines.
+        precinct_polys = load_precinct_polygons(precinct_geojson)
+        cd_polys = gpd.read_file(congressional_geojson)
+        cd_col = pick_district_column(cd_polys, ["DISTRICT", "CD119FP", "CD118FP", "district_id", "district"])
+        congressional_map = build_scope_mapping_from_precinct_overlay(precinct_polys, cd_polys, cd_col)
+        sldl_polys = gpd.read_file(state_house_geojson)
+        sldu_polys = gpd.read_file(state_senate_geojson)
+        sldl_col = pick_district_column(sldl_polys, ["SLDLST", "DISTRICT", "district_id", "district"])
+        sldu_col = pick_district_column(sldu_polys, ["SLDUST", "DISTRICT", "district_id", "district"])
+        return {
+            "congressional": congressional_map,
+            "state_house": build_scope_mapping_from_precinct_overlay(precinct_polys, sldl_polys, sldl_col),
+            "state_senate": build_scope_mapping_from_precinct_overlay(precinct_polys, sldu_polys, sldu_col),
+        }
+
+    def build_blockassign() -> dict[str, dict]:
+        county_names = load_county_name_map(county_geojson)
         weights = load_block_weights(tabblock_zip)
         vtd_df = load_assign_df(assign_zip, ASSIGN_MEMBER_VTD, keep_county=True)
         cd_df = load_assign_df(assign_zip, ASSIGN_MEMBER_CD, keep_county=False)
         sldl_df = load_assign_df(assign_zip, ASSIGN_MEMBER_SLDL, keep_county=False)
         sldu_df = load_assign_df(assign_zip, ASSIGN_MEMBER_SLDU, keep_county=False)
-
         return {
             "congressional": build_scope_mapping(weights, vtd_df, cd_df, county_names),
             "state_house": build_scope_mapping(weights, vtd_df, sldl_df, county_names),
             "state_senate": build_scope_mapping(weights, vtd_df, sldu_df, county_names),
         }
-    except (FileNotFoundError, ValueError, KeyError) as exc:
-        # Fallback preserves previous behavior if assignment files are unavailable.
-        print(f"WARNING: Falling back to precinct-overlay district mappings: {exc}")
 
-    # NOTE: fallback mappings are built from displayed district geometries over
-    # displayed precinct polygons so contest rows keyed by precinct code align with map IDs.
-    precinct_polys = load_precinct_polygons(precinct_geojson)
-    cd_polys = gpd.read_file(congressional_geojson)
-    cd_col = pick_district_column(cd_polys, ["DISTRICT", "CD119FP", "CD118FP", "district_id", "district"])
-    congressional_map = build_scope_mapping_from_precinct_overlay(precinct_polys, cd_polys, cd_col)
-    sldl_polys = gpd.read_file(state_house_geojson)
-    sldu_polys = gpd.read_file(state_senate_geojson)
-    sldl_col = pick_district_column(sldl_polys, ["SLDLST", "DISTRICT", "district_id", "district"])
-    sldu_col = pick_district_column(sldu_polys, ["SLDUST", "DISTRICT", "district_id", "district"])
-    return {
-        "congressional": congressional_map,
-        "state_house": build_scope_mapping_from_precinct_overlay(precinct_polys, sldl_polys, sldl_col),
-        "state_senate": build_scope_mapping_from_precinct_overlay(precinct_polys, sldu_polys, sldu_col),
-    }
+    if mapping_source == "overlay":
+        return build_overlay()
+    if mapping_source == "blockassign":
+        return build_blockassign()
+    if mapping_source == "auto":
+        try:
+            return build_blockassign()
+        except (FileNotFoundError, ValueError, KeyError) as exc:
+            print(f"WARNING: Falling back to overlay mappings: {exc}")
+            return build_overlay()
+    raise ValueError(f"Unsupported mapping_source: {mapping_source!r}")
 
 
 def load_district_margin_targets(csv_path: Path) -> dict[tuple[str, str, int, str], float]:
@@ -1455,6 +1466,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--congressional-geojson", default="Data/tl_2024_51_cd119.geojson")
     parser.add_argument("--state-house-geojson", default="Data/tl_2022_51_sldl.geojson")
     parser.add_argument("--state-senate-geojson", default="Data/tl_2022_51_sldu.geojson")
+    parser.add_argument(
+        "--mapping-source",
+        choices=("overlay", "blockassign", "auto"),
+        default="overlay",
+        help=(
+            "How to build precinct->district splits. "
+            "'overlay' uses displayed district lines (current map vintages), "
+            "'blockassign' uses BlockAssign_* tables, "
+            "'auto' tries blockassign then falls back to overlay."
+        ),
+    )
     parser.add_argument("--margin-targets-csv", default=DEFAULT_MARGIN_TARGETS_CSV)
     parser.add_argument(
         "--calibration-threshold-pct",
@@ -1503,6 +1525,7 @@ def main() -> int:
         congressional_geojson,
         state_house_geojson,
         state_senate_geojson,
+        args.mapping_source,
     )
     locality_alias_map = build_locality_alias_map(county_geojson)
     district_acc, totals, coverage = build_district_contests(openelections_dir, scope_maps, locality_alias_map)

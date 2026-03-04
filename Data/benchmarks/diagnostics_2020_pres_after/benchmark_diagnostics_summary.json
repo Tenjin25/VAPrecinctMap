@@ -21,15 +21,15 @@
       "year": 2020,
       "district": "10",
       "target_margin_pct": -18.0,
-      "raw_margin_pct": -19.210566768029718,
-      "raw_abs_error_pct": 1.210566768029718,
+      "raw_margin_pct": -17.946048462558384,
+      "raw_abs_error_pct": 0.05395153744161618,
       "top_counties": [
-        "LOUDOUN COUNTY:48.3% (alloc 70.4%)",
-        "FAIRFAX COUNTY:24.2% (alloc 68.4%)",
-        "FREDERICK COUNTY:10.5% (alloc 59.8%)",
-        "PRINCE WILLIAM COUNTY:7.5% (alloc 74.4%)",
-        "MANASSAS CITY:3.6% (alloc 71.1%)",
-        "WINCHESTER CITY:2.6% (alloc 67.3%)"
+        "LOUDOUN COUNTY:55.0% (alloc 70.4%)",
+        "PRINCE WILLIAM COUNTY:23.9% (alloc 74.5%)",
+        "FAUQUIER COUNTY:10.7% (alloc 65.1%)",
+        "MANASSAS CITY:4.2% (alloc 71.1%)",
+        "FAIRFAX COUNTY:3.5% (alloc 67.9%)",
+        "MANASSAS PARK CITY:1.5% (alloc 73.5%)"
       ]
     },
     {
@@ -38,15 +38,15 @@
       "year": 2020,
       "district": "2",
       "target_margin_pct": -2.0,
-      "raw_margin_pct": -6.607386938808525,
-      "raw_abs_error_pct": 4.607386938808525,
+      "raw_margin_pct": -2.4432161422564627,
+      "raw_abs_error_pct": 0.44321614225646266,
       "top_counties": [
-        "VIRGINIA BEACH CITY:61.5% (alloc 57.9%)",
-        "YORK COUNTY:10.5% (alloc 72.7%)",
-        "NORFOLK CITY:9.2% (alloc 64.6%)",
-        "HAMPTON CITY:5.3% (alloc 68.0%)",
-        "ACCOMACK COUNTY:4.6% (alloc 51.2%)",
-        "JAMES CITY COUNTY:3.2% (alloc 75.9%)"
+        "VIRGINIA BEACH CITY:56.5% (alloc 57.9%)",
+        "CHESAPEAKE CITY:17.0% (alloc 70.6%)",
+        "SUFFOLK CITY:12.3% (alloc 62.6%)",
+        "ISLE OF WIGHT COUNTY:5.8% (alloc 58.1%)",
+        "ACCOMACK COUNTY:4.2% (alloc 51.2%)",
+        "NORTHAMPTON COUNTY:1.7% (alloc 66.9%)"
       ]
     },
     {
@@ -55,15 +55,15 @@
       "year": 2020,
       "district": "7",
       "target_margin_pct": -7.0,
-      "raw_margin_pct": -1.5643910909550327,
-      "raw_abs_error_pct": 5.4356089090449675,
+      "raw_margin_pct": -7.3987411614363685,
+      "raw_abs_error_pct": 0.3987411614363685,
       "top_counties": [
-        "CHESTERFIELD COUNTY:31.4% (alloc 71.4%)",
-        "HENRICO COUNTY:29.4% (alloc 60.3%)",
-        "SPOTSYLVANIA COUNTY:12.8% (alloc 64.4%)",
-        "CULPEPER COUNTY:5.9% (alloc 56.0%)",
-        "LOUISA COUNTY:4.8% (alloc 53.1%)",
-        "ORANGE COUNTY:4.5% (alloc 47.9%)"
+        "PRINCE WILLIAM COUNTY:32.9% (alloc 75.5%)",
+        "STAFFORD COUNTY:20.1% (alloc 62.7%)",
+        "SPOTSYLVANIA COUNTY:19.0% (alloc 64.6%)",
+        "CULPEPER COUNTY:6.8% (alloc 56.0%)",
+        "ORANGE COUNTY:5.2% (alloc 47.9%)",
+        "CAROLINE COUNTY:4.1% (alloc 49.1%)"
       ]
     },
     {
@@ -72,10 +72,11 @@
       "year": 2020,
       "district": "41",
       "target_margin_pct": 0.8,
-      "raw_margin_pct": -40.039081648639005,
-      "raw_abs_error_pct": 40.839081648639,
+      "raw_margin_pct": 3.096081978050246,
+      "raw_abs_error_pct": 2.296081978050246,
       "top_counties": [
-        "FAIRFAX COUNTY:100.0% (alloc 69.0%)"
+        "MONTGOMERY COUNTY:68.9% (alloc 63.8%)",
+        "ROANOKE COUNTY:31.1% (alloc 65.5%)"
       ]
     },
     {
@@ -84,10 +85,10 @@
       "year": 2020,
       "district": "73",
       "target_margin_pct": 6.5,
-      "raw_margin_pct": -20.231393009157273,
-      "raw_abs_error_pct": 26.731393009157273,
+      "raw_margin_pct": -1.2925052726522053,
+      "raw_abs_error_pct": 7.792505272652205,
       "top_counties": [
-        "HENRICO COUNTY:100.0% (alloc 59.5%)"
+        "CHESTERFIELD COUNTY:100.0% (alloc 71.1%)"
       ]
     },
     {
@@ -96,10 +97,13 @@
       "year": 2020,
       "district": "82",
       "target_margin_pct": -10.0,
-      "raw_margin_pct": -0.4945415931098128,
-      "raw_abs_error_pct": 9.505458406890186,
+      "raw_margin_pct": -12.934059567272204,
+      "raw_abs_error_pct": 2.934059567272204,
       "top_counties": [
-        "VIRGINIA BEACH CITY:100.0% (alloc 57.8%)"
+        "PETERSBURG CITY:31.3% (alloc 66.8%)",
+        "DINWIDDIE COUNTY:29.6% (alloc 55.2%)",
+        "PRINCE GEORGE COUNTY:29.1% (alloc 58.7%)",
+        "SURRY COUNTY:9.9% (alloc 58.8%)"
       ]
     },
     {
@@ -108,10 +112,11 @@
       "year": 2020,
       "district": "89",
       "target_margin_pct": -3.0,
-      "raw_margin_pct": -55.68162429305102,
-      "raw_abs_error_pct": 52.68162429305102,
+      "raw_margin_pct": -6.5913943274540605,
+      "raw_abs_error_pct": 3.5913943274540605,
       "top_counties": [
-        "NORFOLK CITY:100.0% (alloc 65.9%)"
+        "CHESAPEAKE CITY:66.3% (alloc 71.7%)",
+        "SUFFOLK CITY:33.7% (alloc 62.3%)"
       ]
     },
     {
@@ -120,15 +125,10 @@
       "year": 2020,
       "district": "99",
       "target_margin_pct": 5.5,
-      "raw_margin_pct": 14.711919295794305,
-      "raw_abs_error_pct": 9.211919295794305,
+      "raw_margin_pct": -0.9168736055811317,
+      "raw_abs_error_pct": 6.416873605581132,
       "top_counties": [
-        "KING GEORGE COUNTY:30.6% (alloc 69.0%)",
-        "WESTMORELAND COUNTY:21.3% (alloc 53.6%)",
-        "NORTHUMBERLAND COUNTY:16.8% (alloc 61.4%)",
-        "LANCASTER COUNTY:15.4% (alloc 58.8%)",
-        "RICHMOND COUNTY:8.8% (alloc 57.4%)",
-        "CAROLINE COUNTY:7.1% (alloc 48.8%)"
+        "VIRGINIA BEACH CITY:100.0% (alloc 57.8%)"
       ]
     },
     {
@@ -137,11 +137,11 @@
       "year": 2020,
       "district": "12",
       "target_margin_pct": 6.0,
-      "raw_margin_pct": -11.851236130780464,
-      "raw_abs_error_pct": 17.851236130780464,
+      "raw_margin_pct": -0.14203273473329633,
+      "raw_abs_error_pct": 6.142032734733296,
       "top_counties": [
-        "HENRICO COUNTY:90.2% (alloc 59.0%)",
-        "HANOVER COUNTY:9.8% (alloc 61.5%)"
+        "CHESTERFIELD COUNTY:93.0% (alloc 71.1%)",
+        "COLONIAL HEIGHTS CITY:7.0% (alloc 63.1%)"
       ]
     },
     {
@@ -150,15 +150,11 @@
       "year": 2020,
       "district": "16",
       "target_margin_pct": -17.0,
-      "raw_margin_pct": -39.32504027509419,
-      "raw_abs_error_pct": 22.32504027509419,
+      "raw_margin_pct": -16.74480535881114,
+      "raw_abs_error_pct": 0.2551946411888615,
       "top_counties": [
-        "RICHMOND CITY:31.5% (alloc 66.0%)",
-        "CHESTERFIELD COUNTY:31.3% (alloc 71.4%)",
-        "PETERSBURG CITY:14.7% (alloc 66.8%)",
-        "HOPEWELL CITY:10.0% (alloc 57.3%)",
-        "PRINCE GEORGE COUNTY:6.9% (alloc 59.4%)",
-        "DINWIDDIE COUNTY:5.6% (alloc 55.7%)"
+        "HENRICO COUNTY:100.0% (alloc 59.1%)",
+        "HANOVER COUNTY:0.0% (alloc 61.4%)"
       ]
     },
     {
@@ -167,15 +163,13 @@
       "year": 2020,
       "district": "20",
       "target_margin_pct": 2.0,
-      "raw_margin_pct": 21.041262767710155,
-      "raw_abs_error_pct": 19.041262767710155,
+      "raw_margin_pct": -3.3466301168821246,
+      "raw_abs_error_pct": 5.346630116882125,
       "top_counties": [
-        "HENRY COUNTY:27.6% (alloc 51.9%)",
-        "DANVILLE CITY:17.0% (alloc 61.8%)",
-        "PATRICK COUNTY:10.1% (alloc 38.7%)",
-        "PITTSYLVANIA COUNTY:9.8% (alloc 53.7%)",
-        "CARROLL COUNTY:9.4% (alloc 36.9%)",
-        "HALIFAX COUNTY:9.0% (alloc 58.0%)"
+        "VIRGINIA BEACH CITY:67.0% (alloc 57.8%)",
+        "ACCOMACK COUNTY:15.6% (alloc 51.2%)",
+        "NORFOLK CITY:11.2% (alloc 64.9%)",
+        "NORTHAMPTON COUNTY:6.2% (alloc 66.9%)"
       ]
     },
     {
@@ -184,15 +178,14 @@
       "year": 2020,
       "district": "24",
       "target_margin_pct": -9.0,
-      "raw_margin_pct": 29.94389845211618,
-      "raw_abs_error_pct": 38.94389845211618,
+      "raw_margin_pct": -10.750774884844839,
+      "raw_abs_error_pct": 1.750774884844839,
       "top_counties": [
-        "AUGUSTA COUNTY:35.3% (alloc 50.2%)",
-        "ROCKINGHAM COUNTY:17.4% (alloc 41.6%)",
-        "CULPEPER COUNTY:11.2% (alloc 55.7%)",
-        "STAUNTON CITY:10.9% (alloc 69.8%)",
-        "GREENE COUNTY:9.4% (alloc 62.7%)",
-        "WAYNESBORO CITY:9.0% (alloc 63.8%)"
+        "NEWPORT NEWS CITY:47.8% (alloc 60.0%)",
+        "YORK COUNTY:36.0% (alloc 72.7%)",
+        "POQUOSON CITY:7.3% (alloc 64.4%)",
+        "WILLIAMSBURG CITY:6.4% (alloc 79.9%)",
+        "JAMES CITY COUNTY:2.5% (alloc 76.4%)"
       ]
     }
   ]

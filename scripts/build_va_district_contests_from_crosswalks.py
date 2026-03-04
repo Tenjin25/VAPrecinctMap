@@ -29,6 +29,13 @@ SCOPES = ("congressional", "state_house", "state_senate")
 STATEWIDE_CONTESTS = ("president", "us_senate", "governor", "lieutenant_governor", "attorney_general")
 DISTRICT_CONTESTS = ("state_house", "state_senate")
 ALL_CONTESTS = set(STATEWIDE_CONTESTS) | set(DISTRICT_CONTESTS)
+# Blend unmatched-vote allocation toward party-specific district shares while
+# retaining a strong anchor to county-level matched turnout shares.
+PARTY_FALLBACK_BLEND = 0.15
+PARTY_FALLBACK_BLEND_CONGRESSIONAL = 0.35
+CONGRESSIONAL_PARTY_BLEND_BY_COUNTY = {
+    "CHESAPEAKE CITY": 0.55,
+}
 
 
 def find_member(zip_path: Path, suffix: str) -> str:
@@ -699,6 +706,45 @@ def resolve_precinct_splits(
     return combine_candidate_splits(county, candidates, precinct_map, code_weights)
 
 
+def normalize_weight_pairs(pairs: list[tuple[str, float]]) -> list[tuple[str, float]]:
+    vals = [(d, float(v)) for d, v in pairs if float(v) > 0]
+    s = float(sum(v for _, v in vals))
+    if s <= 0:
+        return []
+    return [(d, v / s) for d, v in vals]
+
+
+def blend_weight_pairs(
+    primary: list[tuple[str, float]],
+    fallback: list[tuple[str, float]],
+    primary_alpha: float,
+) -> list[tuple[str, float]]:
+    p = {d: float(v) for d, v in normalize_weight_pairs(primary)}
+    f = {d: float(v) for d, v in normalize_weight_pairs(fallback)}
+    if not p and not f:
+        return []
+    if not p:
+        return normalize_weight_pairs(fallback)
+    if not f:
+        return normalize_weight_pairs(primary)
+    a = min(1.0, max(0.0, float(primary_alpha)))
+    out: dict[str, float] = {}
+    for district_id in set(p) | set(f):
+        out[district_id] = (a * p.get(district_id, 0.0)) + ((1.0 - a) * f.get(district_id, 0.0))
+    return normalize_weight_pairs(list(out.items()))
+
+
+def l1_distance_weight_pairs(
+    a_pairs: list[tuple[str, float]],
+    b_pairs: list[tuple[str, float]],
+) -> float:
+    a = {d: float(v) for d, v in normalize_weight_pairs(a_pairs)}
+    b = {d: float(v) for d, v in normalize_weight_pairs(b_pairs)}
+    if not a and not b:
+        return 0.0
+    return float(sum(abs(a.get(d, 0.0) - b.get(d, 0.0)) for d in (set(a) | set(b))))
+
+
 def build_district_contests(
     openelections_root: Path,
     scope_mappings: dict[str, dict],
@@ -838,28 +884,52 @@ def build_district_contests(
         cov_key = (scope, contest_type, year)
         county_scope_key = (scope, contest_type, year, county)
 
-        matched_dist = matched_county_district.get(county_scope_key, {})
-        matched_sum = float(sum(matched_dist.values()))
-        if matched_sum > 0:
-            alloc_weights_total = [(d, v / matched_sum) for d, v in matched_dist.items() if v > 0]
-        else:
-            alloc_weights_total = scope_mappings[scope]["county_weights"].get(county, [])
-
-        if not alloc_weights_total:
-            continue
-
         to_allocate = float(node["dem"] + node["rep"] + node["other"])
         if to_allocate <= 0:
+            continue
+
+        matched_dist = matched_county_district.get(county_scope_key, {})
+        matched_sum = float(sum(matched_dist.values()))
+        matched_weights = normalize_weight_pairs(list(matched_dist.items()))
+        county_weights = normalize_weight_pairs(scope_mappings[scope]["county_weights"].get(county, []))
+
+        if scope == "congressional":
+            # Congressional non-geographic buckets can dominate in split counties
+            # (e.g., Prince William, Chesapeake). A fixed high-direct blend
+            # has tracked benchmark district numbers better than county-heavy mixes.
+            matched_alpha = 1.00
+            alloc_weights_total = blend_weight_pairs(matched_weights, county_weights, matched_alpha)
+        else:
+            alloc_weights_total = matched_weights if matched_weights else county_weights
+
+        if not alloc_weights_total:
             continue
 
         coverage[cov_key]["allocated_votes"] += to_allocate
         coverage[cov_key]["matched_votes"] += to_allocate
 
+        total_weight_map = {d: float(v) for d, v in alloc_weights_total}
+
         def get_bucket_alloc_weights(bucket: str) -> list[tuple[str, float]]:
             party_dist = matched_county_district_by_party.get(county_scope_key, {}).get(bucket, {})
             party_sum = float(sum(party_dist.values()))
             if party_sum > 0:
-                return [(d, v / party_sum) for d, v in party_dist.items() if v > 0]
+                party_weight_map = {d: float(v / party_sum) for d, v in party_dist.items() if v > 0}
+                if scope == "congressional":
+                    party_blend = CONGRESSIONAL_PARTY_BLEND_BY_COUNTY.get(county, PARTY_FALLBACK_BLEND_CONGRESSIONAL)
+                else:
+                    party_blend = PARTY_FALLBACK_BLEND
+                if total_weight_map and party_blend > 0:
+                    districts = set(total_weight_map) | set(party_weight_map)
+                    blended = {}
+                    for district_id in districts:
+                        total_share = total_weight_map.get(district_id, 0.0)
+                        party_share = party_weight_map.get(district_id, 0.0)
+                        blended[district_id] = ((1.0 - party_blend) * total_share) + (party_blend * party_share)
+                    s = float(sum(v for v in blended.values() if v > 0))
+                    if s > 0:
+                        return [(d, v / s) for d, v in blended.items() if v > 0]
+                return list(party_weight_map.items())
             return alloc_weights_total
 
         for bucket in ("dem", "rep", "other"):

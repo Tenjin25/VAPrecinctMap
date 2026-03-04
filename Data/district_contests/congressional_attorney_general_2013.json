@@ -6,10 +6,10 @@
     "district_count": 11,
     "input_votes": 2212851,
     "matched_votes": 2212851,
-    "direct_matched_votes": 2072138,
-    "allocated_votes": 140713,
+    "direct_matched_votes": 2076047,
+    "allocated_votes": 136804,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 93.64109919737027
+    "direct_match_coverage_pct": 93.81774913900665
   },
   "general": {
     "results": {

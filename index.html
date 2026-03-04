@@ -2803,18 +2803,64 @@ document.addEventListener('DOMContentLoaded', function() {
 	      return r.text();
 	    }
 
-	    const PRESIDENT_OPEN_ELECTIONS_CSV = {
-	      2008: withBase('./Data/openelections/2008/20081104__va__general__precinct__president.csv'),
-	      2012: withBase('./Data/openelections/2012/20121106__va__general__precinct__president.csv'),
-	      2016: withBase('./Data/openelections/2016/20161108__va__general__precinct__president.csv'),
-	      2020: withBase('./Data/openelections/2020/20201103__va__general__precinct__president.csv'),
-	      2024: withBase('./Data/openelections/2024/20241105__va__general__precinct__president.csv')
+	    const OPEN_ELECTIONS_CSV = {
+	      president: {
+	        2008: withBase('./Data/openelections/2008/20081104__va__general__precinct__president.csv'),
+	        2012: withBase('./Data/openelections/2012/20121106__va__general__precinct__president.csv'),
+	        2016: withBase('./Data/openelections/2016/20161108__va__general__precinct__president.csv'),
+	        2020: withBase('./Data/openelections/2020/20201103__va__general__precinct__president.csv'),
+	        2024: withBase('./Data/openelections/2024/20241105__va__general__precinct__president.csv')
+	      },
+	      us_senate: {
+	        2008: withBase('./Data/openelections/2008/20081104__va__general__precinct__u_s_senate.csv'),
+	        2012: withBase('./Data/openelections/2012/20121106__va__general__precinct__u_s_senate.csv'),
+	        2014: withBase('./Data/openelections/2014/20141104__va__general__precinct__u_s_senate.csv'),
+	        2018: withBase('./Data/openelections/2018/20181106__va__general__precinct__u_s_senate.csv'),
+	        2020: withBase('./Data/openelections/2020/20201103__va__general__precinct__u_s_senate.csv'),
+	        2024: withBase('./Data/openelections/2024/20241105__va__general__precinct__u_s_senate.csv')
+	      },
+	      governor: {
+	        2009: withBase('./Data/openelections/2009/20091103__va__general__precinct__governor.csv'),
+	        2017: withBase('./Data/openelections/2017/20171107__va__general__precinct__governor.csv'),
+	        2021: withBase('./Data/openelections/2021/20211102__va__general__precinct__governor.csv'),
+	        2025: withBase('./Data/openelections/2025/20251104__va__general__precinct__governor.csv')
+	      },
+	      lieutenant_governor: {
+	        2009: withBase('./Data/openelections/2009/20091103__va__general__precinct__lieutenant_governor.csv'),
+	        2013: withBase('./Data/openelections/2013/20131105__va__general__precinct__lieutenant_governor.csv'),
+	        2017: withBase('./Data/openelections/2017/20171107__va__general__precinct__lieutenant_governor.csv'),
+	        2021: withBase('./Data/openelections/2021/20211102__va__general__precinct__lieutenant_governor.csv'),
+	        2025: withBase('./Data/openelections/2025/20251104__va__general__precinct__lieutenant_governor.csv')
+	      },
+	      attorney_general: {
+	        2009: withBase('./Data/openelections/2009/20091103__va__general__precinct__attorney_general.csv'),
+	        2013: withBase('./Data/openelections/2013/20131105__va__general__precinct__attorney_general.csv'),
+	        2017: withBase('./Data/openelections/2017/20171107__va__general__precinct__attorney_general.csv'),
+	        2021: withBase('./Data/openelections/2021/20211102__va__general__precinct__attorney_general.csv'),
+	        2025: withBase('./Data/openelections/2025/20251104__va__general__precinct__attorney_general.csv')
+	      }
 	    };
 
-	    async function loadPresidentSliceFromOpenElectionsCSV(year) {
+	    function getOpenElectionsCsvPath(contestType, year) {
 	      const y = Number(year);
-	      const path = PRESIDENT_OPEN_ELECTIONS_CSV[y];
-	      if (!path) throw new Error(`No OpenElections CSV configured for president ${year}`);
+	      return OPEN_ELECTIONS_CSV?.[contestType]?.[y] || null;
+	    }
+
+	    function officeMatchesContestType(officeRaw, contestType) {
+	      const norm = (officeRaw || '').toString().toUpperCase().replace(/[^A-Z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+	      if (!norm) return false;
+	      if (contestType === 'president') return norm === 'PRESIDENT';
+	      if (contestType === 'us_senate') return norm === 'US SENATE' || norm === 'U S SENATE';
+	      if (contestType === 'governor') return norm === 'GOVERNOR';
+	      if (contestType === 'lieutenant_governor') return norm === 'LIEUTENANT GOVERNOR';
+	      if (contestType === 'attorney_general') return norm === 'ATTORNEY GENERAL';
+	      return false;
+	    }
+
+	    async function loadStatewideSliceFromOpenElectionsCSV(contestType, year) {
+	      const y = Number(year);
+	      const path = getOpenElectionsCsvPath(contestType, y);
+	      if (!path) throw new Error(`No OpenElections CSV configured for ${contestType} ${year}`);
 	      const downloadUrl = toAbsoluteUrl(path);
 
 	      function extractPrecinctCode(precinctRaw) {
@@ -2832,8 +2878,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	      // Aggregate to precinct key "COUNTY - CODE" where CODE is the first token extracted from OpenElections `precinct`.
 	      const byPrecinct = new Map(); // key -> {dem, rep, other, demCand, repCand}
-	      const officeOk = (s) => (s || '').toString().toUpperCase().includes('PRESIDENT');
-
 	      // Stream-parse in a worker to avoid freezing the UI on large files (notably 2008/2012).
 	      if (typeof Papa !== 'undefined' && Papa && typeof Papa.parse === 'function') {
 	        await new Promise((resolve, reject) => {
@@ -2847,7 +2891,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	            chunk: (result) => {
 	              (result?.data || []).forEach(r => {
 	                const office = (r.office || '').toString();
-	                if (!officeOk(office)) return;
+	                if (!officeMatchesContestType(office, contestType)) return;
 	                const county = (r.county || '').toString().trim().toUpperCase();
 	                const precinctRaw = (r.precinct || '').toString().trim();
 	                if (!county || !precinctRaw) return;
@@ -2875,7 +2919,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        const rows = parseCSV(csvText);
 	        rows.forEach(r => {
 	          const office = (r.office || '').toString();
-	          if (!officeOk(office)) return;
+	          if (!officeMatchesContestType(office, contestType)) return;
 	          const county = (r.county || '').toString().trim().toUpperCase();
 	          const precinctRaw = (r.precinct || '').toString().trim();
 	          if (!county || !precinctRaw) return;
@@ -2897,18 +2941,34 @@ document.addEventListener('DOMContentLoaded', function() {
 	      return Array.from(byPrecinct.entries()).map(([key, v]) => ({
 	        year: y,
 	        county: key,
-	        president_dem: v.dem,
-	        president_rep: v.rep,
-	        president_other: v.other,
-	        president_total: v.dem + v.rep + v.other,
-	        president_dem_candidate: v.demCand,
-	        president_rep_candidate: v.repCand
+	        [`${contestType}_dem`]: v.dem,
+	        [`${contestType}_rep`]: v.rep,
+	        [`${contestType}_other`]: v.other,
+	        [`${contestType}_total`]: v.dem + v.rep + v.other,
+	        [`${contestType}_dem_candidate`]: v.demCand,
+	        [`${contestType}_rep_candidate`]: v.repCand
 	      }));
+	    }
+
+	    async function loadPresidentSliceFromOpenElectionsCSV(year) {
+	      return loadStatewideSliceFromOpenElectionsCSV('president', year);
 	    }
 
 	    async function loadContestSlice(contestType, year) {
 	      const key = `${contestType}_${year}`;
 	      if (contestSliceCache.has(key)) return contestSliceCache.get(key);
+	      const preferPrecinctCSV = !!precinctsEnabled && !!getOpenElectionsCsvPath(contestType, Number(year));
+	      if (preferPrecinctCSV) {
+	        try {
+	          const rows = await loadStatewideSliceFromOpenElectionsCSV(contestType, Number(year));
+	          if (rows && rows.length) {
+	            contestSliceCache.set(key, rows);
+	            return rows;
+	          }
+	        } catch (err) {
+	          console.warn('Precinct CSV load failed for', contestType, year, err?.message || err);
+	        }
+	      }
 
 	      try {
 	        const payload = await loadJSON(`${CONFIG.paths.contests_dir}/${key}.json`);
@@ -2929,14 +2989,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	        contestSliceCache.set(key, rows);
 	        return rows;
 	      } catch (_) {
-	        // CSV-backed presidential history (pre-2016) from OpenElections precinct files.
-	        if (contestType === 'president' && PRESIDENT_OPEN_ELECTIONS_CSV[Number(year)]) {
+	        // CSV-backed statewide fallback when available.
+	        if (getOpenElectionsCsvPath(contestType, Number(year))) {
 	          try {
-	            const rows = await loadPresidentSliceFromOpenElectionsCSV(Number(year));
+	            const rows = await loadStatewideSliceFromOpenElectionsCSV(contestType, Number(year));
 	            contestSliceCache.set(key, rows);
 	            return rows;
 	          } catch (err) {
-	            console.warn('Failed to load OpenElections presidential CSV for', year, err?.message || err);
+	            console.warn('Failed to load OpenElections CSV for', contestType, year, err?.message || err);
 	          }
 	        }
 	        const fallback = (electionData || []).filter(row => row.year == year);
@@ -7005,7 +7065,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	          const manifest = await loadJSON(`${CONFIG.paths.contests_dir}/manifest.json`);
 	          contestManifest = manifest?.files || [];
 	          // Add CSV-backed presidential elections not present in the precomputed contest slices.
-	          Object.keys(PRESIDENT_OPEN_ELECTIONS_CSV).map(Number).forEach(y => {
+	          Object.keys(OPEN_ELECTIONS_CSV.president || {}).map(Number).forEach(y => {
 	            const exists = contestManifest.some(e => e && e.contest_type === 'president' && Number(e.year) === Number(y));
 	            if (!exists) contestManifest.push({ year: y, contest_type: 'president', file: `open_elections_csv_${y}.csv`, rows: 1 });
 	          });
@@ -7249,11 +7309,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	          [`${contestType}_color`]: r.color || ''
 	        }));
 	      } catch (_) {
-	        if (contestType === 'president' && PRESIDENT_OPEN_ELECTIONS_CSV[Number(year)]) {
+	        if (getOpenElectionsCsvPath(contestType, Number(year))) {
 	          try {
-	            return await loadPresidentSliceFromOpenElectionsCSV(Number(year));
+	            return await loadStatewideSliceFromOpenElectionsCSV(contestType, Number(year));
 	          } catch (err) {
-	            console.warn('Strict presidential CSV load failed for', year, err?.message || err);
+	            console.warn('Strict OpenElections CSV load failed for', contestType, year, err?.message || err);
 	          }
 	        }
 	        return null;

@@ -1,0 +1,114 @@
+{
+  "targets_file": "Data\\benchmarks\\district_margin_targets.csv",
+  "targets_used": 15,
+  "scope_filters": [],
+  "contest_filters": [],
+  "year_filters": [],
+  "grid": [
+    0.0,
+    0.15,
+    0.3,
+    0.5,
+    0.7,
+    0.85,
+    1.0
+  ],
+  "iterations_requested": 1,
+  "include_county_overrides": true,
+  "parameters_tuned": [
+    "fallback_legislative",
+    "fallback_congressional",
+    "congressional_by_county:CHESAPEAKE CITY",
+    "state_house_by_county:STAFFORD COUNTY",
+    "state_senate_by_county:CHESTERFIELD COUNTY",
+    "state_senate_by_county:MONTGOMERY COUNTY",
+    "state_senate_by_county:ROANOKE CITY",
+    "state_senate_by_county:ROANOKE COUNTY",
+    "state_senate_by_county:SALEM CITY"
+  ],
+  "evaluations_run": 58,
+  "baseline_metrics": {
+    "target_count": 15,
+    "missing_count": 0,
+    "over_threshold_count": 15,
+    "mae": 21.382989983891385,
+    "rmse": 26.41179881474186,
+    "max_abs_error": 52.68162429305102
+  },
+  "best_metrics": {
+    "target_count": 15,
+    "missing_count": 0,
+    "over_threshold_count": 14,
+    "mae": 21.22408325412092,
+    "rmse": 26.337056021191547,
+    "max_abs_error": 52.68162429305102
+  },
+  "baseline_config": {
+    "fallback_legislative": 0.15,
+    "fallback_congressional": 0.35,
+    "congressional_by_county": {
+      "CHESAPEAKE CITY": 0.55
+    },
+    "state_house_by_county": {
+      "STAFFORD COUNTY": 1.0
+    },
+    "state_senate_by_county": {
+      "CHESTERFIELD COUNTY": 0.95,
+      "MONTGOMERY COUNTY": 0.7,
+      "ROANOKE COUNTY": 0.7,
+      "ROANOKE CITY": 0.7,
+      "SALEM CITY": 0.7
+    }
+  },
+  "best_config": {
+    "fallback_legislative": 0.15,
+    "fallback_congressional": 0.7,
+    "congressional_by_county": {
+      "CHESAPEAKE CITY": 0.55
+    },
+    "state_house_by_county": {
+      "STAFFORD COUNTY": 1.0
+    },
+    "state_senate_by_county": {
+      "CHESTERFIELD COUNTY": 0.15,
+      "MONTGOMERY COUNTY": 0.7,
+      "ROANOKE COUNTY": 0.7,
+      "ROANOKE CITY": 0.7,
+      "SALEM CITY": 0.7
+    }
+  },
+  "history": [
+    {
+      "iteration": 1,
+      "parameter": "fallback_congressional",
+      "new_value": 0.7,
+      "metrics": {
+        "target_count": 15,
+        "missing_count": 0,
+        "over_threshold_count": 14,
+        "mae": 21.306493471357335,
+        "rmse": 26.408748822307366,
+        "max_abs_error": 52.68162429305102
+      }
+    },
+    {
+      "iteration": 1,
+      "parameter": "state_senate_by_county:CHESTERFIELD COUNTY",
+      "new_value": 0.15,
+      "metrics": {
+        "target_count": 15,
+        "missing_count": 0,
+        "over_threshold_count": 14,
+        "mae": 21.22408325412092,
+        "rmse": 26.337056021191547,
+        "max_abs_error": 52.68162429305102
+      }
+    }
+  ],
+  "outputs": {
+    "summary_json": "Data\\benchmarks\\tuning_full1\\party_blend_tuning_summary.json",
+    "best_report_csv": "Data\\benchmarks\\tuning_full1\\party_blend_best_report.csv",
+    "baseline_report_csv": "Data\\benchmarks\\tuning_full1\\party_blend_baseline_report.csv"
+  },
+  "elapsed_seconds": 151.329
+}

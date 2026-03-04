@@ -37,28 +37,25 @@ CONGRESSIONAL_PARTY_BLEND_BY_COUNTY = {
     "CHESAPEAKE CITY": 0.55,
 }
 STATE_HOUSE_PARTY_BLEND_BY_COUNTY = {
+    "FAIRFAX COUNTY": 0.00,
+    "HENRICO COUNTY": 0.00,
     "STAFFORD COUNTY": 1.00,
 }
 STATE_SENATE_PARTY_BLEND_BY_COUNTY = {
-    "CHESTERFIELD COUNTY": 0.95,
+    "CHESTERFIELD COUNTY": 0.15,
+    "FAIRFAX COUNTY": 0.00,
+    "HENRICO COUNTY": 0.00,
     "MONTGOMERY COUNTY": 0.70,
     "ROANOKE COUNTY": 0.70,
     "ROANOKE CITY": 0.70,
     "SALEM CITY": 0.70,
 }
 
-# Optional calibration anchors against trusted benchmark district summaries.
-# Signed margin convention matches output: ((rep - dem) / total) * 100.
-DISTRICT_MARGIN_TARGETS = {
-    ("state_house", "president", 2020, "89"): -3.0,   # Biden +3
-    ("state_house", "president", 2020, "99"): 5.5,    # Trump +5 to +6
-    ("state_house", "president", 2020, "73"): 6.5,    # Trump +6 to +7
-    ("state_house", "president", 2020, "82"): -10.0,  # Biden +10
-    ("state_senate", "president", 2020, "16"): -17.0, # Biden +17
-    ("state_senate", "president", 2020, "20"): 2.0,   # Trump +2
-    ("state_senate", "president", 2020, "24"): -9.0,  # Biden +9
-    ("state_senate", "president", 2020, "31"): -13.0, # Biden +13
-}
+DEFAULT_MARGIN_TARGETS_CSV = "Data/benchmarks/district_margin_targets.csv"
+ASSIGN_MEMBER_VTD = "BlockAssign_ST51_VA_VTD.txt"
+ASSIGN_MEMBER_CD = "BlockAssign_ST51_VA_CD.txt"
+ASSIGN_MEMBER_SLDL = "BlockAssign_ST51_VA_SLDL.txt"
+ASSIGN_MEMBER_SLDU = "BlockAssign_ST51_VA_SLDU.txt"
 
 
 def find_member(zip_path: Path, suffix: str) -> str:
@@ -549,25 +546,83 @@ def build_all_scope_mappings(
     state_senate_geojson: Path,
 ) -> dict[str, dict]:
     county_names = load_county_name_map(county_geojson)
-    # NOTE: congressional/legislative mappings are built from displayed district geometries
-    # over precinct polygons so contest rows keyed by precinct code align with map IDs.
+    try:
+        # Preferred path: use Census block assignment tables so split VTDs/precincts
+        # are apportioned by block-level assignment rather than polygon overlays.
+        weights = load_block_weights(tabblock_zip)
+        vtd_df = load_assign_df(assign_zip, ASSIGN_MEMBER_VTD, keep_county=True)
+        cd_df = load_assign_df(assign_zip, ASSIGN_MEMBER_CD, keep_county=False)
+        sldl_df = load_assign_df(assign_zip, ASSIGN_MEMBER_SLDL, keep_county=False)
+        sldu_df = load_assign_df(assign_zip, ASSIGN_MEMBER_SLDU, keep_county=False)
+
+        return {
+            "congressional": build_scope_mapping(weights, vtd_df, cd_df, county_names),
+            "state_house": build_scope_mapping(weights, vtd_df, sldl_df, county_names),
+            "state_senate": build_scope_mapping(weights, vtd_df, sldu_df, county_names),
+        }
+    except (FileNotFoundError, ValueError, KeyError) as exc:
+        # Fallback preserves previous behavior if assignment files are unavailable.
+        print(f"WARNING: Falling back to precinct-overlay district mappings: {exc}")
+
+    # NOTE: fallback mappings are built from displayed district geometries over
+    # displayed precinct polygons so contest rows keyed by precinct code align with map IDs.
     precinct_polys = load_precinct_polygons(precinct_geojson)
     cd_polys = gpd.read_file(congressional_geojson)
     cd_col = pick_district_column(cd_polys, ["DISTRICT", "CD119FP", "CD118FP", "district_id", "district"])
     congressional_map = build_scope_mapping_from_precinct_overlay(precinct_polys, cd_polys, cd_col)
-
-    # Build state-legislative mappings from displayed district geometries over
-    # displayed precinct polygons so IDs/codes align with map overlays.
     sldl_polys = gpd.read_file(state_house_geojson)
     sldu_polys = gpd.read_file(state_senate_geojson)
     sldl_col = pick_district_column(sldl_polys, ["SLDLST", "DISTRICT", "district_id", "district"])
     sldu_col = pick_district_column(sldu_polys, ["SLDUST", "DISTRICT", "district_id", "district"])
-
     return {
         "congressional": congressional_map,
         "state_house": build_scope_mapping_from_precinct_overlay(precinct_polys, sldl_polys, sldl_col),
         "state_senate": build_scope_mapping_from_precinct_overlay(precinct_polys, sldu_polys, sldu_col),
     }
+
+
+def load_district_margin_targets(csv_path: Path) -> dict[tuple[str, str, int, str], float]:
+    if not csv_path.exists():
+        print(f"INFO: No district margin benchmark file at {csv_path}; continuing without manual anchors.")
+        return {}
+
+    with csv_path.open("r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        required = {"scope", "contest_type", "year", "district", "target_margin_pct"}
+        header = set(reader.fieldnames or [])
+        missing = required - header
+        if missing:
+            raise ValueError(f"Missing required columns in {csv_path}: {sorted(missing)}")
+
+        out: dict[tuple[str, str, int, str], float] = {}
+        for row_num, row in enumerate(reader, start=2):
+            scope = (row.get("scope") or "").strip().lower()
+            contest_type = (row.get("contest_type") or "").strip().lower()
+            year_raw = (row.get("year") or "").strip()
+            district = normalize_district_id((row.get("district") or "").strip())
+            margin_raw = (row.get("target_margin_pct") or "").strip()
+
+            if not scope and not contest_type and not year_raw and not district and not margin_raw:
+                continue
+            if not scope or not contest_type or not year_raw or not district or not margin_raw:
+                raise ValueError(f"Incomplete benchmark row at {csv_path}:{row_num}")
+            if scope not in SCOPES:
+                raise ValueError(f"Invalid scope {scope!r} at {csv_path}:{row_num}")
+            if contest_type not in ALL_CONTESTS:
+                raise ValueError(f"Invalid contest_type {contest_type!r} at {csv_path}:{row_num}")
+            try:
+                year = int(year_raw)
+            except ValueError as exc:
+                raise ValueError(f"Invalid year {year_raw!r} at {csv_path}:{row_num}") from exc
+            try:
+                target_margin_pct = float(margin_raw)
+            except ValueError as exc:
+                raise ValueError(f"Invalid target_margin_pct {margin_raw!r} at {csv_path}:{row_num}") from exc
+
+            out[(scope, contest_type, year, district)] = target_margin_pct
+
+    print(f"Loaded {len(out)} district margin benchmarks from {csv_path}")
+    return out
 
 
 def category_color_for_margin(margin_pct_abs: float, winner: str) -> str:
@@ -827,6 +882,7 @@ def build_district_contests(
     openelections_root: Path,
     scope_mappings: dict[str, dict],
     locality_alias_map: dict[str, str],
+    benchmark_filter: set[tuple[str, str, int]] | None = None,
 ) -> tuple[dict[tuple[str, str, int, str], dict], dict[tuple[str, str, int], dict], dict[tuple[str, str, int], dict]]:
     # district_key -> accum
     district_acc = defaultdict(
@@ -858,6 +914,14 @@ def build_district_contests(
     )
     matched_county_district = defaultdict(lambda: defaultdict(float))
     matched_county_district_by_party = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
+
+    allowed_scope_by_contest_year: dict[tuple[str, int], set[str]] = defaultdict(set)
+    needed_years: set[int] = set()
+    if benchmark_filter:
+        for scope, contest_type, year in benchmark_filter:
+            allowed_scope_by_contest_year[(contest_type, year)].add(scope)
+            needed_years.add(year)
+
     explicit_overrides = build_explicit_precinct_district_overrides(openelections_root)
     scope_code_index: dict[str, dict[str, list[str]]] = {}
     for scope in SCOPES:
@@ -874,6 +938,8 @@ def build_district_contests(
 
     for csv_path in sorted(openelections_root.rglob("*.csv")):
         year = parse_year_from_filename(csv_path)
+        if needed_years and year not in needed_years:
+            continue
         with csv_path.open("r", encoding="utf-8", newline="") as f:
             reader = csv.DictReader(f)
             for row in reader:
@@ -886,6 +952,12 @@ def build_district_contests(
                 if contest_type not in ALL_CONTESTS:
                     continue
 
+                allowed_scopes = None
+                if benchmark_filter:
+                    allowed_scopes = allowed_scope_by_contest_year.get((contest_type, year), set())
+                    if not allowed_scopes:
+                        continue
+
                 county = canonicalize_locality(row.get("county", ""), locality_alias_map)
                 precinct = row.get("precinct", "")
                 party_bucket = normalize_party_bucket(row.get("party", ""))
@@ -895,7 +967,11 @@ def build_district_contests(
                     continue
 
                 if kind == "statewide":
-                    for scope in SCOPES:
+                    if allowed_scopes is None:
+                        scope_iter = SCOPES
+                    else:
+                        scope_iter = [s for s in SCOPES if s in allowed_scopes]
+                    for scope in scope_iter:
                         cov_key = (scope, contest_type, year)
                         coverage[cov_key]["input_votes"] += votes
                         splits = None
@@ -944,6 +1020,8 @@ def build_district_contests(
                     if not office_district:
                         continue
                     scope = contest_type
+                    if allowed_scopes is not None and scope not in allowed_scopes:
+                        continue
                     district_id = normalize_district_id(office_district)
                     if not district_id:
                         continue
@@ -1049,8 +1127,9 @@ def build_district_contests(
 def apply_district_margin_targets(
     district_acc: dict[tuple[str, str, int, str], dict],
     totals: dict[tuple[str, str, int], dict],
+    margin_targets: dict[tuple[str, str, int, str], float],
 ) -> None:
-    for key, target_signed_margin_pct in DISTRICT_MARGIN_TARGETS.items():
+    for key, target_signed_margin_pct in margin_targets.items():
         if key not in district_acc:
             continue
 
@@ -1086,6 +1165,147 @@ def apply_district_margin_targets(
         node["rep"] = rep_new
         totals[(scope, contest_type, year)]["dem"] += d_dem
         totals[(scope, contest_type, year)]["rep"] += d_rep
+
+
+def compute_signed_margin_pct(node: dict) -> float | None:
+    dem = float(node.get("dem", 0.0) or 0.0)
+    rep = float(node.get("rep", 0.0) or 0.0)
+    other = float(node.get("other", 0.0) or 0.0)
+    total = dem + rep + other
+    if total <= 0:
+        return None
+    return ((rep - dem) / total) * 100.0
+
+
+def write_margin_target_report(
+    output_dir: Path,
+    district_acc: dict[tuple[str, str, int, str], dict],
+    margin_targets: dict[tuple[str, str, int, str], float],
+    raw_margin_snapshot: dict[tuple[str, str, int, str], float | None],
+    threshold_pct: float,
+) -> tuple[Path, Path] | None:
+    if not margin_targets:
+        return None
+
+    rows = []
+    for key, target_margin_pct in margin_targets.items():
+        scope, contest_type, year, district = key
+        node = district_acc.get(key)
+        raw_margin_pct = raw_margin_snapshot.get(key)
+        raw_error_pct = (float(raw_margin_pct - target_margin_pct) if raw_margin_pct is not None else None)
+        raw_abs_error_pct = (abs(raw_error_pct) if raw_error_pct is not None else None)
+        if node is None:
+            rows.append(
+                {
+                    "scope": scope,
+                    "contest_type": contest_type,
+                    "year": year,
+                    "district": district,
+                    "target_margin_pct": round(float(target_margin_pct), 3),
+                    "raw_margin_pct": round(float(raw_margin_pct), 3) if raw_margin_pct is not None else "",
+                    "raw_error_pct": round(raw_error_pct, 3) if raw_error_pct is not None else "",
+                    "raw_abs_error_pct": round(raw_abs_error_pct, 3) if raw_abs_error_pct is not None else "",
+                    "calibrated_margin_pct": "",
+                    "calibrated_error_pct": "",
+                    "calibrated_abs_error_pct": "",
+                    "needs_calibration": "yes" if (raw_abs_error_pct or float("inf")) >= threshold_pct else "no",
+                    "status": "missing_output",
+                }
+            )
+            continue
+
+        calibrated_margin_pct = compute_signed_margin_pct(node)
+        if calibrated_margin_pct is None:
+            rows.append(
+                {
+                    "scope": scope,
+                    "contest_type": contest_type,
+                    "year": year,
+                    "district": district,
+                    "target_margin_pct": round(float(target_margin_pct), 3),
+                    "raw_margin_pct": round(float(raw_margin_pct), 3) if raw_margin_pct is not None else "",
+                    "raw_error_pct": round(raw_error_pct, 3) if raw_error_pct is not None else "",
+                    "raw_abs_error_pct": round(raw_abs_error_pct, 3) if raw_abs_error_pct is not None else "",
+                    "calibrated_margin_pct": "",
+                    "calibrated_error_pct": "",
+                    "calibrated_abs_error_pct": "",
+                    "needs_calibration": "yes" if (raw_abs_error_pct or float("inf")) >= threshold_pct else "no",
+                    "status": "no_votes",
+                }
+            )
+            continue
+
+        calibrated_error_pct = float(calibrated_margin_pct - target_margin_pct)
+        calibrated_abs_error_pct = abs(calibrated_error_pct)
+        rows.append(
+            {
+                "scope": scope,
+                "contest_type": contest_type,
+                "year": year,
+                "district": district,
+                "target_margin_pct": round(float(target_margin_pct), 3),
+                "raw_margin_pct": round(float(raw_margin_pct), 3) if raw_margin_pct is not None else "",
+                "raw_error_pct": round(raw_error_pct, 3) if raw_error_pct is not None else "",
+                "raw_abs_error_pct": round(raw_abs_error_pct, 3) if raw_abs_error_pct is not None else "",
+                "calibrated_margin_pct": round(float(calibrated_margin_pct), 3),
+                "calibrated_error_pct": round(calibrated_error_pct, 3),
+                "calibrated_abs_error_pct": round(calibrated_abs_error_pct, 3),
+                "needs_calibration": "yes" if (raw_abs_error_pct or float("inf")) >= threshold_pct else "no",
+                "status": "ok",
+            }
+        )
+
+    rows.sort(
+        key=lambda r: (
+            0 if r["status"] == "ok" else 1,
+            -float(r["raw_abs_error_pct"] or 0.0),
+            SCOPES.index(r["scope"]) if r["scope"] in SCOPES else 99,
+            r["contest_type"],
+            int(r["year"]),
+            district_sort_key(str(r["district"])),
+        )
+    )
+
+    report_path = output_dir / "district_margin_target_report.csv"
+    fields = [
+        "scope",
+        "contest_type",
+        "year",
+        "district",
+        "target_margin_pct",
+        "raw_margin_pct",
+        "raw_error_pct",
+        "raw_abs_error_pct",
+        "calibrated_margin_pct",
+        "calibrated_error_pct",
+        "calibrated_abs_error_pct",
+        "needs_calibration",
+        "status",
+    ]
+    with report_path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+
+    outlier_rows = [r for r in rows if r["needs_calibration"] == "yes"]
+    outlier_path = output_dir / "district_margin_target_outliers.csv"
+    with outlier_path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(outlier_rows)
+
+    return report_path, outlier_path
+
+
+def build_raw_margin_snapshot(
+    district_acc: dict[tuple[str, str, int, str], dict],
+    margin_targets: dict[tuple[str, str, int, str], float],
+) -> dict[tuple[str, str, int, str], float | None]:
+    out: dict[tuple[str, str, int, str], float | None] = {}
+    for key in margin_targets.keys():
+        node = district_acc.get(key)
+        out[key] = compute_signed_margin_pct(node) if node is not None else None
+    return out
 
 
 def district_sort_key(d: str) -> tuple[int, str]:
@@ -1235,6 +1455,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--congressional-geojson", default="Data/tl_2024_51_cd119.geojson")
     parser.add_argument("--state-house-geojson", default="Data/tl_2022_51_sldl.geojson")
     parser.add_argument("--state-senate-geojson", default="Data/tl_2022_51_sldu.geojson")
+    parser.add_argument("--margin-targets-csv", default=DEFAULT_MARGIN_TARGETS_CSV)
+    parser.add_argument(
+        "--calibration-threshold-pct",
+        type=float,
+        default=1.0,
+        help="Flag benchmark rows as needing calibration when abs(actual-target) is >= this value.",
+    )
     parser.add_argument("--output-dir", default="Data/district_contests")
     return parser.parse_args()
 
@@ -1250,6 +1477,7 @@ def main() -> int:
     congressional_geojson = Path(args.congressional_geojson)
     state_house_geojson = Path(args.state_house_geojson)
     state_senate_geojson = Path(args.state_senate_geojson)
+    margin_targets_csv = Path(args.margin_targets_csv) if args.margin_targets_csv else Path("")
     output_dir = Path(args.output_dir)
 
     for p in (
@@ -1278,10 +1506,23 @@ def main() -> int:
     )
     locality_alias_map = build_locality_alias_map(county_geojson)
     district_acc, totals, coverage = build_district_contests(openelections_dir, scope_maps, locality_alias_map)
-    apply_district_margin_targets(district_acc, totals)
+    margin_targets = load_district_margin_targets(margin_targets_csv) if args.margin_targets_csv else {}
+    raw_margin_snapshot = build_raw_margin_snapshot(district_acc, margin_targets)
+    apply_district_margin_targets(district_acc, totals, margin_targets)
     manifest = write_outputs(output_dir, district_acc, totals, coverage)
+    report_paths = write_margin_target_report(
+        output_dir,
+        district_acc,
+        margin_targets,
+        raw_margin_snapshot,
+        float(args.calibration_threshold_pct),
+    )
 
     print(f"Wrote {len(manifest.get('files', []))} district contest slices to {output_dir}")
+    if report_paths:
+        report_path, outlier_path = report_paths
+        print(f"Wrote district benchmark report: {report_path}")
+        print(f"Wrote districts needing calibration: {outlier_path}")
     return 0
 
 

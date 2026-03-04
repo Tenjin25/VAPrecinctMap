@@ -1,0 +1,149 @@
+{
+  "targets_file": "Data\\benchmarks\\district_margin_targets.csv",
+  "targets_used": 14,
+  "scope_filters": [],
+  "contest_filters": [
+    "president"
+  ],
+  "year_filters": [
+    2020
+  ],
+  "baseline_metrics": {
+    "target_count": 14,
+    "missing_count": 0,
+    "over_threshold_count": 14,
+    "mae": 22.547428988943555,
+    "rmse": 27.305064646097755,
+    "max_abs_error": 52.68162429305102
+  },
+  "grid": [
+    0.0,
+    0.15,
+    0.3,
+    0.5,
+    0.7,
+    0.85,
+    1.0
+  ],
+  "evaluations_run": 248,
+  "candidate_counts": {
+    "congressional_by_county": 1,
+    "state_house_by_county": 10,
+    "state_senate_by_county": 25
+  },
+  "suggestions_count": 9,
+  "top_suggestions": [
+    {
+      "scope": "state_senate",
+      "county": "HENRICO COUNTY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.15,
+      "suggested_value": 0.0,
+      "delta_value": -0.15,
+      "mae_gain": 0.432649,
+      "rmse_gain": 0.332869,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"state_senate\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"12\", \"abs_error_improvement_pct\": 6.057, \"baseline_abs_error_pct\": 23.908, \"trial_abs_error_pct\": 17.851}]"
+    },
+    {
+      "scope": "state_house",
+      "county": "HENRICO COUNTY",
+      "param_group": "state_house_by_county",
+      "current_value": 0.15,
+      "suggested_value": 0.0,
+      "delta_value": -0.15,
+      "mae_gain": 0.315614,
+      "rmse_gain": 0.336594,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"state_house\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"73\", \"abs_error_improvement_pct\": 4.419, \"baseline_abs_error_pct\": 31.15, \"trial_abs_error_pct\": 26.731}]"
+    },
+    {
+      "scope": "state_senate",
+      "county": "FAIRFAX COUNTY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.15,
+      "suggested_value": 0.0,
+      "delta_value": -0.15,
+      "mae_gain": 0.177423,
+      "rmse_gain": 0.238484,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"state_senate\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"31\", \"abs_error_improvement_pct\": 2.484, \"baseline_abs_error_pct\": 37.784, \"trial_abs_error_pct\": 35.3}]"
+    },
+    {
+      "scope": "state_senate",
+      "county": "CHESTERFIELD COUNTY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.95,
+      "suggested_value": 0.15,
+      "delta_value": -0.8,
+      "mae_gain": 0.088297,
+      "rmse_gain": 0.074292,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"state_senate\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"16\", \"abs_error_improvement_pct\": 1.236, \"baseline_abs_error_pct\": 23.561, \"trial_abs_error_pct\": 22.325}]"
+    },
+    {
+      "scope": "state_senate",
+      "county": "HALIFAX COUNTY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.15,
+      "suggested_value": 0.0,
+      "delta_value": -0.15,
+      "mae_gain": 0.072648,
+      "rmse_gain": 0.049353,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"state_senate\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"20\", \"abs_error_improvement_pct\": 1.017, \"baseline_abs_error_pct\": 19.041, \"trial_abs_error_pct\": 18.024}]"
+    },
+    {
+      "scope": "state_senate",
+      "county": "PITTSYLVANIA COUNTY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.15,
+      "suggested_value": 0.0,
+      "delta_value": -0.15,
+      "mae_gain": 0.070558,
+      "rmse_gain": 0.04797,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"state_senate\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"20\", \"abs_error_improvement_pct\": 0.988, \"baseline_abs_error_pct\": 19.041, \"trial_abs_error_pct\": 18.053}]"
+    },
+    {
+      "scope": "state_house",
+      "county": "FAIRFAX COUNTY",
+      "param_group": "state_house_by_county",
+      "current_value": 0.15,
+      "suggested_value": 0.0,
+      "delta_value": -0.15,
+      "mae_gain": 0.070053,
+      "rmse_gain": 0.10624,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"state_house\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"41\", \"abs_error_improvement_pct\": 0.981, \"baseline_abs_error_pct\": 41.82, \"trial_abs_error_pct\": 40.839}]"
+    },
+    {
+      "scope": "state_senate",
+      "county": "DANVILLE CITY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.15,
+      "suggested_value": 0.0,
+      "delta_value": -0.15,
+      "mae_gain": 0.065565,
+      "rmse_gain": 0.044656,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"state_senate\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"20\", \"abs_error_improvement_pct\": 0.918, \"baseline_abs_error_pct\": 19.041, \"trial_abs_error_pct\": 18.123}]"
+    },
+    {
+      "scope": "state_senate",
+      "county": "ROCKINGHAM COUNTY",
+      "param_group": "state_senate_by_county",
+      "current_value": 0.15,
+      "suggested_value": 0.0,
+      "delta_value": -0.15,
+      "mae_gain": 0.026999,
+      "rmse_gain": 0.038347,
+      "over_threshold_delta": 0,
+      "top_improved_targets": "[{\"scope\": \"state_senate\", \"contest_type\": \"president\", \"year\": 2020, \"district\": \"24\", \"abs_error_improvement_pct\": 0.378, \"baseline_abs_error_pct\": 38.944, \"trial_abs_error_pct\": 38.566}]"
+    }
+  ],
+  "outputs": {
+    "suggestions_csv": "Data\\benchmarks\\override_suggestions_2020_pres\\county_blend_override_suggestions.csv",
+    "summary_json": "Data\\benchmarks\\override_suggestions_2020_pres\\county_blend_override_suggestions_summary.json"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "targets_file": "Data\\benchmarks\\district_margin_targets.csv",
+  "targets_used": 14,
+  "scope_filters": [],
+  "contest_filters": [
+    "president"
+  ],
+  "year_filters": [
+    2020
+  ],
+  "outputs": {
+    "raw_error_report_csv": "Data\\benchmarks\\diagnostics_2020_pres_after\\benchmark_raw_error_report.csv",
+    "county_contributions_csv": "Data\\benchmarks\\diagnostics_2020_pres_after\\benchmark_county_contributions.csv",
+    "county_coverage_csv": "Data\\benchmarks\\diagnostics_2020_pres_after\\benchmark_county_coverage.csv",
+    "summary_json": "Data\\benchmarks\\diagnostics_2020_pres_after\\benchmark_diagnostics_summary.json"
+  },
+  "worst_targets": [
+    {
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "10",
+      "target_margin_pct": -18.0,
+      "raw_margin_pct": -19.210566768029718,
+      "raw_abs_error_pct": 1.210566768029718,
+      "top_counties": [
+        "LOUDOUN COUNTY:48.3% (alloc 70.4%)",
+        "FAIRFAX COUNTY:24.2% (alloc 68.4%)",
+        "FREDERICK COUNTY:10.5% (alloc 59.8%)",
+        "PRINCE WILLIAM COUNTY:7.5% (alloc 74.4%)",
+        "MANASSAS CITY:3.6% (alloc 71.1%)",
+        "WINCHESTER CITY:2.6% (alloc 67.3%)"
+      ]
+    },
+    {
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "2",
+      "target_margin_pct": -2.0,
+      "raw_margin_pct": -6.607386938808525,
+      "raw_abs_error_pct": 4.607386938808525,
+      "top_counties": [
+        "VIRGINIA BEACH CITY:61.5% (alloc 57.9%)",
+        "YORK COUNTY:10.5% (alloc 72.7%)",
+        "NORFOLK CITY:9.2% (alloc 64.6%)",
+        "HAMPTON CITY:5.3% (alloc 68.0%)",
+        "ACCOMACK COUNTY:4.6% (alloc 51.2%)",
+        "JAMES CITY COUNTY:3.2% (alloc 75.9%)"
+      ]
+    },
+    {
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "7",
+      "target_margin_pct": -7.0,
+      "raw_margin_pct": -1.5643910909550327,
+      "raw_abs_error_pct": 5.4356089090449675,
+      "top_counties": [
+        "CHESTERFIELD COUNTY:31.4% (alloc 71.4%)",
+        "HENRICO COUNTY:29.4% (alloc 60.3%)",
+        "SPOTSYLVANIA COUNTY:12.8% (alloc 64.4%)",
+        "CULPEPER COUNTY:5.9% (alloc 56.0%)",
+        "LOUISA COUNTY:4.8% (alloc 53.1%)",
+        "ORANGE COUNTY:4.5% (alloc 47.9%)"
+      ]
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "41",
+      "target_margin_pct": 0.8,
+      "raw_margin_pct": -40.039081648639005,
+      "raw_abs_error_pct": 40.839081648639,
+      "top_counties": [
+        "FAIRFAX COUNTY:100.0% (alloc 69.0%)"
+      ]
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "73",
+      "target_margin_pct": 6.5,
+      "raw_margin_pct": -20.231393009157273,
+      "raw_abs_error_pct": 26.731393009157273,
+      "top_counties": [
+        "HENRICO COUNTY:100.0% (alloc 59.5%)"
+      ]
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "82",
+      "target_margin_pct": -10.0,
+      "raw_margin_pct": -0.4945415931098128,
+      "raw_abs_error_pct": 9.505458406890186,
+      "top_counties": [
+        "VIRGINIA BEACH CITY:100.0% (alloc 57.8%)"
+      ]
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "89",
+      "target_margin_pct": -3.0,
+      "raw_margin_pct": -55.68162429305102,
+      "raw_abs_error_pct": 52.68162429305102,
+      "top_counties": [
+        "NORFOLK CITY:100.0% (alloc 65.9%)"
+      ]
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "99",
+      "target_margin_pct": 5.5,
+      "raw_margin_pct": 14.711919295794305,
+      "raw_abs_error_pct": 9.211919295794305,
+      "top_counties": [
+        "KING GEORGE COUNTY:30.6% (alloc 69.0%)",
+        "WESTMORELAND COUNTY:21.3% (alloc 53.6%)",
+        "NORTHUMBERLAND COUNTY:16.8% (alloc 61.4%)",
+        "LANCASTER COUNTY:15.4% (alloc 58.8%)",
+        "RICHMOND COUNTY:8.8% (alloc 57.4%)",
+        "CAROLINE COUNTY:7.1% (alloc 48.8%)"
+      ]
+    },
+    {
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "12",
+      "target_margin_pct": 6.0,
+      "raw_margin_pct": -11.851236130780464,
+      "raw_abs_error_pct": 17.851236130780464,
+      "top_counties": [
+        "HENRICO COUNTY:90.2% (alloc 59.0%)",
+        "HANOVER COUNTY:9.8% (alloc 61.5%)"
+      ]
+    },
+    {
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "16",
+      "target_margin_pct": -17.0,
+      "raw_margin_pct": -39.32504027509419,
+      "raw_abs_error_pct": 22.32504027509419,
+      "top_counties": [
+        "RICHMOND CITY:31.5% (alloc 66.0%)",
+        "CHESTERFIELD COUNTY:31.3% (alloc 71.4%)",
+        "PETERSBURG CITY:14.7% (alloc 66.8%)",
+        "HOPEWELL CITY:10.0% (alloc 57.3%)",
+        "PRINCE GEORGE COUNTY:6.9% (alloc 59.4%)",
+        "DINWIDDIE COUNTY:5.6% (alloc 55.7%)"
+      ]
+    },
+    {
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "20",
+      "target_margin_pct": 2.0,
+      "raw_margin_pct": 21.041262767710155,
+      "raw_abs_error_pct": 19.041262767710155,
+      "top_counties": [
+        "HENRY COUNTY:27.6% (alloc 51.9%)",
+        "DANVILLE CITY:17.0% (alloc 61.8%)",
+        "PATRICK COUNTY:10.1% (alloc 38.7%)",
+        "PITTSYLVANIA COUNTY:9.8% (alloc 53.7%)",
+        "CARROLL COUNTY:9.4% (alloc 36.9%)",
+        "HALIFAX COUNTY:9.0% (alloc 58.0%)"
+      ]
+    },
+    {
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2020,
+      "district": "24",
+      "target_margin_pct": -9.0,
+      "raw_margin_pct": 29.94389845211618,
+      "raw_abs_error_pct": 38.94389845211618,
+      "top_counties": [
+        "AUGUSTA COUNTY:35.3% (alloc 50.2%)",
+        "ROCKINGHAM COUNTY:17.4% (alloc 41.6%)",
+        "CULPEPER COUNTY:11.2% (alloc 55.7%)",
+        "STAUNTON CITY:10.9% (alloc 69.8%)",
+        "GREENE COUNTY:9.4% (alloc 62.7%)",
+        "WAYNESBORO CITY:9.0% (alloc 63.8%)"
+      ]
+    }
+  ]
+}

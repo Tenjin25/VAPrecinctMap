@@ -47,6 +47,13 @@ def normalize_key(text: str) -> str:
     )
 
 
+def canonical_locality_name(name20: str, namelsad20: str) -> str:
+    base = (namelsad20 or name20 or "").strip()
+    if not base:
+        return ""
+    return normalize_key(base)
+
+
 def safe_float(value: object) -> float | None:
     s = str(value or "").strip()
     if not s:
@@ -102,7 +109,10 @@ def main() -> int:
     county_name_map = {}
     for _, row in counties.iterrows():
         county_fp = str(row.get("COUNTYFP20", "")).strip()
-        county_name = str(row.get("NAME20", "")).strip()
+        county_name = canonical_locality_name(
+            str(row.get("NAME20", "")),
+            str(row.get("NAMELSAD20", "")),
+        )
         if county_fp:
             county_name_map[county_fp] = county_name
 

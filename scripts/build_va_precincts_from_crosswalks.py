@@ -43,6 +43,13 @@ def normalize_key(text: str) -> str:
     return re.sub(r"\s+", " ", (text or "").strip()).upper()
 
 
+def canonical_locality_name(name20: str, namelsad20: str) -> str:
+    base = (namelsad20 or name20 or "").strip()
+    if not base:
+        return ""
+    return normalize_key(base)
+
+
 def normalize_precinct_code(raw: str) -> str:
     s = (raw or "").strip().upper()
     if not s:
@@ -81,7 +88,10 @@ def load_county_name_map(county_geojson: Path) -> dict[str, str]:
     out: dict[str, str] = {}
     for _, row in counties.iterrows():
         county_fp = str(row.get("COUNTYFP20", "")).strip()
-        county_name = str(row.get("NAME20", "")).strip()
+        county_name = canonical_locality_name(
+            str(row.get("NAME20", "")),
+            str(row.get("NAMELSAD20", "")),
+        )
         if county_fp and county_name:
             out[county_fp] = county_name
     return out

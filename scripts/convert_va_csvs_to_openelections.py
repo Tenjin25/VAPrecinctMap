@@ -87,14 +87,68 @@ def clean_text(value: str) -> str:
     return re.sub(r"\s+", " ", (value or "").strip())
 
 
-def normalize_locality(raw: str) -> str:
+def normalize_key(value: str) -> str:
+    return clean_text(value).upper()
+
+
+def canonical_locality_from_census(name20: str, namelsad20: str) -> str:
+    value = normalize_key(namelsad20) or normalize_key(name20)
+    if not value:
+        return ""
+    m = re.match(r"^(.+?)\s+(COUNTY|CITY|TOWN)$", value)
+    if m:
+        return f"{m.group(1).strip()} {m.group(2)}"
+    return value
+
+
+def locality_aliases(canonical: str) -> set[str]:
+    aliases = {normalize_key(canonical)}
+    m = re.match(r"^(.+?)\s+(COUNTY|CITY|TOWN)$", normalize_key(canonical))
+    if m:
+        base = m.group(1).strip()
+        suffix = m.group(2)
+        aliases.add(base)
+        aliases.add(f"{base} {suffix}")
+        if suffix == "CITY":
+            aliases.add(f"CITY OF {base}")
+    return {a for a in aliases if a}
+
+
+def build_locality_alias_map(county_geojson: Path) -> dict[str, str]:
+    raw = json.loads(county_geojson.read_text(encoding="utf-8"))
+    alias_to_targets: dict[str, set[str]] = {}
+
+    for feature in raw.get("features", []):
+        props = feature.get("properties", {}) or {}
+        canonical = canonical_locality_from_census(
+            str(props.get("NAME20", "")),
+            str(props.get("NAMELSAD20", "")),
+        )
+        if not canonical:
+            continue
+        for alias in locality_aliases(canonical):
+            alias_to_targets.setdefault(alias, set()).add(canonical)
+
+    # Keep only aliases that resolve unambiguously to one locality.
+    return {
+        alias: next(iter(targets))
+        for alias, targets in alias_to_targets.items()
+        if len(targets) == 1
+    }
+
+
+def normalize_locality(raw: str, locality_alias_map: dict[str, str] | None = None) -> str:
     s = clean_text(raw)
     if not s:
         return ""
-    s = re.sub(r"^City of\s+", "", s, flags=re.IGNORECASE)
-    s = re.sub(r"\s+County$", "", s, flags=re.IGNORECASE)
-    s = re.sub(r"\s+City$", "", s, flags=re.IGNORECASE)
-    return s.upper()
+    u = normalize_key(s)
+    # Normalize "City of X" => "X CITY" so city/county remain distinct keys.
+    m_city_of = re.match(r"^CITY OF\s+(.+)$", u)
+    if m_city_of:
+        u = f"{m_city_of.group(1).strip()} CITY"
+    if locality_alias_map:
+        return locality_alias_map.get(u, u)
+    return u
 
 
 def normalize_precinct(raw: str) -> str:
@@ -150,7 +204,11 @@ def write_open_elections_csv(path: Path, rows: List[Dict[str, str]]) -> int:
     return len(ordered)
 
 
-def convert_wide_file(csv_path: Path, output_root: Path) -> ConvertedFile:
+def convert_wide_file(
+    csv_path: Path,
+    output_root: Path,
+    locality_alias_map: dict[str, str],
+) -> ConvertedFile:
     match = WIDE_PATTERN.match(csv_path.name)
     if not match:
         raise ValueError(f"Unsupported wide filename: {csv_path.name}")
@@ -177,7 +235,7 @@ def convert_wide_file(csv_path: Path, output_root: Path) -> ConvertedFile:
     for row in data_rows:
         if not row:
             continue
-        county = normalize_locality(row[0] if len(row) > 0 else "")
+        county = normalize_locality(row[0] if len(row) > 0 else "", locality_alias_map)
         precinct = normalize_precinct(row[2] if len(row) > 2 else "")
         if not county or not precinct:
             continue
@@ -224,7 +282,11 @@ def derive_district(row: Dict[str, str]) -> str:
     return district_name
 
 
-def convert_long_file(csv_path: Path, output_root: Path) -> ConvertedFile:
+def convert_long_file(
+    csv_path: Path,
+    output_root: Path,
+    locality_alias_map: dict[str, str],
+) -> ConvertedFile:
     with csv_path.open("r", encoding="utf-8-sig", newline="") as f:
         reader = csv.DictReader(f)
         rows = list(reader)
@@ -235,7 +297,7 @@ def convert_long_file(csv_path: Path, output_root: Path) -> ConvertedFile:
     offices: set[str] = set()
 
     for row in rows:
-        county = normalize_locality(row.get("LocalityName", ""))
+        county = normalize_locality(row.get("LocalityName", ""), locality_alias_map)
         precinct = normalize_precinct(row.get("PrecinctName", ""))
         office = clean_text(row.get("OfficeTitle", ""))
         candidate = clean_text(row.get("CandidateName", ""))
@@ -278,15 +340,19 @@ def convert_long_file(csv_path: Path, output_root: Path) -> ConvertedFile:
     return ConvertedFile(csv_path.name, str(out_path), row_count)
 
 
-def convert_all(input_dir: Path, output_root: Path) -> List[ConvertedFile]:
+def convert_all(
+    input_dir: Path,
+    output_root: Path,
+    locality_alias_map: dict[str, str],
+) -> List[ConvertedFile]:
     converted: List[ConvertedFile] = []
     for csv_path in sorted(input_dir.glob("*.csv")):
         name = csv_path.name
         if WIDE_PATTERN.match(name):
-            converted.append(convert_wide_file(csv_path, output_root))
+            converted.append(convert_wide_file(csv_path, output_root, locality_alias_map))
             continue
         if LONG_PATTERN.match(name):
-            converted.append(convert_long_file(csv_path, output_root))
+            converted.append(convert_long_file(csv_path, output_root, locality_alias_map))
             continue
     return converted
 
@@ -320,6 +386,11 @@ def parse_args() -> argparse.Namespace:
         default="Data/openelections",
         help="Directory for converted OpenElections-style CSVs (default: Data/openelections).",
     )
+    parser.add_argument(
+        "--county-geojson",
+        default="Data/tl_2020_51_county20.geojson",
+        help="County GeoJSON with NAMELSAD20 used for canonical locality names.",
+    )
     return parser.parse_args()
 
 
@@ -327,11 +398,15 @@ def main() -> int:
     args = parse_args()
     input_dir = Path(args.input_dir)
     output_dir = Path(args.output_dir)
+    county_geojson = Path(args.county_geojson)
 
     if not input_dir.exists():
         raise FileNotFoundError(f"Input directory not found: {input_dir}")
+    if not county_geojson.exists():
+        raise FileNotFoundError(f"County GeoJSON not found: {county_geojson}")
 
-    converted = convert_all(input_dir, output_dir)
+    locality_alias_map = build_locality_alias_map(county_geojson)
+    converted = convert_all(input_dir, output_dir, locality_alias_map)
     manifest_path = save_manifest(output_dir, converted)
 
     print(f"Converted {len(converted)} files into {output_dir}")

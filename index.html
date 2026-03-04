@@ -364,7 +364,7 @@
       const normTarget = normalizeCountyName(countyName);
       const countyFeature = counties.find(f => {
         const props = f.properties || {};
-        const name = normalizeCountyName(props.NAME20 || props.County || props.COUNTYNAME || props.NAME || '');
+        const name = normalizeCountyName(props.NAMELSAD20 || props.NAME20 || props.County || props.COUNTYNAME || props.NAME || '');
         return name === normTarget;
       });
       if (!countyFeature) return;
@@ -3108,7 +3108,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   boundaryGeoJSON.features.forEach(f => {
     const p = f.properties || {};
-    let name = normalizeCountyName(p.precinct_name || p.county_nam || p[countyKey] || p.NAME20 || p.COUNTYNAME || p.NAME || p.County || p.name || '');
+    let name = normalizeCountyName(p.precinct_name || p.county_nam || p[countyKey] || p.NAMELSAD20 || p.NAME20 || p.COUNTYNAME || p.NAME || p.County || p.name || '');
     const electionRow = electionMap[name];
     if (electionRow) {
       Object.assign(f.properties, electionRow);
@@ -3129,7 +3129,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       geojson.features.forEach(f => {
         const p = f.properties || {};
-        const name = normalizeCountyName(p.precinct_name || p.county_nam || p.NAME20 || p.COUNTYNAME || p.NAME || p.County || p.name || p.NAMELSAD || '');
+        const name = normalizeCountyName(p.precinct_name || p.county_nam || p.NAMELSAD20 || p.NAME20 || p.COUNTYNAME || p.NAME || p.County || p.name || p.NAMELSAD || '');
         if (name) map[name] = name;
       });
       return map;
@@ -3849,6 +3849,7 @@ document.addEventListener('DOMContentLoaded', function() {
       'ROANOKE', 'SALEM', 'STAUNTON', 'SUFFOLK', 'VIRGINIA BEACH',
       'WAYNESBORO', 'WILLIAMSBURG', 'WINCHESTER'
     ]);
+    const VA_CITY_SUFFIX_COUNTIES = new Set(['JAMES CITY', 'CHARLES CITY']);
 
     function displayCountyName(raw) {
       const s = (raw || '').toString().trim();
@@ -3857,12 +3858,18 @@ document.addEventListener('DOMContentLoaded', function() {
       const cityOfMatch = s.match(/^City of\s+(.+)$/i);
       if (cityOfMatch) {
         const base = toTitleCaseName(cityOfMatch[1].trim());
+        if (VA_CITY_SUFFIX_COUNTIES.has(`${base} City`.toUpperCase())) {
+          return `${base} City County`;
+        }
         return `City of ${base}`;
       }
 
       const cityMatch = s.match(/^(.+?)\s+City$/i);
       if (cityMatch) {
         const base = toTitleCaseName(cityMatch[1].trim());
+        if (VA_CITY_SUFFIX_COUNTIES.has(`${base} City`.toUpperCase())) {
+          return `${base} City County`;
+        }
         return `City of ${base}`;
       }
 
@@ -4166,7 +4173,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!name) return clearHoverOutline();
       showHoverOutline(
         'county-stroke-hover',
-        ['==', ['coalesce', ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME'], ['get', 'name']], name],
+        ['==', ['coalesce', ['get', 'NAMELSAD20'], ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME'], ['get', 'name']], name],
         `county:${name}`
       );
     }
@@ -4255,7 +4262,7 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) {}
 
       const props = e.features[0].properties || {};
-      const countyName = props.NAME20 || props.CountyName || props.COUNTYNAME || props.county_nam || props.NAME || props.name || 'Unknown County';
+      const countyName = props.NAMELSAD20 || props.NAME20 || props.CountyName || props.COUNTYNAME || props.county_nam || props.NAME || props.name || 'Unknown Locality';
       const countyDisplay = displayCountyName(countyName);
       setCountyHoverOutline(countyName);
       const norm = (countyName || '').toString().replace(/[^a-z0-9 .\-]/gi, '').replace(/\s+/g, ' ').trim().toUpperCase();
@@ -5081,7 +5088,7 @@ document.addEventListener('DOMContentLoaded', function() {
           source: 'counties',
           minzoom: 7.5,
           layout: {
-            'text-field': ['coalesce', ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'NAME'], ['get', 'county_nam'], ['get', 'COUNTYNAME'], ['get', 'County'], ['get', 'name']],
+            'text-field': ['coalesce', ['get', 'NAMELSAD20'], ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'NAME'], ['get', 'county_nam'], ['get', 'COUNTYNAME'], ['get', 'County'], ['get', 'name']],
             'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
             'text-size': 11,
             'text-anchor': 'center',
@@ -5101,7 +5108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add county click event handler
         map.on('click', 'county-fill', async (e) => {
           if (e.features && e.features[0] && e.features[0].properties) {
-            const countyName = e.features[0].properties.precinct_name || e.features[0].properties.county_nam || e.features[0].properties.COUNTYNAME || e.features[0].properties.County || e.features[0].properties.NAME || e.features[0].properties.name;
+            const countyName = e.features[0].properties.precinct_name || e.features[0].properties.county_nam || e.features[0].properties.NAMELSAD20 || e.features[0].properties.COUNTYNAME || e.features[0].properties.County || e.features[0].properties.NAME || e.features[0].properties.name;
             if (countyName) {
               showCountyDetails(countyName);
               lastSelectedCounty = countyName;
@@ -5796,10 +5803,10 @@ document.addEventListener('DOMContentLoaded', function() {
       
       let counties = [];
       if (countiesSource._data && countiesSource._data.features) {
-        // Use NAME20 field (just county name, no "County" suffix)
+        // Prefer NAMELSAD20 to keep counties and independent cities distinct.
         counties = countiesSource._data.features.map(f => {
           const p = f.properties || {};
-          return p.NAME20 || p.County || p.COUNTYNAME || p.NAME || '';
+          return p.NAMELSAD20 || p.NAME20 || p.County || p.COUNTYNAME || p.NAME || '';
         }).filter(Boolean).sort();
       }
       
@@ -6057,7 +6064,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // First try exact match
         src.features.forEach(f => {
           const props = f.properties || {};
-          const rawName = props.NAME20 || props.NAMELSAD20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name || '';
+          const rawName = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name || '';
           const n = normalize(rawName);
           if (n === normTarget) {
             found = f;
@@ -6067,7 +6074,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!found) {
           src.features.forEach(f => {
             const props = f.properties || {};
-            const rawName = props.NAME20 || props.NAMELSAD20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name || '';
+            const rawName = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name || '';
             const n = normalize(rawName);
             if (n.indexOf(normTarget) !== -1 || normTarget.indexOf(n) !== -1) {
               if (!found) found = f; // pick first sensible hit
@@ -6077,7 +6084,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (found) {
           const props = found.properties || {};
-          lastSelectedCounty = props.NAME20 || props.NAMELSAD20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name;
+          lastSelectedCounty = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name;
           const bbox = turf.bbox(found);
           debugLog('[DIAGNOSTIC] Matched county for', countyName, '->', lastSelectedCounty, 'bbox:', bbox);
           map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], { padding: 40, duration: 1000 });
@@ -7770,7 +7777,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Match county key across county tileset and local precinct fallback
         expr.push([
           '==',
-          ['upcase', ['coalesce', ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME']]],
+          ['upcase', ['coalesce', ['get', 'NAMELSAD20'], ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME']]],
           countyName
         ]);
         expr.push(color);
@@ -7803,9 +7810,9 @@ document.addEventListener('DOMContentLoaded', function() {
           const f = flipInfo(prevSigned, curSigned);
           if (!f.flipped) return;
           const toColor = colorForFlipMode(f.to);
-          flipColorExpr.push(['==', ['upcase', ['coalesce', ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME']]], countyNorm]);
+          flipColorExpr.push(['==', ['upcase', ['coalesce', ['get', 'NAMELSAD20'], ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME']]], countyNorm]);
           flipColorExpr.push(toColor);
-          flipWidthExpr.push(['==', ['upcase', ['coalesce', ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME']]], countyNorm]);
+          flipWidthExpr.push(['==', ['upcase', ['coalesce', ['get', 'NAMELSAD20'], ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME']]], countyNorm]);
           flipWidthExpr.push(3);
         });
         flipColorExpr.push('rgba(15,23,42,0.35)');

@@ -63,6 +63,16 @@
     {
       "scope": "congressional",
       "contest_type": "governor",
+      "year": 2013,
+      "file": "congressional_governor_2013.json",
+      "rows": 11,
+      "dem_total": 1069789,
+      "rep_total": 1013354,
+      "major_party_contested": true
+    },
+    {
+      "scope": "congressional",
+      "contest_type": "governor",
       "year": 2017,
       "file": "congressional_governor_2017.json",
       "rows": 11,
@@ -308,6 +318,16 @@
       "rows": 100,
       "dem_total": 818397,
       "rep_total": 1162635,
+      "major_party_contested": true
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "governor",
+      "year": 2013,
+      "file": "state_house_governor_2013.json",
+      "rows": 100,
+      "dem_total": 1069789,
+      "rep_total": 1013354,
       "major_party_contested": true
     },
     {
@@ -578,6 +598,16 @@
       "rows": 40,
       "dem_total": 818397,
       "rep_total": 1162635,
+      "major_party_contested": true
+    },
+    {
+      "scope": "state_senate",
+      "contest_type": "governor",
+      "year": 2013,
+      "file": "state_senate_governor_2013.json",
+      "rows": 40,
+      "dem_total": 1069789,
+      "rep_total": 1013354,
       "major_party_contested": true
     },
     {

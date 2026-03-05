@@ -110,6 +110,15 @@
     },
     {
       "contest_type": "governor",
+      "year": 2013,
+      "file": "governor_2013.json",
+      "rows": 133,
+      "dem_total": 1069789,
+      "rep_total": 1013354,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "governor",
       "year": 2017,
       "file": "governor_2017.json",
       "rows": 133,

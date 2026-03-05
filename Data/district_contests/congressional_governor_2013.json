@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "scope": "congressional",
+    "contest_type": "governor",
+    "year": 2013,
+    "district_count": 11,
+    "input_votes": 2241071,
+    "matched_votes": 2241071,
+    "direct_matched_votes": 2102864,
+    "allocated_votes": 138207,
+    "match_coverage_pct": 100.0,
+    "direct_match_coverage_pct": 93.83299324296284
+  },
+  "general": {
+    "results": {
+      "1": {
+        "dem_votes": 92212,
+        "rep_votes": 134742,
+        "other_votes": 26411,
+        "total_votes": 253365,
+        "dem_candidate": "Terence Richard McAuliffe",
+        "rep_candidate": "Kenneth Thomas Cuccinelli, II",
+        "winner": "Republican",
+        "margin": 42530,
+        "margin_pct": 16.786059637282182,
+        "color": "#ef3b2c"
+      },
+      "10": {
+        "dem_votes": 80910,
+        "rep_votes": 87156,
+        "other_votes": 8938,
+        "total_votes": 177004,
+        "dem_candidate": "Terence Richard McAuliffe",
+        "rep_candidate": "Kenneth Thomas Cuccinelli, II",
+        "winner": "Republican",
+        "margin": 6246,
+        "margin_pct": 3.528733813925109,
+        "color": "#fcae91"
+      },
+      "11": {
+        "dem_votes": 121881,
+        "rep_votes": 79673,
+        "other_votes": 11993,
+        "total_votes": 213547,
+        "dem_candidate": "Terence Richard McAuliffe",
+        "rep_candidate": "Kenneth Thomas Cuccinelli, II",
+        "winner": "Democratic",
+        "margin": 42208,
+        "margin_pct": -19.765203912955933,
+        "color": "#6baed6"
+      },
+      "2": {
+        "dem_votes": 88838,
+        "rep_votes": 94896,
+        "other_votes": 12419,
+        "total_votes": 196153,
+        "dem_candidate": "Terence Richard McAuliffe",
+        "rep_candidate": "Kenneth Thomas Cuccinelli, II",
+        "winner": "Republican",
+        "margin": 6058,
+        "margin_pct": 3.0884054793961857,
+        "color": "#fcae91"
+      },
+      "3": {
+        "dem_votes": 116880,
+        "rep_votes": 54540,
+        "other_votes": 10403,
+        "total_votes": 181823,
+        "dem_candidate": "Terence Richard McAuliffe",
+        "rep_candidate": "Kenneth Thomas Cuccinelli, II",
+        "winner": "Democratic",
+        "margin": 62340,
+        "margin_pct": -34.286091418577406,
+        "color": "#08519c"
+      },
+      "4": {
+        "dem_votes": 126852,
+        "rep_votes": 66504,
+        "other_votes": 17488,
+        "total_votes": 210844,
+        "dem_candidate": "Terence Richard McAuliffe",
+        "rep_candidate": "Kenneth Thomas Cuccinelli, II",
+        "winner": "Democratic",
+        "margin": 60348,
+        "margin_pct": -28.622109237161126,
+        "color": "#3182bd"
+      },
+      "5": {
+        "dem_votes": 92384,
+        "rep_votes": 119702,
+        "other_votes": 18729,
+        "total_votes": 230815,
+        "dem_candidate": "Terence Richard McAuliffe",
+        "rep_candidate": "Kenneth Thomas Cuccinelli, II",
+        "winner": "Republican",
+        "margin": 27318,
+        "margin_pct": 11.835452635227346,
+        "color": "#ef3b2c"
+      },
+      "6": {
+        "dem_votes": 68751,
+        "rep_votes": 110970,
+        "other_votes": 15364,
+        "total_votes": 195085,
+        "dem_candidate": "Terence Richard McAuliffe",
+        "rep_candidate": "Kenneth Thomas Cuccinelli, II",
+        "winner": "Republican",
+        "margin": 42219,
+        "margin_pct": 21.641335827972423,
+        "color": "#cb181d"
+      },
+      "7": {
+        "dem_votes": 77337,
+        "rep_votes": 82751,
+        "other_votes": 9734,
+        "total_votes": 169822,
+        "dem_candidate": "Terence Richard McAuliffe",
+        "rep_candidate": "Kenneth Thomas Cuccinelli, II",
+        "winner": "Republican",
+        "margin": 5414,
+        "margin_pct": 3.1880439519025803,
+        "color": "#fcae91"
+      },
+      "8": {
+        "dem_votes": 139039,
+        "rep_votes": 55404,
+        "other_votes": 11741,
+        "total_votes": 206184,
+        "dem_candidate": "Terence Richard McAuliffe",
+        "rep_candidate": "Kenneth Thomas Cuccinelli, II",
+        "winner": "Democratic",
+        "margin": 83635,
+        "margin_pct": -40.56328328095293,
+        "color": "#08306b"
+      },
+      "9": {
+        "dem_votes": 64705,
+        "rep_votes": 127016,
+        "other_votes": 14710,
+        "total_votes": 206431,
+        "dem_candidate": "Terence Richard McAuliffe",
+        "rep_candidate": "Kenneth Thomas Cuccinelli, II",
+        "winner": "Republican",
+        "margin": 62311,
+        "margin_pct": 30.18490439904859,
+        "color": "#a50f15"
+      }
+    }
+  }
+}

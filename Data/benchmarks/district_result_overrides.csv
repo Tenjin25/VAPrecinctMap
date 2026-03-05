@@ -1,2 +1,5 @@
 scope,contest_type,year,district,dem_votes,rep_votes,other_votes,dem_candidate,rep_candidate,notes
 state_house,president,2024,41,19462,20644,894,Kamala D. Harris,Donald J. Trump,User-supplied actual HD-41 presidential totals
+state_house,president,2016,22,18372,20369,2725,Hillary R. Clinton,Donald J. Trump,User-supplied actual HD-22 presidential totals
+state_house,president,2020,22,23454,21015,871,"Joseph Robinette Biden, Jr",Donald J. Trump,User-supplied actual HD-22 presidential totals
+state_house,president,2020,30,29422,29033,1202,"Joseph Robinette Biden, Jr",Donald J. Trump,User-supplied actual HD-30 presidential totals

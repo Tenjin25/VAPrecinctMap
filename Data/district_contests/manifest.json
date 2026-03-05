@@ -436,8 +436,8 @@
       "year": 2016,
       "file": "state_house_president_2016.json",
       "rows": 100,
-      "dem_total": 1981473,
-      "rep_total": 1769443,
+      "dem_total": 1980006,
+      "rep_total": 1770103,
       "major_party_contested": true
     },
     {
@@ -446,8 +446,8 @@
       "year": 2020,
       "file": "state_house_president_2020.json",
       "rows": 100,
-      "dem_total": 2410977,
-      "rep_total": 1965021,
+      "dem_total": 2401855,
+      "rep_total": 1968399,
       "major_party_contested": true
     },
     {

@@ -2995,9 +2995,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	    }
 
 	    async function loadContestSlice(contestType, year) {
-	      const key = `${contestType}_${year}`;
-	      if (contestSliceCache.has(key)) return contestSliceCache.get(key);
 	      const preferPrecinctCSV = !!precinctsEnabled && !!getOpenElectionsCsvPath(contestType, Number(year));
+	      // Keep separate cache entries for county-mode vs precinct-mode loads.
+	      // Otherwise a county JSON slice cached while precincts are off gets reused
+	      // after toggling precincts on, causing county-uniform precinct shading.
+	      const key = `${contestType}_${year}_${preferPrecinctCSV ? 'precinct' : 'county'}`;
+	      if (contestSliceCache.has(key)) return contestSliceCache.get(key);
 	      if (preferPrecinctCSV) {
 	        try {
 	          const rows = await loadStatewideSliceFromOpenElectionsCSV(contestType, Number(year));

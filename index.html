@@ -8010,9 +8010,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Final guardrail: if a county still has precinct norms with zero assigned votes
-        // (typically from precinct renumbering/name drift), smooth county totals across
-        // all county precinct norms using existing assigned totals as weights.
-        // This keeps precinct overlays complete while preserving county-level totals.
+        // (typically from precinct renumbering/name drift), only fill those unmatched
+        // precincts. Do not overwrite already-matched precinct rows, or margins flatten
+        // to a uniform county color.
         if (precinctNormsByCounty) {
           precinctNormsByCounty.forEach((normSet, countyNorm) => {
             const norms = Array.from(normSet || []);
@@ -8026,28 +8026,46 @@ document.addEventListener('DOMContentLoaded', function() {
             const countyTotal = Number(countyNode[`${contestType}_total`] || 0);
             if (countyTotal <= 0) return;
 
-            const zeroCount = norms.reduce((acc, n) => acc + ((Number(precinctVoteAgg.get(n)?.[`${contestType}_total`] || 0) <= 0) ? 1 : 0), 0);
-            if (zeroCount <= 0) return;
+            const zeroNorms = norms.filter(n => Number(precinctVoteAgg.get(n)?.[`${contestType}_total`] || 0) <= 0);
+            if (!zeroNorms.length) return;
 
-            const weights = norms.map(n => {
-              const base = Number(precinctVoteAgg.get(n)?.[`${contestType}_total`] || 0);
-              return { norm: n, w: base + 1 };
-            });
-            const denom = weights.reduce((a, b) => a + Number(b.w || 0), 0);
-            if (denom <= 0) return;
+            const assigned = norms.reduce((acc, n) => {
+              const node = precinctVoteAgg.get(n);
+              acc.dem += Number(node?.[`${contestType}_dem`] || 0);
+              acc.rep += Number(node?.[`${contestType}_rep`] || 0);
+              acc.other += Number(node?.[`${contestType}_other`] || 0);
+              acc.total += Number(node?.[`${contestType}_total`] || 0);
+              return acc;
+            }, { dem: 0, rep: 0, other: 0, total: 0 });
 
-            weights.forEach(({ norm, w }) => {
-              const frac = Number(w || 0) / denom;
-              precinctVoteAgg.set(norm, {
-                year: Number(year),
-                county: norm,
-                [`${contestType}_dem`]: countyDem * frac,
-                [`${contestType}_rep`]: countyRep * frac,
-                [`${contestType}_other`]: countyOther * frac,
-                [`${contestType}_total`]: countyTotal * frac,
-                [`${contestType}_dem_candidate`]: countyNode[`${contestType}_dem_candidate`] || '',
-                [`${contestType}_rep_candidate`]: countyNode[`${contestType}_rep_candidate`] || ''
-              });
+            let residualDem = Math.max(0, countyDem - assigned.dem);
+            let residualRep = Math.max(0, countyRep - assigned.rep);
+            let residualOther = Math.max(0, countyOther - assigned.other);
+            let residualTotal = residualDem + residualRep + residualOther;
+
+            if (residualTotal <= 0) {
+              // If rounding or earlier allocation consumed totals, still color unmatched
+              // precincts without altering matched precinct margins.
+              const tinyTotal = Math.max(1, Math.round(countyTotal * 0.0001));
+              const demFrac = countyTotal > 0 ? (countyDem / countyTotal) : 0;
+              const repFrac = countyTotal > 0 ? (countyRep / countyTotal) : 0;
+              const otherFrac = countyTotal > 0 ? (countyOther / countyTotal) : 0;
+              residualTotal = tinyTotal;
+              residualDem = tinyTotal * demFrac;
+              residualRep = tinyTotal * repFrac;
+              residualOther = tinyTotal * otherFrac;
+            }
+
+            const share = 1 / zeroNorms.length;
+            zeroNorms.forEach(norm => {
+              addPrecinctVotes(
+                norm,
+                residualDem * share,
+                residualRep * share,
+                residualOther * share,
+                countyNode[`${contestType}_dem_candidate`] || '',
+                countyNode[`${contestType}_rep_candidate`] || ''
+              );
             });
           });
         }

@@ -356,6 +356,7 @@
       // Normalize county names for matching
       function normalizeCountyName(name) {
         return (name || '')
+          .replace(/&/g, ' AND ')
           .replace(/[^a-z0-9 .\-]/gi, '')  // Keep periods for St. names and hyphens for Miami-Dade
           .replace(/\s+/g, ' ')
           .trim()
@@ -2835,21 +2836,21 @@ document.addEventListener('DOMContentLoaded', function() {
 	        2013: withBase('./Data/openelections/2013/20131105__va__general__precinct__governor.csv'),
 	        2017: withBase('./Data/openelections/2017/20171107__va__general__precinct__governor.csv'),
 	        2021: withBase('./Data/openelections/2021/20211102__va__general__precinct__governor.csv'),
-	        2025: withBase('./Data/openelections/2025/20251104__va__general__precinct__governor.csv')
+	        2025: withBase('./Data/openelections/2025/20251104__va__general__precinct__multi_office__9b503992_5765_47e2_989d_5ed01f31621e.csv')
 	      },
 	      lieutenant_governor: {
 	        2009: withBase('./Data/openelections/2009/20091103__va__general__precinct__lieutenant_governor.csv'),
 	        2013: withBase('./Data/openelections/2013/20131105__va__general__precinct__lieutenant_governor.csv'),
 	        2017: withBase('./Data/openelections/2017/20171107__va__general__precinct__lieutenant_governor.csv'),
 	        2021: withBase('./Data/openelections/2021/20211102__va__general__precinct__lieutenant_governor.csv'),
-	        2025: withBase('./Data/openelections/2025/20251104__va__general__precinct__lieutenant_governor.csv')
+	        2025: withBase('./Data/openelections/2025/20251104__va__general__precinct__multi_office__9b503992_5765_47e2_989d_5ed01f31621e.csv')
 	      },
 	      attorney_general: {
 	        2009: withBase('./Data/openelections/2009/20091103__va__general__precinct__attorney_general.csv'),
 	        2013: withBase('./Data/openelections/2013/20131105__va__general__precinct__attorney_general.csv'),
 	        2017: withBase('./Data/openelections/2017/20171107__va__general__precinct__attorney_general.csv'),
 	        2021: withBase('./Data/openelections/2021/20211102__va__general__precinct__attorney_general.csv'),
-	        2025: withBase('./Data/openelections/2025/20251104__va__general__precinct__attorney_general.csv')
+	        2025: withBase('./Data/openelections/2025/20251104__va__general__precinct__multi_office__9b503992_5765_47e2_989d_5ed01f31621e.csv')
 	      }
 	    };
 
@@ -2876,7 +2877,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	      const downloadUrl = toAbsoluteUrl(path);
 
 	      function normalizeLocalityKey(raw) {
-	        const s0 = (raw || '').toString().trim().toUpperCase().replace(/\s+/g, ' ');
+	        const s0 = (raw || '').toString().trim().toUpperCase().replace(/&/g, ' AND ').replace(/\s+/g, ' ');
 	        if (!s0) return '';
 	        const cityOf = s0.match(/^CITY OF\s+(.+)$/);
 	        const s = cityOf ? `${cityOf[1].trim()} CITY` : s0;
@@ -3217,6 +3218,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const electionMap = {};
   function normalizeCountyName(name) {
     return (name || '')
+      .replace(/&/g, ' AND ')
       .replace(/[^a-z0-9 .\-]/gi, '')  // Keep periods for St. names and hyphens for Miami-Dade
       .replace(/\s+/g, ' ')
       .trim()
@@ -3242,6 +3244,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!geojson || !geojson.features) return map;
       function normalizeCountyName(name) {
         return (name || '')
+          .replace(/&/g, ' AND ')
           .replace(/[^a-z0-9 .\-]/gi, '')  // Keep periods for St. names and hyphens for Miami-Dade
           .replace(/\s+/g, ' ')
           .trim()
@@ -4892,6 +4895,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Normalize and find county data
       function normalizeCountyName(name) {
         return (name || '')
+          .replace(/&/g, ' AND ')
           .replace(/[^a-z0-9 .\-]/gi, '')  // Keep periods for St. names and hyphens for Miami-Dade
           .replace(/\s+/g, ' ')
           .trim()
@@ -7663,6 +7667,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	      function normalizeCountyName(name) {
 	        return (name || '')
+	          .replace(/&/g, ' AND ')
 	          .replace(/[^a-z0-9 .\-]/gi, '')
 	          .replace(/\s+/g, ' ')
 	          .trim()

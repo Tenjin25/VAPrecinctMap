@@ -53,6 +53,7 @@ STATE_SENATE_PARTY_BLEND_BY_COUNTY = {
 }
 
 DEFAULT_MARGIN_TARGETS_CSV = "Data/benchmarks/district_margin_targets.csv"
+DEFAULT_RESULT_OVERRIDES_CSV = "Data/benchmarks/district_result_overrides.csv"
 ASSIGN_MEMBER_VTD = "BlockAssign_ST51_VA_VTD.txt"
 ASSIGN_MEMBER_CD = "BlockAssign_ST51_VA_CD.txt"
 ASSIGN_MEMBER_SLDL = "BlockAssign_ST51_VA_SLDL.txt"
@@ -636,6 +637,67 @@ def load_district_margin_targets(csv_path: Path) -> dict[tuple[str, str, int, st
     return out
 
 
+def load_district_result_overrides(csv_path: Path) -> dict[tuple[str, str, int, str], dict]:
+    if not csv_path.exists():
+        print(f"INFO: No district result override file at {csv_path}; continuing without exact overrides.")
+        return {}
+
+    with csv_path.open("r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        required = {"scope", "contest_type", "year", "district", "dem_votes", "rep_votes", "other_votes"}
+        header = set(reader.fieldnames or [])
+        missing = required - header
+        if missing:
+            raise ValueError(f"Missing required columns in {csv_path}: {sorted(missing)}")
+
+        out: dict[tuple[str, str, int, str], dict] = {}
+        for row_num, row in enumerate(reader, start=2):
+            scope = (row.get("scope") or "").strip().lower()
+            contest_type = (row.get("contest_type") or "").strip().lower()
+            year_raw = (row.get("year") or "").strip()
+            district = normalize_district_id((row.get("district") or "").strip())
+            dem_raw = (row.get("dem_votes") or "").strip()
+            rep_raw = (row.get("rep_votes") or "").strip()
+            other_raw = (row.get("other_votes") or "").strip()
+
+            if not scope and not contest_type and not year_raw and not district and not dem_raw and not rep_raw and not other_raw:
+                continue
+            if not scope or not contest_type or not year_raw or not district:
+                raise ValueError(f"Incomplete result override row at {csv_path}:{row_num}")
+            if scope not in SCOPES:
+                raise ValueError(f"Invalid scope {scope!r} at {csv_path}:{row_num}")
+            if contest_type not in ALL_CONTESTS:
+                raise ValueError(f"Invalid contest_type {contest_type!r} at {csv_path}:{row_num}")
+            try:
+                year = int(year_raw)
+            except ValueError as exc:
+                raise ValueError(f"Invalid year {year_raw!r} at {csv_path}:{row_num}") from exc
+            try:
+                dem_votes = float(dem_raw)
+                rep_votes = float(rep_raw)
+                other_votes = float(other_raw)
+            except ValueError as exc:
+                raise ValueError(f"Invalid vote totals at {csv_path}:{row_num}") from exc
+            if dem_votes < 0 or rep_votes < 0 or other_votes < 0:
+                raise ValueError(f"Negative vote totals are not allowed at {csv_path}:{row_num}")
+
+            override = {
+                "dem_votes": dem_votes,
+                "rep_votes": rep_votes,
+                "other_votes": other_votes,
+            }
+            dem_candidate = (row.get("dem_candidate") or "").strip()
+            rep_candidate = (row.get("rep_candidate") or "").strip()
+            if dem_candidate:
+                override["dem_candidate"] = dem_candidate
+            if rep_candidate:
+                override["rep_candidate"] = rep_candidate
+            out[(scope, contest_type, year, district)] = override
+
+    print(f"Loaded {len(out)} district result overrides from {csv_path}")
+    return out
+
+
 def category_color_for_margin(margin_pct_abs: float, winner: str) -> str:
     if margin_pct_abs >= 40:
         return "#67000d" if winner == "R" else "#08306b"
@@ -1178,6 +1240,36 @@ def apply_district_margin_targets(
         totals[(scope, contest_type, year)]["rep"] += d_rep
 
 
+def apply_district_result_overrides(
+    district_acc: dict[tuple[str, str, int, str], dict],
+    totals: dict[tuple[str, str, int], dict],
+    result_overrides: dict[tuple[str, str, int, str], dict],
+) -> None:
+    for key, override in result_overrides.items():
+        node = district_acc.get(key)
+        if node is None:
+            continue
+
+        scope, contest_type, year, _district = key
+        dem = float(override.get("dem_votes", 0.0) or 0.0)
+        rep = float(override.get("rep_votes", 0.0) or 0.0)
+        other = float(override.get("other_votes", 0.0) or 0.0)
+
+        totals[(scope, contest_type, year)]["dem"] += dem - float(node.get("dem", 0.0) or 0.0)
+        totals[(scope, contest_type, year)]["rep"] += rep - float(node.get("rep", 0.0) or 0.0)
+
+        node["dem"] = dem
+        node["rep"] = rep
+        node["other"] = other
+
+        dem_candidate = (override.get("dem_candidate") or "").strip()
+        rep_candidate = (override.get("rep_candidate") or "").strip()
+        if dem_candidate:
+            node["dem_cands"] = Counter({dem_candidate: dem})
+        if rep_candidate:
+            node["rep_cands"] = Counter({rep_candidate: rep})
+
+
 def compute_signed_margin_pct(node: dict) -> float | None:
     dem = float(node.get("dem", 0.0) or 0.0)
     rep = float(node.get("rep", 0.0) or 0.0)
@@ -1484,6 +1576,7 @@ def parse_args() -> argparse.Namespace:
         default=1.0,
         help="Flag benchmark rows as needing calibration when abs(actual-target) is >= this value.",
     )
+    parser.add_argument("--result-overrides-csv", default=DEFAULT_RESULT_OVERRIDES_CSV)
     parser.add_argument("--output-dir", default="Data/district_contests")
     return parser.parse_args()
 
@@ -1500,6 +1593,7 @@ def main() -> int:
     state_house_geojson = Path(args.state_house_geojson)
     state_senate_geojson = Path(args.state_senate_geojson)
     margin_targets_csv = Path(args.margin_targets_csv) if args.margin_targets_csv else Path("")
+    result_overrides_csv = Path(args.result_overrides_csv) if args.result_overrides_csv else Path("")
     output_dir = Path(args.output_dir)
 
     for p in (
@@ -1530,8 +1624,10 @@ def main() -> int:
     locality_alias_map = build_locality_alias_map(county_geojson)
     district_acc, totals, coverage = build_district_contests(openelections_dir, scope_maps, locality_alias_map)
     margin_targets = load_district_margin_targets(margin_targets_csv) if args.margin_targets_csv else {}
+    result_overrides = load_district_result_overrides(result_overrides_csv) if args.result_overrides_csv else {}
     raw_margin_snapshot = build_raw_margin_snapshot(district_acc, margin_targets)
     apply_district_margin_targets(district_acc, totals, margin_targets)
+    apply_district_result_overrides(district_acc, totals, result_overrides)
     manifest = write_outputs(output_dir, district_acc, totals, coverage)
     report_paths = write_margin_target_report(
         output_dir,

@@ -4049,7 +4049,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function maybePinTooltipForTap() {
-      if (!IS_COARSE_POINTER) return;
       try {
         setTooltipPinned(true);
         const pinBtn = document.getElementById('tooltip-pin-btn');
@@ -4057,9 +4056,15 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) {}
     }
 
+    function prepareTooltipForSelection() {
+      try {
+        setTooltipPinned(false);
+      } catch (_) {}
+    }
+
     // Mobile: tapping empty space closes any pinned tooltip/highlight.
     map.on('click', (e) => {
-      if (!IS_COARSE_POINTER) return;
+      if (!IS_COARSE_POINTER && !tooltipPinned) return;
       const layers = [
         'precinct-dot',
         'precinct-dot-missing',
@@ -7215,6 +7220,7 @@ document.addEventListener('DOMContentLoaded', function() {
           if (e.features && e.features[0] && e.features[0].properties) {
             const countyName = e.features[0].properties.precinct_name || e.features[0].properties.county_nam || e.features[0].properties.NAMELSAD20 || e.features[0].properties.COUNTYNAME || e.features[0].properties.County || e.features[0].properties.NAME || e.features[0].properties.name;
             if (countyName) {
+              prepareTooltipForSelection();
               showCountyDetails(countyName);
               lastSelectedCounty = countyName;
               setCountyHoverOutline(countyName);
@@ -7374,6 +7380,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         try {
           if (e?.point && e?.features?.[0]) {
+            prepareTooltipForSelection();
             renderPrecinctHoverAtPoint(e.point, e.features[0]);
             maybePinTooltipForTap();
           }
@@ -7625,6 +7632,7 @@ document.addEventListener('DOMContentLoaded', function() {
           try {
             const f = e?.features?.[0];
             if (!f) return;
+            prepareTooltipForSelection();
             renderPrecinctHoverAtPoint(e.point, f);
             maybePinTooltipForTap();
           } catch (_) {}
@@ -7737,6 +7745,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const props = e.features[0].properties;
             const districtNum = normalizeDistrictNumber(props.DISTRICT || props.CD119FP || props.CD118FP || props.district_id || props.district);
             if (districtNum) {
+              prepareTooltipForSelection();
               focusDistrictGeometry(districtNum, 'districts', {
                 duration: 800,
                 fallbackFeature: e.features[0]
@@ -7827,6 +7836,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const props = e.features[0].properties;
             const districtNum = normalizeDistrictNumber(props.DISTRICT || props.SLDLST || props.district_id || props.district);
             if (districtNum) {
+              prepareTooltipForSelection();
               focusDistrictGeometry(districtNum, 'state-house', {
                 duration: 800,
                 fallbackFeature: e.features[0]
@@ -7915,6 +7925,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const props = e.features[0].properties;
             const districtNum = normalizeDistrictNumber(props.DISTRICT || props.SLDUST || props.district_id || props.district);
             if (districtNum) {
+              prepareTooltipForSelection();
               focusDistrictGeometry(districtNum, 'state-senate', {
                 duration: 800,
                 fallbackFeature: e.features[0]

@@ -2651,6 +2651,207 @@ body { height: var(--app-height); }
       bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px) + 18px) !important;
     }
   }
+
+  .control-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 41, 59, 0.92) 100%);
+    color: #f8fafc;
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.2);
+  }
+
+  .control-summary-head,
+  .control-summary-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .control-summary-kicker,
+  .control-summary-mode {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .control-summary-kicker {
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .control-summary-mode {
+    background: rgba(96, 165, 250, 0.16);
+    color: #bfdbfe;
+  }
+
+  .control-summary-title {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .control-summary-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #f8fafc;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .control-summary-pill-muted {
+    background: rgba(148, 163, 184, 0.18);
+    color: #cbd5e1;
+  }
+
+  .control-section-label {
+    display: block;
+    margin: 0 0 8px;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .view-toggle-row {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px !important;
+    padding: 6px;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.05);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+  }
+
+  .view-toggle-btn {
+    min-height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.72);
+    font-size: 12px;
+  }
+
+  .view-toggle-btn.active {
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    box-shadow: 0 12px 22px rgba(15, 23, 42, 0.16);
+  }
+
+  .viz-modes,
+  .viz-modes-inline {
+    padding: 6px;
+    border-radius: 18px;
+    background: rgba(248, 250, 252, 0.94);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+  }
+
+  .viz-mode-btn {
+    min-width: 0;
+    padding: 10px 16px;
+    border-radius: 12px;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .viz-mode-btn.active {
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
+  }
+
+  .viz-mode-btn.active::after {
+    display: none;
+  }
+
+  .contest-toolbar {
+    gap: 10px !important;
+    margin-bottom: 10px;
+  }
+
+  .contest-search-wrap,
+  .contest-select-wrap {
+    position: relative;
+  }
+
+  .contest-search-wrap {
+    margin-top: 8px;
+  }
+
+  #contestSearch,
+  #contestSelect {
+    width: 100%;
+    min-height: 48px;
+    border-radius: 14px !important;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  }
+
+  #contestSelect {
+    appearance: none;
+    padding-right: 40px;
+  }
+
+  .contest-select-wrap::after {
+    content: '▾';
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  #help-btn,
+  #accessibility-toggle,
+  #label-toggle {
+    border: 1px solid rgba(148, 163, 184, 0.18) !important;
+    background: rgba(15, 23, 42, 0.92) !important;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.14) !important;
+  }
+
+  #precinct-toggle {
+    background: linear-gradient(180deg, #065f46 0%, #047857 100%) !important;
+    box-shadow: 0 12px 22px rgba(6, 95, 70, 0.2) !important;
+  }
+
+  @media (max-width: 768px) {
+    .control-summary {
+      padding: 12px;
+      border-radius: 16px;
+    }
+
+    .control-summary-title {
+      font-size: 16px;
+    }
+
+    .control-summary-pill,
+    .control-summary-kicker,
+    .control-summary-mode {
+      font-size: 10px;
+    }
+
+    .viz-modes-inline {
+      border-radius: 16px;
+    }
+  }
     </style>
 </head>
 <body>
@@ -2950,7 +3151,19 @@ document.addEventListener('DOMContentLoaded', function() {
                   <button class="fly-to-chip" type="button" data-query="Lynchburg 101">Lynchburg 101</button>
                 </div>
             </div>
+            <div class="control-summary" id="control-summary">
+                <div class="control-summary-head">
+                  <span class="control-summary-kicker">Current map</span>
+                  <span class="control-summary-mode" id="control-summary-mode">Margins</span>
+                </div>
+                <div class="control-summary-title" id="control-summary-title">Choose a contest</div>
+                <div class="control-summary-meta">
+                  <span class="control-summary-pill" id="control-summary-view">Counties</span>
+                  <span class="control-summary-pill control-summary-pill-muted" id="control-summary-year">No contest selected</span>
+                </div>
+            </div>
             <div class="control-group" style="margin-bottom:10px;">
+                <label class="control-section-label">Geography</label>
                 <div class="view-toggle-row" style="display:flex;gap:6px;flex-wrap:wrap;">
                   <button id="counties-view" class="view-toggle-btn active" onclick="setMapView('counties')">Counties</button>
                   <button id="districts-view" class="view-toggle-btn" onclick="setMapView('districts')">Congress</button>
@@ -2968,18 +3181,20 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
             </div>
             <div class="control-group">
+                <label class="control-section-label" for="contestSelect">Contest</label>
                 <div class="contest-toolbar" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-                  <label>Contest:</label>
                   <button id="accessibility-toggle" title="Accessibility: Color Blind Mode" style="background:#1f2937;color:#fff;border-radius:50%;width:32px;height:32px;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.10);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;">&#9855;</button>
                   <button id="label-toggle" title="Toggle County Labels" style="background:#1f2937;color:#fff;border-radius:50%;width:32px;height:32px;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.10);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:bold;">Aa</button>
                   <button id="precinct-toggle" title="Enable Precinct Overlay (Zoom 8.5+)" style="background:#065f46;color:#fff;border-radius:8px;height:32px;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.10);font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:bold;padding:0 10px;">Precincts Off</button>
                 </div>
-                <div style="margin-top:8px;">
+                <div class="contest-search-wrap">
                   <input id="contestSearch" type="search" placeholder="Search contests (e.g., President, Senate, 2008)..." autocomplete="off" spellcheck="false" />
                 </div>
-                <select id="contestSelect">
-                    <option value="">Select a Contest...</option>
-                </select>
+                <div class="contest-select-wrap">
+                  <select id="contestSelect">
+                      <option value="">Select a Contest...</option>
+                  </select>
+                </div>
                 <div style="margin-top:8px;font-size:12px;color:#64748b;line-height:1.3;">
                   Tips: click a county or district for trends. Shortcuts: `P` precincts, `L` labels.
                 </div>
@@ -3275,6 +3490,49 @@ document.addEventListener('DOMContentLoaded', function() {
     // Session persistence was removed to avoid surprises on shared/low-memory machines.
     let contestSearchQuery = '';
 
+    function viewLabelForSummary(view = currentView) {
+      const labels = {
+        counties: 'Counties',
+        districts: 'Congress',
+        state_house: 'State House',
+        state_senate: 'State Senate',
+        vtds_2000: '2000 Precincts'
+      };
+      return labels[view] || 'Map';
+    }
+
+    function modeLabelForSummary(mode = currentVizMode) {
+      const labels = {
+        margins: 'Margins',
+        winners: 'Winners',
+        shift: 'Shift',
+        flips: 'Flips'
+      };
+      return labels[mode] || 'Margins';
+    }
+
+    function updateControlSummary(contestKey = document.getElementById('contestSelect')?.value || '') {
+      const titleEl = document.getElementById('control-summary-title');
+      const viewEl = document.getElementById('control-summary-view');
+      const yearEl = document.getElementById('control-summary-year');
+      const modeEl = document.getElementById('control-summary-mode');
+      if (!titleEl || !viewEl || !yearEl || !modeEl) return;
+
+      const key = String(contestKey || '').trim();
+      const [contestType, year] = parseContestValue(key);
+      viewEl.textContent = viewLabelForSummary(currentView);
+      modeEl.textContent = modeLabelForSummary(currentVizMode);
+
+      if (!contestType || !year) {
+        titleEl.textContent = 'Choose a contest';
+        yearEl.textContent = 'No contest selected';
+        return;
+      }
+
+      titleEl.textContent = formatContestName(contestType, year);
+      yearEl.textContent = String(year);
+    }
+
     function saveUIState() {}
     async function restoreUIState() {}
 
@@ -3361,6 +3619,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Update button states
       setVizModeUI(mode);
+      updateControlSummary();
       renderLegendForVizMode(mode);
       
       // Reapply current contest with new mode
@@ -4657,6 +4916,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!nextValue) return false;
 
       sel.value = nextValue;
+      updateControlSummary(nextValue);
       applyContest(nextValue).catch(err => {
         console.error('Failed to preserve contest selection after view switch:', err);
         try { setStatus(`Failed to apply ${nextValue}: ${err?.message || err}`); } catch (_) {}
@@ -4733,6 +4993,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const restoredContest = preserveContestSelectionForCurrentView(previousContestKey);
       if (!restoredContest) {
         document.getElementById('contestSelect').value = '';
+        updateControlSummary('');
       }
       clearCountyDetails();
       saveUIState();
@@ -8530,6 +8791,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const lastUnderscoreIndex = contestKey.lastIndexOf('_');
       const contestType = contestKey.substring(0, lastUnderscoreIndex);
       const year = contestKey.substring(lastUnderscoreIndex + 1);
+      updateControlSummary(contestKey);
       
       if (currentView === 'counties') {
         await applyCountyContest(contestType, year);

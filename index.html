@@ -1784,8 +1784,21 @@ body { height: var(--app-height); }
     background: rgba(255, 255, 255, 0.98);
   }
 
-  /* Allow interacting with tooltip buttons only when pinned. */
+  .hover-tooltip {
+    pointer-events: none;
+  }
+
+  /* Soft-pinned selection tooltips should not block the next county hover.
+     Explicitly pinned tooltips stay fully interactive. */
   #hover-tooltip[data-pinned="1"] {
+    pointer-events: none;
+  }
+
+  #hover-tooltip[data-pinned="1"][data-pin-explicit="1"] {
+    pointer-events: auto;
+  }
+
+  #hover-tooltip .tooltip-btn {
     pointer-events: auto;
   }
 
@@ -4152,7 +4165,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function maybePinTooltipForTap() {
       try {
-        setTooltipPinned(true);
+        setTooltipPinned(true, { explicit: true });
         const pinBtn = document.getElementById('tooltip-pin-btn');
         if (pinBtn) pinBtn.textContent = 'Unpin';
       } catch (_) {}
@@ -4248,6 +4261,8 @@ document.addEventListener('DOMContentLoaded', function() {
       let precinctLabelIndexByCounty = null; // Map<string countyNorm, Array<{norm,labelNorm}>>.
       let precinctDotHoverWired = new Set();
 	    let tooltipPinned = false;
+      let tooltipPinnedExplicit = false;
+      let tooltipPinnedKey = '';
 	    let precinctDotHoverRaf = null;
 	    let lastPrecinctDotHoverEvent = null;
     let districtHoverRequestId = 0;
@@ -6116,6 +6131,11 @@ document.addEventListener('DOMContentLoaded', function() {
         .toUpperCase();
     }
 
+    function getCountyTooltipKey(countyName) {
+      const norm = normalizeCountyLookupKey(countyName);
+      return norm ? `county:${norm}` : '';
+    }
+
     function getCurrentElectionResultsIndex() {
       if (currentElectionResultsIndex) return currentElectionResultsIndex;
       const index = new Map();
@@ -6566,6 +6586,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const props = e.features[0].properties || {};
       const countyName = props.NAMELSAD20 || props.NAME20 || props.CountyName || props.COUNTYNAME || props.county_nam || props.NAME || props.name || 'Unknown Locality';
       const countyDisplay = displayCountyName(countyName);
+      const hoveredCountyKey = getCountyTooltipKey(countyName);
+      if (!IS_COARSE_POINTER && tooltipPinned && !tooltipPinnedExplicit && hoveredCountyKey && hoveredCountyKey !== tooltipPinnedKey) {
+        closeHoverUI({ force: true });
+      }
       setCountyHoverOutline(countyName);
       const norm = normalizeCountyLookupKey(countyName);
       const row = getCountyResultRow(countyName);
@@ -7478,7 +7502,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Desktop click keeps the historical trend popup behavior.
                 const trendType = contestType || 'president';
                 const tooltipTitle = `${countyDisplay} - ${formatContestName(trendType, '')} Trends`;
-                setTooltipPinned(true);
+                setTooltipPinned(true, { explicit: false, key: getCountyTooltipKey(countyName) });
                 showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(tooltipTitle, '<div style="color:#94a3b8;">Loading trends...</div>'), { force: true });
                 wireTooltipButtons();
                 try {
@@ -8793,19 +8817,24 @@ document.addEventListener('DOMContentLoaded', function() {
       tooltip.style.display = 'none';
     }
 
-    function setTooltipPinned(pinned) {
+    function setTooltipPinned(pinned, { explicit = false, key = '' } = {}) {
       tooltipPinned = !!pinned;
+      tooltipPinnedExplicit = !!(pinned && explicit);
+      tooltipPinnedKey = pinned ? (key || tooltipPinnedKey || '') : '';
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
       tooltip.setAttribute('data-pinned', tooltipPinned ? '1' : '0');
+      tooltip.setAttribute('data-pin-explicit', tooltipPinnedExplicit ? '1' : '0');
+      if (!tooltipPinned) tooltipPinnedKey = '';
     }
 
     function buildTooltipShell(title, innerHtml) {
-      const pinLabel = tooltipPinned ? 'Unpin' : 'Pin';
+      const pinLabel = tooltipPinned && tooltipPinnedExplicit ? 'Unpin' : 'Pin';
+      const kicker = tooltipPinned ? (tooltipPinnedExplicit ? 'Pinned detail' : 'Selected detail') : 'Map detail';
       return `
         <div class="tooltip-head">
           <div class="tooltip-copy">
-            <div class="tooltip-kicker">${tooltipPinned ? 'Pinned detail' : 'Map detail'}</div>
+            <div class="tooltip-kicker">${kicker}</div>
             <div class="tooltip-title">${title}</div>
           </div>
           <div class="tooltip-actions">
@@ -8822,8 +8851,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const closeBtn = document.getElementById('tooltip-close-btn');
       if (pinBtn) {
         pinBtn.onclick = () => {
-          setTooltipPinned(!tooltipPinned);
-          pinBtn.textContent = tooltipPinned ? 'Unpin' : 'Pin';
+          if (tooltipPinned && tooltipPinnedExplicit) {
+            setTooltipPinned(false);
+          } else {
+            setTooltipPinned(true, { explicit: true, key: tooltipPinnedKey });
+          }
+          pinBtn.textContent = tooltipPinned && tooltipPinnedExplicit ? 'Unpin' : 'Pin';
         };
       }
       if (closeBtn) {

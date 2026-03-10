@@ -2441,6 +2441,8 @@ body { height: var(--app-height); }
     overflow: hidden;
     border-radius: 20px;
     background: rgba(248, 250, 252, 0.92);
+    display: flex;
+    flex-direction: column;
   }
 
   .legend::before {
@@ -2530,7 +2532,8 @@ body { height: var(--app-height); }
   .legend-content {
     display: grid;
     gap: 8px;
-    max-height: min(44vh, 420px);
+    flex: 1 1 auto;
+    min-height: 0;
     overflow: auto;
     padding: 0 16px 14px;
   }
@@ -2540,16 +2543,17 @@ body { height: var(--app-height); }
     grid-template-columns: 18px minmax(0, 1fr);
     align-items: center;
     gap: 10px;
-    min-height: 40px;
+    min-height: 36px;
     margin: 0;
-    padding: 10px 12px;
+    padding: 8px 10px;
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.82);
     border: 1px solid rgba(148, 163, 184, 0.16);
     color: #334155;
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 700;
     line-height: 1.35;
+    break-inside: avoid;
   }
 
   .legend-color {
@@ -3461,6 +3465,7 @@ body { height: var(--app-height); }
       right: 24px;
       bottom: 24px;
       width: min(340px, calc(100vw - 560px));
+      max-height: calc(100vh - 24px - var(--counter-h, 0px) - 24px);
     }
 
     .vote-counter {
@@ -6765,14 +6770,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // On mobile, position floating UI elements relative to the actual legend height
       // instead of assuming it always takes 50vh.
       try {
-        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
         const root = document.documentElement;
-        if (!isMobile) {
-          root.style.removeProperty('--legend-h');
-          root.style.removeProperty('--controls-h');
-          root.style.removeProperty('--counter-h');
-          return;
-        }
         const legend = document.getElementById('legend');
         const controls = document.getElementById('main-controls');
         const counter = document.getElementById('vote-counter');
@@ -6780,9 +6778,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const ch = controls ? Math.round(controls.getBoundingClientRect().height) : 0;
         const counterVisible = counter && counter.style.display !== 'none';
         const cth = counterVisible ? Math.round(counter.getBoundingClientRect().height) : 0;
+        root.style.setProperty('--counter-h', `${Math.max(0, cth)}px`);
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile) {
+          root.style.removeProperty('--legend-h');
+          root.style.removeProperty('--controls-h');
+          return;
+        }
         root.style.setProperty('--legend-h', `${Math.max(0, lh)}px`);
         root.style.setProperty('--controls-h', `${Math.max(0, ch)}px`);
-        root.style.setProperty('--counter-h', `${Math.max(0, cth)}px`);
       } catch (_) {}
     }
 

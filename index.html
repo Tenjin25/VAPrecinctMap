@@ -3416,6 +3416,13 @@ body { height: var(--app-height); }
       grid-column: 1 / -1;
     }
 
+    .legend {
+      left: auto;
+      right: 24px;
+      bottom: 24px;
+      width: min(340px, calc(100vw - 560px));
+    }
+
     .vote-counter {
       top: 20px;
       left: auto;
@@ -4262,7 +4269,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const legend = document.getElementById('legend');
         if (opts.includeLegend && isOverlayElementVisible(legend)) {
-          applyInset(legend.getBoundingClientRect(), isMobile ? { bottom: true } : { bottom: true });
+          applyInset(legend.getBoundingClientRect(), isMobile ? { bottom: true } : { bottom: true, right: true });
         }
 
         const counter = document.getElementById('vote-counter');

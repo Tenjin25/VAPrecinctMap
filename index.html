@@ -369,8 +369,10 @@
         return name === normTarget;
       });
       if (!countyFeature) return;
-      const bbox = turf.bbox(countyFeature);
-      map.fitBounds(bbox, { padding: 40, maxZoom: 10 });
+      if (!fitFeatureWithOverlayPadding(countyFeature, { duration: 900, maxZoom: 10 })) {
+        const bbox = turf.bbox(countyFeature);
+        map.fitBounds(bbox, { padding: 40, maxZoom: 10 });
+      }
     }
   </script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js'></script>
@@ -2043,6 +2045,238 @@ body { height: var(--app-height); }
     color: #0f172a;
   }
 
+  .statewide-card {
+    display: grid;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background:
+      radial-gradient(circle at top left, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.96) 48%, rgba(241, 245, 249, 0.92) 100%);
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.10);
+  }
+
+  .statewide-hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .statewide-kicker {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .statewide-call {
+    margin-top: 4px;
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: #0f172a;
+  }
+
+  .statewide-call[data-party="dem"] { color: #1d4ed8; }
+  .statewide-call[data-party="rep"] { color: #b91c1c; }
+  .statewide-call[data-party="tie"] { color: #475569; }
+
+  .statewide-subline {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #475569;
+  }
+
+  .statewide-competitive {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(255, 255, 255, 0.88);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .statewide-share-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .statewide-bar {
+    height: 18px;
+    border-radius: 999px;
+    overflow: hidden;
+    display: flex;
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  }
+
+  .statewide-share-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(255, 255, 255, 0.84);
+    color: #334155;
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .statewide-share-chip strong {
+    color: inherit;
+    font-size: 13px;
+  }
+
+  .statewide-share-chip.dem {
+    color: #1d4ed8;
+    background: rgba(219, 234, 254, 0.72);
+    border-color: rgba(96, 165, 250, 0.32);
+  }
+
+  .statewide-share-chip.rep {
+    color: #b91c1c;
+    background: rgba(254, 226, 226, 0.76);
+    border-color: rgba(248, 113, 113, 0.30);
+  }
+
+  .statewide-share-chip.other {
+    color: #475569;
+    background: rgba(241, 245, 249, 0.94);
+  }
+
+  .statewide-breakdown {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .statewide-breakdown-item {
+    display: grid;
+    gap: 8px;
+    padding: 11px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(255, 255, 255, 0.86);
+  }
+
+  .statewide-breakdown-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .statewide-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    flex: 0 0 auto;
+    background: #94a3b8;
+  }
+
+  .statewide-dot.dem { background: #2563eb; }
+  .statewide-dot.rep { background: #dc2626; }
+  .statewide-dot.other { background: #64748b; }
+
+  .statewide-breakdown-label {
+    min-width: 0;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .statewide-breakdown-value {
+    font-size: 16px;
+    font-weight: 900;
+    color: #0f172a;
+  }
+
+  .statewide-breakdown-value span {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+  }
+
+  .statewide-footer-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .statewide-stat {
+    display: grid;
+    gap: 5px;
+    padding: 11px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    background: rgba(248, 250, 252, 0.92);
+  }
+
+  .statewide-stat span {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .statewide-stat strong {
+    font-size: 15px;
+    line-height: 1.25;
+    color: #0f172a;
+  }
+
+  @media (max-width: 768px) {
+    .statewide-card {
+      padding: 12px;
+      border-radius: 16px;
+    }
+
+    .statewide-hero {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .statewide-call {
+      font-size: 30px;
+    }
+
+    .statewide-competitive {
+      justify-content: flex-start;
+      white-space: normal;
+    }
+
+    .statewide-breakdown {
+      grid-template-columns: 1fr;
+    }
+
+    .statewide-footer-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
   @keyframes tooltip-in {
     from { transform: translateY(6px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
@@ -3578,6 +3812,126 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) {}
     }
 
+    function isOverlayElementVisible(el) {
+      if (!el || !el.getBoundingClientRect) return false;
+      const style = window.getComputedStyle ? window.getComputedStyle(el) : null;
+      if (style && (style.display === 'none' || style.visibility === 'hidden')) return false;
+      const rect = el.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    }
+
+    function getMapFitPadding(options = {}) {
+      try {
+        const opts = {
+          includeControls: true,
+          includeLegend: true,
+          includeCounter: true,
+          includeSidebar: true,
+          extra: null,
+          ...options
+        };
+        const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+        const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 1280;
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 720;
+        const base = Number.isFinite(Number(opts.extra)) ? Number(opts.extra) : (isMobile ? 18 : 24);
+        const padding = { top: base, right: base, bottom: base, left: base };
+        const applyInset = (rect, edges = {}) => {
+          if (!rect) return;
+          if (edges.top) padding.top = Math.max(padding.top, Math.ceil(rect.bottom) + base);
+          if (edges.right) padding.right = Math.max(padding.right, Math.ceil(viewportWidth - rect.left) + base);
+          if (edges.bottom) padding.bottom = Math.max(padding.bottom, Math.ceil(viewportHeight - rect.top) + base);
+          if (edges.left) padding.left = Math.max(padding.left, Math.ceil(rect.right) + base);
+        };
+
+        try {
+          if (typeof updateMobileOverlayOffsets === 'function') updateMobileOverlayOffsets();
+        } catch (_) {}
+
+        const controls = document.getElementById('main-controls');
+        if (opts.includeControls && isOverlayElementVisible(controls)) {
+          applyInset(controls.getBoundingClientRect(), isMobile ? { top: true } : { left: true });
+        }
+
+        const legend = document.getElementById('legend');
+        if (opts.includeLegend && isOverlayElementVisible(legend)) {
+          applyInset(legend.getBoundingClientRect(), isMobile ? { bottom: true } : { bottom: true });
+        }
+
+        const counter = document.getElementById('vote-counter');
+        if (opts.includeCounter && isOverlayElementVisible(counter)) {
+          const counterStyle = window.getComputedStyle ? window.getComputedStyle(counter) : null;
+          const counterShown = !counterStyle || counterStyle.display !== 'none';
+          if (counterShown) {
+            applyInset(counter.getBoundingClientRect(), isMobile ? { bottom: true } : { top: true });
+          }
+        }
+
+        const sidebar = document.getElementById('sidebar');
+        if (opts.includeSidebar && isOverlayElementVisible(sidebar) && document.documentElement.classList.contains('sidebar-enabled')) {
+          applyInset(sidebar.getBoundingClientRect(), isMobile ? { bottom: true } : { right: true });
+        }
+
+        return padding;
+      } catch (_) {
+        return 24;
+      }
+    }
+
+    function fitFeatureWithOverlayPadding(feature, options = {}) {
+      if (!feature || !window.turf || !map || !map.fitBounds) return false;
+      let bbox = null;
+      try {
+        bbox = turf.bbox(feature);
+      } catch (_) {
+        return false;
+      }
+      if (!Array.isArray(bbox) || bbox.length !== 4) return false;
+      const nums = bbox.map(v => Number(v));
+      if (!nums.every(v => Number.isFinite(v))) return false;
+      const fitOptions = {
+        padding: getMapFitPadding(options.paddingOptions || {}),
+        duration: Number.isFinite(Number(options.duration)) ? Number(options.duration) : 900
+      };
+      if (Number.isFinite(Number(options.maxZoom))) fitOptions.maxZoom = Number(options.maxZoom);
+      map.fitBounds([[nums[0], nums[1]], [nums[2], nums[3]]], fitOptions);
+      return true;
+    }
+
+    function getDistrictFocusMaxZoom(sourceId) {
+      if (sourceId === 'districts') return 9.15;
+      if (sourceId === 'state-house') return 11.0;
+      if (sourceId === 'state-senate') return 10.35;
+      return 10.0;
+    }
+
+    async function focusDistrictGeometry(districtNum, sourceId, options = {}) {
+      const maxZoom = getDistrictFocusMaxZoom(sourceId);
+      const duration = Number.isFinite(Number(options.duration)) ? Number(options.duration) : 900;
+      const fallbackFeature = options.fallbackFeature || null;
+      let fallbackUsed = false;
+
+      if (fallbackFeature) {
+        fallbackUsed = fitFeatureWithOverlayPadding(fallbackFeature, {
+          duration: Math.min(duration, 650),
+          maxZoom
+        });
+      }
+
+      const path = sourceId === 'districts' ? CONFIG.paths.districts
+        : (sourceId === 'state-house' ? CONFIG.paths.state_house : CONFIG.paths.state_senate);
+      const gj = await ensureSearchGeoJSON(sourceId, path);
+      if (!gj || !gj.features) return fallbackUsed ? fallbackFeature : null;
+
+      const match = gj.features.find(f => getDistrictNumberFromPropsNumeric(f.properties) === Number(districtNum));
+      if (!match) return fallbackUsed ? fallbackFeature : null;
+
+      fitFeatureWithOverlayPadding(match, {
+        duration: fallbackUsed ? Math.min(duration, 500) : duration,
+        maxZoom
+      });
+      return match;
+    }
+
     // (saveUIState/restoreUIState defined above as no-ops)
 
     function isNonGeographicPrecinctToken(code) {
@@ -4764,79 +5118,62 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       try {
-        // Calculate other votes
         const otherVotes = Number.isFinite(opts?.otherVotes) ? Math.max(0, Number(opts.otherVotes)) : Math.max(0, totalVotes - demVotes - repVotes);
-        const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
-
         const demPct = (demVotes / totalVotes) * 100;
         const repPct = (repVotes / totalVotes) * 100;
         const otherPct = (otherVotes / totalVotes) * 100;
         const marginPct = Math.abs(demPct - repPct);
-        const winner = demPct > repPct ? 'Democratic' : 'Republican';
         let officeName = formatContestName(contestType, year);
-        let demKey = `${year}|${officeName}|Democrat`;
-        let repKey = `${year}|${officeName}|Republican`;
         let demCandidate = (opts?.demCandidate || '').toString().trim() || getCandidateName(year, officeName, 'Democrat');
         let repCandidate = (opts?.repCandidate || '').toString().trim() || getCandidateName(year, officeName, 'Republican');
-        // If the contest JSON includes presidential tickets, show the top of the ticket.
         demCandidate = stripRunningMateName(demCandidate);
         repCandidate = stripRunningMateName(repCandidate);
-        if ((year == 2008 && officeName === 'President of the United States') || (year == 2010 && officeName === 'Governor')) {
-          debugLog('DEBUG Candidate Lookup:', { demKey, demCandidate, repKey, repCandidate });
-        }
+        const winnerCall = winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate);
+        const winnerName = winnerCall.party === 'rep' ? repCandidate : (winnerCall.party === 'dem' ? demCandidate : 'Tie');
+        const winnerPartyLabel = winnerCall.party === 'rep' ? 'R' : (winnerCall.party === 'dem' ? 'D' : 'T');
+        const voteMargin = Math.abs(repVotes - demVotes);
 
-        // Calculate competitiveness
         let compLabel = '';
         let compColor = '#6b7280';
         if (marginPct >= 40) {
-          compLabel = winner === 'Republican' ? "Annihilation Republican (40%+)" : "Annihilation Democratic (40%+)";
-          compColor = winner === 'Republican' ? '#7f1d1d' : '#1e3a8a';
+          compLabel = winnerCall.party === 'rep' ? "Annihilation Republican (40%+)" : "Annihilation Democratic (40%+)";
+          compColor = winnerCall.party === 'rep' ? '#7f1d1d' : '#1e3a8a';
         } else if (marginPct >= 30 && marginPct <= 39.99) {
-          compLabel = winner === 'Republican' ? "Dominant Republican (30.00-39.99%)" : "Dominant Democratic (30.00-39.99%)";
-          compColor = winner === 'Republican' ? '#7f1d1d' : '#1e3a8a';
+          compLabel = winnerCall.party === 'rep' ? "Dominant Republican (30.00-39.99%)" : "Dominant Democratic (30.00-39.99%)";
+          compColor = winnerCall.party === 'rep' ? '#7f1d1d' : '#1e3a8a';
         } else if (marginPct >= 20 && marginPct <= 29.99) {
-          compLabel = winner === 'Republican' ? "Stronghold Republican (20.00-29.99%)" : "Stronghold Democratic (20.00-29.99%)";
-          compColor = winner === 'Republican' ? '#dc2626' : '#2563eb';
+          compLabel = winnerCall.party === 'rep' ? "Stronghold Republican (20.00-29.99%)" : "Stronghold Democratic (20.00-29.99%)";
+          compColor = winnerCall.party === 'rep' ? '#dc2626' : '#2563eb';
         } else if (marginPct >= 10 && marginPct <= 19.99) {
-          compLabel = winner === 'Republican' ? "Safe Republican (10.00-19.99%)" : "Safe Democratic (10.00-19.99%)";
-          compColor = winner === 'Republican' ? '#dc2626' : '#3b82f6';
+          compLabel = winnerCall.party === 'rep' ? "Safe Republican (10.00-19.99%)" : "Safe Democratic (10.00-19.99%)";
+          compColor = winnerCall.party === 'rep' ? '#dc2626' : '#3b82f6';
         } else if (marginPct >= 5.50 && marginPct <= 9.99) {
-          compLabel = winner === 'Republican' ? "Likely Republican (5.50-9.99%)" : "Likely Democratic (5.51-9.99%)";
-          compColor = winner === 'Republican' ? '#ef4444' : '#60a5fa';
+          compLabel = winnerCall.party === 'rep' ? "Likely Republican (5.50-9.99%)" : "Likely Democratic (5.51-9.99%)";
+          compColor = winnerCall.party === 'rep' ? '#ef4444' : '#60a5fa';
         } else if (marginPct >= 1 && marginPct <= 5.49) {
-          compLabel = winner === 'Republican' ? "Lean Republican (1.00-5.49%)" : "Lean Democratic (1.00-5.49%)";
-          compColor = winner === 'Republican' ? '#f87171' : '#93c5fd';
+          compLabel = winnerCall.party === 'rep' ? "Lean Republican (1.00-5.49%)" : "Lean Democratic (1.00-5.49%)";
+          compColor = winnerCall.party === 'rep' ? '#f87171' : '#93c5fd';
         } else if (marginPct >= 0.50 && marginPct <= 0.99) {
-          compLabel = winner === 'Republican' ? "Tilt Republican (0.50-0.99%)" : "Tilt Democratic (0.50-0.99%)";
-          compColor = winner === 'Republican' ? '#fff1f2' : '#dbeafe';
+          compLabel = winnerCall.party === 'rep' ? "Tilt Republican (0.50-0.99%)" : "Tilt Democratic (0.50-0.99%)";
+          compColor = winnerCall.party === 'rep' ? '#fff1f2' : '#dbeafe';
         } else {
-          compLabel = winner === 'Democratic' ? 'Tossup (Democratic Win - <0.50%)' : 'Tossup (Republican Win - <0.50%)';
-          compColor = winner === 'Democratic' ? '#2563eb' : '#dc2626';
+          compLabel = winnerCall.party === 'dem' ? 'Tossup (Democratic Win - <0.50%)' : (winnerCall.party === 'rep' ? 'Tossup (Republican Win - <0.50%)' : 'Tossup');
+          compColor = winnerCall.party === 'dem' ? '#2563eb' : (winnerCall.party === 'rep' ? '#dc2626' : '#64748b');
         }
 
-        // Build the horizontal bar with D/R/Other if present.
-        // On narrow screens, tiny Other shares can be visually invisible, so we add a marker.
-        let barFlex = '';
-        if (otherVotes > 0) {
-          barFlex = `<div style="width:${demPct}%;background:#2563eb;"></div><div style="width:${repPct}%;background:#dc2626;"></div><div style="width:${otherPct}%;background:#6b7280;"></div>`;
-        } else {
-          barFlex = `<div style="width:${demPct}%;background:#2563eb;"></div><div style="width:${repPct}%;background:#dc2626;"></div>`;
-        }
-        const tinyOtherMarker = (isMobile && otherVotes > 0 && otherPct > 0 && otherPct < 1.5)
-          ? `<div style="position:absolute;top:0;right:0;width:3px;height:100%;background:#6b7280;border-left:1px solid rgba(255,255,255,0.75);" aria-hidden="true"></div>`
-          : '';
-        const barHTML = `<div id="statewide-temperature-bar" style="position:relative;width:100%;height:32px;border-radius:16px;display:flex;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);">${barFlex}${tinyOtherMarker}</div>`;
-
-        // Breakdown row
         const breakdownItems = [
           {
+            key: 'dem',
             label: 'D',
+            candidate: demCandidate || 'Democratic',
             color: '#2563eb',
             votes: demVotes,
             pct: demPct
           },
           {
+            key: 'rep',
             label: 'R',
+            candidate: repCandidate || 'Republican',
             color: '#dc2626',
             votes: repVotes,
             pct: repPct
@@ -4844,49 +5181,57 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
         if (otherVotes > 0) {
           breakdownItems.push({
+            key: 'other',
             label: 'Other',
+            candidate: 'Other',
             color: '#6b7280',
             votes: otherVotes,
             pct: otherPct
           });
         }
-        let breakdownRow = '';
-        if (isMobile) {
-          const chips = breakdownItems.map(item => (
-            `<div style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid rgba(15,23,42,0.12);background:#fff;white-space:nowrap;color:${item.color};font-size:14px;font-weight:700;">` +
-            `${item.label}: ${item.votes.toLocaleString()} (${item.pct.toFixed(2)}%)</div>`
-          )).join('');
-          breakdownRow = `<div style="display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:2px 0 2px 0;margin-top:8px;">${chips}</div>`;
-        } else {
-          const rows = breakdownItems.map(item => (
-            `<div style="color:${item.color};font-size:15px;font-weight:700;">${item.label}: ${item.votes.toLocaleString()} (${item.pct.toFixed(2)}%)</div>`
-          )).join('');
-          breakdownRow = `<div style="display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:space-between;margin-top:6px;">${rows}</div>`;
-        }
-        const splitSection = `
-          <details ${isMobile ? '' : 'open'} style="margin-top:8px;border:1px solid rgba(15,23,42,0.10);border-radius:10px;padding:8px 10px;background:rgba(255,255,255,0.72);">
-            <summary style="cursor:pointer;list-style:none;font-size:${isMobile ? '14px' : '15px'};font-weight:700;color:#334155;">
-              Vote Split ${isMobile ? '(tap to expand)' : ''}
-            </summary>
-            <div style="margin-top:8px;">
-              ${barHTML}
-              ${breakdownRow}
-            </div>
-          </details>
-        `;
+        const shareChips = breakdownItems.map(item => (
+          `<div class="statewide-share-chip ${item.key}">${item.label} <strong>${item.pct.toFixed(2)}%</strong></div>`
+        )).join('');
+        const barSegments = [
+          `<div style="width:${demPct.toFixed(4)}%;background:#2563eb;"></div>`
+        ];
+        if (otherVotes > 0) barSegments.push(`<div style="width:${otherPct.toFixed(4)}%;background:#6b7280;"></div>`);
+        barSegments.push(`<div style="width:${repPct.toFixed(4)}%;background:#dc2626;"></div>`);
+        const breakdownGrid = breakdownItems.map(item => (
+          `<div class="statewide-breakdown-item">` +
+            `<div class="statewide-breakdown-head">` +
+              `<span class="statewide-dot ${item.key}"></span>` +
+              `<span class="statewide-breakdown-label">${item.label}: ${item.candidate}</span>` +
+            `</div>` +
+            `<div class="statewide-breakdown-value" style="color:${item.color};">` +
+              `${item.votes.toLocaleString()}` +
+              `<span>${item.pct.toFixed(2)}%</span>` +
+            `</div>` +
+          `</div>`
+        )).join('');
 
         statewideContent.innerHTML = `
-          <div class="statewide-margin" style="margin-bottom:0;">
-            <div class="margin-text" style="color: ${winner === 'Republican' ? '#dc2626' : '#2563eb'};font-size:18px;font-weight:700;text-align:left;">
-              Winner: <span style="color:${winner === 'Republican' ? '#dc2626' : '#2563eb'}">${winner === 'Republican' ? repCandidate : demCandidate} (${winner === 'Republican' ? 'R' : 'D'})</span><br>
-              Margin: <span style="color:${winner === 'Republican' ? '#dc2626' : '#2563eb'}">${winnerMarginLabel(repVotes, demVotes, totalVotes, repCandidate, demCandidate)}</span> <span style="color:#64748b;font-size:14px;">(${Math.abs(repVotes-demVotes).toLocaleString()} votes)</span>
+          <div class="statewide-card" data-party="${winnerCall.party}">
+            <div class="statewide-hero">
+              <div>
+                <div class="statewide-kicker">Statewide leader</div>
+                <div class="statewide-call" data-party="${winnerCall.party}">${winnerCall.text}</div>
+                <div class="statewide-subline">${officeName} ${year} | ${voteMargin.toLocaleString()} vote margin</div>
+              </div>
+              <div class="statewide-competitive" style="color:${compColor};">${compLabel}</div>
             </div>
-            ${splitSection}
-            <div style="margin-top:10px;font-size:15px;color:#374151;font-weight:600;">
-              Total Votes: ${totalVotes.toLocaleString()}
-            </div>
-            <div style="margin-top:4px;font-size:15px;font-weight:600;color:${compColor};">
-              Competitiveness: ${compLabel}
+            <div class="statewide-share-row">${shareChips}</div>
+            <div id="statewide-temperature-bar" class="statewide-bar">${barSegments.join('')}</div>
+            <div class="statewide-breakdown">${breakdownGrid}</div>
+            <div class="statewide-footer-row">
+              <div class="statewide-stat">
+                <span>Total votes</span>
+                <strong>${totalVotes.toLocaleString()}</strong>
+              </div>
+              <div class="statewide-stat">
+                <span>Winner</span>
+                <strong>${winnerName} (${winnerPartyLabel})</strong>
+              </div>
             </div>
           </div>
         `;
@@ -5148,6 +5493,35 @@ document.addEventListener('DOMContentLoaded', function() {
       const demLabel = shortCandidateLabel(demCandidate, 'D');
       const winnerLabel = margin > 0 ? repLabel : (margin < 0 ? demLabel : 'TIE');
       return `${winnerLabel} + ${pct.toFixed(2)}`;
+    }
+
+    function winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate) {
+      const marginPct = totalVotes > 0 ? Math.abs((repVotes - demVotes) / totalVotes * 100) : 0;
+      if (repVotes > demVotes) {
+        return {
+          party: 'rep',
+          winnerName: (repCandidate || '').toString().trim() || 'Republican',
+          shortLabel: shortCandidateLabel(repCandidate, 'Republican'),
+          marginPct,
+          text: `${shortCandidateLabel(repCandidate, 'Republican')} +${marginPct.toFixed(2)}`
+        };
+      }
+      if (demVotes > repVotes) {
+        return {
+          party: 'dem',
+          winnerName: (demCandidate || '').toString().trim() || 'Democratic',
+          shortLabel: shortCandidateLabel(demCandidate, 'Democratic'),
+          marginPct,
+          text: `${shortCandidateLabel(demCandidate, 'Democratic')} +${marginPct.toFixed(2)}`
+        };
+      }
+      return {
+        party: 'tie',
+        winnerName: 'Tie',
+        shortLabel: 'Even',
+        marginPct,
+        text: `Even ${marginPct.toFixed(2)}`
+      };
     }
 
     function winnerFromSignedMarginPct(signedPct) {
@@ -6853,6 +7227,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const props = e.features[0].properties;
             const districtNum = normalizeDistrictNumber(props.DISTRICT || props.CD119FP || props.CD118FP || props.district_id || props.district);
             if (districtNum) {
+              focusDistrictGeometry(districtNum, 'districts', {
+                duration: 800,
+                fallbackFeature: e.features[0]
+              }).catch(() => {});
               // Show detailed sidebar (results + trends).
               showDistrictDetails(districtNum);
               lastSelectedCounty = `District ${districtNum}`;
@@ -6936,6 +7314,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const props = e.features[0].properties;
             const districtNum = normalizeDistrictNumber(props.DISTRICT || props.SLDLST || props.district_id || props.district);
             if (districtNum) {
+              focusDistrictGeometry(districtNum, 'state-house', {
+                duration: 800,
+                fallbackFeature: e.features[0]
+              }).catch(() => {});
               // Show detailed sidebar (results + trends).
               showStateDistrictDetails(districtNum, 'house');
               lastSelectedCounty = `State House District ${districtNum}`;
@@ -7017,6 +7399,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const props = e.features[0].properties;
             const districtNum = normalizeDistrictNumber(props.DISTRICT || props.SLDUST || props.district_id || props.district);
             if (districtNum) {
+              focusDistrictGeometry(districtNum, 'state-senate', {
+                duration: 800,
+                fallbackFeature: e.features[0]
+              }).catch(() => {});
               // Show detailed sidebar (results + trends).
               showStateDistrictDetails(districtNum, 'senate');
               lastSelectedCounty = `State Senate District ${districtNum}`;
@@ -7306,21 +7692,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function handleDistrictSelection(districtNum, sourceId, chamber, label) {
       flashFlyToInputs();
-
-      const path = sourceId === 'districts' ? CONFIG.paths.districts
-        : (sourceId === 'state-house' ? CONFIG.paths.state_house : CONFIG.paths.state_senate);
-      const gj = await ensureSearchGeoJSON(sourceId, path);
-      if (!gj || !gj.features) return;
-
-      const match = gj.features.find(f => getDistrictNumberFromPropsNumeric(f.properties) === Number(districtNum));
+      const match = await focusDistrictGeometry(districtNum, sourceId, { duration: 900 });
       if (!match) {
         console.warn('District not found for search:', label, districtNum);
         setStatus(`${label} ${districtNum} not found.`);
         return;
       }
-
-      const bbox = turf.bbox(match);
-      map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], { padding: 40, duration: 900 });
 
       const sidebar = document.getElementById('sidebar');
       if (sidebar && sidebar.classList.contains('minimized')) toggleSidebar();
@@ -7416,9 +7793,8 @@ document.addEventListener('DOMContentLoaded', function() {
           const props = found.properties || {};
           lastSelectedCounty = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name;
           setFlyToSearchValue(lastSelectedCounty);
-          const bbox = turf.bbox(found);
-          debugLog('[DIAGNOSTIC] Matched county for', countyName, '->', lastSelectedCounty, 'bbox:', bbox);
-          map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], { padding: 40, duration: 1000 });
+          debugLog('[DIAGNOSTIC] Matched county for', countyName, '->', lastSelectedCounty);
+          fitFeatureWithOverlayPadding(found, { duration: 1000, maxZoom: 10 });
           showCountyDetails(lastSelectedCounty);
           const sidebar = document.getElementById('sidebar');
           if (sidebar && sidebar.classList.contains('minimized')) {

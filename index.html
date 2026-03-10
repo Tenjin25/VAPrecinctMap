@@ -978,7 +978,7 @@ body { height: var(--app-height); }
   color: #1f2937 !important;
 }
 /* Mobile: Better layout for statewide results */
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
   .statewide-results {
     padding: 14px !important;
   }
@@ -988,7 +988,7 @@ body { height: var(--app-height); }
   .statewide-margin {
     padding: 12px !important;
   }
-  #statewide-temperature-bar {
+  .statewide-bar {
     height: 36px !important;
     margin: 14px 0 !important;
   }
@@ -3086,6 +3086,315 @@ body { height: var(--app-height); }
       border-radius: 16px;
     }
   }
+
+  @media (max-width: 768px) {
+    .main-controls {
+      top: calc(max(6px, var(--safe-top, 0px)) + var(--android-vv-top, 0px)) !important;
+      left: max(6px, var(--safe-left, 0px)) !important;
+      right: max(6px, var(--safe-right, 0px)) !important;
+      width: auto !important;
+      padding: 12px !important;
+      border-radius: 18px !important;
+      max-height: min(48svh, 430px) !important;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18) !important;
+    }
+
+    @supports (height: 100dvh) {
+      .main-controls {
+        max-height: min(48dvh, 430px) !important;
+      }
+    }
+
+    .controls-header {
+      align-items: flex-start;
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+    }
+
+    .controls-content {
+      gap: 12px;
+    }
+
+    .control-group-search {
+      padding: 12px;
+    }
+
+    .control-summary {
+      gap: 8px;
+    }
+
+    .control-summary-title {
+      font-size: 15px;
+    }
+
+    .control-summary-meta {
+      gap: 6px;
+    }
+
+    .contest-toolbar {
+      gap: 6px !important;
+    }
+
+    .contest-toolbar #precinct-toggle {
+      flex: 1 0 100%;
+      min-width: 0;
+    }
+
+    .fly-to-search-wrap {
+      gap: 10px;
+    }
+
+    .fly-to-chip-row {
+      margin-top: 10px;
+      margin-inline: -2px;
+      padding-inline: 2px;
+    }
+
+    .main-controls.minimized {
+      top: calc(max(6px, var(--safe-top, 0px)) + var(--android-vv-top, 0px)) !important;
+      left: max(6px, var(--safe-left, 0px)) !important;
+      right: auto !important;
+      width: auto !important;
+      min-width: 190px !important;
+      max-width: calc(100vw - 12px - var(--safe-left, 0px) - var(--safe-right, 0px)) !important;
+      padding: 10px 12px !important;
+      border-radius: 16px !important;
+    }
+
+    .main-controls.minimized .controls-header {
+      align-items: center;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      background: transparent;
+      backdrop-filter: none;
+    }
+
+    .main-controls.minimized .controls-heading {
+      display: flex !important;
+      min-width: 0;
+    }
+
+    .main-controls.minimized .controls-kicker {
+      display: none !important;
+    }
+
+    .main-controls.minimized .controls-header h3 {
+      display: block !important;
+      font-size: 14px !important;
+      line-height: 1.2;
+      max-width: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .main-controls.minimized .controls-actions {
+      margin-left: auto;
+    }
+
+    .legend {
+      max-height: min(36svh, 320px) !important;
+    }
+
+    @supports (height: 100dvh) {
+      .legend {
+        max-height: min(36dvh, 320px) !important;
+      }
+    }
+
+    .legend-content {
+      max-height: min(24svh, 220px);
+    }
+
+    .vote-counter {
+      width: min(94vw, 460px);
+    }
+
+    .vote-counter-meta {
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .vote-total,
+    .vote-lead {
+      width: 100%;
+      text-align: left;
+    }
+
+    .vote-counter-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .vote-item.other {
+      grid-column: 1 / -1;
+    }
+
+    .statewide-share-row {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+
+    .statewide-share-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .statewide-share-chip {
+      flex: 0 0 auto;
+    }
+
+    .statewide-breakdown-label {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      line-height: 1.25;
+    }
+
+    .statewide-stat strong {
+      font-size: 14px;
+    }
+
+    #status-panel {
+      padding: 14px 16px 14px 14px !important;
+      border-radius: 16px !important;
+      font-size: 14px !important;
+    }
+  }
+
+  .desktop-statewide-panel {
+    display: none;
+  }
+
+  @media (min-width: 769px) {
+    .main-controls {
+      display: flex;
+      flex-direction: column;
+      width: min(500px, calc(100vw - 48px));
+      max-width: 500px;
+      max-height: calc(100vh - 32px);
+      overflow: hidden;
+    }
+
+    .controls-header {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      padding-bottom: 10px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+    }
+
+    .controls-content {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      padding-right: 6px;
+      margin-right: -6px;
+      scrollbar-gutter: stable both-edges;
+    }
+
+    .desktop-statewide-panel {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: linear-gradient(180deg, rgba(248, 250, 252, 0.98) 0%, rgba(241, 245, 249, 0.94) 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    }
+
+    .desktop-statewide-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .desktop-statewide-copy {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .desktop-statewide-kicker,
+    .desktop-statewide-tag {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .desktop-statewide-kicker {
+      background: rgba(15, 23, 42, 0.06);
+      color: #334155;
+    }
+
+    .desktop-statewide-tag {
+      background: rgba(37, 99, 235, 0.10);
+      color: #1d4ed8;
+    }
+
+    .desktop-statewide-title {
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+
+    .desktop-statewide-sub {
+      font-size: 12px;
+      line-height: 1.45;
+      color: #475569;
+    }
+
+    .desktop-statewide-body {
+      display: grid;
+      gap: 12px;
+    }
+
+    .desktop-statewide-placeholder {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #475569;
+    }
+
+    .desktop-statewide-panel .statewide-card {
+      margin-top: 0;
+    }
+
+    .desktop-statewide-panel .statewide-call {
+      font-size: clamp(30px, 2.6vw, 40px);
+    }
+
+    .desktop-statewide-panel .statewide-share-row {
+      flex-wrap: wrap;
+      overflow: visible;
+    }
+
+    .desktop-statewide-panel .statewide-breakdown {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .desktop-statewide-panel .statewide-breakdown-item:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
     </style>
 </head>
 <body>
@@ -3332,10 +3641,10 @@ document.addEventListener('DOMContentLoaded', function() {
         <details class="sidebar-panel" id="panel-statewide" open>
           <summary>Statewide</summary>
           <div class="statewide-results" id="statewide-results" style="margin-top: 10px;">
-            <h4 id="contest-name" style="margin:0 0 12px 0; font-size:14px; font-weight:800; color:#0f172a;"></h4>
-            <div id="statewide-content">
+            <h4 id="contest-name" data-statewide-contest-name="true" style="margin:0 0 12px 0; font-size:14px; font-weight:800; color:#0f172a;"></h4>
+            <div id="statewide-content" data-statewide-content="true">
               <p>Select a contest to see statewide results and margin.</p>
-              <div id="statewide-temperature-bar" style="width:100%;height:24px;margin:12px 0;display:none;"></div>
+              <div class="statewide-bar" style="width:100%;height:24px;margin:12px 0;display:none;"></div>
             </div>
           </div>
         </details>
@@ -3394,6 +3703,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="control-summary-meta">
                   <span class="control-summary-pill" id="control-summary-view">Counties</span>
                   <span class="control-summary-pill control-summary-pill-muted" id="control-summary-year">No contest selected</span>
+                </div>
+            </div>
+            <div class="desktop-statewide-panel" id="desktop-statewide-panel">
+                <div class="desktop-statewide-head">
+                  <div class="desktop-statewide-copy">
+                    <span class="desktop-statewide-kicker">Statewide snapshot</span>
+                    <div class="desktop-statewide-title" data-statewide-contest-name="true">Choose a contest</div>
+                    <div class="desktop-statewide-sub">Keeps the statewide race call visible while you browse counties and legislative maps.</div>
+                  </div>
+                  <span class="desktop-statewide-tag">Live summary</span>
+                </div>
+                <div class="desktop-statewide-body" data-statewide-content="true">
+                  <p class="desktop-statewide-placeholder">Select a contest to see the statewide leader, vote split, and margin.</p>
                 </div>
             </div>
             <div class="control-group" style="margin-bottom:10px;">
@@ -3765,6 +4087,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
       titleEl.textContent = formatContestName(contestType, year);
       yearEl.textContent = String(year);
+    }
+
+    function getStatewideContentNodes() {
+      return Array.from(document.querySelectorAll('[data-statewide-content]'));
+    }
+
+    function getStatewideContestNameNodes() {
+      return Array.from(document.querySelectorAll('[data-statewide-contest-name]'));
+    }
+
+    function setStatewideContestTitle(text = '') {
+      const label = String(text || '').trim();
+      getStatewideContestNameNodes().forEach(node => {
+        node.textContent = label;
+      });
+    }
+
+    function setStatewideResultsMarkup(html) {
+      getStatewideContentNodes().forEach(node => {
+        node.innerHTML = html;
+      });
+    }
+
+    function resetStatewideResults(message = 'Select a contest to see statewide results and margin.') {
+      setStatewideResultsMarkup(`<p class="desktop-statewide-placeholder">${message}</p>`);
     }
 
     function saveUIState() {}
@@ -5108,12 +5455,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateStatewideResults(contestType, year, demVotes, repVotes, totalVotes, opts = {}) {
-      const statewideContent = document.getElementById('statewide-content');
-      const tempBar = document.getElementById('statewide-temperature-bar');
-      if (!statewideContent) return;
+      const statewideTargets = getStatewideContentNodes();
+      if (!statewideTargets.length) return;
       if (totalVotes === 0) {
-        statewideContent.innerHTML = '<p>No statewide data available for this contest.</p>';
-        if (tempBar) tempBar.style.display = 'none';
+        setStatewideResultsMarkup('<p class="desktop-statewide-placeholder">No statewide data available for this contest.</p>');
         return;
       }
 
@@ -5160,6 +5505,10 @@ document.addEventListener('DOMContentLoaded', function() {
           compLabel = winnerCall.party === 'dem' ? 'Tossup (Democratic Win - <0.50%)' : (winnerCall.party === 'rep' ? 'Tossup (Republican Win - <0.50%)' : 'Tossup');
           compColor = winnerCall.party === 'dem' ? '#2563eb' : (winnerCall.party === 'rep' ? '#dc2626' : '#64748b');
         }
+        const compBadge = compactCompetitivenessLabel(marginPct, winnerCall.party);
+        const winnerSummary = winnerCall.party === 'tie'
+          ? 'Even race'
+          : `${winnerName} (${winnerPartyLabel})`;
 
         const breakdownItems = [
           {
@@ -5210,18 +5559,18 @@ document.addEventListener('DOMContentLoaded', function() {
           `</div>`
         )).join('');
 
-        statewideContent.innerHTML = `
+        const markup = `
           <div class="statewide-card" data-party="${winnerCall.party}">
             <div class="statewide-hero">
               <div>
                 <div class="statewide-kicker">Statewide leader</div>
                 <div class="statewide-call" data-party="${winnerCall.party}">${winnerCall.text}</div>
-                <div class="statewide-subline">${officeName} ${year} | ${voteMargin.toLocaleString()} vote margin</div>
+                <div class="statewide-subline">${winnerSummary} | ${voteMargin.toLocaleString()} vote margin</div>
               </div>
-              <div class="statewide-competitive" style="color:${compColor};">${compLabel}</div>
+              <div class="statewide-competitive" style="color:${compColor};" title="${compLabel}">${compBadge}</div>
             </div>
             <div class="statewide-share-row">${shareChips}</div>
-            <div id="statewide-temperature-bar" class="statewide-bar">${barSegments.join('')}</div>
+            <div class="statewide-bar">${barSegments.join('')}</div>
             <div class="statewide-breakdown">${breakdownGrid}</div>
             <div class="statewide-footer-row">
               <div class="statewide-stat">
@@ -5229,15 +5578,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 <strong>${totalVotes.toLocaleString()}</strong>
               </div>
               <div class="statewide-stat">
-                <span>Winner</span>
-                <strong>${winnerName} (${winnerPartyLabel})</strong>
+                <span>Margin</span>
+                <strong>${marginPct.toFixed(2)} pts</strong>
               </div>
             </div>
           </div>
         `;
+        setStatewideResultsMarkup(markup);
       } catch (err) {
         console.warn('Failed to render statewide sidebar:', err?.message || err);
-        statewideContent.innerHTML = '<p>Failed to render statewide results. Try re-selecting the contest.</p>';
+        setStatewideResultsMarkup('<p class="desktop-statewide-placeholder">Failed to render statewide results. Try re-selecting the contest.</p>');
       }
     }
 
@@ -5339,6 +5689,8 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!restoredContest) {
         document.getElementById('contestSelect').value = '';
         updateControlSummary('');
+        setStatewideContestTitle('Choose a contest');
+        resetStatewideResults();
       }
       clearCountyDetails();
       saveUIState();
@@ -5524,6 +5876,17 @@ document.addEventListener('DOMContentLoaded', function() {
       };
     }
 
+    function compactCompetitivenessLabel(marginPct, party) {
+      const side = party === 'rep' ? 'R' : (party === 'dem' ? 'D' : '');
+      if (marginPct >= 40) return side ? `Blowout ${side}` : 'Blowout';
+      if (marginPct >= 30) return side ? `Dominant ${side}` : 'Dominant';
+      if (marginPct >= 20) return side ? `Strong ${side}` : 'Strong';
+      if (marginPct >= 10) return side ? `Safe ${side}` : 'Safe';
+      if (marginPct >= 5.5) return side ? `Likely ${side}` : 'Likely';
+      if (marginPct >= 1) return side ? `Lean ${side}` : 'Lean';
+      if (marginPct >= 0.5) return side ? `Tilt ${side}` : 'Tilt';
+      return 'Tossup';
+    }
     function winnerFromSignedMarginPct(signedPct) {
       const v = Number(signedPct) || 0;
       if (v > 0) return 'R';
@@ -9161,7 +9524,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function applyContest(contestKey) {
-      if (!contestKey) return setStatus('Select a contest');
+      if (!contestKey) {
+        updateControlSummary('');
+        setStatewideContestTitle('Choose a contest');
+        resetStatewideResults();
+        return setStatus('Select a contest');
+      }
       
       // Split contest key properly - year is always the last part after final underscore
       const lastUnderscoreIndex = contestKey.lastIndexOf('_');
@@ -9841,7 +10209,7 @@ document.addEventListener('DOMContentLoaded', function() {
           map.setPaintProperty('precinct-dot', 'circle-color', exprPrecinct);
         }
       }
-  document.getElementById('contest-name').textContent = `${formatContestName(contestType, year)} (${year})`;
+      setStatewideContestTitle(`${formatContestName(contestType, year)} (${year})`);
       setStatus(`Applied contest: ${formatContestName(contestType, year)} ${year}`);
     }
 
@@ -9891,7 +10259,7 @@ document.addEventListener('DOMContentLoaded', function() {
       expr.push('#e0e0e0'); // default color
       
       map.setPaintProperty('district-fill', 'fill-color', expr);
-  document.getElementById('contest-name').textContent = `US House (${year})`;
+      setStatewideContestTitle(`US House (${year})`);
       setStatus(`Applied contest: VA US House ${year}`);
     }
 
@@ -10005,7 +10373,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const coverageText = (coveragePct !== undefined && coveragePct !== null)
             ? ` | match coverage ${Number(coveragePct).toFixed(2)}%`
             : '';
-          document.getElementById('contest-name').textContent = `${formatContestName(contestType, year)} (${year}) - Reallocated to court-ordered 2022 lines${coverageText}`;
+          setStatewideContestTitle(`${formatContestName(contestType, year)} (${year}) - Reallocated to court-ordered 2022 lines${coverageText}`);
           setStatus(`Applied district crosswalk results: ${formatContestName(contestType, year)} ${year} (${demPct.toFixed(2)}% D, ${repPct.toFixed(2)}% R, ${otherPct.toFixed(2)}% O)${coverageText}`);
           setVoteCounterBaselineState('Statewide', `${formatContestName(contestType, year)} ${year} (2022 lines)`, totalDem, totalRep, totalOther);
           return;
@@ -10059,7 +10427,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setStatus('District layer not found!', 5000, true);
       }
 
-  document.getElementById('contest-name').textContent = `${formatContestName(contestType, year)} (${year}) - Statewide Result`;
+      setStatewideContestTitle(`${formatContestName(contestType, year)} (${year}) - Statewide Result`);
       setStatus(`Applied statewide contest: ${formatContestName(contestType, year)} ${year} (${demPct.toFixed(2)}% D, ${repPct.toFixed(2)}% R, ${otherPct.toFixed(2)}% O)`);
       setVoteCounterBaselineState('Statewide', `${formatContestName(contestType, year)} ${year}`, totalDem, totalRep, totalOther);
     }

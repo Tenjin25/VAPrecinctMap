@@ -2434,6 +2434,7 @@ body { height: var(--app-height); }
   :root {
     --counter-h: 0px;
     --desktop-counter-bottom: 20px;
+    --desktop-right-stack-gap: 40px;
   }
 
   .legend {
@@ -3466,7 +3467,7 @@ body { height: var(--app-height); }
       right: 24px;
       bottom: 24px;
       width: min(340px, calc(100vw - 560px));
-      max-height: calc(100vh - var(--desktop-counter-bottom, 20px) - 44px);
+      max-height: calc(100vh - var(--desktop-counter-bottom, 20px) - var(--desktop-right-stack-gap, 40px) - 24px);
     }
 
     .vote-counter {

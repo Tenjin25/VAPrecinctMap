@@ -1506,6 +1506,247 @@ body { height: var(--app-height); }
     background: rgba(255, 255, 255, 0.95);
   }
 
+  .main-controls {
+    width: min(440px, calc(100vw - 32px));
+    min-width: 0;
+    max-width: 460px;
+    border-radius: 20px;
+    padding: 18px;
+  }
+
+  .controls-header {
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .controls-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .controls-kicker {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.1);
+    color: #1d4ed8;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .controls-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .controls-content {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .control-group {
+    margin-bottom: 0;
+  }
+
+  .control-group-search {
+    padding: 14px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(239, 246, 255, 0.94) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  }
+
+  .control-group-search label {
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .fly-to-search-wrap {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .fly-to-search-field {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .fly-to-search {
+    min-height: 46px;
+    padding-right: 40px;
+    font-weight: 600;
+  }
+
+  .fly-to-search::placeholder {
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .fly-to-submit {
+    flex: 0 0 auto;
+    min-width: 72px;
+    padding: 0 16px;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 12px;
+    background: #0f172a;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+  }
+
+  .fly-to-submit:hover {
+    background: #1e293b;
+  }
+
+  .fly-to-submit:active {
+    transform: translateY(1px);
+  }
+
+  .fly-to-helper {
+    margin-top: 10px;
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .fly-to-chip-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .fly-to-chip-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .fly-to-chip {
+    flex: 0 0 auto;
+    border: 1px solid rgba(148, 163, 184, 0.34);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.86);
+    color: #0f172a;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  }
+
+  .fly-to-chip:hover {
+    border-color: rgba(37, 99, 235, 0.34);
+    background: rgba(219, 234, 254, 0.92);
+  }
+
+  .fly-to-chip:active {
+    transform: translateY(1px);
+  }
+
+  .fly-to-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    display: none;
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 6px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.16);
+    z-index: 1006;
+  }
+
+  .fly-to-option {
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #0f172a;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .fly-to-option:hover,
+  .fly-to-option:focus-visible {
+    background: rgba(219, 234, 254, 0.82);
+    outline: none;
+  }
+
+  @media (max-width: 768px) {
+    .main-controls {
+      top: max(8px, var(--safe-top, 0px)) !important;
+      left: max(8px, var(--safe-left, 0px)) !important;
+      right: max(8px, var(--safe-right, 0px)) !important;
+      width: auto !important;
+      min-width: 0 !important;
+      max-width: none !important;
+      padding: 14px !important;
+      border-radius: 20px !important;
+      max-height: min(62svh, 560px) !important;
+    }
+
+    .controls-header {
+      align-items: flex-start;
+    }
+
+    .controls-kicker {
+      font-size: 10px;
+    }
+
+    .controls-actions {
+      gap: 6px;
+    }
+
+    .control-group-search {
+      padding: 12px;
+      border-radius: 14px;
+    }
+
+    .fly-to-search-wrap {
+      flex-wrap: wrap;
+    }
+
+    .fly-to-search,
+    .fly-to-submit {
+      min-height: 48px;
+    }
+
+    .fly-to-submit {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .fly-to-chip {
+      font-size: 11px;
+      padding: 8px 10px;
+    }
+  }
+
   .hover-tooltip {
     border: 1px solid rgba(15, 23, 42, 0.20);
     box-shadow: 0 18px 44px rgba(15, 23, 42, 0.25);
@@ -1955,6 +2196,461 @@ body { height: var(--app-height); }
       font-size: 13px !important;
     }
   }
+
+  :root {
+    --counter-h: 0px;
+  }
+
+  .legend {
+    width: min(320px, calc(100vw - 40px));
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 20px;
+    background: rgba(248, 250, 252, 0.92);
+  }
+
+  .legend::before {
+    content: '';
+    display: block;
+    height: 4px;
+    background: linear-gradient(90deg, #dc2626 0%, #f8fafc 50%, #2563eb 100%);
+    opacity: 0.9;
+  }
+
+  .legend-header {
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px 12px;
+  }
+
+  .legend-header-main {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .legend-handle {
+    width: 42px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.7);
+    display: none;
+  }
+
+  .legend-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .legend-kicker {
+    display: inline-flex;
+    width: fit-content;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.06);
+    color: #334155;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .legend-header h4 {
+    font-size: 16px;
+    color: #0f172a;
+  }
+
+  .legend-subtitle {
+    margin: 0;
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .legend-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .legend-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.1);
+    color: #1d4ed8;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .legend-content {
+    display: grid;
+    gap: 8px;
+    max-height: min(44vh, 420px);
+    overflow: auto;
+    padding: 0 16px 14px;
+  }
+
+  .legend-item {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    color: #334155;
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .legend-color {
+    width: 18px;
+    height: 18px;
+    margin-right: 0;
+    border-radius: 6px;
+  }
+
+  .legend-footer {
+    padding: 0 16px 16px;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .vote-counter {
+    top: 88px;
+    min-width: 0;
+    width: min(520px, calc(100vw - 40px));
+    padding: 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.18);
+    overflow: hidden;
+  }
+
+  .vote-counter::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2563eb 0%, #cbd5e1 50%, #dc2626 100%);
+  }
+
+  .vote-counter-context {
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+  }
+
+  .vote-counter-context .context-title {
+    color: #0f172a;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  .vote-counter-context .context-sub {
+    margin-top: 4px;
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .vote-counter-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.98) 0%, rgba(241, 245, 249, 0.92) 100%);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+  }
+
+  .vote-total,
+  .vote-lead {
+    min-width: 0;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  .vote-total {
+    color: #0f172a;
+  }
+
+  .vote-lead {
+    color: #475569;
+    text-align: right;
+  }
+
+  .vote-lead[data-party="dem"] { color: #1d4ed8; }
+  .vote-lead[data-party="rep"] { color: #b91c1c; }
+  .vote-lead[data-party="tie"] { color: #475569; }
+
+  .vote-counter-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .vote-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    text-align: left;
+  }
+
+  .vote-item-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .vote-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    flex: 0 0 auto;
+  }
+
+  .vote-item.dem .vote-swatch { background: #2563eb; }
+  .vote-item.rep .vote-swatch { background: #dc2626; }
+  .vote-item.other .vote-swatch { background: #64748b; }
+
+  .vote-label {
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .vote-count {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .vote-percent {
+    margin-top: 0;
+    font-size: 12px;
+  }
+
+  .vote-share-track {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(226, 232, 240, 0.92);
+    overflow: hidden;
+  }
+
+  .vote-share-fill {
+    display: block;
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    transition: width 240ms ease;
+  }
+
+  .vote-share-fill.dem { background: linear-gradient(90deg, #60a5fa 0%, #2563eb 100%); }
+  .vote-share-fill.rep { background: linear-gradient(90deg, #fb7185 0%, #dc2626 100%); }
+  .vote-share-fill.other { background: linear-gradient(90deg, #94a3b8 0%, #64748b 100%); }
+
+  .hover-tooltip {
+    width: min(360px, calc(100vw - 24px));
+    max-width: min(360px, calc(100vw - 24px));
+    max-height: min(54vh, 420px);
+    overflow: auto;
+    padding: 14px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(17, 24, 39, 0.94) 100%);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    box-shadow: 0 24px 56px rgba(2, 6, 23, 0.46);
+  }
+
+  .hover-tooltip .tooltip-head {
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  }
+
+  .hover-tooltip .tooltip-copy {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .hover-tooltip .tooltip-kicker {
+    margin-bottom: 5px;
+    color: #93c5fd;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .hover-tooltip .tooltip-title {
+    margin-bottom: 0;
+    font-size: 15px;
+    line-height: 1.25;
+  }
+
+  .hover-tooltip .tooltip-actions {
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .hover-tooltip .tooltip-btn {
+    min-height: 34px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    color: #f8fafc;
+    font-weight: 700;
+  }
+
+  .hover-tooltip .tooltip-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  .hover-tooltip .tooltip-trends,
+  .hover-tooltip .tooltip-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #e2e8f0;
+  }
+
+  .hover-tooltip .tooltip-trends b,
+  .hover-tooltip .tooltip-trends strong,
+  .hover-tooltip .tooltip-body b,
+  .hover-tooltip .tooltip-body strong {
+    color: #f8fafc;
+  }
+
+  @media (max-width: 768px) {
+    .legend {
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      max-width: 100vw !important;
+      border-radius: 22px 22px 0 0 !important;
+      max-height: min(42svh, 360px) !important;
+      padding-bottom: calc(10px + var(--safe-bottom, 0px)) !important;
+    }
+
+    .legend-header {
+      position: sticky;
+      top: 0;
+      padding: 10px 14px 12px;
+      border-radius: 22px 22px 0 0 !important;
+      background: rgba(248, 250, 252, 0.98);
+      backdrop-filter: blur(14px);
+    }
+
+    .legend-handle {
+      display: block;
+      align-self: center;
+    }
+
+    .legend-header-main {
+      gap: 8px;
+    }
+
+    .legend-subtitle,
+    .legend-footer {
+      font-size: 11px;
+    }
+
+    .legend-content {
+      max-height: min(28svh, 250px);
+      padding: 0 14px 12px;
+    }
+
+    .legend-item {
+      min-height: 38px;
+      padding: 9px 10px;
+      font-size: 12px;
+    }
+
+    .vote-counter {
+      left: 50%;
+      right: auto;
+      bottom: calc(var(--legend-h, 56px) + var(--safe-bottom, 0px) + 14px) !important;
+      width: min(94vw, 520px);
+      max-width: 94vw;
+      padding: 14px;
+      border-radius: 18px;
+    }
+
+    .vote-counter-meta {
+      padding: 9px 10px;
+      margin-bottom: 12px;
+    }
+
+    .vote-counter-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .vote-item {
+      padding: 10px 12px;
+    }
+
+    #hover-tooltip {
+      left: 8px !important;
+      right: 8px !important;
+      width: auto !important;
+      max-width: none !important;
+      top: auto !important;
+      bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + 18px) !important;
+    }
+
+    #status-panel {
+      top: auto !important;
+      left: 12px !important;
+      right: 12px !important;
+      bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + 28px) !important;
+      max-width: none !important;
+    }
+
+    html.android-mobile .legend {
+      padding-bottom: calc(10px + var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px)) !important;
+    }
+
+    html.android-mobile .vote-counter {
+      bottom: calc(var(--legend-h, 56px) + var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px) + 14px) !important;
+    }
+
+    html.android-mobile #hover-tooltip {
+      bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px) + 18px) !important;
+    }
+  }
     </style>
 </head>
 <body>
@@ -2135,21 +2831,37 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
       <button class="context-clear" id="vote-context-clear" title="Clear selection">Clear</button>
     </div>
+    <div class="vote-counter-meta">
+      <div class="vote-total" id="vote-total">0 total votes</div>
+      <div class="vote-lead" id="vote-lead">Lead unavailable</div>
+    </div>
     <div class="vote-counter-row">
-      <div class="vote-item">
-        <div class="vote-label dem">Dem</div>
+      <div class="vote-item dem">
+        <div class="vote-item-head">
+          <span class="vote-swatch" aria-hidden="true"></span>
+          <div class="vote-label dem">Dem</div>
+        </div>
         <div class="vote-count dem" id="dem-count">0</div>
         <div class="vote-percent" id="dem-percent">0%</div>
+        <div class="vote-share-track"><span class="vote-share-fill dem" id="dem-share-fill"></span></div>
       </div>
-      <div class="vote-item">
-        <div class="vote-label rep">Rep</div>
+      <div class="vote-item rep">
+        <div class="vote-item-head">
+          <span class="vote-swatch" aria-hidden="true"></span>
+          <div class="vote-label rep">Rep</div>
+        </div>
         <div class="vote-count rep" id="rep-count">0</div>
         <div class="vote-percent" id="rep-percent">0%</div>
+        <div class="vote-share-track"><span class="vote-share-fill rep" id="rep-share-fill"></span></div>
       </div>
-      <div class="vote-item">
-        <div class="vote-label other">OTHER</div>
+      <div class="vote-item other">
+        <div class="vote-item-head">
+          <span class="vote-swatch" aria-hidden="true"></span>
+          <div class="vote-label other">Other</div>
+        </div>
         <div class="vote-count" id="other-count">0</div>
         <div class="vote-percent" id="other-percent">0%</div>
+        <div class="vote-share-track"><span class="vote-share-fill other" id="other-share-fill"></span></div>
       </div>
     </div>
   </div>
@@ -2175,9 +2887,9 @@ document.addEventListener('DOMContentLoaded', function() {
           <summary>Search</summary>
           <div style="margin-top: 10px;">
             <label for="county-search" style="font-weight:600;">Find</label>
-            <input type="text" id="county-search" placeholder="Fairfax, CD 10, HD 57, SD 31, Lynchburg 101" autocomplete="off" spellcheck="false" />
+            <input type="text" id="county-search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg 101" autocomplete="off" spellcheck="false" inputmode="search" />
             <div style="margin-top:6px;font-size:12px;color:#64748b;">
-              Tips: use <span style="font-weight:700;">CD</span> for Congress, <span style="font-weight:700;">HD</span> for House, <span style="font-weight:700;">SD</span> for Senate.
+              Tips: use <span style="font-weight:700;">VA-10</span> for Congress, <span style="font-weight:700;">VA HD-57</span> for House, <span style="font-weight:700;">VA SD-31</span> for Senate.
             </div>
           </div>
         </details>
@@ -2211,13 +2923,33 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- Main Controls Dropdown (Contest Selector) -->
     <div class="main-controls" id="main-controls">
         <div class="controls-header" style="display:flex;align-items:center;justify-content:space-between;">
-            <h3>Virginia Election Contests</h3>
-            <div style="display:flex;align-items:center;gap:8px;">
+            <div class="controls-heading">
+              <span class="controls-kicker">Commonwealth Explorer</span>
+              <h3>Virginia Election Contests</h3>
+            </div>
+            <div class="controls-actions">
               <button id="help-btn" title="Help" type="button">?</button>
               <button class="minimize-btn" onclick="toggleMainControls()" id="controls-minimize-btn">-</button>
             </div>
         </div>
         <div class="controls-content" id="controls-content">
+            <div class="control-group control-group-search">
+                <label for="fly-to-search">Fly to</label>
+                <div class="fly-to-search-wrap">
+                  <div class="fly-to-search-field">
+                    <input id="fly-to-search" class="fly-to-search" type="search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg 101" autocomplete="off" spellcheck="false" inputmode="search" />
+                  </div>
+                  <button id="fly-to-submit" class="fly-to-submit" type="button">Go</button>
+                </div>
+                <div class="fly-to-helper">Jump to counties, independent cities, districts, or precincts without changing the selected contest.</div>
+                <div class="fly-to-chip-row" aria-label="Fly-to examples">
+                  <button class="fly-to-chip" type="button" data-query="Fairfax County">Fairfax County</button>
+                  <button class="fly-to-chip" type="button" data-query="VA-10">VA-10</button>
+                  <button class="fly-to-chip" type="button" data-query="VA HD-57">VA HD-57</button>
+                  <button class="fly-to-chip" type="button" data-query="VA SD-31">VA SD-31</button>
+                  <button class="fly-to-chip" type="button" data-query="Lynchburg 101">Lynchburg 101</button>
+                </div>
+            </div>
             <div class="control-group" style="margin-bottom:10px;">
                 <div class="view-toggle-row" style="display:flex;gap:6px;flex-wrap:wrap;">
                   <button id="counties-view" class="view-toggle-btn active" onclick="setMapView('counties')">Counties</button>
@@ -2260,8 +2992,18 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- Legend -->
     <div class="legend" id="legend">
         <div class="legend-header">
-            <h4>Political Categories</h4>
-            <button class="minimize-btn" onclick="toggleLegend()" id="legend-minimize-btn">-</button>
+            <div class="legend-header-main">
+              <div class="legend-handle" aria-hidden="true"></div>
+              <div class="legend-copy">
+                <span class="legend-kicker">Map key</span>
+                <h4>Political Categories</h4>
+                <p class="legend-subtitle" id="legend-subtitle">Two-party margin buckets for the selected contest.</p>
+              </div>
+            </div>
+            <div class="legend-header-actions">
+              <span class="legend-badge" id="legend-badge">Margins</span>
+              <button class="minimize-btn" onclick="toggleLegend()" id="legend-minimize-btn">-</button>
+            </div>
         </div>
         <div class="legend-content" id="legend-content">
             <div class="legend-item"><div class="legend-color" style="background: #67000d;"></div>Annihilation Republican (&ge;40.00%)</div>
@@ -2280,6 +3022,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="legend-item"><div class="legend-color" style="background: #08519c;"></div>Dominant Democratic (30.00-39.99%)</div>
             <div class="legend-item"><div class="legend-color" style="background: #08306b;"></div>Annihilation Democratic (&ge;40.00%)</div>
         </div>
+        <div class="legend-footer" id="legend-footer">Darker shades indicate larger two-party leads in the current contest.</div>
     </div>
 
     <!-- Hover Tooltip -->
@@ -2631,12 +3374,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderLegendForVizMode(mode, meta = {}) {
       const legend = document.getElementById('legend');
       const header = legend ? legend.querySelector('.legend-header h4') : null;
+      const subtitle = document.getElementById('legend-subtitle');
+      const badge = document.getElementById('legend-badge');
+      const footer = document.getElementById('legend-footer');
       const content = document.getElementById('legend-content');
       if (!content) return;
       if (!content.dataset.marginsHtml) content.dataset.marginsHtml = content.innerHTML;
 
       if (mode === 'winners') {
         if (header) header.textContent = 'Winners';
+        if (subtitle) subtitle.textContent = 'Each geography is shaded by the party currently ahead in the selected contest.';
+        if (badge) badge.textContent = 'Winners';
+        if (footer) footer.textContent = 'Gray indicates a tie or missing data.';
         content.innerHTML = `
           <div class="legend-item"><div class="legend-color" style="background: ${colorForWinnerMode('D')};"></div>Democratic</div>
           <div class="legend-item"><div class="legend-color" style="background: ${colorForWinnerMode('R')};"></div>Republican</div>
@@ -2644,6 +3393,9 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
       } else if (mode === 'flips') {
         if (header) header.textContent = 'Flips';
+        if (subtitle) subtitle.textContent = 'Highlights places that switched parties compared with the prior comparable election.';
+        if (badge) badge.textContent = 'Flips';
+        if (footer) footer.textContent = 'Neutral areas either did not flip or do not have a usable prior result.';
         content.innerHTML = `
           <div class="legend-item"><div class="legend-color" style="background: ${colorForFlipMode('D')};"></div>Flip to Democratic</div>
           <div class="legend-item"><div class="legend-color" style="background: ${colorForFlipMode('R')};"></div>Flip to Republican</div>
@@ -2652,6 +3404,19 @@ document.addEventListener('DOMContentLoaded', function() {
       } else if (mode === 'shift') {
         const a = meta?.fromYear ? `${meta.fromYear} → ${meta.toYear || ''}`.trim() : 'Shift';
         if (header) header.textContent = meta?.fromYear ? `Shift (${a})` : 'Shift';
+        if (subtitle) {
+          subtitle.textContent = meta?.fromYear
+            ? `Shows the change in two-party margin from ${meta.fromYear} to ${meta.toYear || 'the current contest'}.`
+            : 'Shows the change in two-party margin relative to the prior comparable election.';
+        }
+        if (badge) badge.textContent = meta?.fromYear ? `${meta.fromYear}-${meta.toYear || ''}`.replace(/-$/, '') : 'Shift';
+        if (footer) footer.textContent = 'Blue means movement toward Democrats; red means movement toward Republicans.';
+        if (header) {
+          const shiftHeader = meta?.fromYear
+            ? `Shift (${meta.fromYear} to ${meta.toYear || ''})`.replace(/\s+to\s*\)$/, ')')
+            : 'Shift';
+          header.textContent = shiftHeader;
+        }
         content.innerHTML = `
           <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(-15)};"></div>D +15%</div>
           <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(-10)};"></div>D +10%</div>
@@ -2664,6 +3429,9 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         // margins (default)
         if (header) header.textContent = 'Political Categories';
+        if (subtitle) subtitle.textContent = 'Two-party margin buckets for the selected contest.';
+        if (badge) badge.textContent = 'Margins';
+        if (footer) footer.textContent = 'Darker shades indicate larger two-party leads in the current contest.';
         content.innerHTML = content.dataset.marginsHtml;
       }
 
@@ -2692,6 +3460,27 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('dem-percent').textContent = demPct.toFixed(2) + '%';
       document.getElementById('rep-percent').textContent = repPct.toFixed(2) + '%';
       document.getElementById('other-percent').textContent = otherPct.toFixed(2) + '%';
+      document.getElementById('dem-share-fill').style.width = `${demPct.toFixed(2)}%`;
+      document.getElementById('rep-share-fill').style.width = `${repPct.toFixed(2)}%`;
+      document.getElementById('other-share-fill').style.width = `${otherPct.toFixed(2)}%`;
+
+      const totalEl = document.getElementById('vote-total');
+      if (totalEl) totalEl.textContent = `${totalVotes.toLocaleString()} total votes`;
+
+      const leadEl = document.getElementById('vote-lead');
+      if (leadEl) {
+        const marginVotes = Math.abs(demVotes - repVotes);
+        const marginPct = Math.abs(demPct - repPct);
+        let leadText = 'Even';
+        let leadParty = 'tie';
+        if (demVotes !== repVotes) {
+          leadParty = demVotes > repVotes ? 'dem' : 'rep';
+          leadText = `${demVotes > repVotes ? 'Dem' : 'Rep'} +${marginPct.toFixed(1)}`;
+          if (marginVotes > 0) leadText += ` (${marginVotes.toLocaleString()} votes)`;
+        }
+        leadEl.textContent = leadText;
+        leadEl.dataset.party = leadParty;
+      }
       
       showVoteCounter();
     }
@@ -2785,11 +3574,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function showVoteCounter() {
       const counter = document.getElementById('vote-counter');
       if (counter) counter.style.display = 'block';
+      try {
+        updateMobileOverlayOffsets();
+        requestAnimationFrame(() => updateMobileOverlayOffsets());
+      } catch (_) {}
     }
 
     function hideVoteCounter() {
       const counter = document.getElementById('vote-counter');
       if (counter) counter.style.display = 'none';
+      try { updateMobileOverlayOffsets(); } catch (_) {}
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -4799,14 +5593,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!isMobile) {
           root.style.removeProperty('--legend-h');
           root.style.removeProperty('--controls-h');
+          root.style.removeProperty('--counter-h');
           return;
         }
         const legend = document.getElementById('legend');
         const controls = document.getElementById('main-controls');
+        const counter = document.getElementById('vote-counter');
         const lh = legend ? Math.round(legend.getBoundingClientRect().height) : 56;
         const ch = controls ? Math.round(controls.getBoundingClientRect().height) : 0;
+        const counterVisible = counter && counter.style.display !== 'none';
+        const cth = counterVisible ? Math.round(counter.getBoundingClientRect().height) : 0;
         root.style.setProperty('--legend-h', `${Math.max(0, lh)}px`);
         root.style.setProperty('--controls-h', `${Math.max(0, ch)}px`);
+        root.style.setProperty('--counter-h', `${Math.max(0, cth)}px`);
       } catch (_) {}
     }
 
@@ -5983,126 +6782,191 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
+    function getFlyToInputs() {
+      return Array.from(document.querySelectorAll('[data-fly-to-search="true"]'));
+    }
+
+    function getPrimaryFlyToInput() {
+      return document.getElementById('fly-to-search') || document.getElementById('county-search');
+    }
+
+    function setFlyToSearchValue(value, sourceInput = null) {
+      const nextValue = value == null ? '' : String(value);
+      getFlyToInputs().forEach(input => {
+        if (sourceInput && input === sourceInput) return;
+        input.value = nextValue;
+      });
+    }
+
+    function flashFlyToInputs() {
+      getFlyToInputs().forEach(searchInput => {
+        if (!searchInput) return;
+        searchInput.style.borderColor = '#10b981';
+        searchInput.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.18)';
+        try { clearTimeout(searchInput.__flyToFlashTimer); } catch (_) {}
+        searchInput.__flyToFlashTimer = setTimeout(() => {
+          searchInput.style.borderColor = '';
+          searchInput.style.boxShadow = '';
+        }, 1000);
+      });
+    }
+
+    function submitFlyToSearch(searchInput = getPrimaryFlyToInput()) {
+      const value = (searchInput && searchInput.value ? searchInput.value : '').trim();
+      if (!value) return;
+      handleSearchSelection(value);
+    }
+
+    function setupFlyToQuickActions() {
+      const submitBtn = document.getElementById('fly-to-submit');
+      if (submitBtn && submitBtn.dataset.bound !== '1') {
+        submitBtn.dataset.bound = '1';
+        submitBtn.addEventListener('click', () => {
+          submitFlyToSearch();
+        });
+      }
+
+      document.querySelectorAll('.fly-to-chip').forEach(btn => {
+        if (btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', () => {
+          const query = (btn.dataset.query || btn.textContent || '').trim();
+          if (!query) return;
+          setFlyToSearchValue(query);
+          const input = getPrimaryFlyToInput();
+          if (input) input.value = query;
+          submitFlyToSearch(input);
+        });
+      });
+    }
+
+    function attachSearchAutocomplete(searchInput, counties) {
+      if (!searchInput || searchInput.dataset.searchBound === '1') return;
+      searchInput.dataset.searchBound = '1';
+
+      const dropdownHost = searchInput.closest('.fly-to-search-field') || searchInput.parentNode;
+      if (!dropdownHost) return;
+      dropdownHost.style.position = 'relative';
+
+      let dropdown = dropdownHost.querySelector('.fly-to-dropdown');
+      if (!dropdown) {
+        dropdown = document.createElement('div');
+        dropdown.className = 'fly-to-dropdown';
+        dropdownHost.appendChild(dropdown);
+      }
+
+      function closeDropdown() {
+        dropdown.innerHTML = '';
+        dropdown.style.display = 'none';
+      }
+
+      function renderSuggestions() {
+        const searchValue = searchInput.value.trim().toLowerCase();
+        if (!searchValue || !counties.length) {
+          closeDropdown();
+          return;
+        }
+
+        const matches = counties.filter(county => county.toLowerCase().includes(searchValue)).slice(0, 10);
+        if (!matches.length) {
+          closeDropdown();
+          return;
+        }
+
+        dropdown.innerHTML = '';
+        matches.forEach(county => {
+          const option = document.createElement('button');
+          option.type = 'button';
+          option.className = 'fly-to-option';
+          option.textContent = county;
+          option.addEventListener('click', () => {
+            searchInput.value = county;
+            setFlyToSearchValue(county, searchInput);
+            closeDropdown();
+            handleSearchSelection(county);
+          });
+          dropdown.appendChild(option);
+        });
+        dropdown.style.display = 'block';
+      }
+
+      searchInput.addEventListener('input', function() {
+        setFlyToSearchValue(this.value, this);
+        renderSuggestions();
+      });
+
+      searchInput.addEventListener('focus', renderSuggestions);
+
+      searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeDropdown();
+          return;
+        }
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          closeDropdown();
+          submitFlyToSearch(this);
+        }
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!dropdownHost.contains(e.target)) closeDropdown();
+      });
+    }
+
     // Sidebar minimized by default on load, expand on click
     // County search functionality - Efficient search with limited suggestions
     function setupCountySearch() {
+      setupFlyToQuickActions();
+
       const countiesSource = map.getSource('counties');
-      if (!countiesSource) return;
-      
+      const sourceData = countiesSource ? (countiesSource._data || countiesSource.data || null) : null;
       let counties = [];
-      if (countiesSource._data && countiesSource._data.features) {
+      if (sourceData && sourceData.features) {
         // Prefer NAMELSAD20 to keep counties and independent cities distinct.
-        counties = countiesSource._data.features.map(f => {
+        counties = Array.from(new Set(sourceData.features.map(f => {
           const p = f.properties || {};
           return p.NAMELSAD20 || p.NAME20 || p.County || p.COUNTYNAME || p.NAME || '';
-        }).filter(Boolean).sort();
+        }).filter(Boolean))).sort((a, b) => a.localeCompare(b));
       }
-      
-      const searchInput = document.getElementById('county-search');
-      if (searchInput && counties.length > 0) {
-        // Create dropdown for suggestions (hidden by default)
-        let dropdown = document.getElementById('county-dropdown');
-        if (!dropdown) {
-          dropdown = document.createElement('div');
-          dropdown.id = 'county-dropdown';
-          dropdown.style.cssText = `
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #d1d5db;
-            border-top: none;
-            border-radius: 0 0 6px 6px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1000;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-          `;
-          
-          // Make search container relative positioned
-          searchInput.parentNode.style.position = 'relative';
-          searchInput.parentNode.appendChild(dropdown);
-        }
-        
-        // Only show suggestions when user types
-        searchInput.addEventListener('input', function() {
-          const searchValue = this.value.trim().toLowerCase();
-          if (searchValue.length < 1) {
-            dropdown.style.display = 'none';
-            return;
-          }
-          // Match county names
-          const matches = counties.filter(county => county.toLowerCase().includes(searchValue)).slice(0, 10);
-          if (matches.length > 0) {
-            dropdown.innerHTML = matches.map(county => `
-              <div style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f3f4f6;" 
-                   onmouseover="this.style.backgroundColor='#f3f4f6'" 
-                   onmouseout="this.style.backgroundColor='white'"
-                   onclick="selectCounty('${county}')">${county}</div>
-            `).join('');
-            dropdown.style.display = 'block';
-          } else {
-            dropdown.style.display = 'none';
-          }
-        });
-        
-        // Hide dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-          if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
-            dropdown.style.display = 'none';
-          }
-        });
-        
-        // Handle Enter key
-        searchInput.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            const val = this.value.trim();
-            if (val) {
-              dropdown.style.display = 'none';
-              handleSearchSelection(val);
-            }
-          }
-        });
-      }
-    }
 
-    // Global function to select county from dropdown
-    function selectCounty(countyName) {
-      const searchInput = document.getElementById('county-search');
-      const dropdown = document.getElementById('county-dropdown');
-      
-      if (searchInput) {
-        searchInput.value = countyName;
-        if (dropdown) dropdown.style.display = 'none';
-        handleSearchSelection(countyName);
-      }
+      getFlyToInputs().forEach(searchInput => attachSearchAutocomplete(searchInput, counties));
     }
 
     function parseSearchQuery(query) {
       const raw = (query || '').toString().trim();
-      const q = raw.toUpperCase().replace(/\s+/g, ' ').trim();
+      const normalized = raw.toUpperCase().replace(/^VIRGINIA\b/, 'VA').replace(/\s+/g, ' ').trim();
+      const hasVaPrefix = /^VA(?:\b|[-\s])/.test(normalized);
+      const base = hasVaPrefix ? normalized.replace(/^VA(?:\b|[-\s])*/, '').trim() : normalized;
 
-      const cd = q.match(/^(CD|CONG(?:RESS)?|US HOUSE)\s*[-#:]?\s*(\d{1,2})$/i);
+      if (hasVaPrefix && /^\d{1,2}$/.test(base)) {
+        return { kind: 'cd', num: Number(base), raw };
+      }
+
+      const cd = base.match(/^(CD|CONG(?:RESS)?|US HOUSE|CONGRESSIONAL DISTRICT)\s*[-#:]?\s*(\d{1,2})$/i);
       if (cd) return { kind: 'cd', num: Number(cd[2]), raw };
-      const hd = q.match(/^(HD|HOUSE)\s*[-#:]?\s*(\d{1,3})$/i);
+
+      const hd = base.match(/^(HD|HOUSE|HOUSE DISTRICT|STATE HOUSE)\s*[-#:]?\s*(\d{1,3})$/i);
       if (hd) return { kind: 'hd', num: Number(hd[2]), raw };
-      const sd = q.match(/^(SD|SENATE)\s*[-#:]?\s*(\d{1,3})$/i);
+
+      const sd = base.match(/^(SD|SENATE|SENATE DISTRICT|STATE SENATE)\s*[-#:]?\s*(\d{1,3})$/i);
       if (sd) return { kind: 'sd', num: Number(sd[2]), raw };
 
-      // Precinct: "WAKE 01-14" or "WAKE - 01-14".
-      const p1 = q.match(/^([A-Z .'-]+)\s*-\s*([0-9A-Z .'-]+)$/);
+      const p1 = normalized.match(/^([A-Z .'-]+)\s*-\s*([0-9A-Z .'-]+)$/);
       if (p1) return { kind: 'precinct', county: p1[1].trim(), code: p1[2].trim(), raw };
-      const p2 = q.match(/^([A-Z .'-]+)\s+(\d{1,3}-\d{1,3}[A-Z]?)$/);
+
+      const p2 = normalized.match(/^([A-Z .'-]+)\s+([0-9]{1,3}(?:-[0-9]{1,3})?[A-Z]?)$/);
       if (p2) return { kind: 'precinct', county: p2[1].trim(), code: p2[2].trim(), raw };
 
       return { kind: 'county', raw };
     }
 
     async function handleSearchSelection(query) {
-      const parsed = parseSearchQuery(query);
+      const normalizedQuery = (query || '').toString().trim();
+      if (!normalizedQuery) return;
+      setFlyToSearchValue(normalizedQuery);
+
+      const parsed = parseSearchQuery(normalizedQuery);
       if (parsed.kind === 'cd') {
         setMapView('districts');
         await handleDistrictSelection(parsed.num, 'districts', 'congressional', 'Congressional District');
@@ -6122,7 +6986,7 @@ document.addEventListener('DOMContentLoaded', function() {
         await handlePrecinctSelection(parsed.county, parsed.code);
         return;
       }
-      handleCountySelection(query);
+      handleCountySelection(normalizedQuery);
     }
 
     async function ensureSearchGeoJSON(sourceId, fallbackPath) {
@@ -6150,11 +7014,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function handleDistrictSelection(districtNum, sourceId, chamber, label) {
-      const searchInput = document.getElementById('county-search');
-      if (searchInput) {
-        searchInput.style.borderColor = '#10b981';
-        setTimeout(() => { searchInput.style.borderColor = '#d1d5db'; }, 1000);
-      }
+      flashFlyToInputs();
 
       const path = sourceId === 'districts' ? CONFIG.paths.districts
         : (sourceId === 'state-house' ? CONFIG.paths.state_house : CONFIG.paths.state_senate);
@@ -6164,6 +7024,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const match = gj.features.find(f => getDistrictNumberFromPropsNumeric(f.properties) === Number(districtNum));
       if (!match) {
         console.warn('District not found for search:', label, districtNum);
+        setStatus(`${label} ${districtNum} not found.`);
         return;
       }
 
@@ -6183,11 +7044,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function handlePrecinctSelection(countyNameRaw, precinctCodeRaw) {
-      const searchInput = document.getElementById('county-search');
-      if (searchInput) {
-        searchInput.style.borderColor = '#10b981';
-        setTimeout(() => { searchInput.style.borderColor = '#d1d5db'; }, 1000);
-      }
+      flashFlyToInputs();
 
       const county = (countyNameRaw || '').toString().trim().toUpperCase();
       const code = (precinctCodeRaw || '').toString().trim().toUpperCase();
@@ -6207,6 +7064,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const hit = gj.features.find(f => ((f.properties || {}).precinct_norm || '').toString().trim().toUpperCase() === target);
       if (!hit) {
         console.warn('Precinct not found for search:', target);
+        setStatus(`Precinct not found: ${target}.`);
         return;
       }
 
@@ -6231,14 +7089,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function handleCountySelection(countyName) {
-      const searchInput = document.getElementById('county-search');
-      // Add visual feedback
-      if (searchInput) {
-        searchInput.style.borderColor = '#10b981';
-        setTimeout(() => {
-          searchInput.style.borderColor = '#d1d5db';
-        }, 1000);
-      }
+      flashFlyToInputs();
       // Find and zoom to the county using countiesData and Turf.js
       // Prefer the authoritative source: window.countiesData if present, otherwise try map source
       const src = (window.countiesData && window.countiesData.features) ? window.countiesData : (map.getSource && map.getSource('counties') && (map.getSource('counties')._data || map.getSource('counties').data)) || null;
@@ -6273,6 +7124,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (found) {
           const props = found.properties || {};
           lastSelectedCounty = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name;
+          setFlyToSearchValue(lastSelectedCounty);
           const bbox = turf.bbox(found);
           debugLog('[DIAGNOSTIC] Matched county for', countyName, '->', lastSelectedCounty, 'bbox:', bbox);
           map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], { padding: 40, duration: 1000 });
@@ -6283,6 +7135,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         } else {
           console.warn('[DIAGNOSTIC] County not found:', countyName, 'normalized:', normTarget);
+          setStatus(`County not found: ${countyName}.`);
         }
       }
     }
@@ -6495,13 +7348,16 @@ document.addEventListener('DOMContentLoaded', function() {
       const pinLabel = tooltipPinned ? 'Unpin' : 'Pin';
       return `
         <div class="tooltip-head">
-          <div class="tooltip-title">${title}</div>
+          <div class="tooltip-copy">
+            <div class="tooltip-kicker">${tooltipPinned ? 'Pinned detail' : 'Map detail'}</div>
+            <div class="tooltip-title">${title}</div>
+          </div>
           <div class="tooltip-actions">
             <button class="tooltip-btn" id="tooltip-pin-btn" type="button">${pinLabel}</button>
             <button class="tooltip-btn" id="tooltip-close-btn" type="button">Close</button>
           </div>
         </div>
-        <div class="tooltip-trends">${innerHtml}</div>
+        <div class="tooltip-body tooltip-trends">${innerHtml}</div>
       `;
     }
 

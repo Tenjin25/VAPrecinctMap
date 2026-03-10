@@ -4479,6 +4479,62 @@ document.addEventListener('DOMContentLoaded', function() {
       return true;
     }
 
+    function getSearchFitOptions(kind = 'default', options = {}) {
+      const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+      const cfg = isMobile
+        ? {
+            county: { padding: { top: 104, right: 18, bottom: 148, left: 18 }, offset: [0, 18] },
+            district: { padding: { top: 104, right: 18, bottom: 148, left: 18 }, offset: [0, 18] },
+            precinct: { padding: { top: 112, right: 16, bottom: 156, left: 16 }, offset: [0, 26] },
+            default: { padding: { top: 104, right: 18, bottom: 148, left: 18 }, offset: [0, 18] }
+          }
+        : {
+            county: { padding: { top: 42, right: 42, bottom: 42, left: 42 }, offset: [110, 0] },
+            district: { padding: { top: 42, right: 42, bottom: 42, left: 42 }, offset: [112, 0] },
+            precinct: { padding: { top: 42, right: 42, bottom: 42, left: 42 }, offset: [124, 0] },
+            default: { padding: { top: 42, right: 42, bottom: 42, left: 42 }, offset: [110, 0] }
+          };
+      const picked = cfg[kind] || cfg.default;
+      const fitOptions = {
+        padding: picked.padding,
+        offset: picked.offset,
+        duration: Number.isFinite(Number(options.duration)) ? Number(options.duration) : 950
+      };
+      if (Number.isFinite(Number(options.maxZoom))) fitOptions.maxZoom = Number(options.maxZoom);
+      return fitOptions;
+    }
+
+    function fitFeatureForSearch(feature, options = {}) {
+      if (!feature || !window.turf || !map || !map.fitBounds) return false;
+      let bbox = null;
+      try {
+        bbox = turf.bbox(feature);
+      } catch (_) {
+        return false;
+      }
+      if (!Array.isArray(bbox) || bbox.length !== 4) return false;
+      const nums = bbox.map(v => Number(v));
+      if (!nums.every(v => Number.isFinite(v))) return false;
+      const fitOptions = getSearchFitOptions(options.kind || 'default', options);
+      map.fitBounds([[nums[0], nums[1]], [nums[2], nums[3]]], fitOptions);
+      return true;
+    }
+
+    function flyToPointForSearch(coords, options = {}) {
+      if (!map || !map.easeTo || !Array.isArray(coords) || coords.length < 2) return false;
+      const lng = Number(coords[0]);
+      const lat = Number(coords[1]);
+      if (!Number.isFinite(lng) || !Number.isFinite(lat)) return false;
+      const fitOptions = getSearchFitOptions(options.kind || 'default', options);
+      map.easeTo({
+        center: [lng, lat],
+        zoom: Number.isFinite(Number(options.zoom)) ? Number(options.zoom) : 11,
+        duration: fitOptions.duration,
+        offset: fitOptions.offset
+      });
+      return true;
+    }
+
     function getDistrictFocusProfile(sourceId, feature = null) {
       const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
       const profile = sourceId === 'districts'
@@ -4553,11 +4609,14 @@ document.addEventListener('DOMContentLoaded', function() {
     async function focusDistrictGeometry(districtNum, sourceId, options = {}) {
       const duration = Number.isFinite(Number(options.duration)) ? Number(options.duration) : 900;
       const fallbackFeature = options.fallbackFeature || null;
+      const fitFn = options.useSearchFit ? fitFeatureForSearch : fitFeatureWithOverlayPadding;
+      const fitKind = 'district';
       let fallbackUsed = false;
 
       if (fallbackFeature) {
         const fallbackProfile = getDistrictFocusProfile(sourceId, fallbackFeature);
-        fallbackUsed = fitFeatureWithOverlayPadding(fallbackFeature, {
+        fallbackUsed = fitFn(fallbackFeature, {
+          kind: fitKind,
           duration: Math.min(duration, 650),
           maxZoom: fallbackProfile.maxZoom,
           paddingOptions: { extra: fallbackProfile.extra }
@@ -4573,7 +4632,8 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!match) return fallbackUsed ? fallbackFeature : null;
 
       const focusProfile = getDistrictFocusProfile(sourceId, match);
-      fitFeatureWithOverlayPadding(match, {
+      fitFn(match, {
+        kind: fitKind,
         duration: fallbackUsed ? Math.min(duration, 500) : duration,
         maxZoom: focusProfile.maxZoom,
         paddingOptions: { extra: focusProfile.extra }
@@ -8612,7 +8672,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function handleDistrictSelection(districtNum, sourceId, chamber, label) {
       flashFlyToInputs();
-      const match = await focusDistrictGeometry(districtNum, sourceId, { duration: 900 });
+      const match = await focusDistrictGeometry(districtNum, sourceId, { duration: 900, useSearchFit: true });
       if (!match) {
         console.warn('District not found for search:', label, districtNum);
         setStatus(`${label} ${districtNum} not found.`);
@@ -8683,20 +8743,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const polygonMatch = polygonData.features.find(f => (((f.properties || {}).precinct_norm || '')).toString().trim().toUpperCase() === rowKey);
         if (polygonMatch) {
           const profile = getPrecinctFocusProfile(polygonMatch);
-          fitDone = fitFeatureWithOverlayPadding(polygonMatch, {
+          fitDone = fitFeatureForSearch(polygonMatch, {
+            kind: 'precinct',
             duration: 1000,
-            maxZoom: profile.maxZoom,
-            paddingOptions: { extra: profile.extra }
+            maxZoom: profile.maxZoom
           });
         }
       }
 
       const coords = hit.geometry && hit.geometry.type === 'Point' ? hit.geometry.coordinates : null;
       if (!fitDone && coords && coords.length >= 2) {
-        map.flyTo({
-          center: coords,
-          zoom: Math.max(CONFIG.precincts?.minZoom || 8.5, 11.25),
-          speed: 0.9
+        flyToPointForSearch(coords, {
+          kind: 'precinct',
+          duration: 950,
+          zoom: Math.max(CONFIG.precincts?.minZoom || 8.5, 11.25)
         });
       }
 
@@ -8743,10 +8803,10 @@ document.addEventListener('DOMContentLoaded', function() {
           setFlyToSearchValue(lastSelectedCounty);
           debugLog('[DIAGNOSTIC] Matched county for', countyName, '->', lastSelectedCounty);
           const countyProfile = getCountyFocusProfile(found);
-          fitFeatureWithOverlayPadding(found, {
+          fitFeatureForSearch(found, {
+            kind: 'county',
             duration: 1000,
-            maxZoom: countyProfile.maxZoom,
-            paddingOptions: { extra: countyProfile.extra }
+            maxZoom: countyProfile.maxZoom
           });
           showCountyDetails(lastSelectedCounty);
           const sidebar = document.getElementById('sidebar');

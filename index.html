@@ -3475,7 +3475,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let leadParty = 'tie';
         if (demVotes !== repVotes) {
           leadParty = demVotes > repVotes ? 'dem' : 'rep';
-          leadText = `${demVotes > repVotes ? 'Dem' : 'Rep'} +${marginPct.toFixed(1)}`;
+          leadText = `${demVotes > repVotes ? 'Dem' : 'Rep'} +${marginPct.toFixed(2)}`;
           if (marginVotes > 0) leadText += ` (${marginVotes.toLocaleString()} votes)`;
         }
         leadEl.textContent = leadText;
@@ -4637,11 +4637,39 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
+    function contestSelectHasOptionValue(value) {
+      const sel = document.getElementById('contestSelect');
+      if (!sel || !value) return false;
+      return Array.from(sel.options || []).some(opt => opt && opt.value === value);
+    }
+
+    function preserveContestSelectionForCurrentView(previousContestKey) {
+      const sel = document.getElementById('contestSelect');
+      const prior = String(previousContestKey || '').trim();
+      if (!sel || !prior) return false;
+
+      const [contestType, year] = parseContestValue(prior);
+      const candidates = [];
+      if (contestType && year) candidates.push(`${contestType}_${year}`);
+      if (!candidates.includes(prior)) candidates.push(prior);
+
+      const nextValue = candidates.find(value => contestSelectHasOptionValue(value));
+      if (!nextValue) return false;
+
+      sel.value = nextValue;
+      applyContest(nextValue).catch(err => {
+        console.error('Failed to preserve contest selection after view switch:', err);
+        try { setStatus(`Failed to apply ${nextValue}: ${err?.message || err}`); } catch (_) {}
+      });
+      return true;
+    }
+
     function setMapView(view) {
       if (!appReady) {
         setStatus('Map is still loading. Try again in a moment.');
         return;
       }
+      const previousContestKey = document.getElementById('contestSelect')?.value || '';
       currentView = view;
       
       // Update button states
@@ -4701,9 +4729,11 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Repopulate contest selector
       updateContestSelectForCurrentView();
-      
-      // Clear current selection
-      document.getElementById('contestSelect').value = '';
+
+      const restoredContest = preserveContestSelectionForCurrentView(previousContestKey);
+      if (!restoredContest) {
+        document.getElementById('contestSelect').value = '';
+      }
       clearCountyDetails();
       saveUIState();
     }

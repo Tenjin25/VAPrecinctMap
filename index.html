@@ -3932,7 +3932,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <div class="desktop-statewide-copy">
                     <span class="desktop-statewide-kicker">Statewide snapshot</span>
                     <div class="desktop-statewide-title" data-statewide-contest-name="true">Choose a contest</div>
-                    <div class="desktop-statewide-sub">Keeps the statewide race call visible while you browse counties and legislative maps.</div>
+                    <div class="desktop-statewide-sub">Statewide margin and vote split.</div>
                   </div>
                   <span class="desktop-statewide-tag">Live summary</span>
                 </div>
@@ -4509,6 +4509,43 @@ document.addEventListener('DOMContentLoaded', function() {
         if (areaSqKm <= 700) profile.maxZoom += isMobile ? 0.15 : 0.25;
       }
 
+      return profile;
+    }
+
+    function getCountyFocusProfile(feature = null) {
+      const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+      const profile = { maxZoom: isMobile ? 10.1 : 10.65, extra: isMobile ? 16 : 20 };
+      if (!feature || !window.turf || typeof turf.area !== 'function') return profile;
+
+      let areaSqKm = null;
+      try {
+        areaSqKm = turf.area(feature) / 1e6;
+      } catch (_) {
+        areaSqKm = null;
+      }
+      if (!Number.isFinite(areaSqKm) || areaSqKm <= 0) return profile;
+
+      if (areaSqKm <= 2600) profile.maxZoom += isMobile ? 0.15 : 0.3;
+      if (areaSqKm <= 1200) profile.maxZoom += isMobile ? 0.15 : 0.25;
+      if (areaSqKm <= 500) profile.maxZoom += isMobile ? 0.1 : 0.2;
+      return profile;
+    }
+
+    function getPrecinctFocusProfile(feature = null) {
+      const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+      const profile = { maxZoom: isMobile ? 11.7 : 12.35, extra: isMobile ? 10 : 14 };
+      if (!feature || !window.turf || typeof turf.area !== 'function') return profile;
+
+      let areaSqKm = null;
+      try {
+        areaSqKm = turf.area(feature) / 1e6;
+      } catch (_) {
+        areaSqKm = null;
+      }
+      if (!Number.isFinite(areaSqKm) || areaSqKm <= 0) return profile;
+
+      if (areaSqKm <= 120) profile.maxZoom += isMobile ? 0.25 : 0.45;
+      if (areaSqKm <= 35) profile.maxZoom += isMobile ? 0.2 : 0.35;
       return profile;
     }
 
@@ -8573,16 +8610,36 @@ document.addEventListener('DOMContentLoaded', function() {
       const hitProps = hit.properties || {};
       const canonicalLabel = formatPrecinctFlyToLabel(hitProps.county_nam || countyNameRaw, hitProps.prec_id || precinctCodeRaw);
       if (canonicalLabel) setFlyToSearchValue(canonicalLabel);
+      const rowKey = ((hitProps.precinct_norm || '')).toString().trim().toUpperCase();
+
+      let fitDone = false;
+      await ensurePrecinctSourceLoaded();
+      const polygonSource = map.getSource('precincts');
+      const polygonData = polygonSource ? (polygonSource._data || polygonSource.data || null) : null;
+      if (polygonData && polygonData.features) {
+        const polygonMatch = polygonData.features.find(f => (((f.properties || {}).precinct_norm || '')).toString().trim().toUpperCase() === rowKey);
+        if (polygonMatch) {
+          const profile = getPrecinctFocusProfile(polygonMatch);
+          fitDone = fitFeatureWithOverlayPadding(polygonMatch, {
+            duration: 1000,
+            maxZoom: profile.maxZoom,
+            paddingOptions: { extra: profile.extra }
+          });
+        }
+      }
 
       const coords = hit.geometry && hit.geometry.type === 'Point' ? hit.geometry.coordinates : null;
-      if (coords && coords.length >= 2) {
-        map.flyTo({ center: coords, zoom: Math.max(CONFIG.precincts?.minZoom || 8.5, 10.0), speed: 0.9 });
+      if (!fitDone && coords && coords.length >= 2) {
+        map.flyTo({
+          center: coords,
+          zoom: Math.max(CONFIG.precincts?.minZoom || 8.5, 11.25),
+          speed: 0.9
+        });
       }
 
       // Pin vote counter if we have precinct-level results keyed by precinct_norm.
       const contestValue = document.getElementById('contestSelect')?.value || '';
       const [contestType, year] = parseContestValue(contestValue);
-      const rowKey = ((hitProps.precinct_norm || '')).toString().trim().toUpperCase();
       const selectedPrecinctLabel = canonicalLabel || rowKey;
       const row = currentPrecinctResults ? currentPrecinctResults.get(rowKey) : null;
       if (row && contestType) {
@@ -8637,7 +8694,12 @@ document.addEventListener('DOMContentLoaded', function() {
           lastSelectedCounty = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name;
           setFlyToSearchValue(lastSelectedCounty);
           debugLog('[DIAGNOSTIC] Matched county for', countyName, '->', lastSelectedCounty);
-          fitFeatureWithOverlayPadding(found, { duration: 1000, maxZoom: 10 });
+          const countyProfile = getCountyFocusProfile(found);
+          fitFeatureWithOverlayPadding(found, {
+            duration: 1000,
+            maxZoom: countyProfile.maxZoom,
+            paddingOptions: { extra: countyProfile.extra }
+          });
           showCountyDetails(lastSelectedCounty);
           const sidebar = document.getElementById('sidebar');
           if (sidebar && sidebar.classList.contains('minimized')) {
@@ -10868,7 +10930,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ? ` | match coverage ${Number(coveragePct).toFixed(2)}%`
             : '';
           const contestMeta = buildVoteCounterCandidateMeta(contestType, year);
-          setStatewideContestTitle(`${formatContestName(contestType, year)} (${year}) - Reallocated to court-ordered 2022 lines${coverageText}`);
+          setStatewideContestTitle(`${formatContestName(contestType, year)} (${year})`);
           setStatus(`Applied district crosswalk results: ${formatContestName(contestType, year)} ${year} (${demPct.toFixed(2)}% D, ${repPct.toFixed(2)}% R, ${otherPct.toFixed(2)}% O)${coverageText}`);
           setVoteCounterBaselineState('Statewide', `${formatContestName(contestType, year)} ${year} (2022 lines)`, totalDem, totalRep, totalOther, contestMeta);
           return;
@@ -10923,7 +10985,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setStatus('District layer not found!', 5000, true);
       }
 
-      setStatewideContestTitle(`${formatContestName(contestType, year)} (${year}) - Statewide Result`);
+      setStatewideContestTitle(`${formatContestName(contestType, year)} (${year})`);
       setStatus(`Applied statewide contest: ${formatContestName(contestType, year)} ${year} (${demPct.toFixed(2)}% D, ${repPct.toFixed(2)}% R, ${otherPct.toFixed(2)}% O)`);
       setVoteCounterBaselineState('Statewide', `${formatContestName(contestType, year)} ${year}`, totalDem, totalRep, totalOther, contestMeta);
     }

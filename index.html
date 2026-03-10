@@ -4478,23 +4478,51 @@ document.addEventListener('DOMContentLoaded', function() {
       return true;
     }
 
-    function getDistrictFocusMaxZoom(sourceId) {
-      if (sourceId === 'districts') return 9.15;
-      if (sourceId === 'state-house') return 11.0;
-      if (sourceId === 'state-senate') return 10.35;
-      return 10.0;
+    function getDistrictFocusProfile(sourceId, feature = null) {
+      const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+      const profile = sourceId === 'districts'
+        ? { maxZoom: isMobile ? 10.45 : 10.95, extra: isMobile ? 14 : 18 }
+        : (sourceId === 'state-house'
+          ? { maxZoom: isMobile ? 11.55 : 12.25, extra: isMobile ? 12 : 16 }
+          : (sourceId === 'state-senate'
+            ? { maxZoom: isMobile ? 11.15 : 11.7, extra: isMobile ? 13 : 17 }
+            : { maxZoom: isMobile ? 10.5 : 11.0, extra: isMobile ? 14 : 18 }));
+
+      if (!feature || !window.turf || typeof turf.area !== 'function') return profile;
+
+      let areaSqKm = null;
+      try {
+        areaSqKm = turf.area(feature) / 1e6;
+      } catch (_) {
+        areaSqKm = null;
+      }
+      if (!Number.isFinite(areaSqKm) || areaSqKm <= 0) return profile;
+
+      if (sourceId === 'districts') {
+        if (areaSqKm <= 1800) profile.maxZoom += isMobile ? 0.2 : 0.35;
+        if (areaSqKm <= 900) profile.maxZoom += isMobile ? 0.15 : 0.25;
+      } else if (sourceId === 'state-house') {
+        if (areaSqKm <= 900) profile.maxZoom += isMobile ? 0.25 : 0.45;
+        if (areaSqKm <= 350) profile.maxZoom += isMobile ? 0.2 : 0.35;
+      } else if (sourceId === 'state-senate') {
+        if (areaSqKm <= 1600) profile.maxZoom += isMobile ? 0.2 : 0.35;
+        if (areaSqKm <= 700) profile.maxZoom += isMobile ? 0.15 : 0.25;
+      }
+
+      return profile;
     }
 
     async function focusDistrictGeometry(districtNum, sourceId, options = {}) {
-      const maxZoom = getDistrictFocusMaxZoom(sourceId);
       const duration = Number.isFinite(Number(options.duration)) ? Number(options.duration) : 900;
       const fallbackFeature = options.fallbackFeature || null;
       let fallbackUsed = false;
 
       if (fallbackFeature) {
+        const fallbackProfile = getDistrictFocusProfile(sourceId, fallbackFeature);
         fallbackUsed = fitFeatureWithOverlayPadding(fallbackFeature, {
           duration: Math.min(duration, 650),
-          maxZoom
+          maxZoom: fallbackProfile.maxZoom,
+          paddingOptions: { extra: fallbackProfile.extra }
         });
       }
 
@@ -4506,9 +4534,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const match = gj.features.find(f => getDistrictNumberFromPropsNumeric(f.properties) === Number(districtNum));
       if (!match) return fallbackUsed ? fallbackFeature : null;
 
+      const focusProfile = getDistrictFocusProfile(sourceId, match);
       fitFeatureWithOverlayPadding(match, {
         duration: fallbackUsed ? Math.min(duration, 500) : duration,
-        maxZoom
+        maxZoom: focusProfile.maxZoom,
+        paddingOptions: { extra: focusProfile.extra }
       });
       return match;
     }

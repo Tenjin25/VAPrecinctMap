@@ -3099,15 +3099,15 @@ body { height: var(--app-height); }
       left: max(6px, var(--safe-left, 0px)) !important;
       right: max(6px, var(--safe-right, 0px)) !important;
       width: auto !important;
-      padding: 12px !important;
+      padding: 10px 10px 12px !important;
       border-radius: 18px !important;
-      max-height: min(48svh, 430px) !important;
+      max-height: min(44svh, 400px) !important;
       box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18) !important;
     }
 
     @supports (height: 100dvh) {
       .main-controls {
-        max-height: min(48dvh, 430px) !important;
+        max-height: min(44dvh, 400px) !important;
       }
     }
 
@@ -3122,8 +3122,25 @@ body { height: var(--app-height); }
       backdrop-filter: blur(12px);
     }
 
+    .controls-heading {
+      gap: 3px;
+    }
+
+    .controls-header h3 {
+      font-size: 16px;
+      line-height: 1.15;
+      max-width: 18ch;
+    }
+
     .controls-content {
       gap: 12px;
+      padding-right: 2px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .controls-content::-webkit-scrollbar {
+      display: none;
     }
 
     .control-group-search {
@@ -3143,22 +3160,58 @@ body { height: var(--app-height); }
     }
 
     .contest-toolbar {
-      gap: 6px !important;
+      display: grid !important;
+      grid-template-columns: 44px 44px minmax(0, 1fr);
+      align-items: stretch !important;
+      gap: 8px !important;
+    }
+
+    .contest-toolbar #accessibility-toggle,
+    .contest-toolbar #label-toggle {
+      width: 44px !important;
+      height: 44px !important;
     }
 
     .contest-toolbar #precinct-toggle {
-      flex: 1 0 100%;
+      grid-column: 3;
       min-width: 0;
+      min-height: 44px;
+      height: auto !important;
+      border-radius: 14px !important;
     }
 
     .fly-to-search-wrap {
       gap: 10px;
     }
 
+    .fly-to-helper {
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
     .fly-to-chip-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       margin-top: 10px;
-      margin-inline: -2px;
-      padding-inline: 2px;
+      margin-inline: 0;
+      padding-inline: 0;
+      overflow: visible;
+      gap: 8px;
+    }
+
+    .fly-to-chip {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 38px;
+      justify-content: center;
+      text-align: center;
+      white-space: normal;
+      line-height: 1.2;
+    }
+
+    .fly-to-chip:last-child {
+      grid-column: 1 / -1;
     }
 
     .main-controls.minimized {
@@ -3204,37 +3257,76 @@ body { height: var(--app-height); }
     }
 
     .legend {
-      max-height: min(36svh, 320px) !important;
+      max-height: min(34svh, 300px) !important;
     }
 
     @supports (height: 100dvh) {
       .legend {
-        max-height: min(36dvh, 320px) !important;
+        max-height: min(34dvh, 300px) !important;
       }
     }
 
     .legend-content {
-      max-height: min(24svh, 220px);
+      max-height: min(21svh, 180px);
     }
 
     .vote-counter {
-      width: min(94vw, 460px);
+      width: min(96vw, 480px);
+      max-height: min(30svh, 260px);
+      padding: 12px;
+      border-radius: 16px;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .vote-counter-context {
+      gap: 10px;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+    }
+
+    .vote-counter-context .context-clear {
+      min-height: 34px;
+      padding: 0 10px;
     }
 
     .vote-counter-meta {
       flex-wrap: wrap;
       align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 10px;
+      padding: 8px 10px;
     }
 
     .vote-total,
     .vote-lead {
       width: 100%;
       text-align: left;
+      font-size: 11px;
+    }
+
+    .vote-lead {
+      font-size: 14px;
+      line-height: 1.25;
     }
 
     .vote-counter-row {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
+    }
+
+    .vote-item {
+      gap: 6px;
+      padding: 9px 10px;
+      border-radius: 14px;
+    }
+
+    .vote-count {
+      font-size: 18px;
+    }
+
+    .vote-percent {
+      font-size: 11px;
     }
 
     .vote-item.other {
@@ -3268,6 +3360,8 @@ body { height: var(--app-height); }
     }
 
     #status-panel {
+      left: 10px !important;
+      right: 10px !important;
       padding: 14px 16px 14px 14px !important;
       border-radius: 16px !important;
       font-size: 14px !important;
@@ -6851,6 +6945,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       if (legend.classList.contains('minimized')) {
         // Expand legend
+        try { minimizeMainControlsOnMobile(); } catch (_) {}
         legend.classList.remove('minimized');
         legendContent.style.display = 'block';
         minimizeBtn.textContent = '-';
@@ -6929,6 +7024,23 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) {}
     }
 
+    function minimizeMainControlsOnMobile() {
+      try {
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile) return;
+        const controls = document.getElementById('main-controls');
+        const controlsContent = document.getElementById('controls-content');
+        const minimizeBtn = document.getElementById('controls-minimize-btn');
+        if (!controls || !controlsContent || !minimizeBtn) return;
+        if (controls.classList.contains('minimized')) return;
+        controls.classList.add('minimized');
+        controlsContent.style.display = 'none';
+        minimizeBtn.textContent = '+';
+        minimizeBtn.title = 'Expand controls';
+        try { updateMobileOverlayOffsets(); } catch (_) {}
+      } catch (_) {}
+    }
+
     // Toggles the visibility of the main controls panel, minimizing or expanding it based on its current state.
     function toggleMainControls() {
       const controls = document.getElementById('main-controls');
@@ -6937,6 +7049,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       if (controls.classList.contains('minimized')) {
         // Expand controls
+        try { minimizeLegendOnMobile(); } catch (_) {}
         controls.classList.remove('minimized');
         controlsContent.style.display = 'block';
         minimizeBtn.textContent = '-';

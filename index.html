@@ -2433,6 +2433,7 @@ body { height: var(--app-height); }
 
   :root {
     --counter-h: 0px;
+    --desktop-counter-bottom: 20px;
   }
 
   .legend {
@@ -3465,7 +3466,7 @@ body { height: var(--app-height); }
       right: 24px;
       bottom: 24px;
       width: min(340px, calc(100vw - 560px));
-      max-height: calc(100vh - 24px - var(--counter-h, 0px) - 24px);
+      max-height: calc(100vh - var(--desktop-counter-bottom, 20px) - 44px);
     }
 
     .vote-counter {
@@ -6778,7 +6779,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const ch = controls ? Math.round(controls.getBoundingClientRect().height) : 0;
         const counterVisible = counter && counter.style.display !== 'none';
         const cth = counterVisible ? Math.round(counter.getBoundingClientRect().height) : 0;
+        const counterBottom = counterVisible ? Math.round(counter.getBoundingClientRect().bottom) : 20;
         root.style.setProperty('--counter-h', `${Math.max(0, cth)}px`);
+        root.style.setProperty('--desktop-counter-bottom', `${Math.max(20, counterBottom)}px`);
         const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
         if (!isMobile) {
           root.style.removeProperty('--legend-h');
@@ -6791,6 +6794,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let mobileOverlayOffsetsWired = false;
+    let overlayOffsetsResizeObserver = null;
     function wireMobileOverlayOffsets() {
       if (mobileOverlayOffsetsWired) return;
       mobileOverlayOffsetsWired = true;
@@ -6798,6 +6802,15 @@ document.addEventListener('DOMContentLoaded', function() {
         updateMobileOverlayOffsets();
         window.addEventListener('resize', () => { try { updateMobileOverlayOffsets(); } catch (_) {} }, { passive: true });
         window.addEventListener('orientationchange', () => { try { updateMobileOverlayOffsets(); } catch (_) {} }, { passive: true });
+        if (window.ResizeObserver) {
+          overlayOffsetsResizeObserver = new ResizeObserver(() => {
+            try { updateMobileOverlayOffsets(); } catch (_) {}
+          });
+          ['legend', 'main-controls', 'vote-counter'].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) overlayOffsetsResizeObserver.observe(el);
+          });
+        }
       } catch (_) {}
     }
 

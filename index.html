@@ -4781,6 +4781,47 @@ document.addEventListener('DOMContentLoaded', function() {
       return normalizeVoteCounterMeta({ demCandidate, repCandidate, otherLabel: opts?.otherLabel || 'Other' });
     }
 
+    function getSelectedContestParts() {
+      const contestValue = document.getElementById('contestSelect')?.value || '';
+      const [contestType, year] = parseContestValue(contestValue);
+      return { contestValue, contestType, year };
+    }
+
+    function pinCountySelectionVoteCounter(countyName) {
+      const { contestType, year } = getSelectedContestParts();
+      if (!contestType || !year) return false;
+      const row = getCountyResultRow(countyName);
+      if (!row) return false;
+      const demVotes = Number(row[`${contestType}_dem`] || 0);
+      const repVotes = Number(row[`${contestType}_rep`] || 0);
+      const otherVotes = Number(row[`${contestType}_other`] || 0);
+      const totalVotes = Number(row[`${contestType}_total`] || (demVotes + repVotes + otherVotes));
+      if (totalVotes <= 0) return false;
+      pinVoteCounterState(`Selected: ${displayCountyName(countyName)}`, `${formatContestName(contestType, year)} ${year}`, demVotes, repVotes, otherVotes, {
+        demCandidate: row[`${contestType}_dem_candidate`] || getCandidateName(year, formatContestName(contestType, year), 'Democrat'),
+        repCandidate: row[`${contestType}_rep_candidate`] || getCandidateName(year, formatContestName(contestType, year), 'Republican')
+      });
+      return true;
+    }
+
+    async function pinDistrictSelectionVoteCounter(scope, districtNum, title) {
+      const { contestType, year } = getSelectedContestParts();
+      if (!contestType || !year) return false;
+      const node = await loadDistrictSlice(scope, contestType, year);
+      const row = node?.general?.results?.[String(districtNum)] || node?.general?.results?.[String(Number(districtNum))] || null;
+      if (!row) return false;
+      const demVotes = Number(row.dem_votes || 0);
+      const repVotes = Number(row.rep_votes || 0);
+      const otherVotes = Number(row.other_votes || 0);
+      const totalVotes = Number(row.total_votes || (demVotes + repVotes + otherVotes));
+      if (totalVotes <= 0) return false;
+      pinVoteCounterState(`Selected: ${title}`, `${formatContestName(contestType, year)} ${year}`, demVotes, repVotes, otherVotes, buildVoteCounterCandidateMeta(contestType, year, {
+        demCandidate: row.dem_candidate || '',
+        repCandidate: row.rep_candidate || ''
+      }));
+      return true;
+    }
+
     function updateVoteCounter(demVotes, repVotes, otherVotes = 0, meta = {}) {
       const totalVotes = demVotes + repVotes + otherVotes;
       if (totalVotes === 0) {
@@ -8672,6 +8713,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function handleDistrictSelection(districtNum, sourceId, chamber, label) {
       flashFlyToInputs();
+      const scope = sourceId === 'districts'
+        ? 'congressional'
+        : (sourceId === 'state-house' ? 'state_house' : 'state_senate');
+      const selectionTitle = sourceId === 'districts'
+        ? `Congressional District ${districtNum}`
+        : (sourceId === 'state-house' ? `State House District ${districtNum}` : `State Senate District ${districtNum}`);
+      pinDistrictSelectionVoteCounter(scope, districtNum, selectionTitle).catch(() => {});
       const match = await focusDistrictGeometry(districtNum, sourceId, { duration: 900, useSearchFit: true });
       if (!match) {
         console.warn('District not found for search:', label, districtNum);
@@ -8802,6 +8850,7 @@ document.addEventListener('DOMContentLoaded', function() {
           lastSelectedCounty = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name;
           setFlyToSearchValue(lastSelectedCounty);
           debugLog('[DIAGNOSTIC] Matched county for', countyName, '->', lastSelectedCounty);
+          pinCountySelectionVoteCounter(lastSelectedCounty);
           const countyProfile = getCountyFocusProfile(found);
           fitFeatureForSearch(found, {
             kind: 'county',

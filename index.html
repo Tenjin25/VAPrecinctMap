@@ -1205,7 +1205,31 @@ body { height: var(--app-height); }
   cursor: pointer;
 }
 
-.vote-counter-context .context-clear:hover {
+.vote-counter-context .context-actions {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vote-counter-context .context-minimize {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(17,24,39,0.04);
+  color: #111827;
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 1;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.vote-counter-context .context-clear:hover,
+.vote-counter-context .context-minimize:hover {
   background: rgba(17,24,39,0.08);
 }
 
@@ -2611,6 +2635,23 @@ body { height: var(--app-height); }
     border: 1px solid rgba(148, 163, 184, 0.18);
   }
 
+  .vote-counter.minimized {
+    max-height: none;
+    overflow: hidden;
+  }
+
+  .vote-counter.minimized .vote-counter-context {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .vote-counter.minimized .vote-counter-meta,
+  .vote-counter.minimized .focus-card,
+  .vote-counter.minimized .vote-counter-row {
+    display: none;
+  }
+
   .vote-counter::before {
     content: '';
     position: absolute;
@@ -3911,6 +3952,12 @@ body { height: var(--app-height); }
       padding: 0 10px;
     }
 
+    .vote-counter-context .context-minimize {
+      width: 34px;
+      height: 34px;
+      font-size: 16px;
+    }
+
     .vote-counter-meta {
       flex-wrap: wrap;
       align-items: flex-start;
@@ -4408,7 +4455,10 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="context-sub" id="vote-context-sub">Hover a county or district</div>
         <div class="context-flip" id="vote-context-flip" hidden></div>
       </div>
-      <button class="context-clear" id="vote-context-clear" title="Clear selection">Clear</button>
+      <div class="context-actions">
+        <button class="context-clear" id="vote-context-clear" title="Clear selection">Clear</button>
+        <button class="context-minimize" id="vote-counter-minimize-btn" type="button" title="Minimize results" aria-controls="vote-counter" aria-expanded="true">-</button>
+      </div>
     </div>
     <div class="vote-counter-meta">
       <div class="vote-total" id="vote-total">0 total votes</div>
@@ -5433,8 +5483,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Vote Counter Functions - VoteHub Style
     function normalizeVoteCounterMeta(meta = {}) {
       const source = (meta && typeof meta === 'object') ? meta : {};
-      const demCandidate = stripRunningMateName((source.demCandidate || '').toString().trim());
-      const repCandidate = stripRunningMateName((source.repCandidate || '').toString().trim());
+      const demCandidate = sanitizeCandidateName(source.demCandidate || '', 'D');
+      const repCandidate = sanitizeCandidateName(source.repCandidate || '', 'R');
       const otherLabel = (source.otherLabel || 'Other').toString().trim() || 'Other';
       const flipText = (source.flipText || '').toString().trim();
       const flipPartyRaw = (source.flipParty || '').toString().trim().toLowerCase();
@@ -5665,10 +5715,10 @@ document.addEventListener('DOMContentLoaded', function() {
         try { return !!(window.matchMedia && window.matchMedia('(min-width: 769px)').matches); } catch (_) { return false; }
       })();
       const repWinnerName = isDesktopWinnerLabel
-        ? ((counterMeta.repCandidate || '').toString().trim() || 'Republican')
+        ? fullCandidateLabel(counterMeta.repCandidate, 'Republican')
         : shortCandidateLabel(counterMeta.repCandidate, 'Rep');
       const demWinnerName = isDesktopWinnerLabel
-        ? ((counterMeta.demCandidate || '').toString().trim() || 'Democratic')
+        ? fullCandidateLabel(counterMeta.demCandidate, 'Democratic')
         : shortCandidateLabel(counterMeta.demCandidate, 'Dem');
       const winnerLabel = winnerParty === 'rep'
         ? `${repWinnerName} (R)`
@@ -6168,6 +6218,22 @@ document.addEventListener('DOMContentLoaded', function() {
       try { updateMobileOverlayOffsets(); } catch (_) {}
     }
 
+    function toggleVoteCounterPanel(forceExpanded = null) {
+      const counter = document.getElementById('vote-counter');
+      const btn = document.getElementById('vote-counter-minimize-btn');
+      if (!counter || !btn) return;
+
+      const shouldMinimize = forceExpanded === true
+        ? false
+        : (forceExpanded === false ? true : !counter.classList.contains('minimized'));
+      counter.classList.toggle('minimized', shouldMinimize);
+      btn.textContent = shouldMinimize ? '+' : '-';
+      btn.title = shouldMinimize ? 'Expand results' : 'Minimize results';
+      btn.setAttribute('aria-expanded', shouldMinimize ? 'false' : 'true');
+
+      try { updateMobileOverlayOffsets(); } catch (_) {}
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
       const clearBtn = document.getElementById('vote-context-clear');
       if (clearBtn) {
@@ -6175,6 +6241,14 @@ document.addEventListener('DOMContentLoaded', function() {
           e.preventDefault();
           e.stopPropagation();
           clearPinnedVoteCounterState();
+        });
+      }
+      const minimizeBtn = document.getElementById('vote-counter-minimize-btn');
+      if (minimizeBtn) {
+        minimizeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleVoteCounterPanel();
         });
       }
     });
@@ -7385,9 +7459,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function shortCandidateLabel(name, fallback) {
-      const raw = (name || '').toString().trim();
-      if (!raw) return fallback;
-      const ticketLead = stripRunningMateName(raw);
+      const ticketLead = sanitizeCandidateName(name, fallback);
+      if (!ticketLead) return fallback;
       const cleaned = ticketLead.replace(/\([^)]*\)/g, ' ').replace(/[^A-Za-z0-9 .'-]/g, ' ').replace(/\s+/g, ' ').trim();
       if (!cleaned) return fallback;
       const parts = cleaned.split(' ').filter(Boolean);
@@ -7403,9 +7476,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function fullCandidateLabel(name, fallback = '') {
-      const raw = (name || '').toString().trim();
-      if (!raw) return fallback;
-      const ticketLead = stripRunningMateName(raw);
+      const ticketLead = sanitizeCandidateName(name, fallback);
+      if (!ticketLead) return fallback;
       const cleaned = ticketLead.replace(/\([^)]*\)/g, ' ').replace(/[^A-Za-z0-9 .'-]/g, ' ').replace(/\s+/g, ' ').trim();
       if (!cleaned) return fallback;
       return toTitleCaseName(cleaned);
@@ -7588,6 +7660,34 @@ document.addEventListener('DOMContentLoaded', function() {
       return raw;
     }
 
+    function normalizeCandidateToken(name) {
+      return (name || '')
+        .toString()
+        .trim()
+        .replace(/\([^)]*\)/g, ' ')
+        .replace(/[^A-Za-z]/g, '')
+        .toUpperCase();
+    }
+
+    function isPartyPlaceholderCandidate(name, partyHint = '') {
+      const token = normalizeCandidateToken(name);
+      if (!token) return false;
+      const demTokens = new Set(['D', 'DEM', 'DEMOCRAT', 'DEMOCRATIC', 'DEMOCRATPARTY', 'DEMOCRATICPARTY']);
+      const repTokens = new Set(['R', 'REP', 'GOP', 'REPUBLICAN', 'REPUBLICANPARTY', 'GRANDOLDPARTY']);
+      const party = (partyHint || '').toString().trim().toUpperCase();
+      const demHint = party === 'D' || party === 'DEM' || party === 'DEMOCRAT' || party === 'DEMOCRATIC';
+      const repHint = party === 'R' || party === 'REP' || party === 'REPUBLICAN' || party === 'GOP';
+      if (demHint) return demTokens.has(token);
+      if (repHint) return repTokens.has(token);
+      return demTokens.has(token) || repTokens.has(token);
+    }
+
+    function sanitizeCandidateName(name, partyHint = '') {
+      const cleaned = stripRunningMateName((name || '').toString().trim());
+      if (!cleaned) return '';
+      return isPartyPlaceholderCandidate(cleaned, partyHint) ? '' : cleaned;
+    }
+
     function winnerMarginLabel(repVotes, demVotes, totalVotes, repCandidate, demCandidate) {
       const marginPct = totalVotes > 0 ? Math.abs((repVotes - demVotes) / totalVotes * 100) : 0;
       const repName = shortCandidateLabel(repCandidate, 'R');
@@ -7622,7 +7722,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (repVotes > demVotes) {
         return {
           party: 'rep',
-          winnerName: (repCandidate || '').toString().trim() || 'Republican',
+          winnerName: fullCandidateLabel(repCandidate, 'Republican'),
           shortLabel: shortCandidateLabel(repCandidate, 'Republican'),
           marginPct,
           text: `${shortCandidateLabel(repCandidate, 'Republican')} +${marginPct.toFixed(2)}%`
@@ -7631,7 +7731,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (demVotes > repVotes) {
         return {
           party: 'dem',
-          winnerName: (demCandidate || '').toString().trim() || 'Democratic',
+          winnerName: fullCandidateLabel(demCandidate, 'Democratic'),
           shortLabel: shortCandidateLabel(demCandidate, 'Democratic'),
           marginPct,
           text: `${shortCandidateLabel(demCandidate, 'Democratic')} +${marginPct.toFixed(2)}%`

@@ -3351,31 +3351,29 @@ body { height: var(--app-height); }
   }
 
   .hover-tooltip .tooltip-head {
+    display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding-bottom: 12px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    justify-content: space-between;
+    gap: 10px;
   }
 
-  .hover-tooltip .tooltip-copy {
-    min-width: 0;
-    flex: 1 1 auto;
+  .hover-tooltip .tooltip-actions {
+    display: flex;
+    gap: 6px;
   }
 
-  .hover-tooltip .tooltip-kicker {
-    margin-bottom: 5px;
-    color: #93c5fd;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  .hover-tooltip .tooltip-btn {
+    border: 1px solid rgba(15, 23, 42, 0.16);
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+    padding: 6px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    color: #0f172a;
   }
 
-  .hover-tooltip .tooltip-title {
-    margin-bottom: 0;
-    font-size: 15px;
-    line-height: 1.25;
+  .hover-tooltip .tooltip-btn:hover {
+    background: rgba(255, 255, 255, 0.98);
   }
 
   .hover-tooltip .tooltip-actions {

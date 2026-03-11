@@ -26,7 +26,8 @@ An interactive, browser-based choropleth map of Virginia election results at the
 12. [Setup & Running the Data Pipeline](#setup--running-the-data-pipeline)
 13. [Serving the Map Locally](#serving-the-map-locally)
 14. [Dependencies](#dependencies)
-15. [Known Limitations & Future Work](#known-limitations--future-work)
+15. [Recent Updates (March 2026)](#recent-updates-march-2026)
+16. [Known Limitations & Future Work](#known-limitations--future-work)
 
 ---
 
@@ -57,7 +58,9 @@ Open `index.html` directly in any modern browser or serve it from any static HTT
 | **CSV parsing** | PapaParse 5.4.1 (used for any runtime CSV loading) |
 | **Contest selector** | Dropdowns for contest type and year; manifest-driven so new contests appear automatically |
 | **Map views** | County fill, precinct outline overlay, congressional district, state-house district, state-senate district |
-| **Hover tooltip** | Shows locality/district name, candidates, party vote totals, winner, and raw margin |
+| **Hover tooltip** | Shows locality/district quick results; tap/click holds tooltip and `Close` dismisses it (no pin/unpin control) |
+| **Focus trend panel** | NC-style trend layout in the vote counter with `Latest`, `Closest`, `Since`, and per-year timeline cards |
+| **Winner labeling** | Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`), while statewide headline keeps short labels |
 | **County search** | Free-text search with fly-to animation using turf bbox |
 | **Mobile-first layout** | iOS safe-area insets, stable viewport units (`svh`/`dvh`), touch-friendly controls, bottom-sheet legend |
 | **Minimizable panels** | Controls and legend panels can be collapsed to free map space |
@@ -101,6 +104,13 @@ VAPrecinctMap/
 ```
 
 ZIP files are excluded from version control (`.gitignore`) because the TIGER tabblock and VTD archives exceed GitHub's recommended file-size limit.
+
+Additional utility scripts currently in `scripts/`:
+
+- `scripts/fix_cd01_president_2024_totals.py` (targeted CD-01/CD-02 presidential correction)
+- `scripts/diagnose_district_assignment_errors.py` (benchmark diagnostics)
+- `scripts/suggest_county_blend_overrides.py` (blend-override suggestions)
+- `scripts/tune_district_party_blends.py` (blend tuning sweeps)
 
 ---
 
@@ -325,6 +335,7 @@ Vote totals are bucketed into `dem`, `rep`, and `other`.  The leading Democratic
 python scripts/build_va_district_contests_from_crosswalks.py \
     [--openelections-dir Data/openelections] \
     [--output-dir Data/district_contests] \
+    [--result-overrides-csv Data/benchmarks/district_result_overrides.csv] \
     [--county-geojson Data/tl_2020_51_county20.geojson] \
     [--tabblock-zip Data/tl_2020_51_tabblock20.zip] \
     [--assign-zip Data/BlockAssign_ST51_VA.zip] \
@@ -371,6 +382,26 @@ For contests that are *themselves* legislative-district races (state House of De
 #### Output
 
 One JSON file is written per `(scope, contest_type, year)` triple into `Data/district_contests/`, using the naming convention `<scope>_<contest_type>_<year>.json` where scope is one of `congressional`, `state_house`, or `state_senate`.  A `manifest.json` index is also written.
+
+#### Targeted district-result correction workflow
+
+For the 2024 presidential congressional-district corrections (CD-01 and CD-02), run:
+
+```
+python scripts/fix_cd01_president_2024_totals.py
+```
+
+This utility:
+
+1. Repairs known CSV newline corruption in `Data/benchmarks/district_result_overrides.csv`
+2. Upserts exact override rows for `congressional/president/2024` districts `1` and `2`
+3. Patches `Data/district_contests/congressional_president_2024.json`
+4. Recomputes the corresponding manifest `dem_total` and `rep_total` values
+
+Corrected totals applied by the script:
+
+- CD-01: Dem `227,074`, Rep `250,992`, Other `8,529`
+- CD-02: Dem `203,182`, Rep `204,265`, Other `6,695`
 
 ---
 
@@ -537,6 +568,9 @@ python scripts/build_va_county_contests_from_openelections.py
 
 # Step 6 — Build district contest slices
 python scripts/build_va_district_contests_from_crosswalks.py
+
+# Optional — apply exact CD-01/CD-02 2024 presidential corrections
+python scripts/fix_cd01_president_2024_totals.py
 ```
 
 All scripts accept a `--help` flag for full argument documentation.
@@ -572,6 +606,20 @@ Standard library only (`csv`, `json`, `re`, `zipfile`, `argparse`, `collections`
 - Mapbox GL JS 3.0.1
 - Turf.js 6.5.0
 - PapaParse 5.4.1
+
+---
+
+## Recent Updates (March 2026)
+
+- Ported the NC trends layout into `index.html` for the vote-counter focus panel.
+- Added `Latest`, `Closest`, and `Since` summary cards plus per-election timeline cards with candidate share bars and shift/flip chips.
+- Removed tooltip pin/unpin actions to match NC behavior; tooltips now use hold + close interaction.
+- Renamed help copy from `Hover + Pin` to `Hover + Tooltip`.
+- Refined trend-card desktop/mobile sizing to better match the reference layout while preserving responsive behavior.
+- Updated winner labeling behavior:
+  - Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`).
+  - Statewide top call keeps short labels (for example, `Trump +2.50`).
+- Added targeted correction script `scripts/fix_cd01_president_2024_totals.py` to apply exact CD-01/CD-02 2024 presidential totals across overrides and district outputs.
 
 ---
 

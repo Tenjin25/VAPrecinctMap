@@ -5720,8 +5720,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const dem = Number(demVotes || 0);
       const total = Number(totalVotes || 0);
       const marginPct = total > 0 ? Math.abs((rep - dem) / total * 100) : 0;
-      if (rep > dem) return `R +${marginPct.toFixed(2)}`;
-      if (dem > rep) return `D +${marginPct.toFixed(2)}`;
+      if (rep > dem) return `R +${marginPct.toFixed(2)}%`;
+      if (dem > rep) return `D +${marginPct.toFixed(2)}%`;
       return 'Tie';
     }
 
@@ -5849,7 +5849,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const winnerLabel = demVotes > repVotes
             ? shortCandidateLabel(counterMeta.demCandidate, 'Dem')
             : shortCandidateLabel(counterMeta.repCandidate, 'Rep');
-          leadText = `${winnerLabel} +${marginPct.toFixed(2)}`;
+          leadText = `${winnerLabel} +${marginPct.toFixed(2)}%`;
           if (marginVotes > 0) leadText += ` (${marginVotes.toLocaleString()} votes)`;
         }
         leadEl.textContent = leadText;
@@ -7658,10 +7658,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const repName = shortCandidateLabel(repCandidate, 'R');
       const demName = shortCandidateLabel(demCandidate, 'D');
       if (repVotes > demVotes) {
-        return `${repName} + ${marginPct.toFixed(2)}`;
+        return `${repName} + ${marginPct.toFixed(2)}%`;
       }
       if (demVotes > repVotes) {
-        return `${demName} + ${marginPct.toFixed(2)}`;
+        return `${demName} + ${marginPct.toFixed(2)}%`;
       }
       return `Tied ${marginPct.toFixed(2)}%`;
     }
@@ -7679,7 +7679,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const repLabel = shortCandidateLabel(repCandidate, 'R');
       const demLabel = shortCandidateLabel(demCandidate, 'D');
       const winnerLabel = margin > 0 ? repLabel : (margin < 0 ? demLabel : 'TIE');
-      return `${winnerLabel} + ${pct.toFixed(2)}`;
+      return `${winnerLabel} + ${pct.toFixed(2)}%`;
     }
 
     function winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate) {
@@ -7690,7 +7690,7 @@ document.addEventListener('DOMContentLoaded', function() {
           winnerName: (repCandidate || '').toString().trim() || 'Republican',
           shortLabel: shortCandidateLabel(repCandidate, 'Republican'),
           marginPct,
-          text: `${shortCandidateLabel(repCandidate, 'Republican')} +${marginPct.toFixed(2)}`
+          text: `${shortCandidateLabel(repCandidate, 'Republican')} +${marginPct.toFixed(2)}%`
         };
       }
       if (demVotes > repVotes) {
@@ -7699,7 +7699,7 @@ document.addEventListener('DOMContentLoaded', function() {
           winnerName: (demCandidate || '').toString().trim() || 'Democratic',
           shortLabel: shortCandidateLabel(demCandidate, 'Democratic'),
           marginPct,
-          text: `${shortCandidateLabel(demCandidate, 'Democratic')} +${marginPct.toFixed(2)}`
+          text: `${shortCandidateLabel(demCandidate, 'Democratic')} +${marginPct.toFixed(2)}%`
         };
       }
       return {

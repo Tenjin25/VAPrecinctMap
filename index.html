@@ -487,9 +487,6 @@ body { height: var(--app-height); }
   pointer-events: auto;
   z-index: 10000;
   max-width: 280px;
-  max-height: 70vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
   display: none;
   line-height: 1.5;
@@ -1758,9 +1755,6 @@ body { height: var(--app-height); }
     backdrop-filter: blur(14px);
     border-radius: 14px;
     max-width: 360px;
-    max-height: 70vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
     animation: tooltip-in 140ms ease-out;
   }
 
@@ -2606,11 +2600,14 @@ body { height: var(--app-height); }
     top: 88px;
     min-width: 0;
     width: min(520px, calc(100vw - 40px));
+    max-height: min(56vh, 560px);
     padding: 16px;
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.94);
     box-shadow: 0 18px 44px rgba(15, 23, 42, 0.18);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
     border: 1px solid rgba(148, 163, 184, 0.18);
   }
 
@@ -3030,7 +3027,7 @@ body { height: var(--app-height); }
   .focus-trend-list {
     display: grid;
     gap: 10px;
-    max-height: min(42vh, 360px);
+    max-height: min(34vh, 300px);
     overflow-y: auto;
     overscroll-behavior: contain;
     padding-right: 4px;
@@ -3339,41 +3336,43 @@ body { height: var(--app-height); }
   .vote-share-fill.other { background: linear-gradient(90deg, #94a3b8 0%, #64748b 100%); }
 
   .hover-tooltip {
-    border: 1px solid rgba(15, 23, 42, 0.20);
-    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.25);
-    backdrop-filter: blur(14px);
-    border-radius: 14px;
-    max-width: 360px;
-    max-height: 70vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    animation: tooltip-in 140ms ease-out;
+    width: min(360px, calc(100vw - 24px));
+    max-width: min(360px, calc(100vw - 24px));
+    max-height: min(54vh, 420px);
+    overflow: auto;
+    padding: 14px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(17, 24, 39, 0.94) 100%);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    box-shadow: 0 24px 56px rgba(2, 6, 23, 0.46);
   }
 
   .hover-tooltip .tooltip-head {
-    display: flex;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
   }
 
-  .hover-tooltip .tooltip-actions {
-    display: flex;
-    gap: 6px;
+  .hover-tooltip .tooltip-copy {
+    min-width: 0;
+    flex: 1 1 auto;
   }
 
-  .hover-tooltip .tooltip-btn {
-    border: 1px solid rgba(15, 23, 42, 0.16);
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 10px;
-    padding: 6px 8px;
-    font-size: 12px;
-    cursor: pointer;
-    color: #0f172a;
+  .hover-tooltip .tooltip-kicker {
+    margin-bottom: 5px;
+    color: #93c5fd;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
-  .hover-tooltip .tooltip-btn:hover {
-    background: rgba(255, 255, 255, 0.98);
+  .hover-tooltip .tooltip-title {
+    margin-bottom: 0;
+    font-size: 15px;
+    line-height: 1.25;
   }
 
   .hover-tooltip .tooltip-actions {
@@ -3956,7 +3955,7 @@ body { height: var(--app-height); }
     }
 
     .focus-trend-list {
-      max-height: min(26svh, 240px);
+      max-height: min(22svh, 200px);
     }
 
     .statewide-share-row {
@@ -7403,6 +7402,15 @@ document.addEventListener('DOMContentLoaded', function() {
       return parts[idx] || fallback;
     }
 
+    function fullCandidateLabel(name, fallback = '') {
+      const raw = (name || '').toString().trim();
+      if (!raw) return fallback;
+      const ticketLead = stripRunningMateName(raw);
+      const cleaned = ticketLead.replace(/\([^)]*\)/g, ' ').replace(/[^A-Za-z0-9 .'-]/g, ' ').replace(/\s+/g, ' ').trim();
+      if (!cleaned) return fallback;
+      return toTitleCaseName(cleaned);
+    }
+
     function toTitleCaseName(raw) {
       const s = (raw || '').toString().trim();
       if (!s) return '';
@@ -7686,8 +7694,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const otherPct = (o / total) * 100.0;
 
       const marginLabel = winnerMarginLabel(r, d, total, repCandidate || '', demCandidate || '');
-      const demFull = (demCandidate || '').toString().trim() || 'Democratic';
-      const repFull = (repCandidate || '').toString().trim() || 'Republican';
+      const demFull = fullCandidateLabel(demCandidate, 'Democratic');
+      const repFull = fullCandidateLabel(repCandidate, 'Republican');
 
       const safeTitle = (title || '').toString();
       const safeSubtitle = (subtitle || '').toString();
@@ -8518,6 +8526,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       const countyNameElement = document.getElementById('county-name');
       const countyDisplay = displayCountyName(countyName);
+      window.lastSelectedCounty = countyDisplay;
       if (countyNameElement) countyNameElement.textContent = countyDisplay;
       // sidebarContent already declared above
       // Guard: election results must exist
@@ -8564,6 +8573,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Votes
       const demVotes = countyData[`${contestType}_dem`] || 0;
       const repVotes = countyData[`${contestType}_rep`] || 0;
+      const otherVotes = countyData[`${contestType}_other`] || 0;
       const totalVotes = countyData[`${contestType}_total`] || 0;
       if (totalVotes === 0) {
         contentEl.innerHTML = `<p>No ${formatContestName(contestType, year)} data available for ${countyDisplay} in ${year}.</p>`;
@@ -8577,14 +8587,27 @@ document.addEventListener('DOMContentLoaded', function() {
   let repCandidate = (countyData[`${contestType}_rep_candidate`] || '').toString().trim() || getCandidateName(year, formatContestName(contestType, year), 'Republican');
   demCandidate = stripRunningMateName(demCandidate);
   repCandidate = stripRunningMateName(repCandidate);
+      pinVoteCounterState(
+        `Selected: ${countyDisplay}`,
+        `${formatContestName(contestType, year)} ${year}`,
+        demVotes,
+        repVotes,
+        otherVotes,
+        buildVoteCounterCandidateMeta(contestType, year, {
+          kind: 'county',
+          county: countyDisplay.toUpperCase(),
+          contestType,
+          year: Number(year),
+          demCandidate,
+          repCandidate
+        })
+      );
       // Margin
       const margin = demVotes - repVotes;
       const marginPct = (Math.abs(margin) / totalVotes * 100).toFixed(2);
       const winner = margin > 0 ? 'Democratic' : (margin < 0 ? 'Republican' : 'Tie');
       const winnerCandidate = margin > 0 ? demCandidate : repCandidate;
-      const marginText = margin > 0
-        ? `${shortCandidateLabel(winnerCandidate, winner === 'Republican' ? 'Republican' : 'Democratic')} + ${marginPct}`
-        : (margin < 0 ? `${shortCandidateLabel(winnerCandidate, winner === 'Republican' ? 'Republican' : 'Democratic')} + ${marginPct}` : 'Tied');
+      const marginText = winnerMarginLabelShort(repVotes, demVotes, totalVotes, repCandidate, demCandidate);
       // Accessibility palette for winner color
       function cbColorForMargin(marginPct, winner) {
         if (marginPct >= 40) {
@@ -8635,7 +8658,7 @@ document.addEventListener('DOMContentLoaded', function() {
       sidebarContent += `</div>`;
     sidebarContent += `<div class="winner-section">`;
   sidebarContent += '<h3 class="sidebar-section-title">Winner</h3>';
-  sidebarContent += `<p class="sidebar-winner" style="color: ${winnerColor}; font-weight: bold;">${winnerCandidate} (${winner === 'Republican' ? 'R' : 'D'})</p>`;
+  sidebarContent += `<p class="sidebar-winner" style="color: ${winnerColor}; font-weight: bold;">${fullCandidateLabel(winnerCandidate, winner === 'Republican' ? 'Republican' : 'Democratic')} (${winner === 'Republican' ? 'R' : 'D'})</p>`;
   sidebarContent += `</div>`;
   sidebarContent += `<div class="margin-section">`;
   sidebarContent += '<h3 class="sidebar-section-title">Margin</h3>';
@@ -8670,11 +8693,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Non-accessibility mode: always use regular blue for Democratic vote breakdown
     demColor = '#2563eb';
   }
-  sidebarContent += `<p class="sidebar-breakdown"><span style="color: ${demColor}; font-weight: bold;">${demCandidate} (D)</span> : ${demPct.toFixed(2)}% (${demVotes.toLocaleString()})</p>`;
-  sidebarContent += `<p class="sidebar-breakdown"><span style="color: ${repColor}; font-weight: bold;">${repCandidate} (R)</span> : ${repPct.toFixed(2)}% (${repVotes.toLocaleString()})</p>`;
+  sidebarContent += `<p class="sidebar-breakdown"><span style="color: ${demColor}; font-weight: bold;">${fullCandidateLabel(demCandidate, 'Democratic')} (D)</span> : ${demPct.toFixed(2)}% (${demVotes.toLocaleString()})</p>`;
+  sidebarContent += `<p class="sidebar-breakdown"><span style="color: ${repColor}; font-weight: bold;">${fullCandidateLabel(repCandidate, 'Republican')} (R)</span> : ${repPct.toFixed(2)}% (${repVotes.toLocaleString()})</p>`;
   
   // Add Other votes if they exist
-  const otherVotes = countyData[`${contestType}_other`] || 0;
   if (otherVotes > 0) {
     const otherPct = (otherVotes / totalVotes * 100);
     sidebarContent += `<p class="sidebar-breakdown"><span style="color: #6b7280; font-weight: bold;">Other Candidates</span> : ${otherPct.toFixed(2)}% (${otherVotes.toLocaleString()})</p>`;
@@ -8696,7 +8718,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (cNorm !== norm) return;
         const token = (pRaw || '').toString().trim().toUpperCase();
         if (!token) return;
-        if (!isNonGeographicPrecinctToken(token)) return;
+        if (!isNonGeographicPrecinctToken(token, cNorm)) return;
         if (!buckets.has(token)) buckets.set(token, { dem: 0, rep: 0, other: 0, total: 0 });
         const node = buckets.get(token);
         node.dem += Number(r[`${contestType}_dem`] || 0);
@@ -10544,6 +10566,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const contentEl = document.getElementById('county-info-content');
       if (!detailsDiv || !nameEl || !contentEl) return;
 
+      window.lastSelectedCounty = `Congressional District ${districtNum}`;
       nameEl.textContent = `Congressional District ${districtNum}`;
 
       const districtInfo = (districtsInfo || []).find(d => d.district == districtNum);
@@ -10624,6 +10647,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!detailsDiv || !nameEl || !contentEl) return;
 
       const title = chamber === 'house' ? `State House District ${districtNum}` : `State Senate District ${districtNum}`;
+      window.lastSelectedCounty = title;
       nameEl.textContent = title;
 
       const scope = chamber === 'house' ? 'state_house' : 'state_senate';

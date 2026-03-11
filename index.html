@@ -4941,6 +4941,18 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) {}
     }
 
+    function dismissHoverTooltipOnSelection() {
+      try {
+        countyTrendRequestId++;
+        districtHoverRequestId++;
+        setTooltipPinned(false);
+      } catch (_) {}
+      const tooltip = document.getElementById('hover-tooltip');
+      if (tooltip) tooltip.style.display = 'none';
+      // Prevent automatic hover re-open during fly/zoom animations after click.
+      lastPointerPoint = null;
+    }
+
     // Mobile: tapping empty space closes any pinned tooltip/highlight.
     map.on('click', (e) => {
       if (!IS_COARSE_POINTER && !tooltipPinned) return;
@@ -8957,15 +8969,7 @@ document.addEventListener('DOMContentLoaded', function() {
               lastSelectedCounty = countyName;
               setCountyHoverOutline(countyName);
               if (contestType && year && selectedRow) pinCountySelectionVoteCounter(countyName);
-              if (IS_COARSE_POINTER) {
-                // On touch devices, tapping a county should open the same result card/chips
-                // used by hover so flip indicators are visible.
-                renderCountyHoverAtPoint(e);
-                maybePinTooltipForTap();
-              } else {
-                setTooltipPinned(false);
-                hideHoverTooltip();
-              }
+              dismissHoverTooltipOnSelection();
               // Optionally, expand sidebar if minimized
               const sidebar = document.getElementById('sidebar');
               if (sidebar && sidebar.classList.contains('minimized')) {
@@ -9483,11 +9487,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 pinDistrictSelectionVoteCounter('congressional', districtNum, `Congressional District ${districtNum}`).catch(() => {});
               }
 
-              // Mobile-friendly: show a tap tooltip (and outline) on selection.
-              try {
-                await renderDistrictHover(e, 'congressional', 'Congressional District', ['DISTRICT', 'CD119FP', 'CD118FP', 'district_id', 'district', 'NAMELSAD']);
-                maybePinTooltipForTap();
-              } catch (_) {}
+              setDistrictHoverOutline('congressional', districtNum);
+              dismissHoverTooltipOnSelection();
             }
           }
         });
@@ -9561,10 +9562,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 pinDistrictSelectionVoteCounter('state_house', districtNum, `State House District ${districtNum}`).catch(() => {});
               }
 
-              try {
-                await renderDistrictHover(e, 'state_house', 'State House District', ['DISTRICT', 'SLDLST', 'district_id', 'district', 'NAMELSAD']);
-                maybePinTooltipForTap();
-              } catch (_) {}
+              setDistrictHoverOutline('state_house', districtNum);
+              dismissHoverTooltipOnSelection();
             }
           }
         });
@@ -9638,10 +9637,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 pinDistrictSelectionVoteCounter('state_senate', districtNum, `State Senate District ${districtNum}`).catch(() => {});
               }
 
-              try {
-                await renderDistrictHover(e, 'state_senate', 'State Senate District', ['DISTRICT', 'SLDUST', 'district_id', 'district', 'NAMELSAD']);
-                maybePinTooltipForTap();
-              } catch (_) {}
+              setDistrictHoverOutline('state_senate', districtNum);
+              dismissHoverTooltipOnSelection();
             }
           }
         });

@@ -1758,6 +1758,9 @@ body { height: var(--app-height); }
     backdrop-filter: blur(14px);
     border-radius: 14px;
     max-width: 360px;
+    max-height: 70vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     animation: tooltip-in 140ms ease-out;
   }
 
@@ -3336,16 +3339,15 @@ body { height: var(--app-height); }
   .vote-share-fill.other { background: linear-gradient(90deg, #94a3b8 0%, #64748b 100%); }
 
   .hover-tooltip {
-    width: min(360px, calc(100vw - 24px));
-    max-width: min(360px, calc(100vw - 24px));
-    max-height: min(70vh, 500px);
+    border: 1px solid rgba(15, 23, 42, 0.20);
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.25);
+    backdrop-filter: blur(14px);
+    border-radius: 14px;
+    max-width: 360px;
+    max-height: 70vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 14px;
-    border-radius: 18px;
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(17, 24, 39, 0.94) 100%);
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    box-shadow: 0 24px 56px rgba(2, 6, 23, 0.46);
+    animation: tooltip-in 140ms ease-out;
   }
 
   .hover-tooltip .tooltip-head {

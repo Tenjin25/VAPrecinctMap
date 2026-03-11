@@ -7173,6 +7173,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const winnerCall = winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate);
         const winnerName = winnerCall.party === 'rep' ? repCandidate : (winnerCall.party === 'dem' ? demCandidate : 'Tie');
         const winnerPartyLabel = winnerCall.party === 'rep' ? 'R' : (winnerCall.party === 'dem' ? 'D' : 'T');
+        const winnerCallText = winnerCall.party === 'tie'
+          ? winnerCall.text
+          : `${winnerCall.winnerName} +${winnerCall.marginPct.toFixed(2)}`;
         const voteMargin = Math.abs(repVotes - demVotes);
 
         let compLabel = '';
@@ -7261,7 +7264,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="statewide-hero">
               <div>
                 <div class="statewide-kicker">Statewide leader</div>
-                <div class="statewide-call" data-party="${winnerCall.party}">${winnerCall.text}</div>
+                <div class="statewide-call" data-party="${winnerCall.party}">${winnerCallText}</div>
                 <div class="statewide-subline">${winnerSummary} | ${voteMargin.toLocaleString()} vote margin</div>
               </div>
               <div class="statewide-competitive" style="color:${compColor};" title="${compLabel}">${compBadge}</div>

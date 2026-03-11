@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Targeted fix for VA CD-01 2024 presidential district totals.
+Targeted fix for VA CD-01 and CD-02 2024 presidential district totals.
 
 What this script does:
 1) Repairs known newline corruption in Data/benchmarks/district_result_overrides.csv.
-2) Upserts the exact override row for congressional/president/2024/district 1.
-3) Patches Data/district_contests/congressional_president_2024.json district 1 totals.
+2) Upserts exact override rows for congressional/president/2024 (districts 1 and 2).
+3) Patches Data/district_contests/congressional_president_2024.json for districts 1 and 2.
 4) Recomputes the corresponding manifest dem/rep totals for that file.
 """
 
@@ -33,26 +33,37 @@ CSV_FIELDS = [
 TARGET_SCOPE = "congressional"
 TARGET_CONTEST = "president"
 TARGET_YEAR = "2024"
-TARGET_DISTRICT = "1"
-TARGET_DEM = 227074
-TARGET_REP = 250992
-TARGET_OTHER = 8529
 TARGET_DEM_CANDIDATE = "Kamala D. Harris"
 TARGET_REP_CANDIDATE = "Donald J. Trump"
-TARGET_NOTES = "User-supplied actual CD-01 presidential totals"
-
-TARGET_ROW = {
-    "scope": TARGET_SCOPE,
-    "contest_type": TARGET_CONTEST,
-    "year": TARGET_YEAR,
-    "district": TARGET_DISTRICT,
-    "dem_votes": str(TARGET_DEM),
-    "rep_votes": str(TARGET_REP),
-    "other_votes": str(TARGET_OTHER),
-    "dem_candidate": TARGET_DEM_CANDIDATE,
-    "rep_candidate": TARGET_REP_CANDIDATE,
-    "notes": TARGET_NOTES,
+TARGET_DISTRICT_FIXES: dict[str, dict[str, int | str]] = {
+    "1": {
+        "dem_votes": 227074,
+        "rep_votes": 250992,
+        "other_votes": 8529,
+        "notes": "User-supplied actual CD-01 presidential totals",
+    },
+    "2": {
+        "dem_votes": 203182,
+        "rep_votes": 204265,
+        "other_votes": 6695,
+        "notes": "User-supplied actual CD-02 presidential totals",
+    },
 }
+
+
+def build_target_row(district: str, fix: dict[str, int | str]) -> dict[str, str]:
+    return {
+        "scope": TARGET_SCOPE,
+        "contest_type": TARGET_CONTEST,
+        "year": TARGET_YEAR,
+        "district": str(district),
+        "dem_votes": str(int(fix.get("dem_votes", 0) or 0)),
+        "rep_votes": str(int(fix.get("rep_votes", 0) or 0)),
+        "other_votes": str(int(fix.get("other_votes", 0) or 0)),
+        "dem_candidate": TARGET_DEM_CANDIDATE,
+        "rep_candidate": TARGET_REP_CANDIDATE,
+        "notes": str(fix.get("notes", "") or ""),
+    }
 
 
 def normalize_int_token(value: str) -> str:
@@ -103,8 +114,8 @@ def load_override_rows(path: Path) -> list[dict[str, str]]:
     return rows
 
 
-def upsert_target_override(rows: list[dict[str, str]]) -> tuple[list[dict[str, str]], str]:
-    target_key = (TARGET_SCOPE, TARGET_CONTEST, TARGET_YEAR, TARGET_DISTRICT)
+def upsert_target_overrides(rows: list[dict[str, str]]) -> tuple[list[dict[str, str]], int, int]:
+    row_by_key: dict[tuple[str, str, str, str], dict[str, str]] = {}
     for row in rows:
         key = (
             (row.get("scope") or "").lower(),
@@ -112,12 +123,27 @@ def upsert_target_override(rows: list[dict[str, str]]) -> tuple[list[dict[str, s
             normalize_int_token(row.get("year", "")),
             normalize_int_token(row.get("district", "")),
         )
-        if key == target_key:
-            row.update(TARGET_ROW)
-            return rows, "updated"
+        row_by_key[key] = row
 
-    rows.append(dict(TARGET_ROW))
-    return rows, "inserted"
+    updated = 0
+    inserted = 0
+    for district, fix in TARGET_DISTRICT_FIXES.items():
+        target_row = build_target_row(district, fix)
+        target_key = (
+            target_row["scope"],
+            target_row["contest_type"],
+            target_row["year"],
+            target_row["district"],
+        )
+        existing = row_by_key.get(target_key)
+        if existing is not None:
+            existing.update(target_row)
+            updated += 1
+        else:
+            rows.append(target_row)
+            row_by_key[target_key] = target_row
+            inserted += 1
+    return rows, updated, inserted
 
 
 def row_sort_key(row: dict[str, str]) -> tuple[int, str, int, tuple[int, str]]:
@@ -171,41 +197,41 @@ def patch_congressional_results_json(path: Path) -> bool:
 
     payload = json.loads(path.read_text(encoding="utf-8"))
     results = payload.setdefault("general", {}).setdefault("results", {})
-    node = results.setdefault(TARGET_DISTRICT, {})
+    for district, fix in TARGET_DISTRICT_FIXES.items():
+        node = results.setdefault(str(district), {})
+        dem = int(fix.get("dem_votes", 0) or 0)
+        rep = int(fix.get("rep_votes", 0) or 0)
+        other = int(fix.get("other_votes", 0) or 0)
+        total = dem + rep + other
+        signed_margin_pct = ((rep - dem) / total * 100.0) if total > 0 else 0.0
+        signed_margin_pct = round(signed_margin_pct, 2)
 
-    dem = TARGET_DEM
-    rep = TARGET_REP
-    other = TARGET_OTHER
-    total = dem + rep + other
-    signed_margin_pct = ((rep - dem) / total * 100.0) if total > 0 else 0.0
-    signed_margin_pct = round(signed_margin_pct, 2)
+        if rep > dem:
+            winner = "Republican"
+            winner_short = "R"
+        elif dem > rep:
+            winner = "Democratic"
+            winner_short = "D"
+        else:
+            winner = "Tie"
+            winner_short = "T"
 
-    if rep > dem:
-        winner = "Republican"
-        winner_short = "R"
-    elif dem > rep:
-        winner = "Democratic"
-        winner_short = "D"
-    else:
-        winner = "Tie"
-        winner_short = "T"
+        color = category_color_for_margin(abs(signed_margin_pct), "R" if winner_short in {"R", "T"} else "D")
 
-    color = category_color_for_margin(abs(signed_margin_pct), "R" if winner_short in {"R", "T"} else "D")
-
-    node.update(
-        {
-            "dem_votes": dem,
-            "rep_votes": rep,
-            "other_votes": other,
-            "total_votes": total,
-            "dem_candidate": TARGET_DEM_CANDIDATE,
-            "rep_candidate": TARGET_REP_CANDIDATE,
-            "winner": winner,
-            "margin": abs(rep - dem),
-            "margin_pct": signed_margin_pct,
-            "color": color,
-        }
-    )
+        node.update(
+            {
+                "dem_votes": dem,
+                "rep_votes": rep,
+                "other_votes": other,
+                "total_votes": total,
+                "dem_candidate": TARGET_DEM_CANDIDATE,
+                "rep_candidate": TARGET_REP_CANDIDATE,
+                "winner": winner,
+                "margin": abs(rep - dem),
+                "margin_pct": signed_margin_pct,
+                "color": color,
+            }
+        )
 
     path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     return True
@@ -244,7 +270,7 @@ def update_manifest_totals(manifest_path: Path, contest_json_path: Path) -> bool
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Fix CD-01 2024 presidential totals in overrides + district output.")
+    parser = argparse.ArgumentParser(description="Fix CD-01/CD-02 2024 presidential totals in overrides + district output.")
     parser.add_argument("--overrides-csv", default="Data/benchmarks/district_result_overrides.csv")
     parser.add_argument("--contest-json", default="Data/district_contests/congressional_president_2024.json")
     parser.add_argument("--manifest-json", default="Data/district_contests/manifest.json")
@@ -259,13 +285,13 @@ def main() -> None:
     manifest_json = Path(args.manifest_json)
 
     rows = load_override_rows(overrides_csv)
-    rows, override_action = upsert_target_override(rows)
+    rows, updated_count, inserted_count = upsert_target_overrides(rows)
     write_override_rows(overrides_csv, rows)
 
     contest_patched = patch_congressional_results_json(contest_json)
     manifest_patched = update_manifest_totals(manifest_json, contest_json)
 
-    print(f"Override row {override_action}: {overrides_csv}")
+    print(f"Override rows updated={updated_count}, inserted={inserted_count}: {overrides_csv}")
     if contest_patched:
         print(f"Patched district results file: {contest_json}")
     else:

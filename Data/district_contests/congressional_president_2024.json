@@ -50,15 +50,15 @@
         "color": "#08519c"
       },
       "2": {
-        "dem_votes": 204230,
-        "rep_votes": 204858,
-        "other_votes": 6735,
-        "total_votes": 415823,
+        "dem_votes": 203182,
+        "rep_votes": 204265,
+        "other_votes": 6695,
+        "total_votes": 414142,
         "dem_candidate": "Kamala D. Harris",
         "rep_candidate": "Donald J. Trump",
         "winner": "Republican",
-        "margin": 628,
-        "margin_pct": 0.1510257970338341,
+        "margin": 1083,
+        "margin_pct": 0.26,
         "color": "#f7f7f7"
       },
       "3": {

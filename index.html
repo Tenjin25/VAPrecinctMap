@@ -4506,18 +4506,16 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!nums.every(v => Number.isFinite(v))) return false;
       const fitOptions = {
         padding: getMapFitPadding(options.paddingOptions || {}),
-        duration: Number.isFinite(Number(options.duration)) ? Number(options.duration) : 900,
-        minZoom: 11.5  // Force deeper zoom into districts
+        duration: Number.isFinite(Number(options.duration)) ? Number(options.duration) : 900
       };
-      // Apply maxZoom if provided, but with higher limits to allow deeper zoom
-      if (Number.isFinite(Number(options.maxZoom))) {
-        fitOptions.maxZoom = Math.max(Number(options.maxZoom), 15);  // Allow at least zoom 15
-      } else {
-        fitOptions.maxZoom = 15;  // Default to zoom 15 for good detail
-      }
       const bounds = [[nums[0], nums[1]], [nums[2], nums[3]]];
       console.log('fitFeatureWithOverlayPadding:', { bbox, bounds, fitOptions, currentZoom: map.getZoom() });
       map.fitBounds(bounds, fitOptions);
+      // After fitBounds, if zoom is less than 10, force it to at least 10
+      const newZoom = map.getZoom();
+      if (newZoom < 10.5) {
+        map.setZoom(10.5);
+      }
       console.log('After fitBounds:', { newZoom: map.getZoom() });
       return true;
     }
@@ -4559,9 +4557,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const nums = bbox.map(v => Number(v));
       if (!nums.every(v => Number.isFinite(v))) return false;
       const fitOptions = getSearchFitOptions(options.kind || 'default', options);
-      // Override zoom constraints for better detail
-      fitOptions.minZoom = 11.5;
-      fitOptions.maxZoom = 15;
+      // Don't set hard zoom constraints - let fitBounds calculate naturally
       map.fitBounds([[nums[0], nums[1]], [nums[2], nums[3]]], fitOptions);
       return true;
     }

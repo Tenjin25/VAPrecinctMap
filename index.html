@@ -3338,8 +3338,9 @@ body { height: var(--app-height); }
   .hover-tooltip {
     width: min(360px, calc(100vw - 24px));
     max-width: min(360px, calc(100vw - 24px));
-    max-height: min(54vh, 420px);
-    overflow: auto;
+    max-height: min(70vh, 500px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     padding: 14px;
     border-radius: 18px;
     background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(17, 24, 39, 0.94) 100%);

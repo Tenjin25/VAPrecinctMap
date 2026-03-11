@@ -1788,13 +1788,8 @@ body { height: var(--app-height); }
     pointer-events: none;
   }
 
-  /* Soft-pinned selection tooltips should not block the next county hover.
-     Explicitly pinned tooltips stay fully interactive. */
+  /* Allow interacting with tooltip buttons while pinned. */
   #hover-tooltip[data-pinned="1"] {
-    pointer-events: none;
-  }
-
-  #hover-tooltip[data-pinned="1"][data-pin-explicit="1"] {
     pointer-events: auto;
   }
 
@@ -2442,6 +2437,22 @@ body { height: var(--app-height); }
     .legend-item {
       font-size: 13px !important;
     }
+
+    .focus-summary {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .focus-pill-total {
+      grid-column: 1 / -1;
+    }
+
+    .focus-bar-head {
+      gap: 6px;
+    }
+
+    .focus-bar-label {
+      font-size: 10px;
+    }
   }
 
   :root {
@@ -2693,6 +2704,536 @@ body { height: var(--app-height); }
   .vote-lead[data-party="rep"] { color: #b91c1c; }
   .vote-lead[data-party="tie"] { color: #475569; }
 
+  .focus-card {
+    display: none;
+  }
+
+  .focus-card.visible {
+    display: block;
+  }
+
+  .focus-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .focus-pill-total {
+    grid-column: 1 / -1;
+  }
+
+  .focus-pill {
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: rgba(248, 250, 252, 0.92);
+  }
+
+  .focus-pill-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .focus-pill-value {
+    display: -webkit-box;
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1.2;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+  }
+
+  .focus-pill-value.dem {
+    color: #1d4ed8;
+  }
+
+  .focus-pill-value.rep {
+    color: #dc2626;
+  }
+
+  .focus-pill-value.tie {
+    color: #475569;
+  }
+
+  .focus-bar-panel {
+    margin-bottom: 12px;
+  }
+
+  .focus-bar-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .focus-bar-label {
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .focus-bar-label.dem {
+    color: #1d4ed8;
+    text-align: left;
+  }
+
+  .focus-bar-label.rep {
+    color: #b91c1c;
+    text-align: right;
+  }
+
+  .focus-bar-label.midpoint {
+    color: #64748b;
+    text-align: center;
+  }
+
+  .focus-bar {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    height: 14px;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    background: #e5e7eb;
+    margin-bottom: 12px;
+  }
+
+  .focus-bar-segment {
+    min-width: 0;
+    transition: width 0.35s ease;
+  }
+
+  .focus-bar-segment.dem {
+    background: linear-gradient(90deg, #2563eb, #60a5fa);
+  }
+
+  .focus-bar-segment.other {
+    background: #94a3b8;
+  }
+
+  .focus-bar-segment.rep {
+    background: linear-gradient(90deg, #f87171, #dc2626);
+  }
+
+  .focus-bar-midpoint {
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.38);
+    border-radius: 999px;
+    pointer-events: none;
+  }
+
+  .focus-trend {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+  }
+
+  .focus-trend-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .focus-trend-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #475569;
+  }
+
+  .focus-trend-caption {
+    font-size: 12px;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .focus-trend-chart {
+    display: grid;
+    gap: 10px;
+    min-height: 0;
+  }
+
+  .focus-trend-empty {
+    display: flex;
+    align-items: center;
+    min-height: 112px;
+    color: #64748b;
+    font-size: 12px;
+  }
+
+  .focus-trend-plot {
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 250, 252, 0.94) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  }
+
+  .focus-trend-summary {
+    display: grid;
+    gap: 10px;
+  }
+
+  .focus-trend-summary-copy {
+    display: grid;
+    gap: 4px;
+  }
+
+  .focus-trend-summary-kicker {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .focus-trend-summary-call {
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 1.2;
+    color: #0f172a;
+  }
+
+  .focus-trend-summary-note {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #64748b;
+  }
+
+  .focus-trend-summary-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .focus-trend-summary-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(255, 255, 255, 0.84);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: #334155;
+  }
+
+  .focus-trend-summary-badge::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.9;
+  }
+
+  .focus-trend-summary-badge.rep {
+    color: #b91c1c;
+    background: rgba(254, 226, 226, 0.78);
+  }
+
+  .focus-trend-summary-badge.dem {
+    color: #1d4ed8;
+    background: rgba(219, 234, 254, 0.82);
+  }
+
+  .focus-trend-summary-badge.tie {
+    color: #475569;
+    background: rgba(226, 232, 240, 0.86);
+  }
+
+  .focus-trend-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
+    gap: 8px;
+  }
+
+  .focus-trend-stat {
+    display: grid;
+    gap: 4px;
+    padding: 10px 11px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(255, 255, 255, 0.86);
+  }
+
+  .focus-trend-stat-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .focus-trend-stat-value {
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 1.3;
+    color: #0f172a;
+  }
+
+  .focus-trend-stat-value.dem {
+    color: #1d4ed8;
+  }
+
+  .focus-trend-stat-value.rep {
+    color: #b91c1c;
+  }
+
+  .focus-trend-stat-value.tie {
+    color: #475569;
+  }
+
+  .focus-trend-list {
+    display: grid;
+    gap: 10px;
+    max-height: min(42vh, 360px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 4px;
+    scrollbar-width: thin;
+  }
+
+  .focus-trend-entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+  }
+
+  .focus-trend-entry::after {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 34px;
+    bottom: -10px;
+    width: 2px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(148, 163, 184, 0.42) 0%, rgba(226, 232, 240, 0.18) 100%);
+  }
+
+  .focus-trend-entry:last-child::after {
+    display: none;
+  }
+
+  .focus-trend-entry-year {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 0 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(255, 255, 255, 0.92);
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .focus-trend-entry-card {
+    display: grid;
+    gap: 9px;
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(248, 250, 252, 0.92);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  }
+
+  .focus-trend-entry-card[data-party="rep"] {
+    background: linear-gradient(180deg, rgba(254, 242, 242, 0.96) 0%, rgba(248, 250, 252, 0.94) 100%);
+  }
+
+  .focus-trend-entry-card[data-party="dem"] {
+    background: linear-gradient(180deg, rgba(239, 246, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%);
+  }
+
+  .focus-trend-entry-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .focus-trend-entry-copy {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .focus-trend-entry-badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    min-height: 24px;
+    padding: 0 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(255, 255, 255, 0.84);
+    color: #475569;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .focus-trend-entry-badge.dem {
+    color: #1d4ed8;
+    background: rgba(219, 234, 254, 0.86);
+  }
+
+  .focus-trend-entry-badge.rep {
+    color: #b91c1c;
+    background: rgba(254, 226, 226, 0.82);
+  }
+
+  .focus-trend-entry-call {
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1.3;
+    color: #0f172a;
+    word-break: break-word;
+  }
+
+  .focus-trend-entry-call.dem {
+    color: #1d4ed8;
+  }
+
+  .focus-trend-entry-call.rep {
+    color: #b91c1c;
+  }
+
+  .focus-trend-entry-call.tie {
+    color: #475569;
+  }
+
+  .focus-trend-entry-margin {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.86);
+    color: #0f172a;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.2;
+    white-space: nowrap;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+  }
+
+  .focus-trend-entry-scale {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .focus-trend-entry-scale .dem {
+    color: #1d4ed8;
+  }
+
+  .focus-trend-entry-scale .rep {
+    color: #b91c1c;
+    text-align: right;
+  }
+
+  .focus-trend-entry-bar {
+    display: flex;
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(226, 232, 240, 0.92);
+    border: 1px solid rgba(148, 163, 184, 0.12);
+  }
+
+  .focus-trend-entry-bar span {
+    display: block;
+    height: 100%;
+  }
+
+  .focus-trend-entry-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .focus-trend-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    max-width: 100%;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: rgba(241, 245, 249, 0.94);
+    color: #475569;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.2;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    white-space: nowrap;
+  }
+
+  .focus-trend-chip.dem {
+    color: #1d4ed8;
+    background: rgba(219, 234, 254, 0.84);
+  }
+
+  .focus-trend-chip.rep {
+    color: #b91c1c;
+    background: rgba(254, 226, 226, 0.78);
+  }
+
+  .focus-trend-chip.tie {
+    color: #475569;
+    background: rgba(226, 232, 240, 0.86);
+  }
+
+  .focus-trend-chip.flip {
+    color: #5b21b6;
+    background: rgba(237, 233, 254, 0.88);
+    border-color: rgba(139, 92, 246, 0.16);
+  }
+
   .vote-counter-row {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2902,6 +3443,15 @@ body { height: var(--app-height); }
     .vote-counter-row {
       grid-template-columns: 1fr;
       gap: 8px;
+    }
+
+    .focus-summary {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .focus-bar-label {
+      font-size: 10px;
     }
 
     .vote-item {
@@ -3379,6 +3929,10 @@ body { height: var(--app-height); }
       grid-column: 1 / -1;
     }
 
+    .focus-trend-list {
+      max-height: min(26svh, 240px);
+    }
+
     .statewide-share-row {
       flex-wrap: nowrap;
       overflow-x: auto;
@@ -3835,6 +4389,44 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="vote-total" id="vote-total">0 total votes</div>
       <div class="vote-lead" id="vote-lead">Lead unavailable</div>
     </div>
+    <div class="focus-card visible" id="focus-card">
+      <div class="focus-summary">
+        <div class="focus-pill">
+          <span class="focus-pill-label">Winner</span>
+          <span class="focus-pill-value tie" id="focus-winner">No data</span>
+        </div>
+        <div class="focus-pill">
+          <span class="focus-pill-label">Lead</span>
+          <span class="focus-pill-value tie" id="focus-margin">Tie</span>
+        </div>
+        <div class="focus-pill focus-pill-total">
+          <span class="focus-pill-label">Total Votes</span>
+          <span class="focus-pill-value" id="focus-total">0</span>
+        </div>
+      </div>
+      <div class="focus-bar-panel">
+        <div class="focus-bar-head">
+          <span class="focus-bar-label dem" id="focus-bar-label-dem">Dem 0.00%</span>
+          <span class="focus-bar-label midpoint" id="focus-bar-label-mid">50%</span>
+          <span class="focus-bar-label rep" id="focus-bar-label-rep">Rep 0.00%</span>
+        </div>
+        <div class="focus-bar" aria-label="Vote share split">
+          <div class="focus-bar-segment dem" id="focus-bar-dem" style="width:0%;"></div>
+          <div class="focus-bar-segment other" id="focus-bar-other" style="width:0%;"></div>
+          <div class="focus-bar-segment rep" id="focus-bar-rep" style="width:0%;"></div>
+          <div class="focus-bar-midpoint" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="focus-trend" id="focus-trend">
+        <div class="focus-trend-head">
+          <span class="focus-trend-title">Trend</span>
+          <span class="focus-trend-caption" id="focus-trend-caption">Statewide history</span>
+        </div>
+        <div class="focus-trend-chart" id="focus-trend-chart">
+          <div class="focus-trend-empty">Select a contest to load trend history.</div>
+        </div>
+      </div>
+    </div>
     <div class="vote-counter-row">
       <div class="vote-item dem">
         <div class="vote-item-head">
@@ -4082,11 +4674,11 @@ document.addEventListener('DOMContentLoaded', function() {
           </ul>
           <p class="meta-subtle">Example: “Safe Republican (10–19.99%)” means the Republican candidate leads by 10–19.99 percentage points (two-party margin).</p>
 
-          <h3>Hover + Pin</h3>
+          <h3>Hover + Tooltip</h3>
           <ul>
             <li>Hover a shape to see a quick result card.</li>
-            <li>Click <strong>Pin</strong> in the tooltip to freeze it (so it won’t change while you move the mouse).</li>
-            <li>Use <strong>Close</strong> to dismiss a pinned tooltip.</li>
+            <li>Click a shape to hold its detail tooltip.</li>
+            <li>Use <strong>Close</strong> to dismiss the tooltip.</li>
           </ul>
 
           <h3>Controls</h3>
@@ -4094,7 +4686,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <li><span class="kbd">P</span> toggles precinct overlay (dots at statewide zoom; polygons when zoomed in).</li>
             <li><span class="kbd">L</span> toggles county labels.</li>
             <li><strong>♿</strong> toggles colorblind-friendly colors.</li>
-            <li><strong>Clear</strong> (in the vote counter) unpins a selected area.</li>
+            <li><strong>Clear</strong> (in the vote counter) clears the selected area.</li>
           </ul>
 
           <h3>Notes</h3>
@@ -4199,9 +4791,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function maybePinTooltipForTap() {
       try {
-        setTooltipPinned(true, { explicit: true });
-        const pinBtn = document.getElementById('tooltip-pin-btn');
-        if (pinBtn) pinBtn.textContent = 'Unpin';
+        setTooltipPinned(true);
       } catch (_) {}
     }
 
@@ -4294,10 +4884,8 @@ document.addEventListener('DOMContentLoaded', function() {
       let precinctNormSet = null; // Set<string precinct_norm> from centroid source.
       let precinctNormsByCounty = null; // Map<string countyNorm, Set<string precinct_norm>>.
       let precinctLabelIndexByCounty = null; // Map<string countyNorm, Array<{norm,labelNorm}>>.
-      let precinctDotHoverWired = new Set();
+	    let precinctDotHoverWired = new Set();
 	    let tooltipPinned = false;
-      let tooltipPinnedExplicit = false;
-      let tooltipPinnedKey = '';
 	    let precinctDotHoverRaf = null;
 	    let lastPrecinctDotHoverEvent = null;
     let districtHoverRequestId = 0;
@@ -4814,7 +5402,28 @@ document.addEventListener('DOMContentLoaded', function() {
       const flipText = (source.flipText || '').toString().trim();
       const flipPartyRaw = (source.flipParty || '').toString().trim().toLowerCase();
       const flipParty = ['dem', 'rep', 'neutral'].includes(flipPartyRaw) ? flipPartyRaw : '';
-      return { demCandidate, repCandidate, otherLabel, flipText, flipParty };
+      const kind = (source.kind || '').toString().trim().toLowerCase();
+      const county = (source.county || '').toString().trim();
+      const scope = (source.scope || '').toString().trim();
+      const districtNum = (source.districtNum ?? '').toString().trim();
+      const precinct = (source.precinct || '').toString().trim();
+      const contestType = (source.contestType || '').toString().trim();
+      const parsedYear = Number(source.year);
+      const year = Number.isFinite(parsedYear) ? parsedYear : ((source.year ?? '').toString().trim() || '');
+      return {
+        demCandidate,
+        repCandidate,
+        otherLabel,
+        flipText,
+        flipParty,
+        kind,
+        county,
+        scope,
+        districtNum,
+        precinct,
+        contestType,
+        year
+      };
     }
 
     function buildVoteCounterCandidateMeta(contestType, year, opts = {}) {
@@ -4828,7 +5437,14 @@ document.addEventListener('DOMContentLoaded', function() {
         repCandidate,
         otherLabel: opts?.otherLabel || 'Other',
         flipText: opts?.flipText || '',
-        flipParty: opts?.flipParty || ''
+        flipParty: opts?.flipParty || '',
+        kind: opts?.kind || '',
+        county: opts?.county || '',
+        scope: opts?.scope || '',
+        districtNum: opts?.districtNum || '',
+        precinct: opts?.precinct || '',
+        contestType: contestType || '',
+        year: Number.isFinite(Number(year)) ? Number(year) : year
       });
     }
 
@@ -4878,7 +5494,11 @@ document.addEventListener('DOMContentLoaded', function() {
         demCandidate: row[`${contestType}_dem_candidate`] || getCandidateName(year, formatContestName(contestType, year), 'Democrat'),
         repCandidate: row[`${contestType}_rep_candidate`] || getCandidateName(year, formatContestName(contestType, year), 'Republican'),
         flipText: flipMeta.flipText,
-        flipParty: flipMeta.flipParty
+        flipParty: flipMeta.flipParty,
+        kind: 'county',
+        county: normalizeCountyLookupKey(countyName),
+        contestType,
+        year: Number(year)
       });
       return true;
     }
@@ -4908,14 +5528,126 @@ document.addEventListener('DOMContentLoaded', function() {
         demCandidate: row.dem_candidate || '',
         repCandidate: row.rep_candidate || '',
         flipText: flipMeta.flipText,
-        flipParty: flipMeta.flipParty
+        flipParty: flipMeta.flipParty,
+        kind: 'district',
+        scope,
+        districtNum: String(districtNum)
       }));
       return true;
+    }
+
+    function formatFocusBarLabel(name, pct, fallbackText) {
+      const short = shortCandidateLabel(name, fallbackText);
+      return `${short} ${Number(pct || 0).toFixed(2)}%`;
+    }
+
+    function formatCompactVoteTotal(value) {
+      const votes = Number(value || 0);
+      if (!Number.isFinite(votes) || votes <= 0) return '0';
+      if (votes >= 1000000) {
+        const digits = votes >= 10000000 ? 1 : 2;
+        return `${(votes / 1000000).toFixed(digits)}M`;
+      }
+      if (votes >= 1000) {
+        const digits = votes >= 100000 ? 0 : 1;
+        return `${(votes / 1000).toFixed(digits)}K`;
+      }
+      return votes.toLocaleString();
+    }
+
+    function getTrendWinnerMeta(item) {
+      const repVotes = Number(item?.rep_votes || 0);
+      const demVotes = Number(item?.dem_votes || 0);
+      if (repVotes > demVotes) {
+        return {
+          partyClass: 'rep',
+          label: `${shortCandidateLabel(item?.rep_candidate, 'Republican')} (R)`
+        };
+      }
+      if (demVotes > repVotes) {
+        return {
+          partyClass: 'dem',
+          label: `${shortCandidateLabel(item?.dem_candidate, 'Democratic')} (D)`
+        };
+      }
+      return {
+        partyClass: 'tie',
+        label: 'Tie'
+      };
+    }
+
+    function leadMarginPctLabel(repVotes, demVotes, totalVotes) {
+      const rep = Number(repVotes || 0);
+      const dem = Number(demVotes || 0);
+      const total = Number(totalVotes || 0);
+      const marginPct = total > 0 ? Math.abs((rep - dem) / total * 100) : 0;
+      if (rep > dem) return `R +${marginPct.toFixed(2)}`;
+      if (dem > rep) return `D +${marginPct.toFixed(2)}`;
+      return 'Tie';
+    }
+
+    function updateVoteCounterSummary(demVotes, repVotes, otherVotes = 0, meta = {}) {
+      const d = Number(demVotes || 0);
+      const r = Number(repVotes || 0);
+      const o = Number(otherVotes || 0);
+      const total = d + r + o;
+      const counterMeta = normalizeVoteCounterMeta(meta);
+
+      const winnerEl = document.getElementById('focus-winner');
+      const marginEl = document.getElementById('focus-margin');
+      const totalEl = document.getElementById('focus-total');
+      const barDem = document.getElementById('focus-bar-dem');
+      const barOther = document.getElementById('focus-bar-other');
+      const barRep = document.getElementById('focus-bar-rep');
+      const barDemLabelEl = document.getElementById('focus-bar-label-dem');
+      const barMidLabelEl = document.getElementById('focus-bar-label-mid');
+      const barRepLabelEl = document.getElementById('focus-bar-label-rep');
+
+      if (!winnerEl || !marginEl || !totalEl || !barDem || !barOther || !barRep || !barDemLabelEl || !barMidLabelEl || !barRepLabelEl) return;
+
+      if (total <= 0) {
+        winnerEl.textContent = 'No data';
+        winnerEl.className = 'focus-pill-value tie';
+        marginEl.textContent = 'Tie';
+        marginEl.className = 'focus-pill-value tie';
+        totalEl.textContent = '0';
+        barDem.style.width = '0%';
+        barOther.style.width = '0%';
+        barRep.style.width = '0%';
+        barDemLabelEl.textContent = 'Dem 0.00%';
+        barMidLabelEl.textContent = '50%';
+        barRepLabelEl.textContent = 'Rep 0.00%';
+        return;
+      }
+
+      const demPct = (d / total) * 100;
+      const repPct = (r / total) * 100;
+      const otherPct = (o / total) * 100;
+      const winnerParty = repPct > demPct ? 'rep' : (demPct > repPct ? 'dem' : 'tie');
+      const winnerLabel = winnerParty === 'rep'
+        ? `${shortCandidateLabel(counterMeta.repCandidate, 'Rep')} (R)`
+        : (winnerParty === 'dem'
+          ? `${shortCandidateLabel(counterMeta.demCandidate, 'Dem')} (D)`
+          : 'Tie');
+
+      winnerEl.textContent = winnerLabel;
+      winnerEl.className = `focus-pill-value ${winnerParty}`;
+      marginEl.textContent = winnerParty === 'tie' ? 'Tie' : leadMarginPctLabel(r, d, total);
+      marginEl.className = `focus-pill-value ${winnerParty}`;
+      totalEl.textContent = total.toLocaleString();
+
+      barDem.style.width = `${demPct.toFixed(4)}%`;
+      barOther.style.width = `${otherPct.toFixed(4)}%`;
+      barRep.style.width = `${repPct.toFixed(4)}%`;
+      barDemLabelEl.textContent = formatFocusBarLabel(counterMeta.demCandidate, demPct, 'Dem');
+      barMidLabelEl.textContent = '50%';
+      barRepLabelEl.textContent = formatFocusBarLabel(counterMeta.repCandidate, repPct, 'Rep');
     }
 
     function updateVoteCounter(demVotes, repVotes, otherVotes = 0, meta = {}) {
       const totalVotes = demVotes + repVotes + otherVotes;
       if (totalVotes === 0) {
+        updateVoteCounterSummary(0, 0, 0, meta);
         hideVoteCounter();
         return;
       }
@@ -4975,6 +5707,8 @@ document.addEventListener('DOMContentLoaded', function() {
         leadEl.textContent = leadText;
         leadEl.dataset.party = leadParty;
       }
+
+      updateVoteCounterSummary(demVotes, repVotes, otherVotes, counterMeta);
       
       showVoteCounter();
     }
@@ -4983,6 +5717,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let voteCounterBaseline = null; // {title, sub, demVotes, repVotes, otherVotes, meta}
     let voteCounterPinned = null;   // {title, sub, demVotes, repVotes, otherVotes, meta}
     let voteCounterHoverActive = false;
+    let voteCounterTrendRequestId = 0;
 
     function setVoteCounterContext(title, sub, {showClear = false} = {}) {
       const t = document.getElementById('vote-context-title');
@@ -4993,11 +5728,292 @@ document.addEventListener('DOMContentLoaded', function() {
       if (c) c.style.display = showClear ? 'inline-flex' : 'none';
     }
 
+    function renderFocusTrendEmpty(message, caption = 'Statewide history') {
+      const captionEl = document.getElementById('focus-trend-caption');
+      const chartEl = document.getElementById('focus-trend-chart');
+      if (captionEl) captionEl.textContent = caption;
+      if (chartEl) {
+        chartEl.innerHTML = `<div class="focus-trend-empty">${message}</div>`;
+      }
+      try { updateMobileOverlayOffsets(); } catch (_) {}
+    }
+
+    function escapeHtml(text) {
+      return String(text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function describeTrendShift(currentSignedPct, prevSignedPct, prevYear) {
+      if (!Number.isFinite(Number(prevSignedPct))) {
+        return { cls: 'tie', text: 'First available result' };
+      }
+      const shift = (Number(currentSignedPct) || 0) - (Number(prevSignedPct) || 0);
+      if (Math.abs(shift) < 0.01) {
+        return { cls: 'tie', text: `No shift vs ${prevYear}` };
+      }
+      return {
+        cls: shift > 0 ? 'rep' : 'dem',
+        text: `${shift > 0 ? 'R' : 'D'} +${Math.abs(shift).toFixed(2)} vs ${prevYear}`
+      };
+    }
+
+    function renderFocusTrendSeries(series, caption = 'Trend history') {
+      const captionEl = document.getElementById('focus-trend-caption');
+      const chartEl = document.getElementById('focus-trend-chart');
+      if (!chartEl) return;
+      if (captionEl) captionEl.textContent = caption;
+      if (!series || !series.length) {
+        chartEl.innerHTML = `<div class="focus-trend-empty">No historical trend data available.</div>`;
+        return;
+      }
+
+      const sortedSeries = series.slice().sort((a, b) => Number(a.year) - Number(b.year));
+      const annotated = sortedSeries.map((item, idx) => {
+        const prev = idx > 0 ? sortedSeries[idx - 1] : null;
+        const totalVotes = Number(item.total_votes || 0);
+        const demVotes = Number(item.dem_votes || 0);
+        const repVotes = Number(item.rep_votes || 0);
+        const otherVotes = Number(item.other_votes || 0);
+        const demPct = totalVotes > 0 ? (demVotes / totalVotes) * 100 : 0;
+        const repPct = totalVotes > 0 ? (repVotes / totalVotes) * 100 : 0;
+        const otherPct = totalVotes > 0 ? (otherVotes / totalVotes) * 100 : 0;
+        const signedPct = Number(item.margin_pct || 0);
+        const winnerMeta = getTrendWinnerMeta(item);
+        const leadLabel = leadMarginPctLabel(repVotes, demVotes, totalVotes);
+        const shiftMeta = describeTrendShift(signedPct, prev ? prev.margin_pct : NaN, prev ? prev.year : '');
+        const flip = prev ? flipInfo(prev.margin_pct, signedPct) : { flipped: false, from: 'T', to: 'T' };
+        return {
+          item,
+          totalVotes,
+          demVotes,
+          repVotes,
+          otherVotes,
+          demPct,
+          repPct,
+          otherPct,
+          signedPct,
+          winnerMeta,
+          leadLabel,
+          shiftMeta,
+          flip
+        };
+      });
+
+      const latest = annotated[annotated.length - 1];
+      const closest = annotated.reduce((best, entry) => (!best || Math.abs(entry.signedPct) < Math.abs(best.signedPct) ? entry : best), null);
+      const earliest = annotated[0];
+      const latestSummary = winnerMarginLabelShort(latest.repVotes, latest.demVotes, latest.totalVotes, latest.item.rep_candidate, latest.item.dem_candidate);
+      const historyShift = describeTrendShift(latest.signedPct, earliest ? earliest.signedPct : NaN, earliest ? earliest.item.year : '');
+
+      let streakCount = 0;
+      for (let i = annotated.length - 1; i >= 0; i -= 1) {
+        if (annotated[i].winnerMeta.partyClass !== latest.winnerMeta.partyClass) break;
+        streakCount += 1;
+      }
+      const streakLabel = latest.winnerMeta.partyClass === 'tie'
+        ? 'Latest result was an even race.'
+        : `${latest.winnerMeta.partyClass === 'rep' ? 'Republican' : 'Democratic'} streak: ${streakCount} election${streakCount === 1 ? '' : 's'}.`;
+
+      const summaryBadges = [];
+      summaryBadges.push(`<span class="focus-trend-summary-badge ${latest.shiftMeta.cls}">${escapeHtml(latest.shiftMeta.text)}</span>`);
+      if (latest.flip && latest.flip.flipped) {
+        summaryBadges.push(`<span class="focus-trend-summary-badge ${latest.flip.to === 'R' ? 'rep' : 'dem'}">${escapeHtml(`Flip ${latest.flip.from}->${latest.flip.to}`)}</span>`);
+      }
+
+      const cards = annotated.slice().reverse().map(entry => {
+        const winnerLabel = entry.winnerMeta.partyClass === 'rep' ? 'Republican' : (entry.winnerMeta.partyClass === 'dem' ? 'Democratic' : 'Tie');
+        const totalVotesLabel = `${formatCompactVoteTotal(entry.totalVotes)} votes`;
+        const flipChip = entry.flip && entry.flip.flipped
+          ? `<span class="focus-trend-chip flip">${escapeHtml(`Flip ${entry.flip.from}->${entry.flip.to}`)}</span>`
+          : '';
+        const leadSummary = entry.leadLabel === 'Tie' ? 'Even race' : entry.leadLabel;
+        const otherChip = entry.otherPct >= 0.05
+          ? `<span class="focus-trend-chip">Other ${escapeHtml(entry.otherPct.toFixed(2))}%</span>`
+          : '';
+        return `
+          <div class="focus-trend-entry">
+            <span class="focus-trend-entry-year">${escapeHtml(entry.item.year)}</span>
+            <div class="focus-trend-entry-card" data-party="${entry.winnerMeta.partyClass}">
+              <div class="focus-trend-entry-head">
+                <div class="focus-trend-entry-copy">
+                  <span class="focus-trend-entry-badge ${entry.winnerMeta.partyClass}">${escapeHtml(winnerLabel)}</span>
+                  <span class="focus-trend-entry-call ${entry.winnerMeta.partyClass}">${escapeHtml(entry.winnerMeta.label)}</span>
+                </div>
+                <span class="focus-trend-entry-margin">${escapeHtml(leadSummary)}</span>
+              </div>
+              <div class="focus-trend-entry-scale">
+                <span class="dem">${escapeHtml(`${shortCandidateLabel(entry.item.dem_candidate, 'Dem')} ${entry.demPct.toFixed(2)}%`)}</span>
+                <span class="rep">${escapeHtml(`${shortCandidateLabel(entry.item.rep_candidate, 'Rep')} ${entry.repPct.toFixed(2)}%`)}</span>
+              </div>
+              <div class="focus-trend-entry-bar" aria-hidden="true">
+                <span style="width:${entry.demPct.toFixed(4)}%;background:#2563eb;"></span>
+                ${entry.otherVotes > 0 ? `<span style="width:${entry.otherPct.toFixed(4)}%;background:#64748b;"></span>` : ''}
+                <span style="width:${entry.repPct.toFixed(4)}%;background:#dc2626;"></span>
+              </div>
+              <div class="focus-trend-entry-footer">
+                <span class="focus-trend-chip">${escapeHtml(totalVotesLabel)}</span>
+                <span class="focus-trend-chip ${entry.shiftMeta.cls}">${escapeHtml(entry.shiftMeta.text)}</span>
+                ${otherChip}
+                ${flipChip}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      chartEl.innerHTML = `
+        <div class="focus-trend-plot">
+          <div class="focus-trend-summary">
+            <div class="focus-trend-summary-copy">
+              <span class="focus-trend-summary-kicker">Trend at a glance</span>
+              <div class="focus-trend-summary-call">${escapeHtml(`${latest.item.year}: ${latestSummary}`)}</div>
+              <div class="focus-trend-summary-note">${escapeHtml(`Showing ${annotated.length} elections from ${earliest.item.year} to ${latest.item.year}. ${streakLabel}`)}</div>
+            </div>
+            <div class="focus-trend-summary-badges">${summaryBadges.join('')}</div>
+            <div class="focus-trend-stats">
+              <div class="focus-trend-stat">
+                <span class="focus-trend-stat-label">Latest</span>
+                <span class="focus-trend-stat-value ${latest.winnerMeta.partyClass}">${escapeHtml(`${latest.item.year}: ${latestSummary}`)}</span>
+              </div>
+              <div class="focus-trend-stat">
+                <span class="focus-trend-stat-label">Closest</span>
+                <span class="focus-trend-stat-value ${closest.winnerMeta.partyClass}">${escapeHtml(`${closest.item.year}: ${winnerMarginLabelShort(closest.repVotes, closest.demVotes, closest.totalVotes, closest.item.rep_candidate, closest.item.dem_candidate)}`)}</span>
+              </div>
+              <div class="focus-trend-stat">
+                <span class="focus-trend-stat-label">Since ${escapeHtml(earliest.item.year)}</span>
+                <span class="focus-trend-stat-value ${historyShift.cls}">${escapeHtml(historyShift.text)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="focus-trend-list">${cards}</div>
+      `;
+      try { updateMobileOverlayOffsets(); } catch (_) {}
+    }
+
+    async function getStatewideTrendSeries(contestType) {
+      const entries = (contestManifest || [])
+        .filter(f => f && f.contest_type === contestType && Number.isFinite(Number(f.year)))
+        .slice()
+        .sort((a, b) => Number(a.year) - Number(b.year));
+
+      const out = [];
+      for (const e of entries) {
+        const year = Number(e.year);
+        const rows = await loadContestSlice(contestType, year);
+        let dem = 0;
+        let rep = 0;
+        let oth = 0;
+        let tot = 0;
+        let demCand = '';
+        let repCand = '';
+        rows.forEach(r => {
+          dem += Number(r[`${contestType}_dem`]) || 0;
+          rep += Number(r[`${contestType}_rep`]) || 0;
+          oth += Number(r[`${contestType}_other`]) || 0;
+          tot += Number(r[`${contestType}_total`]) || 0;
+          if (!demCand) demCand = r[`${contestType}_dem_candidate`] || '';
+          if (!repCand) repCand = r[`${contestType}_rep_candidate`] || '';
+        });
+        if (tot <= 0) continue;
+        const margin = rep - dem;
+        out.push({
+          year,
+          dem_votes: dem,
+          rep_votes: rep,
+          other_votes: oth,
+          total_votes: tot,
+          dem_candidate: demCand,
+          rep_candidate: repCand,
+          winner: margin > 0 ? 'REP' : (margin < 0 ? 'DEM' : 'TIE'),
+          margin_pct: Number(((margin / tot) * 100).toFixed(2))
+        });
+      }
+      if (!out.length && contestType === 'us_house' && Array.isArray(congressionalData) && congressionalData.length) {
+        const byYear = new Map();
+        congressionalData.forEach(row => {
+          const year = Number(row.year);
+          if (!Number.isFinite(year)) return;
+          if (!byYear.has(year)) byYear.set(year, { dem: 0, rep: 0, total: 0 });
+          const agg = byYear.get(year);
+          agg.dem += Number(row.us_house_dem || 0);
+          agg.rep += Number(row.us_house_rep || 0);
+          agg.total += Number(row.us_house_total || 0);
+        });
+        Array.from(byYear.entries())
+          .sort((a, b) => a[0] - b[0])
+          .forEach(([year, agg]) => {
+            if (agg.total <= 0) return;
+            const margin = agg.rep - agg.dem;
+            out.push({
+              year,
+              dem_votes: agg.dem,
+              rep_votes: agg.rep,
+              other_votes: Math.max(0, agg.total - agg.dem - agg.rep),
+              total_votes: agg.total,
+              dem_candidate: '',
+              rep_candidate: '',
+              winner: margin > 0 ? 'REP' : (margin < 0 ? 'DEM' : 'TIE'),
+              margin_pct: Number(((margin / agg.total) * 100).toFixed(2))
+            });
+          });
+      }
+      return out;
+    }
+
+    async function refreshFocusTrend(state) {
+      const reqId = ++voteCounterTrendRequestId;
+      const contestValue = document.getElementById('contestSelect')?.value || '';
+      const [contestFromSelect, yearFromSelect] = parseContestValue(contestValue);
+      const meta = normalizeVoteCounterMeta(state?.meta || {});
+      const contestType = (meta.contestType || contestFromSelect || '').toString().trim();
+      const year = Number.isFinite(Number(meta.year)) ? Number(meta.year) : Number(yearFromSelect);
+      if (!contestType || !Number.isFinite(year)) {
+        renderFocusTrendEmpty('Select a contest to load trend history.', 'Trend history');
+        return;
+      }
+
+      const baseCaption = meta.kind === 'county'
+        ? `${displayCountyName(meta.county || '')} history`
+        : (meta.kind === 'district'
+          ? (meta.scope === 'congressional'
+            ? `Congressional District ${meta.districtNum}`
+            : (meta.scope === 'state_house' ? `State House District ${meta.districtNum}` : `State Senate District ${meta.districtNum}`))
+          : (meta.kind === 'precinct'
+            ? `${meta.precinct || 'Precinct'} history`
+            : 'Statewide history'));
+
+      renderFocusTrendEmpty('Loading trend history...', baseCaption);
+      try {
+        let series = [];
+        if (meta.kind === 'county' && meta.county) {
+          series = await getCountyTrendSeries(contestType, meta.county);
+        } else if (meta.kind === 'district' && meta.scope && meta.districtNum) {
+          series = await getDistrictTrendSeries(meta.scope, contestType, meta.districtNum);
+        } else if (meta.kind === 'precinct' && meta.county) {
+          series = await getCountyTrendSeries(contestType, meta.county);
+        } else {
+          series = await getStatewideTrendSeries(contestType);
+        }
+        if (reqId !== voteCounterTrendRequestId) return;
+        renderFocusTrendSeries(series, baseCaption);
+      } catch (err) {
+        if (reqId !== voteCounterTrendRequestId) return;
+        renderFocusTrendEmpty('Failed to load trend history.', baseCaption);
+        console.warn('Failed to load focus trend:', err?.message || err);
+      }
+    }
+
     function setVoteCounterBaselineState(title, sub, demVotes, repVotes, otherVotes, meta = {}) {
       voteCounterBaseline = { title, sub, demVotes, repVotes, otherVotes, meta: normalizeVoteCounterMeta(meta) };
       if (!voteCounterPinned) {
         setVoteCounterContext(title, sub, { showClear: false });
         updateVoteCounter(demVotes, repVotes, otherVotes, voteCounterBaseline.meta);
+        refreshFocusTrend(voteCounterBaseline);
       }
     }
 
@@ -5006,6 +6022,7 @@ document.addEventListener('DOMContentLoaded', function() {
       voteCounterHoverActive = false;
       setVoteCounterContext(title, sub, { showClear: true });
       updateVoteCounter(demVotes, repVotes, otherVotes, voteCounterPinned.meta);
+      refreshFocusTrend(voteCounterPinned);
     }
 
     function clearPinnedVoteCounterState() {
@@ -5014,8 +6031,10 @@ document.addEventListener('DOMContentLoaded', function() {
       if (voteCounterBaseline) {
         setVoteCounterContext(voteCounterBaseline.title, voteCounterBaseline.sub, { showClear: false });
         updateVoteCounter(voteCounterBaseline.demVotes, voteCounterBaseline.repVotes, voteCounterBaseline.otherVotes, voteCounterBaseline.meta);
+        refreshFocusTrend(voteCounterBaseline);
       } else {
         setVoteCounterContext('Statewide', 'Hover a county or district', { showClear: false });
+        renderFocusTrendEmpty('Select a contest to load trend history.', 'Trend history');
         hideVoteCounter();
       }
     }
@@ -6904,10 +7923,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const props = e.features[0].properties || {};
       const countyName = props.NAMELSAD20 || props.NAME20 || props.CountyName || props.COUNTYNAME || props.county_nam || props.NAME || props.name || 'Unknown Locality';
       const countyDisplay = displayCountyName(countyName);
-      const hoveredCountyKey = getCountyTooltipKey(countyName);
-      if (!IS_COARSE_POINTER && tooltipPinned && !tooltipPinnedExplicit && hoveredCountyKey && hoveredCountyKey !== tooltipPinnedKey) {
-        closeHoverUI({ force: true });
-      }
       setCountyHoverOutline(countyName);
       const norm = normalizeCountyLookupKey(countyName);
       const row = getCountyResultRow(countyName);
@@ -7795,7 +8810,6 @@ document.addEventListener('DOMContentLoaded', function() {
               const [contestType, year] = parseContestValue(contestValue);
               const selectedRow = getCountyResultRow(countyName);
               prepareTooltipForSelection();
-              const requestId = ++countyTrendRequestId;
               showCountyDetails(countyName);
               lastSelectedCounty = countyName;
               setCountyHoverOutline(countyName);
@@ -7806,24 +8820,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 renderCountyHoverAtPoint(e);
                 maybePinTooltipForTap();
               } else {
-                // Desktop click keeps the historical trend popup behavior.
-                const trendType = contestType || 'president';
-                const tooltipTitle = `${countyDisplay} - ${formatContestName(trendType, '')} Trends`;
-                setTooltipPinned(true, { explicit: false, key: getCountyTooltipKey(countyName) });
-                showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(tooltipTitle, '<div style="color:#94a3b8;">Loading trends...</div>'), { force: true });
-                wireTooltipButtons();
-                try {
-                  const series = await getCountyTrendSeries(trendType, countyName);
-                  if (requestId !== countyTrendRequestId) return;
-                  const content = formatTrendSeries(tooltipTitle, series);
-                  showHoverTooltip(e.point.x, e.point.y, content, { force: true });
-                  wireTooltipButtons();
-                } catch (err) {
-                  if (requestId !== countyTrendRequestId) return;
-                  showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(tooltipTitle, '<div style="color:#94a3b8;">Failed to load trends.</div>'), { force: true });
-                  wireTooltipButtons();
-                  console.warn('Failed to load county trends:', err?.message || err);
-                }
+                setTooltipPinned(false);
+                hideHoverTooltip();
               }
               // Optionally, expand sidebar if minimized
               const sidebar = document.getElementById('sidebar');
@@ -8843,7 +9841,10 @@ document.addEventListener('DOMContentLoaded', function() {
           demCandidate: row[`${contestType}_dem_candidate`] || '',
           repCandidate: row[`${contestType}_rep_candidate`] || '',
           flipText: flipMeta.flipText,
-          flipParty: flipMeta.flipParty
+          flipParty: flipMeta.flipParty,
+          kind: 'precinct',
+          county: normalizeCountyLookupKey(hitProps.county_nam || countyNameRaw || ''),
+          precinct: selectedPrecinctLabel
         }));
         await waitForMapUiStability(2);
       }
@@ -9131,48 +10132,27 @@ document.addEventListener('DOMContentLoaded', function() {
       tooltip.style.display = 'none';
     }
 
-    function setTooltipPinned(pinned, { explicit = false, key = '' } = {}) {
+    function setTooltipPinned(pinned) {
       tooltipPinned = !!pinned;
-      tooltipPinnedExplicit = !!(pinned && explicit);
-      tooltipPinnedKey = pinned ? (key || tooltipPinnedKey || '') : '';
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
       tooltip.setAttribute('data-pinned', tooltipPinned ? '1' : '0');
-      tooltip.setAttribute('data-pin-explicit', tooltipPinnedExplicit ? '1' : '0');
-      if (!tooltipPinned) tooltipPinnedKey = '';
     }
 
     function buildTooltipShell(title, innerHtml) {
-      const pinLabel = tooltipPinned && tooltipPinnedExplicit ? 'Unpin' : 'Pin';
-      const kicker = tooltipPinned ? (tooltipPinnedExplicit ? 'Pinned detail' : 'Selected detail') : 'Map detail';
       return `
         <div class="tooltip-head">
-          <div class="tooltip-copy">
-            <div class="tooltip-kicker">${kicker}</div>
-            <div class="tooltip-title">${title}</div>
-          </div>
+          <div class="tooltip-title">${title}</div>
           <div class="tooltip-actions">
-            <button class="tooltip-btn" id="tooltip-pin-btn" type="button">${pinLabel}</button>
             <button class="tooltip-btn" id="tooltip-close-btn" type="button">Close</button>
           </div>
         </div>
-        <div class="tooltip-body tooltip-trends">${innerHtml}</div>
+        <div class="tooltip-trends">${innerHtml}</div>
       `;
     }
 
     function wireTooltipButtons() {
-      const pinBtn = document.getElementById('tooltip-pin-btn');
       const closeBtn = document.getElementById('tooltip-close-btn');
-      if (pinBtn) {
-        pinBtn.onclick = () => {
-          if (tooltipPinned && tooltipPinnedExplicit) {
-            setTooltipPinned(false);
-          } else {
-            setTooltipPinned(true, { explicit: true, key: tooltipPinnedKey });
-          }
-          pinBtn.textContent = tooltipPinned && tooltipPinnedExplicit ? 'Unpin' : 'Pin';
-        };
-      }
       if (closeBtn) {
         closeBtn.onclick = () => {
           countyTrendRequestId++;
@@ -10784,7 +11764,10 @@ document.addEventListener('DOMContentLoaded', function() {
       // Baseline vote counter (statewide) for this contest/view.
       setVoteCounterBaselineState('Statewide', `${formatContestName(contestType, year)} ${year}`, statewidedemVotes, statewidrepVotes, statewidotherVotes, {
         demCandidate: statewideDemCandidate,
-        repCandidate: statewideRepCandidate
+        repCandidate: statewideRepCandidate,
+        kind: 'statewide',
+        contestType,
+        year: Number(year)
       });
 
       // Build county expression (base map)
@@ -11151,7 +12134,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const coverageText = (coveragePct !== undefined && coveragePct !== null)
             ? ` | match coverage ${Number(coveragePct).toFixed(2)}%`
             : '';
-          const contestMeta = buildVoteCounterCandidateMeta(contestType, year);
+          const contestMeta = buildVoteCounterCandidateMeta(contestType, year, { kind: 'statewide' });
           setStatewideContestTitle(`${formatContestName(contestType, year)} (${year})`);
           setStatus(`Applied district crosswalk results: ${formatContestName(contestType, year)} ${year} (${demPct.toFixed(2)}% D, ${repPct.toFixed(2)}% R, ${otherPct.toFixed(2)}% O)${coverageText}`);
           setVoteCounterBaselineState('Statewide', `${formatContestName(contestType, year)} ${year} (2022 lines)`, totalDem, totalRep, totalOther, contestMeta);
@@ -11195,7 +12178,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const winner = repPct > demPct ? 'R' : 'D';
       const marginPct = Math.abs(repPct - demPct);
       const color = categoryColorForMargin(marginPct, winner);
-      const contestMeta = buildVoteCounterCandidateMeta(contestType, year);
+      const contestMeta = buildVoteCounterCandidateMeta(contestType, year, { kind: 'statewide' });
 
       // Apply uniform color to all districts (showing statewide result)
       const layerName = currentView === 'districts' ? 'district-fill' : 

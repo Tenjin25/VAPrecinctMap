@@ -3997,7 +3997,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="contest-toolbar" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                   <button id="accessibility-toggle" title="Accessibility: Color Blind Mode" style="background:#1f2937;color:#fff;border-radius:50%;width:32px;height:32px;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.10);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;">&#9855;</button>
                   <button id="label-toggle" title="Toggle County Labels" style="background:#1f2937;color:#fff;border-radius:50%;width:32px;height:32px;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.10);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:bold;">Aa</button>
-                  <button id="precinct-toggle" title="Enable Precinct Overlay (Zoom 8.5+)" style="background:#065f46;color:#fff;border-radius:8px;height:32px;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.10);font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:bold;padding:0 10px;">Precincts Off</button>
+                  <button id="precinct-toggle" title="Enable Precinct Overlay (Zoom 8.0+)" style="background:#065f46;color:#fff;border-radius:8px;height:32px;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.10);font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:bold;padding:0 10px;">Precincts Off</button>
                 </div>
                 <div class="contest-search-wrap">
                   <input id="contestSearch" type="search" placeholder="Search contests (e.g., President, Senate, 2008)..." autocomplete="off" spellcheck="false" />
@@ -4174,7 +4174,7 @@ document.addEventListener('DOMContentLoaded', function() {
       zoom: 6.5,
       fitBounds: [[-83.8, 36.4], [-75.1, 39.6]],
       precincts: {
-        minZoom: 8.5
+        minZoom: 8.0
       }
     };
 
@@ -4566,7 +4566,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const fitOptions = getSearchFitOptions(options.kind || 'default', options);
       map.easeTo({
         center: [lng, lat],
-        zoom: Number.isFinite(Number(options.zoom)) ? Number(options.zoom) : 11,
+        zoom: Number.isFinite(Number(options.zoom)) ? Number(options.zoom) : 13,
         duration: fitOptions.duration,
         offset: fitOptions.offset
       });
@@ -4576,12 +4576,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function getDistrictFocusProfile(sourceId, feature = null) {
       const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
       const profile = sourceId === 'districts'
-        ? { maxZoom: isMobile ? 10.45 : 10.95, extra: isMobile ? 14 : 18 }
+        ? { maxZoom: isMobile ? 11.5 : 12.0, extra: isMobile ? 14 : 18 }
         : (sourceId === 'state-house'
-          ? { maxZoom: isMobile ? 11.55 : 12.25, extra: isMobile ? 12 : 16 }
+          ? { maxZoom: isMobile ? 12.55 : 13.25, extra: isMobile ? 12 : 16 }
           : (sourceId === 'state-senate'
-            ? { maxZoom: isMobile ? 11.15 : 11.7, extra: isMobile ? 13 : 17 }
-            : { maxZoom: isMobile ? 10.5 : 11.0, extra: isMobile ? 14 : 18 }));
+            ? { maxZoom: isMobile ? 12.5 : 13.0, extra: isMobile ? 13 : 17 }
+            : { maxZoom: isMobile ? 11.5 : 12.0, extra: isMobile ? 14 : 18 }));
 
       if (!feature || !window.turf || typeof turf.area !== 'function') return profile;
 
@@ -7931,7 +7931,7 @@ document.addEventListener('DOMContentLoaded', function() {
         id: 'precinct-fill',
         type: 'fill',
         source: 'precincts',
-        minzoom: CONFIG.precincts?.minZoom || 8.5,
+        minzoom: CONFIG.precincts?.minZoom || 8.0,
         layout: { visibility: 'none' },
         paint: { 'fill-color': '#d1d5db', 'fill-opacity': 0.72 }
       });
@@ -7939,7 +7939,7 @@ document.addEventListener('DOMContentLoaded', function() {
         id: 'precinct-stroke',
         type: 'line',
         source: 'precincts',
-        minzoom: CONFIG.precincts?.minZoom || 8.5,
+        minzoom: CONFIG.precincts?.minZoom || 8.0,
         layout: { visibility: 'none' },
         paint: {
           'line-color': ['case', ['boolean', ['feature-state', 'hover'], false], 'rgba(15, 23, 42, 0.75)', '#6b7280'],
@@ -8094,7 +8094,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function addPrecinctCentroidLayers() {
       if (!map.getSource('precinct-centroids')) return;
-      const minZoom = CONFIG.precincts?.minZoom || 8.5;
+      const minZoom = CONFIG.precincts?.minZoom || 8.0;
 
       if (!map.getLayer('precinct-dot')) {
         map.addLayer({
@@ -8242,7 +8242,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.style.background = precinctsEnabled ? '#1d4ed8' : '#065f46';
         btn.style.opacity = precinctLoadInFlight ? '0.75' : '1';
       }
-      const minZoom = (CONFIG.precincts?.minZoom || 8.5);
+      const minZoom = (CONFIG.precincts?.minZoom || 8.0);
       const z = map.getZoom();
       const polyVisible = precinctsEnabled && z >= minZoom;
       const dotVisible = precinctsEnabled && z < minZoom;
@@ -8274,7 +8274,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // Always prefer centroids first so statewide zoom is responsive.
           const centroidsOk = await ensurePrecinctCentroidsLoaded();
           if (!centroidsOk) throw new Error('Precinct centroid source did not load');
-          if (map.getZoom() >= (CONFIG.precincts?.minZoom || 8.5)) {
+          if (map.getZoom() >= (CONFIG.precincts?.minZoom || 8.0)) {
             const precinctsOk = await ensurePrecinctSourceLoaded();
             if (!precinctsOk) throw new Error('Precinct polygon source did not load');
           }
@@ -8862,7 +8862,7 @@ document.addEventListener('DOMContentLoaded', function() {
         flyToPointForSearch(coords, {
           kind: 'precinct',
           duration: 950,
-          zoom: Math.max(CONFIG.precincts?.minZoom || 8.5, 11.25)
+          zoom: Math.max(CONFIG.precincts?.minZoom || 8.0, 12.5)
         });
       }
 

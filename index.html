@@ -5509,13 +5509,13 @@ document.addEventListener('DOMContentLoaded', function() {
           header.textContent = shiftHeader;
         }
         content.innerHTML = `
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(-15)};"></div>D +15%</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(-10)};"></div>D +10%</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(-5)};"></div>D +5%</div>
+          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(-15)};"></div>D+15%</div>
+          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(-10)};"></div>D+10%</div>
+          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(-5)};"></div>D+5%</div>
           <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(0)}; border: 1px solid rgba(15,23,42,0.20);"></div>No change</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(5)};"></div>R +5%</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(10)};"></div>R +10%</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(15)};"></div>R +15%</div>
+          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(5)};"></div>R+5%</div>
+          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(10)};"></div>R+10%</div>
+          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(15)};"></div>R+15%</div>
         `;
       } else {
         // margins (default)
@@ -5720,8 +5720,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const dem = Number(demVotes || 0);
       const total = Number(totalVotes || 0);
       const marginPct = total > 0 ? Math.abs((rep - dem) / total * 100) : 0;
-      if (rep > dem) return `R +${marginPct.toFixed(2)}%`;
-      if (dem > rep) return `D +${marginPct.toFixed(2)}%`;
+      if (rep > dem) return `R+${marginPct.toFixed(2)}%`;
+      if (dem > rep) return `D+${marginPct.toFixed(2)}%`;
       return 'Tie';
     }
 
@@ -5905,7 +5905,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       return {
         cls: shift > 0 ? 'rep' : 'dem',
-        text: `${shift > 0 ? 'R' : 'D'} +${Math.abs(shift).toFixed(2)} vs ${prevYear}`
+        text: `${shift > 0 ? 'R' : 'D'}+${Math.abs(shift).toFixed(2)} vs ${prevYear}`
       };
     }
 

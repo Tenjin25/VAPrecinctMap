@@ -14,15 +14,15 @@
   "general": {
     "results": {
       "1": {
-        "dem_votes": 227140,
-        "rep_votes": 241449,
-        "other_votes": 8365,
-        "total_votes": 476954,
+        "dem_votes": 227074,
+        "rep_votes": 250992,
+        "other_votes": 8529,
+        "total_votes": 486595,
         "dem_candidate": "Kamala D. Harris",
         "rep_candidate": "Donald J. Trump",
         "winner": "Republican",
-        "margin": 14309,
-        "margin_pct": 3.000079672253509,
+        "margin": 23918,
+        "margin_pct": 4.92,
         "color": "#fcae91"
       },
       "10": {

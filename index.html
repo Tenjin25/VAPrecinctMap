@@ -4508,8 +4508,12 @@ document.addEventListener('DOMContentLoaded', function() {
         padding: getMapFitPadding(options.paddingOptions || {}),
         duration: Number.isFinite(Number(options.duration)) ? Number(options.duration) : 900
       };
-      if (Number.isFinite(Number(options.maxZoom))) fitOptions.maxZoom = Number(options.maxZoom);
-      map.fitBounds([[nums[0], nums[1]], [nums[2], nums[3]]], fitOptions);
+      // Don't constrain maxZoom - let fitBounds zoom in naturally
+      // if (Number.isFinite(Number(options.maxZoom))) fitOptions.maxZoom = Number(options.maxZoom);
+      const bounds = [[nums[0], nums[1]], [nums[2], nums[3]]];
+      console.log('fitFeatureWithOverlayPadding:', { bbox, bounds, fitOptions, currentZoom: map.getZoom() });
+      map.fitBounds(bounds, fitOptions);
+      console.log('After fitBounds:', { newZoom: map.getZoom() });
       return true;
     }
 

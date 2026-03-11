@@ -8329,7 +8329,8 @@ document.addEventListener('DOMContentLoaded', function() {
               prepareTooltipForSelection();
               focusDistrictGeometry(districtNum, 'districts', {
                 duration: 800,
-                fallbackFeature: e.features[0]
+                fallbackFeature: e.features[0],
+                useSearchFit: true
               }).catch(() => {});
               // Show detailed sidebar (results + trends).
               showDistrictDetails(districtNum);
@@ -8407,7 +8408,8 @@ document.addEventListener('DOMContentLoaded', function() {
               prepareTooltipForSelection();
               focusDistrictGeometry(districtNum, 'state-house', {
                 duration: 800,
-                fallbackFeature: e.features[0]
+                fallbackFeature: e.features[0],
+                useSearchFit: true
               }).catch(() => {});
               // Show detailed sidebar (results + trends).
               showStateDistrictDetails(districtNum, 'house');
@@ -8483,7 +8485,8 @@ document.addEventListener('DOMContentLoaded', function() {
               prepareTooltipForSelection();
               focusDistrictGeometry(districtNum, 'state-senate', {
                 duration: 800,
-                fallbackFeature: e.features[0]
+                fallbackFeature: e.features[0],
+                useSearchFit: true
               }).catch(() => {});
               // Show detailed sidebar (results + trends).
               showStateDistrictDetails(districtNum, 'senate');

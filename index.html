@@ -2442,6 +2442,10 @@ body { height: var(--app-height); }
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .focus-trend-stats-tight {
+      grid-template-columns: 1fr;
+    }
+
     .focus-pill-total {
       grid-column: 1 / -1;
     }
@@ -2977,6 +2981,10 @@ body { height: var(--app-height); }
     gap: 8px;
   }
 
+  .focus-trend-stats-tight {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .focus-trend-stat {
     display: grid;
     gap: 4px;
@@ -2984,6 +2992,10 @@ body { height: var(--app-height); }
     border-radius: 14px;
     border: 1px solid rgba(148, 163, 184, 0.16);
     background: rgba(255, 255, 255, 0.86);
+  }
+
+  .focus-trend-stat-since {
+    grid-column: 1 / 2;
   }
 
   .focus-trend-stat-label {
@@ -3155,6 +3167,25 @@ body { height: var(--app-height); }
     line-height: 1.2;
     white-space: nowrap;
     border: 1px solid rgba(148, 163, 184, 0.14);
+  }
+
+  .focus-trend-entry-candidate-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .focus-trend-entry-candidate-row .dem {
+    color: #1d4ed8;
+  }
+
+  .focus-trend-entry-candidate-row .rep {
+    color: #b91c1c;
+    text-align: right;
   }
 
   .focus-trend-entry-scale {
@@ -3448,6 +3479,10 @@ body { height: var(--app-height); }
     .focus-summary {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px;
+    }
+
+    .focus-trend-stats-tight {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .focus-bar-label {
@@ -5771,7 +5806,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
-      const sortedSeries = series.slice().sort((a, b) => Number(a.year) - Number(b.year));
+      const sortedSeries = series
+        .slice()
+        .sort((a, b) => Number(a.year) - Number(b.year));
       const annotated = sortedSeries.map((item, idx) => {
         const prev = idx > 0 ? sortedSeries[idx - 1] : null;
         const totalVotes = Number(item.total_votes || 0);
@@ -5783,9 +5820,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const otherPct = totalVotes > 0 ? (otherVotes / totalVotes) * 100 : 0;
         const signedPct = Number(item.margin_pct || 0);
         const winnerMeta = getTrendWinnerMeta(item);
-        const leadLabel = leadMarginPctLabel(repVotes, demVotes, totalVotes);
         const shiftMeta = describeTrendShift(signedPct, prev ? prev.margin_pct : NaN, prev ? prev.year : '');
         const flip = prev ? flipInfo(prev.margin_pct, signedPct) : { flipped: false, from: 'T', to: 'T' };
+        const marginPctAbs = Math.abs(signedPct);
+        const winnerShort = winnerMeta.partyClass === 'rep'
+          ? shortCandidateLabel(item.rep_candidate, 'Republican')
+          : (winnerMeta.partyClass === 'dem' ? shortCandidateLabel(item.dem_candidate, 'Democratic') : 'Tie');
         return {
           item,
           totalVotes,
@@ -5796,8 +5836,9 @@ document.addEventListener('DOMContentLoaded', function() {
           repPct,
           otherPct,
           signedPct,
+          marginPctAbs,
           winnerMeta,
-          leadLabel,
+          winnerShort,
           shiftMeta,
           flip
         };
@@ -5806,87 +5847,76 @@ document.addEventListener('DOMContentLoaded', function() {
       const latest = annotated[annotated.length - 1];
       const closest = annotated.reduce((best, entry) => (!best || Math.abs(entry.signedPct) < Math.abs(best.signedPct) ? entry : best), null);
       const earliest = annotated[0];
-      const latestSummary = winnerMarginLabelShort(latest.repVotes, latest.demVotes, latest.totalVotes, latest.item.rep_candidate, latest.item.dem_candidate);
       const historyShift = describeTrendShift(latest.signedPct, earliest ? earliest.signedPct : NaN, earliest ? earliest.item.year : '');
 
-      let streakCount = 0;
-      for (let i = annotated.length - 1; i >= 0; i -= 1) {
-        if (annotated[i].winnerMeta.partyClass !== latest.winnerMeta.partyClass) break;
-        streakCount += 1;
-      }
-      const streakLabel = latest.winnerMeta.partyClass === 'tie'
-        ? 'Latest result was an even race.'
-        : `${latest.winnerMeta.partyClass === 'rep' ? 'Republican' : 'Democratic'} streak: ${streakCount} election${streakCount === 1 ? '' : 's'}.`;
+      const latestCall = latest.winnerMeta.partyClass === 'tie'
+        ? `${latest.item.year}: Tie`
+        : `${latest.item.year}: ${latest.winnerShort} +${latest.marginPctAbs.toFixed(2)}%`;
+      const closestCall = closest.winnerMeta.partyClass === 'tie'
+        ? `${closest.item.year}: Tie`
+        : `${closest.item.year}: ${closest.winnerShort} +${closest.marginPctAbs.toFixed(2)}%`;
 
-      const summaryBadges = [];
-      summaryBadges.push(`<span class="focus-trend-summary-badge ${latest.shiftMeta.cls}">${escapeHtml(latest.shiftMeta.text)}</span>`);
-      if (latest.flip && latest.flip.flipped) {
-        summaryBadges.push(`<span class="focus-trend-summary-badge ${latest.flip.to === 'R' ? 'rep' : 'dem'}">${escapeHtml(`Flip ${latest.flip.from}->${latest.flip.to}`)}</span>`);
-      }
-
-      const cards = annotated.slice().reverse().map(entry => {
-        const winnerLabel = entry.winnerMeta.partyClass === 'rep' ? 'Republican' : (entry.winnerMeta.partyClass === 'dem' ? 'Democratic' : 'Tie');
-        const totalVotesLabel = `${formatCompactVoteTotal(entry.totalVotes)} votes`;
-        const flipChip = entry.flip && entry.flip.flipped
-          ? `<span class="focus-trend-chip flip">${escapeHtml(`Flip ${entry.flip.from}->${entry.flip.to}`)}</span>`
-          : '';
-        const leadSummary = entry.leadLabel === 'Tie' ? 'Even race' : entry.leadLabel;
-        const otherChip = entry.otherPct >= 0.05
-          ? `<span class="focus-trend-chip">Other ${escapeHtml(entry.otherPct.toFixed(2))}%</span>`
-          : '';
-        return `
-          <div class="focus-trend-entry">
-            <span class="focus-trend-entry-year">${escapeHtml(entry.item.year)}</span>
-            <div class="focus-trend-entry-card" data-party="${entry.winnerMeta.partyClass}">
-              <div class="focus-trend-entry-head">
-                <div class="focus-trend-entry-copy">
-                  <span class="focus-trend-entry-badge ${entry.winnerMeta.partyClass}">${escapeHtml(winnerLabel)}</span>
-                  <span class="focus-trend-entry-call ${entry.winnerMeta.partyClass}">${escapeHtml(entry.winnerMeta.label)}</span>
+      const cards = annotated
+        .slice()
+        .reverse()
+        .map(entry => {
+          const winnerLabel = entry.winnerMeta.partyClass === 'rep'
+            ? 'Republican'
+            : (entry.winnerMeta.partyClass === 'dem' ? 'Democratic' : 'Tie');
+          const totalVotesLabel = `${formatCompactVoteTotal(entry.totalVotes)} votes`;
+          const flipChip = entry.flip && entry.flip.flipped
+            ? `<span class="focus-trend-chip flip">${escapeHtml(`Flip ${entry.flip.from}->${entry.flip.to}`)}</span>`
+            : '';
+          const otherChip = entry.otherPct >= 0.05
+            ? `<span class="focus-trend-chip">Other ${escapeHtml(entry.otherPct.toFixed(2))}%</span>`
+            : '';
+          const entryMargin = `${entry.marginPctAbs.toFixed(2)}%`;
+          return `
+            <div class="focus-trend-entry">
+              <span class="focus-trend-entry-year">${escapeHtml(entry.item.year)}</span>
+              <div class="focus-trend-entry-card" data-party="${entry.winnerMeta.partyClass}">
+                <div class="focus-trend-entry-head">
+                  <div class="focus-trend-entry-copy">
+                    <span class="focus-trend-entry-badge ${entry.winnerMeta.partyClass}">${escapeHtml(winnerLabel)}</span>
+                    <span class="focus-trend-entry-call ${entry.winnerMeta.partyClass}">${escapeHtml(entry.winnerMeta.label)}</span>
+                  </div>
+                  <span class="focus-trend-entry-margin">${escapeHtml(entryMargin)}</span>
                 </div>
-                <span class="focus-trend-entry-margin">${escapeHtml(leadSummary)}</span>
-              </div>
-              <div class="focus-trend-entry-scale">
-                <span class="dem">${escapeHtml(`${shortCandidateLabel(entry.item.dem_candidate, 'Dem')} ${entry.demPct.toFixed(2)}%`)}</span>
-                <span class="rep">${escapeHtml(`${shortCandidateLabel(entry.item.rep_candidate, 'Rep')} ${entry.repPct.toFixed(2)}%`)}</span>
-              </div>
-              <div class="focus-trend-entry-bar" aria-hidden="true">
-                <span style="width:${entry.demPct.toFixed(4)}%;background:#2563eb;"></span>
-                ${entry.otherVotes > 0 ? `<span style="width:${entry.otherPct.toFixed(4)}%;background:#64748b;"></span>` : ''}
-                <span style="width:${entry.repPct.toFixed(4)}%;background:#dc2626;"></span>
-              </div>
-              <div class="focus-trend-entry-footer">
-                <span class="focus-trend-chip">${escapeHtml(totalVotesLabel)}</span>
-                <span class="focus-trend-chip ${entry.shiftMeta.cls}">${escapeHtml(entry.shiftMeta.text)}</span>
-                ${otherChip}
-                ${flipChip}
+                <div class="focus-trend-entry-candidate-row">
+                  <span class="dem">${escapeHtml(`${shortCandidateLabel(entry.item.dem_candidate, 'Dem')} ${entry.demPct.toFixed(2)}%`)}</span>
+                  <span class="rep">${escapeHtml(`${shortCandidateLabel(entry.item.rep_candidate, 'Rep')} ${entry.repPct.toFixed(2)}%`)}</span>
+                </div>
+                <div class="focus-trend-entry-bar" aria-hidden="true">
+                  <span style="width:${entry.demPct.toFixed(4)}%;background:#2563eb;"></span>
+                  ${entry.otherVotes > 0 ? `<span style="width:${entry.otherPct.toFixed(4)}%;background:#64748b;"></span>` : ''}
+                  <span style="width:${entry.repPct.toFixed(4)}%;background:#dc2626;"></span>
+                </div>
+                <div class="focus-trend-entry-footer">
+                  <span class="focus-trend-chip">${escapeHtml(totalVotesLabel)}</span>
+                  <span class="focus-trend-chip ${entry.shiftMeta.cls}">${escapeHtml(entry.shiftMeta.text)}</span>
+                  ${otherChip}
+                  ${flipChip}
+                </div>
               </div>
             </div>
-          </div>
-        `;
-      }).join('');
+          `;
+        })
+        .join('');
 
       chartEl.innerHTML = `
         <div class="focus-trend-plot">
-          <div class="focus-trend-summary">
-            <div class="focus-trend-summary-copy">
-              <span class="focus-trend-summary-kicker">Trend at a glance</span>
-              <div class="focus-trend-summary-call">${escapeHtml(`${latest.item.year}: ${latestSummary}`)}</div>
-              <div class="focus-trend-summary-note">${escapeHtml(`Showing ${annotated.length} elections from ${earliest.item.year} to ${latest.item.year}. ${streakLabel}`)}</div>
+          <div class="focus-trend-stats focus-trend-stats-tight">
+            <div class="focus-trend-stat">
+              <span class="focus-trend-stat-label">Latest</span>
+              <span class="focus-trend-stat-value ${latest.winnerMeta.partyClass}">${escapeHtml(latestCall)}</span>
             </div>
-            <div class="focus-trend-summary-badges">${summaryBadges.join('')}</div>
-            <div class="focus-trend-stats">
-              <div class="focus-trend-stat">
-                <span class="focus-trend-stat-label">Latest</span>
-                <span class="focus-trend-stat-value ${latest.winnerMeta.partyClass}">${escapeHtml(`${latest.item.year}: ${latestSummary}`)}</span>
-              </div>
-              <div class="focus-trend-stat">
-                <span class="focus-trend-stat-label">Closest</span>
-                <span class="focus-trend-stat-value ${closest.winnerMeta.partyClass}">${escapeHtml(`${closest.item.year}: ${winnerMarginLabelShort(closest.repVotes, closest.demVotes, closest.totalVotes, closest.item.rep_candidate, closest.item.dem_candidate)}`)}</span>
-              </div>
-              <div class="focus-trend-stat">
-                <span class="focus-trend-stat-label">Since ${escapeHtml(earliest.item.year)}</span>
-                <span class="focus-trend-stat-value ${historyShift.cls}">${escapeHtml(historyShift.text)}</span>
-              </div>
+            <div class="focus-trend-stat">
+              <span class="focus-trend-stat-label">Closest</span>
+              <span class="focus-trend-stat-value ${closest.winnerMeta.partyClass}">${escapeHtml(closestCall)}</span>
+            </div>
+            <div class="focus-trend-stat focus-trend-stat-since">
+              <span class="focus-trend-stat-label">Since ${escapeHtml(earliest.item.year)}</span>
+              <span class="focus-trend-stat-value ${historyShift.cls}">${escapeHtml(historyShift.text)}</span>
             </div>
           </div>
         </div>

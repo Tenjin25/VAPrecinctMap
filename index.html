@@ -2446,6 +2446,68 @@ body { height: var(--app-height); }
       grid-template-columns: 1fr;
     }
 
+    .focus-trend-stat {
+      padding: 10px 11px;
+      border-radius: 14px;
+    }
+
+    .focus-trend-stat-value {
+      font-size: 13px;
+    }
+
+    .focus-trend-entry {
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .focus-trend-entry::after {
+      left: 28px;
+      top: 34px;
+      bottom: -10px;
+    }
+
+    .focus-trend-entry-year {
+      min-height: 34px;
+      padding: 0 10px;
+      font-size: 11px;
+    }
+
+    .focus-trend-entry-card {
+      padding: 12px;
+      border-radius: 16px;
+      gap: 9px;
+    }
+
+    .focus-trend-entry-badge {
+      min-height: 24px;
+      padding: 0 8px;
+      font-size: 10px;
+    }
+
+    .focus-trend-entry-call {
+      font-size: 13px;
+    }
+
+    .focus-trend-entry-margin {
+      min-height: 24px;
+      padding: 0 8px;
+      font-size: 10px;
+    }
+
+    .focus-trend-entry-candidate-row {
+      font-size: 10px;
+    }
+
+    .focus-trend-entry-bar {
+      height: 8px;
+    }
+
+    .focus-trend-chip {
+      min-height: 24px;
+      padding: 0 8px;
+      font-size: 10px;
+    }
+
     .focus-pill-total {
       grid-column: 1 / -1;
     }
@@ -2892,10 +2954,10 @@ body { height: var(--app-height); }
   }
 
   .focus-trend-plot {
-    padding: 12px;
-    border-radius: 16px;
-    border: 1px solid rgba(148, 163, 184, 0.16);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 250, 252, 0.94) 100%);
+    padding: 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(148, 163, 184, 0.20);
+    background: linear-gradient(180deg, rgba(243, 244, 246, 0.96) 0%, rgba(237, 242, 247, 0.94) 100%);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
   }
 
@@ -2988,10 +3050,10 @@ body { height: var(--app-height); }
   .focus-trend-stat {
     display: grid;
     gap: 4px;
-    padding: 10px 11px;
-    border-radius: 14px;
-    border: 1px solid rgba(148, 163, 184, 0.16);
-    background: rgba(255, 255, 255, 0.86);
+    padding: 13px 14px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(148, 163, 184, 0.20);
+    background: rgba(248, 250, 252, 0.96);
   }
 
   .focus-trend-stat-since {
@@ -2999,7 +3061,7 @@ body { height: var(--app-height); }
   }
 
   .focus-trend-stat-label {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -3007,9 +3069,9 @@ body { height: var(--app-height); }
   }
 
   .focus-trend-stat-value {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 900;
-    line-height: 1.3;
+    line-height: 1.25;
     color: #0f172a;
   }
 
@@ -3027,7 +3089,7 @@ body { height: var(--app-height); }
 
   .focus-trend-list {
     display: grid;
-    gap: 10px;
+    gap: 12px;
     max-height: min(42vh, 360px);
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -3038,17 +3100,17 @@ body { height: var(--app-height); }
   .focus-trend-entry {
     position: relative;
     display: grid;
-    grid-template-columns: 58px minmax(0, 1fr);
-    gap: 12px;
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 14px;
     align-items: start;
   }
 
   .focus-trend-entry::after {
     content: '';
     position: absolute;
-    left: 28px;
-    top: 34px;
-    bottom: -10px;
+    left: 35px;
+    top: 42px;
+    bottom: -12px;
     width: 2px;
     border-radius: 999px;
     background: linear-gradient(180deg, rgba(148, 163, 184, 0.42) 0%, rgba(226, 232, 240, 0.18) 100%);
@@ -3064,13 +3126,13 @@ body { height: var(--app-height); }
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 34px;
-    padding: 0 10px;
+    min-height: 44px;
+    padding: 0 13px;
     border-radius: 999px;
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background: rgba(241, 245, 249, 0.96);
     color: #475569;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -3078,10 +3140,10 @@ body { height: var(--app-height); }
 
   .focus-trend-entry-card {
     display: grid;
-    gap: 9px;
-    padding: 12px;
-    border-radius: 16px;
-    border: 1px solid rgba(148, 163, 184, 0.16);
+    gap: 10px;
+    padding: 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
     background: rgba(248, 250, 252, 0.92);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
   }
@@ -3111,13 +3173,13 @@ body { height: var(--app-height); }
     display: inline-flex;
     align-items: center;
     width: fit-content;
-    min-height: 24px;
-    padding: 0 8px;
+    min-height: 30px;
+    padding: 0 12px;
     border-radius: 999px;
     border: 1px solid rgba(148, 163, 184, 0.16);
     background: rgba(255, 255, 255, 0.84);
     color: #475569;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -3135,9 +3197,9 @@ body { height: var(--app-height); }
   }
 
   .focus-trend-entry-call {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 900;
-    line-height: 1.3;
+    line-height: 1.2;
     color: #0f172a;
     word-break: break-word;
   }
@@ -3157,12 +3219,12 @@ body { height: var(--app-height); }
   .focus-trend-entry-margin {
     display: inline-flex;
     align-items: center;
-    min-height: 24px;
-    padding: 0 8px;
+    min-height: 30px;
+    padding: 0 12px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.86);
     color: #0f172a;
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 800;
     line-height: 1.2;
     white-space: nowrap;
@@ -3174,7 +3236,7 @@ body { height: var(--app-height); }
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 800;
     line-height: 1.2;
   }
@@ -3210,7 +3272,7 @@ body { height: var(--app-height); }
   .focus-trend-entry-bar {
     display: flex;
     width: 100%;
-    height: 8px;
+    height: 10px;
     border-radius: 999px;
     overflow: hidden;
     background: rgba(226, 232, 240, 0.92);
@@ -3231,13 +3293,13 @@ body { height: var(--app-height); }
   .focus-trend-chip {
     display: inline-flex;
     align-items: center;
-    min-height: 24px;
+    min-height: 30px;
     max-width: 100%;
-    padding: 0 8px;
+    padding: 0 12px;
     border-radius: 999px;
     background: rgba(241, 245, 249, 0.94);
     color: #475569;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 800;
     line-height: 1.2;
     border: 1px solid rgba(148, 163, 184, 0.14);
@@ -3483,6 +3545,48 @@ body { height: var(--app-height); }
 
     .focus-trend-stats-tight {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .focus-trend-entry {
+      grid-template-columns: 64px minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .focus-trend-entry::after {
+      left: 31px;
+      top: 38px;
+      bottom: -10px;
+    }
+
+    .focus-trend-entry-year {
+      min-height: 38px;
+      padding: 0 11px;
+      font-size: 12px;
+    }
+
+    .focus-trend-entry-card {
+      padding: 12px;
+      border-radius: 18px;
+    }
+
+    .focus-trend-entry-call {
+      font-size: 14px;
+    }
+
+    .focus-trend-entry-margin {
+      min-height: 26px;
+      padding: 0 10px;
+      font-size: 11px;
+    }
+
+    .focus-trend-entry-candidate-row {
+      font-size: 11px;
+    }
+
+    .focus-trend-chip {
+      min-height: 26px;
+      padding: 0 10px;
+      font-size: 11px;
     }
 
     .focus-bar-label {
@@ -5659,10 +5763,19 @@ document.addEventListener('DOMContentLoaded', function() {
       const repPct = (r / total) * 100;
       const otherPct = (o / total) * 100;
       const winnerParty = repPct > demPct ? 'rep' : (demPct > repPct ? 'dem' : 'tie');
+      const isDesktopWinnerLabel = (() => {
+        try { return !!(window.matchMedia && window.matchMedia('(min-width: 769px)').matches); } catch (_) { return false; }
+      })();
+      const repWinnerName = isDesktopWinnerLabel
+        ? ((counterMeta.repCandidate || '').toString().trim() || 'Republican')
+        : shortCandidateLabel(counterMeta.repCandidate, 'Rep');
+      const demWinnerName = isDesktopWinnerLabel
+        ? ((counterMeta.demCandidate || '').toString().trim() || 'Democratic')
+        : shortCandidateLabel(counterMeta.demCandidate, 'Dem');
       const winnerLabel = winnerParty === 'rep'
-        ? `${shortCandidateLabel(counterMeta.repCandidate, 'Rep')} (R)`
+        ? `${repWinnerName} (R)`
         : (winnerParty === 'dem'
-          ? `${shortCandidateLabel(counterMeta.demCandidate, 'Dem')} (D)`
+          ? `${demWinnerName} (D)`
           : 'Tie');
 
       winnerEl.textContent = winnerLabel;

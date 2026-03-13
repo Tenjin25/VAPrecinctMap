@@ -4515,6 +4515,52 @@ body { height: var(--app-height); }
     border: 1px solid rgba(148, 163, 184, 0.18);
   }
 
+  .vote-counter-row {
+    min-width: 0;
+  }
+
+  .vote-item {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .vote-item-head {
+    min-width: 0;
+  }
+
+  .vote-count {
+    min-width: 0;
+    max-width: 100%;
+    font-size: clamp(14px, 1.25vw, 20px);
+    line-height: 1.15;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .statewide-card,
+  .statewide-breakdown,
+  .statewide-breakdown-item,
+  .statewide-footer-row,
+  .statewide-stat {
+    min-width: 0;
+  }
+
+  .statewide-breakdown-value,
+  .statewide-breakdown-value span,
+  .statewide-stat strong {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .statewide-breakdown-value {
+    font-size: clamp(14px, 1.15vw, 16px);
+    line-height: 1.2;
+  }
+
   .focus-trend-list {
     max-height: min(42vh, 360px);
     overflow-y: auto;
@@ -4816,7 +4862,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <summary>Search</summary>
           <div style="margin-top: 10px;">
             <label for="county-search" style="font-weight:600;">Find</label>
-            <input type="text" id="county-search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg City 101" autocomplete="off" spellcheck="false" inputmode="search" />
+            <input type="text" id="county-search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, City of Lynchburg 101" autocomplete="off" spellcheck="false" inputmode="search" />
             <div style="margin-top:6px;font-size:12px;color:#64748b;">
               Tips: use <span style="font-weight:700;">VA-10</span> for Congress, <span style="font-weight:700;">VA HD-57</span> for House, <span style="font-weight:700;">VA SD-31</span> for Senate.
             </div>
@@ -4866,7 +4912,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label for="fly-to-search">Fly to</label>
                 <div class="fly-to-search-wrap">
                   <div class="fly-to-search-field">
-                    <input id="fly-to-search" class="fly-to-search" type="search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg City 101" autocomplete="off" spellcheck="false" inputmode="search" />
+                    <input id="fly-to-search" class="fly-to-search" type="search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, City of Lynchburg 101" autocomplete="off" spellcheck="false" inputmode="search" />
                   </div>
                   <button id="fly-to-submit" class="fly-to-submit" type="button">Go</button>
                 </div>
@@ -4876,7 +4922,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <button class="fly-to-chip" type="button" data-query="VA-10">VA-10</button>
                   <button class="fly-to-chip" type="button" data-query="VA HD-57">VA HD-57</button>
                   <button class="fly-to-chip" type="button" data-query="VA SD-31">VA SD-31</button>
-                  <button class="fly-to-chip" type="button" data-query="Lynchburg City 101">Lynchburg City 101</button>
+                  <button class="fly-to-chip" type="button" data-query="City of Lynchburg 101">City of Lynchburg 101</button>
                 </div>
             </div>
             <div class="control-summary" id="control-summary">
@@ -7816,12 +7862,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const cityOfMatch = s.match(/^City of\s+(.+)$/i);
       if (cityOfMatch) {
-        return `${toTitleCaseName(cityOfMatch[1].trim())} City`;
+        return `City of ${toTitleCaseName(cityOfMatch[1].trim())}`;
       }
 
       const cityMatch = s.match(/^(.+?)\s+City$/i);
       if (cityMatch) {
-        return `${toTitleCaseName(cityMatch[1].trim())} City`;
+        return `City of ${toTitleCaseName(cityMatch[1].trim())}`;
       }
 
       const countyMatch = s.match(/^(.+?)\s+County$/i);
@@ -7830,7 +7876,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const titled = toTitleCaseName(s);
-      if (VA_INDEPENDENT_CITIES.has(titled.toUpperCase())) return `${titled} City`;
+      if (VA_INDEPENDENT_CITIES.has(titled.toUpperCase())) return `City of ${titled}`;
       return `${titled} County`;
     }
 

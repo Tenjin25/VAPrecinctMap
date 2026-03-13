@@ -4276,6 +4276,259 @@ body { height: var(--app-height); }
       right: 24px !important;
     }
   }
+
+  /* NCMap Parity Overrides (latest) */
+  .main-controls {
+    overflow: hidden;
+    border-radius: 24px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.94) 100%);
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.18);
+  }
+
+  .main-controls::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2563eb 0%, #38bdf8 28%, #14b8a6 60%, #f97316 100%);
+    opacity: 0.88;
+    pointer-events: none;
+  }
+
+  .controls-header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    gap: 12px;
+    align-items: flex-start;
+    padding-bottom: 10px;
+    margin-bottom: 2px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(14px);
+  }
+
+  .controls-kicker {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.06);
+    color: #334155;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .controls-title-pill,
+  .controls-header h3 {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 36px;
+    margin: 0;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(37, 99, 235, 0.9) 100%);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 14px 30px rgba(37, 99, 235, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    color: #f8fafc !important;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  .controls-title-pill::before,
+  .controls-header h3::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #38bdf8 0%, #bfdbfe 100%);
+    box-shadow: 0 0 0 4px rgba(191, 219, 254, 0.12);
+    flex: 0 0 auto;
+  }
+
+  .main-controls .control-group {
+    margin-bottom: 0;
+    padding: 13px 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 250, 252, 0.82) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76);
+  }
+
+  .control-summary {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.97) 0%, rgba(30, 41, 59, 0.93) 100%);
+    color: #f8fafc;
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.2);
+  }
+
+  .view-toggle-row {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px !important;
+    padding: 6px;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.05);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+  }
+
+  .view-toggle-btn {
+    min-height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.76);
+    color: #334155;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: none;
+  }
+
+  .view-toggle-btn.active {
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    color: #fff;
+    box-shadow: 0 12px 22px rgba(15, 23, 42, 0.16);
+  }
+
+  .viz-modes,
+  .viz-modes-inline {
+    background: rgba(248, 250, 252, 0.94);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+  }
+
+  .viz-mode-btn {
+    color: #475569;
+    font-weight: 800;
+  }
+
+  .viz-mode-btn.active {
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
+  }
+
+  #contestSearch,
+  #contestSelect {
+    border-radius: 14px !important;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  }
+
+  .legend {
+    overflow: hidden;
+    border-radius: 20px;
+    background: rgba(248, 250, 252, 0.92);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+  }
+
+  .legend::before {
+    content: '';
+    display: block;
+    height: 4px;
+    background: linear-gradient(90deg, #dc2626 0%, #f8fafc 50%, #2563eb 100%);
+    opacity: 0.9;
+  }
+
+  .legend-header {
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px 12px;
+    border-bottom: none;
+    background: rgba(248, 250, 252, 0.96);
+  }
+
+  .legend-content {
+    display: grid;
+    gap: 12px;
+    padding: 0 16px 14px;
+  }
+
+  .legend-item {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    color: #334155;
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .legend-color {
+    width: 18px;
+    height: 18px;
+    margin-right: 0;
+    border-radius: 6px;
+  }
+
+  .vote-counter {
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.18);
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+  }
+
+  .vote-counter::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2563eb 0%, #cbd5e1 50%, #dc2626 100%);
+  }
+
+  .vote-counter-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.98) 0%, rgba(241, 245, 249, 0.92) 100%);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+  }
+
+  @media (min-width: 769px) {
+    .desktop-statewide-panel {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: linear-gradient(180deg, rgba(248, 250, 252, 0.98) 0%, rgba(241, 245, 249, 0.94) 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    }
+
+    .desktop-statewide-panel .statewide-call {
+      font-size: clamp(30px, 2.4vw, 38px);
+    }
+  }
+
     </style>
 </head>
 <body>
@@ -4592,7 +4845,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="controls-header" style="display:flex;align-items:center;justify-content:space-between;">
             <div class="controls-heading">
               <span class="controls-kicker">The Commonwealth Explorer</span>
-              <h3>Virginia Elections</h3>
+              <h3 class="controls-title-pill">Virginia Elections</h3>
             </div>
             <div class="controls-actions">
               <button id="help-btn" title="Help" type="button">?</button>

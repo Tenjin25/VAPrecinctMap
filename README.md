@@ -63,6 +63,8 @@ Open `index.html` directly in any modern browser or serve it from any static HTT
 | **Winner labeling** | Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`), while statewide headline keeps short labels |
 | **NCMap parity styling** | Right-rail controls, legend, and vote counter surfaces are aligned with the latest `NCMap.html` layout language |
 | **County search** | Free-text search with fly-to animation using turf bbox |
+| **Search alias handling** | Independent-city queries accept both `City of ...` and `... City` forms (for example, `City of Lynchburg 101` and `Lynchburg City 101`) |
+| **Vote-card overflow fallback** | Top-right vote tiles auto-switch to stacked card layout when labels/counts overflow, preventing truncation of large totals |
 | **Mobile-first layout** | iOS safe-area insets, stable viewport units (`svh`/`dvh`), touch-friendly controls, bottom-sheet legend |
 | **Minimizable panels** | Controls, legend, and the top-right results panel can be collapsed to free map space |
 
@@ -523,6 +525,12 @@ The entire front end lives in `index.html` — a single self-contained file with
 - Panels (controls, legend) are repositioned to top-sheet and bottom-sheet cards on screens ≤ 768 px.
 - Android Chrome receives separate inset adjustments via `VisualViewport` API events.
 
+**Vote counter layout safeguards:**
+
+- The top-right vote breakdown uses tabular numerals and constrained card geometry to keep totals visually aligned.
+- A runtime overflow check measures each vote tile (`label`, `count`, and header width). When overflow is detected, the tile gets a `layout-stacked` class so text wraps instead of clipping.
+- Overflow checks run after counter animations complete, on viewport resize, and after candidate-label updates.
+
 ---
 
 ## Setup & Running the Data Pipeline
@@ -626,6 +634,8 @@ Standard library only (`csv`, `json`, `re`, `zipfile`, `argparse`, `collections`
 - Restored vertical scrolling for county results/trends by re-enabling vote-counter and trend-list overflow behavior after the parity styling pass.
 - Hardened statewide result value layout to prevent vote-total and percentage overflow in compact right-rail cards.
 - Matched the top vote-counter totals row sizing to `NCMap.html` and tuned vote-card spacing/type scale to prevent large totals (for example, `2,335,395`) from clipping.
+- Added NC-style vote-card overflow fallback (`layout-stacked`) plus resize/animation re-measurement so large top-row totals no longer truncate mid-number.
+- Clarified independent-city search behavior: UI examples can show `... City`, and fly-to matching still accepts both `City of ...` and `... City` aliases.
 - Added targeted correction script `scripts/fix_cd01_president_2024_totals.py` to apply exact CD-01/CD-02 2024 presidential totals across overrides and district outputs.
 
 ---

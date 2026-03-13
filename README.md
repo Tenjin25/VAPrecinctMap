@@ -61,9 +61,10 @@ Open `index.html` directly in any modern browser or serve it from any static HTT
 | **Hover tooltip** | Shows locality/district quick results; tap/click holds tooltip and `Close` dismisses it (no pin/unpin control) |
 | **Focus trend panel** | NC-style trend layout in the vote counter with `Latest`, `Closest`, `Since`, and per-year timeline cards |
 | **Winner labeling** | Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`), while statewide headline keeps short labels |
+| **NCMap parity styling** | Right-rail controls, legend, and vote counter surfaces are aligned with the latest `NCMap.html` layout language |
 | **County search** | Free-text search with fly-to animation using turf bbox |
 | **Mobile-first layout** | iOS safe-area insets, stable viewport units (`svh`/`dvh`), touch-friendly controls, bottom-sheet legend |
-| **Minimizable panels** | Controls and legend panels can be collapsed to free map space |
+| **Minimizable panels** | Controls, legend, and the top-right results panel can be collapsed to free map space |
 
 ---
 
@@ -619,6 +620,12 @@ Standard library only (`csv`, `json`, `re`, `zipfile`, `argparse`, `collections`
 - Updated winner labeling behavior:
   - Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`).
   - Statewide top call keeps short labels (for example, `Trump +2.50`).
+- Added a dedicated minimize toggle to the top-right results panel (vote counter), matching the NC interaction pattern.
+- Sanitized district/congressional winner labels so placeholder values do not render as `D (D)` / `R (R)`.
+- Synced right-rail card/surface styling in `index.html` to the latest `NCMap.html` baseline for controls, legend, and results/trend containers.
+- Restored vertical scrolling for county results/trends by re-enabling vote-counter and trend-list overflow behavior after the parity styling pass.
+- Hardened statewide result value layout to prevent vote-total and percentage overflow in compact right-rail cards.
+- Matched the top vote-counter totals row sizing to `NCMap.html` and tuned vote-card spacing/type scale to prevent large totals (for example, `2,335,395`) from clipping.
 - Added targeted correction script `scripts/fix_cd01_president_2024_totals.py` to apply exact CD-01/CD-02 2024 presidential totals across overrides and district outputs.
 
 ---

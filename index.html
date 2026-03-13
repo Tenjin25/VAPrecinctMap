@@ -4494,22 +4494,25 @@ body { height: var(--app-height); }
   }
 
   .vote-counter-row {
+    gap: 8px;
     min-width: 0;
   }
 
   .vote-item {
     min-width: 0;
+    padding: 9px;
     overflow: hidden;
   }
 
   .vote-item-head {
     min-width: 0;
+    overflow: hidden;
   }
 
   .vote-count {
-    min-width: 0;
+    min-width: 64px;
     max-width: 100%;
-    font-size: clamp(14px, 1.25vw, 20px);
+    font-size: clamp(11px, 1.35vw, 20px);
     line-height: 1.15;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;

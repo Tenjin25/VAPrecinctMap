@@ -4494,22 +4494,39 @@ body { height: var(--app-height); }
   }
 
   .vote-counter-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
     min-width: 0;
   }
 
   .vote-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) fit-content(120px);
+    grid-template-areas:
+      "head count"
+      "percent percent"
+      "track track";
+    column-gap: 8px;
+    row-gap: 6px;
     min-width: 0;
     padding: 9px;
     overflow: hidden;
   }
 
   .vote-item-head {
+    grid-area: head;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     min-width: 0;
     overflow: hidden;
   }
 
   .vote-count {
+    grid-area: count;
+    justify-self: end;
+    text-align: right;
     min-width: 64px;
     max-width: 100%;
     font-size: clamp(11px, 1.35vw, 20px);
@@ -4518,6 +4535,78 @@ body { height: var(--app-height); }
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .vote-label {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .vote-label.candidate {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .vote-percent {
+    grid-area: percent;
+  }
+
+  .vote-share-track {
+    grid-area: track;
+  }
+
+  /* Safe fallback: if one-line layout overflows, JS adds .layout-stacked per card. */
+  .vote-item.layout-stacked {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .vote-item.layout-stacked .vote-item-head {
+    overflow: visible;
+  }
+
+  .vote-item.layout-stacked .vote-count {
+    min-width: 0;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    text-align: left;
+  }
+
+  .vote-item.layout-stacked .vote-label.candidate {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  @media (max-width: 768px) {
+    .vote-counter-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .vote-item {
+      padding: 9px 10px;
+    }
+
+    .vote-count {
+      min-width: 0;
+      font-size: 18px;
+    }
+
+    .vote-item.other {
+      grid-column: 1 / -1;
+    }
   }
 
   .statewide-card,
@@ -6055,9 +6144,20 @@ document.addEventListener('DOMContentLoaded', function() {
       const demLabelEl = document.getElementById('dem-label');
       const repLabelEl = document.getElementById('rep-label');
       const otherLabelEl = document.getElementById('other-label');
-      if (demLabelEl) demLabelEl.textContent = shortCandidateLabel(counterMeta.demCandidate, 'Dem');
-      if (repLabelEl) repLabelEl.textContent = shortCandidateLabel(counterMeta.repCandidate, 'Rep');
-      if (otherLabelEl) otherLabelEl.textContent = counterMeta.otherLabel || 'Other';
+      const demLabel = shortCandidateLabel(counterMeta.demCandidate, 'Dem');
+      const repLabel = shortCandidateLabel(counterMeta.repCandidate, 'Rep');
+      if (demLabelEl) {
+        demLabelEl.textContent = demLabel;
+        demLabelEl.classList.toggle('candidate', demLabel !== 'Dem');
+      }
+      if (repLabelEl) {
+        repLabelEl.textContent = repLabel;
+        repLabelEl.classList.toggle('candidate', repLabel !== 'Rep');
+      }
+      if (otherLabelEl) {
+        otherLabelEl.textContent = counterMeta.otherLabel || 'Other';
+        otherLabelEl.classList.remove('candidate');
+      }
       const flipEl = document.getElementById('vote-context-flip');
       if (flipEl) {
         const flipText = (counterMeta.flipText || '').toString().trim();
@@ -6094,6 +6194,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       updateVoteCounterSummary(demVotes, repVotes, otherVotes, counterMeta);
+      queueVoteBreakdownLayoutMeasure();
       
       showVoteCounter();
     }
@@ -6464,6 +6565,39 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
+    let voteBreakdownLayoutRaf = null;
+
+    function applyVoteBreakdownLineLayout() {
+      const row = document.querySelector('.vote-counter-row');
+      if (!row) return;
+      const items = row.querySelectorAll('.vote-item');
+      if (!items || !items.length) return;
+
+      items.forEach(item => {
+        item.classList.remove('layout-stacked');
+        const head = item.querySelector('.vote-item-head');
+        const label = item.querySelector('.vote-label');
+        const count = item.querySelector('.vote-count');
+        if (!head || !label || !count) return;
+
+        const headOverflow = head.scrollWidth > (head.clientWidth + 1);
+        const labelOverflow = label.scrollWidth > (label.clientWidth + 1);
+        const countOverflow = count.scrollWidth > (count.clientWidth + 1);
+        if (headOverflow || labelOverflow || countOverflow) {
+          item.classList.add('layout-stacked');
+        }
+      });
+    }
+
+    function queueVoteBreakdownLayoutMeasure() {
+      if (voteBreakdownLayoutRaf) return;
+      voteBreakdownLayoutRaf = requestAnimationFrame(() => {
+        voteBreakdownLayoutRaf = null;
+        applyVoteBreakdownLineLayout();
+        requestAnimationFrame(() => applyVoteBreakdownLineLayout());
+      });
+    }
+
     function animateCounter(id, targetValue) {
       const element = document.getElementById(id);
       if (!element) return;
@@ -6486,6 +6620,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (progress < 1) {
           requestAnimationFrame(update);
+        } else {
+          queueVoteBreakdownLayoutMeasure();
         }
       }
       
@@ -6540,6 +6676,8 @@ document.addEventListener('DOMContentLoaded', function() {
           toggleVoteCounterPanel();
         });
       }
+      window.addEventListener('resize', queueVoteBreakdownLayoutMeasure, { passive: true });
+      queueVoteBreakdownLayoutMeasure();
     });
 
     async function loadJSON(path) {

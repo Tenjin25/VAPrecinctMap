@@ -191,9 +191,11 @@
           const root = document.documentElement;
           const ua = navigator.userAgent || '';
           const isAndroid = /Android/i.test(ua);
+          const isVivaldi = /\bVivaldi\b/i.test(ua);
           const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
           root.classList.toggle('android-device', isAndroid);
           root.classList.toggle('android-mobile', isAndroid && isMobile);
+          root.classList.toggle('browser-vivaldi', isVivaldi);
         } catch (_) {}
       }
 
@@ -281,6 +283,19 @@
       var detailsDiv = document.getElementById('county-details');
       var contentEl = document.getElementById('county-info-content');
       var statusExit = document.getElementById('status-exit');
+
+      function prioritizeContestControl() {
+        try {
+          const controlsContent = document.getElementById('controls-content');
+          const contestGroup = controlsContent ? controlsContent.querySelector('.control-group-contest') : null;
+          if (!controlsContent || !contestGroup) return;
+          if (controlsContent.firstElementChild !== contestGroup) {
+            controlsContent.insertBefore(contestGroup, controlsContent.firstElementChild);
+          }
+        } catch (_) {}
+      }
+
+      prioritizeContestControl();
 
       if (!SIDEBAR_ENABLED) {
         if (sidebar) sidebar.style.display = 'none';
@@ -4654,6 +4669,34 @@ body { height: var(--app-height); }
     }
   }
 
+  .controls-content > .control-group-contest {
+    order: -20;
+  }
+
+  /* Vivaldi compatibility: reduce compositor-heavy effects and avoid clipped scroll gutters. */
+  html.browser-vivaldi .main-controls,
+  html.browser-vivaldi .legend,
+  html.browser-vivaldi .vote-counter,
+  html.browser-vivaldi #status-panel,
+  html.browser-vivaldi .controls-header,
+  html.browser-vivaldi .legend-header,
+  html.browser-vivaldi .hover-tooltip,
+  html.browser-vivaldi .modal-backdrop,
+  html.browser-vivaldi .modal-head {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  html.browser-vivaldi .main-controls {
+    overflow: visible !important;
+  }
+
+  html.browser-vivaldi .controls-content {
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+    scrollbar-gutter: auto !important;
+  }
+
     </style>
 </head>
 <body>
@@ -5037,7 +5080,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button class="viz-mode-btn" data-mode="flips" type="button"><span>Flips</span></button>
               </div>
             </div>
-            <div class="control-group">
+            <div class="control-group control-group-contest">
                 <label class="control-section-label" for="contestSelect">Contest</label>
                 <div class="contest-toolbar" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                   <button id="accessibility-toggle" title="Accessibility: Color Blind Mode" style="background:#1f2937;color:#fff;border-radius:50%;width:32px;height:32px;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.10);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;">&#9855;</button>

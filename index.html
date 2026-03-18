@@ -5076,7 +5076,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="view-toggle-row" style="display:flex;gap:6px;flex-wrap:wrap;">
                   <button id="counties-view" class="view-toggle-btn active" onclick="setMapView('counties')">Counties</button>
                   <button id="districts-view" class="view-toggle-btn" onclick="setMapView('districts')">Congress</button>
-                  <button id="state-house-view" class="view-toggle-btn" onclick="setMapView('state_house')">State House</button>
+                  <button id="state-house-view" class="view-toggle-btn" onclick="setMapView('state_house')">House of Delegates (HoD)</button>
                   <button id="state-senate-view" class="view-toggle-btn" onclick="setMapView('state_senate')">State Senate</button>
                 </div>
             </div>
@@ -5424,7 +5424,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const labels = {
         counties: 'Counties',
         districts: 'Congress',
-        state_house: 'State House',
+        state_house: 'House of Delegates (HoD)',
         state_senate: 'State Senate',
         vtds_2000: '2000 Precincts'
       };
@@ -6543,7 +6543,7 @@ document.addEventListener('DOMContentLoaded', function() {
         : (meta.kind === 'district'
           ? (meta.scope === 'congressional'
             ? `Congressional District ${meta.districtNum}`
-            : (meta.scope === 'state_house' ? `State House District ${meta.districtNum}` : `State Senate District ${meta.districtNum}`))
+            : (meta.scope === 'state_house' ? `House of Delegates District ${meta.districtNum}` : `State Senate District ${meta.districtNum}`))
           : (meta.kind === 'precinct'
             ? `${meta.precinct || 'Precinct'} history`
             : 'Statewide history'));
@@ -7207,7 +7207,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        'treasurer': 'Treasurer',
 	        'us_house': 'US House',
 	        'state_senate': 'State Senate',
-	        'state_house': 'State House'
+	        'state_house': 'House of Delegates (HoD)'
 	      };
 
 	      if (contestType.startsWith('a') && contestType.length <= 3) {
@@ -7865,7 +7865,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const titles = {
         'counties': 'County Analysis',
         'districts': 'Congressional District Analysis', 
-        'state_house': 'State House District Analysis',
+        'state_house': 'House of Delegates District Analysis',
         'state_senate': 'State Senate District Analysis',
         'vtds_2000': '2000 Precinct Analysis'
       };
@@ -8772,7 +8772,7 @@ document.addEventListener('DOMContentLoaded', function() {
       } else if (layerName === 'district-fill') {
         await renderDistrictHover(evt, 'congressional', 'Congressional District', ['DISTRICT', 'CD119FP', 'CD118FP', 'district_id', 'district', 'NAMELSAD']);
       } else if (layerName === 'state-house-fill') {
-        await renderDistrictHover(evt, 'state_house', 'State House District', ['DISTRICT', 'SLDLST', 'district_id', 'district', 'NAMELSAD']);
+        await renderDistrictHover(evt, 'state_house', 'House of Delegates District', ['DISTRICT', 'SLDLST', 'district_id', 'district', 'NAMELSAD']);
       } else if (layerName === 'state-senate-fill') {
         await renderDistrictHover(evt, 'state_senate', 'State Senate District', ['DISTRICT', 'SLDUST', 'district_id', 'district', 'NAMELSAD']);
       }
@@ -10057,7 +10057,7 @@ document.addEventListener('DOMContentLoaded', function() {
           paint: { 'line-color': 'rgba(15, 23, 42, 0.55)', 'line-width': 3, 'line-opacity': 0.95 }
         });
         
-        // Add click handler for state house districts with full trends popup
+        // Add click handler for House of Delegates districts with full trends popup
         map.on('click', 'state-house-fill', async (e) => {
           if (e.features && e.features[0] && e.features[0].properties) {
             const props = e.features[0].properties;
@@ -10071,11 +10071,11 @@ document.addEventListener('DOMContentLoaded', function() {
               }).catch(() => {});
               // Show detailed sidebar (results + trends).
               showStateDistrictDetails(districtNum, 'house');
-              lastSelectedCounty = `State House District ${districtNum}`;
+              lastSelectedCounty = `House of Delegates District ${districtNum}`;
 
               const contestValue = document.getElementById('contestSelect')?.value || '';
               if (contestValue) {
-                pinDistrictSelectionVoteCounter('state_house', districtNum, `State House District ${districtNum}`).catch(() => {});
+                pinDistrictSelectionVoteCounter('state_house', districtNum, `House of Delegates District ${districtNum}`).catch(() => {});
               }
 
               setDistrictHoverOutline('state_house', districtNum);
@@ -10380,7 +10380,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       if (parsed.kind === 'hd') {
         await setMapViewForSearch('state_house');
-        await handleDistrictSelection(parsed.num, 'state-house', 'house', 'State House District');
+        await handleDistrictSelection(parsed.num, 'state-house', 'house', 'House of Delegates District');
         return;
       }
       if (parsed.kind === 'sd') {
@@ -10429,7 +10429,7 @@ document.addEventListener('DOMContentLoaded', function() {
         : (sourceId === 'state-house' ? 'state_house' : 'state_senate');
       const selectionTitle = sourceId === 'districts'
         ? `Congressional District ${districtNum}`
-        : (sourceId === 'state-house' ? `State House District ${districtNum}` : `State Senate District ${districtNum}`);
+        : (sourceId === 'state-house' ? `House of Delegates District ${districtNum}` : `State Senate District ${districtNum}`);
       pinDistrictSelectionVoteCounter(scope, districtNum, selectionTitle).catch(() => {});
       const match = await focusDistrictGeometry(districtNum, sourceId, { duration: 900, useSearchFit: true });
       if (!match) {
@@ -10593,7 +10593,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getHistoricalTrends(countyName, isDistrict = false, districtNum = null) {
       const presidentialYears = [2024, 2020, 2016, 2012, 2008];
-      const stateHouseYears = [2024, 2022, 2020, 2018, 2016]; // Recent state house elections
+      const stateHouseYears = [2024, 2022, 2020, 2018, 2016]; // Recent House of Delegates elections
       // VA governor elections align with odd-year cycles (e.g., 2017, 2021, 2025).
       const governorYears = [2024, 2020, 2016, 2012, 2008];
       const trends = [];
@@ -10628,7 +10628,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
       } else {
-        // For counties, show both presidential and recent state house trends
+        // For counties, show both presidential and recent House of Delegates trends
         
         // Presidential trends
         presidentialYears.forEach(year => {
@@ -10670,13 +10670,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (trends.length > 0) {
           trends.push({
             year: 0,
-            display: '--- State House ---',
+            display: '--- House of Delegates (HoD) ---',
             margin: 0,
             type: 'separator'
           });
         }
         
-        // State House trends (recent years only)
+        // House of Delegates trends (recent years only)
         // Governor trends (recent years only)
         governorYears.forEach(year => {
           const data = electionData.find(row => 
@@ -10961,7 +10961,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const nameEl = document.getElementById('county-name');
       const contentEl = document.getElementById('county-info-content');
       
-      const title = chamber === 'house' ? `State House District ${districtNum}` : `State Senate District ${districtNum}`;
+      const title = chamber === 'house' ? `House of Delegates District ${districtNum}` : `State Senate District ${districtNum}`;
       nameEl.textContent = title;
       
       // Get district info from appropriate CSV
@@ -10994,7 +10994,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // This is complex without a county-to-district mapping, so show general message
           electionInfo = `
             <div style="margin-bottom: 16px;">
-              <h5>${year} ${chamber === 'house' ? 'State House' : 'State Senate'}</h5>
+              <h5>${year} ${chamber === 'house' ? 'House of Delegates (HoD)' : 'State Senate'}</h5>
               <p style="color: #666; font-style: italic;">District-level results require county-to-district mapping. 
               Click to see general trends for this contest type.</p>
             </div>
@@ -11225,7 +11225,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const contentEl = document.getElementById('county-info-content');
       if (!detailsDiv || !nameEl || !contentEl) return;
 
-      const title = chamber === 'house' ? `State House District ${districtNum}` : `State Senate District ${districtNum}`;
+      const title = chamber === 'house' ? `House of Delegates District ${districtNum}` : `State Senate District ${districtNum}`;
       window.lastSelectedCounty = title;
       nameEl.textContent = title;
 
@@ -11407,7 +11407,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>`;
         }
       } else if (type === 'house') {
-        displayName = `State House District ${districtNum}`;
+        displayName = `House of Delegates District ${districtNum}`;
       } else if (type === 'senate') {
         displayName = `State Senate District ${districtNum}`;
       }
@@ -11530,7 +11530,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-          setStatus('Loading state house districts...');
+          setStatus('Loading House of Delegates districts...');
           if (CONFIG.tilesets?.enabled && CONFIG.tilesets?.sources?.state_house?.url) {
             map.addSource('state-house', { type: 'vector', url: CONFIG.tilesets.sources.state_house.url });
           } else {

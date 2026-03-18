@@ -1,150 +1,151 @@
-{
-  "meta": {
-    "scope": "congressional",
-    "contest_type": "president",
-    "year": 2020,
-    "district_count": 11,
-    "input_votes": 4460524,
-    "matched_votes": 4460524,
-    "direct_matched_votes": 1627921,
-    "allocated_votes": 2832603,
-    "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 36.49618295967021
-  },
-  "general": {
-    "results": {
-      "1": {
-        "dem_votes": 211925,
-        "rep_votes": 242779,
-        "other_votes": 8450,
-        "total_votes": 463154,
-        "dem_candidate": "Joseph Robinette Biden, Jr",
-        "rep_candidate": "Donald J. Trump",
-        "winner": "Republican",
-        "margin": 30854,
-        "margin_pct": 6.66171510987706,
-        "color": "#fb6a4a"
-      },
-      "10": {
-        "dem_votes": 237184,
-        "rep_votes": 163589,
-        "other_votes": 8091,
-        "total_votes": 408864,
-        "dem_candidate": "Joseph Robinette Biden, Jr",
-        "rep_candidate": "Donald J. Trump",
-        "winner": "Democratic",
-        "margin": 73595,
-        "margin_pct": -17.999872818345462,
-        "color": "#6baed6"
-      },
-      "11": {
-        "dem_votes": 285472,
-        "rep_votes": 117750,
-        "other_votes": 8713,
-        "total_votes": 411935,
-        "dem_candidate": "Joseph Robinette Biden, Jr",
-        "rep_candidate": "Donald J. Trump",
-        "winner": "Democratic",
-        "margin": 167722,
-        "margin_pct": -40.715646886037845,
-        "color": "#08306b"
-      },
-      "2": {
-        "dem_votes": 201284,
-        "rep_votes": 193231,
-        "other_votes": 8124,
-        "total_votes": 402639,
-        "dem_candidate": "Joseph Robinette Biden, Jr",
-        "rep_candidate": "Donald J. Trump",
-        "winner": "Democratic",
-        "margin": 8053,
-        "margin_pct": -2.0000546395157945,
-        "color": "#c6dbef"
-      },
-      "3": {
-        "dem_votes": 230371,
-        "rep_votes": 102957,
-        "other_votes": 7024,
-        "total_votes": 340352,
-        "dem_candidate": "Joseph Robinette Biden, Jr",
-        "rep_candidate": "Donald J. Trump",
-        "winner": "Democratic",
-        "margin": 127414,
-        "margin_pct": -37.43594866491162,
-        "color": "#08519c"
-      },
-      "4": {
-        "dem_votes": 257544,
-        "rep_votes": 127922,
-        "other_votes": 6481,
-        "total_votes": 391947,
-        "dem_candidate": "Joseph Robinette Biden, Jr",
-        "rep_candidate": "Donald J. Trump",
-        "winner": "Democratic",
-        "margin": 129622,
-        "margin_pct": -33.071308110535355,
-        "color": "#08519c"
-      },
-      "5": {
-        "dem_votes": 195780,
-        "rep_votes": 231557,
-        "other_votes": 7660,
-        "total_votes": 434997,
-        "dem_candidate": "Joseph Robinette Biden, Jr",
-        "rep_candidate": "Donald J. Trump",
-        "winner": "Republican",
-        "margin": 35777,
-        "margin_pct": 8.224654422904067,
-        "color": "#fb6a4a"
-      },
-      "6": {
-        "dem_votes": 152490,
-        "rep_votes": 240169,
-        "other_votes": 7778,
-        "total_votes": 400437,
-        "dem_candidate": "Joseph Robinette Biden, Jr",
-        "rep_candidate": "Donald J. Trump",
-        "winner": "Republican",
-        "margin": 87679,
-        "margin_pct": 21.895828807028323,
-        "color": "#cb181d"
-      },
-      "7": {
-        "dem_votes": 208077,
-        "rep_votes": 180351,
-        "other_votes": 7660,
-        "total_votes": 396088,
-        "dem_candidate": "Joseph Robinette Biden, Jr",
-        "rep_candidate": "Donald J. Trump",
-        "winner": "Democratic",
-        "margin": 27726,
-        "margin_pct": -6.999959604936276,
-        "color": "#9ecae1"
-      },
-      "8": {
-        "dem_votes": 313462,
-        "rep_votes": 87791,
-        "other_votes": 8710,
-        "total_votes": 409963,
-        "dem_candidate": "Joseph Robinette Biden, Jr",
-        "rep_candidate": "Donald J. Trump",
-        "winner": "Democratic",
-        "margin": 225671,
-        "margin_pct": -55.04667494383639,
-        "color": "#08306b"
-      },
-      "9": {
-        "dem_votes": 112936,
-        "rep_votes": 281377,
-        "other_votes": 5834,
-        "total_votes": 400147,
-        "dem_candidate": "Joseph Robinette Biden, Jr",
-        "rep_candidate": "Donald J. Trump",
-        "winner": "Republican",
-        "margin": 168441,
-        "margin_pct": 42.09478016828815,
-        "color": "#67000d"
-      }
-    }
-  }
+﻿{
+    "meta":  {
+                 "scope":  "congressional",
+                 "contest_type":  "president",
+                 "year":  2020,
+                 "district_count":  11,
+                 "input_votes":  4460524,
+                 "matched_votes":  4460524,
+                 "direct_matched_votes":  1627921,
+                 "allocated_votes":  2832603,
+                 "match_coverage_pct":  100.0,
+                 "direct_match_coverage_pct":  36.49618295967021
+             },
+    "general":  {
+                    "results":  {
+                                    "1":  {
+                                              "dem_votes":  211846,
+                                              "rep_votes":  242693,
+                                              "other_votes":  8615,
+                                              "total_votes":  463154,
+                                              "dem_candidate":  "Joseph Robinette Biden, Jr",
+                                              "rep_candidate":  "Donald J. Trump",
+                                              "winner":  "Republican",
+                                              "margin":  30847,
+                                              "margin_pct":  6.6600000000000046,
+                                              "color":  "#fb6a4a"
+                                          },
+                                    "10":  {
+                                               "dem_votes":  237182,
+                                               "rep_votes":  163586,
+                                               "other_votes":  8096,
+                                               "total_votes":  408864,
+                                               "dem_candidate":  "Joseph Robinette Biden, Jr",
+                                               "rep_candidate":  "Donald J. Trump",
+                                               "winner":  "Democratic",
+                                               "margin":  73596,
+                                               "margin_pct":  -17.999999999999993,
+                                               "color":  "#6baed6"
+                                           },
+                                    "11":  {
+                                               "dem_votes":  286088,
+                                               "rep_votes":  117196,
+                                               "other_votes":  8651,
+                                               "total_votes":  411935,
+                                               "dem_candidate":  "Joseph Robinette Biden, Jr",
+                                               "rep_candidate":  "Donald J. Trump",
+                                               "winner":  "Democratic",
+                                               "margin":  168892,
+                                               "margin_pct":  -41,
+                                               "color":  "#08306b"
+                                           },
+                                    "2":  {
+                                              "dem_votes":  201359,
+                                              "rep_votes":  193146,
+                                              "other_votes":  8134,
+                                              "total_votes":  402639,
+                                              "dem_candidate":  "Joseph Robinette Biden, Jr",
+                                              "rep_candidate":  "Donald J. Trump",
+                                              "winner":  "Democratic",
+                                              "margin":  8213,
+                                              "margin_pct":  -2.0399999999999974,
+                                              "color":  "#c6dbef"
+                                          },
+                                    "3":  {
+                                              "dem_votes":  231439,
+                                              "rep_votes":  101901,
+                                              "other_votes":  7012,
+                                              "total_votes":  340352,
+                                              "dem_candidate":  "Joseph Robinette Biden, Jr",
+                                              "rep_candidate":  "Donald J. Trump",
+                                              "winner":  "Democratic",
+                                              "margin":  129538,
+                                              "margin_pct":  -38.06,
+                                              "color":  "#08519c"
+                                          },
+                                    "4":  {
+                                              "dem_votes":  262800,
+                                              "rep_votes":  122836,
+                                              "other_votes":  6311,
+                                              "total_votes":  391947,
+                                              "dem_candidate":  "Joseph Robinette Biden, Jr",
+                                              "rep_candidate":  "Donald J. Trump",
+                                              "winner":  "Democratic",
+                                              "margin":  139964,
+                                              "margin_pct":  -35.709999999999994,
+                                              "color":  "#08519c"
+                                          },
+                                    "5":  {
+                                              "dem_votes":  195748,
+                                              "rep_votes":  231593,
+                                              "other_votes":  7656,
+                                              "total_votes":  434997,
+                                              "dem_candidate":  "Joseph Robinette Biden, Jr",
+                                              "rep_candidate":  "Donald J. Trump",
+                                              "winner":  "Republican",
+                                              "margin":  35845,
+                                              "margin_pct":  8.240000000000002,
+                                              "color":  "#fb6a4a"
+                                          },
+                                    "6":  {
+                                              "dem_votes":  152070,
+                                              "rep_votes":  240559,
+                                              "other_votes":  7808,
+                                              "total_votes":  400437,
+                                              "dem_candidate":  "Joseph Robinette Biden, Jr",
+                                              "rep_candidate":  "Donald J. Trump",
+                                              "winner":  "Republican",
+                                              "margin":  88489,
+                                              "margin_pct":  22.0977902209779,
+                                              "color":  "#cb181d"
+                                          },
+                                    "7":  {
+                                              "dem_votes":  207550,
+                                              "rep_votes":  180893,
+                                              "other_votes":  7645,
+                                              "total_votes":  396088,
+                                              "dem_candidate":  "Joseph Robinette Biden, Jr",
+                                              "rep_candidate":  "Donald J. Trump",
+                                              "winner":  "Democratic",
+                                              "margin":  26657,
+                                              "margin_pct":  -6.7300000000000022,
+                                              "color":  "#9ecae1"
+                                          },
+                                    "8":  {
+                                              "dem_votes":  314605,
+                                              "rep_votes":  86584,
+                                              "other_votes":  8774,
+                                              "total_votes":  409963,
+                                              "dem_candidate":  "Joseph Robinette Biden, Jr",
+                                              "rep_candidate":  "Donald J. Trump",
+                                              "winner":  "Democratic",
+                                              "margin":  228021,
+                                              "margin_pct":  -55.620000000000005,
+                                              "color":  "#08306b"
+                                          },
+                                    "9":  {
+                                              "dem_votes":  113361,
+                                              "rep_votes":  280983,
+                                              "other_votes":  5803,
+                                              "total_votes":  400147,
+                                              "dem_candidate":  "Joseph Robinette Biden, Jr",
+                                              "rep_candidate":  "Donald J. Trump",
+                                              "winner":  "Republican",
+                                              "margin":  167622,
+                                              "margin_pct":  41.890000000000008,
+                                              "color":  "#67000d"
+                                          }
+                                }
+                }
 }
+

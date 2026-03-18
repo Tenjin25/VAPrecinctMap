@@ -5125,6 +5125,12 @@ body { height: var(--app-height); }
     scrollbar-gutter: auto !important;
   }
 
+  /* Keep full NC-style legend accessible on shorter viewports. */
+  .legend-content {
+    overflow: auto;
+    min-height: 0;
+  }
+
     </style>
 </head>
 <body>

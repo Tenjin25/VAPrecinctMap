@@ -36,7 +36,7 @@ An interactive, browser-based choropleth map of Virginia election results at the
 Virginia holds elections on a distinct off-year cycle (gubernatorial and state legislative races in odd years, federal races in even years), and its 133 independent cities alongside 95 counties create one of the more complex local-government geographies in the United States.  This project assembles precinct-level election returns from 2008 through 2025 into a single interactive map that lets users:
 
 - Switch between **five election contests** (President, U.S. Senate, Governor, Lieutenant Governor, Attorney General) across **multiple years**
-- View results simultaneously at the **county**, **precinct**, **congressional district**, **state-house district**, and **state-senate district** level
+- View results simultaneously at the **county**, **precinct**, **congressional district**, **House of Delegates (HoD) district**, and **state-senate district** level
 - See an 11-shade Democratic/Republican margin color ramp that conveys both *partisan direction* and *landslide intensity* in a single glance
 - Click or tap any geographic unit for a popup showing vote totals, candidate names, winner, and margin percentage
 - Search for any Virginia county or independent city and fly directly to it
@@ -57,7 +57,7 @@ Open `index.html` directly in any modern browser or serve it from any static HTT
 | **Spatial utilities** | Turf.js 6.5.0 (bounding-box fit, coordinate helpers) |
 | **CSV parsing** | PapaParse 5.4.1 (used for any runtime CSV loading) |
 | **Contest selector** | Dropdowns for contest type and year; manifest-driven so new contests appear automatically |
-| **Map views** | County fill, precinct outline overlay, congressional district, state-house district, state-senate district |
+| **Map views** | County fill, precinct outline overlay, congressional district, House of Delegates (HoD) district, state-senate district |
 | **Hover tooltip** | Shows locality/district quick results; tap/click holds tooltip and `Close` dismisses it (no pin/unpin control) |
 | **Focus trend panel** | NC-style trend layout in the vote counter with `Latest`, `Closest`, `Since`, and per-year timeline cards |
 | **Winner labeling** | Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`), while statewide headline keeps short labels |
@@ -134,7 +134,7 @@ Additional utility scripts currently in `scripts/`:
 | `tl_2020_51_county20.zip` | Virginia county and independent-city polygons | 2020 |
 | `tl_2020_51_tabblock20.zip` | Census 2020 tabulation blocks (used to build precincts) | 2020 |
 | `tl_2020_51_vtd20.zip` | Voting Tabulation Districts (VTD 2020) used for centroids | 2020 |
-| `tl_2022_51_sldl.zip` | State House (lower chamber) district boundaries | 2022 redistricting |
+| `tl_2022_51_sldl.zip` | House of Delegates (HoD, lower chamber) district boundaries | 2022 redistricting |
 | `tl_2022_51_sldu.zip` | State Senate (upper chamber) district boundaries | 2022 redistricting |
 | `tl_2024_51_cd119.zip` | 119th Congress (2023–2025) congressional district boundaries | 2024 |
 
@@ -142,7 +142,7 @@ Additional utility scripts currently in `scripts/`:
 
 | File | Contents |
 |---|---|
-| `BlockAssign_ST51_VA.zip` | Census block-to-VTD assignment table (`BlockAssign_ST51_VA_VTD.txt`, pipe-delimited); also contains congressional, state-house, and state-senate district assignments |
+| `BlockAssign_ST51_VA.zip` | Census block-to-VTD assignment table (`BlockAssign_ST51_VA_VTD.txt`, pipe-delimited); also contains congressional, House of Delegates, and state-senate district assignments |
 
 ---
 
@@ -348,7 +348,7 @@ python scripts/build_va_district_contests_from_crosswalks.py \
     [--precinct-geojson Data/va_precincts.geojson]
 ```
 
-This is the most complex script.  It answers: *"How did each congressional / state-house / state-senate district vote in each statewide election?"*
+This is the most complex script.  It answers: *"How did each congressional / House of Delegates / state-senate district vote in each statewide election?"*
 
 Because statewide election results are reported by precinct (not by legislative district), votes must be **apportioned** from precincts into districts.
 
@@ -369,22 +369,22 @@ Some precincts in certain counties produce systematically poor area-share matche
 | County | Scope | Blend factor |
 |---|---|---|
 | Chesapeake City | Congressional | 0.55 |
-| Stafford County | State House | 1.00 |
+| Stafford County | House of Delegates (HoD) | 1.00 |
 | Chesterfield County | State Senate | 0.95 |
 | Montgomery County | State Senate | 0.70 |
 | Roanoke County | State Senate | 0.70 |
 | Roanoke City | State Senate | 0.70 |
 | Salem City | State Senate | 0.70 |
 
-The default global blend for congressional districts is 0.35; for state-house and state-senate districts it is 0.15.
+The default global blend for congressional districts is 0.35; for House of Delegates and state-senate districts it is 0.15.
 
 #### Direct district contests (2023, 2025)
 
-For contests that are *themselves* legislative-district races (state House of Delegates 2023/2025, state Senate 2023), the office name encodes the district number directly (e.g., `Member, House of Delegates (13th District)`).  These are extracted via regex and aggregated without any geographic apportionment.
+For contests that are *themselves* legislative-district races (Virginia House of Delegates 2023/2025, state Senate 2023), the office name encodes the district number directly (e.g., `Member, House of Delegates (13th District)`).  These are extracted via regex and aggregated without any geographic apportionment.
 
 #### Output
 
-One JSON file is written per `(scope, contest_type, year)` triple into `Data/district_contests/`, using the naming convention `<scope>_<contest_type>_<year>.json` where scope is one of `congressional`, `state_house`, or `state_senate`.  A `manifest.json` index is also written.
+One JSON file is written per `(scope, contest_type, year)` triple into `Data/district_contests/`, using the naming convention `<scope>_<contest_type>_<year>.json` where the scope key is one of `congressional`, `state_house` (House of Delegates), or `state_senate`.  A `manifest.json` index is also written.
 
 #### Targeted district-result correction workflow
 
@@ -513,7 +513,7 @@ The entire front end lives in `index.html` — a single self-contained file with
 | County GeoJSON | Fill + line | County choropleth base, hover state |
 | Precinct GeoJSON | Fill + line | Precinct-level overlay (toggled) |
 | Congressional GeoJSON | Fill + line | Congressional district choropleth |
-| SLDL GeoJSON | Fill + line | State House district choropleth |
+| SLDL GeoJSON | Fill + line | House of Delegates district choropleth |
 | SLDU GeoJSON | Fill + line | State Senate district choropleth |
 | Precinct centroids GeoJSON | Circle / symbol | Precinct dot mode at low zoom |
 

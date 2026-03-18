@@ -2638,10 +2638,188 @@ body { height: var(--app-height); }
   }
 
   .legend-footer {
-    padding: 0 16px 16px;
+    padding: 10px 16px 16px;
+    border-top: 1px solid rgba(148, 163, 184, 0.16);
     color: #64748b;
     font-size: 12px;
     line-height: 1.45;
+  }
+
+  .legend-scale-shell {
+    display: grid;
+    gap: 10px;
+  }
+
+  .legend-spectrum {
+    display: grid;
+    gap: 2px;
+    height: 18px;
+    padding: 2px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.20);
+    background: rgba(255, 255, 255, 0.88);
+    overflow: hidden;
+  }
+
+  .legend-spectrum.margins {
+    grid-template-columns: repeat(15, minmax(0, 1fr));
+  }
+
+  .legend-spectrum.shift {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .legend-segment.legend-color {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    margin-right: 0;
+  }
+
+  .legend-spectrum .legend-segment:first-child {
+    border-radius: 999px 0 0 999px;
+  }
+
+  .legend-spectrum .legend-segment:last-child {
+    border-radius: 0 999px 999px 0;
+  }
+
+  .legend-axis {
+    display: grid;
+    gap: 8px;
+    align-items: start;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .legend-axis.margins {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .legend-axis.shift {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .legend-axis span {
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .legend-axis span:first-child {
+    text-align: left;
+  }
+
+  .legend-axis span:last-child {
+    text-align: right;
+  }
+
+  .legend-axis .rep {
+    color: #b91c1c;
+  }
+
+  .legend-axis .dem {
+    color: #1d4ed8;
+  }
+
+  .legend-scale-caption {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .legend-scale-caption span {
+    font-size: 11px;
+    font-weight: 700;
+    color: #475569;
+    line-height: 1.35;
+  }
+
+  .legend-scale-caption span:first-child {
+    text-align: left;
+  }
+
+  .legend-scale-caption span:nth-child(2) {
+    text-align: center;
+  }
+
+  .legend-scale-caption span:last-child {
+    text-align: right;
+  }
+
+  .legend-scale-caption .rep {
+    color: #b91c1c;
+  }
+
+  .legend-scale-caption .dem {
+    color: #1d4ed8;
+  }
+
+  .legend-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .legend-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: rgba(248, 250, 252, 0.96);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .legend-swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
+  }
+
+  .legend-swatch-card {
+    display: grid;
+    grid-template-columns: 16px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    color: #334155;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .legend-swatch-card .legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 5px;
+  }
+
+  .legend.minimized .legend-content,
+  .legend.minimized .legend-footer {
+    display: none !important;
+  }
+
+  .legend.minimized .legend-kicker,
+  .legend.minimized .legend-subtitle,
+  .legend.minimized .legend-badge {
+    display: none;
+  }
+
+  .legend.minimized .legend-header {
+    align-items: center;
+    padding: 14px 16px;
   }
 
   .vote-counter {
@@ -5126,25 +5304,53 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <div class="legend-header-actions">
               <span class="legend-badge" id="legend-badge">Margins</span>
-              <button class="minimize-btn" onclick="toggleLegend()" id="legend-minimize-btn">-</button>
+              <button class="minimize-btn" onclick="toggleLegend()" id="legend-minimize-btn" title="Minimize legend">-</button>
             </div>
         </div>
         <div class="legend-content" id="legend-content">
-            <div class="legend-item"><div class="legend-color" style="background: #67000d;"></div>Annihilation Republican (&ge;40.00%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #a50f15;"></div>Dominant Republican (30.00-39.99%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #cb181d;"></div>Stronghold Republican (20.00-29.99%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #ef3b2c;"></div>Safe Republican (10.00-19.99%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #fb6a4a;"></div>Likely Republican (5.50-9.99%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #fcae91;"></div>Lean Republican (1.00-5.49%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #fee8c8;"></div>Tilt Republican (0.50-0.99%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #f7f7f7; border: 1px solid rgba(15,23,42,0.35);"></div>Tossup (<0.50%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #e1f5fe;"></div>Tilt Democratic (0.50-0.99%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #c6dbef;"></div>Lean Democratic (1.00-5.49%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #9ecae1;"></div>Likely Democratic (5.50-9.99%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #6baed6;"></div>Safe Democratic (10.00-19.99%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #3182bd;"></div>Stronghold Democratic (20.00-29.99%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #08519c;"></div>Dominant Democratic (30.00-39.99%)</div>
-            <div class="legend-item"><div class="legend-color" style="background: #08306b;"></div>Annihilation Democratic (&ge;40.00%)</div>
+            <div class="legend-scale-shell">
+              <div class="legend-spectrum margins">
+                <span class="legend-segment legend-color" style="background: #67000d;"></span>
+                <span class="legend-segment legend-color" style="background: #a50f15;"></span>
+                <span class="legend-segment legend-color" style="background: #cb181d;"></span>
+                <span class="legend-segment legend-color" style="background: #ef3b2c;"></span>
+                <span class="legend-segment legend-color" style="background: #fb6a4a;"></span>
+                <span class="legend-segment legend-color" style="background: #fcae91;"></span>
+                <span class="legend-segment legend-color" style="background: #fee8c8;"></span>
+                <span class="legend-segment legend-color" style="background: #f7f7f7; border-left: 1px solid rgba(15,23,42,0.12); border-right: 1px solid rgba(15,23,42,0.12);"></span>
+                <span class="legend-segment legend-color" style="background: #e1f5fe;"></span>
+                <span class="legend-segment legend-color" style="background: #c6dbef;"></span>
+                <span class="legend-segment legend-color" style="background: #9ecae1;"></span>
+                <span class="legend-segment legend-color" style="background: #6baed6;"></span>
+                <span class="legend-segment legend-color" style="background: #3182bd;"></span>
+                <span class="legend-segment legend-color" style="background: #08519c;"></span>
+                <span class="legend-segment legend-color" style="background: #08306b;"></span>
+              </div>
+              <div class="legend-scale-caption">
+                <span class="rep">Stronger Republican</span>
+                <span>Tossup</span>
+                <span class="dem">Stronger Democratic</span>
+              </div>
+              <div class="legend-axis margins">
+                <span class="rep">R +40</span>
+                <span class="rep">R +10</span>
+                <span class="rep">R +1</span>
+                <span>Tie</span>
+                <span class="dem">D +1</span>
+                <span class="dem">D +10</span>
+                <span class="dem">D +40</span>
+              </div>
+              <div class="legend-chip-row">
+                <span class="legend-chip">Annihilation 40+</span>
+                <span class="legend-chip">Dominant 30+</span>
+                <span class="legend-chip">Stronghold 20+</span>
+                <span class="legend-chip">Safe 10+</span>
+                <span class="legend-chip">Likely 5.5+</span>
+                <span class="legend-chip">Lean 1+</span>
+                <span class="legend-chip">Tilt 0.5+</span>
+                <span class="legend-chip">Tossup &lt;0.5</span>
+              </div>
+            </div>
         </div>
         <div class="legend-footer" id="legend-footer">Darker shades indicate larger two-party leads in the current contest.</div>
     </div>
@@ -5840,6 +6046,102 @@ document.addEventListener('DOMContentLoaded', function() {
       saveUIState();
     }
 
+    function buildLegendSpectrum(colors, className) {
+      return `
+        <div class="legend-spectrum ${className}">
+          ${colors.map(color => `<span class="legend-segment legend-color" style="background: ${color};"></span>`).join('')}
+        </div>
+      `;
+    }
+
+    function buildMarginsLegendHTML() {
+      const colors = [
+        '#67000d', '#a50f15', '#cb181d', '#ef3b2c', '#fb6a4a', '#fcae91', '#fee8c8',
+        '#f7f7f7',
+        '#e1f5fe', '#c6dbef', '#9ecae1', '#6baed6', '#3182bd', '#08519c', '#08306b'
+      ];
+      return `
+        <div class="legend-scale-shell">
+          ${buildLegendSpectrum(colors, 'margins')}
+          <div class="legend-scale-caption">
+            <span class="rep">Stronger Republican</span>
+            <span>Tossup</span>
+            <span class="dem">Stronger Democratic</span>
+          </div>
+          <div class="legend-axis margins">
+            <span class="rep">R +40</span>
+            <span class="rep">R +10</span>
+            <span class="rep">R +1</span>
+            <span>Tie</span>
+            <span class="dem">D +1</span>
+            <span class="dem">D +10</span>
+            <span class="dem">D +40</span>
+          </div>
+          <div class="legend-chip-row">
+            <span class="legend-chip">Annihilation 40+</span>
+            <span class="legend-chip">Dominant 30+</span>
+            <span class="legend-chip">Stronghold 20+</span>
+            <span class="legend-chip">Safe 10+</span>
+            <span class="legend-chip">Likely 5.5+</span>
+            <span class="legend-chip">Lean 1+</span>
+            <span class="legend-chip">Tilt 0.5+</span>
+            <span class="legend-chip">Tossup &lt;0.5</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function buildWinnersLegendHTML() {
+      return `
+        <div class="legend-swatch-grid">
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForWinnerMode('D')};"></span><span>Democratic win</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForWinnerMode('R')};"></span><span>Republican win</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForWinnerMode('T')}; border: 1px solid rgba(15,23,42,0.18);"></span><span>Tie or no data</span></div>
+        </div>
+      `;
+    }
+
+    function buildFlipsLegendHTML() {
+      return `
+        <div class="legend-swatch-grid">
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForFlipMode('D')};"></span><span>Flip to Democratic</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForFlipMode('R')};"></span><span>Flip to Republican</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForFlipMode('T')}; border: 1px solid rgba(15,23,42,0.18);"></span><span>No flip or no prior</span></div>
+        </div>
+      `;
+    }
+
+    function buildShiftLegendHTML() {
+      const colors = [
+        colorForShiftMode(-15),
+        colorForShiftMode(-10),
+        colorForShiftMode(-5),
+        colorForShiftMode(0),
+        colorForShiftMode(5),
+        colorForShiftMode(10),
+        colorForShiftMode(15)
+      ];
+      return `
+        <div class="legend-scale-shell">
+          ${buildLegendSpectrum(colors, 'shift')}
+          <div class="legend-scale-caption">
+            <span class="dem">Toward Democrats</span>
+            <span>No change</span>
+            <span class="rep">Toward Republicans</span>
+          </div>
+          <div class="legend-axis shift">
+            <span class="dem">D +15</span>
+            <span class="dem">D +10</span>
+            <span class="dem">D +5</span>
+            <span>0</span>
+            <span class="rep">R +5</span>
+            <span class="rep">R +10</span>
+            <span class="rep">R +15</span>
+          </div>
+        </div>
+      `;
+    }
+
     function renderLegendForVizMode(mode, meta = {}) {
       const legend = document.getElementById('legend');
       const header = legend ? legend.querySelector('.legend-header h4') : null;
@@ -5848,63 +6150,39 @@ document.addEventListener('DOMContentLoaded', function() {
       const footer = document.getElementById('legend-footer');
       const content = document.getElementById('legend-content');
       if (!content) return;
-      if (!content.dataset.marginsHtml) content.dataset.marginsHtml = content.innerHTML;
+      if (!content.dataset.marginsHtml) content.dataset.marginsHtml = buildMarginsLegendHTML();
 
       if (mode === 'winners') {
         if (header) header.textContent = 'Winners';
         if (subtitle) subtitle.textContent = 'Each geography is shaded by the party currently ahead in the selected contest.';
         if (badge) badge.textContent = 'Winners';
         if (footer) footer.textContent = 'Gray indicates a tie or missing data.';
-        content.innerHTML = `
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForWinnerMode('D')};"></div>Democratic</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForWinnerMode('R')};"></div>Republican</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForWinnerMode('T')};"></div>Tie / No data</div>
-        `;
+        content.innerHTML = buildWinnersLegendHTML();
       } else if (mode === 'flips') {
         if (header) header.textContent = 'Flips';
         if (subtitle) subtitle.textContent = 'Highlights places that switched parties compared with the prior comparable election.';
         if (badge) badge.textContent = 'Flips';
         if (footer) footer.textContent = 'Neutral areas either did not flip or do not have a usable prior result.';
-        content.innerHTML = `
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForFlipMode('D')};"></div>Flip to Democratic</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForFlipMode('R')};"></div>Flip to Republican</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForFlipMode('T')}; border: 1px solid rgba(15,23,42,0.20);"></div>No flip / No prior</div>
-        `;
+        content.innerHTML = buildFlipsLegendHTML();
       } else if (mode === 'shift') {
-        const a = meta?.fromYear ? `${meta.fromYear} -> ${meta.toYear || ''}`.trim() : 'Shift';
-        if (header) header.textContent = meta?.fromYear ? `Shift (${a})` : 'Shift';
+        const shiftRange = meta?.fromYear ? `${meta.fromYear}-${meta.toYear || 'current'}` : 'Shift';
+        if (header) header.textContent = meta?.fromYear ? `Shift (${shiftRange})` : 'Shift';
         if (subtitle) {
           subtitle.textContent = meta?.fromYear
             ? `Shows the change in two-party margin from ${meta.fromYear} to ${meta.toYear || 'the current contest'}.`
             : 'Shows the change in two-party margin relative to the prior comparable election.';
         }
-        if (badge) badge.textContent = meta?.fromYear ? `${meta.fromYear}-${meta.toYear || ''}`.replace(/-$/, '') : 'Shift';
+        if (badge) badge.textContent = meta?.fromYear ? shiftRange : 'Shift';
         if (footer) footer.textContent = 'Blue means movement toward Democrats; red means movement toward Republicans.';
-        if (header) {
-          const shiftHeader = meta?.fromYear
-            ? `Shift (${meta.fromYear} to ${meta.toYear || ''})`.replace(/\s+to\s*\)$/, ')')
-            : 'Shift';
-          header.textContent = shiftHeader;
-        }
-        content.innerHTML = `
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(-15)};"></div>D+15%</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(-10)};"></div>D+10%</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(-5)};"></div>D+5%</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(0)}; border: 1px solid rgba(15,23,42,0.20);"></div>No change</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(5)};"></div>R+5%</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(10)};"></div>R+10%</div>
-          <div class="legend-item"><div class="legend-color" style="background: ${colorForShiftMode(15)};"></div>R+15%</div>
-        `;
+        content.innerHTML = buildShiftLegendHTML();
       } else {
-        // margins (default)
         if (header) header.textContent = 'Political Categories';
-        if (subtitle) subtitle.textContent = 'Two-party margin buckets for the selected contest.';
+        if (subtitle) subtitle.textContent = 'A compact spectrum from strongest Republican to strongest Democratic performance.';
         if (badge) badge.textContent = 'Margins';
-        if (footer) footer.textContent = 'Darker shades indicate larger two-party leads in the current contest.';
+        if (footer) footer.textContent = 'Read left to right: stronger Republican, tossup, then stronger Democratic.';
         content.innerHTML = content.dataset.marginsHtml;
       }
 
-      // If legend recoloring is available (colorblind toggle), re-apply it.
       if (typeof window.updateLegendColors === 'function') {
         window.updateLegendColors();
       }

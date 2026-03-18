@@ -6041,7 +6041,10 @@ document.addEventListener('DOMContentLoaded', function() {
           flipMeta = buildVoteCounterFlipMeta(Number(prevRow.margin_pct || 0), curSigned, prevCached?.prevYear || null, Number(year));
         }
       } catch (_) {}
-      pinVoteCounterState(`Selected: ${title}`, `${formatContestName(contestType, year)} ${year}`, demVotes, repVotes, otherVotes, buildVoteCounterCandidateMeta(contestType, year, {
+      const selectionTitle = scope === 'state_house'
+        ? `House of Delegates #${districtNum}`
+        : (title || `District ${districtNum}`);
+      pinVoteCounterState(`Selected: ${selectionTitle}`, `${formatContestName(contestType, year)} ${year}`, demVotes, repVotes, otherVotes, buildVoteCounterCandidateMeta(contestType, year, {
         demCandidate: row.dem_candidate || '',
         repCandidate: row.rep_candidate || '',
         flipText: flipMeta.flipText,

@@ -4422,11 +4422,52 @@ body { height: var(--app-height); }
     }
 
     .legend {
+      position: fixed;
       left: auto;
-      right: 24px;
-      bottom: 24px;
-      width: min(340px, calc(100vw - 560px));
-      max-height: calc(100vh - var(--desktop-counter-bottom, 20px) - var(--desktop-right-stack-gap, 40px) - 24px);
+      right: 20px;
+      bottom: 20px;
+      width: min(var(--desktop-left-w), calc(100vw - 40px));
+      min-width: 250px;
+      max-width: min(var(--desktop-left-w), calc(100vw - 40px));
+      max-height: min(44vh, 420px);
+      overflow-y: auto;
+    }
+
+    .legend-header {
+      padding: 14px 18px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .legend-content {
+      padding: 14px 18px;
+    }
+
+    .legend-item {
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: normal;
+      white-space: normal;
+    }
+
+    .legend.minimized {
+      width: auto;
+      left: auto;
+      right: 20px;
+      max-width: calc(100vw - 40px);
+      max-height: none;
+      overflow: visible;
+    }
+
+    .legend.minimized .legend-header {
+      position: relative;
+      top: auto;
+    }
+
+    .legend.minimized .legend-header,
+    .main-controls.minimized {
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
     }
 
     .vote-counter {
@@ -5123,12 +5164,6 @@ body { height: var(--app-height); }
     padding-right: 0 !important;
     margin-right: 0 !important;
     scrollbar-gutter: auto !important;
-  }
-
-  /* Keep full NC-style legend accessible on shorter viewports. */
-  .legend-content {
-    overflow: auto;
-    min-height: 0;
   }
 
     </style>

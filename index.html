@@ -1445,23 +1445,32 @@ body { height: var(--app-height); }
 
   /* Aesthetic refresh overrides */
   :root {
+    --state-blue: #0a3161;
+    --state-blue-strong: #082a52;
+    --state-red: #b31942;
+    --state-red-strong: #8f1434;
+    --state-ribbon: linear-gradient(90deg, var(--state-red) 0%, #f8fafc 50%, var(--state-blue) 100%);
+    --state-accent-gradient: linear-gradient(135deg, var(--state-red-strong) 0%, var(--state-blue-strong) 100%);
     --ui-bg: rgba(255, 255, 255, 0.9);
     --ui-border: rgba(15, 23, 42, 0.12);
     --ui-shadow: 0 14px 36px rgba(15, 23, 42, 0.2);
     --ui-text: #0f172a;
     --ui-muted: #475569;
-    --ui-accent: #2563eb;
-    --ui-accent-2: #1d4ed8;
+    --ui-accent: var(--state-blue);
+    --ui-accent-2: var(--state-blue-strong);
   }
 
   body {
     font-family: 'Manrope', 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-    background: radial-gradient(circle at 18% 12%, #dbeafe 0%, #eaf2ff 28%, #f8fafc 75%);
+    background:
+      radial-gradient(circle at 16% 12%, rgba(10, 49, 97, 0.20) 0%, rgba(219, 234, 254, 0.58) 28%, rgba(248, 250, 252, 0) 58%),
+      radial-gradient(circle at 86% 8%, rgba(179, 25, 66, 0.14) 0%, rgba(254, 226, 226, 0.52) 24%, rgba(248, 250, 252, 0) 56%),
+      #f8fafc;
     color: var(--ui-text);
   }
 
   #map {
-    background: linear-gradient(180deg, #e9eff7 0%, #dbe3ef 100%);
+    background: linear-gradient(180deg, #e9eff7 0%, #e6ebf5 46%, #f0e8ed 100%);
   }
 
   .main-controls,
@@ -2334,8 +2343,8 @@ body { height: var(--app-height); }
   #accessibility-toggle,
   #label-toggle,
   #precinct-toggle {
-    border: 1px solid rgba(37, 99, 235, 0.34);
-    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.18);
+    border: 1px solid rgba(10, 49, 97, 0.34);
+    box-shadow: 0 6px 14px rgba(10, 49, 97, 0.20);
   }
 
   .minimize-btn,
@@ -2359,8 +2368,8 @@ body { height: var(--app-height); }
 
   .mode-toggle.active,
   .viz-mode-btn.active {
-    background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
-    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.32);
+    background: linear-gradient(180deg, var(--ui-accent) 0%, var(--ui-accent-2) 100%);
+    box-shadow: 0 8px 18px rgba(10, 49, 97, 0.32);
   }
 
   .legend-item {
@@ -2514,7 +2523,7 @@ body { height: var(--app-height); }
     content: '';
     display: block;
     height: 4px;
-    background: linear-gradient(90deg, #dc2626 0%, #f8fafc 50%, #2563eb 100%);
+    background: var(--state-ribbon);
     opacity: 0.9;
   }
 
@@ -2674,7 +2683,7 @@ body { height: var(--app-height); }
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #2563eb 0%, #cbd5e1 50%, #dc2626 100%);
+    background: var(--state-ribbon);
   }
 
   .vote-counter-context {
@@ -3726,7 +3735,7 @@ body { height: var(--app-height); }
   }
 
   .contest-select-wrap::after {
-    content: '▾';
+    content: 'â–¾';
     position: absolute;
     top: 50%;
     right: 14px;
@@ -4192,8 +4201,8 @@ body { height: var(--app-height); }
     }
 
     .desktop-statewide-tag {
-      background: rgba(37, 99, 235, 0.10);
-      color: #1d4ed8;
+      background: linear-gradient(135deg, rgba(179, 25, 66, 0.14) 0%, rgba(10, 49, 97, 0.14) 100%);
+      color: #0f2652;
     }
 
     .desktop-statewide-title {
@@ -4286,7 +4295,7 @@ body { height: var(--app-height); }
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #2563eb 0%, #38bdf8 28%, #14b8a6 60%, #f97316 100%);
+    background: var(--state-ribbon);
     opacity: 0.88;
     pointer-events: none;
   }
@@ -4329,9 +4338,9 @@ body { height: var(--app-height); }
     margin: 0;
     padding: 0 14px;
     border-radius: 999px;
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(37, 99, 235, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(143, 20, 52, 0.96) 0%, rgba(8, 42, 82, 0.92) 100%);
     border: 1px solid rgba(148, 163, 184, 0.18);
-    box-shadow: 0 14px 30px rgba(37, 99, 235, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    box-shadow: 0 14px 30px rgba(10, 49, 97, 0.20), 0 8px 22px rgba(143, 20, 52, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.16);
     color: #f8fafc !important;
     font-size: 14px;
     font-weight: 800;
@@ -4345,8 +4354,8 @@ body { height: var(--app-height); }
     width: 8px;
     height: 8px;
     border-radius: 999px;
-    background: linear-gradient(135deg, #38bdf8 0%, #bfdbfe 100%);
-    box-shadow: 0 0 0 4px rgba(191, 219, 254, 0.12);
+    background: linear-gradient(135deg, var(--state-red) 0%, var(--state-blue) 100%);
+    box-shadow: 0 0 0 4px rgba(248, 250, 252, 0.12);
     flex: 0 0 auto;
   }
 
@@ -4433,7 +4442,7 @@ body { height: var(--app-height); }
     content: '';
     display: block;
     height: 4px;
-    background: linear-gradient(90deg, #dc2626 0%, #f8fafc 50%, #2563eb 100%);
+    background: var(--state-ribbon);
     opacity: 0.9;
   }
 
@@ -4492,7 +4501,7 @@ body { height: var(--app-height); }
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #2563eb 0%, #cbd5e1 50%, #dc2626 100%);
+    background: var(--state-ribbon);
   }
 
   .vote-counter-meta {
@@ -5003,7 +5012,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Floating Status Panel -->
   <div class="status-panel" id="status-panel" style="display:none;position:fixed;top:20px;right:90px;z-index:10002;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:18px 24px 18px 18px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.12);border:1px solid #e5e7eb;max-width:340px;min-width:200px;font-size:15px;color:#34495e;">
     <span id="status-message"></span>
-    <button id="status-exit" title="Close" style="position:absolute;top:10px;right:10px;padding:4px 10px;border-radius:6px;border:none;background:#eee;cursor:pointer;font-weight:bold;font-size:18px;">×</button>
+    <button id="status-exit" title="Close" style="position:absolute;top:10px;right:10px;padding:4px 10px;border-radius:6px;border:none;background:#eee;cursor:pointer;font-weight:bold;font-size:18px;">Ã—</button>
   </div>
     
 
@@ -5152,23 +5161,23 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div class="modal-body">
           <h3>Modes</h3>
-          <p><strong>Margins</strong>: colors show the <strong>two-party margin</strong> (absolute value of Rep% − Dem%). Darker = less competitive.</p>
+          <p><strong>Margins</strong>: colors show the <strong>two-party margin</strong> (absolute value of Rep% âˆ’ Dem%). Darker = less competitive.</p>
           <p><strong>Winners</strong>: solid color by winner (D/R), regardless of margin size.</p>
-          <p><strong>Shift</strong>: change in <strong>signed</strong> margin vs the nearest available prior election for that contest (e.g. 2020→2024). Positive = more Republican; negative = more Democratic.</p>
+          <p><strong>Shift</strong>: change in <strong>signed</strong> margin vs the nearest available prior election for that contest (e.g. 2020â†’2024). Positive = more Republican; negative = more Democratic.</p>
 
           <h3>Political Categories</h3>
           <p>Category names are just shorthand for margin ranges:</p>
           <ul>
             <li><strong>Annihilation</strong>: &ge;40%</li>
-            <li><strong>Dominant</strong>: 30–39.99%</li>
-            <li><strong>Stronghold</strong>: 20–29.99%</li>
-            <li><strong>Safe</strong>: 10–19.99%</li>
-            <li><strong>Likely</strong>: 5.50–9.99%</li>
-            <li><strong>Lean</strong>: 1.00–5.49%</li>
-            <li><strong>Tilt</strong>: 0.50–0.99%</li>
+            <li><strong>Dominant</strong>: 30â€“39.99%</li>
+            <li><strong>Stronghold</strong>: 20â€“29.99%</li>
+            <li><strong>Safe</strong>: 10â€“19.99%</li>
+            <li><strong>Likely</strong>: 5.50â€“9.99%</li>
+            <li><strong>Lean</strong>: 1.00â€“5.49%</li>
+            <li><strong>Tilt</strong>: 0.50â€“0.99%</li>
             <li><strong>Tossup</strong>: &lt;0.50%</li>
           </ul>
-          <p class="meta-subtle">Example: “Safe Republican (10–19.99%)” means the Republican candidate leads by 10–19.99 percentage points (two-party margin).</p>
+          <p class="meta-subtle">Example: â€œSafe Republican (10â€“19.99%)â€ means the Republican candidate leads by 10â€“19.99 percentage points (two-party margin).</p>
 
           <h3>Hover + Tooltip</h3>
           <ul>
@@ -5181,12 +5190,12 @@ document.addEventListener('DOMContentLoaded', function() {
           <ul>
             <li><span class="kbd">P</span> toggles precinct overlay (dots at statewide zoom; polygons when zoomed in).</li>
             <li><span class="kbd">L</span> toggles county labels.</li>
-            <li><strong>♿</strong> toggles colorblind-friendly colors.</li>
+            <li><strong>â™¿</strong> toggles colorblind-friendly colors.</li>
             <li><strong>Clear</strong> (in the vote counter) clears the selected area.</li>
           </ul>
 
           <h3>Notes</h3>
-          <p class="meta-subtle">If Shift can’t find a prior year for the selected contest, it falls back to Margins.</p>
+          <p class="meta-subtle">If Shift canâ€™t find a prior year for the selected contest, it falls back to Margins.</p>
         </div>
       </div>
     </div>
@@ -5371,7 +5380,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let districtsInfo = null;
     let stateHouseInfo = null;
     let stateSenateInfo = null;
-    let districtDescriptions = null; // Optional labels like "Sampson & Bladen Counties" or "Concord–Harrisburg"
+    let districtDescriptions = null; // Optional labels like "Sampson & Bladen Counties" or "Concordâ€“Harrisburg"
     let countyDemographics = null; // County-level VAP (18+) + total-pop race/ethnicity from DP1
     let countyNameMap = {};
     let currentView = 'counties'; // 'counties', 'districts', 'state_house', 'state_senate'
@@ -5862,7 +5871,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="legend-item"><div class="legend-color" style="background: ${colorForFlipMode('T')}; border: 1px solid rgba(15,23,42,0.20);"></div>No flip / No prior</div>
         `;
       } else if (mode === 'shift') {
-        const a = meta?.fromYear ? `${meta.fromYear} → ${meta.toYear || ''}`.trim() : 'Shift';
+        const a = meta?.fromYear ? `${meta.fromYear} â†’ ${meta.toYear || ''}`.trim() : 'Shift';
         if (header) header.textContent = meta?.fromYear ? `Shift (${a})` : 'Shift';
         if (subtitle) {
           subtitle.textContent = meta?.fromYear
@@ -8115,7 +8124,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const raw = (name || '').toString().trim();
       if (!raw) return '';
       // Common presidential ticket separators.
-      const seps = [' / ', '/', ' & ', '&', ' + ', '+', ' - ', ' – ', ' — '];
+      const seps = [' / ', '/', ' & ', '&', ' + ', '+', ' - ', ' â€“ ', ' â€” '];
       for (const sep of seps) {
         if (raw.includes(sep)) {
           const left = raw.split(sep, 1)[0].trim();
@@ -8430,7 +8439,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const abs = Math.abs(s);
       const label = abs < 0.01 ? 'No change' : `${dir} + ${abs.toFixed(2)}%`;
       const dotColor = colorForShiftMode(s);
-      const years = (prevYear && year) ? `${prevYear}→${year}` : '';
+      const years = (prevYear && year) ? `${prevYear}â†’${year}` : '';
       return `<span class="meta-chip shift"><span class="dot" style="background:${dotColor};"></span>Shift: ${label}${years ? ` <span style="color:#64748b;font-weight:800;">(${years})</span>` : ''}</span>`;
     }
 
@@ -9299,7 +9308,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (buckets.size) {
         sidebarContent += `<div class="margin-section">`;
         sidebarContent += '<h3 class="sidebar-section-title">Non-geographic votes</h3>';
-        sidebarContent += `<p class="sidebar-margin-details" style="margin-top:0;">Included in totals; not shown as precincts (e.g., Early Vote “EV”).</p>`;
+        sidebarContent += `<p class="sidebar-margin-details" style="margin-top:0;">Included in totals; not shown as precincts (e.g., Early Vote â€œEVâ€).</p>`;
         Array.from(buckets.entries())
           .sort((a, b) => (b[1].total || 0) - (a[1].total || 0))
           .slice(0, 10)
@@ -10849,7 +10858,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (districtInfo) {
         demographicInfo = `
           <div style="margin-bottom: 16px;">
-            <h5>👥 Demographics (VAP)</h5>
+            <h5>ðŸ‘¥ Demographics (VAP)</h5>
             <p><strong>Total Population:</strong> ${districtInfo.total_population.toLocaleString()}</p>
             <p><strong>White:</strong> ${districtInfo.white_vap_pct}%</p>
             <p><strong>Black:</strong> ${districtInfo.black_vap_pct}%</p>
@@ -10964,7 +10973,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (districtInfo) {
         demographicInfo = `
           <div style="margin-bottom: 16px;">
-            <h5>👥 Demographics (VAP)</h5>
+            <h5>ðŸ‘¥ Demographics (VAP)</h5>
             <p><strong>Total Population:</strong> ${districtInfo.total_population.toLocaleString()}</p>
             <p><strong>White:</strong> ${districtInfo.white_vap_pct}%</p>
             <p><strong>Black:</strong> ${districtInfo.black_vap_pct}%</p>

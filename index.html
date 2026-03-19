@@ -1676,6 +1676,24 @@ body { height: var(--app-height); }
     line-height: 1.45;
   }
 
+  .fly-to-quick-stats {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(148, 163, 184, 0.25);
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .fly-to-quick-stats[data-tone="active"] {
+    color: #0f172a;
+  }
+
+  .fly-to-quick-stats[data-tone="muted"] {
+    color: #64748b;
+  }
+
   .fly-to-chip-row {
     display: flex;
     gap: 8px;
@@ -1789,6 +1807,10 @@ body { height: var(--app-height); }
     .fly-to-submit {
       width: 100%;
       min-width: 0;
+    }
+
+    .fly-to-quick-stats {
+      display: none;
     }
 
     .fly-to-chip {
@@ -5289,6 +5311,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <button id="fly-to-submit" class="fly-to-submit" type="button">Go</button>
                 </div>
                 <div class="fly-to-helper">Jump to counties, independent cities, districts, or precincts without changing the selected contest.</div>
+                <div id="fly-to-quick-stats" class="fly-to-quick-stats" data-tone="muted" aria-live="polite">Turn on Precincts to show a viewport count.</div>
                 <div class="fly-to-chip-row" aria-label="Fly-to examples">
                   <button class="fly-to-chip" type="button" data-query="Fairfax County">Fairfax County</button>
                   <button class="fly-to-chip" type="button" data-query="VA-10">VA-10</button>
@@ -5633,6 +5656,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     map.on('moveend', () => {
       queueHoverRefresh();
+      try { scheduleViewportPrecinctQuickStatsUpdate(60); } catch (_) {}
     });
     map.on('zoomend', () => {
       queueHoverRefresh();
@@ -5640,6 +5664,7 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         if (typeof updatePrecinctVisibility === 'function') updatePrecinctVisibility();
       } catch (_) {}
+      try { scheduleViewportPrecinctQuickStatsUpdate(60); } catch (_) {}
     });
 
     const DEBUG = false;
@@ -5778,12 +5803,139 @@ document.addEventListener('DOMContentLoaded', function() {
       return null;
     }
 
+    function getFirstTextSymbolLayerId() {
+      try {
+        const layers = map.getStyle()?.layers || [];
+        for (const layer of layers) {
+          if (!layer || layer.type !== 'symbol') continue;
+          if (layer.layout && layer.layout['text-field'] != null) return layer.id;
+        }
+      } catch (_) {}
+      return null;
+    }
+
+    function addMapLayer(layerDef, options = {}) {
+      const type = (layerDef?.type || '').toString().toLowerCase();
+      const placeBelowLabels = options?.placeBelowLabels !== false && type !== 'symbol';
+      const beforeId = placeBelowLabels ? getFirstTextSymbolLayerId() : null;
+      if (beforeId && map.getLayer(beforeId)) {
+        map.addLayer(layerDef, beforeId);
+      } else {
+        map.addLayer(layerDef);
+      }
+    }
+
+    function reinforceMapLabelHalos() {
+      try {
+        const highCountyFill = currentView === 'counties' && !precinctsEnabled;
+        const haloColor = highCountyFill ? 'rgba(255,255,255,0.82)' : 'rgba(255,255,255,0.92)';
+        const haloWidth = highCountyFill ? 0.85 : 1.05;
+        const haloBlur = highCountyFill ? 0.72 : 0.5;
+        const layers = map.getStyle()?.layers || [];
+        layers.forEach(layer => {
+          if (!layer || layer.type !== 'symbol' || !layer.layout || layer.layout['text-field'] == null) return;
+          const id = (layer.id || '').toString().toLowerCase();
+          // Keep halo adjustments focused on place/town label layers.
+          if (!/(settlement|place|city|town|village|county)/.test(id)) return;
+          try {
+            map.setPaintProperty(layer.id, 'text-halo-color', haloColor);
+            map.setPaintProperty(layer.id, 'text-halo-width', haloWidth);
+            map.setPaintProperty(layer.id, 'text-halo-blur', haloBlur);
+          } catch (_) {}
+        });
+      } catch (_) {}
+    }
+
     function addLayerWithOptionalSourceLayer(layerDef) {
       const src = map.getSource(layerDef.source);
       const isVectorSource = !!src && src.type === 'vector';
       const sourceLayer = isVectorSource ? getVectorSourceLayer(layerDef.source) : null;
       if (sourceLayer) layerDef['source-layer'] = sourceLayer;
-      map.addLayer(layerDef);
+      addMapLayer(layerDef);
+    }
+
+    function getFlyToQuickStatsNode() {
+      return document.getElementById('fly-to-quick-stats');
+    }
+
+    function setFlyToQuickStatsMessage(message, tone = 'muted') {
+      const node = getFlyToQuickStatsNode();
+      if (!node) return;
+      node.textContent = message;
+      node.setAttribute('data-tone', tone);
+    }
+
+    function isLayerVisible(layerId) {
+      if (!map.getLayer(layerId)) return false;
+      try {
+        return map.getLayoutProperty(layerId, 'visibility') !== 'none';
+      } catch (_) {
+        return true;
+      }
+    }
+
+    function getVisiblePrecinctLayerIds() {
+      return ['precinct-fill', 'precinct-dot', 'precinct-dot-missing'].filter(isLayerVisible);
+    }
+
+    function precinctNormFromFeature(feature) {
+      const props = feature?.properties || {};
+      const norm = (props.precinct_norm || '').toString().trim().toUpperCase();
+      if (norm) return norm;
+      const county = (props.county_nam || props.COUNTYNAME || props.County || props.NAME || '').toString().trim().toUpperCase();
+      const code = (props.prec_id || props.PREC_ID || '').toString().trim().toUpperCase();
+      return county && code ? `${county} - ${code}` : '';
+    }
+
+    function updateViewportPrecinctQuickStats() {
+      const node = getFlyToQuickStatsNode();
+      if (!node) return;
+      if (!appReady || !map || typeof map.queryRenderedFeatures !== 'function') {
+        setFlyToQuickStatsMessage('Loading viewport stats...', 'muted');
+        return;
+      }
+
+      const visiblePrecinctLayers = getVisiblePrecinctLayerIds();
+      if (!visiblePrecinctLayers.length) {
+        if (!precinctsEnabled) {
+          setFlyToQuickStatsMessage('Turn on Precincts to show a viewport count.', 'muted');
+        } else if (precinctLoadInFlight || precinctCentroidsLoadInFlight) {
+          setFlyToQuickStatsMessage('Loading precinct geometry...', 'muted');
+        } else {
+          setFlyToQuickStatsMessage('No precinct layer visible at this zoom.', 'muted');
+        }
+        return;
+      }
+
+      let features = [];
+      try {
+        features = map.queryRenderedFeatures({ layers: visiblePrecinctLayers }) || [];
+      } catch (_) {
+        setFlyToQuickStatsMessage('Viewport stats are temporarily unavailable.', 'muted');
+        return;
+      }
+
+      const unique = new Set();
+      features.forEach(feature => {
+        const norm = precinctNormFromFeature(feature);
+        if (norm) unique.add(norm);
+      });
+
+      const count = unique.size;
+      setFlyToQuickStatsMessage(
+        `Viewing ${count.toLocaleString()} precinct${count === 1 ? '' : 's'}`,
+        count > 0 ? 'active' : 'muted'
+      );
+    }
+
+    function scheduleViewportPrecinctQuickStatsUpdate(delayMs = 90) {
+      try {
+        if (window.__viewportPrecinctStatsTimer) clearTimeout(window.__viewportPrecinctStatsTimer);
+      } catch (_) {}
+      window.__viewportPrecinctStatsTimer = setTimeout(() => {
+        window.__viewportPrecinctStatsTimer = null;
+        updateViewportPrecinctQuickStats();
+      }, Math.max(0, Number(delayMs) || 0));
     }
 
 
@@ -8275,6 +8427,7 @@ document.addEventListener('DOMContentLoaded', function() {
       } else if (view === 'vtds_2000') {
         add2000VTDLayers();
       }
+      reinforceMapLabelHalos();
       
       // Repopulate contest selector
       updateContestSelectForCurrentView();
@@ -8287,6 +8440,7 @@ document.addEventListener('DOMContentLoaded', function() {
         resetStatewideResults();
       }
       clearCountyDetails();
+      scheduleViewportPrecinctQuickStatsUpdate(100);
       saveUIState();
     }
 
@@ -9279,13 +9433,13 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       if (!map.getLayer('vtds-2000-fill')) {
-        map.addLayer({ 
+        addMapLayer({ 
           id: 'vtds-2000-fill', 
           type: 'fill', 
           source: 'vtds-2000', 
           paint: { 'fill-color': '#e0e0e0', 'fill-opacity': 0.3 } 
         });
-        map.addLayer({ 
+        addMapLayer({ 
           id: 'vtds-2000-stroke', 
           type: 'line', 
           source: 'vtds-2000', 
@@ -9836,8 +9990,9 @@ document.addEventListener('DOMContentLoaded', function() {
           },
           paint: {
             'text-color': '#222',
-            'text-halo-color': '#f7f7f7', // original background halo
-            'text-halo-width': 2
+            'text-halo-color': 'rgba(255,255,255,0.88)',
+            'text-halo-width': 1.0,
+            'text-halo-blur': 0.65
           }
         });
         // Add mouseleave event handler
@@ -9857,6 +10012,12 @@ document.addEventListener('DOMContentLoaded', function() {
               showCountyDetails(countyName);
               lastSelectedCounty = countyName;
               setCountyHoverOutline(countyName);
+              const countyProfile = getCountyFocusProfile(e.features[0]);
+              fitFeatureForSearch(e.features[0], {
+                kind: 'county',
+                duration: 900,
+                maxZoom: countyProfile.maxZoom
+              });
               if (contestType && year && selectedRow) pinCountySelectionVoteCounter(countyName);
               dismissHoverTooltipOnSelection();
               // Optionally, expand sidebar if minimized
@@ -9953,6 +10114,7 @@ document.addEventListener('DOMContentLoaded', function() {
           console.warn('Failed to apply cached precinct colors:', err?.message || err);
         }
         setStatus('Precinct geometry ready');
+        scheduleViewportPrecinctQuickStatsUpdate(90);
         return true;
       } catch (err) {
         console.warn('Failed to load precinct geometry:', err?.message || err);
@@ -9965,7 +10127,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function addPrecinctLayers() {
       if (!map.getSource('precincts') || map.getLayer('precinct-fill')) return;
-      map.addLayer({
+      addMapLayer({
         id: 'precinct-fill',
         type: 'fill',
         source: 'precincts',
@@ -9973,7 +10135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         layout: { visibility: 'none' },
         paint: { 'fill-color': '#d1d5db', 'fill-opacity': 0.72 }
       });
-      map.addLayer({
+      addMapLayer({
         id: 'precinct-stroke',
         type: 'line',
         source: 'precincts',
@@ -10001,6 +10163,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         } catch (_) {}
       });
+      scheduleViewportPrecinctQuickStatsUpdate(80);
     }
 
 	    async function ensurePrecinctCentroidsLoaded() {
@@ -10093,6 +10256,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	          console.warn('Failed to build precinct code index:', err?.message || err);
 	        }
 	        addPrecinctCentroidLayers();
+          scheduleViewportPrecinctQuickStatsUpdate(90);
 	      } catch (err) {
 	        console.warn('Failed to load precinct centroids:', err?.message || err);
 	        setStatus(`Failed to load precinct centroids: ${err?.message || err}`);
@@ -10135,7 +10299,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const minZoom = CONFIG.precincts?.minZoom || 8.0;
 
       if (!map.getLayer('precinct-dot')) {
-        map.addLayer({
+        addMapLayer({
           id: 'precinct-dot',
           type: 'circle',
           source: 'precinct-centroids',
@@ -10145,13 +10309,18 @@ document.addEventListener('DOMContentLoaded', function() {
           paint: {
             'circle-radius': [
               'interpolate', ['linear'], ['zoom'],
-              5, 1.2,
-              6.5, 2.0,
-              7.5, 2.8,
-              8.4, 3.2
+              5, 0.75,
+              6.5, 1.25,
+              7.5, 1.95,
+              8.4, 2.65
             ],
             'circle-color': '#94a3b8',
-            'circle-opacity': 0.85,
+            'circle-opacity': [
+              'interpolate', ['linear'], ['zoom'],
+              5, 0.62,
+              6.8, 0.74,
+              8.4, 0.85
+            ],
             'circle-stroke-color': 'rgba(15,23,42,0.35)',
             'circle-stroke-width': 0.5
           }
@@ -10160,7 +10329,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // When polygons are enabled at high zoom, keep showing centroids for precincts missing polygons.
       if (!map.getLayer('precinct-dot-missing')) {
-        map.addLayer({
+        addMapLayer({
           id: 'precinct-dot-missing',
           type: 'circle',
           source: 'precinct-centroids',
@@ -10170,9 +10339,9 @@ document.addEventListener('DOMContentLoaded', function() {
           paint: {
             'circle-radius': [
               'interpolate', ['linear'], ['zoom'],
-              minZoom, 3.8,
-              10, 4.6,
-              12, 5.4
+              minZoom, 3.2,
+              10, 4.1,
+              12, 5.0
             ],
             'circle-color': '#94a3b8',
             'circle-opacity': 0.9,
@@ -10303,6 +10472,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (map.getLayer('precinct-dot-missing')) {
         map.setLayoutProperty('precinct-dot-missing', 'visibility', polyVisible ? 'visible' : 'none');
       }
+      scheduleViewportPrecinctQuickStatsUpdate(70);
     }
 
     async function togglePrecinctOverlay() {
@@ -11810,6 +11980,7 @@ document.addEventListener('DOMContentLoaded', function() {
           countyNameMap = buildCountyNameMapFromGeoJSON(counties);
         }
         addCountyLayers();
+        reinforceMapLabelHalos();
         setupCountySearch();
         map.on('zoomend', updatePrecinctVisibility);
         setStatus('Counties loaded');
@@ -11943,6 +12114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try { wireMobileOverlayOffsets(); } catch (_) {}
         try { minimizeLegendOnMobile(); } catch (_) {}
         appReady = true;
+        scheduleViewportPrecinctQuickStatsUpdate(150);
         try { await restoreUIState(); } catch (_) {}
 
       } catch (e) {
@@ -12914,6 +13086,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (map.getLayer('county-fill')) {
         map.setPaintProperty('county-fill', 'fill-color', expr);
         map.setPaintProperty('county-fill', 'fill-opacity', precinctsEnabled ? 0.10 : 0.82);
+        reinforceMapLabelHalos();
       }
 
       // Flip mode: outline flipped counties in red/blue (to-winner), leave others subtle.

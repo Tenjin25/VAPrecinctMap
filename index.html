@@ -6449,11 +6449,28 @@ document.addEventListener('DOMContentLoaded', function() {
       };
     }
 
+    function roundPct2(value) {
+      return Math.round((Number(value || 0) + Number.EPSILON) * 100) / 100;
+    }
+
+    function partyPctValue(votes, totalVotes) {
+      const total = Number(totalVotes || 0);
+      if (total <= 0) return 0;
+      return roundPct2((Number(votes || 0) / total) * 100);
+    }
+
+    function marginPctValue(repVotes, demVotes, totalVotes) {
+      const total = Number(totalVotes || 0);
+      if (total <= 0) return 0;
+      const repPct = partyPctValue(repVotes, total);
+      const demPct = partyPctValue(demVotes, total);
+      return Math.abs(repPct - demPct);
+    }
+
     function leadMarginPctLabel(repVotes, demVotes, totalVotes) {
       const rep = Number(repVotes || 0);
       const dem = Number(demVotes || 0);
-      const total = Number(totalVotes || 0);
-      const marginPct = total > 0 ? Math.abs((rep - dem) / total * 100) : 0;
+      const marginPct = marginPctValue(rep, dem, totalVotes);
       if (rep > dem) return `R+${marginPct.toFixed(2)}%`;
       if (dem > rep) return `D+${marginPct.toFixed(2)}%`;
       return 'Tie';
@@ -8524,7 +8541,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function winnerMarginLabel(repVotes, demVotes, totalVotes, repCandidate, demCandidate) {
-      const marginPct = totalVotes > 0 ? Math.abs((repVotes - demVotes) / totalVotes * 100) : 0;
+      const marginPct = marginPctValue(repVotes, demVotes, totalVotes);
       const repName = shortCandidateLabel(repCandidate, 'R');
       const demName = shortCandidateLabel(demCandidate, 'D');
       if (repVotes > demVotes) {
@@ -8545,7 +8562,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function winnerMarginLabelShort(repVotes, demVotes, totalVotes, repCandidate, demCandidate) {
       const margin = (repVotes || 0) - (demVotes || 0);
-      const pct = totalVotes ? Math.abs(margin) / totalVotes * 100.0 : 0.0;
+      const pct = marginPctValue(repVotes, demVotes, totalVotes);
       const repLabel = shortCandidateLabel(repCandidate, 'R');
       const demLabel = shortCandidateLabel(demCandidate, 'D');
       const winnerLabel = margin > 0 ? repLabel : (margin < 0 ? demLabel : 'TIE');
@@ -8553,7 +8570,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate) {
-      const marginPct = totalVotes > 0 ? Math.abs((repVotes - demVotes) / totalVotes * 100) : 0;
+      const marginPct = marginPctValue(repVotes, demVotes, totalVotes);
       if (repVotes > demVotes) {
         return {
           party: 'rep',
@@ -9539,7 +9556,7 @@ document.addEventListener('DOMContentLoaded', function() {
       );
       // Margin
       const margin = demVotes - repVotes;
-      const marginPct = (Math.abs(margin) / totalVotes * 100).toFixed(2);
+      const marginPct = marginPctValue(repVotes, demVotes, totalVotes).toFixed(2);
       const winner = margin > 0 ? 'Democratic' : (margin < 0 ? 'Republican' : 'Tie');
       const winnerCandidate = margin > 0 ? demCandidate : repCandidate;
       const marginText = winnerMarginLabelShort(repVotes, demVotes, totalVotes, repCandidate, demCandidate);

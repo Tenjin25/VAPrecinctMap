@@ -620,6 +620,12 @@ Standard library only (`csv`, `json`, `re`, `zipfile`, `argparse`, `collections`
 
 ## Recent Updates (March 2026)
 
+- Fixed county margin display precision drift (`±0.01%`) by standardizing margin labels to use the same two-decimal party-share rounding basis across sidebar, hover, and vote-counter summaries.
+- Added shared front-end helpers in `index.html` (`roundPct2`, `partyPctValue`, `marginPctValue`) so all winner/lead margin labels compute from consistent rounded percentages.
+- Re-formatted contest JSON outputs in-place for readability (multi-line pretty JSON) under:
+  - `Data/contests/`
+  - `Data/district_contests/`
+  This was a formatting-only change; payload keys/values and runtime JSON loading behavior are unchanged.
 - Ported the NC trends layout into `index.html` for the vote-counter focus panel.
 - Added `Latest`, `Closest`, and `Since` summary cards plus per-election timeline cards with candidate share bars and shift/flip chips.
 - Removed tooltip pin/unpin actions to match NC behavior; tooltips now use hold + close interaction.

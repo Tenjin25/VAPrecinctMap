@@ -5828,9 +5828,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function reinforceMapLabelHalos() {
       try {
         const highCountyFill = currentView === 'counties' && !precinctsEnabled;
-        const haloColor = highCountyFill ? 'rgba(255,255,255,0.82)' : 'rgba(255,255,255,0.92)';
-        const haloWidth = highCountyFill ? 0.85 : 1.05;
-        const haloBlur = highCountyFill ? 0.72 : 0.5;
+        const textColor = highCountyFill ? 'rgba(248,250,252,0.99)' : 'rgba(241,245,249,0.97)';
+        const textOpacity = highCountyFill ? 1.0 : 0.97;
+        const haloColor = highCountyFill ? 'rgba(15,23,42,0.86)' : 'rgba(15,23,42,0.72)';
+        const haloWidth = highCountyFill ? 1.55 : 1.25;
+        const haloBlur = highCountyFill ? 0.34 : 0.42;
         const layers = map.getStyle()?.layers || [];
         layers.forEach(layer => {
           if (!layer || layer.type !== 'symbol' || !layer.layout || layer.layout['text-field'] == null) return;
@@ -5838,6 +5840,8 @@ document.addEventListener('DOMContentLoaded', function() {
           // Keep halo adjustments focused on place/town label layers.
           if (!/(settlement|place|city|town|village|county)/.test(id)) return;
           try {
+            map.setPaintProperty(layer.id, 'text-color', textColor);
+            map.setPaintProperty(layer.id, 'text-opacity', textOpacity);
             map.setPaintProperty(layer.id, 'text-halo-color', haloColor);
             map.setPaintProperty(layer.id, 'text-halo-width', haloWidth);
             map.setPaintProperty(layer.id, 'text-halo-blur', haloBlur);

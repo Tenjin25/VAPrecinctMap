@@ -5722,6 +5722,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const countyTrendSeriesCache = new Map();
     // Session persistence was removed to avoid surprises on shared/low-memory machines.
     let contestSearchQuery = '';
+    const DATA_LAYER_OPACITY = Object.freeze({
+      counties: 0.74,
+      countiesWithPrecincts: 0.14,
+      districts: 0.62,
+      stateHouse: 0.56,
+      stateSenate: 0.6
+    });
+
+    function getDataLayerFillOpacity(view = currentView) {
+      if (view === 'counties') {
+        return precinctsEnabled ? DATA_LAYER_OPACITY.countiesWithPrecincts : DATA_LAYER_OPACITY.counties;
+      }
+      if (view === 'districts') return DATA_LAYER_OPACITY.districts;
+      if (view === 'state_house') return DATA_LAYER_OPACITY.stateHouse;
+      if (view === 'state_senate') return DATA_LAYER_OPACITY.stateSenate;
+      return DATA_LAYER_OPACITY.counties;
+    }
 
     function viewLabelForSummary(view = currentView) {
       const labels = {
@@ -5814,77 +5831,15 @@ document.addEventListener('DOMContentLoaded', function() {
       return null;
     }
 
-    function getFirstRoadContextLayerId() {
-      try {
-        const layers = map.getStyle()?.layers || [];
-        const roadLike = /(road|street|highway|motorway|trunk|primary|secondary|tertiary|path|bridge|tunnel)/;
-        for (const layer of layers) {
-          if (!layer || layer.type !== 'line') continue;
-          const id = (layer.id || '').toString().toLowerCase();
-          if (roadLike.test(id)) return layer.id;
-        }
-      } catch (_) {}
-      return null;
-    }
-
     function addMapLayer(layerDef, options = {}) {
       const type = (layerDef?.type || '').toString().toLowerCase();
-      const preferBasemapContext = options?.preferBasemapContext === true && type !== 'symbol';
-      let beforeId = null;
-      if (preferBasemapContext) {
-        beforeId = getFirstRoadContextLayerId();
-      }
-      if (!beforeId) {
-        const placeBelowLabels = options?.placeBelowLabels !== false && type !== 'symbol';
-        beforeId = placeBelowLabels ? getFirstTextSymbolLayerId() : null;
-      }
+      const placeBelowLabels = options?.placeBelowLabels !== false && type !== 'symbol';
+      const beforeId = placeBelowLabels ? getFirstTextSymbolLayerId() : null;
       if (beforeId && map.getLayer(beforeId)) {
         map.addLayer(layerDef, beforeId);
       } else {
         map.addLayer(layerDef);
       }
-    }
-
-    function reinforceBasemapFeatureContext() {
-      try {
-        const layers = map.getStyle()?.layers || [];
-        const waterId = /(water|river|lake|ocean|reservoir|stream|canal)/;
-        const naturalId = /(park|forest|wood|wetland|landcover|landuse|natural|grass|green)/;
-        layers.forEach(layer => {
-          if (!layer || !layer.id) return;
-          const id = (layer.id || '').toString().toLowerCase();
-          // Skip app-owned thematic overlays.
-          if (/(county|district|state-house|state-senate|precinct|vtds-2000)/.test(id)) return;
-
-          try {
-            if (waterId.test(id)) {
-              if (layer.type === 'fill') {
-                map.setPaintProperty(layer.id, 'fill-color', 'rgba(125, 181, 235, 0.68)');
-                map.setPaintProperty(layer.id, 'fill-opacity', 0.78);
-              } else if (layer.type === 'line') {
-                map.setPaintProperty(layer.id, 'line-color', 'rgba(59, 130, 246, 0.72)');
-                map.setPaintProperty(layer.id, 'line-opacity', 0.82);
-              } else if (layer.type === 'symbol') {
-                map.setPaintProperty(layer.id, 'text-color', 'rgba(30, 64, 175, 0.92)');
-                map.setPaintProperty(layer.id, 'text-halo-color', 'rgba(248,250,252,0.92)');
-                map.setPaintProperty(layer.id, 'text-halo-width', 1.15);
-              }
-              return;
-            }
-
-            if (naturalId.test(id)) {
-              if (layer.type === 'fill') {
-                map.setPaintProperty(layer.id, 'fill-color', 'rgba(134, 239, 172, 0.28)');
-                map.setPaintProperty(layer.id, 'fill-opacity', 0.34);
-              } else if (layer.type === 'symbol') {
-                map.setPaintProperty(layer.id, 'text-color', 'rgba(22, 101, 52, 0.88)');
-                map.setPaintProperty(layer.id, 'text-halo-color', 'rgba(248,250,252,0.9)');
-                map.setPaintProperty(layer.id, 'text-halo-width', 1.05);
-              }
-            }
-          } catch (_) {}
-        });
-      } catch (_) {}
     }
 
     function reinforceMapLabelHalos() {
@@ -5899,8 +5854,8 @@ document.addEventListener('DOMContentLoaded', function() {
         layers.forEach(layer => {
           if (!layer || layer.type !== 'symbol' || !layer.layout || layer.layout['text-field'] == null) return;
           const id = (layer.id || '').toString().toLowerCase();
-          // Keep halo adjustments focused on locality + road labels.
-          if (!/(settlement|place|city|town|village|county|road|street|highway|motorway)/.test(id)) return;
+          // Keep halo adjustments focused on place/town label layers.
+          if (!/(settlement|place|city|town|village|county)/.test(id)) return;
           try {
             map.setPaintProperty(layer.id, 'text-color', textColor);
             map.setPaintProperty(layer.id, 'text-opacity', textOpacity);
@@ -5909,16 +5864,15 @@ document.addEventListener('DOMContentLoaded', function() {
             map.setPaintProperty(layer.id, 'text-halo-blur', haloBlur);
           } catch (_) {}
         });
-        reinforceBasemapFeatureContext();
       } catch (_) {}
     }
 
-    function addLayerWithOptionalSourceLayer(layerDef, options = {}) {
+    function addLayerWithOptionalSourceLayer(layerDef) {
       const src = map.getSource(layerDef.source);
       const isVectorSource = !!src && src.type === 'vector';
       const sourceLayer = isVectorSource ? getVectorSourceLayer(layerDef.source) : null;
       if (sourceLayer) layerDef['source-layer'] = sourceLayer;
-      addMapLayer(layerDef, options);
+      addMapLayer(layerDef);
     }
 
     function getFlyToQuickStatsNode() {
@@ -9505,7 +9459,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'fill', 
           source: 'vtds-2000', 
           paint: { 'fill-color': '#e0e0e0', 'fill-opacity': 0.3 } 
-        }, { preferBasemapContext: true });
+        });
         addMapLayer({ 
           id: 'vtds-2000-stroke', 
           type: 'line', 
@@ -10026,7 +9980,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // This lets precinct/block/district coloring read cleanly while still
           // showing county outlines.
           paint: { 'fill-color': '#000000', 'fill-opacity': 0.0 } 
-        }, { preferBasemapContext: true });
+        });
         addLayerWithOptionalSourceLayer({ 
           id: 'county-stroke', 
           type: 'line', 
@@ -10574,8 +10528,8 @@ document.addEventListener('DOMContentLoaded', function() {
           id: 'district-fill', 
           type: 'fill', 
           source: 'districts', 
-          paint: { 'fill-color': '#e0e0e0', 'fill-opacity': 0.7 } 
-        }, { preferBasemapContext: true });
+          paint: { 'fill-color': '#e0e0e0', 'fill-opacity': 0.62 } 
+        });
         addLayerWithOptionalSourceLayer({ 
           id: 'district-stroke', 
           type: 'line', 
@@ -10650,8 +10604,8 @@ document.addEventListener('DOMContentLoaded', function() {
           id: 'state-house-fill', 
           type: 'fill', 
           source: 'state-house', 
-          paint: { 'fill-color': '#e0e0e0', 'fill-opacity': 0.6 } 
-        }, { preferBasemapContext: true });
+          paint: { 'fill-color': '#e0e0e0', 'fill-opacity': 0.56 } 
+        });
         addLayerWithOptionalSourceLayer({ 
           id: 'state-house-stroke', 
           type: 'line', 
@@ -10725,8 +10679,8 @@ document.addEventListener('DOMContentLoaded', function() {
           id: 'state-senate-fill', 
           type: 'fill', 
           source: 'state-senate', 
-          paint: { 'fill-color': '#e0e0e0', 'fill-opacity': 0.65 } 
-        }, { preferBasemapContext: true });
+          paint: { 'fill-color': '#e0e0e0', 'fill-opacity': 0.6 } 
+        });
         addLayerWithOptionalSourceLayer({ 
           id: 'state-senate-stroke', 
           type: 'line', 
@@ -13152,7 +13106,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // so precinct fills/dots remain visually primary.
       if (map.getLayer('county-fill')) {
         map.setPaintProperty('county-fill', 'fill-color', expr);
-        map.setPaintProperty('county-fill', 'fill-opacity', precinctsEnabled ? 0.10 : 0.82);
+        map.setPaintProperty('county-fill', 'fill-opacity', getDataLayerFillOpacity('counties'));
         reinforceMapLabelHalos();
       }
 
@@ -13290,7 +13244,10 @@ document.addEventListener('DOMContentLoaded', function() {
       
       expr.push('#e0e0e0'); // default color
       
-      map.setPaintProperty('district-fill', 'fill-color', expr);
+      if (map.getLayer('district-fill')) {
+        map.setPaintProperty('district-fill', 'fill-color', expr);
+        map.setPaintProperty('district-fill', 'fill-opacity', getDataLayerFillOpacity('districts'));
+      }
       setStatewideContestTitle(`US House (${year})`);
       setStatus(`Applied contest: VA US House ${year}`);
     }
@@ -13378,6 +13335,7 @@ document.addEventListener('DOMContentLoaded', function() {
             : (currentView === 'state_house' ? 'state-house-fill' : 'state-senate-fill');
           if (map.getLayer(layerName)) {
             map.setPaintProperty(layerName, 'fill-color', expr);
+            map.setPaintProperty(layerName, 'fill-opacity', getDataLayerFillOpacity(currentView));
           }
           // Keep stroke styling consistent across modes (no flip outlines outside flip mode).
           const strokeLayerName = currentView === 'districts'
@@ -13457,6 +13415,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (map.getLayer(layerName)) {
         map.setPaintProperty(layerName, 'fill-color', color);
+        map.setPaintProperty(layerName, 'fill-opacity', getDataLayerFillOpacity(currentView));
       } else {
         setStatus('District layer not found!', 5000, true);
       }

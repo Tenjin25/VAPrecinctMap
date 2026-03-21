@@ -6774,14 +6774,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const leadEl = document.getElementById('vote-lead');
       if (leadEl) {
-        const marginPct = Math.abs(demPct - repPct);
-        let leadText = 'Even';
+        const leadText = winnerMarginLabelShort(
+          repVotes,
+          demVotes,
+          totalVotes,
+          counterMeta.repCandidate,
+          counterMeta.demCandidate
+        );
         let leadParty = 'tie';
-        if (demVotes !== repVotes) {
+        if (leadText !== 'Tie') {
           leadParty = demVotes > repVotes ? 'dem' : 'rep';
-          leadText = `${marginPct.toFixed(2)}%`;
         }
-        leadEl.textContent = leadText;
+        leadEl.textContent = leadText === 'Tie' ? 'Even' : leadText;
         leadEl.dataset.party = leadParty;
       }
 

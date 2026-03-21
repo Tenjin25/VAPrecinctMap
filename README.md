@@ -1,4 +1,4 @@
-# Virginia Precinct Map (2008–2025)
+# The Commonwealth Explorer (2008–2025)
 
 An interactive, browser-based choropleth map of Virginia election results at the precinct, county, and legislative/congressional district level, covering every major statewide general election from 2008 through 2025.
 
@@ -7,27 +7,22 @@ An interactive, browser-based choropleth map of Virginia election results at the
 ## Table of Contents
 
 1. [Project Overview](#project-overview)
-2. [Live Demo](#live-demo)
-3. [Features](#features)
-4. [Repository Structure](#repository-structure)
-5. [Data Sources](#data-sources)
-6. [Methodology](#methodology)
+2. [Features](#features)
+3. [Repository Structure](#repository-structure)
+4. [Data Sources](#data-sources)
+5. [Methodology](#methodology)
    - [Step 1 — Convert boundary ZIPs to GeoJSON](#step-1--convert-boundary-zips-to-geojson)
    - [Step 2 — Normalize election CSVs to OpenElections format](#step-2--normalize-election-csvs-to-openelections-format)
    - [Step 3 — Build precinct polygon GeoJSON](#step-3--build-precinct-polygon-geojson)
    - [Step 4 — Build precinct centroid GeoJSON](#step-4--build-precinct-centroid-geojson)
    - [Step 5 — Build county-level contest slices](#step-5--build-county-level-contest-slices)
    - [Step 6 — Build district-level contest slices](#step-6--build-district-level-contest-slices)
-7. [Color Ramp & Rating Categories](#color-ramp--rating-categories)
-8. [Locality Canonicalization](#locality-canonicalization)
-9. [Precinct Matching & Label Enrichment](#precinct-matching--label-enrichment)
-10. [District Vote Apportionment](#district-vote-apportionment)
-11. [Front-End Architecture](#front-end-architecture)
-12. [Setup & Running the Data Pipeline](#setup--running-the-data-pipeline)
-13. [Serving the Map Locally](#serving-the-map-locally)
-14. [Dependencies](#dependencies)
-15. [Recent Updates (March 2026)](#recent-updates-march-2026)
-16. [Known Limitations & Future Work](#known-limitations--future-work)
+6. [Color Ramp & Rating Categories](#color-ramp--rating-categories)
+7. [Locality Canonicalization](#locality-canonicalization)
+8. [Precinct Matching & Label Enrichment](#precinct-matching--label-enrichment)
+9. [Front-End Architecture](#front-end-architecture)
+10. [Dependencies](#dependencies)
+11. [Known Limitations & Future Work](#known-limitations--future-work)
 
 ---
 
@@ -40,12 +35,6 @@ Virginia holds elections on a distinct off-year cycle (gubernatorial and state l
 - See an 11-shade Democratic/Republican margin color ramp that conveys both *partisan direction* and *landslide intensity* in a single glance
 - Click or tap any geographic unit for a popup showing vote totals, candidate names, winner, and margin percentage
 - Search for any Virginia county or independent city and fly directly to it
-
----
-
-## Live Demo
-
-Open `index.html` directly in any modern browser or serve it from any static HTTP server.  No build step is required for the front end.
 
 ---
 
@@ -533,71 +522,6 @@ The entire front end lives in `index.html` — a single self-contained file with
 
 ---
 
-## Setup & Running the Data Pipeline
-
-### 1. Create a virtual environment
-
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install geopandas shapely pandas
-```
-
-### 2. Obtain raw data files
-
-Place the following files in `Data/` (they are git-ignored because of size):
-
-- `tl_2020_51_county20.zip`
-- `tl_2020_51_tabblock20.zip`
-- `tl_2020_51_vtd20.zip`
-- `tl_2022_51_sldl.zip`
-- `tl_2022_51_sldu.zip`
-- `tl_2024_51_cd119.zip`
-- `BlockAssign_ST51_VA.zip`
-
-Census TIGER/Line shapefiles are available from [census.gov/geographies/mapping-files](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html).  The block assignment file is available from [census.gov/geographies/reference-files/time-series/geo/block-assignment-files](https://www.census.gov/geographies/reference-files/time-series/geo/block-assignment-files.html).
-
-### 3. Run the pipeline in order
-
-```powershell
-# Step 1 — Convert boundary ZIPs to GeoJSON
-python scripts/build_va_geojson_from_zips.py
-
-# Step 2 — Normalize source election CSVs
-python scripts/convert_va_csvs_to_openelections.py
-
-# Step 3 — Build precinct polygons
-python scripts/build_va_precincts_from_crosswalks.py
-
-# Step 4 — Build precinct centroids
-python scripts/build_precinct_centroids_geojson.py
-
-# Step 5 — Build county contest slices
-python scripts/build_va_county_contests_from_openelections.py
-
-# Step 6 — Build district contest slices
-python scripts/build_va_district_contests_from_crosswalks.py
-
-# Optional — apply exact CD-01/CD-02 2024 presidential corrections
-python scripts/fix_cd01_president_2024_totals.py
-```
-
-All scripts accept a `--help` flag for full argument documentation.
-
----
-
-## Serving the Map Locally
-
-Because the page fetches local files via `fetch()`, it must be served over HTTP rather than opened as a `file://` URL (browsers block cross-origin `file://` fetches).
-
-```powershell
-# Python (simplest)
-python -m http.server 8000
-# Then open http://localhost:8000 in a browser
-```
-
----
-
 ## Dependencies
 
 ### Python (data pipeline)
@@ -615,34 +539,6 @@ Standard library only (`csv`, `json`, `re`, `zipfile`, `argparse`, `collections`
 - Mapbox GL JS 3.0.1
 - Turf.js 6.5.0
 - PapaParse 5.4.1
-
----
-
-## Recent Updates (March 2026)
-
-- Fixed county margin display precision drift (`±0.01%`) by standardizing margin labels to use the same two-decimal party-share rounding basis across sidebar, hover, and vote-counter summaries.
-- Added shared front-end helpers in `index.html` (`roundPct2`, `partyPctValue`, `marginPctValue`) so all winner/lead margin labels compute from consistent rounded percentages.
-- Re-formatted contest JSON outputs in-place for readability (multi-line pretty JSON) under:
-  - `Data/contests/`
-  - `Data/district_contests/`
-  This was a formatting-only change; payload keys/values and runtime JSON loading behavior are unchanged.
-- Ported the NC trends layout into `index.html` for the vote-counter focus panel.
-- Added `Latest`, `Closest`, and `Since` summary cards plus per-election timeline cards with candidate share bars and shift/flip chips.
-- Removed tooltip pin/unpin actions to match NC behavior; tooltips now use hold + close interaction.
-- Renamed help copy from `Hover + Pin` to `Hover + Tooltip`.
-- Refined trend-card desktop/mobile sizing to better match the reference layout while preserving responsive behavior.
-- Updated winner labeling behavior:
-  - Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`).
-  - Statewide top call keeps short labels (for example, `Trump +2.50`).
-- Added a dedicated minimize toggle to the top-right results panel (vote counter), matching the NC interaction pattern.
-- Sanitized district/congressional winner labels so placeholder values do not render as `D (D)` / `R (R)`.
-- Synced right-rail card/surface styling in `index.html` to the latest `NCMap.html` baseline for controls, legend, and results/trend containers.
-- Restored vertical scrolling for county results/trends by re-enabling vote-counter and trend-list overflow behavior after the parity styling pass.
-- Hardened statewide result value layout to prevent vote-total and percentage overflow in compact right-rail cards.
-- Matched the top vote-counter totals row sizing to `NCMap.html` and tuned vote-card spacing/type scale to prevent large totals (for example, `2,335,395`) from clipping.
-- Added NC-style vote-card overflow fallback (`layout-stacked`) plus resize/animation re-measurement so large top-row totals no longer truncate mid-number.
-- Clarified independent-city search behavior: UI examples can show `... City`, and fly-to matching still accepts both `City of ...` and `... City` aliases.
-- Added targeted correction script `scripts/fix_cd01_president_2024_totals.py` to apply exact CD-01/CD-02 2024 presidential totals across overrides and district outputs.
 
 ---
 

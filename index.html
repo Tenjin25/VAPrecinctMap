@@ -8714,12 +8714,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const repName = shortCandidateLabel(repCandidate, 'R');
       const demName = shortCandidateLabel(demCandidate, 'D');
       if (repVotes > demVotes) {
-        return `${repName} + ${marginPct.toFixed(2)}%`;
+        return `${repName} +${marginPct.toFixed(2)}%`;
       }
       if (demVotes > repVotes) {
-        return `${demName} + ${marginPct.toFixed(2)}%`;
+        return `${demName} +${marginPct.toFixed(2)}%`;
       }
-      return `Tied ${marginPct.toFixed(2)}%`;
+      return 'Tie';
     }
 
     function parseContestValue(contestValue) {
@@ -8730,10 +8730,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function winnerMarginLabelShort(repVotes, demVotes, totalVotes, repCandidate, demCandidate) {
-      const margin = (repVotes || 0) - (demVotes || 0);
-      if (!margin) return 'Tie';
+      const margin = Number(repVotes || 0) - Number(demVotes || 0);
       const pct = marginPctValue(repVotes, demVotes, totalVotes);
-      return `${pct.toFixed(2)}%`;
+      if (margin > 0) {
+        return `${shortCandidateLabel(repCandidate, 'R')} +${pct.toFixed(2)}%`;
+      }
+      if (margin < 0) {
+        return `${shortCandidateLabel(demCandidate, 'D')} +${pct.toFixed(2)}%`;
+      }
+      return 'Tie';
     }
 
     function winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate) {
@@ -8744,7 +8749,7 @@ document.addEventListener('DOMContentLoaded', function() {
           winnerName: fullCandidateLabel(repCandidate, 'Republican'),
           shortLabel: shortCandidateLabel(repCandidate, 'Republican'),
           marginPct,
-          text: `${marginPct.toFixed(2)}%`
+          text: `${shortCandidateLabel(repCandidate, 'Republican')} +${marginPct.toFixed(2)}%`
         };
       }
       if (demVotes > repVotes) {
@@ -8753,7 +8758,7 @@ document.addEventListener('DOMContentLoaded', function() {
           winnerName: fullCandidateLabel(demCandidate, 'Democratic'),
           shortLabel: shortCandidateLabel(demCandidate, 'Democratic'),
           marginPct,
-          text: `${marginPct.toFixed(2)}%`
+          text: `${shortCandidateLabel(demCandidate, 'Democratic')} +${marginPct.toFixed(2)}%`
         };
       }
       return {

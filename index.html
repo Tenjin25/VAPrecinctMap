@@ -6644,8 +6644,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const rep = Number(repVotes || 0);
       const dem = Number(demVotes || 0);
       const marginPct = marginPctValue(rep, dem, totalVotes);
-      if (rep > dem) return `R+${marginPct.toFixed(2)}%`;
-      if (dem > rep) return `D+${marginPct.toFixed(2)}%`;
+      if (rep > dem || dem > rep) return `${marginPct.toFixed(2)}%`;
       return 'Tie';
     }
 
@@ -6775,17 +6774,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const leadEl = document.getElementById('vote-lead');
       if (leadEl) {
-        const marginVotes = Math.abs(demVotes - repVotes);
         const marginPct = Math.abs(demPct - repPct);
         let leadText = 'Even';
         let leadParty = 'tie';
         if (demVotes !== repVotes) {
           leadParty = demVotes > repVotes ? 'dem' : 'rep';
-          const winnerLabel = demVotes > repVotes
-            ? shortCandidateLabel(counterMeta.demCandidate, 'Dem')
-            : shortCandidateLabel(counterMeta.repCandidate, 'Rep');
-          leadText = `${winnerLabel} +${marginPct.toFixed(2)}%`;
-          if (marginVotes > 0) leadText += ` (${marginVotes.toLocaleString()} votes)`;
+          leadText = `${marginPct.toFixed(2)}%`;
         }
         leadEl.textContent = leadText;
         leadEl.dataset.party = leadParty;
@@ -8737,11 +8731,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function winnerMarginLabelShort(repVotes, demVotes, totalVotes, repCandidate, demCandidate) {
       const margin = (repVotes || 0) - (demVotes || 0);
+      if (!margin) return 'Tie';
       const pct = marginPctValue(repVotes, demVotes, totalVotes);
-      const repLabel = shortCandidateLabel(repCandidate, 'R');
-      const demLabel = shortCandidateLabel(demCandidate, 'D');
-      const winnerLabel = margin > 0 ? repLabel : (margin < 0 ? demLabel : 'TIE');
-      return `${winnerLabel} + ${pct.toFixed(2)}%`;
+      return `${pct.toFixed(2)}%`;
     }
 
     function winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate) {
@@ -8752,7 +8744,7 @@ document.addEventListener('DOMContentLoaded', function() {
           winnerName: fullCandidateLabel(repCandidate, 'Republican'),
           shortLabel: shortCandidateLabel(repCandidate, 'Republican'),
           marginPct,
-          text: `${shortCandidateLabel(repCandidate, 'Republican')} +${marginPct.toFixed(2)}%`
+          text: `${marginPct.toFixed(2)}%`
         };
       }
       if (demVotes > repVotes) {
@@ -8761,7 +8753,7 @@ document.addEventListener('DOMContentLoaded', function() {
           winnerName: fullCandidateLabel(demCandidate, 'Democratic'),
           shortLabel: shortCandidateLabel(demCandidate, 'Democratic'),
           marginPct,
-          text: `${shortCandidateLabel(demCandidate, 'Democratic')} +${marginPct.toFixed(2)}%`
+          text: `${marginPct.toFixed(2)}%`
         };
       }
       return {
@@ -11501,7 +11493,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <div style="margin-bottom: 16px;">
                 <h5>Margin</h5>
                 <p style="color: ${winner === 'Republican' ? '#dc2626' : '#2563eb'}; font-weight: bold; font-size: 18px;">
-                  ${winner} +${marginPct.toFixed(2)}%
+                  ${marginPct.toFixed(2)}%
                 </p>
               </div>
               <div style="margin-bottom: 16px;">

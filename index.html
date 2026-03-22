@@ -7859,6 +7859,90 @@ document.addEventListener('DOMContentLoaded', function() {
       populateContestSelectFromCSV(electionData);
     }
 
+    let contestChangeInFlight = false;
+    let queuedContestSelection = null;
+    let contestSelectionSeq = 0;
+    let lastCompletedContestSelection = '';
+    let contestSelectionKickoffTimer = null;
+    const CONTEST_SELECTION_COALESCE_MS = 90;
+
+    function shouldRefreshCountyDetailsOnContestChange() {
+      if (!SIDEBAR_ENABLED) return false;
+      const view = String(currentView || '').toLowerCase();
+      if (!(view === 'counties' || view === 'vtds_2000')) return false;
+      const detailsDiv = document.getElementById('county-details');
+      if (detailsDiv && detailsDiv.style && detailsDiv.style.display === 'none') return false;
+      return true;
+    }
+
+    function queueCountyDetailsRefresh() {
+      if (!shouldRefreshCountyDetailsOnContestChange()) return;
+      const county = (window.lastSelectedCounty || '').toString().trim();
+      if (!county) return;
+      const refresh = () => {
+        try { showCountyDetails(county); } catch (_) {}
+      };
+      if (typeof window.requestAnimationFrame === 'function') {
+        window.requestAnimationFrame(refresh);
+      } else {
+        setTimeout(refresh, 0);
+      }
+    }
+
+    function queueContestSelection(contestKey) {
+      const key = (contestKey || '').toString().trim();
+      const seq = ++contestSelectionSeq;
+      const next = { key, seq };
+      queuedContestSelection = next;
+      return next;
+    }
+
+    async function drainQueuedContestSelection() {
+      if (contestChangeInFlight) return;
+      contestChangeInFlight = true;
+      try {
+        while (true) {
+          const next = queuedContestSelection;
+          queuedContestSelection = null;
+          if (!next) break;
+          await applyContest(next.key, { selectionSeq: next.seq });
+
+          // If users switched again while we were loading, apply the newest selection next.
+          if (queuedContestSelection && queuedContestSelection.seq !== next.seq) {
+            continue;
+          }
+
+          if (next.key) lastCompletedContestSelection = next.key;
+          queueCountyDetailsRefresh();
+          break;
+        }
+      } catch (err) {
+        console.warn('Contest change failed:', err?.message || err);
+      } finally {
+        contestChangeInFlight = false;
+      }
+    }
+
+    function scheduleQueuedContestSelectionDrain() {
+      if (contestChangeInFlight) return;
+      if (contestSelectionKickoffTimer) {
+        clearTimeout(contestSelectionKickoffTimer);
+      }
+      contestSelectionKickoffTimer = setTimeout(() => {
+        contestSelectionKickoffTimer = null;
+        drainQueuedContestSelection();
+      }, CONTEST_SELECTION_COALESCE_MS);
+    }
+
+    async function handleContestSelectionChange(contestKey) {
+      const queued = queueContestSelection(contestKey);
+      if (!contestChangeInFlight && queued.key && queued.key === lastCompletedContestSelection) {
+        queueCountyDetailsRefresh();
+        return;
+      }
+      scheduleQueuedContestSelectionDrain();
+    }
+
     function populateContestSelectFromManifest(manifestEntries) {
 	      const q = (contestSearchQuery || '').toString().trim().toUpperCase();
 	      const sel = document.getElementById('contestSelect');
@@ -8003,12 +8087,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	      sel.appendChild(fragment);
 	      sel.dataset.populated = 'true';
 	      sel.onchange = () => {
-	        applyContest(sel.value);
-	        if (typeof lastSelectedCounty !== 'undefined' && lastSelectedCounty) {
-	          showCountyDetails(lastSelectedCounty);
-	        }
-	        saveUIState();
-	      };
+        handleContestSelectionChange(sel.value);
+      };
 	    }
 
     function updateContestSelectForCurrentView() {
@@ -8042,7 +8122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (sel) {
           sel.innerHTML = '<option value="">No contests available for this view</option>';
           sel.dataset.populated = 'true';
-          sel.onchange = () => { applyContest(sel.value); };
+          sel.onchange = () => { handleContestSelectionChange(sel.value); };
         }
         return;
       }
@@ -8157,12 +8237,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var spinner = document.getElementById('contest-loading-spinner');
   if (spinner) spinner.style.display = 'none';
       sel.onchange = () => {
-        // Always use applyContest - it will check for colorblind mode automatically
-        applyContest(sel.value);
-        // Explicitly update sidebar for last selected county
-        if (typeof lastSelectedCounty !== 'undefined' && lastSelectedCounty) {
-          showCountyDetails(lastSelectedCounty);
-        }
+        handleContestSelectionChange(sel.value);
       };
 
     }
@@ -8183,7 +8258,7 @@ document.addEventListener('DOMContentLoaded', function() {
           sel.appendChild(opt);
         }
       });
-      sel.onchange = () => { applyContest(sel.value); };
+      sel.onchange = () => { handleContestSelectionChange(sel.value); };
     }
 
     function populateContestSelectForStateSenate(csvData) {
@@ -8202,7 +8277,7 @@ document.addEventListener('DOMContentLoaded', function() {
           sel.appendChild(opt);
         }
       });
-      sel.onchange = () => { applyContest(sel.value); };
+      sel.onchange = () => { handleContestSelectionChange(sel.value); };
     }
 
     function populateContestSelectFromCongressionalCSV(csvData) {
@@ -8221,7 +8296,7 @@ document.addEventListener('DOMContentLoaded', function() {
           sel.appendChild(opt);
         }
       });
-      sel.onchange = () => { applyContest(sel.value); };
+      sel.onchange = () => { handleContestSelectionChange(sel.value); };
     }
 
     function setAnalysisMode(mode) {
@@ -12561,11 +12636,19 @@ document.addEventListener('DOMContentLoaded', function() {
       return cached;
     }
 
-    async function applyContest(contestKey) {
+    async function applyContest(contestKey, opts = {}) {
+      const selectionSeq = Number(opts?.selectionSeq || 0);
+      const isStaleSelection = () => (
+        Number.isFinite(selectionSeq) &&
+        selectionSeq > 0 &&
+        selectionSeq !== contestSelectionSeq
+      );
+
       if (!contestKey) {
         updateControlSummary('');
         setStatewideContestTitle('Choose a contest');
         resetStatewideResults();
+        lastCompletedContestSelection = '';
         return setStatus('Select a contest');
       }
       
@@ -12576,7 +12659,7 @@ document.addEventListener('DOMContentLoaded', function() {
       updateControlSummary(contestKey);
       
       if (currentView === 'counties') {
-        await applyCountyContest(contestType, year);
+        await applyCountyContest(contestType, year, { selectionSeq, isStaleSelection });
       } else if (currentView === 'districts' && contestType === 'us_house') {
         // US House races use district-specific data
         await applyDistrictContest(contestType, year);
@@ -12584,10 +12667,21 @@ document.addEventListener('DOMContentLoaded', function() {
         // All other contests (statewide) aggregate county data by district
         await applyStatewideContestToDistricts(contestType, year);
       }
-      await refreshHoverAtPointer();
+      if (isStaleSelection()) return;
+      lastCompletedContestSelection = contestKey;
+      refreshHoverAtPointer().catch(() => {});
     }
 
-    async function applyCountyContest(contestType, year) {
+    async function applyCountyContest(contestType, year, opts = {}) {
+      const selectionSeq = Number(opts?.selectionSeq || 0);
+      const staleCheck = typeof opts?.isStaleSelection === 'function' ? opts.isStaleSelection : (() => false);
+      function shouldDeferPrecinctDetail() {
+        if (!precinctsEnabled) return false;
+        if (staleCheck()) return true;
+        const queuedSeq = Number(queuedContestSelection?.seq || 0);
+        return contestChangeInFlight && queuedSeq > selectionSeq;
+      }
+
       // Filter data for this contest and year
       const contestData = await loadContestSlice(contestType, year);
       
@@ -12609,7 +12703,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Only build heavy precinct matching/color expressions when the overlay is enabled.
       // If users switch contests with precincts off, keep the county path fast.
-      const needsPrecinctDetail = !!precinctsEnabled;
+      let needsPrecinctDetail = !!precinctsEnabled;
+      if (needsPrecinctDetail && shouldDeferPrecinctDetail()) {
+        needsPrecinctDetail = false;
+      }
 
       // Precinct key matching needs to tolerate (a) non-geographic buckets in results
       // (absentee/one-stop/etc) and (b) modern precinct splits where historical results
@@ -13202,6 +13299,10 @@ document.addEventListener('DOMContentLoaded', function() {
           map.setPaintProperty('county-stroke', 'line-color', '#333');
           map.setPaintProperty('county-stroke', 'line-width', 1);
         } catch (_) {}
+      }
+      if (needsPrecinctDetail && shouldDeferPrecinctDetail()) {
+        needsPrecinctDetail = false;
+        currentPrecinctResults = null;
       }
       // Optional precinct expression (detail overlay)
       if (needsPrecinctDetail) {

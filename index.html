@@ -396,6 +396,9 @@
     <meta charset='utf-8'>
     <title>The Commonwealth Explorer</title>
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover'>
+    <meta name="author" content="Shamar Davis">
+    <meta name="copyright" content="© 2026 Shamar Does Elections. All Rights Reserved.">
+    <!-- Watermark: SDE Creator Attribution | Created by Shamar Davis | Copyright 2026 Shamar Does Elections -->
     <meta property="og:title" content="VA Precinct Map (2008-2025)">
     <meta property="og:description" content="Interactive visualization of Virginia election trends from 2008 to 2025, with county, precinct, and district views.">
     <meta property="og:image" content="preview.png">
@@ -682,6 +685,41 @@ body { height: var(--app-height); }
 .main-controls input[type="text"]:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.atlas-credit-bar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(10px + var(--safe-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 10012;
+  max-width: calc(100vw - 24px);
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.34);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.14);
+  color: #475569;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .atlas-credit-bar {
+    bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + 14px);
+    max-width: calc(100vw - 16px);
+    padding: 5px 10px;
+    font-size: 10px;
+    white-space: normal;
+  }
 }
 /* Mobile: Full-width controls at top */
 @media (max-width: 768px) {
@@ -5274,8 +5312,9 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </details>
       </div>
-      <div class="sidebar-footer" style="padding: 16px 0; text-align: center; color: #888; font-size: 15px; border-top: 1px solid #e5e7eb; background: #f9fafb;">
-        Created by Shamar Davis
+      <div class="sidebar-footer" style="padding: 14px 10px; text-align: center; color: #64748b; font-size: 12px; line-height: 1.45; border-top: 1px solid #e5e7eb; background: #f9fafb;">
+        © 2026 Shamar Does Elections. All Rights Reserved.<br>
+        Created by Shamar Davis.
       </div>
     </div>
   <!-- Floating Sidebar Expand/Collapse Button (smaller size) -->
@@ -5502,8 +5541,28 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
 
+    <div class="atlas-credit-bar" aria-label="Atlas credits">
+      &copy; 2026 Shamar Does Elections | Created by Shamar Davis
+    </div>
+
     <script>
     // --- CONFIG ---
+    const ATLAS_CREATOR_SIGNATURE = Object.freeze({
+      creator: 'Shamar Davis',
+      studio: 'Shamar Does Elections',
+      year: 2026,
+      project: 'The Commonwealth Explorer',
+      signature: 'SDE-TCE-2026-SD'
+    });
+    try {
+      Object.defineProperty(window, '__atlas_creator_signature__', {
+        value: ATLAS_CREATOR_SIGNATURE.signature,
+        enumerable: false,
+        configurable: false,
+        writable: false
+      });
+    } catch (_) {}
+
     function detectBasePath() {
       // GitHub Pages project sites are served under /<repo-name>/...
       if (!window.location.hostname.endsWith('github.io')) return '';

@@ -9116,13 +9116,13 @@ document.addEventListener('DOMContentLoaded', function() {
       return buildTooltipShell(title, lines);
     }
 
-    function shiftChipHTML(shiftPct, prevYear, year) {
+  function shiftChipHTML(shiftPct, prevYear, year) {
       const s = Number(shiftPct) || 0;
       const dir = s > 0 ? 'R' : (s < 0 ? 'D' : 'T');
       const abs = Math.abs(s);
       const label = abs < 0.01 ? 'No change' : `${dir} + ${abs.toFixed(2)}%`;
       const dotColor = colorForShiftMode(s);
-      const years = (prevYear && year) ? `${prevYear}->${year}` : '';
+      const years = (prevYear && year) ? `${prevYear}→${year}` : '';
       return `<span class="meta-chip shift"><span class="dot" style="background:${dotColor};"></span>Shift: ${label}${years ? ` <span style="color:#64748b;font-weight:800;">(${years})</span>` : ''}</span>`;
     }
 
@@ -9131,6 +9131,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const cls = w === 'R' ? 'rep' : (w === 'D' ? 'dem' : 'tie');
       const label = w === 'R' ? 'Republican' : (w === 'D' ? 'Democratic' : 'Tie');
       return `<span class="meta-chip ${cls}"><span class="dot"></span>${label}</span>`;
+    }
+
+    function tierChipHTML(tierMeta) {
+      if (!tierMeta || !tierMeta.label) return '';
+      const partyClass = tierMeta.party === 'rep' ? 'rep' : (tierMeta.party === 'dem' ? 'dem' : 'tie');
+      const pct = Math.abs(Number(tierMeta.marginPct || 0));
+      const winner = partyClass === 'rep' ? 'R' : (partyClass === 'dem' ? 'D' : 'T');
+      const dotColor = winner === 'T' ? '#9ca3af' : colorForMarginMode(pct, winner);
+      return `<span class="meta-chip tier"><span class="dot" style="background:${dotColor};"></span>${escapeHtml(tierMeta.label)}</span>`;
     }
 
     // Hover outline (stroke-only highlight) helpers.

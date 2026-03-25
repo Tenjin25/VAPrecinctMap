@@ -6386,10 +6386,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function buildLegendSpectrum(colors, className) {
       return `
-    <div class="legend-spectrum ${className}">
-     ${colors.map(color => `<span class="legend-segment legend-color" style="background: ${color};"></span>`).join('')}
-    </div>
-   `;
+        <div class="legend-spectrum ${className}">
+          ${colors.map(color => `<span class="legend-segment legend-color" style="background: ${color};"></span>`).join('')}
+        </div>
+      `;
     }
 
     function buildMarginsLegendHTML() {
@@ -6399,54 +6399,54 @@ document.addEventListener('DOMContentLoaded', function() {
         '#e1f5fe', '#c6dbef', '#9ecae1', '#6baed6', '#3182bd', '#08519c', '#08306b'
       ];
       return `
-    <div class="legend-scale-shell">
-     ${buildLegendSpectrum(colors, 'margins')}
-     <div class="legend-scale-caption">
-      <span class="rep">Stronger Republican</span>
-      <span>Tossup</span>
-      <span class="dem">Stronger Democratic</span>
-     </div>
-     <div class="legend-axis margins">
-      <span class="rep">R +40</span>
-      <span class="rep">R +10</span>
-      <span class="rep">R +1</span>
-      <span>Tie</span>
-      <span class="dem">D +1</span>
-      <span class="dem">D +10</span>
-      <span class="dem">D +40</span>
-     </div>
-     <div class="legend-chip-row">
-      <span class="legend-chip">Annihilation 40+</span>
-      <span class="legend-chip">Dominant 30+</span>
-      <span class="legend-chip">Stronghold 20+</span>
-      <span class="legend-chip">Safe 10+</span>
-      <span class="legend-chip">Likely 5.5+</span>
-      <span class="legend-chip">Lean 1+</span>
-      <span class="legend-chip">Tilt 0.5+</span>
-      <span class="legend-chip">Tossup &lt;0.5</span>
-     </div>
-    </div>
-   `;
+        <div class="legend-scale-shell">
+          ${buildLegendSpectrum(colors, 'margins')}
+          <div class="legend-scale-caption">
+            <span class="rep">Stronger Republican</span>
+            <span>Tossup</span>
+            <span class="dem">Stronger Democratic</span>
+          </div>
+          <div class="legend-axis margins">
+            <span class="rep">R +40</span>
+            <span class="rep">R +10</span>
+            <span class="rep">R +1</span>
+            <span>Tie</span>
+            <span class="dem">D +1</span>
+            <span class="dem">D +10</span>
+            <span class="dem">D +40</span>
+          </div>
+          <div class="legend-chip-row">
+            <span class="legend-chip">Annihilation 40+</span>
+            <span class="legend-chip">Dominant 30+</span>
+            <span class="legend-chip">Stronghold 20+</span>
+            <span class="legend-chip">Safe 10+</span>
+            <span class="legend-chip">Likely 5.5+</span>
+            <span class="legend-chip">Lean 1+</span>
+            <span class="legend-chip">Tilt 0.5+</span>
+            <span class="legend-chip">Tossup &lt;0.5</span>
+          </div>
+        </div>
+      `;
     }
 
     function buildWinnersLegendHTML() {
       return `
-    <div class="legend-swatch-grid">
-     <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForWinnerMode('D')};"></span><span>Democratic win</span></div>
-     <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForWinnerMode('R')};"></span><span>Republican win</span></div>
-     <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForWinnerMode('T')}; border: 1px solid rgba(15,23,42,0.18);"></span><span>Tie or no data</span></div>
-    </div>
-   `;
+        <div class="legend-swatch-grid">
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForWinnerMode('D')};"></span><span>Democratic win</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForWinnerMode('R')};"></span><span>Republican win</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForWinnerMode('T')}; border: 1px solid rgba(15,23,42,0.18);"></span><span>Tie or no data</span></div>
+        </div>
+      `;
     }
 
     function buildFlipsLegendHTML() {
       return `
-    <div class="legend-swatch-grid">
-     <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForFlipMode('D')};"></span><span>Flip to Democratic</span></div>
-     <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForFlipMode('R')};"></span><span>Flip to Republican</span></div>
-     <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForFlipMode('T')}; border: 1px solid rgba(15,23,42,0.18);"></span><span>No flip or no prior</span></div>
-    </div>
-   `;
+        <div class="legend-swatch-grid">
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForFlipMode('D')};"></span><span>Flip to Democratic</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForFlipMode('R')};"></span><span>Flip to Republican</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background: ${colorForFlipMode('T')}; border: 1px solid rgba(15,23,42,0.18);"></span><span>No flip or no prior</span></div>
+        </div>
+      `;
     }
 
     function buildShiftLegendHTML() {
@@ -6460,24 +6460,24 @@ document.addEventListener('DOMContentLoaded', function() {
         colorForShiftMode(15)
       ];
       return `
-    <div class="legend-scale-shell">
-     ${buildLegendSpectrum(colors, 'shift')}
-     <div class="legend-scale-caption">
-      <span class="dem">Toward Democrats</span>
-      <span>No change</span>
-      <span class="rep">Toward Republicans</span>
-     </div>
-     <div class="legend-axis shift">
-      <span class="dem">D +15</span>
-      <span class="dem">D +10</span>
-      <span class="dem">D +5</span>
-      <span>0</span>
-      <span class="rep">R +5</span>
-      <span class="rep">R +10</span>
-      <span class="rep">R +15</span>
-     </div>
-    </div>
-   `;
+        <div class="legend-scale-shell">
+          ${buildLegendSpectrum(colors, 'shift')}
+          <div class="legend-scale-caption">
+            <span class="dem">Toward Democrats</span>
+            <span>No change</span>
+            <span class="rep">Toward Republicans</span>
+          </div>
+          <div class="legend-axis shift">
+            <span class="dem">D +15</span>
+            <span class="dem">D +10</span>
+            <span class="dem">D +5</span>
+            <span>0</span>
+            <span class="rep">R +5</span>
+            <span class="rep">R +10</span>
+            <span class="rep">R +15</span>
+          </div>
+        </div>
+      `;
     }
 
     function renderLegendForVizMode(mode, meta = {}) {
@@ -7032,64 +7032,64 @@ document.addEventListener('DOMContentLoaded', function() {
             ? `<span class="focus-trend-chip">Other ${escapeHtml(entry.otherPct.toFixed(2))}%</span>`
             : '';
           return `
-      <div class="focus-trend-entry">
-       <span class="focus-trend-entry-year">${escapeHtml(entry.item.year)}</span>
-       <div class="focus-trend-entry-card" data-party="${entry.winnerMeta.partyClass}">
-        <div class="focus-trend-entry-head">
-         <div class="focus-trend-entry-copy">
-          <span class="focus-trend-entry-badge ${entry.winnerMeta.partyClass}">${escapeHtml(winnerLabel)}</span>
-          <span class="focus-trend-entry-call ${entry.winnerMeta.partyClass}">${escapeHtml(entry.winnerMeta.label)}</span>
-         </div>
-         <span class="focus-trend-entry-margin">${escapeHtml(leadSummary)}</span>
-        </div>
-        <div class="focus-trend-entry-scale">
-         <span class="dem">${escapeHtml(`${shortCandidateLabel(entry.item.dem_candidate, 'Dem')} ${entry.demPct.toFixed(2)}%`)}</span>
-         <span class="rep">${escapeHtml(`${shortCandidateLabel(entry.item.rep_candidate, 'Rep')} ${entry.repPct.toFixed(2)}%`)}</span>
-        </div>
-        <div class="focus-trend-entry-bar" aria-hidden="true">
-         <span style="width:${entry.demPct.toFixed(4)}%;background:#2563eb;"></span>
-         ${entry.otherVotes > 0 ? `<span style="width:${entry.otherPct.toFixed(4)}%;background:#64748b;"></span>` : ''}
-         <span style="width:${entry.repPct.toFixed(4)}%;background:#dc2626;"></span>
-        </div>
-        <div class="focus-trend-entry-footer">
-         <span class="focus-trend-chip">${escapeHtml(totalVotesLabel)}</span>
-         <span class="focus-trend-chip ${entry.shiftMeta.cls}">${escapeHtml(entry.shiftMeta.text)}</span>
-         ${otherChip}
-         ${flipChip}
-        </div>
-       </div>
-      </div>
-     `;
+            <div class="focus-trend-entry">
+              <span class="focus-trend-entry-year">${escapeHtml(entry.item.year)}</span>
+              <div class="focus-trend-entry-card" data-party="${entry.winnerMeta.partyClass}">
+                <div class="focus-trend-entry-head">
+                  <div class="focus-trend-entry-copy">
+                    <span class="focus-trend-entry-badge ${entry.winnerMeta.partyClass}">${escapeHtml(winnerLabel)}</span>
+                    <span class="focus-trend-entry-call ${entry.winnerMeta.partyClass}">${escapeHtml(entry.winnerMeta.label)}</span>
+                  </div>
+                  <span class="focus-trend-entry-margin">${escapeHtml(leadSummary)}</span>
+                </div>
+                <div class="focus-trend-entry-scale">
+                  <span class="dem">${escapeHtml(`${shortCandidateLabel(entry.item.dem_candidate, 'Dem')} ${entry.demPct.toFixed(2)}%`)}</span>
+                  <span class="rep">${escapeHtml(`${shortCandidateLabel(entry.item.rep_candidate, 'Rep')} ${entry.repPct.toFixed(2)}%`)}</span>
+                </div>
+                <div class="focus-trend-entry-bar" aria-hidden="true">
+                  <span style="width:${entry.demPct.toFixed(4)}%;background:#2563eb;"></span>
+                  ${entry.otherVotes > 0 ? `<span style="width:${entry.otherPct.toFixed(4)}%;background:#64748b;"></span>` : ''}
+                  <span style="width:${entry.repPct.toFixed(4)}%;background:#dc2626;"></span>
+                </div>
+                <div class="focus-trend-entry-footer">
+                  <span class="focus-trend-chip">${escapeHtml(totalVotesLabel)}</span>
+                  <span class="focus-trend-chip ${entry.shiftMeta.cls}">${escapeHtml(entry.shiftMeta.text)}</span>
+                  ${otherChip}
+                  ${flipChip}
+                </div>
+              </div>
+            </div>
+          `;
         })
         .join('');
 
       chartEl.innerHTML = `
-    <div class="focus-trend-plot">
-     <div class="focus-trend-summary">
-      <div class="focus-trend-summary-copy">
-       <span class="focus-trend-summary-kicker">Trend at a glance</span>
-       <div class="focus-trend-summary-call">${escapeHtml(`${latest.item.year}: ${latestSummary}`)}</div>
-       <div class="focus-trend-summary-note">${escapeHtml(`Showing ${annotated.length} elections from ${earliest.item.year} to ${latest.item.year}. ${streakLabel}`)}</div>
-      </div>
-      <div class="focus-trend-summary-badges">${summaryBadges.join('')}</div>
-      <div class="focus-trend-stats">
-       <div class="focus-trend-stat">
-        <span class="focus-trend-stat-label">Latest</span>
-        <span class="focus-trend-stat-value ${latest.winnerMeta.partyClass}">${escapeHtml(`${latest.item.year}: ${latestSummary}`)}</span>
-       </div>
-       <div class="focus-trend-stat">
-        <span class="focus-trend-stat-label">Closest</span>
-        <span class="focus-trend-stat-value ${closest.winnerMeta.partyClass}">${escapeHtml(`${closest.item.year}: ${winnerMarginLabelShort(closest.repVotes, closest.demVotes, closest.totalVotes, closest.item.rep_candidate, closest.item.dem_candidate)}`)}</span>
-       </div>
-       <div class="focus-trend-stat">
-        <span class="focus-trend-stat-label">Since ${escapeHtml(earliest.item.year)}</span>
-        <span class="focus-trend-stat-value ${historyShift.cls}">${escapeHtml(historyShift.text)}</span>
-       </div>
-      </div>
-     </div>
-    </div>
-    <div class="focus-trend-list">${cards}</div>
-   `;
+        <div class="focus-trend-plot">
+          <div class="focus-trend-summary">
+            <div class="focus-trend-summary-copy">
+              <span class="focus-trend-summary-kicker">Trend at a glance</span>
+              <div class="focus-trend-summary-call">${escapeHtml(`${latest.item.year}: ${latestSummary}`)}</div>
+              <div class="focus-trend-summary-note">${escapeHtml(`Showing ${annotated.length} elections from ${earliest.item.year} to ${latest.item.year}. ${streakLabel}`)}</div>
+            </div>
+            <div class="focus-trend-summary-badges">${summaryBadges.join('')}</div>
+            <div class="focus-trend-stats">
+              <div class="focus-trend-stat">
+                <span class="focus-trend-stat-label">Latest</span>
+                <span class="focus-trend-stat-value ${latest.winnerMeta.partyClass}">${escapeHtml(`${latest.item.year}: ${latestSummary}`)}</span>
+              </div>
+              <div class="focus-trend-stat">
+                <span class="focus-trend-stat-label">Closest</span>
+                <span class="focus-trend-stat-value ${closest.winnerMeta.partyClass}">${escapeHtml(`${closest.item.year}: ${winnerMarginLabelShort(closest.repVotes, closest.demVotes, closest.totalVotes, closest.item.rep_candidate, closest.item.dem_candidate)}`)}</span>
+              </div>
+              <div class="focus-trend-stat">
+                <span class="focus-trend-stat-label">Since ${escapeHtml(earliest.item.year)}</span>
+                <span class="focus-trend-stat-value ${historyShift.cls}">${escapeHtml(historyShift.text)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="focus-trend-list">${cards}</div>
+      `;
       try { updateMobileOverlayOffsets(); } catch (_) {}
     }
 
@@ -8448,30 +8448,30 @@ document.addEventListener('DOMContentLoaded', function() {
         )).join('');
 
         const markup = `
-     <div class="statewide-card" data-party="${winnerCall.party}">
-      <div class="statewide-hero">
-       <div>
-        <div class="statewide-kicker">Statewide leader</div>
-        <div class="statewide-call" data-party="${winnerCall.party}">${winnerCall.text}</div>
-        <div class="statewide-subline">${winnerSummary} | ${voteMargin.toLocaleString()} vote margin</div>
-       </div>
-       <div class="statewide-competitive" style="color:${compColor};" title="${compLabel}">${compBadge}</div>
-      </div>
-      <div class="statewide-share-row">${shareChips}</div>
-      <div class="statewide-bar">${barSegments.join('')}</div>
-      <div class="statewide-breakdown">${breakdownGrid}</div>
-      <div class="statewide-footer-row">
-       <div class="statewide-stat">
-        <span>Total votes</span>
-        <strong>${totalVotes.toLocaleString()}</strong>
-       </div>
-       <div class="statewide-stat">
-        <span>Margin</span>
-        <strong>${marginPct.toFixed(2)} pts</strong>
-       </div>
-      </div>
-     </div>
-    `;
+          <div class="statewide-card" data-party="${winnerCall.party}">
+            <div class="statewide-hero">
+              <div>
+                <div class="statewide-kicker">Statewide leader</div>
+                <div class="statewide-call" data-party="${winnerCall.party}">${winnerCall.text}</div>
+                <div class="statewide-subline">${winnerSummary} | ${voteMargin.toLocaleString()} vote margin</div>
+              </div>
+              <div class="statewide-competitive" style="color:${compColor};" title="${compLabel}">${compBadge}</div>
+            </div>
+            <div class="statewide-share-row">${shareChips}</div>
+            <div class="statewide-bar">${barSegments.join('')}</div>
+            <div class="statewide-breakdown">${breakdownGrid}</div>
+            <div class="statewide-footer-row">
+              <div class="statewide-stat">
+                <span>Total votes</span>
+                <strong>${totalVotes.toLocaleString()}</strong>
+              </div>
+              <div class="statewide-stat">
+                <span>Margin</span>
+                <strong>${marginPct.toFixed(2)} pts</strong>
+              </div>
+            </div>
+          </div>
+        `;
         setStatewideResultsMarkup(markup);
       } catch (err) {
         console.warn('Failed to render statewide sidebar:', err?.message || err);
@@ -9018,14 +9018,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function buildTooltipTitleWithTier(titleText, tierMeta = null) {
       const safeTitle = escapeHtml(String(titleText || '').trim());
       if (!safeTitle) return '';
-      if (!tierMeta || !tierMeta.label) return safeTitle;
-      const partyClass = tierMeta.party === 'rep' ? 'rep' : (tierMeta.party === 'dem' ? 'dem' : 'tie');
       return `
-    <span class="tooltip-title-wrap">
-     <span class="tooltip-title-main">${safeTitle}</span>
-     <span class="tooltip-title-badge ${partyClass}">${escapeHtml(tierMeta.label)}</span>
-    </span>
-   `;
+        <span class="tooltip-title-wrap">
+          <span class="tooltip-title-main">${safeTitle}</span>
+        </span>
+      `;
     }
 
     function winnerFromSignedMarginPct(signedPct) {
@@ -9072,42 +9069,42 @@ document.addEventListener('DOMContentLoaded', function() {
       const safeSubtitle = (subtitle || '').toString();
 
       const bar = `
-    <div class="rc-bar" aria-label="Vote share bar">
-     <div style="width:${demPct.toFixed(4)}%;background:#3b82f6;"></div>
-     <div style="width:${otherPct.toFixed(4)}%;background:#9ca3af;"></div>
-     <div style="width:${repPct.toFixed(4)}%;background:#ef4444;"></div>
-    </div>
-   `;
+        <div class="rc-bar" aria-label="Vote share bar">
+          <div style="width:${demPct.toFixed(4)}%;background:#3b82f6;"></div>
+          <div style="width:${otherPct.toFixed(4)}%;background:#9ca3af;"></div>
+          <div style="width:${repPct.toFixed(4)}%;background:#ef4444;"></div>
+        </div>
+      `;
 
       return `
-    <div class="result-card">
-     <div class="rc-top">
-      <div>
-       ${safeTitle ? `<div class="rc-title">${safeTitle}</div>` : ''}
-       <div class="rc-sub">${safeSubtitle}</div>
-      </div>
-      <div style="font-weight:900;color:#0f172a;white-space:nowrap;">${marginLabel}</div>
-     </div>
-     ${bar}
-     <div class="rc-row">
-      <div class="rc-chip">
-       <div class="k">D: ${demFull}</div>
-       <div class="v" style="color:#1d4ed8;">${d.toLocaleString()} (${demPct.toFixed(2)}%)</div>
-      </div>
-      <div class="rc-chip">
-       <div class="k">OTHER</div>
-       <div class="v" style="color:#475569;">${o.toLocaleString()} (${otherPct.toFixed(2)}%)</div>
-      </div>
-      <div class="rc-chip">
-       <div class="k">R: ${repFull}</div>
-       <div class="v" style="color:#b91c1c;">${r.toLocaleString()} (${repPct.toFixed(2)}%)</div>
-      </div>
-     </div>
-     <div style="margin-top:10px;font-size:12px;color:#64748b;">
-      Total votes: <strong style="color:#0f172a;">${total.toLocaleString()}</strong>
-     </div>
-    </div>
-   `;
+        <div class="result-card">
+          <div class="rc-top">
+            <div>
+              ${safeTitle ? `<div class="rc-title">${safeTitle}</div>` : ''}
+              <div class="rc-sub">${safeSubtitle}</div>
+            </div>
+            <div style="font-weight:900;color:#0f172a;white-space:nowrap;">${marginLabel}</div>
+          </div>
+          ${bar}
+          <div class="rc-row">
+            <div class="rc-chip">
+              <div class="k">D: ${demFull}</div>
+              <div class="v" style="color:#1d4ed8;">${d.toLocaleString()} (${demPct.toFixed(2)}%)</div>
+            </div>
+            <div class="rc-chip">
+              <div class="k">OTHER</div>
+              <div class="v" style="color:#475569;">${o.toLocaleString()} (${otherPct.toFixed(2)}%)</div>
+            </div>
+            <div class="rc-chip">
+              <div class="k">R: ${repFull}</div>
+              <div class="v" style="color:#b91c1c;">${r.toLocaleString()} (${repPct.toFixed(2)}%)</div>
+            </div>
+          </div>
+          <div style="margin-top:10px;font-size:12px;color:#64748b;">
+            Total votes: <strong style="color:#0f172a;">${total.toLocaleString()}</strong>
+          </div>
+        </div>
+      `;
     }
 
     async function getDistrictTrendSeries(scope, contestType, districtNum) {
@@ -9446,10 +9443,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const inner = `
-    <div class="hover-meta">${chips.join('')}</div>
-    ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate)}
-    ${demoLine}
-   `;
+        <div class="hover-meta">${chips.join('')}</div>
+        ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate)}
+        ${demoLine}
+      `;
 
       const hoverTitle = buildTooltipTitleWithTier(`${countyDisplay}`, tierMeta);
       showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(hoverTitle, inner));
@@ -9525,9 +9522,9 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const inner = `
-    <div class="hover-meta">${chips.join('')}</div>
-    ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate)}
-   `;
+        <div class="hover-meta">${chips.join('')}</div>
+        ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate)}
+      `;
       const hoverTitle = buildTooltipTitleWithTier(title, tierMeta);
       showHoverTooltip(point.x, point.y, buildTooltipShell(hoverTitle, inner));
       wireTooltipButtons();
@@ -9697,11 +9694,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const desc = getDistrictDescription(scope, districtNum);
       const inner = `
-    <div class="hover-meta">${chips.join('')}</div>
-    ${desc ? `<div style="margin-top:6px;font-size:12px;color:#94a3b8;"><strong style="color:#e2e8f0;">Area:</strong> ${desc}</div>` : ''}
-    ${_demoHTML}
-    ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate)}
-   `;
+        <div class="hover-meta">${chips.join('')}</div>
+        ${desc ? `<div style="margin-top:6px;font-size:12px;color:#94a3b8;"><strong style="color:#e2e8f0;">Area:</strong> ${desc}</div>` : ''}
+        ${_demoHTML}
+        ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate)}
+      `;
       const hoverTitle = buildTooltipTitleWithTier(`${districtLabel} ${districtNum}`, tierMeta);
       showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(hoverTitle, inner));
       wireTooltipButtons();
@@ -9749,17 +9746,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function showVTDDetails(vtdId, vtdProps) {
       const detailsDiv = document.getElementById('area-details');
       detailsDiv.innerHTML = `
-    <h4>2000 Precinct ${vtdId}</h4>
-    <div class="data-row">
-     <span class="label">VTD ID:</span>
-     <span class="value">${vtdId}</span>
-    </div>
-    <div class="data-row">
-     <span class="label">Properties:</span>
-     <span class="value">${Object.keys(vtdProps).length} attributes</span>
-    </div>
-    <p><em>Election results will be displayed when precinct-level data is loaded.</em></p>
-   `;
+        <h4>2000 Precinct ${vtdId}</h4>
+        <div class="data-row">
+          <span class="label">VTD ID:</span>
+          <span class="value">${vtdId}</span>
+        </div>
+        <div class="data-row">
+          <span class="label">Properties:</span>
+          <span class="value">${Object.keys(vtdProps).length} attributes</span>
+        </div>
+        <p><em>Election results will be displayed when precinct-level data is loaded.</em></p>
+      `;
       detailsDiv.style.display = 'block';
     }
 
@@ -11575,9 +11572,9 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       return `
-    <div class="tooltip-title">${title}</div>
-    <div class="tooltip-trends">${trendsHtml}</div>
-   `;
+        <div class="tooltip-title">${title}</div>
+        <div class="tooltip-trends">${trendsHtml}</div>
+      `;
     }
 
     // Hover Tooltip Functions - VoteHub Style
@@ -11624,14 +11621,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function buildTooltipShell(title, innerHtml) {
       return `
-    <div class="tooltip-head">
-     <div class="tooltip-title">${title}</div>
-     <div class="tooltip-actions">
-      <button class="tooltip-btn" id="tooltip-close-btn" type="button">Close</button>
-     </div>
-    </div>
-    <div class="tooltip-trends">${innerHtml}</div>
-   `;
+        <div class="tooltip-head">
+          <div class="tooltip-title">${title}</div>
+          <div class="tooltip-actions">
+            <button class="tooltip-btn" id="tooltip-close-btn" type="button">Close</button>
+          </div>
+        </div>
+        <div class="tooltip-trends">${innerHtml}</div>
+      `;
     }
 
     function wireTooltipButtons() {
@@ -11684,14 +11681,14 @@ document.addEventListener('DOMContentLoaded', function() {
       let demographicInfo = '';
       if (districtInfo) {
         demographicInfo = `
-     <div style="margin-bottom: 16px;">
-      <h5>ðŸ‘¥ Demographics (VAP)</h5>
-      <p><strong>Total Population:</strong> ${districtInfo.total_population.toLocaleString()}</p>
-      <p><strong>White:</strong> ${districtInfo.white_vap_pct}%</p>
-      <p><strong>Black:</strong> ${districtInfo.black_vap_pct}%</p>
-      <p><strong>Hispanic:</strong> ${districtInfo.hispanic_vap_pct}%</p>
-     </div>
-    `;
+          <div style="margin-bottom: 16px;">
+            <h5>ðŸ‘¥ Demographics (VAP)</h5>
+            <p><strong>Total Population:</strong> ${districtInfo.total_population.toLocaleString()}</p>
+            <p><strong>White:</strong> ${districtInfo.white_vap_pct}%</p>
+            <p><strong>Black:</strong> ${districtInfo.black_vap_pct}%</p>
+            <p><strong>Hispanic:</strong> ${districtInfo.hispanic_vap_pct}%</p>
+          </div>
+        `;
       }
       
       // Get current contest results if available
@@ -11757,23 +11754,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             electionInfo = `
-       <div style="margin-bottom: 16px;">
-        <h5>Competitiveness</h5>
-        <p style="color: ${compColor}; font-weight: bold; font-size: 16px;">${competitiveness}</p>
-       </div>
-       <div style="margin-bottom: 16px;">
-        <h5>Margin</h5>
-        <p style="color: ${winner === 'Republican' ? '#dc2626' : '#2563eb'}; font-weight: bold; font-size: 18px;">
-         ${marginPct.toFixed(2)}%
-        </p>
-       </div>
-       <div style="margin-bottom: 16px;">
-        <h5>Vote Breakdown</h5>
-        <p><span style="color: #2563eb; font-weight: bold;">Democratic: </span>${demPct.toFixed(2)}% (${demVotes.toLocaleString()})</p>
-        <p><span style="color: #dc2626; font-weight: bold;">Republican: </span>${repPct.toFixed(2)}% (${repVotes.toLocaleString()})</p>
-        <p><strong>Total Votes:</strong> ${totalVotes.toLocaleString()}</p>
-       </div>
-      `;
+              <div style="margin-bottom: 16px;">
+                <h5>Competitiveness</h5>
+                <p style="color: ${compColor}; font-weight: bold; font-size: 16px;">${competitiveness}</p>
+              </div>
+              <div style="margin-bottom: 16px;">
+                <h5>Margin</h5>
+                <p style="color: ${winner === 'Republican' ? '#dc2626' : '#2563eb'}; font-weight: bold; font-size: 18px;">
+                  ${marginPct.toFixed(2)}%
+                </p>
+              </div>
+              <div style="margin-bottom: 16px;">
+                <h5>Vote Breakdown</h5>
+                <p><span style="color: #2563eb; font-weight: bold;">Democratic: </span>${demPct.toFixed(2)}% (${demVotes.toLocaleString()})</p>
+                <p><span style="color: #dc2626; font-weight: bold;">Republican: </span>${repPct.toFixed(2)}% (${repVotes.toLocaleString()})</p>
+                <p><strong>Total Votes:</strong> ${totalVotes.toLocaleString()}</p>
+              </div>
+            `;
           }
         }
       }
@@ -11799,14 +11796,14 @@ document.addEventListener('DOMContentLoaded', function() {
       let demographicInfo = '';
       if (districtInfo) {
         demographicInfo = `
-     <div style="margin-bottom: 16px;">
-      <h5>ðŸ‘¥ Demographics (VAP)</h5>
-      <p><strong>Total Population:</strong> ${districtInfo.total_population.toLocaleString()}</p>
-      <p><strong>White:</strong> ${districtInfo.white_vap_pct}%</p>
-      <p><strong>Black:</strong> ${districtInfo.black_vap_pct}%</p>
-      <p><strong>Hispanic:</strong> ${districtInfo.hispanic_vap_pct}%</p>
-     </div>
-    `;
+          <div style="margin-bottom: 16px;">
+            <h5>ðŸ‘¥ Demographics (VAP)</h5>
+            <p><strong>Total Population:</strong> ${districtInfo.total_population.toLocaleString()}</p>
+            <p><strong>White:</strong> ${districtInfo.white_vap_pct}%</p>
+            <p><strong>Black:</strong> ${districtInfo.black_vap_pct}%</p>
+            <p><strong>Hispanic:</strong> ${districtInfo.hispanic_vap_pct}%</p>
+          </div>
+        `;
       }
       
       // Get current contest results if available
@@ -11820,12 +11817,12 @@ document.addEventListener('DOMContentLoaded', function() {
           // For state legislative districts, we need to aggregate county data by district
           // This is complex without a county-to-district mapping, so show general message
           electionInfo = `
-      <div style="margin-bottom: 16px;">
-       <h5>${year} ${chamber === 'house' ? 'House of Delegates (HoD)' : 'State Senate'}</h5>
-       <p style="color: #666; font-style: italic;">District-level results require county-to-district mapping. 
-       Click to see general trends for this contest type.</p>
-      </div>
-     `;
+            <div style="margin-bottom: 16px;">
+              <h5>${year} ${chamber === 'house' ? 'House of Delegates (HoD)' : 'State Senate'}</h5>
+              <p style="color: #666; font-style: italic;">District-level results require county-to-district mapping. 
+              Click to see general trends for this contest type.</p>
+            </div>
+          `;
         }
       }
       
@@ -11934,21 +11931,21 @@ document.addEventListener('DOMContentLoaded', function() {
       const winColor = winnerParty === 'R' ? '#dc2626' : (winnerParty === 'D' ? '#2563eb' : '#6b7280');
 
       return `
-    <div style="margin-bottom: 12px;">
-     <h5 style="margin:0 0 6px 0;">${year} ${formatContestName(contestType, year)}</h5>
-     <div style="font-size:15px;font-weight:800;color:${winColor};">Winner: ${winName} (${winnerParty})</div>
-     <div style="margin-top:4px;font-size:15px;font-weight:800;color:${winColor};">
-      Margin: ${winnerMarginLabel(repVotes, demVotes, totalVotes, repCandidate, demCandidate)} <span style="color:#64748b;font-weight:600;">(${Math.abs(repVotes - demVotes).toLocaleString()} votes)</span>
-     </div>
-     <div style="margin-top:8px;font-size:14px;">
-      <div><span style="color:#2563eb;font-weight:800;">${demCandidate} (D)</span>: ${demPct.toFixed(2)}% (${demVotes.toLocaleString()})</div>
-      <div><span style="color:#dc2626;font-weight:800;">${repCandidate} (R)</span>: ${repPct.toFixed(2)}% (${repVotes.toLocaleString()})</div>
-      ${otherVotes > 0 ? `<div><span style="color:#6b7280;font-weight:800;">Other</span>: ${othPct.toFixed(2)}% (${otherVotes.toLocaleString()})</div>` : ''}
-      <div style="margin-top:6px;color:#374151;font-weight:700;">Total Votes: ${totalVotes.toLocaleString()}</div>
-     </div>
-     <div style="margin-top:8px;font-size:14px;font-weight:800;color:${compColor};">Competitiveness: ${compLabel}</div>
-    </div>
-   `;
+        <div style="margin-bottom: 12px;">
+          <h5 style="margin:0 0 6px 0;">${year} ${formatContestName(contestType, year)}</h5>
+          <div style="font-size:15px;font-weight:800;color:${winColor};">Winner: ${winName} (${winnerParty})</div>
+          <div style="margin-top:4px;font-size:15px;font-weight:800;color:${winColor};">
+            Margin: ${winnerMarginLabel(repVotes, demVotes, totalVotes, repCandidate, demCandidate)} <span style="color:#64748b;font-weight:600;">(${Math.abs(repVotes - demVotes).toLocaleString()} votes)</span>
+          </div>
+          <div style="margin-top:8px;font-size:14px;">
+            <div><span style="color:#2563eb;font-weight:800;">${demCandidate} (D)</span>: ${demPct.toFixed(2)}% (${demVotes.toLocaleString()})</div>
+            <div><span style="color:#dc2626;font-weight:800;">${repCandidate} (R)</span>: ${repPct.toFixed(2)}% (${repVotes.toLocaleString()})</div>
+            ${otherVotes > 0 ? `<div><span style="color:#6b7280;font-weight:800;">Other</span>: ${othPct.toFixed(2)}% (${otherVotes.toLocaleString()})</div>` : ''}
+            <div style="margin-top:6px;color:#374151;font-weight:700;">Total Votes: ${totalVotes.toLocaleString()}</div>
+          </div>
+          <div style="margin-top:8px;font-size:14px;font-weight:800;color:${compColor};">Competitiveness: ${compLabel}</div>
+        </div>
+      `;
     }
 
     function renderDistrictTrendLinesHTML(series) {
@@ -11980,15 +11977,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const desc = getDistrictDescription('congressional', districtNum);
       if (districtInfo) {
         demographicInfo = `
-     <div style="margin-bottom: 12px;">
-      ${desc ? `<div style="margin:0 0 10px 0;color:#475569;font-weight:800;">${desc}</div>` : ''}
-      <h5 style="margin:0 0 6px 0;">Demographics (VAP)</h5>
-      <div style="font-size:14px;"><strong>Total Population:</strong> ${Number(districtInfo.total_population || 0).toLocaleString()}</div>
-      <div style="font-size:14px;"><strong>White:</strong> ${districtInfo.white_vap_pct}%</div>
-      <div style="font-size:14px;"><strong>Black:</strong> ${districtInfo.black_vap_pct}%</div>
-      <div style="font-size:14px;"><strong>Hispanic:</strong> ${districtInfo.hispanic_vap_pct}%</div>
-     </div>
-    `;
+          <div style="margin-bottom: 12px;">
+            ${desc ? `<div style="margin:0 0 10px 0;color:#475569;font-weight:800;">${desc}</div>` : ''}
+            <h5 style="margin:0 0 6px 0;">Demographics (VAP)</h5>
+            <div style="font-size:14px;"><strong>Total Population:</strong> ${Number(districtInfo.total_population || 0).toLocaleString()}</div>
+            <div style="font-size:14px;"><strong>White:</strong> ${districtInfo.white_vap_pct}%</div>
+            <div style="font-size:14px;"><strong>Black:</strong> ${districtInfo.black_vap_pct}%</div>
+            <div style="font-size:14px;"><strong>Hispanic:</strong> ${districtInfo.hispanic_vap_pct}%</div>
+          </div>
+        `;
       } else if (desc) {
         demographicInfo = `<div style="margin:0 0 12px 0;color:#475569;font-weight:800;">${desc}</div>`;
       }
@@ -12003,12 +12000,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const [contestType, year] = parseContestValue(contestValue);
       const reqId = ++districtSidebarRequestId;
       contentEl.innerHTML = demographicInfo + `
-    <div id="district-election" style="margin-bottom: 14px;color:#94a3b8;">Loading results...</div>
-    <div style="margin-top:10px;">
-     <h5 style="margin:0 0 6px 0;">Historical Trends</h5>
-     <div id="district-trends" style="color:#94a3b8;">Loading...</div>
-    </div>
-   `;
+        <div id="district-election" style="margin-bottom: 14px;color:#94a3b8;">Loading results...</div>
+        <div style="margin-top:10px;">
+          <h5 style="margin:0 0 6px 0;">Historical Trends</h5>
+          <div id="district-trends" style="color:#94a3b8;">Loading...</div>
+        </div>
+      `;
       detailsDiv.style.display = 'block';
 
       (async () => {
@@ -12065,15 +12062,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const desc = getDistrictDescription(scope, districtNum);
       if (infoRow) {
         demographicInfo = `
-     <div style="margin-bottom: 12px;">
-      ${desc ? `<div style="margin:0 0 10px 0;color:#475569;font-weight:800;">${desc}</div>` : ''}
-      <h5 style="margin:0 0 6px 0;">Demographics (VAP)</h5>
-      <div style="font-size:14px;"><strong>Total Population:</strong> ${Number(infoRow.total_population || 0).toLocaleString()}</div>
-      <div style="font-size:14px;"><strong>White:</strong> ${infoRow.white_vap_pct}%</div>
-      <div style="font-size:14px;"><strong>Black:</strong> ${infoRow.black_vap_pct}%</div>
-      <div style="font-size:14px;"><strong>Hispanic:</strong> ${infoRow.hispanic_vap_pct}%</div>
-     </div>
-    `;
+          <div style="margin-bottom: 12px;">
+            ${desc ? `<div style="margin:0 0 10px 0;color:#475569;font-weight:800;">${desc}</div>` : ''}
+            <h5 style="margin:0 0 6px 0;">Demographics (VAP)</h5>
+            <div style="font-size:14px;"><strong>Total Population:</strong> ${Number(infoRow.total_population || 0).toLocaleString()}</div>
+            <div style="font-size:14px;"><strong>White:</strong> ${infoRow.white_vap_pct}%</div>
+            <div style="font-size:14px;"><strong>Black:</strong> ${infoRow.black_vap_pct}%</div>
+            <div style="font-size:14px;"><strong>Hispanic:</strong> ${infoRow.hispanic_vap_pct}%</div>
+          </div>
+        `;
       } else if (desc) {
         demographicInfo = `<div style="margin:0 0 12px 0;color:#475569;font-weight:800;">${desc}</div>`;
       }
@@ -12088,12 +12085,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const [contestType, year] = parseContestValue(contestValue);
       const reqId = ++districtSidebarRequestId;
       contentEl.innerHTML = demographicInfo + `
-    <div id="district-election" style="margin-bottom: 14px;color:#94a3b8;">Loading results...</div>
-    <div style="margin-top:10px;">
-     <h5 style="margin:0 0 6px 0;">Historical Trends</h5>
-     <div id="district-trends" style="color:#94a3b8;">Loading...</div>
-    </div>
-   `;
+        <div id="district-election" style="margin-bottom: 14px;color:#94a3b8;">Loading results...</div>
+        <div style="margin-top:10px;">
+          <h5 style="margin:0 0 6px 0;">Historical Trends</h5>
+          <div id="district-trends" style="color:#94a3b8;">Loading...</div>
+        </div>
+      `;
       detailsDiv.style.display = 'block';
 
       (async () => {
@@ -12145,16 +12142,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const marginAbs = Math.abs(margin);
         
         return `<div class="quick-tooltip">
-     <strong>${displayCountyName(countyName)}</strong><br>
-     ${recent.year}: ${winner}+${marginAbs.toFixed(2)}%<br>
-     <em>Click for full trends</em>
-    </div>`;
+          <strong>${displayCountyName(countyName)}</strong><br>
+          ${recent.year}: ${winner}+${marginAbs.toFixed(2)}%<br>
+          <em>Click for full trends</em>
+        </div>`;
       }
       
       return `<div class="quick-tooltip">
-    <strong>${displayCountyName(countyName)}</strong><br>
-    <em>Click for details</em>
-   </div>`;
+        <strong>${displayCountyName(countyName)}</strong><br>
+        <em>Click for details</em>
+      </div>`;
     }
 
     function getDistrictDescription(scope, districtNum) {
@@ -12227,11 +12224,11 @@ document.addEventListener('DOMContentLoaded', function() {
           const marginAbs = Math.abs(margin);
           
           return `<div class="quick-tooltip">
-      <strong>${displayName}</strong><br>
-      ${desc ? `<span style="color:#64748b;font-weight:700;">${desc}</span><br>` : ''}
-      ${recent.year}: ${winner}+${marginAbs.toFixed(2)}%<br>
-      <em>Click for full trends</em>
-     </div>`;
+            <strong>${displayName}</strong><br>
+            ${desc ? `<span style="color:#64748b;font-weight:700;">${desc}</span><br>` : ''}
+            ${recent.year}: ${winner}+${marginAbs.toFixed(2)}%<br>
+            <em>Click for full trends</em>
+          </div>`;
         }
       } else if (type === 'house') {
         displayName = `House of Delegates District ${districtNum}`;
@@ -12240,10 +12237,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       return `<div class="quick-tooltip">
-    <strong>${displayName}</strong><br>
-    ${desc ? `<span style="color:#64748b;font-weight:700;">${desc}</span><br>` : ''}
-    <em>Click for details</em>
-   </div>`;
+        <strong>${displayName}</strong><br>
+        ${desc ? `<span style="color:#64748b;font-weight:700;">${desc}</span><br>` : ''}
+        <em>Click for details</em>
+      </div>`;
     }
 
     async function init() {

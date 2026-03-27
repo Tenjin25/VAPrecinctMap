@@ -137,6 +137,24 @@ The front-end can optionally load a cleaned county/locality population-estimates
 
 If this file is missing, the map still works; the Census insight/check sections simply won’t render.
 
+#### Trajectory arrows
+
+The **Trajectory Snapshot** uses arrows to summarize direction of change in the signed two-party margin (positive = more Republican; negative = more Democratic):
+
+- `→` trending more Republican
+- `←` trending more Democratic
+- `↔` no clear directional change / roughly flat shift
+
+#### Trajectory categories
+
+The **Trajectory Snapshot** status combines a **category** (how the lean is behaving over time) with the **current side** (Republican/Democratic/Competitive), based on the trend-series margins:
+
+- **Competitive**: latest margin is ~even; no durable lean in the current snapshot.
+- **Stable**: durable lean with no sustained recent break (little directional change across cycles).
+- **Reinforcing**: already leaned R/D and recent cycles strengthened that advantage.
+- **Softening**: still leans R/D, but recent cycles narrowed that advantage.
+- **Realigning**: crossed from D→R or R→D over the available history (a flip in long-run lean).
+
 ### Block Assignment Crosswalk
 
 | File | Contents |

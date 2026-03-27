@@ -10458,19 +10458,6 @@ document.addEventListener('DOMContentLoaded', function() {
       return competitivenessTierMeta(0, 'tie');
     }
 
-    function buildTooltipTitleWithTier(titleText, tierMeta = null) {
-      const safeTitle = escapeHtml(String(titleText || '').trim());
-      if (!safeTitle) return '';
-      if (!tierMeta || !tierMeta.label) return safeTitle;
-      const partyClass = tierMeta.party === 'rep' ? 'rep' : (tierMeta.party === 'dem' ? 'dem' : 'tie');
-      return `
-    <span class="tooltip-title-wrap">
-     <span class="tooltip-title-main">${safeTitle}</span>
-     <span class="tooltip-title-badge ${partyClass}">${escapeHtml(tierMeta.label)}</span>
-    </span>
-   `;
-    }
-
     function winnerFromSignedMarginPct(signedPct) {
       const v = Number(signedPct) || 0;
       if (v > 0) return 'R';

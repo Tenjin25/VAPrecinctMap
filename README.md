@@ -155,6 +155,10 @@ The **Trajectory Snapshot** status combines a **category** (how the lean is beha
 - **Softening**: still leans R/D, but recent cycles narrowed that advantage.
 - **Realigning**: crossed from D→R or R→D over the available history (a flip in long-run lean).
 
+#### City vs county wording
+
+The Trajectory Snapshot’s “Meaning” line uses `city` vs `county` based on the selected locality’s canonical name (e.g. `RICHMOND CITY` vs `RICHMOND COUNTY`). If a locality label arrives without a suffix, the front end falls back to Virginia’s independent-city list to decide whether it should read as a city or a county.
+
 ### Block Assignment Crosswalk
 
 | File | Contents |
@@ -484,6 +488,8 @@ Virginia's election data uses several inconsistent forms for the same jurisdicti
 3. Keep only aliases that map unambiguously to a single canonical locality.
 
 This alias map is applied to every `county` field in source CSVs before any aggregation, ensuring that all scripts use identical locality keys for joins.
+
+This also handles county/city name collisions: if both `RICHMOND COUNTY` and `RICHMOND CITY` exist, the bare alias `RICHMOND` is considered ambiguous and is dropped, so joins stay deterministic.
 
 ---
 

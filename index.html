@@ -7952,8 +7952,10 @@ document.addEventListener('DOMContentLoaded', function() {
       };
     }
 
-    function addCensusConfirmationToTrajectory(meta, context) {
+    function addCensusConfirmationToTrajectory(meta, context, options = {}) {
       if (!meta || !context) return meta;
+      const subjectNounRaw = (options?.subjectNoun ?? options?.subjectLabel ?? '').toString().trim().toLowerCase();
+      const subjectNoun = subjectNounRaw === 'city' ? 'city' : (subjectNounRaw === 'county' ? 'county' : 'locality');
       const statusMainText = String(meta?.statusMain || meta?.status || '');
       const trendText = String(meta?.trend || '');
       const totalPct = Number(context?.changePct2020To2025);
@@ -7972,7 +7974,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       let censusCheck = '';
       if (/Reinforcing/i.test(statusMainText) && fastGrowth) {
-        censusCheck = `Census growth estimates also support the strengthening call: population is ${formatPopulationChangePct(totalPct)}${deltaClause} since 2020, and the county/city is still growing while the partisan direction continues to strengthen.`;
+        censusCheck = `Census growth estimates also support the strengthening call: population is ${formatPopulationChangePct(totalPct)}${deltaClause} since 2020, and the ${subjectNoun} is still growing while the partisan direction continues to strengthen.`;
       } else if (trendTowardDem && fastGrowth) {
         const statewideClause = Number.isFinite(stateTotalPct)
           ? ` (vs ${formatPopulationChangePct(stateTotalPct)} statewide)`
@@ -8049,8 +8051,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function classifyCountyTrajectory(series, options = {}) {
-      const subjectLabelRaw = (options?.subjectLabel ?? options?.geoLabel ?? options?.entityLabel ?? 'county/city');
-      const subjectLabel = String(subjectLabelRaw || '').trim() || 'county/city';
+      const subjectLabelRaw = (options?.subjectLabel ?? options?.geoLabel ?? options?.entityLabel ?? 'locality');
+      const subjectLabel = String(subjectLabelRaw || '').trim() || 'locality';
       const subject = `The ${subjectLabel}`;
       if (!Array.isArray(series) || !series.length) {
         return {
@@ -8612,8 +8614,10 @@ document.addEventListener('DOMContentLoaded', function() {
           series = await getStatewideTrendSeries(contestType);
         }
         if (reqId !== voteCounterTrendRequestId) return;
+        const trajectorySubjectLabel = meta.kind === 'district'
+          ? 'district'
+          : (meta.kind === 'county' || meta.kind === 'precinct' ? localityNoun(meta.county) : 'locality');
         if (meta.kind !== 'statewide' && series && series.length) {
-          const trajectorySubjectLabel = meta.kind === 'district' ? 'district' : 'county/city';
           try { trendOptions.trajectoryMeta = classifyCountyTrajectory(series, { subjectLabel: trajectorySubjectLabel }); } catch (_) {}
         }
         if ((meta.kind === 'county' || meta.kind === 'precinct') && meta.county) {
@@ -8625,7 +8629,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (trendOptions.trajectoryMeta) {
               trendOptions.trajectoryMeta = addCensusConfirmationToTrajectory(
                 trendOptions.trajectoryMeta,
-                trendOptions.censusContext
+                trendOptions.censusContext,
+                { subjectNoun: trajectorySubjectLabel }
               );
             }
           } catch (_) {}
@@ -10139,6 +10144,32 @@ document.addEventListener('DOMContentLoaded', function() {
       'WAYNESBORO', 'WILLIAMSBURG', 'WINCHESTER'
     ]);
     const VA_CITY_SUFFIX_COUNTIES = new Set(['JAMES CITY', 'CHARLES CITY']);
+
+    function localityNoun(raw) {
+      const s = (raw || '').toString().trim();
+      if (!s) return 'locality';
+
+      const cityOfMatch = s.match(/^City of\s+(.+)$/i);
+      if (cityOfMatch) {
+        const base = toTitleCaseName(cityOfMatch[1].trim());
+        if (VA_CITY_SUFFIX_COUNTIES.has(`${base} City`.toUpperCase())) return 'county';
+        return 'city';
+      }
+
+      const cityMatch = s.match(/^(.+?)\s+City$/i);
+      if (cityMatch) {
+        const base = toTitleCaseName(cityMatch[1].trim());
+        if (VA_CITY_SUFFIX_COUNTIES.has(`${base} City`.toUpperCase())) return 'county';
+        return 'city';
+      }
+
+      const countyMatch = s.match(/^(.+?)\s+County$/i);
+      if (countyMatch) return 'county';
+
+      const titled = toTitleCaseName(s);
+      if (VA_INDEPENDENT_CITIES.has(titled.toUpperCase())) return 'city';
+      return 'county';
+    }
 
     function displayCountyName(raw) {
       const s = (raw || '').toString().trim();

@@ -3199,7 +3199,8 @@ body { height: var(--app-height); }
 
   .focus-census-summary,
   .focus-census-note,
-  .focus-census-source {
+  .focus-census-source,
+  .focus-census-metrics {
     margin: 0;
   }
 
@@ -3223,6 +3224,12 @@ body { height: var(--app-height); }
     font-size: 11px;
     line-height: 1.4;
     color: #64748b;
+  }
+
+  .focus-census-metrics {
+    font-size: 11px;
+    line-height: 1.45;
+    color: #475569;
   }
 
   .focus-census-check {
@@ -7518,6 +7525,13 @@ document.addEventListener('DOMContentLoaded', function() {
       return `${value > 0 ? 'up' : 'down'} ${Math.abs(value).toFixed(1)}%`;
     }
 
+    function formatSignedInt(value) {
+      const v = Number(value);
+      if (!Number.isFinite(v)) return '';
+      const rounded = Math.round(v);
+      return `${rounded > 0 ? '+' : ''}${rounded.toLocaleString()}`;
+    }
+
     const VA_CORRIDOR_NOVA_OUTER_GROWTH = new Set([
       'LOUDOUN COUNTY',
       'PRINCE WILLIAM COUNTY',
@@ -7894,6 +7908,10 @@ document.addEventListener('DOMContentLoaded', function() {
       return {
         title: 'Census Context',
         countyNorm: norm,
+        population2020: Number(estimate?.population2020),
+        population2025: Number(estimate?.population2025),
+        change2020To2025: Number(estimate?.change2020To2025),
+        change2024To2025: Number(estimate?.change2024To2025),
         changePct2020To2025: Number.isFinite(totalPct) ? totalPct : NaN,
         changePct2024To2025: Number.isFinite(recentPct) ? recentPct : NaN,
         stateChangePct2020To2025: Number.isFinite(stateTotalPct) ? stateTotalPct : NaN,
@@ -7917,6 +7935,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const totalPct = Number(context?.changePct2020To2025);
       const recentPct = Number(context?.changePct2024To2025);
       const stateTotalPct = Number(context?.stateChangePct2020To2025);
+      const totalDelta = Number(context?.change2020To2025);
       if (!Number.isFinite(totalPct)) return meta;
 
       const fastGrowth = totalPct >= 6 || (Number.isFinite(stateTotalPct) && totalPct > stateTotalPct + 1.5);
@@ -7925,23 +7944,24 @@ document.addEventListener('DOMContentLoaded', function() {
       const trendTowardRep = trendText.includes('→');
       const corridorLabel = String(context?.corridorLabel || '').trim();
       const corridorEmoji = String(context?.corridorEmoji || '').trim();
+      const deltaClause = Number.isFinite(totalDelta) ? ` (${formatSignedInt(totalDelta)})` : '';
 
       let censusCheck = '';
       if (/Reinforcing/i.test(statusText) && fastGrowth) {
-        censusCheck = `Census growth estimates also support the reinforcing call: population is ${formatPopulationChangePct(totalPct)} since 2020, and the county/city is still growing while the partisan direction continues to strengthen.`;
+        censusCheck = `Census growth estimates also support the reinforcing call: population is ${formatPopulationChangePct(totalPct)}${deltaClause} since 2020, and the county/city is still growing while the partisan direction continues to strengthen.`;
       } else if (trendTowardDem && fastGrowth) {
         const statewideClause = Number.isFinite(stateTotalPct)
           ? ` (vs ${formatPopulationChangePct(stateTotalPct)} statewide)`
           : '';
-        censusCheck = `Census growth estimates are consistent with a Democratic trend: population is ${formatPopulationChangePct(totalPct)} since 2020${statewideClause}, which often correlates with higher electorate turnover in fast-growing places.`;
+        censusCheck = `Census growth estimates are consistent with a Democratic trend: population is ${formatPopulationChangePct(totalPct)}${deltaClause} since 2020${statewideClause}, which often correlates with higher electorate turnover in fast-growing places.`;
       } else if (trendTowardRep && slowGrowth) {
-        censusCheck = `Census growth estimates are consistent with a Republican trend: population is ${formatPopulationChangePct(totalPct)} since 2020, which can align with slower electorate turnover in slow-growth or declining localities.`;
+        censusCheck = `Census growth estimates are consistent with a Republican trend: population is ${formatPopulationChangePct(totalPct)}${deltaClause} since 2020, which can align with slower electorate turnover in slow-growth or declining localities.`;
       }
 
       if (!censusCheck && corridorLabel) {
         const corridorTag = `${corridorEmoji ? `${corridorEmoji} ` : ''}${corridorLabel}`.trim();
         const deltaLabel = formatPopulationChangePct(totalPct);
-        censusCheck = `Corridor context: ${corridorTag}. Population is ${deltaLabel} since 2020; these kinds of migration/churn patterns are a common way local partisan leans form and then solidify across cycles.`;
+        censusCheck = `Corridor context: ${corridorTag}. Population is ${deltaLabel}${deltaClause} since 2020; these kinds of migration/churn patterns are a common way local partisan leans form and then solidify across cycles.`;
       }
 
       if (censusCheck && corridorLabel && !/Corridor context:/i.test(censusCheck)) {
@@ -7957,6 +7977,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderFocusCensusInsightHTML(context, title = 'County Census Insight') {
       if (!context) return '';
+      const pop2025 = Number(context?.population2025);
+      const delta2020to2025 = Number(context?.change2020To2025);
+      const pct2020to2025 = Number(context?.changePct2020To2025);
+      const delta2024to2025 = Number(context?.change2024To2025);
+      const pct2024to2025 = Number(context?.changePct2024To2025);
+
+      const metricParts = [];
+      if (Number.isFinite(pop2025) && pop2025 > 0) {
+        metricParts.push(`2025 est: ${Math.round(pop2025).toLocaleString()}`);
+      }
+      if (Number.isFinite(pct2020to2025) || Number.isFinite(delta2020to2025)) {
+        const pctLabel = formatPopulationChangePct(pct2020to2025);
+        const deltaLabel = Number.isFinite(delta2020to2025) ? formatSignedInt(delta2020to2025) : '';
+        if (pctLabel && deltaLabel) metricParts.push(`2020→2025: ${pctLabel} (${deltaLabel})`);
+        else if (pctLabel) metricParts.push(`2020→2025: ${pctLabel}`);
+        else if (deltaLabel) metricParts.push(`2020→2025: ${deltaLabel}`);
+      }
+      if (Number.isFinite(pct2024to2025) || Number.isFinite(delta2024to2025)) {
+        const pctLabel = formatPopulationChangePct(pct2024to2025);
+        const deltaLabel = Number.isFinite(delta2024to2025) ? formatSignedInt(delta2024to2025) : '';
+        if (pctLabel && deltaLabel) metricParts.push(`2024→2025: ${pctLabel} (${deltaLabel})`);
+        else if (pctLabel) metricParts.push(`2024→2025: ${pctLabel}`);
+        else if (deltaLabel) metricParts.push(`2024→2025: ${deltaLabel}`);
+      }
+      const metricsHtml = metricParts.length
+        ? `<p class="focus-census-metrics">${escapeHtml(metricParts.join(' • '))}</p>`
+        : '';
       return `
         <div class="focus-census-insight" role="note" aria-label="${escapeHtml(title)}">
           <div class="focus-census-head">
@@ -7970,6 +8017,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <span class="focus-census-inline-emoji">${escapeHtml(context.patternEmoji || '🧭')}</span>
             ${escapeHtml(context.patternLabel || 'Mixed local and regional forces')}
           </p>
+          ${metricsHtml}
           ${context.noteLabel ? `<p class="focus-census-note">${escapeHtml(context.noteLabel)}</p>` : ''}
           ${context.sourceNote ? `<p class="focus-census-source">${escapeHtml(context.sourceNote)}</p>` : ''}
         </div>

@@ -48,7 +48,7 @@ Virginia holds elections on a distinct off-year cycle (gubernatorial and state l
 | **Contest selector** | Dropdowns for contest type and year; manifest-driven so new contests appear automatically |
 | **Map views** | County fill, precinct outline overlay, congressional district, House of Delegates (HoD) district, state-senate district |
 | **Hover tooltip** | Shows locality/district quick results; tap/click holds tooltip and `Close` dismisses it (no pin/unpin control) |
-| **Focus trend panel** | NC-style trend layout in the vote counter with `Latest`, `Closest`, `Since`, and per-year timeline cards |
+| **Focus trend panel** | NC-style trend layout in the vote counter with `Latest`, `Closest`, `Since`, and per-year timeline cards, plus a **Trajectory Snapshot** and optional **Census insight** (Vintage 2025) with corridor tags to explain how/why a partisan lean can form |
 | **Winner labeling** | Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`), while statewide headline keeps short labels |
 | **NCMap parity styling** | Right-rail controls, legend, and vote counter surfaces are aligned with the latest `NCMap.html` layout language |
 | **County search** | Free-text search with fly-to animation using turf bbox |
@@ -126,6 +126,16 @@ Additional utility scripts currently in `scripts/`:
 | `tl_2022_51_sldl.zip` | House of Delegates (HoD, lower chamber) district boundaries | 2022 redistricting |
 | `tl_2022_51_sldu.zip` | State Senate (upper chamber) district boundaries | 2022 redistricting |
 | `tl_2024_51_cd119.zip` | 119th Congress (2023–2025) congressional district boundaries | 2024 |
+
+### Population Estimates (Census Vintage 2025)
+
+The front-end can optionally load a cleaned county/locality population-estimates CSV to enrich the trend panel with a **Census insight** card and a short “Census check” line that can help explain **why** a county/independent city’s partisan lean may have formed or solidified (via growth/decline and corridor heuristics).
+
+| File | Contents |
+|---|---|
+| `Data/CO-EST2025-POP-51-clean.csv` | Virginia county + independent-city population estimates (2020–2025) with precomputed change columns and a normalized key |
+
+If this file is missing, the map still works; the Census insight/check sections simply won’t render.
 
 ### Block Assignment Crosswalk
 

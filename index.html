@@ -3141,6 +3141,475 @@ body { height: var(--app-height); }
     background: rgba(226, 232, 240, 0.86);
   }
 
+  .focus-trend-summary-badge.fallback {
+    color: #92400e;
+    background: rgba(254, 243, 199, 0.92);
+  }
+
+  .focus-census-insight {
+    display: grid;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.94) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  .focus-census-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .focus-census-kicker {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .focus-census-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 26px;
+    max-width: 100%;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(14, 116, 144, 0.18);
+    background: rgba(236, 254, 255, 0.92);
+    color: #155e75;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .focus-census-pill-emoji,
+  .focus-census-inline-emoji {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 16px;
+    line-height: 1;
+  }
+
+  .focus-census-summary,
+  .focus-census-note,
+  .focus-census-source {
+    margin: 0;
+  }
+
+  .focus-census-summary {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.4;
+    color: #0f172a;
+  }
+
+  .focus-census-note {
+    font-size: 12px;
+    line-height: 1.45;
+    color: #334155;
+  }
+
+  .focus-census-source {
+    font-size: 11px;
+    line-height: 1.4;
+    color: #64748b;
+  }
+
+  .focus-census-check {
+    display: grid;
+    gap: 6px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px dashed rgba(148, 163, 184, 0.28);
+    background: rgba(248, 250, 252, 0.92);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .focus-census-check-kicker {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .focus-census-check-body {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #334155;
+  }
+
+  .focus-census-check.tone-dem {
+    border-color: rgba(37, 99, 235, 0.24);
+    background: rgba(239, 246, 255, 0.9);
+  }
+
+  .focus-census-check.tone-rep {
+    border-color: rgba(220, 38, 38, 0.22);
+    background: rgba(254, 242, 242, 0.88);
+  }
+
+  .focus-census-check.tone-competitive,
+  .focus-census-check.tone-neutral {
+    border-color: rgba(217, 119, 6, 0.22);
+    background: rgba(254, 243, 199, 0.74);
+  }
+
+  .focus-trajectory {
+    --trajectory-accent-rgb: 100, 116, 139;
+    --trajectory-accent-soft: rgba(100, 116, 139, 0.2);
+    --trajectory-accent-glow: rgba(100, 116, 139, 0.2);
+    position: relative;
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid var(--trajectory-accent-soft);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(241, 245, 249, 0.92) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74), 0 6px 16px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+    isolation: isolate;
+    animation: trajectory-fade-up 0.22s ease-out;
+  }
+
+  .focus-trajectory.status-dem {
+    --trajectory-accent-rgb: 37, 99, 235;
+    --trajectory-accent-soft: rgba(37, 99, 235, 0.22);
+    --trajectory-accent-glow: rgba(37, 99, 235, 0.24);
+  }
+
+  .focus-trajectory.status-rep {
+    --trajectory-accent-rgb: 220, 38, 38;
+    --trajectory-accent-soft: rgba(220, 38, 38, 0.24);
+    --trajectory-accent-glow: rgba(220, 38, 38, 0.24);
+  }
+
+  .focus-trajectory.status-competitive {
+    --trajectory-accent-rgb: 217, 119, 6;
+    --trajectory-accent-soft: rgba(217, 119, 6, 0.24);
+    --trajectory-accent-glow: rgba(217, 119, 6, 0.26);
+  }
+
+  @keyframes trajectory-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(3px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .focus-trajectory::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      rgba(var(--trajectory-accent-rgb), 0.95) 0%,
+      rgba(var(--trajectory-accent-rgb), 0.35) 52%,
+      rgba(var(--trajectory-accent-rgb), 0) 100%
+    );
+  }
+
+  .focus-trajectory::after {
+    content: '';
+    position: absolute;
+    inset: -45%;
+    background: radial-gradient(circle, var(--trajectory-accent-glow) 0%, rgba(255, 255, 255, 0) 70%);
+    opacity: 0.95;
+    pointer-events: none;
+    transform: rotate(12deg);
+    mix-blend-mode: multiply;
+  }
+
+  .focus-trajectory-head {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(var(--trajectory-accent-rgb), 0.25);
+    z-index: 1;
+  }
+
+  .focus-trajectory-kicker {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .focus-trajectory-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(255, 255, 255, 0.86);
+    color: #0f172a;
+    font-size: 11px;
+    font-weight: 900;
+    line-height: 1.25;
+    max-width: 100%;
+  }
+
+  .focus-trajectory-status.tone-dem {
+    border-color: rgba(37, 99, 235, 0.2);
+    background: rgba(239, 246, 255, 0.88);
+    color: #1d4ed8;
+  }
+
+  .focus-trajectory-status.tone-rep {
+    border-color: rgba(220, 38, 38, 0.2);
+    background: rgba(254, 242, 242, 0.84);
+    color: #b91c1c;
+  }
+
+  .focus-trajectory-status.tone-competitive {
+    border-color: rgba(217, 119, 6, 0.22);
+    background: rgba(255, 251, 235, 0.9);
+    color: #92400e;
+  }
+
+  .focus-trajectory-summary {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #334155;
+  }
+
+  .focus-trajectory-trendline {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 7px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(255, 255, 255, 0.82);
+    color: #334155;
+    font-size: 11px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .focus-trajectory-trendline .trend-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(226, 232, 240, 0.8);
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .focus-trajectory-trendline .trend-text {
+    min-width: 0;
+    display: inline;
+    color: inherit;
+  }
+
+  .focus-trajectory-trendline .focus-trajectory-arrow {
+    margin-right: 4px;
+  }
+
+  .focus-trajectory-trendline.tone-rep {
+    color: #b91c1c;
+    border-color: rgba(220, 38, 38, 0.22);
+    background: rgba(254, 242, 242, 0.86);
+  }
+
+  .focus-trajectory-trendline.tone-dem {
+    color: #1d4ed8;
+    border-color: rgba(37, 99, 235, 0.22);
+    background: rgba(239, 246, 255, 0.9);
+  }
+
+  .focus-trajectory-trendline.tone-neutral {
+    color: #475569;
+  }
+
+  .focus-trajectory-meaning {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 7px 8px;
+    border-radius: 10px;
+    border: 1px dashed rgba(148, 163, 184, 0.28);
+    background: rgba(248, 250, 252, 0.9);
+    font-size: 11px;
+    line-height: 1.4;
+    color: #334155;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .focus-trajectory-meaning strong {
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  .focus-trajectory-meaning.tone-dem {
+    border-color: rgba(37, 99, 235, 0.26);
+    background: rgba(239, 246, 255, 0.9);
+  }
+
+  .focus-trajectory-meaning.tone-rep {
+    border-color: rgba(220, 38, 38, 0.24);
+    background: rgba(254, 242, 242, 0.88);
+  }
+
+  .focus-trajectory-meaning.tone-competitive {
+    border-color: rgba(217, 119, 6, 0.24);
+    background: rgba(255, 251, 235, 0.9);
+  }
+
+  .focus-trajectory-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+  }
+
+  .focus-trajectory-item {
+    --trajectory-item-shadow: inset 3px 0 0 rgba(100, 116, 139, 0.34);
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+    padding: 8px 9px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: var(--trajectory-item-shadow);
+    transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+  }
+
+  .focus-trajectory-item.is-latest {
+    grid-column: 1 / -1;
+    gap: 3px;
+    padding: 10px 11px;
+    border-color: rgba(var(--trajectory-accent-rgb), 0.28);
+    background: linear-gradient(
+      180deg,
+      rgba(var(--trajectory-accent-rgb), 0.06) 0%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
+  }
+
+  .focus-trajectory-item.is-latest .focus-trajectory-label {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .focus-trajectory-item.is-latest .focus-trajectory-value {
+    font-size: 13px;
+  }
+
+  .focus-trajectory-item.tone-dem {
+    --trajectory-item-shadow: inset 3px 0 0 rgba(37, 99, 235, 0.42);
+    border-color: rgba(37, 99, 235, 0.18);
+  }
+
+  .focus-trajectory-item.tone-rep {
+    --trajectory-item-shadow: inset 3px 0 0 rgba(220, 38, 38, 0.42);
+    border-color: rgba(220, 38, 38, 0.18);
+  }
+
+  .focus-trajectory-item.tone-neutral {
+    --trajectory-item-shadow: inset 3px 0 0 rgba(100, 116, 139, 0.34);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .focus-trajectory-item:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--trajectory-item-shadow), 0 4px 10px rgba(15, 23, 42, 0.08);
+    }
+  }
+
+  .focus-trajectory-label {
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .focus-trajectory-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 1.3;
+    color: #0f172a;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .focus-trajectory-value.tone-dem {
+    color: #1d4ed8;
+  }
+
+  .focus-trajectory-value.tone-rep {
+    color: #b91c1c;
+  }
+
+  .focus-trajectory-value.tone-neutral {
+    color: #334155;
+  }
+
+  .focus-trajectory-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 14px;
+    font-weight: 900;
+  }
+
+  .focus-trajectory-arrow.tone-dem {
+    color: #1d4ed8;
+  }
+
+  .focus-trajectory-arrow.tone-rep {
+    color: #b91c1c;
+  }
+
+  .focus-trajectory-arrow.tone-neutral {
+    color: #64748b;
+  }
+
   .focus-trend-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
@@ -5652,6 +6121,7 @@ document.addEventListener('DOMContentLoaded', function() {
         state_house: withBase('./Data/tl_2022_51_sldl.geojson'),
         state_senate: withBase('./Data/tl_2022_51_sldu.geojson'),
         county_demographics: withBase('./Data/county_demographics_2020_dp1.json'),
+        county_population_estimates: withBase('./Data/CO-EST2025-POP-51-clean.csv'),
         election: withBase('./Data/va_elections_aggregated.json'),
         district_election: withBase('./Data/va_district_results_2024_lines.json'),
         district_contests_dir: withBase('./Data/district_contests'),
@@ -5778,6 +6248,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let stateSenateInfo = null;
     let districtDescriptions = null; // Optional labels like "Sampson & Bladen Counties" or "Concord-Harrisburg"
     let countyDemographics = null; // County-level VAP (18+) + total-pop race/ethnicity from DP1
+    let countyPopulationEstimatesByNorm = null; // Map<string countyNorm, growth/estimate summary from CO-EST2025-POP-51-clean.csv
+    let countyPopulationEstimateStatewide = null; // Statewide VA summary from the same file
     let countyNameMap = {};
     let currentView = 'counties'; // 'counties', 'districts', 'state_house', 'state_senate'
     let currentElectionResults = null; // Current contest results for county details
@@ -6936,9 +7408,780 @@ document.addEventListener('DOMContentLoaded', function() {
       };
     }
 
-    function renderFocusTrendSeries(series, caption = 'Trend history') {
+    function normalizePopulationLocalityKey(raw) {
+      const norm = normalizeCountyLookupKey(raw);
+      if (!norm) return '';
+      const cityOfMatch = norm.match(/^CITY OF\s+(.+)$/);
+      if (cityOfMatch && cityOfMatch[1]) {
+        const base = cityOfMatch[1].trim();
+        if (!base) return norm;
+        return `${base} CITY`;
+      }
+      return norm;
+    }
+
+    function buildCountyPopulationEstimateIndex(rows) {
+      const byNorm = new Map();
+      let statewide = null;
+      (Array.isArray(rows) ? rows : []).forEach(row => {
+        const countyName = (row?.county_name || '').toString().trim();
+        const countyNorm = normalizePopulationLocalityKey(row?.county_norm || countyName);
+        if (!countyName || !countyNorm) return;
+
+        const population2020 = Number(row?.population_2020 || 0);
+        const population2021 = Number(row?.population_2021 || 0);
+        const population2022 = Number(row?.population_2022 || 0);
+        const population2023 = Number(row?.population_2023 || 0);
+        const population2024 = Number(row?.population_2024 || 0);
+        const population2025 = Number(row?.population_2025 || 0);
+        const changePct2020To2025 = Number(row?.change_2020_2025_pct);
+        const changePct2024To2025 = Number(row?.change_2024_2025_pct);
+        const changePct2023To2024 = population2023 > 0 && population2024 > 0
+          ? ((population2024 - population2023) / population2023) * 100
+          : NaN;
+
+        const populationSeries = [population2020, population2021, population2022, population2023, population2024, population2025];
+        const hasCompleteSeries = populationSeries.every(value => Number.isFinite(value) && value > 0);
+        const deltas = hasCompleteSeries
+          ? populationSeries.slice(1).map((value, idx) => value - populationSeries[idx])
+          : [];
+        const hasUp = deltas.some(delta => delta > 0);
+        const hasDown = deltas.some(delta => delta < 0);
+        const monotoneUp = hasCompleteSeries && hasUp && !hasDown;
+        const monotoneDown = hasCompleteSeries && hasDown && !hasUp;
+        const volatile = hasCompleteSeries && hasUp && hasDown;
+
+        const entry = {
+          countyName,
+          countyNorm,
+          population2020,
+          population2021,
+          population2022,
+          population2023,
+          population2024,
+          population2025,
+          populationSeries,
+          monotoneUp,
+          monotoneDown,
+          volatile,
+          change2020To2025: Number(row?.change_2020_2025 || 0),
+          change2024To2025: Number(row?.change_2024_2025 || 0),
+          changePct2020To2025: Number.isFinite(changePct2020To2025) ? changePct2020To2025 : NaN,
+          changePct2024To2025: Number.isFinite(changePct2024To2025) ? changePct2024To2025 : NaN,
+          changePct2023To2024: Number.isFinite(changePct2023To2024) ? changePct2023To2024 : NaN
+        };
+
+        if (countyNorm === 'VIRGINIA') statewide = entry;
+        else byNorm.set(countyNorm, entry);
+      });
+      return { byNorm, statewide };
+    }
+
+    function formatPopulationChangePct(pct) {
+      const value = Number(pct);
+      if (!Number.isFinite(value)) return '';
+      if (Math.abs(value) < 0.05) return 'roughly flat';
+      return `${value > 0 ? 'up' : 'down'} ${Math.abs(value).toFixed(1)}%`;
+    }
+
+    const VA_CORRIDOR_NOVA_OUTER_GROWTH = new Set([
+      'LOUDOUN COUNTY',
+      'PRINCE WILLIAM COUNTY',
+      'MANASSAS CITY',
+      'MANASSAS PARK CITY',
+      'FAIRFAX CITY'
+    ]);
+
+    const VA_CORRIDOR_NOVA_CORE_MATURE = new Set([
+      'ARLINGTON COUNTY',
+      'FAIRFAX COUNTY',
+      'ALEXANDRIA CITY',
+      'FALLS CHURCH CITY'
+    ]);
+
+    const VA_CORRIDOR_RVA_CORE = new Set([
+      'RICHMOND CITY',
+      'HENRICO COUNTY'
+    ]);
+
+    const VA_CORRIDOR_RVA_EXURBS = new Set([
+      'CHESTERFIELD COUNTY',
+      'HANOVER COUNTY',
+      'POWHATAN COUNTY',
+      'GOOCHLAND COUNTY',
+      'NEW KENT COUNTY',
+      'LOUISA COUNTY',
+      'KING WILLIAM COUNTY'
+    ]);
+
+    const VA_CORRIDOR_I95_FRED_EXURBS = new Set([
+      'STAFFORD COUNTY',
+      'SPOTSYLVANIA COUNTY',
+      'KING GEORGE COUNTY',
+      'FREDERICKSBURG CITY',
+      'CAROLINE COUNTY'
+    ]);
+
+    const VA_CORRIDOR_HR_SOUTHSIDE_EDGE_GROWTH = new Set([
+      'SUFFOLK CITY',
+      'CHESAPEAKE CITY',
+      'ISLE OF WIGHT COUNTY'
+    ]);
+
+    const VA_CORRIDOR_HR_CORE_URBAN = new Set([
+      'NORFOLK CITY',
+      'PORTSMOUTH CITY',
+      'NEWPORT NEWS CITY',
+      'HAMPTON CITY'
+    ]);
+
+    const VA_CORRIDOR_HR_OCEANFRONT_MATURE = new Set([
+      'VIRGINIA BEACH CITY'
+    ]);
+
+    const VA_CORRIDOR_HR_HISTORIC_TRIANGLE = new Set([
+      'JAMES CITY COUNTY',
+      'WILLIAMSBURG CITY',
+      'YORK COUNTY'
+    ]);
+
+    const VA_CORRIDOR_SW_COALFIELD_DECLINE = new Set([
+      'BUCHANAN COUNTY',
+      'DICKENSON COUNTY',
+      'WISE COUNTY',
+      'TAZEWELL COUNTY',
+      'SMYTH COUNTY',
+      'LEE COUNTY',
+      'RUSSELL COUNTY',
+      'SCOTT COUNTY',
+      'NORTON CITY',
+      'BRISTOL CITY'
+    ]);
+
+    const VA_CORRIDOR_EASTERN_SHORE = new Set([
+      'ACCOMACK COUNTY',
+      'NORTHAMPTON COUNTY'
+    ]);
+
+    const VA_CORRIDOR_I81_UPPER_VALLEY = new Set([
+      'FREDERICK COUNTY',
+      'CLARKE COUNTY',
+      'WARREN COUNTY'
+    ]);
+
+    const VA_CORRIDOR_I81_CENTRAL_VALLEY = new Set([
+      'SHENANDOAH COUNTY',
+      'PAGE COUNTY',
+      'ROCKINGHAM COUNTY',
+      'HARRISONBURG CITY',
+      'AUGUSTA COUNTY',
+      'STAUNTON CITY',
+      'WAYNESBORO CITY',
+      'ROCKBRIDGE COUNTY',
+      'LEXINGTON CITY'
+    ]);
+
+    const VA_CORRIDOR_I81_ROANOKE_VALLEY = new Set([
+      'BOTETOURT COUNTY',
+      'ROANOKE COUNTY',
+      'ROANOKE CITY',
+      'SALEM CITY'
+    ]);
+
+    const VA_CORRIDOR_I81_NEW_RIVER_VALLEY = new Set([
+      'MONTGOMERY COUNTY',
+      'RADFORD CITY'
+    ]);
+
+    const VA_CORRIDOR_SOUTHSIDE_DAN_RIVER = new Set([
+      'HALIFAX COUNTY',
+      'PITTSYLVANIA COUNTY',
+      'DANVILLE CITY',
+      'HENRY COUNTY',
+      'MARTINSVILLE CITY'
+    ]);
+
+    const VA_CORRIDOR_SOUTHSIDE_TOBACCO_BELT = new Set([
+      'BRUNSWICK COUNTY',
+      'MECKLENBURG COUNTY',
+      'LUNENBURG COUNTY',
+      'CHARLOTTE COUNTY'
+    ]);
+
+    const VA_CORRIDOR_SOUTHSIDE_I95_BORDER = new Set([
+      'GREENSVILLE COUNTY',
+      'EMPORIA CITY',
+      'SUSSEX COUNTY'
+    ]);
+
+    const VA_CORRIDOR_SOUTHSIDE_INTERIOR = new Set([
+      'PRINCE EDWARD COUNTY',
+      'BUCKINGHAM COUNTY',
+      'CUMBERLAND COUNTY'
+    ]);
+
+    function getVaCorridorDescriptor(countyNormRaw, estimate = null) {
+      const norm = normalizePopulationLocalityKey(countyNormRaw);
+      if (!norm) return null;
+
+      if (VA_CORRIDOR_NOVA_OUTER_GROWTH.has(norm)) {
+        return {
+          emoji: '🏙️',
+          label: 'NoVA outer-suburban growth',
+          note: 'Corridor note: this is in NoVA’s outer growth ring, where in-migration and churn are a common way partisan leans form, flip, and then solidify across cycles.'
+        };
+      }
+      if (VA_CORRIDOR_NOVA_CORE_MATURE.has(norm)) {
+        return {
+          emoji: '🏢',
+          label: 'NoVA mature core',
+          note: 'Corridor note: this is in NoVA’s mature core; even with slower growth, high churn and turnout/composition changes can still explain how a lean forms and hardens.'
+        };
+      }
+      if (VA_CORRIDOR_I95_FRED_EXURBS.has(norm)) {
+        return {
+          emoji: '🛣️',
+          label: 'I‑95 Fredericksburg exurbs',
+          note: 'Corridor note: this sits in the I‑95 Fredericksburg exurbs, where spillover growth often accelerates electorate turnover and can solidify (or unwind) a lean.'
+        };
+      }
+      if (VA_CORRIDOR_RVA_CORE.has(norm)) {
+        return {
+          emoji: '🏛️',
+          label: 'Richmond core',
+          note: 'Corridor note: this is in the Richmond core; lean formation here is often driven by composition + turnout dynamics more than pure suburban growth.'
+        };
+      }
+      if (VA_CORRIDOR_RVA_EXURBS.has(norm)) {
+        return {
+          emoji: '🏡',
+          label: 'Richmond exurbs',
+          note: 'Corridor note: this is in the Richmond exurbs, where outward metro growth can reinforce a local lean through steady population churn.'
+        };
+      }
+      if (VA_CORRIDOR_HR_SOUTHSIDE_EDGE_GROWTH.has(norm)) {
+        return {
+          emoji: '🌊',
+          label: 'Hampton Roads Southside edge',
+          note: 'Corridor note: this is on the Southside growth edge of Hampton Roads; suburban expansion can help explain how a lean forms or hardens as new voters arrive.'
+        };
+      }
+      if (VA_CORRIDOR_HR_HISTORIC_TRIANGLE.has(norm)) {
+        return {
+          emoji: '🏖️',
+          label: 'Historic Triangle',
+          note: 'Corridor note: this is in the Historic Triangle (Peninsula edge); growth here often reflects housing/commute patterns that can shape lean over time.'
+        };
+      }
+      if (VA_CORRIDOR_HR_CORE_URBAN.has(norm)) {
+        return {
+          emoji: '⚓',
+          label: 'Hampton Roads urban core',
+          note: 'Corridor note: this is in the Hampton Roads urban core; slow growth/decline plus churn can still reshape lean through turnout and composition changes.'
+        };
+      }
+      if (VA_CORRIDOR_HR_OCEANFRONT_MATURE.has(norm)) {
+        return {
+          emoji: '🏄',
+          label: 'Oceanfront mature suburb',
+          note: 'Corridor note: this is in the Hampton Roads oceanfront suburb; lean formation is often about composition + turnout shifts layered on slower net growth.'
+        };
+      }
+      if (VA_CORRIDOR_SW_COALFIELD_DECLINE.has(norm)) {
+        return {
+          emoji: '⛰️',
+          label: 'SW coalfield decline corridor',
+          note: 'Corridor note: this is in the Southwest Appalachia/coalfield decline corridor; out-migration and aging can help entrench a lean over time even with fewer new residents.'
+        };
+      }
+      if (VA_CORRIDOR_EASTERN_SHORE.has(norm)) {
+        return {
+          emoji: '🦀',
+          label: 'Eastern Shore',
+          note: 'Corridor note: Eastern Shore population change tends to be slower; shifts often reflect composition/turnout more than rapid growth.'
+        };
+      }
+      if (VA_CORRIDOR_I81_UPPER_VALLEY.has(norm)) {
+        return {
+          emoji: '🚚',
+          label: 'I‑81 Upper Valley',
+          note: 'Corridor note: this is in the I‑81 Upper Valley (Winchester/Front Royal orbit), where fast growth and churn can be a mechanism for lean formation and reinforcement.'
+        };
+      }
+      if (VA_CORRIDOR_I81_CENTRAL_VALLEY.has(norm)) {
+        return {
+          emoji: '🧭',
+          label: 'I‑81 Central Valley',
+          note: 'Corridor note: this is in the I‑81 Central Valley (Shenandoah–Staunton–Harrisonburg), where college/logistics and small-metro churn can reshape partisan lean across cycles.'
+        };
+      }
+      if (VA_CORRIDOR_I81_ROANOKE_VALLEY.has(norm)) {
+        return {
+          emoji: '🏔️',
+          label: 'Roanoke Valley (I‑81)',
+          note: 'Corridor note: this is in the Roanoke Valley segment of the I‑81 corridor; lean formation often reflects city/suburb sorting and turnout patterns as much as net growth.'
+        };
+      }
+      if (VA_CORRIDOR_I81_NEW_RIVER_VALLEY.has(norm)) {
+        return {
+          emoji: '🎓',
+          label: 'New River Valley (I‑81)',
+          note: 'Corridor note: this is in the New River Valley; university-driven churn can be a durable mechanism for lean formation over time.'
+        };
+      }
+      if (VA_CORRIDOR_SOUTHSIDE_DAN_RIVER.has(norm)) {
+        return {
+          emoji: '🏭',
+          label: 'Southside Dan River',
+          note: 'Corridor note: this is in the Dan River/Southside industrial belt; slow growth or decline can still entrench a lean via composition and turnout changes.'
+        };
+      }
+      if (VA_CORRIDOR_SOUTHSIDE_TOBACCO_BELT.has(norm)) {
+        return {
+          emoji: '🌾',
+          label: 'Southside tobacco belt',
+          note: 'Corridor note: this is in the Southside tobacco belt; slower growth often means lean formation comes from composition and turnout rather than rapid in-migration.'
+        };
+      }
+      if (VA_CORRIDOR_SOUTHSIDE_I95_BORDER.has(norm)) {
+        return {
+          emoji: '🛣️',
+          label: 'Southside I‑95 border',
+          note: 'Corridor note: this sits along the I‑95 border with NC; churn can still be meaningful even when net growth is slow.'
+        };
+      }
+      if (VA_CORRIDOR_SOUTHSIDE_INTERIOR.has(norm)) {
+        return {
+          emoji: '🌾',
+          label: 'Southside interior',
+          note: 'Corridor note: this is in Southside’s interior; lean formation often reflects long-run demographic composition and turnout patterns more than metro-style in-migration.'
+        };
+      }
+
+      // Fallback: if no corridor match, optionally flag extreme growth/decline as its own “corridor-like” condition.
+      const totalPct = Number(estimate?.changePct2020To2025);
+      if (Number.isFinite(totalPct) && totalPct >= 12) {
+        return {
+          emoji: '🚀',
+          label: 'High-growth outlier',
+          note: 'Corridor note: this is a high-growth outlier in Virginia; rapid churn can help explain how a lean forms, flips, or reinforces across cycles.'
+        };
+      }
+      if (Number.isFinite(totalPct) && totalPct <= -4) {
+        return {
+          emoji: '📉',
+          label: 'High-decline outlier',
+          note: 'Corridor note: this is a high-decline outlier in Virginia; low growth can still reinforce lean through composition and turnout shifts.'
+        };
+      }
+
+      return null;
+    }
+
+    function getVaCensusContext(countyNormRaw) {
+      const norm = normalizePopulationLocalityKey(countyNormRaw);
+      const estimate = countyPopulationEstimatesByNorm?.get(norm) || null;
+      const statewide = countyPopulationEstimateStatewide || null;
+
+      const totalPct = Number(estimate?.changePct2020To2025);
+      const recentPct = Number(estimate?.changePct2024To2025);
+      const stateTotalPct = Number(statewide?.changePct2020To2025);
+
+      let signalEmoji = '📊';
+      let signalLabel = 'Population signal';
+      let patternEmoji = '🧭';
+      let patternLabel = 'Mixed local and regional forces';
+      let noteEmoji = '🗳️';
+      let noteLabel = '';
+      const sourceNote = 'Source: U.S. Census Bureau county population estimates (Vintage 2025), cleaned for Virginia localities.';
+
+      if (!estimate) {
+        signalEmoji = '📊';
+        signalLabel = 'No estimate found';
+        patternEmoji = '🧩';
+        patternLabel = 'Population estimates unavailable for this locality.';
+      } else {
+        const deltaVsState = (Number.isFinite(totalPct) && Number.isFinite(stateTotalPct)) ? (totalPct - stateTotalPct) : NaN;
+        const isCity = /\bCITY$/.test(norm) && !/\bCOUNTY$/.test(norm);
+
+        if (Number.isFinite(totalPct) && totalPct >= 8) {
+          signalEmoji = '🚀';
+          signalLabel = 'Fast growth';
+        } else if (Number.isFinite(totalPct) && totalPct >= 3) {
+          signalEmoji = '📈';
+          signalLabel = 'Growing';
+        } else if (Number.isFinite(totalPct) && totalPct <= -1) {
+          signalEmoji = '📉';
+          signalLabel = 'Declining';
+        } else if (Number.isFinite(totalPct)) {
+          signalEmoji = '➖';
+          signalLabel = 'Stable';
+        }
+
+        if (estimate.monotoneUp) {
+          patternEmoji = '⬆️';
+          patternLabel = 'Steady year-over-year growth (2020→2025)';
+        } else if (estimate.monotoneDown) {
+          patternEmoji = '⬇️';
+          patternLabel = 'Steady year-over-year decline (2020→2025)';
+        } else if (estimate.volatile) {
+          patternEmoji = '🎢';
+          patternLabel = 'Volatile growth pattern (mixed up/down years)';
+        } else {
+          patternEmoji = '↔️';
+          patternLabel = 'Mostly steady (small year-to-year changes)';
+        }
+
+        if (Number.isFinite(deltaVsState) && Math.abs(deltaVsState) >= 1.25) {
+          patternLabel += deltaVsState > 0 ? ' • above statewide growth' : ' • below statewide growth';
+        }
+
+        if (Number.isFinite(totalPct) && totalPct >= 6) {
+          noteLabel = isCity
+            ? 'Fast growth in an independent city can bring faster electorate turnover and bigger swings across cycles.'
+            : 'Fast growth can coincide with faster electorate turnover, often making trends accelerate in later cycles.';
+        } else if (Number.isFinite(totalPct) && totalPct <= 0) {
+          noteLabel = isCity
+            ? 'Slow growth or decline can mean fewer new voters entering the electorate, so shifts often come from composition changes rather than raw population growth.'
+            : 'Slow growth or decline can mean less churn; shifts are more likely to reflect turnout/composition changes than in-migration.';
+        } else if (Number.isFinite(recentPct) && recentPct < 0) {
+          noteLabel = 'Recent year-over-year decline (2024→2025) can signal a cooling growth story even if the longer-run trend is up.';
+        }
+      }
+
+      const corridor = estimate ? getVaCorridorDescriptor(norm, estimate) : null;
+      if (corridor) {
+        const corridorTag = `${corridor.emoji ? `${corridor.emoji} ` : ''}${corridor.label || ''}`.trim();
+        if (corridorTag) patternLabel = `${patternLabel} • ${corridorTag}`;
+        const corridorNote = String(corridor.note || '').trim();
+        if (corridorNote) noteLabel = noteLabel ? `${corridorNote} ${noteLabel}` : corridorNote;
+      }
+
+      return {
+        title: 'Census Context',
+        countyNorm: norm,
+        changePct2020To2025: Number.isFinite(totalPct) ? totalPct : NaN,
+        changePct2024To2025: Number.isFinite(recentPct) ? recentPct : NaN,
+        stateChangePct2020To2025: Number.isFinite(stateTotalPct) ? stateTotalPct : NaN,
+        signalEmoji,
+        signalLabel,
+        patternEmoji,
+        patternLabel,
+        noteEmoji,
+        noteLabel,
+        sourceNote,
+        corridorEmoji: corridor?.emoji || '',
+        corridorLabel: corridor?.label || '',
+        corridorNote: corridor?.note || ''
+      };
+    }
+
+    function addCensusConfirmationToTrajectory(meta, context) {
+      if (!meta || !context) return meta;
+      const statusText = String(meta?.status || meta?.statusMain || '');
+      const trendText = String(meta?.trend || '');
+      const totalPct = Number(context?.changePct2020To2025);
+      const recentPct = Number(context?.changePct2024To2025);
+      const stateTotalPct = Number(context?.stateChangePct2020To2025);
+      if (!Number.isFinite(totalPct)) return meta;
+
+      const fastGrowth = totalPct >= 6 || (Number.isFinite(stateTotalPct) && totalPct > stateTotalPct + 1.5);
+      const slowGrowth = totalPct < 1 || (Number.isFinite(recentPct) && recentPct < 0);
+      const trendTowardDem = trendText.includes('←');
+      const trendTowardRep = trendText.includes('→');
+      const corridorLabel = String(context?.corridorLabel || '').trim();
+      const corridorEmoji = String(context?.corridorEmoji || '').trim();
+
+      let censusCheck = '';
+      if (/Reinforcing/i.test(statusText) && fastGrowth) {
+        censusCheck = `Census growth estimates also support the reinforcing call: population is ${formatPopulationChangePct(totalPct)} since 2020, and the county/city is still growing while the partisan direction continues to strengthen.`;
+      } else if (trendTowardDem && fastGrowth) {
+        const statewideClause = Number.isFinite(stateTotalPct)
+          ? ` (vs ${formatPopulationChangePct(stateTotalPct)} statewide)`
+          : '';
+        censusCheck = `Census growth estimates are consistent with a Democratic trend: population is ${formatPopulationChangePct(totalPct)} since 2020${statewideClause}, which often correlates with higher electorate turnover in fast-growing places.`;
+      } else if (trendTowardRep && slowGrowth) {
+        censusCheck = `Census growth estimates are consistent with a Republican trend: population is ${formatPopulationChangePct(totalPct)} since 2020, which can align with slower electorate turnover in slow-growth or declining localities.`;
+      }
+
+      if (!censusCheck && corridorLabel) {
+        const corridorTag = `${corridorEmoji ? `${corridorEmoji} ` : ''}${corridorLabel}`.trim();
+        const deltaLabel = formatPopulationChangePct(totalPct);
+        censusCheck = `Corridor context: ${corridorTag}. Population is ${deltaLabel} since 2020; these kinds of migration/churn patterns are a common way local partisan leans form and then solidify across cycles.`;
+      }
+
+      if (censusCheck && corridorLabel && !/Corridor context:/i.test(censusCheck)) {
+        const corridorTag = `${corridorEmoji ? `${corridorEmoji} ` : ''}${corridorLabel}`.trim();
+        censusCheck += ` Corridor context: ${corridorTag} — a plausible mechanism for how the area's partisan lean formed and then hardened is population churn (in-/out-migration) interacting with turnout and composition changes.`;
+      } else if (censusCheck && !/lean/i.test(censusCheck)) {
+        censusCheck += ' These population dynamics are a plausible mechanism for how a partisan lean forms and then solidifies over time.';
+      }
+
+      if (!censusCheck) return meta;
+      return { ...meta, censusCheck };
+    }
+
+    function renderFocusCensusInsightHTML(context, title = 'County Census Insight') {
+      if (!context) return '';
+      return `
+        <div class="focus-census-insight" role="note" aria-label="${escapeHtml(title)}">
+          <div class="focus-census-head">
+            <span class="focus-census-kicker">${escapeHtml(title)}</span>
+            <span class="focus-census-pill">
+              <span class="focus-census-pill-emoji">${escapeHtml(context.signalEmoji || '📊')}</span>
+              ${escapeHtml(context.signalLabel || 'Steady population signal')}
+            </span>
+          </div>
+          <p class="focus-census-summary">
+            <span class="focus-census-inline-emoji">${escapeHtml(context.patternEmoji || '🧭')}</span>
+            ${escapeHtml(context.patternLabel || 'Mixed local and regional forces')}
+          </p>
+          ${context.noteLabel ? `<p class="focus-census-note">${escapeHtml(context.noteLabel)}</p>` : ''}
+          ${context.sourceNote ? `<p class="focus-census-source">${escapeHtml(context.sourceNote)}</p>` : ''}
+        </div>
+      `;
+    }
+
+    function classifyCountyTrajectory(series) {
+      if (!Array.isArray(series) || !series.length) {
+        return {
+          status: 'No trajectory data',
+          statusClass: 'competitive',
+          trend: 'Not enough history',
+          icon: '',
+          iconTone: 'competitive',
+          meaning: 'Select a context with multiple election cycles to compute directional movement.',
+          details: []
+        };
+      }
+
+      function getSignedMarginTowardGop(row) {
+        if (!row) return 0;
+        const explicit = Number(row.margin_pct);
+        const winnerRaw = (row.winner || '').toString().trim().toUpperCase();
+        const winnerNorm = winnerRaw === 'R' ? 'REP' : winnerRaw === 'D' ? 'DEM' : winnerRaw;
+        if (Number.isFinite(explicit) && explicit !== 0) {
+          if (winnerNorm === 'REP') return Math.abs(explicit);
+          if (winnerNorm === 'DEM') return -Math.abs(explicit);
+        }
+        const repVotes = Number(row.rep_votes);
+        const demVotes = Number(row.dem_votes);
+        const totalVotes = Number(row.total_votes);
+        if (Number.isFinite(repVotes) && Number.isFinite(demVotes) && Number.isFinite(totalVotes) && totalVotes > 0) {
+          return ((repVotes - demVotes) / totalVotes) * 100;
+        }
+        return 0;
+      }
+
+      function formatShiftLabel(delta) {
+        if (!Number.isFinite(delta) || Math.abs(delta) < 0.005) return '↔ No clear shift';
+        return `${delta > 0 ? '→' : '←'} ${delta > 0 ? 'R' : 'D'}+${Math.abs(delta).toFixed(2)} pts`;
+      }
+
+      function formatWinnerLabel(row, signedMargin) {
+        const absMargin = Math.abs(signedMargin);
+        if (absMargin < 0.005) return `${row.year}: Tie`;
+        return `${row.year}: ${signedMargin > 0 ? 'R' : 'D'}+${absMargin.toFixed(2)} pts`;
+      }
+
+      const sorted = series
+        .slice()
+        .filter(row => row && Number.isFinite(Number(row.year)))
+        .sort((a, b) => Number(a.year) - Number(b.year));
+
+      if (!sorted.length) {
+        return {
+          status: 'No trajectory data',
+          statusClass: 'competitive',
+          trend: 'Not enough history',
+          icon: '',
+          iconTone: 'competitive',
+          meaning: 'Select a context with multiple election cycles to compute directional movement.',
+          details: []
+        };
+      }
+
+      const latest = sorted[sorted.length - 1];
+      const latestSigned = getSignedMarginTowardGop(latest);
+      const first = sorted[0];
+      const firstSigned = getSignedMarginTowardGop(first);
+      const longShiftTowardGop = latestSigned - firstSigned;
+      const row2008 = sorted.find(row => Number(row.year) === 2008);
+      const shiftSince2008 = row2008 ? latestSigned - getSignedMarginTowardGop(row2008) : null;
+      const previous = sorted.length >= 2 ? sorted[sorted.length - 2] : null;
+      const previousSigned = previous ? getSignedMarginTowardGop(previous) : null;
+      const recentShiftTowardGop = previous ? (latestSigned - previousSigned) : null;
+      const recentWindowStart = sorted.length >= 3 ? sorted[Math.max(0, sorted.length - 3)] : first;
+      const recentWindowStartSigned = recentWindowStart ? getSignedMarginTowardGop(recentWindowStart) : null;
+      const recentWindowShiftTowardGop = Number.isFinite(recentWindowStartSigned)
+        ? (latestSigned - recentWindowStartSigned)
+        : recentShiftTowardGop;
+      const cycleShiftLabel = previous
+        ? (Number(previous.year) === Number(first.year) ? 'Last Cycle' : `Since ${previous.year}`)
+        : '';
+
+      const absLatest = Math.abs(latestSigned);
+      const absFirst = Math.abs(firstSigned);
+      const crossedParties =
+        (latestSigned > 0 && firstSigned < 0) ||
+        (latestSigned < 0 && firstSigned > 0);
+      const sameSideLongTerm =
+        (latestSigned > 0 && firstSigned > 0) ||
+        (latestSigned < 0 && firstSigned < 0);
+
+      const side = absLatest < 1
+        ? 'Competitive'
+        : (latestSigned > 0 ? 'Republican' : 'Democratic');
+
+      let statusMain = 'Stable';
+      if (side === 'Competitive') statusMain = 'Competitive';
+      else if (crossedParties) statusMain = 'Realigning';
+      else if (sameSideLongTerm && absLatest >= absFirst + 2) statusMain = 'Reinforcing';
+      else if (sameSideLongTerm && absLatest <= Math.max(0, absFirst - 2)) statusMain = 'Softening';
+
+      const status = side === 'Competitive'
+        ? 'Competitive / toss-up trajectory'
+        : `${statusMain} ${side}`;
+      const statusClass = side === 'Competitive' ? 'competitive' : (side === 'Republican' ? 'rep' : 'dem');
+
+      const trend = Number.isFinite(recentWindowShiftTowardGop)
+        ? (Math.abs(recentWindowShiftTowardGop) < 0.5
+          ? '↔ Little directional change'
+          : `${recentWindowShiftTowardGop > 0 ? '→' : '←'} ${recentWindowShiftTowardGop > 0 ? 'Republican' : 'Democratic'} shift over recent cycles`)
+        : '↔ Little directional change';
+
+      let meaning = '';
+      if (statusMain === 'Realigning') {
+        meaning = side === 'Republican'
+          ? 'The county/city has moved from a Democratic lean to a Republican lean over the available history.'
+          : 'The county/city has moved from a Republican lean to a Democratic lean over the available history.';
+      } else if (statusMain === 'Softening') {
+        meaning = side === 'Republican'
+          ? 'The county/city is still Republican-leaning, but recent cycles have narrowed that advantage.'
+          : 'The county/city is still Democratic-leaning, but recent cycles have narrowed that advantage.';
+      } else if (statusMain === 'Reinforcing') {
+        meaning = side === 'Republican'
+          ? 'The county/city already leaned Republican, and recent cycles are strengthening that advantage.'
+          : 'The county/city already leaned Democratic, and recent cycles are strengthening that advantage.';
+      } else if (side === 'Competitive') {
+        meaning = 'The county/city remains competitive with no durable lean across the available history.';
+      } else {
+        meaning = side === 'Republican'
+          ? 'The county/city has a durable Republican lean with no sustained recent break from that pattern.'
+          : 'The county/city has a durable Democratic lean with no sustained recent break from that pattern.';
+      }
+
+      return {
+        status,
+        statusMain,
+        statusStrength: '',
+        statusClass,
+        trend,
+        icon: '',
+        iconTone: 'competitive',
+        meaning,
+        details: [
+          { label: 'Latest Result', value: formatWinnerLabel(latest, latestSigned), role: 'latest' },
+          ...(previous ? [{ label: cycleShiftLabel, value: formatShiftLabel(recentShiftTowardGop), role: 'shift' }] : []),
+          ...(previous && Number(first.year) !== Number(previous.year)
+            ? [{ label: `Since ${first.year}`, value: formatShiftLabel(longShiftTowardGop), role: 'shift' }]
+            : []),
+          ...(row2008 && Number(row2008.year) !== Number(first.year)
+            ? [{ label: 'Since 2008', value: formatShiftLabel(shiftSince2008), role: 'shift' }]
+            : [])
+        ]
+      };
+    }
+
+    function trajectoryToneClass(tone) {
+      const normalized = String(tone || '').trim().toLowerCase();
+      if (normalized === 'dem') return 'tone-dem';
+      if (normalized === 'rep') return 'tone-rep';
+      if (normalized === 'competitive') return 'tone-competitive';
+      return 'tone-neutral';
+    }
+
+    function renderTrajectoryBlockHTML(meta) {
+      if (!meta) return '';
+      const details = Array.isArray(meta.details) ? meta.details : [];
+      const statusClass = ['dem', 'rep', 'competitive'].includes(meta.statusClass)
+        ? meta.statusClass
+        : 'competitive';
+      const statusToneClass = trajectoryToneClass(statusClass);
+      const statusText = `${String(meta.icon || '').trim() ? `${meta.icon} ` : ''}${meta.status || 'Toss-up'}`;
+      const trendText = String(meta.trend || '\u2194 Little directional change');
+      const meaningText = String(meta.meaning || '').trim();
+
+      const normalizeTrajectoryArrow = (arrow) => {
+        if (arrow === '\u2197') return '\u2192'; // ↗ -> →
+        if (arrow === '\u2198') return '\u2190'; // ↘ -> ←
+        return arrow;
+      };
+
+      const trendTone = trendText.includes('\u2192') ? 'rep' : (trendText.includes('\u2190') ? 'dem' : 'neutral');
+      const trendToneClass = trajectoryToneClass(trendTone);
+      const trendArrowMatch = trendText.trim().match(/^([\u2190\u2192\u2194\u2197\u2198])\s*/);
+      const trendArrow = trendArrowMatch ? normalizeTrajectoryArrow(trendArrowMatch[1]) : '';
+      const trendBody = trendArrow ? trendText.trim().replace(/^([\u2190\u2192\u2194\u2197\u2198])\s*/, '') : trendText;
+      const detailTone = (label, value) => {
+        const v = String(value || '');
+        if (v.includes('\u2192') || /\bR\+\d/.test(v)) return 'rep';
+        if (v.includes('\u2190') || /\bD\+\d/.test(v)) return 'dem';
+        if (v.includes('\u2194') || /Tie|Even/i.test(v)) return 'neutral';
+        if (String(label || '').toLowerCase() === 'latest result') {
+          if (/\bR\+/.test(v)) return 'rep';
+          if (/\bD\+/.test(v)) return 'dem';
+        }
+        return 'neutral';
+      };
+
+      return `
+        <div class="focus-trajectory status-${statusClass}" role="group" aria-label="Trajectory summary">
+          <div class="focus-trajectory-head">
+            <span class="focus-trajectory-kicker">Trajectory Snapshot</span>
+            <span class="focus-trajectory-status ${statusToneClass}">${escapeHtml(statusText)}</span>
+          </div>
+          <p class="focus-trajectory-trendline ${trendToneClass}">
+            <span class="trend-tag">Momentum</span>
+            <span class="trend-text">
+              ${trendArrow ? `<span class="focus-trajectory-arrow ${trendToneClass}">${escapeHtml(trendArrow)}</span>` : ''}
+              ${escapeHtml(trendBody)}
+            </span>
+          </p>
+          ${meaningText ? `<p class="focus-trajectory-meaning ${statusToneClass}"><strong>Meaning:</strong> ${escapeHtml(meaningText)}</p>` : ''}
+          ${details.length ? `
+            <div class="focus-trajectory-grid">
+              ${details.map(item => {
+                const tone = detailTone(item?.label, item?.value);
+                const toneClass = trajectoryToneClass(tone);
+                const label = String(item?.label || '');
+                const valueRaw = String(item?.value || '');
+                const arrowMatch = valueRaw.trim().match(/^([\u2190\u2192\u2194\u2197\u2198])\s*/);
+                const arrow = arrowMatch ? normalizeTrajectoryArrow(arrowMatch[1]) : '';
+                const valueBody = arrow ? valueRaw.trim().replace(/^([\u2190\u2192\u2194\u2197\u2198])\s*/, '') : valueRaw;
+                const rowRole = String(item?.role || '').toLowerCase() === 'latest' ? 'is-latest' : 'is-shift';
+                return `
+                  <div class="focus-trajectory-item ${toneClass} ${rowRole}">
+                    <span class="focus-trajectory-label">${escapeHtml(label)}</span>
+                    <span class="focus-trajectory-value ${toneClass}">
+                      ${arrow ? `<span class="focus-trajectory-arrow ${toneClass}">${escapeHtml(arrow)}</span>` : ''}
+                      ${escapeHtml(valueBody)}
+                    </span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function renderFocusTrendSeries(series, caption = 'Trend history', options = {}) {
       const captionEl = document.getElementById('focus-trend-caption');
       const chartEl = document.getElementById('focus-trend-chart');
+      const fallbackBadge = String(options?.fallbackBadge || '').trim();
+      const selectedYearRaw = Number(options?.selectedYear);
+      const selectedYear = Number.isFinite(selectedYearRaw) ? selectedYearRaw : null;
       if (!chartEl) return;
       if (captionEl) captionEl.textContent = caption;
       if (!series || !series.length) {
@@ -6982,19 +8225,23 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       const latest = annotated[annotated.length - 1];
+      const selectedEntry = selectedYear
+        ? annotated.find(entry => Number(entry?.item?.year) === Number(selectedYear)) || null
+        : null;
+      const summaryEntry = selectedEntry || latest;
       const closest = annotated.reduce((best, entry) => {
         if (!best) return entry;
         return Math.abs(entry.signedPct) < Math.abs(best.signedPct) ? entry : best;
       }, null);
       const latestSummary = winnerMarginLabelShort(
-        latest.repVotes,
-        latest.demVotes,
-        latest.totalVotes,
-        latest.item.rep_candidate,
-        latest.item.dem_candidate
+        summaryEntry.repVotes,
+        summaryEntry.demVotes,
+        summaryEntry.totalVotes,
+        summaryEntry.item.rep_candidate,
+        summaryEntry.item.dem_candidate
       );
       const earliest = annotated[0];
-      const historyShift = describeTrendShift(latest.signedPct, earliest ? earliest.signedPct : NaN, earliest ? earliest.item.year : '');
+      const historyShift = describeTrendShift(summaryEntry.signedPct, earliest ? earliest.signedPct : NaN, earliest ? earliest.item.year : '');
       let streakCount = 0;
       for (let i = annotated.length - 1; i >= 0; i -= 1) {
         if (annotated[i].winnerMeta.partyClass !== latest.winnerMeta.partyClass) break;
@@ -7003,18 +8250,46 @@ document.addEventListener('DOMContentLoaded', function() {
       const streakLabel = latest.winnerMeta.partyClass === 'tie'
         ? 'Latest result was an even race.'
         : `${latest.winnerMeta.partyClass === 'rep' ? 'Republican' : 'Democratic'} streak: ${streakCount} election${streakCount === 1 ? '' : 's'}.`;
+      const summaryNoteSuffix = selectedEntry && selectedEntry !== latest
+        ? `Selected year ${summaryEntry.item.year}; latest available ${latest.item.year}.`
+        : streakLabel;
 
       const summaryBadges = [];
-      if (latest.shiftMeta) {
+      if (summaryEntry.shiftMeta) {
         summaryBadges.push(
-          `<span class="focus-trend-summary-badge ${latest.shiftMeta.cls}">${escapeHtml(latest.shiftMeta.text)}</span>`
+          `<span class="focus-trend-summary-badge ${summaryEntry.shiftMeta.cls}">${escapeHtml(summaryEntry.shiftMeta.text)}</span>`
         );
       }
-      if (latest.flip && latest.flip.flipped) {
+      if (summaryEntry.flip && summaryEntry.flip.flipped) {
         summaryBadges.push(
-          `<span class="focus-trend-summary-badge ${latest.flip.to === 'R' ? 'rep' : 'dem'}">${escapeHtml(`Flip ${latest.flip.from}->${latest.flip.to}`)}</span>`
+          `<span class="focus-trend-summary-badge ${summaryEntry.flip.to === 'R' ? 'rep' : 'dem'}">${escapeHtml(`Flip ${summaryEntry.flip.from}->${summaryEntry.flip.to}`)}</span>`
         );
       }
+      if (fallbackBadge) {
+        summaryBadges.push(
+          `<span class="focus-trend-summary-badge fallback">${escapeHtml(fallbackBadge)}</span>`
+        );
+      }
+
+      const trajectoryHtml = options?.trajectoryMeta
+        ? renderTrajectoryBlockHTML(options.trajectoryMeta)
+        : '';
+      const censusCheckHtml = (() => {
+        const text = String(options?.trajectoryMeta?.censusCheck || '').trim();
+        if (!text) return '';
+        const trendText = String(options?.trajectoryMeta?.trend || '');
+        const tone = trendText.includes('←') ? 'dem' : (trendText.includes('→') ? 'rep' : 'neutral');
+        const toneClass = trajectoryToneClass(tone);
+        return `
+          <div class="focus-census-check ${toneClass}" role="note" aria-label="Census check">
+            <span class="focus-census-check-kicker">Census check</span>
+            <p class="focus-census-check-body">${escapeHtml(text)}</p>
+          </div>
+        `;
+      })();
+      const focusCensusHtml = options?.censusContext
+        ? renderFocusCensusInsightHTML(options.censusContext, options?.censusContextTitle || 'County Census Insight')
+        : '';
 
       const cards = annotated
         .slice()
@@ -7067,15 +8342,15 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="focus-trend-plot">
           <div class="focus-trend-summary">
             <div class="focus-trend-summary-copy">
-              <span class="focus-trend-summary-kicker">Trend at a glance</span>
-              <div class="focus-trend-summary-call">${escapeHtml(`${latest.item.year}: ${latestSummary}`)}</div>
-              <div class="focus-trend-summary-note">${escapeHtml(`Showing ${annotated.length} elections from ${earliest.item.year} to ${latest.item.year}. ${streakLabel}`)}</div>
+              <span class="focus-trend-summary-kicker">${escapeHtml(selectedEntry ? 'Trend at a glance (selected year)' : 'Trend at a glance')}</span>
+              <div class="focus-trend-summary-call">${escapeHtml(`${summaryEntry.item.year}: ${latestSummary}`)}</div>
+              <div class="focus-trend-summary-note">${escapeHtml(`Showing ${annotated.length} elections from ${earliest.item.year} to ${latest.item.year}. ${summaryNoteSuffix}`)}</div>
             </div>
             <div class="focus-trend-summary-badges">${summaryBadges.join('')}</div>
             <div class="focus-trend-stats">
               <div class="focus-trend-stat">
-                <span class="focus-trend-stat-label">Latest</span>
-                <span class="focus-trend-stat-value ${latest.winnerMeta.partyClass}">${escapeHtml(`${latest.item.year}: ${latestSummary}`)}</span>
+                <span class="focus-trend-stat-label">${escapeHtml(selectedEntry ? 'Selected' : 'Latest')}</span>
+                <span class="focus-trend-stat-value ${summaryEntry.winnerMeta.partyClass}">${escapeHtml(`${summaryEntry.item.year}: ${latestSummary}`)}</span>
               </div>
               <div class="focus-trend-stat">
                 <span class="focus-trend-stat-label">Closest</span>
@@ -7088,6 +8363,9 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
           </div>
         </div>
+        ${trajectoryHtml}
+        ${censusCheckHtml}
+        ${focusCensusHtml}
         <div class="focus-trend-list">${cards}</div>
       `;
       try { updateMobileOverlayOffsets(); } catch (_) {}
@@ -7188,17 +8466,37 @@ document.addEventListener('DOMContentLoaded', function() {
       renderFocusTrendEmpty('Loading trend history...', baseCaption);
       try {
         let series = [];
+        const trendOptions = {};
+        trendOptions.selectedYear = year;
         if (meta.kind === 'county' && meta.county) {
           series = await getCountyTrendSeries(contestType, meta.county);
         } else if (meta.kind === 'district' && meta.scope && meta.districtNum) {
           series = await getDistrictTrendSeries(meta.scope, contestType, meta.districtNum);
         } else if (meta.kind === 'precinct' && meta.county) {
           series = await getCountyTrendSeries(contestType, meta.county);
+          if (meta.precinct) trendOptions.fallbackBadge = 'Precinct history unavailable - showing county trend';
         } else {
           series = await getStatewideTrendSeries(contestType);
         }
         if (reqId !== voteCounterTrendRequestId) return;
-        renderFocusTrendSeries(series, baseCaption);
+        if (meta.kind !== 'statewide' && series && series.length) {
+          try { trendOptions.trajectoryMeta = classifyCountyTrajectory(series); } catch (_) {}
+        }
+        if ((meta.kind === 'county' || meta.kind === 'precinct') && meta.county) {
+          try {
+            trendOptions.censusContext = getVaCensusContext(meta.county);
+            trendOptions.censusContextTitle = meta.kind === 'precinct'
+              ? `${displayCountyName(meta.county)} Census Insight`
+              : 'County/City Census Insight';
+            if (trendOptions.trajectoryMeta) {
+              trendOptions.trajectoryMeta = addCensusConfirmationToTrajectory(
+                trendOptions.trajectoryMeta,
+                trendOptions.censusContext
+              );
+            }
+          } catch (_) {}
+        }
+        renderFocusTrendSeries(series, baseCaption, trendOptions);
       } catch (err) {
         if (reqId !== voteCounterTrendRequestId) return;
         renderFocusTrendEmpty('Failed to load trend history.', baseCaption);
@@ -12339,6 +13637,19 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (err) {
           countyDemographics = null;
           console.warn('County demographics not loaded:', err?.message || err);
+        }
+
+        // Optional county/city population estimates (Census Vintage 2025) for focus census insight + trajectory confirmation.
+        try {
+          const countyPopulationEstimatesCSV = await loadCSV(CONFIG.paths.county_population_estimates);
+          const rows = parseCSV(countyPopulationEstimatesCSV);
+          const idx = buildCountyPopulationEstimateIndex(rows);
+          countyPopulationEstimatesByNorm = idx.byNorm;
+          countyPopulationEstimateStatewide = idx.statewide;
+        } catch (err) {
+          countyPopulationEstimatesByNorm = null;
+          countyPopulationEstimateStatewide = null;
+          console.warn('County population estimates not loaded:', err?.message || err);
         }
 
         try {

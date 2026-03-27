@@ -3466,6 +3466,30 @@ body { height: var(--app-height); }
     color: #475569;
   }
 
+  .focus-trajectory-trendline.momentum-slight {
+    --trajectory-arrow-nudge: 1.2px;
+    --trajectory-arrow-nudge-scale: 1.01;
+    --trajectory-arrow-duration: 1.8s;
+    --trajectory-arrow-breathe-duration: 2.1s;
+    --trajectory-arrow-breathe-scale: 1.04;
+  }
+
+  .focus-trajectory-trendline.momentum-moderate {
+    --trajectory-arrow-nudge: 1.9px;
+    --trajectory-arrow-nudge-scale: 1.03;
+    --trajectory-arrow-duration: 1.4s;
+    --trajectory-arrow-breathe-duration: 1.9s;
+    --trajectory-arrow-breathe-scale: 1.08;
+  }
+
+  .focus-trajectory-trendline.momentum-strong {
+    --trajectory-arrow-nudge: 2.8px;
+    --trajectory-arrow-nudge-scale: 1.06;
+    --trajectory-arrow-duration: 1.05s;
+    --trajectory-arrow-breathe-duration: 1.55s;
+    --trajectory-arrow-breathe-scale: 1.12;
+  }
+
   .focus-trajectory-meaning {
     position: relative;
     z-index: 1;
@@ -3618,30 +3642,30 @@ body { height: var(--app-height); }
   }
 
   @keyframes trajectory-arrow-nudge-rep {
-    0%, 100% { transform: translateX(0); opacity: 0.95; }
-    50% { transform: translateX(1.5px); opacity: 1; }
+    0%, 100% { transform: translateX(0) scale(1); opacity: 0.92; }
+    50% { transform: translateX(var(--trajectory-arrow-nudge, 1.5px)) scale(var(--trajectory-arrow-nudge-scale, 1)); opacity: 1; }
   }
 
   @keyframes trajectory-arrow-nudge-dem {
-    0%, 100% { transform: translateX(0); opacity: 0.95; }
-    50% { transform: translateX(-1.5px); opacity: 1; }
+    0%, 100% { transform: translateX(0) scale(1); opacity: 0.92; }
+    50% { transform: translateX(calc(var(--trajectory-arrow-nudge, 1.5px) * -1)) scale(var(--trajectory-arrow-nudge-scale, 1)); opacity: 1; }
   }
 
   @keyframes trajectory-arrow-breathe {
-    0%, 100% { transform: scale(1); opacity: 0.9; }
-    50% { transform: scale(1.08); opacity: 1; }
+    0%, 100% { transform: scale(1); opacity: 0.88; }
+    50% { transform: scale(var(--trajectory-arrow-breathe-scale, 1.08)); opacity: 1; }
   }
 
   .focus-trajectory-arrow.tone-rep {
-    animation: trajectory-arrow-nudge-rep 1.4s ease-in-out infinite;
+    animation: trajectory-arrow-nudge-rep var(--trajectory-arrow-duration, 1.4s) ease-in-out infinite;
   }
 
   .focus-trajectory-arrow.tone-dem {
-    animation: trajectory-arrow-nudge-dem 1.4s ease-in-out infinite;
+    animation: trajectory-arrow-nudge-dem var(--trajectory-arrow-duration, 1.4s) ease-in-out infinite;
   }
 
   .focus-trajectory-arrow.tone-neutral {
-    animation: trajectory-arrow-breathe 1.9s ease-in-out infinite;
+    animation: trajectory-arrow-breathe var(--trajectory-arrow-breathe-duration, 1.9s) ease-in-out infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -7930,7 +7954,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function addCensusConfirmationToTrajectory(meta, context) {
       if (!meta || !context) return meta;
-      const statusText = String(meta?.status || meta?.statusMain || '');
+      const statusMainText = String(meta?.statusMain || meta?.status || '');
       const trendText = String(meta?.trend || '');
       const totalPct = Number(context?.changePct2020To2025);
       const recentPct = Number(context?.changePct2024To2025);
@@ -7947,8 +7971,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const deltaClause = Number.isFinite(totalDelta) ? ` (${formatSignedInt(totalDelta)})` : '';
 
       let censusCheck = '';
-      if (/Reinforcing/i.test(statusText) && fastGrowth) {
-        censusCheck = `Census growth estimates also support the reinforcing call: population is ${formatPopulationChangePct(totalPct)}${deltaClause} since 2020, and the county/city is still growing while the partisan direction continues to strengthen.`;
+      if (/Reinforcing/i.test(statusMainText) && fastGrowth) {
+        censusCheck = `Census growth estimates also support the strengthening call: population is ${formatPopulationChangePct(totalPct)}${deltaClause} since 2020, and the county/city is still growing while the partisan direction continues to strengthen.`;
       } else if (trendTowardDem && fastGrowth) {
         const statewideClause = Number.isFinite(stateTotalPct)
           ? ` (vs ${formatPopulationChangePct(stateTotalPct)} statewide)`
@@ -8024,7 +8048,10 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
     }
 
-    function classifyCountyTrajectory(series) {
+    function classifyCountyTrajectory(series, options = {}) {
+      const subjectLabelRaw = (options?.subjectLabel ?? options?.geoLabel ?? options?.entityLabel ?? 'county/city');
+      const subjectLabel = String(subjectLabelRaw || '').trim() || 'county/city';
+      const subject = `The ${subjectLabel}`;
       if (!Array.isArray(series) || !series.length) {
         return {
           status: 'No trajectory data',
@@ -8056,7 +8083,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       function formatShiftLabel(delta) {
-        if (!Number.isFinite(delta) || Math.abs(delta) < 0.005) return '↔ No clear shift';
+        if (!Number.isFinite(delta) || Math.abs(delta) < 0.005) return '↔ No clear change';
         return `${delta > 0 ? '→' : '←'} ${delta > 0 ? 'R' : 'D'}+${Math.abs(delta).toFixed(2)} pts`;
       }
 
@@ -8121,36 +8148,53 @@ document.addEventListener('DOMContentLoaded', function() {
       else if (sameSideLongTerm && absLatest >= absFirst + 2) statusMain = 'Reinforcing';
       else if (sameSideLongTerm && absLatest <= Math.max(0, absFirst - 2)) statusMain = 'Softening';
 
-      const status = side === 'Competitive'
-        ? 'Competitive / toss-up trajectory'
-        : `${statusMain} ${side}`;
+      const status = (() => {
+        if (side === 'Competitive') return 'Competitive (toss-up)';
+        if (statusMain === 'Realigning') return `Realigning to ${side}`;
+        if (statusMain === 'Reinforcing') return `Strengthening ${side} lean`;
+        if (statusMain === 'Softening') return `Weakening ${side} lean`;
+        if (statusMain === 'Stable') return `Stable ${side} lean`;
+        return `${statusMain} ${side}`;
+      })();
       const statusClass = side === 'Competitive' ? 'competitive' : (side === 'Republican' ? 'rep' : 'dem');
 
-      const trend = Number.isFinite(recentWindowShiftTowardGop)
-        ? (Math.abs(recentWindowShiftTowardGop) < 0.5
-          ? '↔ Little directional change'
-          : `${recentWindowShiftTowardGop > 0 ? '→' : '←'} ${recentWindowShiftTowardGop > 0 ? 'Republican' : 'Democratic'} shift over recent cycles`)
-        : '↔ Little directional change';
+      const trend = (() => {
+        if (!Number.isFinite(recentWindowShiftTowardGop)) return '↔ No clear momentum';
+        const absRecent = Math.abs(recentWindowShiftTowardGop);
+        if (absRecent < 0.5) return '↔ No clear momentum';
+        const arrow = recentWindowShiftTowardGop > 0 ? '→' : '←';
+        const recentSide = recentWindowShiftTowardGop > 0 ? 'Republican' : 'Democratic';
+        const recentWindowCount = Math.min(3, sorted.length);
+        const windowLabel = recentWindowCount >= 2 ? `last ${recentWindowCount} elections` : 'latest election';
+        const intensity = absRecent >= 3.5 ? 'Strong' : (absRecent >= 1.5 ? 'Moderate' : 'Slight');
+        const longDir = Number.isFinite(longShiftTowardGop) && Math.abs(longShiftTowardGop) >= 1
+          ? (longShiftTowardGop > 0 ? 'Republican' : 'Democratic')
+          : 'neutral';
+        if (longDir !== 'neutral' && longDir !== recentSide) {
+          return `${arrow} ${intensity} ${recentSide} counter-trend (${windowLabel})`;
+        }
+        return `${arrow} ${intensity} ${recentSide} momentum (${windowLabel})`;
+      })();
 
       let meaning = '';
       if (statusMain === 'Realigning') {
         meaning = side === 'Republican'
-          ? 'The county/city has moved from a Democratic lean to a Republican lean over the available history.'
-          : 'The county/city has moved from a Republican lean to a Democratic lean over the available history.';
+          ? `${subject} has moved from a Democratic lean to a Republican lean over the available history.`
+          : `${subject} has moved from a Republican lean to a Democratic lean over the available history.`;
       } else if (statusMain === 'Softening') {
         meaning = side === 'Republican'
-          ? 'The county/city is still Republican-leaning, but recent cycles have narrowed that advantage.'
-          : 'The county/city is still Democratic-leaning, but recent cycles have narrowed that advantage.';
+          ? `${subject} is still Republican-leaning, but recent cycles have narrowed that advantage.`
+          : `${subject} is still Democratic-leaning, but recent cycles have narrowed that advantage.`;
       } else if (statusMain === 'Reinforcing') {
         meaning = side === 'Republican'
-          ? 'The county/city already leaned Republican, and recent cycles are strengthening that advantage.'
-          : 'The county/city already leaned Democratic, and recent cycles are strengthening that advantage.';
+          ? `${subject} already leaned Republican, and recent cycles are strengthening that advantage.`
+          : `${subject} already leaned Democratic, and recent cycles are strengthening that advantage.`;
       } else if (side === 'Competitive') {
-        meaning = 'The county/city remains competitive with no durable lean across the available history.';
+        meaning = `${subject} remains competitive with no durable lean across the available history.`;
       } else {
         meaning = side === 'Republican'
-          ? 'The county/city has a durable Republican lean with no sustained recent break from that pattern.'
-          : 'The county/city has a durable Democratic lean with no sustained recent break from that pattern.';
+          ? `${subject} has a durable Republican lean with no sustained recent break from that pattern.`
+          : `${subject} has a durable Democratic lean with no sustained recent break from that pattern.`;
       }
 
       return {
@@ -8191,7 +8235,7 @@ document.addEventListener('DOMContentLoaded', function() {
         : 'competitive';
       const statusToneClass = trajectoryToneClass(statusClass);
       const statusText = `${String(meta.icon || '').trim() ? `${meta.icon} ` : ''}${meta.status || 'Toss-up'}`;
-      const trendText = String(meta.trend || '\u2194 Little directional change');
+      const trendText = String(meta.trend || '\u2194 No clear momentum');
       const meaningText = String(meta.meaning || '').trim();
 
       const normalizeTrajectoryArrow = (arrow) => {
@@ -8205,6 +8249,13 @@ document.addEventListener('DOMContentLoaded', function() {
       const trendArrowMatch = trendText.trim().match(/^([\u2190\u2192\u2194\u2197\u2198])\s*/);
       const trendArrow = trendArrowMatch ? normalizeTrajectoryArrow(trendArrowMatch[1]) : '';
       const trendBody = trendArrow ? trendText.trim().replace(/^([\u2190\u2192\u2194\u2197\u2198])\s*/, '') : trendText;
+      const momentumStrengthClass = (() => {
+        const body = String(trendBody || '').toLowerCase();
+        if (/\bstrong\b/.test(body)) return 'momentum-strong';
+        if (/\bmoderate\b/.test(body)) return 'momentum-moderate';
+        if (/\bslight\b/.test(body)) return 'momentum-slight';
+        return '';
+      })();
       const detailTone = (label, value) => {
         const v = String(value || '');
         if (v.includes('\u2192') || /\bR\+\d/.test(v)) return 'rep';
@@ -8223,7 +8274,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <span class="focus-trajectory-kicker">Trajectory Snapshot</span>
             <span class="focus-trajectory-status ${statusToneClass}">${escapeHtml(statusText)}</span>
           </div>
-          <p class="focus-trajectory-trendline ${trendToneClass}">
+          <p class="focus-trajectory-trendline ${trendToneClass} ${momentumStrengthClass}">
             <span class="trend-tag">Momentum</span>
             <span class="trend-text">
               ${trendArrow ? `<span class="focus-trajectory-arrow ${trendToneClass}">${escapeHtml(trendArrow)}</span>` : ''}
@@ -8562,7 +8613,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (reqId !== voteCounterTrendRequestId) return;
         if (meta.kind !== 'statewide' && series && series.length) {
-          try { trendOptions.trajectoryMeta = classifyCountyTrajectory(series); } catch (_) {}
+          const trajectorySubjectLabel = meta.kind === 'district' ? 'district' : 'county/city';
+          try { trendOptions.trajectoryMeta = classifyCountyTrajectory(series, { subjectLabel: trajectorySubjectLabel }); } catch (_) {}
         }
         if ((meta.kind === 'county' || meta.kind === 'precinct') && meta.county) {
           try {

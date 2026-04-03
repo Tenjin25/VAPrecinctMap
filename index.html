@@ -3045,7 +3045,7 @@ body { height: var(--app-height); }
   .focus-glance-micro strong { color: #0f172a; }
 
   .focus-mini-grid {
-    margin: 0;
+    margin: 0 0 12px 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
@@ -3145,7 +3145,7 @@ body { height: var(--app-height); }
   .confidence-meter[data-level="high"] .confidence-fill { background: rgba(16, 185, 129, 0.72); }
 
   .focus-why {
-    margin: 0;
+    margin: 0 0 12px 0;
     border: 1px solid rgba(15, 23, 42, 0.10);
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.82);
@@ -3178,6 +3178,18 @@ body { height: var(--app-height); }
   }
 
   .focus-why-lines span { display: block; }
+
+  .focus-firsttime-hint {
+    margin: -2px 0 12px 0;
+    padding: 9px 10px;
+    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.04);
+    border: 1px dashed rgba(148, 163, 184, 0.55);
+    color: #475569;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.4;
+  }
 
   @media (max-width: 768px) {
     .county-focus-name {
@@ -12646,31 +12658,54 @@ document.addEventListener('DOMContentLoaded', function() {
         const confidenceMeta = buildCountyConfidenceMeta(winnerCall, seriesLoaded ? series : [], trajectoryMeta);
         const archetype = buildLocalityArchetype(countyNorm, winnerCall, trajectoryMeta, censusContext);
         const whyBlock = buildWhyVotesThisWay(countyNorm, archetype, winnerCall, trajectoryMeta, censusContext);
-        const topSummary = winnerCall.party === 'tie'
-          ? `${countyDisplay} was effectively even in ${year}.`
-          : `${winnerCall.winnerName} carried ${countyDisplay} by ${winnerCall.marginPct.toFixed(2)} points in ${year}.`;
         const toneClass = winnerCall.party === 'rep' ? 'tone-rep' : (winnerCall.party === 'dem' ? 'tone-dem' : 'tone-neutral');
         const winnerLabel = winnerCall.party === 'tie' ? 'Even race' : winnerCall.winnerName;
+        const marginShort = winnerCall.party === 'tie'
+          ? 'Even'
+          : `${winnerCall.party === 'rep' ? 'R' : 'D'}+${winnerCall.marginPct.toFixed(2)}`;
+        const glanceHeadline = winnerCall.party === 'tie'
+          ? `${countyDisplay} is basically tied in ${year}.`
+          : `${winnerCall.party === 'rep' ? 'GOP' : 'Democrats'} win ${countyDisplay} in ${year} - ${marginShort}.`;
         const voteSplitShort = `D ${demPct.toFixed(2)}% · R ${repPct.toFixed(2)}%${otherVotes > 0 ? ` · Other ${otherPct.toFixed(2)}%` : ''}`;
         const glanceMicro = `<strong>Story:</strong> ${escapeHtml(whyBlock.headline)}${whyBlock.lines[0] ? ` ${escapeHtml(whyBlock.lines[0])}` : ''}`;
-        const populationValue = censusContext
+        const geographyValue = getVirginiaGeographyPhrase(countyNorm, censusContext);
+        const populationSignal = censusContext
           ? (Number.isFinite(Number(censusContext.changePct2020To2025))
-            ? `${escapeHtml(censusContext.signalLabel)} (${Math.abs(Number(censusContext.changePct2020To2025)).toFixed(1)}%)`
-            : escapeHtml(censusContext.signalLabel || 'Population signal'))
+            ? `${censusContext.signalLabel} (${Math.abs(Number(censusContext.changePct2020To2025)).toFixed(1)}%)`
+            : (censusContext.signalLabel || 'Population signal'))
           : 'No census context';
-        const populationNote = censusContext
-          ? escapeHtml(censusContext.patternLabel || 'Population estimates are limited here.')
+        const populationDetail = censusContext
+          ? (censusContext.patternLabel || 'Population estimates are limited here.')
           : 'Population estimates are limited here.';
-        const trendValue = trajectoryMeta
-          ? escapeHtml(trajectoryMeta.status || 'Stable pattern')
+        const trajectoryValue = trajectoryMeta
+          ? (trajectoryMeta.status || 'Stable pattern')
           : (loadState === 'loading' ? 'Loading history' : (loadState === 'error' ? 'Trend unavailable' : 'Limited history'));
-        const trendNote = trajectoryMeta
-          ? escapeHtml(trajectoryMeta.trend || 'No clear momentum')
+        const trajectoryDetail = trajectoryMeta
+          ? (trajectoryMeta.trend || 'No clear momentum')
           : (loadState === 'loading'
             ? 'Checking how recent elections have moved.'
             : (loadState === 'error'
               ? 'Historical trend data could not be loaded right now.'
               : 'Not enough history to classify a longer trajectory.'));
+        const watchText = (() => {
+          const statusMain = String(trajectoryMeta?.statusMain || '').trim();
+          const growthPct = Number(censusContext?.changePct2020To2025);
+          if (loadState === 'loading') return 'Whether the longer history backs up this first read.';
+          if (statusMain === 'Competitive') return 'Whether one side can finally break the stalemate.';
+          if (statusMain === 'Realigning') return 'Whether this newer alignment sticks in the next cycle.';
+          if (statusMain === 'Softening') {
+            return winnerCall.party === 'rep'
+              ? 'Whether Democrats keep cutting into the margin.'
+              : 'Whether Republicans can chip away at the lead.';
+          }
+          if (Number.isFinite(growthPct) && Math.abs(growthPct) >= 4.5) {
+            return growthPct > 0
+              ? 'Whether continued growth keeps reshaping the electorate.'
+              : 'Whether population decline hardens the current lean.';
+          }
+          if (statusMain === 'Reinforcing') return 'Whether the next cycle deepens the current lean.';
+          return 'Whether the next cycle confirms this direction.';
+        })();
         const trendMarkup = loadState === 'loading'
           ? '<div class="county-focus-empty">Loading trend context...</div>'
           : (loadState === 'error'
@@ -12694,7 +12729,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <span class="focus-glance-badge ${winnerCall.party === 'tie' ? '' : winnerCall.party}">${escapeHtml(competitivenessMeta.shortLabel || compactCompetitivenessLabel(winnerCall.marginPct, winnerCall.party))}</span>
                 </span>
               </div>
-              <div class="focus-glance-headline">${escapeHtml(topSummary)}</div>
+              <div class="focus-glance-headline">${escapeHtml(glanceHeadline)}</div>
               <ul class="focus-glance-bullets">
                 <li>
                   <span class="focus-glance-label">Winner:</span>
@@ -12731,8 +12766,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span class="v">${escapeHtml(archetype)}</span>
               </div>
               <div class="focus-mini-card">
-                <span class="k">Population signal</span>
-                <span class="v">${populationValue}</span>
+                <span class="k">What to watch</span>
+                <span class="v">${escapeHtml(watchText)}</span>
               </div>
             </div>
 
@@ -12744,27 +12779,25 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
             </section>
 
-            <section class="county-focus-mini-grid" aria-label="Locality signals">
-              <div class="county-focus-mini-card">
-                <span class="county-focus-mini-label">Locality</span>
-                <div class="county-focus-mini-value">${escapeHtml(countyDisplay)}</div>
-                <div class="county-focus-mini-note">${escapeHtml(getVirginiaGeographyPhrase(countyNorm, censusContext))}</div>
-              </div>
-              <div class="county-focus-mini-card">
-                <span class="county-focus-mini-label">Trajectory</span>
-                <div class="county-focus-mini-value">${trendValue}</div>
-                <div class="county-focus-mini-note">${trendNote}</div>
-              </div>
-              <div class="county-focus-mini-card">
-                <span class="county-focus-mini-label">Contest</span>
-                <div class="county-focus-mini-value">${escapeHtml(contestLabel)}</div>
-                <div class="county-focus-mini-note">${escapeHtml(populationNote)}</div>
-              </div>
-            </section>
+            <div class="focus-firsttime-hint" role="note">Tip: open "Deeper context" for the full vote breakdown, trend history, and demographic profile.</div>
 
             <details class="county-detail-collapsible">
               <summary>Deeper context</summary>
               <div class="county-detail-body">
+                <div class="county-focus-panel">
+                  <div class="county-focus-section-title">Locality profile</div>
+                  <div class="county-focus-list">
+                    <div class="county-focus-list-item"><span class="county-focus-list-label">Locality</span><span class="county-focus-list-value">${escapeHtml(countyDisplay)}</span></div>
+                    <div class="county-focus-list-item"><span class="county-focus-list-label">Geography</span><span class="county-focus-list-value">${escapeHtml(geographyValue)}</span></div>
+                    <div class="county-focus-list-item"><span class="county-focus-list-label">Archetype</span><span class="county-focus-list-value">${escapeHtml(archetype)}</span></div>
+                    <div class="county-focus-list-item"><span class="county-focus-list-label">Trajectory</span><span class="county-focus-list-value">${escapeHtml(trajectoryValue)}</span></div>
+                    <div class="county-focus-list-item"><span class="county-focus-list-label">Population signal</span><span class="county-focus-list-value">${escapeHtml(populationSignal)}</span></div>
+                    <div class="county-focus-list-item"><span class="county-focus-list-label">Contest</span><span class="county-focus-list-value">${escapeHtml(contestLabel)}</span></div>
+                  </div>
+                  <div class="county-focus-panel-copy">
+                    <p>${escapeHtml(`${trajectoryDetail} ${populationDetail}`)}</p>
+                  </div>
+                </div>
                 <div class="county-focus-panel">
                   <div class="county-focus-section-title">Vote breakdown</div>
                   <div class="county-focus-list">

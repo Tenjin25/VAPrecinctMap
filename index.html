@@ -3082,6 +3082,10 @@ body { height: var(--app-height); }
     -webkit-box-orient: vertical;
   }
 
+  .focus-mini-card .v.long-form {
+    -webkit-line-clamp: 3;
+  }
+
   .focus-mini-card .v.rep { color: #7f1d1d; }
   .focus-mini-card .v.dem { color: #1e3a8a; }
 
@@ -11601,12 +11605,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const delta = localSigned - stateSigned;
       const absDelta = Math.abs(delta);
       if (absDelta < 0.15) {
-        return `${localityLabel} voted almost exactly in line with Virginia overall.`;
+        return `${localityLabel} voted almost exactly in line with Virginia.`;
       }
       if (delta < 0) {
-        return `${localityLabel} is ${absDelta.toFixed(1)} points more Democratic than Virginia overall.`;
+        return `${localityLabel} is ${absDelta.toFixed(1)} points more Democratic than Virginia.`;
       }
-      return `${localityLabel} voted ${absDelta.toFixed(1)} points to the right of the statewide result.`;
+      return `${localityLabel} voted ${absDelta.toFixed(1)} points to the right of Virginia.`;
     }
 
     function buildCountyConfidenceMeta(winnerCall, series = [], trajectoryMeta = null) {
@@ -12750,7 +12754,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="focus-mini-grid" aria-label="Key facts">
               <div class="focus-mini-card">
                 <span class="k">Compared with Virginia</span>
-                <span class="v">${escapeHtml(comparisonText || 'Statewide comparison unavailable.')}</span>
+                <span class="v long-form">${escapeHtml(comparisonText || 'Statewide comparison unavailable.')}</span>
               </div>
               <div class="focus-mini-card">
                 <span class="k">Confidence</span>
@@ -12767,7 +12771,7 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
               <div class="focus-mini-card">
                 <span class="k">What to watch</span>
-                <span class="v">${escapeHtml(watchText)}</span>
+                <span class="v long-form">${escapeHtml(watchText)}</span>
               </div>
             </div>
 

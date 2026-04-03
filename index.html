@@ -11025,7 +11025,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (key === 'VIRGINIA') return 'Virginia';
       const base = toTitleCaseName(localityBaseName(key));
       if (!base) return 'Unknown Locality';
-      if (/\bCITY$/.test(key) && !/\bCOUNTY$/.test(key)) return `${base} City`;
+      if (/\bCITY$/.test(key) && !/\bCOUNTY$/.test(key)) return `City of ${base}`;
       if (/\bCOUNTY$/.test(key)) return `${base} County`;
       return toTitleCaseName(key);
     }
@@ -11036,12 +11036,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const cityOfMatch = s.match(/^City of\s+(.+)$/i);
       if (cityOfMatch) {
-        return `${toTitleCaseName(cityOfMatch[1].trim())} City`;
+        return `City of ${toTitleCaseName(cityOfMatch[1].trim())}`;
       }
 
       const cityMatch = s.match(/^(.+?)\s+City$/i);
       if (cityMatch) {
-        return `${toTitleCaseName(cityMatch[1].trim())} City`;
+        return `City of ${toTitleCaseName(cityMatch[1].trim())}`;
       }
 
       const countyMatch = s.match(/^(.+?)\s+County$/i);
@@ -11050,7 +11050,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const titled = toTitleCaseName(s);
-      if (VA_INDEPENDENT_CITIES.has(titled.toUpperCase())) return `${titled} City`;
+      if (VA_INDEPENDENT_CITIES.has(titled.toUpperCase())) return `City of ${titled}`;
       return `${titled} County`;
     }
 

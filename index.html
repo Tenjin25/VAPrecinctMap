@@ -2899,11 +2899,295 @@ body { height: var(--app-height); }
   .county-focus-trend-scale .other { background: #94a3b8; }
   .county-focus-trend-scale .rep { background: linear-gradient(90deg, #f87171, #dc2626); }
 
+  .focus-glance {
+    margin: 0;
+    border-radius: 16px;
+    border: 1px solid rgba(15, 23, 42, 0.09);
+    background: rgba(248, 250, 252, 0.98);
+    padding: 14px 14px 12px;
+    display: grid;
+    gap: 8px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+  }
+
+  .focus-glance.tone-rep {
+    border-color: rgba(220, 38, 38, 0.18);
+    background: linear-gradient(180deg, rgba(254, 242, 242, 0.72), rgba(248, 250, 252, 0.98));
+  }
+
+  .focus-glance.tone-dem {
+    border-color: rgba(37, 99, 235, 0.18);
+    background: linear-gradient(180deg, rgba(239, 246, 255, 0.74), rgba(248, 250, 252, 0.98));
+  }
+
+  .focus-glance.tone-neutral {
+    border-color: rgba(148, 163, 184, 0.28);
+  }
+
+  .focus-glance-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .focus-glance-kicker {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #0f172a;
+  }
+
+  .focus-glance-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .focus-glance-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+    background: rgba(15, 23, 42, 0.06);
+    color: #334155;
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    white-space: nowrap;
+  }
+
+  .focus-glance-badge.rep {
+    background: rgba(220, 38, 38, 0.10);
+    color: #7f1d1d;
+    border-color: rgba(220, 38, 38, 0.18);
+  }
+
+  .focus-glance-badge.dem {
+    background: rgba(37, 99, 235, 0.10);
+    color: #1e3a8a;
+    border-color: rgba(37, 99, 235, 0.18);
+  }
+
+  .focus-glance-headline {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.35;
+    font-weight: 900;
+    color: #0f172a;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .focus-glance-bullets {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 6px;
+  }
+
+  .focus-glance-bullets li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 8px;
+    align-items: baseline;
+    font-size: 12px;
+    line-height: 1.35;
+    color: #334155;
+    padding-left: 14px;
+  }
+
+  .focus-glance-bullets li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    color: rgba(71, 85, 105, 0.9);
+    font-weight: 900;
+  }
+
+  .focus-glance-label {
+    font-weight: 900;
+    color: #475569;
+    letter-spacing: 0.02em;
+  }
+
+  .focus-glance-value {
+    color: #0f172a;
+    font-weight: 800;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+  }
+
+  .focus-glance-micro {
+    font-size: 12px;
+    line-height: 1.35;
+    font-weight: 800;
+    color: #475569;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .focus-glance-micro strong { color: #0f172a; }
+
+  .focus-mini-grid {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .focus-mini-card {
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.78);
+    padding: 10px 10px 9px;
+  }
+
+  .focus-mini-card .k {
+    display: block;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 5px;
+  }
+
+  .focus-mini-card .v {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 900;
+    line-height: 1.35;
+    color: #0f172a;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .focus-mini-card .v.rep { color: #7f1d1d; }
+  .focus-mini-card .v.dem { color: #1e3a8a; }
+
+  .confidence-meter {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .confidence-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    background: rgba(15, 23, 42, 0.06);
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    color: #334155;
+    white-space: nowrap;
+  }
+
+  .confidence-track {
+    position: relative;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.28);
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.30);
+  }
+
+  .confidence-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 50%;
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.70), rgba(16, 185, 129, 0.72));
+  }
+
+  .confidence-meter[data-level="low"] .confidence-pill {
+    background: rgba(148, 163, 184, 0.18);
+    border-color: rgba(148, 163, 184, 0.34);
+    color: #475569;
+  }
+
+  .confidence-meter[data-level="medium"] .confidence-pill {
+    background: rgba(59, 130, 246, 0.12);
+    border-color: rgba(59, 130, 246, 0.22);
+    color: #1e3a8a;
+  }
+
+  .confidence-meter[data-level="high"] .confidence-pill {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.28);
+    color: #065f46;
+  }
+
+  .confidence-meter[data-level="low"] .confidence-fill { background: rgba(148, 163, 184, 0.65); }
+  .confidence-meter[data-level="medium"] .confidence-fill { background: rgba(59, 130, 246, 0.70); }
+  .confidence-meter[data-level="high"] .confidence-fill { background: rgba(16, 185, 129, 0.72); }
+
+  .focus-why {
+    margin: 0;
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.82);
+    padding: 10px 12px 11px;
+  }
+
+  .focus-why-kicker {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin: 0 0 6px 0;
+  }
+
+  .focus-why-head {
+    margin: 0 0 6px 0;
+    font-size: 13px;
+    line-height: 1.35;
+    font-weight: 900;
+    color: #0f172a;
+  }
+
+  .focus-why-lines {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #475569;
+    font-weight: 800;
+  }
+
+  .focus-why-lines span { display: block; }
+
   @media (max-width: 768px) {
     .county-focus-name {
       font-size: 24px;
     }
 
+    .focus-glance { padding: 12px 12px 10px; }
+    .focus-glance-bullets li { grid-template-columns: 82px minmax(0, 1fr); }
+
+    .focus-mini-grid,
     .county-focus-meta-grid,
     .county-focus-mini-grid,
     .county-focus-share-row {
@@ -12365,6 +12649,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const topSummary = winnerCall.party === 'tie'
           ? `${countyDisplay} was effectively even in ${year}.`
           : `${winnerCall.winnerName} carried ${countyDisplay} by ${winnerCall.marginPct.toFixed(2)} points in ${year}.`;
+        const toneClass = winnerCall.party === 'rep' ? 'tone-rep' : (winnerCall.party === 'dem' ? 'tone-dem' : 'tone-neutral');
+        const winnerLabel = winnerCall.party === 'tie' ? 'Even race' : winnerCall.winnerName;
+        const voteSplitShort = `D ${demPct.toFixed(2)}% · R ${repPct.toFixed(2)}%${otherVotes > 0 ? ` · Other ${otherPct.toFixed(2)}%` : ''}`;
+        const glanceMicro = `<strong>Story:</strong> ${escapeHtml(whyBlock.headline)}${whyBlock.lines[0] ? ` ${escapeHtml(whyBlock.lines[0])}` : ''}`;
         const populationValue = censusContext
           ? (Number.isFinite(Number(censusContext.changePct2020To2025))
             ? `${escapeHtml(censusContext.signalLabel)} (${Math.abs(Number(censusContext.changePct2020To2025)).toFixed(1)}%)`
@@ -12399,60 +12687,67 @@ document.addEventListener('DOMContentLoaded', function() {
 
         return `
           <div class="county-focus-shell">
-            <section class="county-focus-hero" data-party="${winnerCall.party}">
-              <div class="county-focus-header">
-                <div>
-                  <span class="county-focus-kicker">${escapeHtml(contestLabel)}</span>
-                  <div class="county-focus-name">${escapeHtml(countyDisplay)}</div>
-                  <div class="county-focus-call ${winnerCall.party}">${escapeHtml(winnerCall.party === 'tie' ? 'Even race' : `${winnerCall.winnerName} +${winnerCall.marginPct.toFixed(2)} pts`)}</div>
-                </div>
-                <div class="county-focus-badges">
-                  <span class="county-focus-pill ${winnerCall.party}">${escapeHtml(competitivenessMeta.shortLabel || compactCompetitivenessLabel(winnerCall.marginPct, winnerCall.party))}</span>
-                  <span class="county-focus-pill muted">${escapeHtml(archetype)}</span>
-                </div>
+            <section class="focus-glance ${toneClass}" aria-label="At a glance">
+              <div class="focus-glance-head">
+                <span class="focus-glance-kicker">At a glance</span>
+                <span class="focus-glance-meta">
+                  <span class="focus-glance-badge ${winnerCall.party === 'tie' ? '' : winnerCall.party}">${escapeHtml(competitivenessMeta.shortLabel || compactCompetitivenessLabel(winnerCall.marginPct, winnerCall.party))}</span>
+                </span>
               </div>
-              <p class="county-focus-summary">${escapeHtml(topSummary)}</p>
-              <div class="county-focus-meta-grid">
-                <div class="county-focus-meta-card">
-                  <div class="county-focus-confidence-head">
-                    <span class="county-focus-confidence-label">Confidence</span>
-                    <span class="county-focus-confidence-value ${confidenceMeta.className}">${escapeHtml(confidenceMeta.label)}</span>
-                  </div>
-                  <div class="county-focus-confidence-bar" aria-hidden="true">
-                    <div class="county-focus-confidence-fill" style="width:${Math.max(8, Math.round((Number(confidenceMeta.value) || 0) * 100))}%;"></div>
-                  </div>
-                  <p class="county-focus-confidence-note">${escapeHtml(confidenceMeta.summary)}</p>
-                </div>
-                <div class="county-focus-meta-card">
-                  <span class="county-focus-confidence-label">Compared with Virginia</span>
-                  <p class="county-focus-comparison">${escapeHtml(comparisonText || 'Statewide comparison unavailable.')}</p>
-                </div>
-              </div>
-              <div class="county-focus-share-row" aria-label="Vote share">
-                <span class="county-focus-share-chip dem">D <strong>${demPct.toFixed(2)}%</strong></span>
-                <span class="county-focus-share-chip rep">R <strong>${repPct.toFixed(2)}%</strong></span>
-                ${otherVotes > 0 ? `<span class="county-focus-share-chip other">Other <strong>${otherPct.toFixed(2)}%</strong></span>` : ''}
-                <span class="county-focus-share-chip other">Total <strong>${totalVotes.toLocaleString()}</strong></span>
-              </div>
-              <div class="county-focus-share-bar" aria-hidden="true">
-                <span class="dem" style="width:${demPct.toFixed(4)}%;"></span>
-                ${otherVotes > 0 ? `<span class="other" style="width:${otherPct.toFixed(4)}%;"></span>` : ''}
-                <span class="rep" style="width:${repPct.toFixed(4)}%;"></span>
-              </div>
+              <div class="focus-glance-headline">${escapeHtml(topSummary)}</div>
+              <ul class="focus-glance-bullets">
+                <li>
+                  <span class="focus-glance-label">Winner:</span>
+                  <span class="focus-glance-value">${escapeHtml(winnerLabel)}</span>
+                </li>
+                <li>
+                  <span class="focus-glance-label">Margin:</span>
+                  <span class="focus-glance-value">${escapeHtml(winnerCall.party === 'tie' ? 'Even race' : `${winnerCall.marginPct.toFixed(2)} pts (${Math.abs(repVotes - demVotes).toLocaleString()} votes)`)}</span>
+                </li>
+                <li>
+                  <span class="focus-glance-label">Vote split:</span>
+                  <span class="focus-glance-value">${escapeHtml(voteSplitShort)}</span>
+                </li>
+              </ul>
+              <div class="focus-glance-micro">${glanceMicro}</div>
             </section>
 
-            <section class="county-story-card" aria-label="Why it votes this way">
-              <span class="county-story-kicker">Why It Votes This Way</span>
-              <h5 class="county-story-headline">${escapeHtml(whyBlock.headline)}</h5>
-              <div class="county-story-lines">
-                ${whyBlock.lines.map(line => `<p>${escapeHtml(line)}</p>`).join('')}
+            <div class="focus-mini-grid" aria-label="Key facts">
+              <div class="focus-mini-card">
+                <span class="k">Compared with Virginia</span>
+                <span class="v">${escapeHtml(comparisonText || 'Statewide comparison unavailable.')}</span>
+              </div>
+              <div class="focus-mini-card">
+                <span class="k">Confidence</span>
+                <div class="v">
+                  <div class="confidence-meter" data-level="${escapeHtml(confidenceMeta.className)}" aria-label="${escapeHtml(`Confidence: ${confidenceMeta.label}`)}" title="Confidence uses margin size, trend consistency, and volatility">
+                    <span class="confidence-pill">${escapeHtml(confidenceMeta.label)}</span>
+                    <span class="confidence-track" aria-hidden="true"><span class="confidence-fill" style="width:${Math.max(8, Math.round((Number(confidenceMeta.value) || 0) * 100))}%;"></span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="focus-mini-card">
+                <span class="k">Archetype</span>
+                <span class="v">${escapeHtml(archetype)}</span>
+              </div>
+              <div class="focus-mini-card">
+                <span class="k">Population signal</span>
+                <span class="v">${populationValue}</span>
+              </div>
+            </div>
+
+            <section class="focus-why" aria-label="Why it votes this way">
+              <div class="focus-why-kicker">Why it votes this way</div>
+              <p class="focus-why-head">${escapeHtml(whyBlock.headline)}</p>
+              <div class="focus-why-lines">
+                ${whyBlock.lines.map(line => `<span>${escapeHtml(line)}</span>`).join('')}
               </div>
             </section>
 
             <section class="county-focus-mini-grid" aria-label="Locality signals">
               <div class="county-focus-mini-card">
-                <span class="county-focus-mini-label">Archetype</span>
-                <div class="county-focus-mini-value">${escapeHtml(archetype)}</div>
+                <span class="county-focus-mini-label">Locality</span>
+                <div class="county-focus-mini-value">${escapeHtml(countyDisplay)}</div>
                 <div class="county-focus-mini-note">${escapeHtml(getVirginiaGeographyPhrase(countyNorm, censusContext))}</div>
               </div>
               <div class="county-focus-mini-card">
@@ -12461,9 +12756,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="county-focus-mini-note">${trendNote}</div>
               </div>
               <div class="county-focus-mini-card">
-                <span class="county-focus-mini-label">Population signal</span>
-                <div class="county-focus-mini-value">${populationValue}</div>
-                <div class="county-focus-mini-note">${populationNote}</div>
+                <span class="county-focus-mini-label">Contest</span>
+                <div class="county-focus-mini-value">${escapeHtml(contestLabel)}</div>
+                <div class="county-focus-mini-note">${escapeHtml(populationNote)}</div>
               </div>
             </section>
 

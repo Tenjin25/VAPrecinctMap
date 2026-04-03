@@ -2429,7 +2429,7 @@ body { height: var(--app-height); }
 
   .county-focus-shell {
     display: grid;
-    gap: 12px;
+    gap: 10px;
   }
 
   .county-focus-hero,
@@ -2438,25 +2438,37 @@ body { height: var(--app-height); }
   .county-focus-panel,
   .county-detail-collapsible {
     border: 1px solid rgba(148, 163, 184, 0.16);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.94) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
   }
 
   .county-focus-hero {
+    position: relative;
     display: grid;
-    gap: 12px;
-    padding: 16px;
-    background:
-      radial-gradient(circle at top left, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.97) 50%, rgba(241, 245, 249, 0.94) 100%);
+    gap: 10px;
+    padding: 13px;
+    overflow: hidden;
+    isolation: isolate;
   }
 
-  .county-focus-hero[data-party="dem"] {
-    box-shadow: 0 16px 30px rgba(29, 78, 216, 0.08);
+  .county-focus-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(100, 116, 139, 0.85) 0%, rgba(100, 116, 139, 0.2) 60%, rgba(100, 116, 139, 0) 100%);
+    pointer-events: none;
   }
 
-  .county-focus-hero[data-party="rep"] {
-    box-shadow: 0 16px 30px rgba(185, 28, 28, 0.08);
+  .county-focus-hero[data-party="dem"]::before {
+    background: linear-gradient(90deg, rgba(37, 99, 235, 0.92) 0%, rgba(37, 99, 235, 0.22) 60%, rgba(37, 99, 235, 0) 100%);
+  }
+
+  .county-focus-hero[data-party="rep"]::before {
+    background: linear-gradient(90deg, rgba(220, 38, 38, 0.92) 0%, rgba(220, 38, 38, 0.22) 60%, rgba(220, 38, 38, 0) 100%);
   }
 
   .county-focus-kicker,
@@ -2464,7 +2476,7 @@ body { height: var(--app-height); }
   .county-focus-section-title,
   .county-focus-mini-label,
   .county-focus-confidence-label {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -2473,24 +2485,25 @@ body { height: var(--app-height); }
 
   .county-focus-header {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
     align-items: flex-start;
   }
 
   .county-focus-name {
     margin: 2px 0 0;
-    font-size: clamp(28px, 3vw, 36px);
-    line-height: 1;
+    font-size: clamp(22px, 2.3vw, 28px);
+    line-height: 1.05;
     font-weight: 900;
     letter-spacing: -0.03em;
     color: #0f172a;
   }
 
   .county-focus-call {
-    margin-top: 6px;
-    font-size: 18px;
-    line-height: 1.25;
+    margin-top: 4px;
+    font-size: 15px;
+    line-height: 1.3;
     font-weight: 900;
     color: #0f172a;
   }
@@ -2501,31 +2514,31 @@ body { height: var(--app-height); }
 
   .county-focus-summary {
     margin: 0;
-    font-size: 14px;
-    line-height: 1.6;
-    color: #334155;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #475569;
   }
 
   .county-focus-badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    justify-content: flex-end;
+    gap: 6px;
+    justify-content: flex-start;
   }
 
   .county-focus-pill {
     display: inline-flex;
     align-items: center;
-    min-height: 32px;
-    padding: 0 12px;
+    min-height: 28px;
+    padding: 0 10px;
     border-radius: 999px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     border: 1px solid rgba(148, 163, 184, 0.18);
-    background: rgba(255, 255, 255, 0.92);
-    color: #334155;
+    background: rgba(255, 255, 255, 0.88);
+    color: #475569;
   }
 
   .county-focus-pill.dem {
@@ -2548,17 +2561,17 @@ body { height: var(--app-height); }
 
   .county-focus-meta-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    gap: 8px;
   }
 
   .county-focus-meta-card {
     display: grid;
-    gap: 8px;
-    padding: 12px;
+    gap: 6px;
+    padding: 10px 11px;
     border-radius: 14px;
     border: 1px solid rgba(148, 163, 184, 0.14);
-    background: rgba(248, 250, 252, 0.94);
+    background: rgba(255, 255, 255, 0.84);
   }
 
   .county-focus-confidence-head {
@@ -2569,7 +2582,7 @@ body { height: var(--app-height); }
   }
 
   .county-focus-confidence-value {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 900;
     color: #0f172a;
   }
@@ -2594,29 +2607,33 @@ body { height: var(--app-height); }
   .county-focus-confidence-note,
   .county-focus-comparison {
     margin: 0;
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 1.4;
     color: #475569;
   }
 
   .county-focus-share-row {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
   }
 
   .county-focus-share-chip {
     display: inline-flex;
     align-items: center;
+    justify-content: space-between;
     gap: 8px;
-    min-height: 34px;
-    padding: 0 12px;
+    min-height: 30px;
+    width: 100%;
+    padding: 0 10px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     border: 1px solid rgba(148, 163, 184, 0.16);
-    background: rgba(255, 255, 255, 0.88);
-    color: #334155;
+    background: rgba(241, 245, 249, 0.94);
+    color: #475569;
   }
 
   .county-focus-share-chip.dem {
@@ -2635,28 +2652,28 @@ body { height: var(--app-height); }
   }
 
   .county-focus-share-bar {
-    height: 16px;
+    height: 14px;
     display: flex;
     overflow: hidden;
     border-radius: 999px;
     border: 1px solid rgba(15, 23, 42, 0.10);
-    background: rgba(255, 255, 255, 0.9);
+    background: #e5e7eb;
   }
 
-  .county-focus-share-bar span.dem { background: #2563eb; }
-  .county-focus-share-bar span.rep { background: #dc2626; }
-  .county-focus-share-bar span.other { background: #64748b; }
+  .county-focus-share-bar span.dem { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+  .county-focus-share-bar span.rep { background: linear-gradient(90deg, #f87171, #dc2626); }
+  .county-focus-share-bar span.other { background: #94a3b8; }
 
   .county-story-card,
   .county-focus-mini-card,
   .county-focus-panel {
-    padding: 14px;
+    padding: 12px;
   }
 
   .county-story-headline {
-    margin: 6px 0 0;
-    font-size: 18px;
-    line-height: 1.35;
+    margin: 4px 0 0;
+    font-size: 16px;
+    line-height: 1.3;
     font-weight: 900;
     color: #0f172a;
   }
@@ -2669,29 +2686,29 @@ body { height: var(--app-height); }
 
   .county-story-lines p {
     margin: 0;
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 12px;
+    line-height: 1.5;
     color: #475569;
   }
 
   .county-focus-mini-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(116px, 1fr));
+    gap: 8px;
   }
 
   .county-focus-mini-value {
-    margin-top: 6px;
-    font-size: 15px;
-    line-height: 1.35;
+    margin-top: 4px;
+    font-size: 13px;
+    line-height: 1.3;
     font-weight: 900;
     color: #0f172a;
   }
 
   .county-focus-mini-note {
-    margin-top: 6px;
-    font-size: 12px;
-    line-height: 1.5;
+    margin-top: 4px;
+    font-size: 11px;
+    line-height: 1.4;
     color: #64748b;
   }
 
@@ -2706,8 +2723,9 @@ body { height: var(--app-height); }
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 14px 16px;
+    padding: 12px 14px;
     font-weight: 900;
+    font-size: 13px;
     color: #0f172a;
   }
 
@@ -2726,8 +2744,8 @@ body { height: var(--app-height); }
 
   .county-detail-body {
     display: grid;
-    gap: 12px;
-    padding: 0 16px 16px;
+    gap: 10px;
+    padding: 0 14px 14px;
   }
 
   .county-focus-panel-copy,
@@ -2739,13 +2757,14 @@ body { height: var(--app-height); }
   .county-focus-panel-copy p,
   .county-focus-empty {
     margin: 0;
-    font-size: 13px;
-    line-height: 1.55;
+    font-size: 12px;
+    line-height: 1.5;
     color: #475569;
   }
 
   .locality-focus-inline {
-    margin-top: 16px;
+    display: grid;
+    gap: 10px;
   }
 
   .locality-focus-inline[hidden] {
@@ -2756,20 +2775,87 @@ body { height: var(--app-height); }
     margin: 0;
   }
 
+  .county-focus-trend-strip {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(126px, 150px);
+    gap: 8px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 2px 1px 4px;
+    margin: 0 -1px;
+    scrollbar-width: thin;
+  }
+
+  .county-focus-trend-card {
+    display: grid;
+    gap: 8px;
+    min-height: 118px;
+    padding: 10px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(248, 250, 252, 0.92);
+  }
+
+  .county-focus-trend-card[data-party="rep"] {
+    background: linear-gradient(180deg, rgba(254, 242, 242, 0.96) 0%, rgba(248, 250, 252, 0.94) 100%);
+  }
+
+  .county-focus-trend-card[data-party="dem"] {
+    background: linear-gradient(180deg, rgba(239, 246, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%);
+  }
+
+  .county-focus-trend-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .county-focus-trend-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(255, 255, 255, 0.86);
+    color: #475569;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .county-focus-trend-badge.dem {
+    color: #1d4ed8;
+    background: rgba(219, 234, 254, 0.84);
+  }
+
+  .county-focus-trend-badge.rep {
+    color: #b91c1c;
+    background: rgba(254, 226, 226, 0.8);
+  }
+
+  .county-focus-trend-badge.tie {
+    color: #475569;
+    background: rgba(226, 232, 240, 0.86);
+  }
+
   .county-focus-trend-row,
   .county-focus-list-item {
     display: flex;
     justify-content: space-between;
     gap: 12px;
     align-items: flex-start;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.45;
   }
 
   .county-focus-trend-year,
   .county-focus-list-label {
     color: #64748b;
-    font-weight: 700;
+    font-weight: 800;
   }
 
   .county-focus-trend-call,
@@ -2783,38 +2869,49 @@ body { height: var(--app-height); }
   .county-focus-trend-call.rep { color: #b91c1c; }
   .county-focus-trend-call.tie { color: #475569; }
 
+  .county-focus-trend-meta {
+    display: grid;
+    gap: 4px;
+    margin-top: auto;
+  }
+
+  .county-focus-trend-subtle {
+    font-size: 10px;
+    line-height: 1.3;
+    color: #64748b;
+  }
+
+  .county-focus-trend-scale {
+    display: flex;
+    width: 100%;
+    height: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(226, 232, 240, 0.92);
+  }
+
+  .county-focus-trend-scale span {
+    display: block;
+    height: 100%;
+  }
+
+  .county-focus-trend-scale .dem { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+  .county-focus-trend-scale .other { background: #94a3b8; }
+  .county-focus-trend-scale .rep { background: linear-gradient(90deg, #f87171, #dc2626); }
+
   @media (max-width: 768px) {
-    .county-focus-hero,
-    .county-story-card,
-    .county-focus-mini-card,
-    .county-focus-panel {
-      padding: 12px;
-      border-radius: 16px;
-    }
-
-    .county-focus-header {
-      flex-direction: column;
-    }
-
-    .county-focus-badges {
-      justify-content: flex-start;
-    }
-
     .county-focus-name {
-      font-size: 30px;
+      font-size: 24px;
     }
 
     .county-focus-meta-grid,
-    .county-focus-mini-grid {
+    .county-focus-mini-grid,
+    .county-focus-share-row {
       grid-template-columns: 1fr;
     }
 
-    .county-detail-collapsible summary {
-      padding: 12px 14px;
-    }
-
-    .county-detail-body {
-      padding: 0 14px 14px;
+    .county-focus-trend-strip {
+      grid-auto-columns: minmax(138px, 156px);
     }
   }
 
@@ -11420,19 +11517,35 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!sorted.length) {
         return '<div class="county-focus-empty">No historical trend data available.</div>';
       }
-      return sorted
+      const cards = sorted
         .slice(0, 5)
         .map(row => {
           const signed = Number(row?.margin_pct || 0);
           const party = signed > 0 ? 'rep' : (signed < 0 ? 'dem' : 'tie');
+          const totalVotes = Number(row?.total_votes || 0);
+          const demPct = totalVotes > 0 ? (Number(row?.dem_votes || 0) / totalVotes) * 100 : 0;
+          const repPct = totalVotes > 0 ? (Number(row?.rep_votes || 0) / totalVotes) * 100 : 0;
+          const otherPct = totalVotes > 0 ? Math.max(0, 100 - demPct - repPct) : 0;
           return `
-            <div class="county-focus-trend-row">
-              <span class="county-focus-trend-year">${escapeHtml(row.year)}</span>
-              <span class="county-focus-trend-call ${party}">${escapeHtml(winnerMarginLabelShort(row.rep_votes, row.dem_votes, row.total_votes, row.rep_candidate, row.dem_candidate))}</span>
+            <div class="county-focus-trend-card" data-party="${party}">
+              <div class="county-focus-trend-head">
+                <span class="county-focus-trend-year">${escapeHtml(row.year)}</span>
+                <span class="county-focus-trend-badge ${party}">${escapeHtml(party === 'tie' ? 'Even' : (party === 'dem' ? 'D' : 'R'))}</span>
+              </div>
+              <div class="county-focus-trend-call ${party}">${escapeHtml(winnerMarginLabelShort(row.rep_votes, row.dem_votes, row.total_votes, row.rep_candidate, row.dem_candidate))}</div>
+              <div class="county-focus-trend-meta">
+                <div class="county-focus-trend-subtle">${escapeHtml(totalVotes.toLocaleString())} votes</div>
+                <div class="county-focus-trend-scale" aria-hidden="true">
+                  <span class="dem" style="width:${demPct.toFixed(4)}%;"></span>
+                  ${otherPct > 0 ? `<span class="other" style="width:${otherPct.toFixed(4)}%;"></span>` : ''}
+                  <span class="rep" style="width:${repPct.toFixed(4)}%;"></span>
+                </div>
+              </div>
             </div>
           `;
         })
         .join('');
+      return `<div class="county-focus-trend-strip">${cards}</div>`;
     }
 
     function formatTrendSeries(title, series) {

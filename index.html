@@ -175,7 +175,7 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
     // Define toggleSidebar function before DOMContentLoaded
-    const SIDEBAR_ENABLED = false;
+    const SIDEBAR_ENABLED = true;
     // Gate sidebar rendering/styles without a flash-of-sidebar on load.
     document.documentElement.classList.toggle('sidebar-enabled', SIDEBAR_ENABLED);
 
@@ -251,7 +251,7 @@
         if (detailsDiv) detailsDiv.style.display = 'block';
         // Ensure there's content to show
         if (contentEl && (!contentEl.innerHTML || contentEl.innerHTML.trim() === '')) {
-          contentEl.innerHTML = '<p>Select a contest or county to see results.</p>';
+          contentEl.innerHTML = '<p>Select a contest or locality to see results.</p>';
         }
         if (minimizeBtn) {
           minimizeBtn.textContent = '-';
@@ -313,7 +313,7 @@
           toggleSidebar();
           // If no county is selected, show default message
           if (detailsDiv && contentEl && (!window.lastSelectedCounty || window.lastSelectedCounty === '')) {
-            contentEl.innerHTML = '<p>Select a contest or county to see results.</p>';
+            contentEl.innerHTML = '<p>Select a contest or locality to see results.</p>';
             detailsDiv.style.display = 'block';
           }
         };
@@ -359,7 +359,7 @@
       
       // Show default message on load
       if (detailsDiv && contentEl) {
-        contentEl.innerHTML = '<p>Select a contest or county to see results.</p>';
+        contentEl.innerHTML = '<p>Select a contest or locality to see results.</p>';
         detailsDiv.style.display = 'block';
       }
     });
@@ -2424,6 +2424,385 @@ body { height: var(--app-height); }
 
     .statewide-footer-row {
       grid-template-columns: 1fr;
+    }
+  }
+
+  .county-focus-shell {
+    display: grid;
+    gap: 12px;
+  }
+
+  .county-focus-hero,
+  .county-story-card,
+  .county-focus-mini-card,
+  .county-focus-panel,
+  .county-detail-collapsible {
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+  }
+
+  .county-focus-hero {
+    display: grid;
+    gap: 12px;
+    padding: 16px;
+    background:
+      radial-gradient(circle at top left, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.97) 50%, rgba(241, 245, 249, 0.94) 100%);
+  }
+
+  .county-focus-hero[data-party="dem"] {
+    box-shadow: 0 16px 30px rgba(29, 78, 216, 0.08);
+  }
+
+  .county-focus-hero[data-party="rep"] {
+    box-shadow: 0 16px 30px rgba(185, 28, 28, 0.08);
+  }
+
+  .county-focus-kicker,
+  .county-story-kicker,
+  .county-focus-section-title,
+  .county-focus-mini-label,
+  .county-focus-confidence-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .county-focus-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .county-focus-name {
+    margin: 2px 0 0;
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: #0f172a;
+  }
+
+  .county-focus-call {
+    margin-top: 6px;
+    font-size: 18px;
+    line-height: 1.25;
+    font-weight: 900;
+    color: #0f172a;
+  }
+
+  .county-focus-call.dem { color: #1d4ed8; }
+  .county-focus-call.rep { color: #b91c1c; }
+  .county-focus-call.tie { color: #475569; }
+
+  .county-focus-summary {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #334155;
+  }
+
+  .county-focus-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .county-focus-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(255, 255, 255, 0.92);
+    color: #334155;
+  }
+
+  .county-focus-pill.dem {
+    color: #1d4ed8;
+    background: rgba(219, 234, 254, 0.8);
+    border-color: rgba(96, 165, 250, 0.28);
+  }
+
+  .county-focus-pill.rep {
+    color: #b91c1c;
+    background: rgba(254, 226, 226, 0.82);
+    border-color: rgba(248, 113, 113, 0.28);
+  }
+
+  .county-focus-pill.tie,
+  .county-focus-pill.muted {
+    color: #475569;
+    background: rgba(241, 245, 249, 0.95);
+  }
+
+  .county-focus-meta-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .county-focus-meta-card {
+    display: grid;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    background: rgba(248, 250, 252, 0.94);
+  }
+
+  .county-focus-confidence-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .county-focus-confidence-value {
+    font-size: 13px;
+    font-weight: 900;
+    color: #0f172a;
+  }
+
+  .county-focus-confidence-value.low { color: #b45309; }
+  .county-focus-confidence-value.medium { color: #2563eb; }
+  .county-focus-confidence-value.high { color: #047857; }
+
+  .county-focus-confidence-bar {
+    height: 8px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(226, 232, 240, 0.95);
+  }
+
+  .county-focus-confidence-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #f59e0b 0%, #2563eb 52%, #10b981 100%);
+  }
+
+  .county-focus-confidence-note,
+  .county-focus-comparison {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #475569;
+  }
+
+  .county-focus-share-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .county-focus-share-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(255, 255, 255, 0.88);
+    color: #334155;
+  }
+
+  .county-focus-share-chip.dem {
+    color: #1d4ed8;
+    background: rgba(219, 234, 254, 0.78);
+  }
+
+  .county-focus-share-chip.rep {
+    color: #b91c1c;
+    background: rgba(254, 226, 226, 0.82);
+  }
+
+  .county-focus-share-chip.other {
+    color: #475569;
+    background: rgba(241, 245, 249, 0.96);
+  }
+
+  .county-focus-share-bar {
+    height: 16px;
+    display: flex;
+    overflow: hidden;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .county-focus-share-bar span.dem { background: #2563eb; }
+  .county-focus-share-bar span.rep { background: #dc2626; }
+  .county-focus-share-bar span.other { background: #64748b; }
+
+  .county-story-card,
+  .county-focus-mini-card,
+  .county-focus-panel {
+    padding: 14px;
+  }
+
+  .county-story-headline {
+    margin: 6px 0 0;
+    font-size: 18px;
+    line-height: 1.35;
+    font-weight: 900;
+    color: #0f172a;
+  }
+
+  .county-story-lines {
+    display: grid;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .county-story-lines p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #475569;
+  }
+
+  .county-focus-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .county-focus-mini-value {
+    margin-top: 6px;
+    font-size: 15px;
+    line-height: 1.35;
+    font-weight: 900;
+    color: #0f172a;
+  }
+
+  .county-focus-mini-note {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #64748b;
+  }
+
+  .county-detail-collapsible {
+    overflow: hidden;
+  }
+
+  .county-detail-collapsible summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    font-weight: 900;
+    color: #0f172a;
+  }
+
+  .county-detail-collapsible summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .county-detail-collapsible summary::after {
+    content: '+';
+    color: rgba(15, 23, 42, 0.55);
+  }
+
+  .county-detail-collapsible[open] summary::after {
+    content: '-';
+  }
+
+  .county-detail-body {
+    display: grid;
+    gap: 12px;
+    padding: 0 16px 16px;
+  }
+
+  .county-focus-panel-copy,
+  .county-focus-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .county-focus-panel-copy p,
+  .county-focus-empty {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #475569;
+  }
+
+  .county-focus-trend-row,
+  .county-focus-list-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .county-focus-trend-year,
+  .county-focus-list-label {
+    color: #64748b;
+    font-weight: 700;
+  }
+
+  .county-focus-trend-call,
+  .county-focus-list-value {
+    font-weight: 900;
+    color: #0f172a;
+    text-align: right;
+  }
+
+  .county-focus-trend-call.dem { color: #1d4ed8; }
+  .county-focus-trend-call.rep { color: #b91c1c; }
+  .county-focus-trend-call.tie { color: #475569; }
+
+  @media (max-width: 768px) {
+    .county-focus-hero,
+    .county-story-card,
+    .county-focus-mini-card,
+    .county-focus-panel {
+      padding: 12px;
+      border-radius: 16px;
+    }
+
+    .county-focus-header {
+      flex-direction: column;
+    }
+
+    .county-focus-badges {
+      justify-content: flex-start;
+    }
+
+    .county-focus-name {
+      font-size: 30px;
+    }
+
+    .county-focus-meta-grid,
+    .county-focus-mini-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .county-detail-collapsible summary {
+      padding: 12px 14px;
+    }
+
+    .county-detail-body {
+      padding: 0 14px 14px;
     }
   }
 
@@ -5760,7 +6139,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="vote-counter-context" id="vote-counter-context">
       <div class="context-left">
         <div class="context-title" id="vote-context-title">Statewide</div>
-        <div class="context-sub" id="vote-context-sub">Hover a county or district</div>
+        <div class="context-sub" id="vote-context-sub">Hover a locality or district</div>
         <div class="context-flip" id="vote-context-flip" hidden></div>
       </div>
       <div class="context-actions">
@@ -5851,9 +6230,9 @@ document.addEventListener('DOMContentLoaded', function() {
         <details class="sidebar-panel" id="panel-focus" open>
           <summary>Focus</summary>
           <div class="county-details" id="county-details" style="display: block;">
-            <h4 id="county-name">Select a County</h4>
+            <h4 id="county-name">Select a Locality</h4>
             <div id="county-info-content">
-              Click on any county or district to see results. Click again to see trends.
+              Click on any county, city, or district to see results. Click again to see trends.
             </div>
           </div>
         </details>
@@ -7692,6 +8071,25 @@ document.addEventListener('DOMContentLoaded', function() {
       'CUMBERLAND COUNTY'
     ]);
 
+    const VA_MILITARY_HEAVY_LOCALITIES = new Set([
+      'CHESAPEAKE CITY',
+      'HAMPTON CITY',
+      'NEWPORT NEWS CITY',
+      'NORFOLK CITY',
+      'PORTSMOUTH CITY',
+      'VIRGINIA BEACH CITY'
+    ]);
+
+    const VA_COLLEGE_DRIVEN_LOCALITIES = new Set([
+      'ALBEMARLE COUNTY',
+      'CHARLOTTESVILLE CITY',
+      'HARRISONBURG CITY',
+      'JAMES CITY COUNTY',
+      'LEXINGTON CITY',
+      'MONTGOMERY COUNTY',
+      'RADFORD CITY'
+    ]);
+
     function getVaCorridorDescriptor(countyNormRaw, estimate = null) {
       const norm = normalizePopulationLocalityKey(countyNormRaw);
       if (!norm) return null;
@@ -8668,7 +9066,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateVoteCounter(voteCounterBaseline.demVotes, voteCounterBaseline.repVotes, voteCounterBaseline.otherVotes, voteCounterBaseline.meta);
         refreshFocusTrend(voteCounterBaseline);
       } else {
-        setVoteCounterContext('Statewide', 'Hover a county or district', { showClear: false });
+        setVoteCounterContext('Statewide', 'Hover a locality or district', { showClear: false });
         renderFocusTrendEmpty('Select a contest to load trend history.', 'Trend history');
         hideVoteCounter();
       }
@@ -10145,63 +10543,77 @@ document.addEventListener('DOMContentLoaded', function() {
     ]);
     const VA_CITY_SUFFIX_COUNTIES = new Set(['JAMES CITY', 'CHARLES CITY']);
 
+    function normalizeLooseLocalityLabel(raw) {
+      return (raw || '')
+        .toString()
+        .replace(/&/g, ' AND ')
+        .replace(/[^a-z0-9 .\-]/gi, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toUpperCase();
+    }
+
+    function canonicalizeVirginiaLocalityKey(raw) {
+      const normalized = normalizeLooseLocalityLabel(raw);
+      if (!normalized) return '';
+
+      const delimiterIndex = normalized.indexOf(' - ');
+      if (delimiterIndex !== -1) {
+        const locality = canonicalizeVirginiaLocalityKey(normalized.slice(0, delimiterIndex));
+        const suffix = normalized.slice(delimiterIndex + 3).trim();
+        return suffix ? `${locality} - ${suffix}` : locality;
+      }
+
+      if (normalized === 'VIRGINIA') return normalized;
+
+      const cityOfMatch = normalized.match(/^CITY OF\s+(.+)$/);
+      if (cityOfMatch && cityOfMatch[1]) {
+        const base = cityOfMatch[1].trim();
+        if (!base) return normalized;
+        if (VA_CITY_SUFFIX_COUNTIES.has(`${base} CITY`)) return `${base} CITY COUNTY`;
+        return `${base} CITY`;
+      }
+
+      const cityMatch = normalized.match(/^(.+?)\s+CITY$/);
+      if (cityMatch && cityMatch[1]) {
+        const base = cityMatch[1].trim();
+        if (!base) return normalized;
+        if (VA_CITY_SUFFIX_COUNTIES.has(`${base} CITY`)) return `${base} CITY COUNTY`;
+        return `${base} CITY`;
+      }
+
+      const countyMatch = normalized.match(/^(.+?)\s+COUNTY$/);
+      if (countyMatch && countyMatch[1]) {
+        return `${countyMatch[1].trim()} COUNTY`;
+      }
+
+      return normalized;
+    }
+
+    function localityBaseName(raw) {
+      const key = canonicalizeVirginiaLocalityKey(raw);
+      if (!key) return '';
+      return key.replace(/\s+(CITY|COUNTY)$/i, '').trim();
+    }
+
     function localityNoun(raw) {
-      const s = (raw || '').toString().trim();
-      if (!s) return 'locality';
-
-      const cityOfMatch = s.match(/^City of\s+(.+)$/i);
-      if (cityOfMatch) {
-        const base = toTitleCaseName(cityOfMatch[1].trim());
-        if (VA_CITY_SUFFIX_COUNTIES.has(`${base} City`.toUpperCase())) return 'county';
-        return 'city';
-      }
-
-      const cityMatch = s.match(/^(.+?)\s+City$/i);
-      if (cityMatch) {
-        const base = toTitleCaseName(cityMatch[1].trim());
-        if (VA_CITY_SUFFIX_COUNTIES.has(`${base} City`.toUpperCase())) return 'county';
-        return 'city';
-      }
-
-      const countyMatch = s.match(/^(.+?)\s+County$/i);
-      if (countyMatch) return 'county';
-
-      const titled = toTitleCaseName(s);
-      if (VA_INDEPENDENT_CITIES.has(titled.toUpperCase())) return 'city';
+      const key = canonicalizeVirginiaLocalityKey(raw);
+      if (!key) return 'locality';
+      if (/\bCITY$/.test(key) && !/\bCOUNTY$/.test(key)) return 'city';
+      if (/\bCOUNTY$/.test(key)) return 'county';
+      if (VA_INDEPENDENT_CITIES.has(key)) return 'city';
       return 'county';
     }
 
     function displayCountyName(raw) {
-      const s = (raw || '').toString().trim();
-      if (!s) return 'Unknown Locality';
-
-      const cityOfMatch = s.match(/^City of\s+(.+)$/i);
-      if (cityOfMatch) {
-        const base = toTitleCaseName(cityOfMatch[1].trim());
-        if (VA_CITY_SUFFIX_COUNTIES.has(`${base} City`.toUpperCase())) {
-          return `${base} City County`;
-        }
-        return `City of ${base}`;
-      }
-
-      const cityMatch = s.match(/^(.+?)\s+City$/i);
-      if (cityMatch) {
-        const base = toTitleCaseName(cityMatch[1].trim());
-        if (VA_CITY_SUFFIX_COUNTIES.has(`${base} City`.toUpperCase())) {
-          return `${base} City County`;
-        }
-        return `City of ${base}`;
-      }
-
-      const countyMatch = s.match(/^(.+?)\s+County$/i);
-      if (countyMatch) {
-        const base = toTitleCaseName(countyMatch[1].trim());
-        return `${base} County`;
-      }
-
-      const titled = toTitleCaseName(s);
-      if (VA_INDEPENDENT_CITIES.has(titled.toUpperCase())) return `City of ${titled}`;
-      return `${titled} County`;
+      const key = canonicalizeVirginiaLocalityKey(raw);
+      if (!key) return 'Unknown Locality';
+      if (key === 'VIRGINIA') return 'Virginia';
+      const base = toTitleCaseName(localityBaseName(key));
+      if (!base) return 'Unknown Locality';
+      if (/\bCITY$/.test(key) && !/\bCOUNTY$/.test(key)) return `${base} City`;
+      if (/\bCOUNTY$/.test(key)) return `${base} County`;
+      return toTitleCaseName(key);
     }
 
     function formatFlyToLocalityLabel(raw) {
@@ -10265,13 +10677,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function normalizeCountyLookupKey(name) {
-      return (name || '')
-        .toString()
-        .replace(/&/g, ' AND ')
-        .replace(/[^a-z0-9 .\-]/gi, '')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .toUpperCase();
+      return canonicalizeVirginiaLocalityKey(name);
     }
 
     function getCountyTooltipKey(countyName) {
@@ -10295,6 +10701,92 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!norm || !currentElectionResults) return null;
       if (currentElectionResults[norm]) return currentElectionResults[norm];
       return getCurrentElectionResultsIndex().get(norm) || null;
+    }
+
+    function getRawLocalityNameFromProps(props = {}) {
+      return props.NAMELSAD20 || props.NAME20 || props.CountyName || props.county_name || props.COUNTYNAME || props.county_nam || props.County || props.NAME || props.name || '';
+    }
+
+    function buildLocalityFeatureEntries(features = []) {
+      return (Array.isArray(features) ? features : [])
+        .map(feature => {
+          const rawName = getRawLocalityNameFromProps(feature?.properties || {});
+          const canonicalKey = normalizeCountyLookupKey(rawName);
+          const looseKey = normalizeLooseLocalityLabel(rawName);
+          const displayName = displayCountyName(rawName);
+          const baseKey = localityBaseName(rawName);
+          if (!canonicalKey) return null;
+          return {
+            feature,
+            rawName,
+            canonicalKey,
+            looseKey,
+            displayKey: normalizeCountyLookupKey(displayName),
+            baseKey,
+            localityType: localityNoun(rawName)
+          };
+        })
+        .filter(Boolean);
+    }
+
+    function resolveLocalityFeature(features = [], query = '') {
+      const entries = buildLocalityFeatureEntries(features);
+      if (!entries.length) return { match: null, suggestions: [] };
+
+      const rawQuery = String(query || '').trim();
+      const canonicalQuery = normalizeCountyLookupKey(rawQuery);
+      const looseQuery = normalizeLooseLocalityLabel(rawQuery);
+      const hasTypeHint = /\b(CITY|COUNTY)\b/.test(looseQuery) || /^CITY OF\b/.test(looseQuery);
+
+      const byExact = entries.filter(entry =>
+        entry.canonicalKey === canonicalQuery ||
+        entry.displayKey === canonicalQuery ||
+        entry.looseKey === looseQuery
+      );
+      if (byExact.length === 1) return { match: byExact[0].feature, suggestions: [] };
+      if (byExact.length > 1) {
+        return {
+          match: null,
+          suggestions: byExact.map(entry => displayCountyName(entry.rawName))
+        };
+      }
+
+      const baseQuery = hasTypeHint ? '' : localityBaseName(looseQuery || rawQuery);
+      if (baseQuery) {
+        const baseMatches = entries.filter(entry => entry.baseKey === baseQuery);
+        if (baseMatches.length === 1) return { match: baseMatches[0].feature, suggestions: [] };
+        if (baseMatches.length > 1) {
+          return {
+            match: null,
+            suggestions: baseMatches.map(entry => displayCountyName(entry.rawName))
+          };
+        }
+
+        const fuzzyMatches = Array.from(
+          new Map(
+            entries
+              .filter(entry => entry.baseKey.includes(baseQuery) || baseQuery.includes(entry.baseKey))
+              .map(entry => [entry.canonicalKey, entry])
+          ).values()
+        );
+        if (fuzzyMatches.length === 1) return { match: fuzzyMatches[0].feature, suggestions: [] };
+      }
+
+      const typedFuzzyMatches = Array.from(
+        new Map(
+          entries
+            .filter(entry => canonicalQuery && (entry.canonicalKey.includes(canonicalQuery) || canonicalQuery.includes(entry.canonicalKey)))
+            .map(entry => [entry.canonicalKey, entry])
+        ).values()
+      );
+      if (typedFuzzyMatches.length === 1) return { match: typedFuzzyMatches[0].feature, suggestions: [] };
+
+      return {
+        match: null,
+        suggestions: typedFuzzyMatches
+          .slice(0, 4)
+          .map(entry => displayCountyName(entry.rawName))
+      };
     }
 
     function stripRunningMateName(name) {
@@ -10666,6 +11158,264 @@ document.addEventListener('DOMContentLoaded', function() {
         countyTrendSeriesCache.delete(cacheKey);
         throw err;
       }
+    }
+
+    function getCurrentStatewideContestSummary(contestType) {
+      if (!contestType || !currentElectionResults) return null;
+      let demVotes = 0;
+      let repVotes = 0;
+      let otherVotes = 0;
+      let totalVotes = 0;
+
+      Object.values(currentElectionResults || {}).forEach(row => {
+        demVotes += Number(row?.[`${contestType}_dem`] || 0);
+        repVotes += Number(row?.[`${contestType}_rep`] || 0);
+        otherVotes += Number(row?.[`${contestType}_other`] || 0);
+        totalVotes += Number(row?.[`${contestType}_total`] || 0);
+      });
+
+      if (totalVotes <= 0) return null;
+      return {
+        demVotes,
+        repVotes,
+        otherVotes,
+        totalVotes,
+        signedMarginPct: signedMarginPctFromVotes(demVotes, repVotes, totalVotes)
+      };
+    }
+
+    function describeComparedWithVirginia(localSignedMargin, statewideSignedMargin, localityLabel = 'This locality') {
+      const localSigned = Number(localSignedMargin);
+      const stateSigned = Number(statewideSignedMargin);
+      if (!Number.isFinite(localSigned) || !Number.isFinite(stateSigned)) return '';
+      const delta = localSigned - stateSigned;
+      const absDelta = Math.abs(delta);
+      if (absDelta < 0.15) {
+        return `${localityLabel} voted almost exactly in line with Virginia overall.`;
+      }
+      if (delta < 0) {
+        return `${localityLabel} is ${absDelta.toFixed(1)} points more Democratic than Virginia overall.`;
+      }
+      return `${localityLabel} voted ${absDelta.toFixed(1)} points to the right of the statewide result.`;
+    }
+
+    function buildCountyConfidenceMeta(winnerCall, series = [], trajectoryMeta = null) {
+      const sorted = (Array.isArray(series) ? series : [])
+        .slice()
+        .filter(row => row && Number.isFinite(Number(row.year)))
+        .sort((a, b) => Number(a.year) - Number(b.year));
+      const marginPct = Math.abs(Number(winnerCall?.marginPct) || 0);
+
+      let score = 0;
+      if (marginPct >= 15) score += 2;
+      else if (marginPct >= 7) score += 1.2;
+      else if (marginPct >= 3) score += 0.6;
+
+      let streak = 0;
+      let flipCount = 0;
+      let prevParty = '';
+      for (let i = 0; i < sorted.length; i += 1) {
+        const signed = Number(sorted[i]?.margin_pct || 0);
+        const party = signed > 0 ? 'rep' : (signed < 0 ? 'dem' : 'tie');
+        if (i > 0 && party !== prevParty && party !== 'tie' && prevParty !== 'tie') flipCount += 1;
+        prevParty = party;
+      }
+      for (let i = sorted.length - 1; i >= 0; i -= 1) {
+        const signed = Number(sorted[i]?.margin_pct || 0);
+        const party = signed > 0 ? 'rep' : (signed < 0 ? 'dem' : 'tie');
+        if (!winnerCall?.party || party !== winnerCall.party) break;
+        streak += 1;
+      }
+
+      if (streak >= 4) score += 1.4;
+      else if (streak >= 2) score += 0.8;
+
+      if (flipCount === 0 && sorted.length >= 3) score += 0.9;
+      else if (flipCount >= 2) score -= 0.8;
+
+      const statusMain = String(trajectoryMeta?.statusMain || '').trim();
+      const trendText = String(trajectoryMeta?.trend || '').trim();
+      if (statusMain === 'Competitive') score -= 1.1;
+      if (/counter-trend/i.test(trendText)) score -= 0.45;
+      if (/No clear momentum/i.test(trendText) && marginPct >= 10) score += 0.25;
+
+      let label = 'Low';
+      let value = 0.28;
+      let summary = 'Close margins or frequent shifts make the current lean more tentative.';
+      if (score >= 3.2) {
+        label = 'High';
+        value = 0.9;
+        summary = 'A wide margin and a steady recent pattern both reinforce this call.';
+      } else if (score >= 1.7) {
+        label = 'Medium';
+        value = 0.6;
+        summary = 'The lean is clear, but the margin or recent history leaves some room for movement.';
+      }
+      return {
+        label,
+        value,
+        summary,
+        streak,
+        flipCount,
+        className: label.toLowerCase()
+      };
+    }
+
+    function getVirginiaGeographyPhrase(localityNormRaw, censusContext = null) {
+      const norm = normalizeCountyLookupKey(localityNormRaw);
+      const corridorLabel = String(censusContext?.corridorLabel || '').trim();
+      if (/NoVA/i.test(corridorLabel)) return 'Northern Virginia';
+      if (/Richmond/i.test(corridorLabel)) return 'the Richmond region';
+      if (/Hampton Roads|Historic Triangle|Oceanfront/i.test(corridorLabel)) return 'Tidewater';
+      if (/Eastern Shore/i.test(corridorLabel)) return 'the Eastern Shore';
+      if (/New River Valley/i.test(corridorLabel)) return 'the New River Valley';
+      if (/Roanoke Valley|Upper Valley|Central Valley|I.?81/i.test(corridorLabel)) return 'the I-81 corridor';
+      if (/coalfield/i.test(corridorLabel)) return 'Southwest Virginia';
+      if (/Southside|Dan River|tobacco belt/i.test(corridorLabel)) return 'Southside Virginia';
+      if (VA_MILITARY_HEAVY_LOCALITIES.has(norm)) return 'coastal Virginia';
+      return 'Virginia';
+    }
+
+    function buildLocalityArchetype(localityNormRaw, winnerCall, trajectoryMeta = null, censusContext = null) {
+      const norm = normalizeCountyLookupKey(localityNormRaw);
+      const corridorLabel = String(censusContext?.corridorLabel || '').trim();
+      const marginPct = Math.abs(Number(winnerCall?.marginPct) || 0);
+      const party = String(winnerCall?.party || 'tie');
+      const fastGrowth = Number(censusContext?.changePct2020To2025) >= 6;
+      const competitive = marginPct < 6 || String(trajectoryMeta?.statusMain || '') === 'Competitive';
+
+      if (VA_MILITARY_HEAVY_LOCALITIES.has(norm)) {
+        if (competitive) return 'Military-heavy coastal battleground';
+        return party === 'dem' ? 'Military-heavy coastal Democratic base' : 'Military-heavy coastal GOP area';
+      }
+      if (VA_COLLEGE_DRIVEN_LOCALITIES.has(norm) || /New River Valley/i.test(corridorLabel)) {
+        if (competitive) return 'College-driven swing locality';
+        return 'College-driven locality';
+      }
+      if (/NoVA/i.test(corridorLabel)) {
+        if (party === 'dem' && marginPct >= 12) return 'Northern Virginia Democratic stronghold';
+        if (competitive) return fastGrowth ? 'Fast-growing Northern Virginia battleground' : 'Northern Virginia swing locality';
+        if (party === 'rep' && fastGrowth) return 'Fast-growing Northern Virginia GOP outlier';
+        return party === 'dem' ? 'Northern Virginia Democratic-leaning suburb' : 'Northern Virginia Republican-leaning suburb';
+      }
+      if (/Richmond core/i.test(corridorLabel)) {
+        return party === 'dem' ? 'Richmond urban Democratic base' : 'Richmond crossover locality';
+      }
+      if (/Richmond exurbs/i.test(corridorLabel)) {
+        if (competitive) return 'Richmond suburban battleground';
+        if (fastGrowth && party === 'rep') return 'Fast-growing exurban GOP area';
+        if (party === 'dem') return 'Richmond suburban Democratic gain';
+        return 'Richmond-area Republican base';
+      }
+      if (/Hampton Roads|Historic Triangle|Oceanfront/i.test(corridorLabel)) {
+        if (competitive) return 'Tidewater swing region';
+        return party === 'dem' ? 'Tidewater Democratic anchor' : 'Tidewater Republican base';
+      }
+      if (/coalfield|Roanoke Valley|Upper Valley|Central Valley|Southside|Dan River|tobacco belt/i.test(corridorLabel)) {
+        if (party === 'rep' && marginPct >= 12) return 'Appalachian Republican base';
+        if (competitive) return 'Interior Virginia battleground';
+      }
+      if (fastGrowth && party === 'rep') return 'Fast-growing exurban GOP area';
+      if (fastGrowth && party === 'dem') return 'Fast-growing Democratic-leaning suburb';
+      if (competitive) return 'Virginia battleground locality';
+      if (party === 'rep') return marginPct >= 12 ? 'Rural Republican base' : 'Republican-leaning locality';
+      if (party === 'dem') return marginPct >= 12 ? 'Urban Democratic base' : 'Democratic-leaning locality';
+      return 'Closely divided locality';
+    }
+
+    function buildWhyVotesThisWay(localityNormRaw, archetype, winnerCall, trajectoryMeta = null, censusContext = null) {
+      const geography = getVirginiaGeographyPhrase(localityNormRaw, censusContext);
+      const growthPct = Number(censusContext?.changePct2020To2025);
+      const growthText = Number.isFinite(growthPct)
+        ? (Math.abs(growthPct) < 0.1
+          ? 'Population has been essentially flat since 2020.'
+          : `Population is ${growthPct > 0 ? 'up' : 'down'} ${Math.abs(growthPct).toFixed(1)}% since 2020.`)
+        : 'Population change data is limited here.';
+      const statusMain = String(trajectoryMeta?.statusMain || '').trim();
+      const momentumText = (() => {
+        if (statusMain === 'Reinforcing') return 'Recent elections have reinforced that pattern.';
+        if (statusMain === 'Softening') return 'Recent elections still point the same way, but with a softer edge.';
+        if (statusMain === 'Realigning') return 'Recent elections suggest a realignment rather than a temporary blip.';
+        if (statusMain === 'Competitive') return 'Results have stayed close enough to keep the lean unsettled.';
+        return 'Recent elections have mostly stayed on the same track.';
+      })();
+
+      let headline = 'Local geography and long-term trend point in the same direction here.';
+      if (/Northern Virginia Democratic stronghold/i.test(archetype)) {
+        headline = 'Washington-area growth has made this a durable Democratic locality.';
+      } else if (/Richmond suburban battleground/i.test(archetype)) {
+        headline = 'Suburban change around Richmond keeps this locality competitive.';
+      } else if (/Tidewater swing region/i.test(archetype)) {
+        headline = 'Coastal crossover politics keep this part of Tidewater more elastic than much of Virginia.';
+      } else if (/Appalachian Republican base/i.test(archetype)) {
+        headline = 'A rural Appalachian base and slower churn keep this locality firmly Republican.';
+      } else if (/Military-heavy coastal/i.test(archetype)) {
+        headline = 'A large military footprint and mixed coastal electorate give this locality its own political rhythm.';
+      } else if (/College-driven/i.test(archetype)) {
+        headline = 'Campus influence and a younger electorate give this locality a different profile from surrounding Virginia.';
+      } else if (/Fast-growing exurban GOP area/i.test(archetype)) {
+        headline = 'Fast exurban growth is layering new voters onto an already Republican-leaning base.';
+      } else if (winnerCall?.party === 'dem') {
+        headline = 'Metro ties and recent trend lines keep this locality on the Democratic side.';
+      } else if (winnerCall?.party === 'rep') {
+        headline = 'A stable local base and slower turnover keep this locality to the right.';
+      }
+
+      return {
+        headline,
+        lines: [
+          `${displayCountyName(localityNormRaw)} sits in ${geography}, and ${momentumText.charAt(0).toLowerCase()}${momentumText.slice(1)}`,
+          growthText
+        ].filter(Boolean).slice(0, 2)
+      };
+    }
+
+    function getCountyNonGeographicBuckets(contestType, year, countyNorm) {
+      const out = new Map();
+      const meta = lastContestSliceMeta;
+      if (!meta || meta.contestType !== contestType || Number(meta.year) !== Number(year) || !Array.isArray(meta.rows)) {
+        return [];
+      }
+      meta.rows.forEach(row => {
+        const rowName = (row?.county || '').toString();
+        if (!rowName.includes(' - ')) return;
+        const [countyRaw, precinctRaw] = rowName.split(' - ', 2);
+        if (normalizeCountyLookupKey(countyRaw) !== countyNorm) return;
+        const token = (precinctRaw || '').toString().trim().toUpperCase();
+        if (!token || !isNonGeographicPrecinctToken(token, countyNorm)) return;
+        if (!out.has(token)) out.set(token, { dem: 0, rep: 0, other: 0, total: 0 });
+        const node = out.get(token);
+        node.dem += Number(row?.[`${contestType}_dem`] || 0);
+        node.rep += Number(row?.[`${contestType}_rep`] || 0);
+        node.other += Number(row?.[`${contestType}_other`] || 0);
+        node.total += Number(row?.[`${contestType}_total`] || 0);
+      });
+      return Array.from(out.entries())
+        .sort((a, b) => (b[1]?.total || 0) - (a[1]?.total || 0))
+        .slice(0, 10);
+    }
+
+    function renderCountyTrendPreviewHTML(series = []) {
+      const sorted = (Array.isArray(series) ? series : [])
+        .slice()
+        .filter(row => row && Number.isFinite(Number(row.year)))
+        .sort((a, b) => Number(b.year) - Number(a.year));
+      if (!sorted.length) {
+        return '<div class="county-focus-empty">No historical trend data available.</div>';
+      }
+      return sorted
+        .slice(0, 5)
+        .map(row => {
+          const signed = Number(row?.margin_pct || 0);
+          const party = signed > 0 ? 'rep' : (signed < 0 ? 'dem' : 'tie');
+          return `
+            <div class="county-focus-trend-row">
+              <span class="county-focus-trend-year">${escapeHtml(row.year)}</span>
+              <span class="county-focus-trend-call ${party}">${escapeHtml(winnerMarginLabelShort(row.rep_votes, row.dem_votes, row.total_votes, row.rep_candidate, row.dem_candidate))}</span>
+            </div>
+          `;
+        })
+        .join('');
     }
 
     function formatTrendSeries(title, series) {
@@ -11350,7 +12100,290 @@ document.addEventListener('DOMContentLoaded', function() {
       try { updateMobileOverlayOffsets(); } catch (_) {}
     }
 
+    function showCountyDetailsPremium(countyName) {
+      if (!SIDEBAR_ENABLED) return;
+      const sidebar = document.getElementById('sidebar');
+      const detailsDiv = document.getElementById('county-details');
+      const contentEl = document.getElementById('county-info-content');
+      if (!contentEl || !detailsDiv) return;
+
+      if (sidebar) {
+        sidebar.classList.remove('minimized');
+        const sidebarContentEl = document.querySelector('.sidebar-content');
+        if (sidebarContentEl) sidebarContentEl.style.display = 'block';
+        const floatBtn = document.getElementById('sidebar-float-toggle');
+        if (floatBtn) {
+          floatBtn.textContent = '-';
+          floatBtn.title = 'Minimize sidebar';
+        }
+        const btn = document.getElementById('sidebar-minimize-btn');
+        if (btn) {
+          btn.textContent = '-';
+          btn.title = 'Minimize sidebar';
+        }
+      }
+
+      const countyNorm = normalizeCountyLookupKey(countyName);
+      const countyDisplay = displayCountyName(countyName);
+      const countyNameElement = document.getElementById('county-name');
+      window.lastSelectedCounty = countyNorm || countyDisplay;
+      if (countyNameElement) countyNameElement.textContent = countyDisplay;
+
+      if (!currentElectionResults) {
+        contentEl.innerHTML = '<p>Select a contest to see locality results.</p>';
+        detailsDiv.style.display = 'block';
+        return;
+      }
+
+      const countyData = getCountyResultRow(countyNorm);
+      if (!countyData) {
+        contentEl.innerHTML = '<p>No results found for this locality in the selected contest.</p>';
+        detailsDiv.style.display = 'block';
+        return;
+      }
+
+      const contestKey = document.getElementById('contestSelect')?.value || '';
+      if (!contestKey) {
+        contentEl.innerHTML = '<p>Select a contest to see detailed results.</p>';
+        detailsDiv.style.display = 'block';
+        return;
+      }
+
+      const [contestType, year] = parseContestValue(contestKey);
+      const demVotes = Number(countyData[`${contestType}_dem`] || 0);
+      const repVotes = Number(countyData[`${contestType}_rep`] || 0);
+      const otherVotes = Number(countyData[`${contestType}_other`] || 0);
+      const totalVotes = Number(countyData[`${contestType}_total`] || 0);
+      if (totalVotes <= 0) {
+        contentEl.innerHTML = `<p>No ${formatContestName(contestType, year)} data available for ${countyDisplay} in ${year}.</p>`;
+        detailsDiv.style.display = 'block';
+        return;
+      }
+
+      const demPct = partyPctValue(demVotes, totalVotes);
+      const repPct = partyPctValue(repVotes, totalVotes);
+      const otherPct = partyPctValue(otherVotes, totalVotes);
+      let demCandidate = (countyData[`${contestType}_dem_candidate`] || '').toString().trim() || getCandidateName(year, formatContestName(contestType, year), 'Democrat');
+      let repCandidate = (countyData[`${contestType}_rep_candidate`] || '').toString().trim() || getCandidateName(year, formatContestName(contestType, year), 'Republican');
+      demCandidate = stripRunningMateName(demCandidate);
+      repCandidate = stripRunningMateName(repCandidate);
+
+      pinVoteCounterState(
+        `Selected: ${countyDisplay}`,
+        `${formatContestName(contestType, year)} ${year}`,
+        demVotes,
+        repVotes,
+        otherVotes,
+        buildVoteCounterCandidateMeta(contestType, year, {
+          kind: 'county',
+          county: countyNorm,
+          contestType,
+          year: Number(year),
+          demCandidate,
+          repCandidate
+        })
+      );
+
+      const winnerCall = winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate);
+      const competitivenessMeta = competitivenessTierMeta(winnerCall.marginPct, winnerCall.party);
+      const localSignedMargin = signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
+      const statewideSummary = getCurrentStatewideContestSummary(contestType);
+      const comparisonText = describeComparedWithVirginia(localSignedMargin, statewideSummary?.signedMarginPct, 'This locality');
+      const countyDemo = countyDemographics?.counties?.[countyNorm] || null;
+      const censusContext = (() => {
+        try { return getVaCensusContext(countyNorm); } catch (_) { return null; }
+      })();
+      const nonGeoBuckets = getCountyNonGeographicBuckets(contestType, year, countyNorm);
+      const precincts = countyData.precincts || countyData.Precincts || countyData.PRECINCTS || '';
+      const contestLabel = `${formatContestName(contestType, year)} ${year}`;
+      const reqId = (window.__countyDetailsReqId = (window.__countyDetailsReqId || 0) + 1);
+
+      function renderCountyPanel(series = null, loadState = 'loading') {
+        const seriesLoaded = Array.isArray(series);
+        const trajectoryMeta = (seriesLoaded && series.length)
+          ? classifyCountyTrajectory(series, { subjectLabel: localityNoun(countyNorm) })
+          : null;
+        const confidenceMeta = buildCountyConfidenceMeta(winnerCall, seriesLoaded ? series : [], trajectoryMeta);
+        const archetype = buildLocalityArchetype(countyNorm, winnerCall, trajectoryMeta, censusContext);
+        const whyBlock = buildWhyVotesThisWay(countyNorm, archetype, winnerCall, trajectoryMeta, censusContext);
+        const topSummary = winnerCall.party === 'tie'
+          ? `${countyDisplay} was effectively even in ${year}.`
+          : `${winnerCall.winnerName} carried ${countyDisplay} by ${winnerCall.marginPct.toFixed(2)} points in ${year}.`;
+        const populationValue = censusContext
+          ? (Number.isFinite(Number(censusContext.changePct2020To2025))
+            ? `${escapeHtml(censusContext.signalLabel)} (${Math.abs(Number(censusContext.changePct2020To2025)).toFixed(1)}%)`
+            : escapeHtml(censusContext.signalLabel || 'Population signal'))
+          : 'No census context';
+        const populationNote = censusContext
+          ? escapeHtml(censusContext.patternLabel || 'Population estimates are limited here.')
+          : 'Population estimates are limited here.';
+        const trendValue = trajectoryMeta
+          ? escapeHtml(trajectoryMeta.status || 'Stable pattern')
+          : (loadState === 'loading' ? 'Loading history' : (loadState === 'error' ? 'Trend unavailable' : 'Limited history'));
+        const trendNote = trajectoryMeta
+          ? escapeHtml(trajectoryMeta.trend || 'No clear momentum')
+          : (loadState === 'loading'
+            ? 'Checking how recent elections have moved.'
+            : (loadState === 'error'
+              ? 'Historical trend data could not be loaded right now.'
+              : 'Not enough history to classify a longer trajectory.'));
+        const trendMarkup = loadState === 'loading'
+          ? '<div class="county-focus-empty">Loading trend context...</div>'
+          : (loadState === 'error'
+            ? '<div class="county-focus-empty">Historical trend data is temporarily unavailable.</div>'
+            : renderCountyTrendPreviewHTML(series || []));
+        const voteRows = [
+          { label: `${escapeHtml(fullCandidateLabel(demCandidate, 'Democratic'))} (D)`, value: `${demVotes.toLocaleString()} • ${demPct.toFixed(2)}%` },
+          { label: `${escapeHtml(fullCandidateLabel(repCandidate, 'Republican'))} (R)`, value: `${repVotes.toLocaleString()} • ${repPct.toFixed(2)}%` },
+          ...(otherVotes > 0 ? [{ label: 'Other', value: `${otherVotes.toLocaleString()} • ${otherPct.toFixed(2)}%` }] : []),
+          { label: 'Total votes', value: totalVotes.toLocaleString() },
+          { label: 'Vote margin', value: `${Math.abs(repVotes - demVotes).toLocaleString()} votes` },
+          ...(precincts ? [{ label: 'Precincts', value: escapeHtml(precincts) }] : [])
+        ];
+
+        return `
+          <div class="county-focus-shell">
+            <section class="county-focus-hero" data-party="${winnerCall.party}">
+              <div class="county-focus-header">
+                <div>
+                  <span class="county-focus-kicker">${escapeHtml(contestLabel)}</span>
+                  <div class="county-focus-name">${escapeHtml(countyDisplay)}</div>
+                  <div class="county-focus-call ${winnerCall.party}">${escapeHtml(winnerCall.party === 'tie' ? 'Even race' : `${winnerCall.winnerName} +${winnerCall.marginPct.toFixed(2)} pts`)}</div>
+                </div>
+                <div class="county-focus-badges">
+                  <span class="county-focus-pill ${winnerCall.party}">${escapeHtml(competitivenessMeta.shortLabel || compactCompetitivenessLabel(winnerCall.marginPct, winnerCall.party))}</span>
+                  <span class="county-focus-pill muted">${escapeHtml(archetype)}</span>
+                </div>
+              </div>
+              <p class="county-focus-summary">${escapeHtml(topSummary)}</p>
+              <div class="county-focus-meta-grid">
+                <div class="county-focus-meta-card">
+                  <div class="county-focus-confidence-head">
+                    <span class="county-focus-confidence-label">Confidence</span>
+                    <span class="county-focus-confidence-value ${confidenceMeta.className}">${escapeHtml(confidenceMeta.label)}</span>
+                  </div>
+                  <div class="county-focus-confidence-bar" aria-hidden="true">
+                    <div class="county-focus-confidence-fill" style="width:${Math.max(8, Math.round((Number(confidenceMeta.value) || 0) * 100))}%;"></div>
+                  </div>
+                  <p class="county-focus-confidence-note">${escapeHtml(confidenceMeta.summary)}</p>
+                </div>
+                <div class="county-focus-meta-card">
+                  <span class="county-focus-confidence-label">Compared with Virginia</span>
+                  <p class="county-focus-comparison">${escapeHtml(comparisonText || 'Statewide comparison unavailable.')}</p>
+                </div>
+              </div>
+              <div class="county-focus-share-row" aria-label="Vote share">
+                <span class="county-focus-share-chip dem">D <strong>${demPct.toFixed(2)}%</strong></span>
+                <span class="county-focus-share-chip rep">R <strong>${repPct.toFixed(2)}%</strong></span>
+                ${otherVotes > 0 ? `<span class="county-focus-share-chip other">Other <strong>${otherPct.toFixed(2)}%</strong></span>` : ''}
+                <span class="county-focus-share-chip other">Total <strong>${totalVotes.toLocaleString()}</strong></span>
+              </div>
+              <div class="county-focus-share-bar" aria-hidden="true">
+                <span class="dem" style="width:${demPct.toFixed(4)}%;"></span>
+                ${otherVotes > 0 ? `<span class="other" style="width:${otherPct.toFixed(4)}%;"></span>` : ''}
+                <span class="rep" style="width:${repPct.toFixed(4)}%;"></span>
+              </div>
+            </section>
+
+            <section class="county-story-card" aria-label="Why it votes this way">
+              <span class="county-story-kicker">Why It Votes This Way</span>
+              <h5 class="county-story-headline">${escapeHtml(whyBlock.headline)}</h5>
+              <div class="county-story-lines">
+                ${whyBlock.lines.map(line => `<p>${escapeHtml(line)}</p>`).join('')}
+              </div>
+            </section>
+
+            <section class="county-focus-mini-grid" aria-label="Locality signals">
+              <div class="county-focus-mini-card">
+                <span class="county-focus-mini-label">Archetype</span>
+                <div class="county-focus-mini-value">${escapeHtml(archetype)}</div>
+                <div class="county-focus-mini-note">${escapeHtml(getVirginiaGeographyPhrase(countyNorm, censusContext))}</div>
+              </div>
+              <div class="county-focus-mini-card">
+                <span class="county-focus-mini-label">Trajectory</span>
+                <div class="county-focus-mini-value">${trendValue}</div>
+                <div class="county-focus-mini-note">${trendNote}</div>
+              </div>
+              <div class="county-focus-mini-card">
+                <span class="county-focus-mini-label">Population signal</span>
+                <div class="county-focus-mini-value">${populationValue}</div>
+                <div class="county-focus-mini-note">${populationNote}</div>
+              </div>
+            </section>
+
+            <details class="county-detail-collapsible">
+              <summary>Deeper context</summary>
+              <div class="county-detail-body">
+                <div class="county-focus-panel">
+                  <div class="county-focus-section-title">Vote breakdown</div>
+                  <div class="county-focus-list">
+                    ${voteRows.map(row => `
+                      <div class="county-focus-list-item">
+                        <span class="county-focus-list-label">${row.label}</span>
+                        <span class="county-focus-list-value">${row.value}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+                <div class="county-focus-panel">
+                  <div class="county-focus-section-title">Recent history</div>
+                  <div class="county-focus-list">${trendMarkup}</div>
+                </div>
+                ${countyDemo ? `
+                  <div class="county-focus-panel">
+                    <div class="county-focus-section-title">Demographics</div>
+                    <div class="county-focus-panel-copy">
+                      <div class="county-focus-list">
+                        <div class="county-focus-list-item"><span class="county-focus-list-label">Voting-age population</span><span class="county-focus-list-value">${Number(countyDemo.vap_18plus || 0).toLocaleString()}</span></div>
+                        <div class="county-focus-list-item"><span class="county-focus-list-label">White share</span><span class="county-focus-list-value">${Number(countyDemo.white_pop_pct || 0).toFixed(2)}%</span></div>
+                        <div class="county-focus-list-item"><span class="county-focus-list-label">Black share</span><span class="county-focus-list-value">${Number(countyDemo.black_pop_pct || 0).toFixed(2)}%</span></div>
+                        <div class="county-focus-list-item"><span class="county-focus-list-label">Hispanic share</span><span class="county-focus-list-value">${Number(countyDemo.hispanic_pop_pct || 0).toFixed(2)}%</span></div>
+                      </div>
+                      <p>Race and ethnicity shares use total population from Census DP1, not VAP-by-race.</p>
+                    </div>
+                  </div>
+                ` : ''}
+                ${nonGeoBuckets.length ? `
+                  <div class="county-focus-panel">
+                    <div class="county-focus-section-title">Non-geographic votes</div>
+                    <div class="county-focus-panel-copy">
+                      <p>Included in the locality total, but not drawn as precinct shapes.</p>
+                      <div class="county-focus-list">
+                        ${nonGeoBuckets.map(([token, value]) => `
+                          <div class="county-focus-list-item">
+                            <span class="county-focus-list-label">${escapeHtml(token)}</span>
+                            <span class="county-focus-list-value">${Number(value?.total || 0).toLocaleString()}</span>
+                          </div>
+                        `).join('')}
+                      </div>
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+            </details>
+          </div>
+        `;
+      }
+
+      contentEl.innerHTML = renderCountyPanel(null, 'loading');
+      detailsDiv.style.display = 'block';
+
+      (async () => {
+        try {
+          const series = await getCountyTrendSeries(contestType, countyNorm);
+          if (reqId !== window.__countyDetailsReqId) return;
+          contentEl.innerHTML = renderCountyPanel(series, 'loaded');
+        } catch (err) {
+          if (reqId !== window.__countyDetailsReqId) return;
+          contentEl.innerHTML = renderCountyPanel([], 'error');
+          console.warn('Failed to load county trends:', err?.message || err);
+        }
+        detailsDiv.style.display = 'block';
+      })();
+    }
+
     function showCountyDetails(countyName) {
+      return showCountyDetailsPremium(countyName);
       if (!SIDEBAR_ENABLED) return;
       // --- VA Map Card-Style Sidebar ---
       const sidebar = document.getElementById('sidebar');
@@ -11381,7 +12414,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // sidebarContent already declared above
       // Guard: election results must exist
       if (!currentElectionResults) {
-        contentEl.innerHTML = '<p>Select a contest to see county results.</p>';
+        contentEl.innerHTML = '<p>Select a contest to see locality results.</p>';
         detailsDiv.style.display = 'block';
         return;
       }
@@ -11754,7 +12787,7 @@ document.addEventListener('DOMContentLoaded', function() {
               const selectedRow = getCountyResultRow(countyName);
               prepareTooltipForSelection();
               showCountyDetails(countyName);
-              lastSelectedCounty = countyName;
+              lastSelectedCounty = normalizeCountyLookupKey(countyName) || countyName;
               setCountyHoverOutline(countyName);
               const countyProfile = getCountyFocusProfile(e.features[0]);
               fitFeatureForSearch(e.features[0], {
@@ -11897,7 +12930,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const countyName = props.county_nam || '';
         if (countyName) {
           showCountyDetails(countyName);
-          lastSelectedCounty = countyName;
+          lastSelectedCounty = normalizeCountyLookupKey(countyName) || countyName;
         }
         try {
           if (e?.point && e?.features?.[0]) {
@@ -12823,57 +13856,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleCountySelection(countyName) {
       flashFlyToInputs();
-      // Find and zoom to the county using countiesData and Turf.js
-      // Prefer the authoritative source: window.countiesData if present, otherwise try map source
       const src = (window.countiesData && window.countiesData.features) ? window.countiesData : (map.getSource && map.getSource('counties') && (map.getSource('counties')._data || map.getSource('counties').data)) || null;
       if (countyName && src && src.features) {
-        // Normalize input for matching
-        function normalize(name) {
-          return (name || '').toString().replace(/[^a-z0-9 ]/gi, '').replace(/\s+/g, ' ').trim().toUpperCase();
-        }
-        const normTarget = normalize(countyName);
-        let found = false;
-        // First try exact match
-        src.features.forEach(f => {
-          const props = f.properties || {};
-          const rawName = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name || '';
-          const n = normalize(rawName);
-          if (n === normTarget) {
-            found = f;
-          }
-        });
-        // If no exact match, try containment (user types 'Jackson' vs 'Jackson County')
-        if (!found) {
-          src.features.forEach(f => {
-            const props = f.properties || {};
-            const rawName = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name || '';
-            const n = normalize(rawName);
-            if (n.indexOf(normTarget) !== -1 || normTarget.indexOf(n) !== -1) {
-              if (!found) found = f; // pick first sensible hit
-            }
-          });
-        }
+        const resolved = resolveLocalityFeature(src.features, countyName);
+        const found = resolved?.match || null;
 
         if (found) {
           const props = found.properties || {};
-          lastSelectedCounty = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name;
-          setFlyToSearchValue(lastSelectedCounty);
-          debugLog('[DIAGNOSTIC] Matched county for', countyName, '->', lastSelectedCounty);
-          pinCountySelectionVoteCounter(lastSelectedCounty);
+          const matchedLocalityName = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name;
+          const matchedLocalityKey = normalizeCountyLookupKey(matchedLocalityName) || matchedLocalityName;
+          lastSelectedCounty = matchedLocalityKey;
+          setFlyToSearchValue(displayCountyName(matchedLocalityName));
+          debugLog('[DIAGNOSTIC] Matched county for', countyName, '->', matchedLocalityKey);
+          pinCountySelectionVoteCounter(matchedLocalityKey);
           const countyProfile = getCountyFocusProfile(found);
           fitFeatureForSearch(found, {
             kind: 'county',
             duration: 1000,
             maxZoom: countyProfile.maxZoom
           });
-          showCountyDetails(lastSelectedCounty);
+          showCountyDetails(matchedLocalityKey);
           const sidebar = document.getElementById('sidebar');
           if (sidebar && sidebar.classList.contains('minimized')) {
             toggleSidebar();
           }
         } else {
-          console.warn('[DIAGNOSTIC] County not found:', countyName, 'normalized:', normTarget);
-          setStatus(`County not found: ${countyName}.`);
+          const suggestions = Array.isArray(resolved?.suggestions) ? resolved.suggestions.filter(Boolean) : [];
+          const suggestionText = suggestions.length ? ` Try ${suggestions.slice(0, 3).join(' or ')}.` : '';
+          console.warn('[DIAGNOSTIC] County not found or ambiguous:', countyName, suggestions);
+          setStatus(`Locality not found: ${countyName}.${suggestionText}`);
         }
       }
     }

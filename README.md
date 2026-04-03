@@ -48,11 +48,12 @@ Virginia holds elections on a distinct off-year cycle (gubernatorial and state l
 | **Contest selector** | Dropdowns for contest type and year; manifest-driven so new contests appear automatically |
 | **Map views** | County fill, precinct outline overlay, congressional district, House of Delegates (HoD) district, state-senate district |
 | **Hover tooltip** | Shows locality/district quick results; tap/click holds tooltip and `Close` dismisses it (no pin/unpin control) |
+| **Selected locality panel** | Newsroom-style county/city focus panel with a dominant winner/margin summary, confidence meter, Virginia comparison, dynamic archetype, and a collapsible deeper-context section |
 | **Focus trend panel** | NC-style trend layout in the vote counter with `Latest`, `Closest`, `Since`, and per-year timeline cards, plus a **Trajectory Snapshot** and optional **Census insight** (Vintage 2025) with corridor tags to explain how/why a partisan lean can form |
 | **Winner labeling** | Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`), while statewide headline keeps short labels |
 | **NCMap parity styling** | Right-rail controls, legend, and vote counter surfaces are aligned with the latest `NCMap.html` layout language |
-| **County search** | Free-text search with fly-to animation using turf bbox |
-| **Search alias handling** | Independent-city queries accept both `City of ...` and `... City` forms (for example, `City of Lynchburg 101` and `Lynchburg City 101`) |
+| **Locality search** | Free-text search with fly-to animation using turf bbox for counties, independent cities, precincts, and districts |
+| **Virginia-safe alias handling** | Independent-city queries accept both `City of ...` and `... City` forms, while ambiguous bare names like `Fairfax` or `Richmond` are not auto-merged and instead require a city/county distinction |
 | **Vote-card overflow fallback** | Top-right vote tiles auto-switch to stacked card layout when labels/counts overflow, preventing truncation of large totals |
 | **Mobile-first layout** | iOS safe-area insets, stable viewport units (`svh`/`dvh`), touch-friendly controls, bottom-sheet legend |
 | **Minimizable panels** | Controls, legend, and the top-right results panel can be collapsed to free map space |
@@ -491,6 +492,24 @@ This alias map is applied to every `county` field in source CSVs before any aggr
 
 This also handles county/city name collisions: if both `RICHMOND COUNTY` and `RICHMOND CITY` exist, the bare alias `RICHMOND` is considered ambiguous and is dropped, so joins stay deterministic.
 
+On the front end, the same principle now applies to search, hover, tooltip, vote-counter pinning, and the selected-locality detail panel:
+
+- Independent cities are always treated as distinct geographic units, never as part of counties
+- Display labels keep the Virginia suffix explicit (`Richmond City`, `Richmond County`, `Fairfax City`, `Fairfax County`)
+- Bare ambiguous names are surfaced as suggestions rather than silently resolving to the wrong locality
+- County-style suffix localities such as `James City County` and `Charles City County` remain counties and are not mis-normalized into independent cities
+
+### Selected locality storytelling
+
+When a county or independent city is selected, the atlas now presents a newsroom-style focus panel designed to answer the locality question quickly:
+
+- **Top line**: winner, margin, and a one-sentence takeaway
+- **Confidence**: low / medium / high based on margin strength and trend stability
+- **Compared with Virginia**: how far left or right of the statewide result the locality voted
+- **Archetype + explanation**: a human-readable Virginia-specific profile such as a Northern Virginia Democratic stronghold, Richmond-area suburban battleground, Tidewater swing locality, military-heavy coastal locality, or Appalachian Republican base
+- **Why It Votes This Way**: short analyst-style copy tying together geography, trend, and population change
+- **Deeper context**: collapsible vote breakdown, recent history, demographics, and non-geographic vote buckets
+
 ---
 
 ## Precinct Matching & Label Enrichment
@@ -553,6 +572,12 @@ The entire front end lives in `index.html` — a single self-contained file with
 - The top-right vote breakdown uses tabular numerals and constrained card geometry to keep totals visually aligned.
 - A runtime overflow check measures each vote tile (`label`, `count`, and header width). When overflow is detected, the tile gets a `layout-stacked` class so text wraps instead of clipping.
 - Overflow checks run after counter animations complete, on viewport resize, and after candidate-label updates.
+
+**Validation:**
+
+- The selected-locality experience was smoke-tested in headless Chrome against the live single-file app served locally.
+- The smoke pass verified exact matching and distinct rendering for `Fairfax City` vs `Fairfax County`, `Richmond City` vs `Richmond County`, and `James City County`.
+- The same pass also verified that ambiguous bare-name searches do not auto-merge and that the upgraded locality panel renders its `Confidence`, `Compared with Virginia`, and `Why It Votes This Way` sections.
 
 ---
 

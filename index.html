@@ -175,7 +175,7 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
     // Define toggleSidebar function before DOMContentLoaded
-    const SIDEBAR_ENABLED = true;
+    const SIDEBAR_ENABLED = false;
     // Gate sidebar rendering/styles without a flash-of-sidebar on load.
     document.documentElement.classList.toggle('sidebar-enabled', SIDEBAR_ENABLED);
 
@@ -2742,6 +2742,18 @@ body { height: var(--app-height); }
     font-size: 13px;
     line-height: 1.55;
     color: #475569;
+  }
+
+  .locality-focus-inline {
+    margin-top: 16px;
+  }
+
+  .locality-focus-inline[hidden] {
+    display: none !important;
+  }
+
+  .locality-focus-inline .county-focus-shell {
+    margin: 0;
   }
 
   .county-focus-trend-row,
@@ -6189,6 +6201,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
       </div>
     </div>
+    <div class="locality-focus-inline" id="locality-focus-inline" hidden></div>
     <div class="vote-counter-row">
       <div class="vote-item dem">
         <div class="vote-item-head">
@@ -9061,6 +9074,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function clearPinnedVoteCounterState() {
       voteCounterPinned = null;
       voteCounterHoverActive = false;
+      clearCountyDetails();
       if (voteCounterBaseline) {
         setVoteCounterContext(voteCounterBaseline.title, voteCounterBaseline.sub, { showClear: false });
         updateVoteCounter(voteCounterBaseline.demVotes, voteCounterBaseline.repVotes, voteCounterBaseline.otherVotes, voteCounterBaseline.meta);
@@ -9736,12 +9750,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const CONTEST_SELECTION_COALESCE_MS = 90;
 
     function shouldRefreshCountyDetailsOnContestChange() {
-      if (!SIDEBAR_ENABLED) return false;
       const view = String(currentView || '').toLowerCase();
       if (!(view === 'counties' || view === 'vtds_2000')) return false;
-      const detailsDiv = document.getElementById('county-details');
-      if (detailsDiv && detailsDiv.style && detailsDiv.style.display === 'none') return false;
-      return true;
+      if (SIDEBAR_ENABLED) {
+        const detailsDiv = document.getElementById('county-details');
+        if (detailsDiv && detailsDiv.style && detailsDiv.style.display === 'none') return false;
+        return true;
+      }
+      const inlineHost = document.getElementById('locality-focus-inline');
+      return !!(inlineHost && !inlineHost.hidden);
     }
 
     function queueCountyDetailsRefresh() {
@@ -12100,17 +12117,32 @@ document.addEventListener('DOMContentLoaded', function() {
       try { updateMobileOverlayOffsets(); } catch (_) {}
     }
 
-    function showCountyDetailsPremium(countyName) {
-      if (!SIDEBAR_ENABLED) return;
-      const sidebar = document.getElementById('sidebar');
-      const detailsDiv = document.getElementById('county-details');
-      const contentEl = document.getElementById('county-info-content');
-      if (!contentEl || !detailsDiv) return;
+    function getCountyDetailsRenderTarget() {
+      if (SIDEBAR_ENABLED) {
+        const detailsDiv = document.getElementById('county-details');
+        const contentEl = document.getElementById('county-info-content');
+        const nameEl = document.getElementById('county-name');
+        if (!detailsDiv || !contentEl) return null;
+        return { mode: 'sidebar', detailsDiv, contentEl, nameEl };
+      }
 
-      if (sidebar) {
+      const inlineHost = document.getElementById('locality-focus-inline');
+      const focusCard = document.getElementById('focus-card');
+      if (!inlineHost) return null;
+      return { mode: 'inline', inlineHost, focusCard };
+    }
+
+    function showCountyDetailsPremium(countyName) {
+      const target = getCountyDetailsRenderTarget();
+      if (!target) return;
+
+      const sidebar = document.getElementById('sidebar');
+      if (target.mode === 'sidebar' && sidebar) {
+        const detailsDiv = target.detailsDiv;
         sidebar.classList.remove('minimized');
         const sidebarContentEl = document.querySelector('.sidebar-content');
         if (sidebarContentEl) sidebarContentEl.style.display = 'block';
+        if (detailsDiv) detailsDiv.style.display = 'block';
         const floatBtn = document.getElementById('sidebar-float-toggle');
         if (floatBtn) {
           floatBtn.textContent = '-';
@@ -12123,29 +12155,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
+      if (target.mode === 'inline') {
+        if (target.focusCard) {
+          target.focusCard.style.display = 'none';
+          target.focusCard.classList.remove('visible');
+          target.focusCard.setAttribute('aria-hidden', 'true');
+        }
+        target.inlineHost.hidden = false;
+      }
+
+      const detailsDiv = target.detailsDiv || null;
+      const contentEl = target.contentEl || target.inlineHost;
+
       const countyNorm = normalizeCountyLookupKey(countyName);
       const countyDisplay = displayCountyName(countyName);
-      const countyNameElement = document.getElementById('county-name');
       window.lastSelectedCounty = countyNorm || countyDisplay;
-      if (countyNameElement) countyNameElement.textContent = countyDisplay;
+      if (target.nameEl) target.nameEl.textContent = countyDisplay;
 
       if (!currentElectionResults) {
         contentEl.innerHTML = '<p>Select a contest to see locality results.</p>';
-        detailsDiv.style.display = 'block';
+        if (detailsDiv) detailsDiv.style.display = 'block';
         return;
       }
 
       const countyData = getCountyResultRow(countyNorm);
       if (!countyData) {
         contentEl.innerHTML = '<p>No results found for this locality in the selected contest.</p>';
-        detailsDiv.style.display = 'block';
+        if (detailsDiv) detailsDiv.style.display = 'block';
         return;
       }
 
       const contestKey = document.getElementById('contestSelect')?.value || '';
       if (!contestKey) {
         contentEl.innerHTML = '<p>Select a contest to see detailed results.</p>';
-        detailsDiv.style.display = 'block';
+        if (detailsDiv) detailsDiv.style.display = 'block';
         return;
       }
 
@@ -12156,7 +12199,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const totalVotes = Number(countyData[`${contestType}_total`] || 0);
       if (totalVotes <= 0) {
         contentEl.innerHTML = `<p>No ${formatContestName(contestType, year)} data available for ${countyDisplay} in ${year}.</p>`;
-        detailsDiv.style.display = 'block';
+        if (detailsDiv) detailsDiv.style.display = 'block';
         return;
       }
 
@@ -12366,7 +12409,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       contentEl.innerHTML = renderCountyPanel(null, 'loading');
-      detailsDiv.style.display = 'block';
+      if (detailsDiv) detailsDiv.style.display = 'block';
 
       (async () => {
         try {
@@ -12378,7 +12421,7 @@ document.addEventListener('DOMContentLoaded', function() {
           contentEl.innerHTML = renderCountyPanel([], 'error');
           console.warn('Failed to load county trends:', err?.message || err);
         }
-        detailsDiv.style.display = 'block';
+        if (detailsDiv) detailsDiv.style.display = 'block';
       })();
     }
 
@@ -13504,7 +13547,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function clearCountyDetails() {
-      document.getElementById('county-details').style.display = 'none';
+      const detailsDiv = document.getElementById('county-details');
+      if (detailsDiv) detailsDiv.style.display = 'none';
+      const inlineHost = document.getElementById('locality-focus-inline');
+      if (inlineHost) {
+        inlineHost.hidden = true;
+        inlineHost.innerHTML = '';
+      }
+      const focusCard = document.getElementById('focus-card');
+      if (focusCard) {
+        focusCard.style.display = '';
+        focusCard.classList.add('visible');
+        focusCard.removeAttribute('aria-hidden');
+      }
     }
 
 

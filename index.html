@@ -7396,9 +7396,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const DATA_LAYER_OPACITY = Object.freeze({
       counties: 0.74,
       countiesWithPrecincts: 0.14,
-      districts: 0.62,
-      stateHouse: 0.56,
-      stateSenate: 0.6
+      districts: 0.70,
+      stateHouse: 0.73,
+      stateSenate: 0.74
     });
 
     function getDataLayerFillOpacity(view = currentView) {
@@ -14404,7 +14404,7 @@ document.addEventListener('DOMContentLoaded', function() {
           id: 'state-senate-fill', 
           type: 'fill', 
           source: 'state-senate', 
-          paint: { 'fill-color': '#e0e0e0', 'fill-opacity': 0.75 } 
+          paint: { 'fill-color': '#e0e0e0', 'fill-opacity': 0.79 } 
         });
         addLayerWithOptionalSourceLayer({ 
           id: 'state-senate-stroke', 

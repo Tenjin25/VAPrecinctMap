@@ -47,9 +47,11 @@ Virginia holds elections on a distinct off-year cycle (gubernatorial and state l
 | **CSV parsing** | PapaParse 5.4.1 (used for any runtime CSV loading) |
 | **Contest selector** | Dropdowns for contest type and year; manifest-driven so new contests appear automatically |
 | **Map views** | County fill, precinct outline overlay, congressional district, House of Delegates (HoD) district, state-senate district |
-| **Hover tooltip** | Shows locality/district quick results; tap/click holds tooltip and `Close` dismisses it (no pin/unpin control) |
-| **Selected locality panel** | Newsroom-style county/city focus panel with a dominant winner/margin summary, confidence meter, Virginia comparison, dynamic archetype, and a collapsible deeper-context section |
+| **Hover tooltip** | Condensed broadcast card (name + winner/margin + optional 1-line insight); tap/click pins, and `Close` dismisses. On mobile it docks above the legend/results to prevent stacking. |
+| **Selected locality panel** | Broadcast-style county/city focus flow: header + badges → At a glance → Trend + Shift → Trajectory Snapshot → Census Insight → What to watch, with a collapsible deeper-context section (vote breakdown, demographics, non-geographic votes). |
 | **Focus trend panel** | NC-style trend layout in the vote counter with `Latest`, `Closest`, `Since`, and per-year timeline cards, plus a **Trajectory Snapshot** and optional **Census insight** (Vintage 2025) with corridor tags to explain how/why a partisan lean can form |
+| **Smart Insights** | Optional (default OFF) story mode that subtly highlights closest margins, biggest shifts, and population-signal localities and surfaces a short tooltip insight without overriding user selection. |
+| **Focus mode** | When a locality is selected/pinned, the map subtly dims and the results panel elevates to keep attention on the active geography. |
 | **Winner labeling** | Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`), while statewide headline keeps short labels |
 | **NCMap parity styling** | Right-rail controls, legend, and vote counter surfaces are aligned with the latest `NCMap.html` layout language |
 | **Locality search** | Free-text search with fly-to animation using turf bbox for counties, independent cities, precincts, and districts |

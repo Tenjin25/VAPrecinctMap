@@ -1926,6 +1926,77 @@ body { height: var(--app-height); }
     background: rgba(255, 255, 255, 0.98);
   }
 
+  .hover-tooltip .tooltip-quickline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .hover-tooltip .tooltip-quickline .rep { color: #fecaca; }
+  .hover-tooltip .tooltip-quickline .dem { color: #bfdbfe; }
+  .hover-tooltip .tooltip-quickline .tie { color: #e2e8f0; }
+
+  .hover-tooltip .tooltip-quickline .tier {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    color: rgba(226, 232, 240, 0.86);
+  }
+
+  .hover-tooltip .tooltip-insight {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: rgba(226, 232, 240, 0.92);
+  }
+
+  .hover-tooltip .tooltip-more {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(148, 163, 184, 0.22);
+  }
+
+  .hover-tooltip .tooltip-more summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background: rgba(15, 23, 42, 0.18);
+    color: rgba(226, 232, 240, 0.96);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hover-tooltip .tooltip-more summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .hover-tooltip .tooltip-more-body {
+    margin-top: 10px;
+  }
+
+  /* Only show expanded "Details" when pinned. */
+  #hover-tooltip:not([data-pinned="1"]) .tooltip-more {
+    display: none;
+  }
+
+  /* Hide Close unless pinned (Pin remains available to freeze the tooltip). */
+  #hover-tooltip:not([data-pinned="1"]) #tooltip-close-btn {
+    display: none;
+  }
+
   .hover-tooltip {
     pointer-events: none;
   }
@@ -8291,6 +8362,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const flipText = (source.flipText || '').toString().trim();
       const flipPartyRaw = (source.flipParty || '').toString().trim().toLowerCase();
       const flipParty = ['dem', 'rep', 'neutral'].includes(flipPartyRaw) ? flipPartyRaw : '';
+      const pinnedByTooltip = !!source.pinnedByTooltip;
       const kind = (source.kind || '').toString().trim().toLowerCase();
       const county = (source.county || '').toString().trim();
       const scope = (source.scope || '').toString().trim();
@@ -8305,6 +8377,7 @@ document.addEventListener('DOMContentLoaded', function() {
         otherLabel,
         flipText,
         flipParty,
+        pinnedByTooltip,
         kind,
         county,
         scope,
@@ -8647,6 +8720,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Vote counter context (statewide vs hover vs selected)
     let voteCounterBaseline = null; // {title, sub, demVotes, repVotes, otherVotes, meta}
     let voteCounterPinned = null;   // {title, sub, demVotes, repVotes, otherVotes, meta}
+    let voteCounterLastHover = null; // {title, sub, demVotes, repVotes, otherVotes, meta}
     let voteCounterHoverActive = false;
     let voteCounterTrendRequestId = 0;
 
@@ -9921,9 +9995,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function setVoteCounterHoverState(title, sub, demVotes, repVotes, otherVotes, meta = {}) {
       if (voteCounterPinned) return; // don't override a pinned selection
+      const normalizedMeta = normalizeVoteCounterMeta(meta);
       voteCounterHoverActive = true;
+      voteCounterLastHover = { title, sub, demVotes, repVotes, otherVotes, meta: normalizedMeta };
       setVoteCounterContext(title, sub, { showClear: false });
-      updateVoteCounter(demVotes, repVotes, otherVotes, meta);
+      updateVoteCounter(demVotes, repVotes, otherVotes, normalizedMeta);
     }
 
     function clearVoteCounterHoverState() {
@@ -12340,6 +12416,78 @@ document.addEventListener('DOMContentLoaded', function() {
       return `<span class="meta-chip tier"><span class="dot" style="background:${dotColor};"></span>${escapeHtml(tierMeta.label)}</span>`;
     }
 
+    function formatSignedCount(value) {
+      const v = Math.round(Number(value) || 0);
+      const abs = Math.abs(v);
+      const sign = v >= 0 ? '+' : '−';
+      return `${sign}${abs.toLocaleString()}`;
+    }
+
+    function getVaPopulationDeltaLine(localityRaw) {
+      const norm = normalizePopulationLocalityKey(localityRaw);
+      if (!norm) return '';
+      const entry = countyPopulationEstimatesByNorm?.get(norm) || null;
+      if (!entry) return '';
+
+      const pop2020 = Number(entry.population2020);
+      const pop2024 = Number(entry.population2024);
+      const pop2025 = Number(entry.population2025);
+      if (!Number.isFinite(pop2020) || !Number.isFinite(pop2024) || !Number.isFinite(pop2025)) return '';
+      if (pop2020 <= 0 || pop2024 <= 0 || pop2025 <= 0) return '';
+
+      const delta2020to2024 = Math.round(pop2024 - pop2020);
+      const delta2024to2025 = Math.round(pop2025 - pop2024);
+      const fmtDelta = (v) => `${v >= 0 ? '+' : '−'}${Math.abs(v).toLocaleString()}`;
+      return `Pop change: ${fmtDelta(delta2020to2024)} (2020\u21922024)\nPop change: ${fmtDelta(delta2024to2025)} (2024\u21922025)`;
+    }
+
+    function buildTooltipDeltaInsightHTML({
+      voteShiftPrevYear = null,
+      repDeltaVotes = NaN,
+      demDeltaVotes = NaN,
+      voteShiftDeltaVotes = NaN,
+      populationLine = ''
+    } = {}) {
+      const lines = [];
+      const prevYear = Number(voteShiftPrevYear);
+      const deltaVotes = Number(voteShiftDeltaVotes);
+
+      if (Number.isFinite(prevYear)) {
+        const repDelta = Number(repDeltaVotes);
+        const demDelta = Number(demDeltaVotes);
+        const hasRep = Number.isFinite(repDelta);
+        const hasDem = Number.isFinite(demDelta);
+        if (hasRep || hasDem) {
+          const parts = [];
+          if (hasRep) parts.push(`R ${formatSignedCount(repDelta)}`);
+          if (hasDem) parts.push(`D ${formatSignedCount(demDelta)}`);
+          lines.push(`Vote change since ${prevYear}: ${parts.join(' · ')}`);
+        }
+
+        if (Number.isFinite(deltaVotes)) {
+          const signed = Math.round(deltaVotes);
+          const abs = Math.abs(signed);
+          if (abs < 1) {
+            lines.push(`Margin change: unchanged since ${prevYear}.`);
+          } else {
+            lines.push(`Margin change: ${signed > 0 ? 'R' : 'D'}+${abs.toLocaleString()} votes since ${prevYear}.`);
+          }
+        }
+      }
+
+      const popLine = String(populationLine || '').trim();
+      if (popLine) {
+        popLine
+          .split('\n')
+          .map(s => String(s || '').trim())
+          .filter(Boolean)
+          .forEach(s => lines.push(s));
+      }
+
+      if (!lines.length) return '';
+      return `<div class="tooltip-insight">${lines.map(line => `<div>${escapeHtml(line)}</div>`).join('')}</div>`;
+    }
+
     // Hover outline (stroke-only highlight) helpers.
     const HOVER_OUTLINE_LAYER_IDS = [
       'county-stroke-hover',
@@ -12495,15 +12643,21 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       const demCandidate = row[`${contestType}_dem_candidate`] || getCandidateName(year, formatContestName(contestType, year), 'Democrat');
       const repCandidate = row[`${contestType}_rep_candidate`] || getCandidateName(year, formatContestName(contestType, year), 'Republican');
-      setVoteCounterHoverState(`Hover: ${countyDisplay}`, `${formatContestName(contestType, year)} ${year}`, demVotes, repVotes, otherVotes, {
-        demCandidate,
-        repCandidate
-      });
+      setVoteCounterHoverState(
+        `Hover: ${countyDisplay}`,
+        `${formatContestName(contestType, year)} ${year}`,
+        demVotes,
+        repVotes,
+        otherVotes,
+        buildVoteCounterCandidateMeta(contestType, year, { demCandidate, repCandidate, kind: 'county', county: norm })
+      );
 
       const signedMarginPct = signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
       const tierMeta = competitivenessTierMetaFromSignedMarginPct(signedMarginPct);
       const subtitle = `${formatContestName(contestType, year)} ${year}`;
       const winnerCall = winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate);
+
+      const winner = signedMarginPct > 0 ? 'R' : (signedMarginPct < 0 ? 'D' : 'T');
 
       let prevSignedForFlip = null;
       let prevYearForFlip = null;
@@ -12513,35 +12667,89 @@ document.addEventListener('DOMContentLoaded', function() {
         prevSignedForFlip = prev ? signedMarginPctFromVotes(prev.dem, prev.rep, prev.total) : 0;
       }
 
-      let insight = '';
+      let detailInsight = '';
       try {
         if (smartInsightsEnabled && smartInsightsLineByCounty && typeof smartInsightsLineByCounty.get === 'function') {
-          insight = String(smartInsightsLineByCounty.get(norm) || '').trim();
+          detailInsight = String(smartInsightsLineByCounty.get(norm) || '').trim();
         }
-      } catch (_) { insight = ''; }
+      } catch (_) { detailInsight = ''; }
 
-      if (!insight) {
+      if (!detailInsight) {
         try {
           const f = (prevSignedForFlip !== null && prevYearForFlip) ? flipInfo(prevSignedForFlip, signedMarginPct) : { flipped: false, from: 'T', to: 'T' };
-          if (f.flipped && prevYearForFlip) {
-            insight = `Flip: ${f.from}\u2192${f.to} vs ${prevYearForFlip}`;
-          }
+          if (f.flipped && prevYearForFlip) detailInsight = `Flip: ${f.from}\u2192${f.to} vs ${prevYearForFlip}`;
         } catch (_) {}
       }
 
-      if (!insight && currentVizMode === 'shift' && vizShiftCache?.prevYear) {
+      if (!detailInsight && currentVizMode === 'shift' && vizShiftCache?.prevYear) {
         const prevSigned = (prevSignedForFlip !== null) ? prevSignedForFlip : 0;
-        insight = shiftLabelText(signedMarginPct - prevSigned, vizShiftCache.prevYear, vizShiftCache.year);
+        detailInsight = shiftLabelText(signedMarginPct - prevSigned, vizShiftCache.prevYear, vizShiftCache.year);
       }
 
-      if (!insight && tierMeta?.label) insight = String(tierMeta.label);
+      const chips = [];
+      chips.push(winnerChipHTML(winner));
+      chips.push(tierChipHTML(tierMeta));
+      if (prevSignedForFlip !== null) {
+        const flipChip = flipChipHTML(prevSignedForFlip, signedMarginPct);
+        if (flipChip) chips.push(flipChip);
+      }
+      if (currentVizMode === 'shift' && vizShiftCache?.prevYear) {
+        const prevSigned = (prevSignedForFlip !== null) ? prevSignedForFlip : 0;
+        chips.push(shiftChipHTML(signedMarginPct - prevSigned, vizShiftCache.prevYear, vizShiftCache.year));
+      }
 
-      const inner = `
-        <div class="tooltip-call ${escapeHtml(winnerCall.party)}">${escapeHtml(winnerCall.text)}</div>
-        ${tooltipSublineHTML(insight)}
-      `;
+      let demoLine = '';
+      try {
+        const demo = countyDemographics?.counties?.[norm] || null;
+        if (demo) {
+          demoLine = `<div class="meta-subtle"><strong>VAP (18+):</strong> ${Number(demo.vap_18plus || 0).toLocaleString()}</div>`;
+        }
+      } catch (_) {}
 
-      showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(countyDisplay, inner, { kicker: subtitle }));
+      const tierShort = tierMeta?.shortLabel || tierMeta?.label || '';
+      const compactInner = `
+        <div class="tooltip-quickline">
+          <span class="${escapeHtml(winnerCall.party || 'tie')}">${escapeHtml(winnerCall.text || '')}</span>
+          ${tierShort ? `<span class="tier">${escapeHtml(tierShort)}</span>` : ''}
+        </div>
+        ${buildTooltipDeltaInsightHTML({
+          voteShiftPrevYear: vizPrevCache?.prevYear || null,
+          repDeltaVotes: (() => {
+            const prev = vizPrevCache?.prevCountyTotals?.[norm] || null;
+            if (!prev) return NaN;
+            return Number(repVotes) - Number(prev.rep);
+          })(),
+          demDeltaVotes: (() => {
+            const prev = vizPrevCache?.prevCountyTotals?.[norm] || null;
+            if (!prev) return NaN;
+            return Number(demVotes) - Number(prev.dem);
+          })(),
+          voteShiftDeltaVotes: (() => {
+            const prev = vizPrevCache?.prevCountyTotals?.[norm] || null;
+            if (!prev) return NaN;
+            const curMargin = Number(repVotes) - Number(demVotes);
+            const prevMargin = Number(prev.rep) - Number(prev.dem);
+            return curMargin - prevMargin;
+          })(),
+          populationLine: getVaPopulationDeltaLine(countyName)
+        })}
+      `.trim();
+
+      const expandedInner = `
+        <details class="tooltip-more" aria-label="More details">
+          <summary>Details</summary>
+          <div class="tooltip-more-body">
+            <div class="hover-meta">${chips.join('')}</div>
+            ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate)}
+            ${detailInsight ? `<div class="meta-subtle"><strong>Context:</strong> ${escapeHtml(detailInsight)}</div>` : ''}
+            ${demoLine}
+          </div>
+        </details>
+      `.trim();
+
+      const inner = `${compactInner}${expandedInner}`;
+      const hoverTitle = buildTooltipTitleWithTier(countyDisplay, tierMeta);
+      showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(hoverTitle, inner, { kicker: subtitle }));
       wireTooltipButtons();
     }
 
@@ -12618,10 +12826,21 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
       showHoverTooltip(point.x, point.y, buildTooltipShell(title, inner, { kicker: subtitle }));
       wireTooltipButtons();
-      setVoteCounterHoverState(`Hover: ${title}`, subtitle, demVotes, repVotes, otherVotes, buildVoteCounterCandidateMeta(contestType, year, {
-        demCandidate,
-        repCandidate
-      }));
+      setVoteCounterHoverState(
+        `Hover: ${title}`,
+        subtitle,
+        demVotes,
+        repVotes,
+        otherVotes,
+        buildVoteCounterCandidateMeta(contestType, year, {
+          demCandidate,
+          repCandidate,
+          kind: 'precinct',
+          county: normalizeCountyLookupKey(countyName),
+          precinct: title,
+          precinctNorm
+        })
+      );
     }
 
     async function refreshHoverAtPointer() {
@@ -12740,10 +12959,14 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!demCandidate) demCandidate = getCandidateName(year, formatContestName(contestType, year), 'Democrat');
       if (!repCandidate) repCandidate = getCandidateName(year, formatContestName(contestType, year), 'Republican');
       const subtitle = `${formatContestName(contestType, year)} ${year}`;
-      setVoteCounterHoverState(`Hover: ${districtLabel} ${districtNum}`, subtitle, demVotes, repVotes, otherVotes, {
-        demCandidate,
-        repCandidate
-      });
+      setVoteCounterHoverState(
+        `Hover: ${districtLabel} ${districtNum}`,
+        subtitle,
+        demVotes,
+        repVotes,
+        otherVotes,
+        buildVoteCounterCandidateMeta(contestType, year, { demCandidate, repCandidate, kind: 'district', scope, districtNum })
+      );
 
       const signedMarginPct = ('margin_pct' in row) ? Number(row.margin_pct || 0) : signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
       const tierMeta = competitivenessTierMetaFromSignedMarginPct(signedMarginPct);
@@ -15085,6 +15308,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="tooltip-title">${safeTitle}</div>
           </div>
           <div class="tooltip-actions">
+            <button class="tooltip-btn" id="tooltip-pin-btn" type="button" aria-pressed="${tooltipPinned ? 'true' : 'false'}">${tooltipPinned ? 'Unpin' : 'Pin'}</button>
             <button class="tooltip-btn" id="tooltip-close-btn" type="button">Close</button>
           </div>
         </div>
@@ -15094,6 +15318,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function wireTooltipButtons() {
       const closeBtn = document.getElementById('tooltip-close-btn');
+      const pinBtn = document.getElementById('tooltip-pin-btn');
+
+      if (pinBtn) {
+        pinBtn.onclick = () => {
+          if (tooltipPinned) {
+            setTooltipPinned(false);
+            try { pinBtn.textContent = 'Pin'; } catch (_) {}
+            try { pinBtn.setAttribute('aria-pressed', 'false'); } catch (_) {}
+            const pinned = voteCounterPinned || null;
+            const meta = pinned?.meta || null;
+            if (meta && meta.pinnedByTooltip) {
+              clearPinnedVoteCounterState();
+            }
+            return;
+          }
+
+          const last = voteCounterLastHover;
+          if (last && last.meta) {
+            try {
+              const pinnedTitle = String(last.title || '').replace(/^Hover:\s*/i, '').trim();
+              pinVoteCounterState(
+                pinnedTitle || String(last.title || ''),
+                last.sub,
+                last.demVotes,
+                last.repVotes,
+                last.otherVotes,
+                { ...(last.meta || {}), pinnedByTooltip: true }
+              );
+            } catch (_) {}
+          }
+          setTooltipPinned(true);
+          try { pinBtn.textContent = 'Unpin'; } catch (_) {}
+          try { pinBtn.setAttribute('aria-pressed', 'true'); } catch (_) {}
+        };
+      }
+
       if (closeBtn) {
         closeBtn.onclick = () => {
           countyTrendRequestId++;
@@ -15102,6 +15362,7 @@ document.addEventListener('DOMContentLoaded', function() {
           if (tooltip) tooltip.style.display = 'none';
           clearHoverOutline();
           clearVoteCounterHoverState();
+          clearPrecinctHoverFeature();
         };
       }
     }
@@ -16179,7 +16440,7 @@ document.addEventListener('DOMContentLoaded', function() {
       (prevMeta.rows || []).forEach(r => {
         const rowName = (r.county || '').toString();
         const countyOnly = rowName.includes(' - ') ? rowName.split(' - ')[0] : rowName;
-        const countyNorm = (countyOnly || '').toString().replace(/[^a-z0-9 .\-]/gi, '').replace(/\s+/g, ' ').trim().toUpperCase();
+        const countyNorm = normalizeCountyLookupKey(countyOnly);
         if (!countyNorm) return;
         const dem = Number(r[`${contestType}_dem`] || 0);
         const rep = Number(r[`${contestType}_rep`] || 0);

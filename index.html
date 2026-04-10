@@ -8515,15 +8515,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function formatCompactVoteTotal(value) {
       const votes = Number(value || 0);
       if (!Number.isFinite(votes) || votes <= 0) return '0';
-      if (votes >= 1000000) {
-        const digits = votes >= 10000000 ? 1 : 2;
-        return `${(votes / 1000000).toFixed(digits)}M`;
-      }
-      if (votes >= 1000) {
-        const digits = votes >= 100000 ? 0 : 1;
-        return `${(votes / 1000).toFixed(digits)}K`;
-      }
-      return votes.toLocaleString();
+      return Math.round(votes).toLocaleString();
     }
 
     function getTrendWinnerMeta(item) {
@@ -12676,7 +12668,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const contestValue = document.getElementById('contestSelect')?.value || '';
 
       if (!contestValue || !row) {
-        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${countyDisplay}`, tooltipSublineHTML('Select a contest to see results')));
+        showHoverTooltip(
+          e.point.x,
+          e.point.y,
+          buildTooltipShell(`${countyDisplay}`, tooltipSublineHTML('Select a contest to see results')),
+          { key: getCountyTooltipKey(countyName), copyText: countyDisplay }
+        );
         wireTooltipButtons();
         return;
       }
@@ -12689,7 +12686,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const otherVotes = Number(row[`${contestType}_other`] || 0);
       const totalVotes = Number(row[`${contestType}_total`] || 0);
       if (totalVotes <= 0) {
-        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${countyDisplay}`, tooltipSublineHTML('No data available')));
+        showHoverTooltip(
+          e.point.x,
+          e.point.y,
+          buildTooltipShell(`${countyDisplay}`, tooltipSublineHTML('No data available')),
+          { key: getCountyTooltipKey(countyName), copyText: countyDisplay }
+        );
         wireTooltipButtons();
         return;
       }
@@ -12801,7 +12803,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const inner = `${compactInner}${expandedInner}`;
       const hoverTitle = buildTooltipTitleWithTier(countyDisplay, tierMeta);
-      showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(hoverTitle, inner, { kicker: subtitle }));
+      showHoverTooltip(
+        e.point.x,
+        e.point.y,
+        buildTooltipShell(hoverTitle, inner, { kicker: subtitle }),
+        { key: getCountyTooltipKey(countyName), copyText: countyDisplay }
+      );
       wireTooltipButtons();
     }
 
@@ -12831,14 +12838,14 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) {}
       const [contestType, year] = parseContestValue(contestValue);
       if (!contestType || !year) {
-        showHoverTooltip(point.x, point.y, buildTooltipShell(title, tooltipSublineHTML('Select a contest to see results')));
+        showHoverTooltip(point.x, point.y, buildTooltipShell(title, tooltipSublineHTML('Select a contest to see results')), { key: `precinct:${precinctNorm}`, copyText: title });
         wireTooltipButtons();
         return;
       }
 
       const row = currentPrecinctResults ? currentPrecinctResults.get(precinctNorm) : null;
       if (!row) {
-        showHoverTooltip(point.x, point.y, buildTooltipShell(title, tooltipSublineHTML('No precinct results loaded for this contest in this view. Switch to Counties and pick the contest.')));
+        showHoverTooltip(point.x, point.y, buildTooltipShell(title, tooltipSublineHTML('No precinct results loaded for this contest in this view. Switch to Counties and pick the contest.')), { key: `precinct:${precinctNorm}`, copyText: title });
         wireTooltipButtons();
         return;
       }
@@ -12876,7 +12883,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="tooltip-call ${escapeHtml(winnerCall.party)}">${escapeHtml(winnerCall.text)}</div>
         ${tooltipSublineHTML(insight)}
       `;
-      showHoverTooltip(point.x, point.y, buildTooltipShell(title, inner, { kicker: subtitle }));
+      showHoverTooltip(point.x, point.y, buildTooltipShell(title, inner, { kicker: subtitle }), { key: `precinct:${precinctNorm}`, copyText: title });
       wireTooltipButtons();
       setVoteCounterHoverState(
         `Hover: ${title}`,
@@ -12962,7 +12969,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const contestValue = document.getElementById('contestSelect')?.value || '';
       if (!contestValue) {
-        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('Select a contest to see results')));
+        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('Select a contest to see results')), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
         wireTooltipButtons();
         return;
       }
@@ -12984,7 +12991,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       if (!row) {
-        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('No data for this contest')));
+        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('No data for this contest')), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
         wireTooltipButtons();
         return;
       }
@@ -12994,7 +13001,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const otherVotes = Number(row.other_votes || 0);
       const totalVotes = Number(row.total_votes || 0);
       if (totalVotes <= 0) {
-        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('No data for this contest')));
+        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('No data for this contest')), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
         wireTooltipButtons();
         return;
       }
@@ -13056,7 +13063,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="tooltip-call ${escapeHtml(winnerCall.party)}">${escapeHtml(winnerCall.text)}</div>
         ${tooltipSublineHTML(insight)}
       `;
-      showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, inner, { kicker: subtitle }));
+      showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, inner, { kicker: subtitle }), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
       wireTooltipButtons();
     }
 
@@ -14440,7 +14447,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
               renderPrecinctHoverAtPoint(evt.point, evt.features?.[0]);
             } catch (_) {
-              showHoverTooltip(evt.point.x, evt.point.y, buildTooltipShell(title, tooltipSublineHTML('Hover details unavailable.')));
+              showHoverTooltip(evt.point.x, evt.point.y, buildTooltipShell(title, tooltipSublineHTML('Hover details unavailable.')), { key: `precinct:${precinctNorm}`, copyText: title });
               wireTooltipButtons();
             }
           });
@@ -15320,21 +15327,58 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Hover Tooltip Functions - VoteHub Style
-    function showHoverTooltip(x, y, content, { force = false } = {}) {
+    // Prevent "Close" immediately re-opening the same hover card while the cursor is still
+    // sitting on the same feature (especially with hover-refresh enabled).
+    const hoverTooltipSuppression = { key: '', x: 0, y: 0, until: 0 };
+
+    function suppressHoverTooltip(key, x, y, { ms = 30000 } = {}) {
+      const k = (key || '').toString().trim();
+      if (!k) return;
+      const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+      hoverTooltipSuppression.key = k;
+      hoverTooltipSuppression.x = Number(x) || 0;
+      hoverTooltipSuppression.y = Number(y) || 0;
+      hoverTooltipSuppression.until = now + Math.max(0, Number(ms) || 0);
+    }
+
+    function clearHoverTooltipSuppression() {
+      hoverTooltipSuppression.key = '';
+      hoverTooltipSuppression.until = 0;
+    }
+
+    function showHoverTooltip(x, y, content, { force = false, key = '', copyText = '' } = {}) {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
       if (tooltipPinned && !force) return;
-      
+
+      // If the user closed this feature's tooltip, don't instantly reopen it while the cursor
+      // hasn't meaningfully moved.
+      try {
+        const k = (key || copyText || '').toString().trim();
+        const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+        if (!force && k && hoverTooltipSuppression.key === k && now < hoverTooltipSuppression.until) {
+          const dx = (Number(x) || 0) - (Number(hoverTooltipSuppression.x) || 0);
+          const dy = (Number(y) || 0) - (Number(hoverTooltipSuppression.y) || 0);
+          const dist2 = (dx * dx) + (dy * dy);
+          if (dist2 <= (14 * 14)) return;
+          clearHoverTooltipSuppression();
+        } else if (k && hoverTooltipSuppression.key && k !== hoverTooltipSuppression.key) {
+          clearHoverTooltipSuppression();
+        }
+        tooltip.dataset.hoverKey = k;
+        tooltip.dataset.copyText = (copyText || '').toString();
+      } catch (_) {}
+
       tooltip.innerHTML = content;
       tooltip.style.display = 'block';
-      
+
       // Position tooltip near mouse but avoid edges
       const tooltipRect = tooltip.getBoundingClientRect();
       const padding = 15;
-      
+
       let left = x + padding;
       let top = y + padding;
-      
+
       // Adjust if tooltip would go off screen
       if (left + tooltipRect.width > window.innerWidth) {
         left = x - tooltipRect.width - padding;
@@ -15342,7 +15386,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (top + tooltipRect.height > window.innerHeight) {
         top = y - tooltipRect.height - padding;
       }
-      
+
       tooltip.style.left = left + 'px';
       tooltip.style.top = top + 'px';
     }
@@ -15352,6 +15396,8 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!tooltip) return;
       if (tooltipPinned) return;
       tooltip.style.display = 'none';
+      try { tooltip.dataset.hoverKey = ''; } catch (_) {}
+      try { tooltip.dataset.copyText = ''; } catch (_) {}
     }
 
     function setTooltipPinned(pinned) {
@@ -15421,9 +15467,17 @@ document.addEventListener('DOMContentLoaded', function() {
       if (closeBtn) {
         closeBtn.onclick = () => {
           countyTrendRequestId++;
+          try {
+            const tooltip = document.getElementById('hover-tooltip');
+            const key = (tooltip?.dataset?.hoverKey || tooltip?.dataset?.copyText || '').toString().trim();
+            const pt = lastPointerPoint || null;
+            if (key && pt) suppressHoverTooltip(key, Number(pt.x) || 0, Number(pt.y) || 0);
+          } catch (_) {}
           setTooltipPinned(false);
           const tooltip = document.getElementById('hover-tooltip');
           if (tooltip) tooltip.style.display = 'none';
+          try { if (tooltip) tooltip.dataset.hoverKey = ''; } catch (_) {}
+          try { if (tooltip) tooltip.dataset.copyText = ''; } catch (_) {}
           clearHoverOutline();
           clearVoteCounterHoverState();
           clearPrecinctHoverFeature();

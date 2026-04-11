@@ -513,6 +513,20 @@ body { height: var(--app-height); }
   transition: opacity 0.15s ease;
 }
 
+.hover-tooltip .tooltip-copy {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.hover-tooltip .tooltip-kicker {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.92);
+  margin-bottom: 6px;
+}
+
 .hover-tooltip .tooltip-title {
   font-weight: 700;
   margin-bottom: 10px;
@@ -1899,7 +1913,7 @@ body { height: var(--app-height); }
     box-shadow: 0 18px 44px rgba(15, 23, 42, 0.25);
     backdrop-filter: blur(14px);
     border-radius: 14px;
-    max-width: 360px;
+    max-width: 280px;
     animation: tooltip-in 140ms ease-out;
   }
 
@@ -2000,13 +2014,15 @@ body { height: var(--app-height); }
     display: none;
   }
 
-  .hover-tooltip {
-    pointer-events: none;
-  }
-
-  /* Allow interacting with tooltip buttons while pinned. */
+  /* Allow interacting with tooltip buttons only when pinned. */
   #hover-tooltip[data-pinned="1"] {
     pointer-events: auto;
+  }
+  @media (pointer: coarse) {
+    /* On touch devices, don't let a non-pinned hover shell block panning/zooming. */
+    #hover-tooltip[data-pinned="0"] {
+      pointer-events: none;
+    }
   }
 
   #hover-tooltip .tooltip-btn {
@@ -4890,78 +4906,81 @@ body { height: var(--app-height); }
   .vote-share-fill.rep { background: linear-gradient(90deg, #fb7185 0%, #dc2626 100%); }
   .vote-share-fill.other { background: linear-gradient(90deg, #94a3b8 0%, #64748b 100%); }
 
-  .hover-tooltip {
-    width: min(360px, calc(100vw - 24px));
-    max-width: min(360px, calc(100vw - 24px));
-    max-height: min(54vh, 420px);
-    overflow: auto;
-    padding: 14px;
-    border-radius: 18px;
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(17, 24, 39, 0.94) 100%);
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    box-shadow: 0 24px 56px rgba(2, 6, 23, 0.46);
-  }
+  /* Mobile-only: docked card tooltip. Desktop uses the lean NC-style hover shell. */
+  @media (max-width: 768px) {
+    .hover-tooltip {
+      width: min(360px, calc(100vw - 24px));
+      max-width: min(360px, calc(100vw - 24px));
+      max-height: min(54vh, 420px);
+      overflow: auto;
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(17, 24, 39, 0.94) 100%);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      box-shadow: 0 24px 56px rgba(2, 6, 23, 0.46);
+    }
 
-  .hover-tooltip .tooltip-head {
-    align-items: flex-start;
-    gap: 12px;
-    padding-bottom: 12px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  }
+    .hover-tooltip .tooltip-head {
+      align-items: flex-start;
+      gap: 12px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    }
 
-  .hover-tooltip .tooltip-copy {
-    min-width: 0;
-    flex: 1 1 auto;
-  }
+    .hover-tooltip .tooltip-copy {
+      min-width: 0;
+      flex: 1 1 auto;
+    }
 
-  .hover-tooltip .tooltip-kicker {
-    margin-bottom: 5px;
-    color: #93c5fd;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
+    .hover-tooltip .tooltip-kicker {
+      margin-bottom: 5px;
+      color: #93c5fd;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
 
-  .hover-tooltip .tooltip-title {
-    margin-bottom: 0;
-    font-size: 15px;
-    line-height: 1.25;
-  }
+    .hover-tooltip .tooltip-title {
+      margin-bottom: 0;
+      font-size: 15px;
+      line-height: 1.25;
+    }
 
-  .hover-tooltip .tooltip-actions {
-    gap: 8px;
-    flex-shrink: 0;
-  }
+    .hover-tooltip .tooltip-actions {
+      gap: 8px;
+      flex-shrink: 0;
+    }
 
-  .hover-tooltip .tooltip-btn {
-    min-height: 34px;
-    padding: 7px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    background: rgba(255, 255, 255, 0.08);
-    color: #f8fafc;
-    font-weight: 700;
-  }
+    .hover-tooltip .tooltip-btn {
+      min-height: 34px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+      color: #f8fafc;
+      font-weight: 700;
+    }
 
-  .hover-tooltip .tooltip-btn:hover {
-    background: rgba(255, 255, 255, 0.16);
-  }
+    .hover-tooltip .tooltip-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
 
-  .hover-tooltip .tooltip-trends,
-  .hover-tooltip .tooltip-body {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    color: #e2e8f0;
-  }
+    .hover-tooltip .tooltip-trends,
+    .hover-tooltip .tooltip-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: #e2e8f0;
+    }
 
-  .hover-tooltip .tooltip-trends b,
-  .hover-tooltip .tooltip-trends strong,
-  .hover-tooltip .tooltip-body b,
-  .hover-tooltip .tooltip-body strong {
-    color: #f8fafc;
+    .hover-tooltip .tooltip-trends b,
+    .hover-tooltip .tooltip-trends strong,
+    .hover-tooltip .tooltip-body b,
+    .hover-tooltip .tooltip-body strong {
+      color: #f8fafc;
+    }
   }
 
   @media (max-width: 768px) {
@@ -12729,10 +12748,12 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) { detailInsight = ''; }
 
       if (!detailInsight) {
-        try {
-          const f = (prevSignedForFlip !== null && prevYearForFlip) ? flipInfo(prevSignedForFlip, signedMarginPct) : { flipped: false, from: 'T', to: 'T' };
-          if (f.flipped && prevYearForFlip) detailInsight = `Flip: ${f.from}\u2192${f.to} vs ${prevYearForFlip}`;
-        } catch (_) {}
+        if (currentVizMode === 'flips') {
+          try {
+            const f = (prevSignedForFlip !== null && prevYearForFlip) ? flipInfo(prevSignedForFlip, signedMarginPct) : { flipped: false, from: 'T', to: 'T' };
+            if (f.flipped && prevYearForFlip) detailInsight = `Flip: ${f.from}\u2192${f.to} vs ${prevYearForFlip}`;
+          } catch (_) {}
+        }
       }
 
       if (!detailInsight && currentVizMode === 'shift' && vizShiftCache?.prevYear) {
@@ -12743,7 +12764,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const chips = [];
       chips.push(winnerChipHTML(winner));
       chips.push(tierChipHTML(tierMeta));
-      if (prevSignedForFlip !== null) {
+      if (currentVizMode === 'flips' && prevSignedForFlip !== null) {
         const flipChip = flipChipHTML(prevSignedForFlip, signedMarginPct);
         if (flipChip) chips.push(flipChip);
       }
@@ -12868,8 +12889,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const winnerCall = winnerMarginCall(repVotes, demVotes, demVotes + repVotes + otherVotes, repCandidate, demCandidate);
       let insight = '';
       try {
-        const f = (prevSignedForFlip !== null && vizPrevCache?.prevYear) ? flipInfo(prevSignedForFlip, curSigned) : { flipped: false, from: 'T', to: 'T' };
-        if (f.flipped && vizPrevCache?.prevYear) insight = `Flip: ${f.from}\u2192${f.to} vs ${vizPrevCache.prevYear}`;
+        if (currentVizMode === 'flips') {
+          const f = (prevSignedForFlip !== null && vizPrevCache?.prevYear) ? flipInfo(prevSignedForFlip, curSigned) : { flipped: false, from: 'T', to: 'T' };
+          if (f.flipped && vizPrevCache?.prevYear) insight = `Flip: ${f.from}\u2192${f.to} vs ${vizPrevCache.prevYear}`;
+        }
       } catch (_) {}
 
       if (!insight && currentVizMode === 'shift' && vizShiftCache?.prevYear) {
@@ -13051,7 +13074,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
           insight = 'Shift: Unavailable';
         }
-      } else if (prevSignedForFlip !== null && prevYearForFlip) {
+      } else if (currentVizMode === 'flips' && prevSignedForFlip !== null && prevYearForFlip) {
         try {
           const f = flipInfo(prevSignedForFlip, signedMarginPct);
           if (f.flipped) insight = `Flip: ${f.from}\u2192${f.to} vs ${prevYearForFlip}`;

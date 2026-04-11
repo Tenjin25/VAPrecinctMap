@@ -47,8 +47,8 @@ Virginia holds elections on a distinct off-year cycle (gubernatorial and state l
 | **CSV parsing** | PapaParse 5.4.1 (used for any runtime CSV loading) |
 | **Contest selector** | Dropdowns for contest type and year; manifest-driven so new contests appear automatically |
 | **Map views** | County fill, precinct outline overlay, congressional district, House of Delegates (HoD) district, state-senate district |
-| **Hover tooltip** | Condensed broadcast hover card for **counties, independent cities, precincts, and districts**. Shows a one-line winner call + tier, plus (when available) a **Flip** chip and vote/margin change vs the prior comparable election and an optional population-change line. `Pin` freezes the tooltip (and reveals `Details` + `Close`); `Close` dismisses and won’t immediately re-open until you move the pointer (prevents hover flicker). Mobile docks the tooltip above the legend/results so it stays readable. |
-| **Selected locality panel** | Premium **Virginia Locality Focus** panel (county + independent city aware). Narrative order: margin-forward summary hero (margin call → winner → votes/shift) → one-line at-a-glance sentence → trend/trajectory cards → (collapsed) extended analysis (population signal + census check → demographics → precinct/non-geographic context → what to watch) with a compact “More detail” collapsible for deeper context (why it votes this way, locality profile, vote breakdown). |
+| **Hover tooltip** | Condensed broadcast hover card for **counties, independent cities, precincts, and districts**. Shows a one-line margin call + tier, plus (when available) **Flip** context (line + chip) and an NC-style delta block with party-colored raw vote changes vs the prior comparable election, plus optional population-change lines. `Pin` freezes the tooltip (and reveals `Details` + `Close`); `Close` dismisses and won’t immediately re-open until you move the pointer (prevents hover flicker). Mobile docks the tooltip above the legend/results so it stays readable. |
+| **Selected locality panel** | Premium **Virginia Locality Focus** panel (county + independent city aware). Narrative order: margin-forward summary hero (margin call → winner → votes/shift) → one-line at-a-glance sentence → trend/trajectory cards → (collapsed) extended analysis (population signal + census check → demographics → precinct/non-geographic context → what to watch) with a compact “More detail” collapsible for deeper context (why it votes this way, locality profile, vote breakdown). The Locality profile’s `Geography` field uses corridor/region tagging (when available) instead of a generic “Virginia” label. |
 | **Focus trend panel** | NC-style trend layout in the vote counter with `Latest`, `Closest`, `Since`, and per-year timeline cards (full vote totals; no `K`/`M` abbreviations), plus a **Trajectory Snapshot** and optional **Census insight** (Vintage 2025) with corridor tags to explain how/why a partisan lean can form |
 | **Smart Insights** | Optional (default OFF) story mode that subtly highlights closest margins, biggest shifts, and population-signal localities and surfaces a short tooltip insight without overriding user selection. |
 | **Focus mode** | When a locality is selected/pinned, the map subtly dims and the results panel elevates to keep attention on the active geography. |
@@ -594,21 +594,31 @@ The hover tooltip is designed to be **fast, low-clutter, and Virginia-safe** (co
 **What the tooltip shows:**
 
 - **Winner call line** (e.g., `Trump +3.12%`) with party-tinted text on the dark tooltip surface.
-- **Delta insight lines** when prior-cycle context exists:
-  - Vote change since the prior comparable election (`R +… · D +…`)
-  - Margin change since the prior comparable election (`R/D +… votes`)
-  - Optional population-change lines (from `Data/CO-EST2025-POP-51-clean.csv`).
-- **Details (pinned only):** a full result card with vote totals and percent shares, plus meta chips (winner, rating tier, and—depending on visualization mode—shift/flip context).
+- **Flip context** (when a flip occurred vs the prior comparable election):
+  - A Flip line (e.g., `Flip: D→R (20→24)`).
+  - A Flip chip (desktop) to make flips scannable without expanding.
+- **Delta block** (when prior-cycle county totals exist):
+  - `Raw votes (YY→YY): R ±… • D ±… • Total ±…` (party-colored, NC-style).
+  - Optional population-change lines (from `Data/CO-EST2025-POP-51-clean.csv`), when loaded.
+- **Details (pinned only):** a full result card with vote totals and percent shares, plus meta chips (winner, rating tier, and—depending on context—shift/flip).
 
 **Flip vs. shift context (to reduce clutter):**
 
-- In `Shift` mode, the tooltip emphasizes margin-change context.
-- In `Flips` mode, the tooltip surfaces flip-specific context (and otherwise keeps flip narration out of the hover card).
+- In `Shift` mode, the meta-chip row swaps in a Shift chip (vs the prior comparable election).
+- In `Flips` mode, the tooltip surfaces flip-specific context.
+- District hover cards use the same chip vocabulary (Winner/Tier/Shift/Flip) so counties and districts read consistently.
+
+**County vs. precinct vs. district:**
+
+- **Counties / independent cities:** compact margin call + tier, optional Flip line/chip, and (when available) the NC-style raw vote delta block; pinned `Details` expands to the full result card + chips.
+- **Districts (CD / HoD / State Senate):** desktop hover uses the chip row + full result card; compact (mobile) shows quickline + Flip line when applicable.
+- **Precincts:** compact hover call; Flip line appears when prior precinct margins are available (typically in `Shift`/`Flips` contexts where prior-precinct caches are loaded).
 
 **Color conventions inside the tooltip:**
 
 - Democratic: blues; Republican: reds; Other/third-party: grays; tossups: neutral.
 - Vote-share bars use solid colors: Dem `#3b82f6`, Other `#9ca3af`, Rep `#ef4444`.
+- Raw vote deltas in the delta block tint `R` red and `D` blue to match the hover call line.
 
 **Validation:**
 

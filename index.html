@@ -2,6 +2,10 @@
 <html>
 <head>
   <style>
+  :root {
+    --topbar-h: 0px;
+  }
+
   /* Mobile Styles - Enhanced for touch and small screens */
   @media (max-width: 768px) {
     /* Make minimize buttons touch-friendly */
@@ -277,12 +281,65 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+      function isMobileViewport() {
+        try {
+          return !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+        } catch (_) {
+          return window.innerWidth <= 768;
+        }
+      }
+
+      function syncMobileTopbarToggle() {
+        try {
+          const topbar = document.getElementById('map-topbar');
+          const toggle = document.getElementById('mobile-topbar-toggle');
+          if (!topbar || !toggle) return;
+          if (!isMobileViewport()) topbar.classList.remove('topbar-expanded');
+          const expanded = isMobileViewport() && topbar.classList.contains('topbar-expanded');
+          toggle.textContent = expanded ? 'Hide examples' : 'Show examples';
+          toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        } catch (_) {}
+      }
+
+      function collapseMobileTopbar() {
+        try {
+          if (!isMobileViewport()) return;
+          const topbar = document.getElementById('map-topbar');
+          if (!topbar) return;
+          topbar.classList.remove('topbar-expanded');
+          syncMobileTopbarToggle();
+          if (typeof window.syncInitialTopbarOffset === 'function') {
+            window.syncInitialTopbarOffset();
+          }
+        } catch (_) {}
+      }
+
+      function syncInitialTopbarOffset() {
+        try {
+          const topbar = document.getElementById('map-topbar');
+          if (!topbar) return;
+          const topbarHeight = isMobileViewport()
+            ? Math.round(topbar.getBoundingClientRect().height || 0)
+            : 0;
+          document.documentElement.style.setProperty('--topbar-h', `${Math.max(0, topbarHeight)}px`);
+          syncMobileTopbarToggle();
+          if (typeof window.updateMobileOverlayOffsets === 'function') {
+            window.updateMobileOverlayOffsets();
+          }
+        } catch (_) {}
+      }
+      window.syncInitialTopbarOffset = syncInitialTopbarOffset;
+      window.collapseMobileTopbar = collapseMobileTopbar;
+      window.syncMobileTopbarToggle = syncMobileTopbarToggle;
+
       var sidebar = document.getElementById('sidebar');
       var sidebarBtn = document.getElementById('sidebar-minimize-btn');
       var floatBtn = document.getElementById('sidebar-float-toggle');
       var detailsDiv = document.getElementById('county-details');
       var contentEl = document.getElementById('county-info-content');
       var statusExit = document.getElementById('status-exit');
+      var mobileTopbarToggle = document.getElementById('mobile-topbar-toggle');
+      var topbar = document.getElementById('map-topbar');
 
       function prioritizeContestControl() {
         try {
@@ -296,6 +353,15 @@
       }
 
       prioritizeContestControl();
+
+      if (mobileTopbarToggle && topbar) {
+        mobileTopbarToggle.addEventListener('click', function() {
+          if (!isMobileViewport()) return;
+          topbar.classList.toggle('topbar-expanded');
+          syncMobileTopbarToggle();
+          syncInitialTopbarOffset();
+        });
+      }
 
       if (!SIDEBAR_ENABLED) {
         if (sidebar) sidebar.style.display = 'none';
@@ -362,6 +428,28 @@
         contentEl.innerHTML = '<p>Select a contest, then pick a locality to unlock analysis.</p>';
         detailsDiv.style.display = 'block';
       }
+
+      syncMobileTopbarToggle();
+      syncInitialTopbarOffset();
+      requestAnimationFrame(syncInitialTopbarOffset);
+      setTimeout(syncInitialTopbarOffset, 180);
+      window.addEventListener('resize', syncInitialTopbarOffset, { passive: true });
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          try { syncInitialTopbarOffset(); } catch (_) {}
+        }).catch(() => {});
+      }
+      try {
+        if (topbar && typeof ResizeObserver !== 'undefined') {
+          if (window.__topbarResizeObserver) {
+            try { window.__topbarResizeObserver.disconnect(); } catch (_) {}
+          }
+          window.__topbarResizeObserver = new ResizeObserver(() => {
+            try { syncInitialTopbarOffset(); } catch (_) {}
+          });
+          window.__topbarResizeObserver.observe(topbar);
+        }
+      } catch (_) {}
     });
     // Zoom to county by name using turf.js
     function zoomToCounty(countyName) {
@@ -1860,9 +1948,188 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     outline: none;
   }
 
+  .map-topbar {
+    display: none;
+  }
+
+  .map-topbar-copy strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .map-topbar-copy span {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.35;
+    color: rgba(248, 250, 252, 0.78);
+  }
+
+  .mobile-topbar-toggle {
+    display: none;
+  }
+
   @media (max-width: 768px) {
+    .map-topbar {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10030;
+      padding: calc(12px + var(--safe-top, 0px)) calc(12px + var(--safe-right, 0px)) 14px calc(12px + var(--safe-left, 0px));
+      border-radius: 0 0 20px 20px;
+      background: rgba(15, 23, 42, 0.84);
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.24);
+      backdrop-filter: blur(18px);
+    }
+
+    .map-topbar-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .map-topbar-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.10);
+      color: #e2e8f0;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .map-topbar-copy {
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    .map-topbar-copy strong {
+      font-size: 13px;
+    }
+
+    .map-topbar-copy span {
+      font-size: 11px;
+    }
+
+    .fly-search-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .fly-search-field {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+
+    .fly-search-field:focus-within {
+      border-color: rgba(37, 99, 235, 0.68);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.16);
+    }
+
+    .fly-search-icon {
+      flex: 0 0 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      margin-left: 4px;
+    }
+
+    .map-topbar input[type="search"],
+    .map-topbar input[type="text"] {
+      width: 100%;
+      min-width: 0;
+      padding: 13px 8px 13px 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      color: #0f172a;
+      font-size: 16px !important;
+    }
+
+    .map-topbar input[type="search"]:focus,
+    .map-topbar input[type="text"]:focus {
+      box-shadow: none;
+      border-color: transparent;
+    }
+
+    .fly-search-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 46px;
+      padding: 0 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+    }
+
+    .map-topbar-hints {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .map-topbar-hints::-webkit-scrollbar {
+      display: none;
+    }
+
+    .mobile-topbar-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px 14px;
+      border: 1px solid rgba(191, 219, 254, 0.22);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+    }
+
+    .map-topbar-details {
+      display: none;
+    }
+
+    .map-topbar.topbar-expanded .map-topbar-details {
+      display: block;
+      margin-top: 10px;
+    }
+
     .main-controls {
-      top: max(8px, var(--safe-top, 0px)) !important;
+      top: calc(var(--safe-top, 0px) + var(--topbar-h, 0px) + 10px) !important;
       left: max(8px, var(--safe-left, 0px)) !important;
       right: max(8px, var(--safe-right, 0px)) !important;
       width: auto !important;
@@ -1870,7 +2137,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
       max-width: none !important;
       padding: 14px !important;
       border-radius: 20px !important;
-      max-height: min(62svh, 560px) !important;
+      max-height: min(62svh, calc(100svh - var(--topbar-h, 0px) - var(--legend-h, 56px) - 34px - var(--safe-top, 0px) - var(--safe-bottom, 0px))) !important;
     }
 
     .controls-header {
@@ -1886,8 +2153,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     }
 
     .control-group-search {
-      padding: 12px;
-      border-radius: 14px;
+      display: none;
     }
 
     .fly-to-search-wrap {
@@ -5497,19 +5763,19 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
   @media (max-width: 768px) {
     .main-controls {
-      top: calc(max(6px, var(--safe-top, 0px)) + var(--android-vv-top, 0px)) !important;
+      top: calc(max(6px, var(--safe-top, 0px)) + var(--android-vv-top, 0px) + var(--topbar-h, 0px) + 10px) !important;
       left: max(6px, var(--safe-left, 0px)) !important;
       right: max(6px, var(--safe-right, 0px)) !important;
       width: auto !important;
       padding: 10px 10px 12px !important;
       border-radius: 18px !important;
-      max-height: min(44svh, 400px) !important;
+      max-height: min(44svh, calc(100svh - var(--topbar-h, 0px) - var(--legend-h, 56px) - var(--android-vv-top, 0px) - var(--safe-top, 0px) - var(--safe-bottom, 0px) - 36px)) !important;
       box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18) !important;
     }
 
     @supports (height: 100dvh) {
       .main-controls {
-        max-height: min(44dvh, 400px) !important;
+        max-height: min(44dvh, calc(100dvh - var(--topbar-h, 0px) - var(--legend-h, 56px) - var(--android-vv-top, 0px) - var(--safe-top, 0px) - var(--safe-bottom, 0px) - 36px)) !important;
       }
     }
 
@@ -5546,7 +5812,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     }
 
     .control-group-search {
-      padding: 12px;
+      display: none;
     }
 
     .control-summary {
@@ -5617,7 +5883,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     }
 
     .main-controls.minimized {
-      top: calc(max(6px, var(--safe-top, 0px)) + var(--android-vv-top, 0px)) !important;
+      top: calc(max(6px, var(--safe-top, 0px)) + var(--android-vv-top, 0px) + var(--topbar-h, 0px) + 10px) !important;
       left: max(6px, var(--safe-left, 0px)) !important;
       right: auto !important;
       width: auto !important;
@@ -7070,6 +7336,33 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <div id="map"></div>
+
+  <div class="map-topbar" id="map-topbar">
+    <div class="map-topbar-meta">
+      <span class="map-topbar-badge">VA Explorer</span>
+      <div class="map-topbar-copy">
+        <strong>Jump anywhere on the map</strong>
+        <span>Search counties, independent cities, districts, or precincts without changing the selected contest.</span>
+      </div>
+    </div>
+    <div class="fly-search-bar">
+      <div class="fly-search-field">
+        <span class="fly-search-icon" aria-hidden="true">⌕</span>
+        <input id="mobile-fly-to-search" type="search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg City 101" autocomplete="off" spellcheck="false" inputmode="search" />
+      </div>
+      <button id="mobile-fly-to-submit" class="fly-search-submit" type="button">Go</button>
+    </div>
+    <button class="mobile-topbar-toggle" id="mobile-topbar-toggle" type="button" aria-expanded="false">Show examples</button>
+    <div class="map-topbar-details">
+      <div class="map-topbar-hints" aria-label="Fly-to examples">
+        <button class="fly-to-chip" type="button" data-query="Fairfax County">Fairfax County</button>
+        <button class="fly-to-chip" type="button" data-query="VA-10">VA-10</button>
+        <button class="fly-to-chip" type="button" data-query="VA HD-57">VA HD-57</button>
+        <button class="fly-to-chip" type="button" data-query="VA SD-31">VA SD-31</button>
+        <button class="fly-to-chip" type="button" data-query="Lynchburg City 101">Lynchburg City 101</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Visualization Mode Tabs - VoteHub Style -->
   <div class="viz-modes" id="viz-modes">
@@ -13079,7 +13372,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const tierQuickLabel = isMobileTooltip
         ? (tierMeta?.shortLabel || tierMeta?.label || '')
         : (tierMeta?.label || tierMeta?.shortLabel || '');
-      const showDesktopFlipChip = !isMobileTooltip;
       const deltaBlock = (() => {
         const lines = [];
         const prevYear = Number(vizPrevCache?.prevYear);
@@ -13123,7 +13415,6 @@ document.addEventListener('DOMContentLoaded', function() {
           ${tierQuickLabel ? `<span class="tier">${escapeHtml(tierQuickLabel)}</span>` : ''}
         </div>
         ${flipLine}
-        ${showDesktopFlipChip && flipChip ? `<div class="tooltip-flip-chip-row">${flipChip}</div>` : ''}
         ${deltaBlock}
       `.trim();
 
@@ -13625,6 +13916,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Expand controls
         try { minimizeLegendOnMobile(); } catch (_) {}
         try { minimizeVoteCounterOnMobile(); } catch (_) {}
+        try {
+          if (typeof window.collapseMobileTopbar === 'function') window.collapseMobileTopbar();
+        } catch (_) {}
         controls.classList.remove('minimized');
         controlsContent.style.display = 'block';
         minimizeBtn.textContent = '-';
@@ -15391,7 +15685,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function getPrimaryFlyToInput() {
-      return document.getElementById('fly-to-search') || document.getElementById('county-search');
+      const mobileInput = document.getElementById('mobile-fly-to-search');
+      if (mobileInput && window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+        return mobileInput;
+      }
+      return document.getElementById('fly-to-search') || mobileInput || document.getElementById('county-search');
     }
 
     function setFlyToSearchValue(value, sourceInput = null) {
@@ -15419,6 +15717,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const value = (searchInput && searchInput.value ? searchInput.value : '').trim();
       if (!value) return;
       handleSearchSelection(value);
+      try {
+        if (typeof window.collapseMobileTopbar === 'function') window.collapseMobileTopbar();
+      } catch (_) {}
     }
 
     function setupFlyToQuickActions() {
@@ -15427,6 +15728,15 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.dataset.bound = '1';
         submitBtn.addEventListener('click', () => {
           submitFlyToSearch();
+        });
+      }
+
+      const mobileSubmitBtn = document.getElementById('mobile-fly-to-submit');
+      if (mobileSubmitBtn && mobileSubmitBtn.dataset.bound !== '1') {
+        mobileSubmitBtn.dataset.bound = '1';
+        mobileSubmitBtn.addEventListener('click', () => {
+          const input = document.getElementById('mobile-fly-to-search') || getPrimaryFlyToInput();
+          submitFlyToSearch(input);
         });
       }
 

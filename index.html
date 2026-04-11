@@ -1976,6 +1976,20 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     color: rgba(226, 232, 240, 0.92);
   }
 
+  .hover-tooltip .tooltip-flip {
+    margin-top: 6px;
+    font-size: 11.5px;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    color: rgba(226, 232, 240, 0.92);
+  }
+  .hover-tooltip .tooltip-flip.rep { color: #fecaca; }
+  .hover-tooltip .tooltip-flip.dem { color: #bfdbfe; }
+
+  body.colorblind-mode .hover-tooltip .tooltip-call.rep { color: #ffedd5; }
+  body.colorblind-mode .hover-tooltip .tooltip-quickline .rep { color: #ffedd5; }
+  body.colorblind-mode .hover-tooltip .tooltip-flip.rep { color: #ffedd5; }
+
   .hover-tooltip .tooltip-more {
     margin-top: 10px;
     padding-top: 10px;
@@ -12025,17 +12039,35 @@ document.addEventListener('DOMContentLoaded', function() {
       return { flipped, from, to };
     }
 
-    function flipChipHTML(prevSignedPct, curSignedPct, prevYear = null, year = null) {
+    // Hover flip helpers (ported from NCMap tooltip behavior):
+    // - Flip chip: short, designed for the hover-meta row.
+    // - Flip line: shows years and sits directly under the quickline.
+    function flipChipHTML(prevSignedPct, curSignedPct) {
       const f = flipInfo(prevSignedPct, curSignedPct);
       if (!f.flipped) return '';
       const labelFrom = f.from === 'R' ? 'R' : 'D';
       const labelTo = f.to === 'R' ? 'R' : 'D';
       const cls = f.to === 'R' ? 'rep' : 'dem';
-      const years = (prevYear && year) ? ` <span class="years">(${escapeHtml(String(prevYear))}\u2192${escapeHtml(String(year))})</span>` : '';
-      return `<span class="meta-chip flip ${cls}"><span class="dot"></span>Flip ${labelFrom}\u2192${labelTo}${years}</span>`;
+      return `<span class="meta-chip flip ${cls}"><span class="dot"></span>Flip ${labelFrom}\u2192${labelTo}</span>`;
     }
 
-    function buildResultCardHTML(title, subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate) {
+    function flipLineHTML(prevSignedPct, curSignedPct, fromYear = null, toYear = null) {
+      const f = flipInfo(prevSignedPct, curSignedPct);
+      if (!f.flipped) return '';
+      const labelFrom = f.from === 'R' ? 'R' : 'D';
+      const labelTo = f.to === 'R' ? 'R' : 'D';
+      const cls = f.to === 'R' ? 'rep' : 'dem';
+      const fy = Number(fromYear);
+      const ty = Number(toYear);
+      const hasYears = Number.isFinite(fy) && Number.isFinite(ty);
+      const years = hasYears ? ` (${String(fy).slice(-2)}\u2192${String(ty).slice(-2)})` : '';
+      const title = hasYears
+        ? ` title="Flip ${labelFrom}\u2192${labelTo} (${fy}\u2192${ty})"`
+        : '';
+      return `<div class="tooltip-flip ${cls}"${title}>Flip: ${labelFrom}\u2192${labelTo}${years}</div>`;
+    }
+
+    function buildResultCardHTML(title, subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate, options = {}) {
       const d = Number(demVotes || 0);
       const r = Number(repVotes || 0);
       const o = Number(otherVotes || 0);
@@ -12048,7 +12080,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const repPct = (r / total) * 100.0;
       const otherPct = (o / total) * 100.0;
 
-      const marginLabel = winnerMarginLabel(r, d, total, repCandidate || '', demCandidate || '');
+      const useCountyPrecision = String(options?.precision || '').toLowerCase() === 'county';
+      const marginLabel = useCountyPrecision
+        ? winnerMarginLabelShort(r, d, total, repCandidate || '', demCandidate || '')
+        : winnerMarginLabel(r, d, total, repCandidate || '', demCandidate || '');
       const demFull = fullCandidateLabel(demCandidate, 'Democratic');
       const repFull = fullCandidateLabel(repCandidate, 'Republican');
 
@@ -12810,8 +12845,11 @@ document.addEventListener('DOMContentLoaded', function() {
         detailInsight = shiftLabelText(signedMarginPct - prevSigned, vizShiftCache.prevYear, vizShiftCache.year);
       }
 
-      const flipChip = (prevSignedForFlip !== null && prevYearForFlip)
-        ? flipChipHTML(prevSignedForFlip, signedMarginPct, prevYearForFlip, year)
+      const flipChip = (prevSignedForFlip !== null)
+        ? flipChipHTML(prevSignedForFlip, signedMarginPct)
+        : '';
+      const flipLine = (prevSignedForFlip !== null)
+        ? flipLineHTML(prevSignedForFlip, signedMarginPct, prevYearForFlip, Number(year))
         : '';
 
       const chips = [];
@@ -12837,7 +12875,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <span class="${escapeHtml(winnerCall.party || 'tie')}">${escapeHtml(winnerCall.text || '')}</span>
           ${tierShort ? `<span class="tier">${escapeHtml(tierShort)}</span>` : ''}
         </div>
-        ${flipChip ? `<div class="hover-meta">${flipChip}</div>` : ''}
+        ${flipLine}
         ${buildTooltipDeltaInsightHTML({
           voteShiftPrevYear: vizPrevCache?.prevYear || null,
           repDeltaVotes: (() => {
@@ -12866,7 +12904,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <summary>Details</summary>
           <div class="tooltip-more-body">
             <div class="hover-meta">${chips.join('')}</div>
-            ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate)}
+            ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate, { precision: 'county' })}
             ${detailInsight ? `<div class="meta-subtle"><strong>Context:</strong> ${escapeHtml(detailInsight)}</div>` : ''}
             ${demoLine}
           </div>

@@ -594,6 +594,9 @@ The hover tooltip is designed to be **fast, low-clutter, and Virginia-safe** (co
 **What the tooltip shows:**
 
 - **Winner call line** (e.g., `Trump +3.12%`) with party-tinted text on the dark tooltip surface.
+- **Tier label** shown alongside the call:
+  - Desktop prefers the full label (e.g., `Stronghold Republican`).
+  - Mobile uses the compact label (e.g., `Stronghold R`) for width.
 - **Flip context** (when a flip occurred vs the prior comparable election):
   - A Flip line (e.g., `Flip: D→R (20→24)`).
   - A Flip chip (desktop) to make flips scannable without expanding.

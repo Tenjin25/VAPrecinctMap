@@ -7282,7 +7282,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <div class="legend-handle" aria-hidden="true"></div>
               <div class="legend-copy">
                 <span class="legend-kicker">Map key</span>
-                <h4>Political Categories</h4>
+                <h4>Margin Categories</h4>
                 <p class="legend-subtitle" id="legend-subtitle">Two-party margin buckets for the selected contest.</p>
               </div>
             </div>
@@ -7355,7 +7355,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <p><strong>Winners</strong>: solid color by winner (D/R), regardless of margin size.</p>
           <p><strong>Shift</strong>: change in <strong>signed</strong> margin vs the nearest available prior election for that contest (e.g. 2020->2024). Positive = more Republican; negative = more Democratic.</p>
 
-          <h3>Political Categories</h3>
+          <h3>Margin Categories</h3>
           <p>Category names are just shorthand for margin ranges:</p>
           <ul>
             <li><strong>Annihilation</strong>: &ge;40%</li>
@@ -8515,7 +8515,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (footer) footer.textContent = 'Blue means movement toward Democrats; red means movement toward Republicans.';
         content.innerHTML = buildShiftLegendHTML();
       } else {
-        if (header) header.textContent = 'Political Categories';
+        if (header) header.textContent = 'Margin Categories';
         if (subtitle) subtitle.textContent = 'A compact spectrum from strongest Republican to strongest Democratic performance.';
         if (badge) badge.textContent = 'Margins';
         if (footer) footer.textContent = 'Read left to right: stronger Republican, tossup, then stronger Democratic.';
@@ -12952,7 +12952,11 @@ document.addEventListener('DOMContentLoaded', function() {
         detailInsight = shiftLabelText(signedMarginPct - prevSigned, vizShiftCache.prevYear, vizShiftCache.year);
       }
 
-      const flipChip = (prevSignedForFlip !== null)
+      const countyFlipInfo = (prevSignedForFlip !== null)
+        ? flipInfo(prevSignedForFlip, signedMarginPct)
+        : null;
+      const hideDemToRepFlipChip = !!(countyFlipInfo && countyFlipInfo.from === 'D' && countyFlipInfo.to === 'R');
+      const flipChip = (prevSignedForFlip !== null && !hideDemToRepFlipChip)
         ? flipChipHTML(prevSignedForFlip, signedMarginPct)
         : '';
       const flipLine = (prevSignedForFlip !== null)

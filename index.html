@@ -2550,7 +2550,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
   .county-focus-shell {
     display: grid;
-    gap: 10px;
+    gap: 8px;
   }
 
   .county-focus-hero,
@@ -2558,17 +2558,17 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   .county-focus-mini-card,
   .county-focus-panel,
   .county-detail-collapsible {
-    border: 1px solid rgba(148, 163, 184, 0.16);
+    border: 1px solid rgba(148, 163, 184, 0.12);
     border-radius: 16px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.94) 100%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: none;
   }
 
   .county-focus-hero {
     position: relative;
     display: grid;
-    gap: 10px;
-    padding: 13px;
+    gap: 8px;
+    padding: 12px;
     overflow: hidden;
     isolation: isolate;
   }
@@ -2608,7 +2608,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 10px;
+    gap: 8px;
     align-items: flex-start;
   }
 
@@ -2660,6 +2660,66 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     border: 1px solid rgba(148, 163, 184, 0.18);
     background: rgba(255, 255, 255, 0.88);
     color: #475569;
+  }
+
+  .county-focus-pill.tier {
+    min-height: 24px;
+    padding: 0 9px;
+    font-size: 9px;
+    font-weight: 750;
+    opacity: 0.78;
+  }
+
+  .county-focus-result {
+    display: grid;
+    gap: 4px;
+    padding-top: 2px;
+  }
+
+  .county-focus-margin {
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.02;
+    font-weight: 950;
+    letter-spacing: -0.035em;
+    color: #0f172a;
+  }
+
+  .county-focus-hero[data-party="dem"] .county-focus-margin { color: #1d4ed8; }
+  .county-focus-hero[data-party="rep"] .county-focus-margin { color: #b91c1c; }
+  .county-focus-hero[data-party="tie"] .county-focus-margin { color: #334155; }
+
+  .county-focus-winner {
+    font-size: 14px;
+    line-height: 1.25;
+    font-weight: 850;
+    color: #0f172a;
+  }
+
+  .county-focus-support {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 11px;
+    line-height: 1.35;
+    font-weight: 800;
+    color: #64748b;
+  }
+
+  .county-focus-support-dot {
+    opacity: 0.75;
+  }
+
+  .county-focus-support-scope {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.9;
+  }
+
+  .county-focus-support-scope::before {
+    content: "•";
+    opacity: 0.65;
   }
 
   .county-focus-pill.dem {
@@ -2793,7 +2853,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   .county-story-card,
   .county-focus-mini-card,
   .county-focus-panel {
-    padding: 12px;
+    padding: 11px;
   }
 
   .county-story-headline {
@@ -2930,6 +2990,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     border-radius: 14px;
     border: 1px solid rgba(148, 163, 184, 0.16);
     background: rgba(248, 250, 252, 0.92);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
   }
 
   .county-focus-trend-card[data-party="rep"] {
@@ -2993,11 +3054,19 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     font-weight: 800;
   }
 
-  .county-focus-trend-call,
   .county-focus-list-value {
     font-weight: 900;
     color: #0f172a;
     text-align: right;
+  }
+
+  .county-focus-trend-call {
+    font-size: 13.5px;
+    line-height: 1.25;
+    font-weight: 950;
+    letter-spacing: -0.01em;
+    text-align: left;
+    color: #0f172a;
   }
 
   .county-focus-trend-call.dem { color: #1d4ed8; }
@@ -3037,12 +3106,12 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   .focus-glance {
     margin: 0;
     border-radius: 16px;
-    border: 1px solid rgba(15, 23, 42, 0.09);
+    border: 1px solid rgba(15, 23, 42, 0.07);
     background: rgba(248, 250, 252, 0.98);
-    padding: 14px 14px 12px;
+    padding: 12px 12px 10px;
     display: grid;
     gap: 8px;
-    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
   }
 
   .focus-glance.tone-rep {
@@ -3087,12 +3156,13 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     align-items: center;
     padding: 4px 8px;
     border-radius: 999px;
-    font-size: 11px;
-    font-weight: 900;
-    background: rgba(15, 23, 42, 0.06);
-    color: #334155;
-    border: 1px solid rgba(15, 23, 42, 0.10);
+    font-size: 10px;
+    font-weight: 850;
+    background: rgba(15, 23, 42, 0.04);
+    color: #475569;
+    border: 1px solid rgba(15, 23, 42, 0.08);
     white-space: nowrap;
+    opacity: 0.86;
   }
 
   .focus-glance-badge.rep {
@@ -3107,14 +3177,14 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     border-color: rgba(37, 99, 235, 0.18);
   }
 
-  .focus-glance-headline {
+  .focus-glance-summary {
     margin: 0;
-    font-size: 15px;
-    line-height: 1.35;
-    font-weight: 900;
-    color: #0f172a;
+    font-size: 12.5px;
+    line-height: 1.45;
+    font-weight: 850;
+    color: #334155;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -13616,13 +13686,6 @@ document.addEventListener('DOMContentLoaded', function() {
           : -1;
         const prevSeries = (seriesLoaded && curSeriesIndex > 0) ? seriesAsc[curSeriesIndex - 1] : null;
 
-        const shiftSummary = (() => {
-          if (loadState === 'loading') return 'Shift: Loading history…';
-          if (!prevSeries || !Number.isFinite(Number(prevSeries.year))) return 'Shift: Unavailable';
-          const prevSigned = Number(prevSeries.margin_pct || 0);
-          return shiftLabelText(localSignedMargin - prevSigned, prevSeries.year, selectedYearNum || year);
-        })();
-
         const flipBadge = (() => {
           if (!prevSeries || !Number.isFinite(Number(prevSeries.year))) return '';
           try {
@@ -13636,29 +13699,40 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         })();
 
-        const tierBadge = `<span class="county-focus-pill muted">${escapeHtml(competitivenessMeta.shortLabel || compactCompetitivenessLabel(winnerCall.marginPct, winnerCall.party))}</span>`;
+        const tierBadge = `<span class="county-focus-pill muted tier">${escapeHtml(competitivenessMeta.shortLabel || compactCompetitivenessLabel(winnerCall.marginPct, winnerCall.party))}</span>`;
         const badgeRow = [flipBadge, tierBadge].filter(Boolean).join('');
 
         const trajectoryBlock = trajectoryMeta ? renderTrajectoryBlockHTML(trajectoryMeta) : '';
         const censusBlock = censusContext ? renderFocusCensusInsightHTML(censusContext, 'Population signal') : '';
 
-        const glanceTier = (competitivenessMeta?.shortLabel || compactCompetitivenessLabel(winnerCall.marginPct, winnerCall.party) || '').trim();
-        const glanceHeadline = glanceTier
-          ? `${countyDisplay}: ${glanceTier} in ${year}.`
-          : `${countyDisplay} in ${year}.`;
-        const glanceSupport = (() => {
-          const parts = [];
-          const baseline = String(comparisonText || '').trim();
-          if (baseline) parts.push(baseline);
-          const momentum = String(trajectoryMeta?.trend || '').trim();
-          if (momentum) parts.push(momentum);
-          const pop = String(censusContext?.signalLabel || '').trim();
-          if (pop) parts.push(`${pop} population`);
-          return parts.join(' • ');
+        const glanceSentence = (() => {
+          const statewideSigned = Number(statewideSummary?.signedMarginPct);
+          const deltaToState = Number.isFinite(statewideSigned) ? (localSignedMargin - statewideSigned) : NaN;
+          const relativeClause = Number.isFinite(deltaToState)
+            ? (Math.abs(deltaToState) < 0.75
+              ? 'Runs close to Virginia'
+              : (deltaToState > 0 ? 'Runs to the right of Virginia' : 'Runs to the left of Virginia'))
+            : '';
+
+          const trendRaw = String(trajectoryMeta?.trend || '').trim();
+          const trendNoWindow = trendRaw.replace(/\s*\([^)]*\)\s*$/, '');
+          const trendBody = trendNoWindow.replace(/^([\u2190\u2192\u2194\u2197\u2198])\s*/, '').trim();
+          const trendClause = (trendBody && !/not enough history/i.test(trendBody))
+            ? `with ${trendBody.charAt(0).toLowerCase()}${trendBody.slice(1)}`
+            : '';
+
+          const sentence = [relativeClause, trendClause].filter(Boolean).join(', ');
+          return sentence ? `${sentence}.` : 'Trend context is limited here.';
         })();
 
         const censusCheckHtml = (() => {
-          const text = String(trajectoryMeta?.censusCheck || '').trim();
+          const raw = String(trajectoryMeta?.censusCheck || '').trim();
+          const text = (() => {
+            if (!raw) return '';
+            const firstSentence = raw.split(/(?<=[.!?])\s+/)[0] || raw;
+            const clipped = firstSentence.length > 180 ? `${firstSentence.slice(0, 177).trim()}…` : firstSentence;
+            return clipped;
+          })();
           if (!text) return '';
           const trendText = String(trajectoryMeta?.trend || '');
           const tone = trendText.includes('←') ? 'dem' : (trendText.includes('→') ? 'rep' : 'neutral');
@@ -13696,9 +13770,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const partyLetter = winnerCall.party === 'rep' ? 'R' : (winnerCall.party === 'dem' ? 'D' : 'Even');
         const winnerValue = winnerCall.party === 'tie' ? 'Even' : `${winnerCall.winnerName} (${partyLetter})`;
-        const marginValue = winnerCall.party === 'tie'
+        const marginHeroValue = winnerCall.party === 'tie'
           ? 'Even'
-          : `${partyLetter}+${Number(winnerCall.marginPct || 0).toFixed(2)}%`;
+          : String(winnerCall.text || '').trim() || `${winnerCall.shortLabel} +${Number(winnerCall.marginPct || 0).toFixed(2)}%`;
         const shiftMeta = (() => {
           if (loadState === 'loading') return { value: 'Loading…', note: 'vs prior election' };
           if (!prevSeries || !Number.isFinite(Number(prevSeries.year))) return { value: '—', note: 'vs prior election' };
@@ -13713,26 +13787,14 @@ document.addEventListener('DOMContentLoaded', function() {
         })();
 
         const heroMetricsHtml = `
-          <div class="county-focus-meta-grid" aria-label="Top summary metrics">
-            <div class="county-focus-meta-card">
-              <span class="county-focus-mini-label">Winner</span>
-              <div class="county-focus-mini-value">${escapeHtml(winnerValue)}</div>
-              <div class="county-focus-mini-note">${escapeHtml(`${localityScope} result`)}</div>
-            </div>
-            <div class="county-focus-meta-card">
-              <span class="county-focus-mini-label">Margin</span>
-              <div class="county-focus-mini-value">${escapeHtml(marginValue)}</div>
-              <div class="county-focus-mini-note">${escapeHtml(competitivenessMeta?.label || 'Competitiveness')}</div>
-            </div>
-            <div class="county-focus-meta-card">
-              <span class="county-focus-mini-label">Total votes</span>
-              <div class="county-focus-mini-value">${escapeHtml(totalVotes.toLocaleString())}</div>
-              <div class="county-focus-mini-note">Votes cast</div>
-            </div>
-            <div class="county-focus-meta-card">
-              <span class="county-focus-mini-label">Shift</span>
-              <div class="county-focus-mini-value">${escapeHtml(shiftMeta.value)}</div>
-              <div class="county-focus-mini-note">${escapeHtml(shiftMeta.note)}</div>
+          <div class="county-focus-result" aria-label="Top summary metrics">
+            <div class="county-focus-margin">${escapeHtml(marginHeroValue)}</div>
+            <div class="county-focus-winner">${escapeHtml(winnerValue)}</div>
+            <div class="county-focus-support" aria-label="Votes and shift">
+              <span>${escapeHtml(totalVotes.toLocaleString())} votes</span>
+              <span class="county-focus-support-dot" aria-hidden="true">\u2022</span>
+              <span>${escapeHtml(shiftMeta.value === 'Loading…' ? 'Shift loading…' : (shiftMeta.value === '—' ? 'Shift unavailable' : `Shift ${shiftMeta.value}${shiftMeta.note ? ` (${shiftMeta.note})` : ''}`))}</span>
+              <span class="county-focus-support-scope">${escapeHtml(`${localityScope} result`)}</span>
             </div>
           </div>
         `;
@@ -13765,11 +13827,22 @@ document.addEventListener('DOMContentLoaded', function() {
                   <div class="county-focus-list-item"><span class="county-focus-list-label">Black share</span><span class="county-focus-list-value">${Number(countyDemo.black_pop_pct || 0).toFixed(2)}%</span></div>
                   <div class="county-focus-list-item"><span class="county-focus-list-label">Hispanic share</span><span class="county-focus-list-value">${Number(countyDemo.hispanic_pop_pct || 0).toFixed(2)}%</span></div>
                 </div>
-                <p>Race and ethnicity shares use total population from Census DP1, not VAP-by-race.</p>
+                <p>Shares use Census DP1 (total population).</p>
               </div>
             </div>
           `;
         })();
+
+        const tightenInsightLine = (text, maxChars = 170) => {
+          const raw = String(text || '').trim();
+          if (!raw) return '';
+          const firstSentence = raw.split(/(?<=[.!?])\s+/)[0] || raw;
+          if (firstSentence.length <= maxChars) return firstSentence;
+          return `${firstSentence.slice(0, Math.max(0, maxChars - 1)).trim()}…`;
+        };
+        const whyHeadlineTight = tightenInsightLine(whyBlock?.headline, 150) || String(whyBlock?.headline || '').trim();
+        const whyLineTight = tightenInsightLine(Array.isArray(whyBlock?.lines) ? whyBlock.lines[0] : '', 170);
+        const profileDetailTight = tightenInsightLine(`${trajectoryDetail} ${populationDetail}`, 190);
 
         const deeperContextHtml = `
           <details class="county-detail-collapsible">
@@ -13778,9 +13851,9 @@ document.addEventListener('DOMContentLoaded', function() {
               <div class="county-focus-panel">
                 <div class="county-focus-section-title">Why it votes this way</div>
                 <div class="county-focus-panel-copy">
-                  <p>${escapeHtml(whyBlock.headline)}</p>
+                  <p>${escapeHtml(whyHeadlineTight)}</p>
                   ${whyBlock.lines && whyBlock.lines.length ? `
-                    <p>${escapeHtml(whyBlock.lines[0])}</p>
+                    ${whyLineTight ? `<p>${escapeHtml(whyLineTight)}</p>` : ''}
                     ${whyBlock.lines.length > 1 ? `
                       <details class="county-story-more">
                         <summary>More story notes</summary>
@@ -13804,7 +13877,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <div class="county-focus-list-item"><span class="county-focus-list-label">Contest</span><span class="county-focus-list-value">${escapeHtml(contestLabel)}</span></div>
                 </div>
                 <div class="county-focus-panel-copy">
-                  <p>${escapeHtml(`${trajectoryDetail} ${populationDetail}`)}</p>
+                  <p>${escapeHtml(profileDetailTight || `${trajectoryDetail} ${populationDetail}`)}</p>
                 </div>
               </div>
               <div class="county-focus-panel">
@@ -13886,40 +13959,43 @@ document.addEventListener('DOMContentLoaded', function() {
                   <span class="focus-glance-badge">${escapeHtml(confidenceMeta.label || 'Medium')} confidence</span>
                 </span>
               </div>
-              <div class="focus-glance-headline">${escapeHtml(glanceHeadline)}</div>
-              ${glanceSupport ? `<div class="focus-glance-micro">${escapeHtml(glanceSupport)}</div>` : ''}
+              <div class="focus-glance-summary">${escapeHtml(glanceSentence)}</div>
             </section>
 
-            <div class="county-focus-panel" aria-label="Trend and trajectory">
+            <div class="county-focus-panel county-focus-trend-panel" aria-label="Trend and trajectory">
               <div class="county-focus-section-title">Trend / trajectory</div>
               <div class="county-focus-panel-copy">
-                <p>${escapeHtml(shiftSummary)}</p>
-                ${trendPopBridgeLine ? `<p>${escapeHtml(trendPopBridgeLine)}</p>` : ''}
+                <p>${escapeHtml(trendPopBridgeLine || 'Year-by-year margins for this contest.')}</p>
               </div>
               <div class="county-focus-list">${trendMarkup}</div>
             </div>
 
             ${trajectoryBlock}
 
-            ${censusBlock ? `${censusBlock}${censusCheckHtml}` : `
-              <div class="county-focus-panel" aria-label="Census check">
-                <div class="county-focus-section-title">Census check</div>
-                <div class="county-focus-panel-copy">
-                  <p>Population estimates are unavailable for this locality.</p>
+            <details class="county-detail-collapsible county-focus-extended" aria-label="Extended analysis">
+              <summary>Extended analysis</summary>
+              <div class="county-detail-body">
+                ${censusBlock ? `${censusBlock}${censusCheckHtml}` : `
+                  <div class="county-focus-panel" aria-label="Census check">
+                    <div class="county-focus-section-title">Census check</div>
+                    <div class="county-focus-panel-copy">
+                      <p>Population estimates are unavailable for this locality.</p>
+                    </div>
+                  </div>
+                `}
+
+                ${demographicsHtml}
+
+                ${precinctNonGeoHtml}
+
+                <div class="county-focus-panel" aria-label="What to watch">
+                  <div class="county-focus-section-title">What to watch</div>
+                  <div class="county-focus-panel-copy">
+                    <p>${escapeHtml(watchText)}</p>
+                  </div>
                 </div>
               </div>
-            `}
-
-            ${demographicsHtml}
-
-            ${precinctNonGeoHtml}
-
-            <div class="county-focus-panel" aria-label="What to watch">
-              <div class="county-focus-section-title">What to watch</div>
-              <div class="county-focus-panel-copy">
-                <p>${escapeHtml(watchText)}</p>
-              </div>
-            </div>
+            </details>
           </div>
         `;
       }

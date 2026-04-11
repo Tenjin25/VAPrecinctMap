@@ -3218,7 +3218,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     color: #334155;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -3266,7 +3265,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
     -webkit-box-orient: vertical;
     word-break: break-word;
   }
@@ -3278,7 +3276,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     color: #475569;
     display: -webkit-box;
     -webkit-line-clamp: 3;
-    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -3320,13 +3317,11 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
     -webkit-box-orient: vertical;
   }
 
   .focus-mini-card .v.long-form {
     -webkit-line-clamp: 3;
-    line-clamp: 3;
   }
 
   .focus-mini-card .v.rep { color: #7f1d1d; }
@@ -3945,7 +3940,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   }
 
   .focus-pill-value {
-    line-clamp: 2;
     display: -webkit-box;
     margin-top: 5px;
     font-size: 15px;
@@ -6526,7 +6520,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
     white-space: normal;
     overflow-wrap: anywhere;
     word-break: break-word;
@@ -6862,1684 +6855,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     white-space: nowrap;
   }
 
-  /* Mobile overlay alignment: keep the existing UI, but coordinate the top sheet,
-     bottom docked legend, vote counter, and tooltip like NCMap. */
-  .mobile-overlay-scrim {
-    display: none;
-  }
-
-  @media (max-width: 768px) {
-    :root {
-      --topbar-h: 0px;
-      --mobile-dock-h: 56px;
-      --vote-counter-h: 0px;
-      --mobile-sheet-gap: 10px;
-      --mobile-overlay-edge: 8px;
-    }
-
-    .mobile-overlay-scrim {
-      position: fixed;
-      inset: 0;
-      z-index: 10021;
-      display: block;
-      background: rgba(15, 23, 42, 0.18);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-    }
-
-    body.mobile-overlay-open .mobile-overlay-scrim {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .main-controls {
-      position: fixed;
-      top: calc(var(--safe-top, 0px) + var(--android-vv-top, 0px) + var(--mobile-overlay-edge, 8px)) !important;
-      left: calc(var(--safe-left, 0px) + var(--mobile-overlay-edge, 8px)) !important;
-      right: calc(var(--safe-right, 0px) + var(--mobile-overlay-edge, 8px)) !important;
-      width: auto !important;
-      min-width: 0 !important;
-      max-width: none !important;
-      max-height: min(58vh, 460px) !important;
-      overflow: hidden !important;
-      z-index: 10024 !important;
-      overscroll-behavior: contain;
-      touch-action: pan-y;
-    }
-
-    @supports (height: 100svh) {
-      .main-controls {
-        max-height: min(58svh, 460px) !important;
-      }
-    }
-
-    @supports (height: 100dvh) {
-      .main-controls {
-        max-height: min(58dvh, 460px) !important;
-      }
-    }
-
-    .controls-header {
-      position: sticky;
-      top: 0;
-      z-index: 3;
-      padding-bottom: 10px;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(14px);
-    }
-
-    .controls-content {
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow-y: auto;
-      overflow-x: visible;
-      padding-right: 6px;
-      margin-right: -6px;
-      scrollbar-gutter: stable both-edges;
-      overscroll-behavior: contain;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .main-controls.minimized {
-      width: auto !important;
-      min-width: 214px !important;
-      max-width: calc(100vw - var(--safe-left, 0px) - var(--safe-right, 0px) - 16px) !important;
-      max-height: none !important;
-      padding: 12px 14px !important;
-      border-radius: 16px !important;
-      overflow: visible !important;
-    }
-
-    .main-controls.minimized .controls-header {
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 0;
-      padding-bottom: 0;
-      background: transparent;
-      backdrop-filter: none;
-    }
-
-    .main-controls.minimized .controls-heading {
-      display: flex;
-      min-width: 0;
-    }
-
-    .main-controls.minimized .controls-kicker {
-      display: inline-flex;
-      max-width: 100%;
-      font-size: 10px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .main-controls.minimized .controls-header h3 {
-      display: none;
-    }
-
-    .main-controls.minimized .controls-actions {
-      margin-left: auto;
-    }
-
-    #main-controls .control-group {
-      margin-bottom: 12px !important;
-    }
-
-    #main-controls .view-toggle-btn,
-    #main-controls .region-jump-btn,
-    .viz-modes-inline .viz-mode-btn,
-    .fly-to-submit,
-    #precinct-toggle,
-    #help-btn,
-    #accessibility-toggle,
-    #label-toggle,
-    .minimize-btn,
-    .context-minimize,
-    .context-clear {
-      min-height: 44px !important;
-    }
-
-    #main-controls select,
-    #main-controls input[type="search"],
-    #main-controls input[type="text"] {
-      min-height: 44px;
-      font-size: 16px !important;
-    }
-
-    .legend {
-      position: fixed !important;
-      left: calc(var(--safe-left, 0px) + var(--mobile-overlay-edge, 8px)) !important;
-      right: calc(var(--safe-right, 0px) + var(--mobile-overlay-edge, 8px)) !important;
-      bottom: calc(var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px) + var(--mobile-overlay-edge, 8px)) !important;
-      width: auto !important;
-      max-width: none !important;
-      min-width: 0 !important;
-      max-height: min(46vh, 380px) !important;
-      overflow: hidden !important;
-      z-index: 10025 !important;
-      overscroll-behavior: contain;
-    }
-
-    @supports (height: 100svh) {
-      .legend {
-        max-height: min(46svh, 380px) !important;
-      }
-    }
-
-    @supports (height: 100dvh) {
-      .legend {
-        max-height: min(46dvh, 380px) !important;
-      }
-    }
-
-    .legend-content {
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .legend.minimized {
-      max-height: 62px !important;
-    }
-
-    .legend-header {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-    }
-
-    .vote-counter {
-      left: 50%;
-      right: auto;
-      bottom: calc(var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px) + var(--mobile-dock-h, 56px) + 12px) !important;
-      width: min(94vw, 520px);
-      max-width: 94vw;
-      z-index: 10026 !important;
-    }
-
-    #hover-tooltip {
-      position: fixed !important;
-      left: calc(var(--safe-left, 0px) + var(--mobile-overlay-edge, 8px)) !important;
-      right: calc(var(--safe-right, 0px) + var(--mobile-overlay-edge, 8px)) !important;
-      top: auto !important;
-      bottom: calc(var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px) + var(--mobile-dock-h, 56px) + var(--vote-counter-h, 0px) + 18px) !important;
-      width: auto !important;
-      max-width: none !important;
-      max-height: min(54vh, calc(var(--app-height, 100vh) - var(--safe-top, 0px) - var(--android-vv-top, 0px) - var(--topbar-h, 0px) - var(--mobile-dock-h, 56px) - var(--vote-counter-h, 0px) - 42px)) !important;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-      touch-action: pan-y;
-      z-index: 10027 !important;
-    }
-
-    @supports (height: 100svh) {
-      #hover-tooltip {
-        max-height: min(54svh, calc(100svh - var(--safe-top, 0px) - var(--android-vv-top, 0px) - var(--topbar-h, 0px) - var(--mobile-dock-h, 56px) - var(--vote-counter-h, 0px) - 42px)) !important;
-      }
-    }
-
-    @supports (height: 100dvh) {
-      #hover-tooltip {
-        max-height: min(54dvh, calc(100dvh - var(--safe-top, 0px) - var(--android-vv-top, 0px) - var(--topbar-h, 0px) - var(--mobile-dock-h, 56px) - var(--vote-counter-h, 0px) - 42px)) !important;
-      }
-    }
-
-    #status-panel {
-      top: auto !important;
-      left: calc(var(--safe-left, 0px) + 12px) !important;
-      right: calc(var(--safe-right, 0px) + 12px) !important;
-      bottom: calc(var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px) + var(--mobile-dock-h, 56px) + var(--vote-counter-h, 0px) + 26px) !important;
-      max-width: none !important;
-      z-index: 10028 !important;
-    }
-
-    body.mobile-overlay-open .vote-counter,
-    body.mobile-overlay-open #hover-tooltip,
-    body.mobile-overlay-open #status-panel,
-    body.mobile-overlay-open .viz-modes {
-      opacity: 0.18;
-      pointer-events: none;
-      transform: translateY(6px) !important;
-    }
-  }
-
-  /* NCMap desktop shell alignment: desktop-only overlay architecture. */
-  @media (min-width: 769px) {
-    :root {
-      --desktop-left-w: 440px;
-      --desktop-right-w: 332px;
-    }
-
-    .main-controls {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      right: auto;
-      width: min(var(--desktop-left-w), calc(100vw - 40px));
-      min-width: 0;
-      max-width: var(--desktop-left-w);
-      max-height: none !important;
-      padding: 16px;
-      overflow: visible !important;
-      z-index: 1003;
-    }
-
-    .controls-content {
-      max-height: 70vh;
-      overflow-y: auto;
-      overflow-x: visible;
-      padding-right: 10px;
-      margin-right: -10px;
-    }
-
-    .main-controls.minimized {
-      top: 20px;
-      left: 20px;
-      width: auto;
-      min-width: 148px;
-      max-width: calc(100vw - 40px);
-      max-height: none;
-      overflow: visible;
-      padding: 10px 12px;
-      border-radius: 999px;
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
-    }
-
-    .controls-header {
-      margin-bottom: 12px;
-    }
-
-    .control-group {
-      margin-bottom: 12px;
-    }
-
-    .view-toggle-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-height: 42px;
-      padding: 8px 10px;
-    }
-
-    .legend {
-      position: fixed;
-      left: auto;
-      right: 20px;
-      bottom: 20px;
-      width: min(var(--desktop-left-w), calc(100vw - 40px));
-      min-width: 250px;
-      max-width: min(var(--desktop-left-w), calc(100vw - 40px));
-      max-height: min(44vh, 420px);
-      overflow-y: auto;
-      border-radius: 20px;
-      background: rgba(248, 250, 252, 0.92);
-      z-index: 1002;
-    }
-
-    .legend-header {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      gap: 12px;
-      align-items: flex-start;
-      padding: 14px 18px;
-      border-bottom: none;
-      background: rgba(248, 250, 252, 0.96);
-    }
-
-    .legend-header-main {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-width: 0;
-      flex: 1 1 auto;
-    }
-
-    .legend-copy {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      min-width: 0;
-    }
-
-    .legend-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 30px;
-      padding: 0 10px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, rgba(220, 38, 38, 0.10) 0%, rgba(37, 99, 235, 0.12) 100%);
-      color: #1e3a8a;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-    }
-
-    .legend-content {
-      display: grid;
-      gap: 12px;
-      padding: 14px 18px;
-    }
-
-    .legend-item {
-      margin-bottom: 8px;
-      font-size: 13px;
-      line-height: normal;
-      white-space: normal;
-    }
-
-    .legend-footer {
-      padding: 10px 16px 16px;
-      border-top: 1px solid rgba(148, 163, 184, 0.16);
-    }
-
-    .legend.minimized {
-      width: auto;
-      left: auto;
-      right: 20px;
-      max-width: calc(100vw - 40px);
-      max-height: none;
-      overflow: visible;
-    }
-
-    .legend.minimized .legend-header {
-      position: relative;
-      top: auto;
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
-    }
-
-    .viz-modes {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      left: auto;
-      transform: none;
-      width: min(var(--desktop-right-w), calc(100vw - 40px));
-      padding: 10px;
-      gap: 8px;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      z-index: 1004;
-    }
-
-    .viz-mode-btn {
-      flex: 1 1 calc(50% - 6px);
-      min-width: 0;
-      min-height: 48px;
-      padding: 10px 12px;
-      text-align: center;
-    }
-
-    .viz-mode-btn.active::after {
-      display: none;
-    }
-
-    .vote-counter {
-      position: fixed;
-      top: 114px;
-      right: 20px;
-      left: auto;
-      transform: none;
-      width: min(var(--desktop-right-w), calc(100vw - 40px));
-      min-width: 286px;
-      max-width: var(--desktop-right-w);
-      max-height: min(56vh, 560px);
-      padding: 16px 16px 14px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.94);
-      box-shadow: 0 18px 44px rgba(15, 23, 42, 0.18);
-      overflow: hidden;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      z-index: 1003;
-    }
-
-    .vote-counter::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--state-ribbon);
-    }
-
-    .atlas-credit-bar {
-      left: 50%;
-      bottom: 10px;
-      transform: translateX(-50%);
-      z-index: 1001;
-    }
-  }
-
-    /* NCMap-aligned shell overrides: keep existing VA controls/cards, but move them
-       into the same desktop/mobile container system as NCMap. */
-    .map-topbar {
-      display: none;
-    }
-
-    .mobile-sheet-scrim,
-    .mobile-dock {
-      display: none;
-    }
-
-    .mobile-sheet-grab {
-      display: none;
-    }
-
-    @media (min-width: 769px) {
-      .desktop-ui-left,
-      .desktop-ui-right {
-        position: fixed;
-        top: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        z-index: 1003;
-        pointer-events: none;
-      }
-
-      .desktop-ui-left {
-        left: 20px;
-        width: min(var(--desktop-left-w), calc(100vw - 40px));
-      }
-
-      .desktop-ui-right {
-        right: 20px;
-        width: min(var(--desktop-right-w), calc(100vw - 40px));
-      }
-
-      .desktop-ui-left > *,
-      .desktop-ui-right > * {
-        pointer-events: auto;
-      }
-
-      .map-topbar {
-        display: block;
-        position: relative;
-        width: 100%;
-        min-height: 132px;
-        padding: 14px;
-        border-radius: 18px;
-        background: rgba(15, 23, 42, 0.82);
-        color: #f8fafc;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 20px 52px rgba(15, 23, 42, 0.28);
-        backdrop-filter: blur(18px);
-        z-index: 1004;
-      }
-
-      .desktop-ui-left .main-controls,
-      .desktop-ui-left .legend,
-      .desktop-ui-right .viz-modes,
-      .desktop-ui-right .vote-counter {
-        position: relative !important;
-        top: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        left: auto !important;
-        transform: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
-      }
-
-      .desktop-ui-left .legend {
-        max-height: max(180px, calc(100vh - 220px));
-        overflow-y: auto;
-      }
-
-      .desktop-ui-right .viz-modes {
-        padding: 10px;
-        gap: 8px;
-        justify-content: space-between;
-        flex-wrap: wrap;
-      }
-
-      .desktop-ui-right .vote-counter {
-        max-height: min(56vh, 560px);
-      }
-    }
-
-    .map-topbar-meta {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .map-topbar-badge {
-      flex: 0 0 auto;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, rgba(220, 38, 38, 0.24) 0%, rgba(37, 99, 235, 0.22) 100%);
-      color: #e2e8f0;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .map-topbar-badge .badge-state-name {
-      color: #93c5fd;
-    }
-
-    .map-topbar-badge .badge-atlas-name {
-      color: #fecaca;
-    }
-
-    .map-topbar-copy {
-      min-width: 0;
-    }
-
-    .map-topbar-copy strong {
-      display: block;
-      font-size: 14px;
-      font-weight: 800;
-      line-height: 1.2;
-    }
-
-    .map-topbar-copy span {
-      display: block;
-      margin-top: 4px;
-      font-size: 12px;
-      line-height: 1.35;
-      color: rgba(248, 250, 252, 0.78);
-    }
-
-    .fly-search-bar {
-      display: flex;
-      align-items: stretch;
-      gap: 10px;
-    }
-
-    .map-topbar .fly-search-field {
-      position: relative;
-      display: flex;
-      align-items: center;
-      flex: 1 1 auto;
-      min-width: 0;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.96);
-      border: 1px solid rgba(148, 163, 184, 0.32);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
-    }
-
-    .map-topbar .fly-search-field:focus-within {
-      border-color: rgba(37, 99, 235, 0.68);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.16), 0 0 0 7px rgba(220, 38, 38, 0.08);
-    }
-
-    .fly-search-icon {
-      flex: 0 0 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #475569;
-      margin-left: 4px;
-    }
-
-    .map-topbar input[type="search"],
-    .map-topbar input[type="text"] {
-      width: 100%;
-      min-width: 0;
-      padding: 13px 8px 13px 0;
-      border: none;
-      border-radius: 0;
-      background: transparent;
-      box-shadow: none;
-      color: #0f172a;
-      font-size: 14px;
-    }
-
-    .fly-search-clear {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 34px;
-      margin-right: 6px;
-      border: none;
-      border-radius: 50%;
-      background: rgba(148, 163, 184, 0.16);
-      color: #334155;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    .fly-search-clear.visible {
-      display: inline-flex;
-    }
-
-    .fly-search-submit {
-      flex: 0 0 auto;
-      padding: 0 16px;
-      border: none;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #1d4ed8 0%, #dc2626 100%);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      white-space: nowrap;
-      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22), 0 4px 14px rgba(220, 38, 38, 0.18);
-    }
-
-    .map-topbar-quick-stats {
-      margin-top: 10px;
-      font-size: 12px;
-      font-weight: 700;
-      color: rgba(226, 232, 240, 0.9);
-    }
-
-    .mobile-topbar-toggle {
-      display: none;
-    }
-
-    .map-topbar-hints {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .map-topbar-hints::-webkit-scrollbar {
-      display: none;
-    }
-
-    .fly-search-chip {
-      flex: 0 0 auto;
-      min-height: 34px;
-      padding: 0 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.26);
-      background: rgba(255, 255, 255, 0.1);
-      color: #f8fafc;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .context-banner {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .context-banner-item {
-      min-width: 0;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .context-banner-label {
-      display: block;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(226, 232, 240, 0.68);
-    }
-
-    .context-banner-value {
-      display: block;
-      margin-top: 4px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    @media (max-width: 768px) {
-      .mobile-overlay-scrim {
-        display: none !important;
-      }
-
-      .desktop-ui-left,
-      .desktop-ui-right {
-        display: contents;
-      }
-
-      .map-topbar {
-        position: fixed;
-        top: calc(var(--safe-top, 0px) + var(--android-vv-top, 0px) + 8px);
-        left: 8px;
-        right: 8px;
-        z-index: 10024;
-        display: block;
-        padding: 12px;
-        border-radius: 18px;
-        background: rgba(15, 23, 42, 0.84);
-        color: #f8fafc;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 18px 44px rgba(15, 23, 42, 0.24);
-        backdrop-filter: blur(18px);
-      }
-
-      .map-topbar .map-topbar-copy span,
-      .map-topbar .map-topbar-details {
-        display: none;
-      }
-
-      .mobile-topbar-toggle {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 38px;
-        margin-top: 10px;
-        padding: 0 12px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
-        font-size: 12px;
-        font-weight: 800;
-      }
-
-      .map-topbar.topbar-expanded .map-topbar-copy span,
-      .map-topbar.topbar-expanded .map-topbar-details {
-        display: block;
-      }
-
-      .fly-search-bar {
-        flex-direction: column;
-      }
-
-      .context-banner {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .mobile-sheet-scrim {
-        position: fixed;
-        inset: 0;
-        z-index: 10019;
-        display: block;
-        background: rgba(15, 23, 42, 0.2);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
-      }
-
-      body.mobile-sheet-open .mobile-sheet-scrim,
-      body.mobile-overlay-open .mobile-sheet-scrim {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      .mobile-dock {
-        position: fixed;
-        left: 8px;
-        right: 8px;
-        bottom: calc(8px + var(--safe-bottom, 0px));
-        z-index: 10030;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 8px;
-        padding: 8px;
-        border-radius: 16px;
-        border: 1px solid rgba(15, 23, 42, 0.12);
-        background: rgba(255, 255, 255, 0.94);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
-      }
-
-      .mobile-dock-btn {
-        min-height: 44px;
-        border: 1px solid rgba(148, 163, 184, 0.25);
-        border-radius: 12px;
-        background: rgba(248, 250, 252, 0.92);
-        color: #0f172a;
-        font-size: 13px;
-        font-weight: 800;
-        cursor: pointer;
-      }
-
-      .mobile-dock-btn[aria-pressed="true"] {
-        background: linear-gradient(135deg, #1d4ed8 0%, #dc2626 100%);
-        color: #fff;
-        border-color: rgba(29, 78, 216, 0.8);
-        box-shadow: 0 8px 16px rgba(37, 99, 235, 0.22), 0 4px 12px rgba(220, 38, 38, 0.16);
-      }
-
-      .mobile-sheet-panel {
-        position: fixed !important;
-        top: auto !important;
-        left: 8px !important;
-        right: 8px !important;
-        bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + var(--mobile-sheet-gap, 10px)) !important;
-        width: auto !important;
-        max-width: none !important;
-        transform: translateY(calc(100% + 28px));
-        opacity: 0;
-        pointer-events: none;
-        z-index: 10020 !important;
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
-        transition: transform 0.22s ease, opacity 0.2s ease, max-height 0.2s ease;
-      }
-
-      .mobile-sheet-grab {
-        position: sticky;
-        top: 0;
-        z-index: 2;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        margin: -2px auto 6px;
-        padding: 6px 0 4px;
-        border: 0;
-        background: transparent;
-        cursor: pointer;
-        touch-action: none;
-      }
-
-      .mobile-sheet-grab::before {
-        content: '';
-        width: 42px;
-        height: 5px;
-        border-radius: 999px;
-        background: rgba(100, 116, 139, 0.58);
-        box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
-      }
-
-      .mobile-sheet-grab.is-dragging::before {
-        background: rgba(30, 64, 175, 0.66);
-        box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.14), 0 1px 0 rgba(30, 64, 175, 0.35);
-      }
-
-      .mobile-sheet-grab:focus-visible {
-        outline: 2px solid #1d4ed8;
-        outline-offset: 2px;
-        border-radius: 12px;
-      }
-
-      .mobile-sheet-panel.mobile-sheet-active {
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      .mobile-sheet-panel[data-mobile-snap="half"] {
-        max-height: min(56vh, 460px) !important;
-      }
-
-      .mobile-sheet-panel[data-mobile-snap="full"] {
-        max-height: min(84vh, 760px) !important;
-      }
-
-      .mobile-sheet-panel[data-mobile-snap="collapsed"] {
-        max-height: 58px !important;
-        overflow: hidden !important;
-      }
-
-      .map-topbar.mobile-sheet-panel .mobile-topbar-toggle {
-        display: none !important;
-      }
-
-      .map-topbar.mobile-sheet-panel .map-topbar-details {
-        display: block !important;
-      }
-
-      .map-topbar.mobile-sheet-panel[data-mobile-snap="collapsed"] .map-topbar-copy span,
-      .map-topbar.mobile-sheet-panel[data-mobile-snap="collapsed"] .map-topbar-details {
-        display: none !important;
-      }
-
-      body.mobile-sheet-open .vote-counter,
-      body.mobile-sheet-open #hover-tooltip,
-      body.mobile-sheet-open #status-panel,
-      body.mobile-sheet-open .viz-modes,
-      body.mobile-overlay-open .vote-counter,
-      body.mobile-overlay-open #hover-tooltip,
-      body.mobile-overlay-open #status-panel,
-      body.mobile-overlay-open .viz-modes {
-        opacity: 0.18;
-        pointer-events: none;
-        transform: translateY(6px) !important;
-      }
-
-      body.mobile-input-active .vote-counter,
-      body.mobile-input-active #hover-tooltip {
-        opacity: 0;
-        pointer-events: none;
-        transform: translateY(8px) !important;
-      }
-    }
-
-    /* Treat fine-pointer desktop devices as desktop shell even in narrow browser panes. */
-    @media (hover: hover) and (pointer: fine) {
-      .desktop-ui-left,
-      .desktop-ui-right {
-        position: fixed;
-        top: 20px;
-        display: flex !important;
-        flex-direction: column;
-        gap: 14px;
-        z-index: 1003;
-        pointer-events: none;
-      }
-
-      .desktop-ui-left {
-        left: 24px !important;
-        width: min(var(--desktop-left-w), calc(100vw - 48px)) !important;
-      }
-
-      .desktop-ui-right {
-        right: 24px !important;
-        width: min(var(--desktop-right-w), calc(100vw - 48px)) !important;
-      }
-
-      .desktop-ui-left > *,
-      .desktop-ui-right > * {
-        pointer-events: auto;
-      }
-
-      .mobile-dock,
-      .mobile-sheet-scrim {
-        display: none !important;
-      }
-
-      .mobile-sheet-panel {
-        position: relative !important;
-        left: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        transform: none !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        max-height: none !important;
-        overflow: visible !important;
-      }
-
-      .map-topbar .mobile-topbar-toggle {
-        display: none !important;
-      }
-
-      .map-topbar {
-        display: block !important;
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        width: 100% !important;
-      }
-
-      .map-topbar .map-topbar-copy span,
-      .map-topbar .map-topbar-details {
-        display: block !important;
-      }
-
-      body.mobile-sheet-open,
-      body.mobile-overlay-open {
-        overflow: hidden;
-      }
-
-      body.mobile-sheet-open .vote-counter,
-      body.mobile-sheet-open #hover-tooltip,
-      body.mobile-sheet-open #status-panel,
-      body.mobile-sheet-open .viz-modes,
-      body.mobile-overlay-open .vote-counter,
-      body.mobile-overlay-open #hover-tooltip,
-      body.mobile-overlay-open #status-panel,
-      body.mobile-overlay-open .viz-modes {
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        transform: none !important;
-      }
-
-      .desktop-ui-left .main-controls,
-      .desktop-ui-left .legend,
-      .desktop-ui-right .viz-modes,
-      .desktop-ui-right .vote-counter {
-        position: relative !important;
-        top: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        left: auto !important;
-        transform: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
-      }
-    }
-
-    @media (min-width: 769px) {
-      :root {
-        --topbar-h: 0px;
-        --desktop-left-w: 500px;
-        --desktop-right-w: 340px;
-        --desktop-right-gap: 14px;
-        --desktop-vote-counter-h: 0px;
-      }
-
-      .map-topbar {
-        display: none !important;
-      }
-
-      .desktop-ui-left {
-        width: min(var(--desktop-left-w), calc(100vw - 48px));
-        left: 24px;
-      }
-
-      .desktop-ui-right {
-        width: min(var(--desktop-right-w), calc(100vw - 48px));
-        right: 24px;
-      }
-
-      .main-controls {
-        top: 20px !important;
-        left: 24px !important;
-        width: min(var(--desktop-left-w), calc(100vw - 48px)) !important;
-        max-width: var(--desktop-left-w) !important;
-        max-height: calc(100vh - 40px) !important;
-        padding: 16px !important;
-        border-radius: 22px;
-      }
-
-      .main-controls.minimized {
-        top: 20px !important;
-        left: 24px !important;
-        min-width: 252px !important;
-        max-width: 296px !important;
-        padding: 12px 14px !important;
-        border-radius: 16px !important;
-      }
-
-      .main-controls.minimized .controls-header {
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 0;
-        padding-bottom: 0;
-        background: transparent;
-        backdrop-filter: none;
-      }
-
-      .main-controls.minimized .controls-heading {
-        display: none;
-      }
-
-      .main-controls.minimized .controls-kicker {
-        display: inline-flex !important;
-        max-width: 100%;
-        font-size: 10px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .main-controls.minimized .controls-header h3 {
-        display: none;
-      }
-
-      .main-controls.minimized .controls-actions {
-        width: 100%;
-        justify-content: space-between;
-        gap: 12px;
-      }
-
-      .main-controls.minimized .controls-collapsed-label {
-        display: inline-flex;
-        flex: 1 1 auto;
-        min-width: 0;
-      }
-
-      .controls-content {
-        padding-right: 6px;
-        margin-right: -6px;
-        gap: 12px;
-      }
-
-      .desktop-fly-group {
-        display: grid;
-        gap: 10px;
-        padding: 14px 14px 16px !important;
-        background: linear-gradient(180deg, rgba(239, 246, 255, 0.94) 0%, rgba(248, 250, 252, 0.92) 100%) !important;
-        border-color: rgba(96, 165, 250, 0.24) !important;
-      }
-
-      .desktop-fly-search-wrap {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        gap: 10px;
-        align-items: center;
-      }
-
-      .desktop-fly-search-field {
-        min-width: 0;
-      }
-
-      #desktop-fly-search {
-        width: 100%;
-        min-height: 48px;
-        padding: 0 14px;
-        border-radius: 14px;
-        border: 1px solid rgba(148, 163, 184, 0.22);
-        background: rgba(255, 255, 255, 0.98);
-        color: #0f172a;
-        font-size: 14px;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
-      }
-
-      #desktop-fly-search:focus {
-        outline: none;
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-      }
-
-      .desktop-fly-submit {
-        min-width: 78px;
-        min-height: 48px;
-        padding: 0 16px;
-        border: none;
-        border-radius: 14px;
-        background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-        color: #fff;
-        font-size: 14px;
-        font-weight: 800;
-        cursor: pointer;
-        box-shadow: 0 12px 24px rgba(37, 99, 235, 0.20);
-      }
-
-      .desktop-fly-helper {
-        font-size: 12px;
-        line-height: 1.45;
-        color: #475569;
-      }
-
-      .desktop-quick-stats {
-        padding: 8px 10px;
-        border-radius: 10px;
-        border: 1px solid rgba(96, 165, 250, 0.38);
-        background: rgba(219, 234, 254, 0.66);
-        color: #1e3a8a;
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 1.3;
-      }
-
-      .desktop-fly-chip-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .desktop-fly-chip {
-        border: 1px solid rgba(15, 23, 42, 0.10);
-        background: rgba(255, 255, 255, 0.94);
-        color: #0f172a;
-        border-radius: 999px;
-        padding: 8px 12px;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.01em;
-        cursor: pointer;
-        transition: background 0.2s ease, border-color 0.2s ease;
-      }
-
-      .desktop-fly-chip:hover {
-        background: #eff6ff;
-        border-color: rgba(37, 99, 235, 0.26);
-      }
-
-      .viz-modes {
-        display: none !important;
-      }
-
-      .viz-inline-group {
-        display: block;
-      }
-
-      .viz-modes-inline {
-        display: grid !important;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-        overflow: visible;
-      }
-
-      .viz-modes-inline .viz-mode-btn {
-        min-width: 0 !important;
-        min-height: 46px;
-        padding: 10px 14px !important;
-        white-space: nowrap;
-      }
-
-      .vote-counter {
-        top: 20px !important;
-        right: 24px !important;
-        width: min(var(--desktop-right-w), calc(100vw - 48px)) !important;
-        max-width: var(--desktop-right-w) !important;
-        min-width: 0 !important;
-        max-height: min(58vh, 620px) !important;
-        overflow-x: hidden;
-        overflow-y: auto;
-        scrollbar-gutter: stable;
-      }
-
-      .legend {
-        right: 24px !important;
-        top: calc(20px + var(--desktop-vote-counter-h) + var(--desktop-right-gap)) !important;
-        bottom: auto !important;
-        width: min(var(--desktop-right-w), calc(100vw - 48px)) !important;
-        max-width: var(--desktop-right-w) !important;
-        min-width: 0 !important;
-        max-height: max(180px, calc(100vh - 40px - var(--desktop-vote-counter-h) - var(--desktop-right-gap))) !important;
-        overflow-y: auto;
-      }
-
-      .legend-header {
-        padding: 14px 16px 12px !important;
-      }
-
-      .desktop-statewide-panel .statewide-call {
-        font-size: clamp(30px, 2.5vw, 38px);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .map-topbar,
-      .main-controls,
-      .legend,
-      .vote-counter,
-      #status-panel {
-        left: 8px !important;
-        right: 8px !important;
-        width: auto !important;
-        max-width: none !important;
-      }
-
-      .main-controls,
-      .legend,
-      .vote-counter {
-        overscroll-behavior: contain;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      #main-controls button,
-      #main-controls .view-toggle-btn,
-      #main-controls .region-jump-btn,
-      #main-controls select,
-      #main-controls input[type="search"],
-      #main-controls input[type="text"],
-      .map-topbar .fly-search-submit,
-      .map-topbar .mobile-topbar-toggle,
-      .legend .minimize-btn,
-      .vote-counter-context .context-minimize,
-      .vote-counter-context .context-clear {
-        min-height: 44px !important;
-      }
-
-      .contest-toolbar {
-        display: grid !important;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px !important;
-        align-items: stretch !important;
-      }
-
-      .contest-toolbar label {
-        grid-column: 1 / -1;
-        margin: 0 !important;
-      }
-
-      #precinct-toggle {
-        grid-column: 1 / -1;
-        width: 100%;
-      }
-
-      .contest-toolbar .tool-chip-btn,
-      .contest-toolbar .tool-chip-select {
-        width: 100%;
-        min-width: 0 !important;
-        justify-content: center;
-      }
-
-      .contest-toolbar .tool-chip-btn {
-        min-height: 40px;
-        font-size: 12px;
-        padding: 0 10px;
-      }
-
-      .contest-toolbar .tool-chip-select {
-        min-height: 40px;
-        font-size: 14px;
-        padding: 0 34px 0 12px;
-      }
-
-      #snapshot-variant {
-        grid-column: 1 / -1;
-        min-width: 0 !important;
-      }
-
-      .controls-subtitle,
-      .desktop-fly-helper,
-      .desktop-quick-stats,
-      .desktop-statewide-sub,
-      .controls-panel-note {
-        display: none !important;
-      }
-
-      .desktop-fly-chip-row {
-        display: grid !important;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 6px;
-      }
-
-      .desktop-fly-chip {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .map-topbar.mobile-sheet-panel .map-topbar-hints {
-        display: grid !important;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-        overflow: visible;
-        margin-top: 10px;
-      }
-
-      .map-topbar.mobile-sheet-panel .fly-search-chip {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-
-    .contest-onboard-hint {
-      margin-top: 8px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(37, 99, 235, 0.18);
-      background: rgba(37, 99, 235, 0.06);
-      color: #334155;
-      font-size: 12px;
-      font-weight: 650;
-      line-height: 1.35;
-      display: flex;
-      gap: 10px;
-      align-items: baseline;
-    }
-
-    .contest-onboard-kicker {
-      flex: 0 0 auto;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(37, 99, 235, 0.92);
-    }
-
-    .contest-onboard-copy {
-      color: #475569;
-    }
-
-    .smart-insights-inline {
-      margin-top: 8px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(45, 212, 191, 0.26);
-      background: rgba(15, 118, 110, 0.10);
-      color: #0f172a;
-      font-size: 12px;
-      font-weight: 650;
-      line-height: 1.35;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .smart-insights-inline-copy {
-      color: #334155;
-    }
-
-    .smart-insights-inline-close {
-      flex: 0 0 auto;
-      min-height: 30px;
-      padding: 0 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(45, 212, 191, 0.30);
-      background: #0f766e;
-      color: #ffffff;
-      font-size: 11px;
-      font-weight: 850;
-      cursor: pointer;
-    }
-
-    .contest-loading-indicator {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      background: rgba(15, 23, 42, 0.03);
-      color: #475569;
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1.25;
-    }
-
-    .contest-toolbar {
-      display: grid;
-      gap: 10px;
-    }
-
-    .contest-tools-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .contest-tools-more {
-      width: 100%;
-    }
-
-    .contest-tools-more > summary {
-      list-style: none;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .contest-tools-more > summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .contest-tools-more[open] .contest-tools-row-more {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(148, 163, 184, 0.16);
-    }
-
-    .tool-chip-btn {
-      background: #0f766e;
-      color: #ffffff;
-      border-radius: 8px;
-      height: 32px;
-      border: none;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
-      font-size: 11px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-weight: 800;
-      letter-spacing: 0.01em;
-      padding: 0 10px;
-    }
-
-    .tool-chip-btn.tool-chip-btn-ghost {
-      background: #155e75;
-    }
-
-    .tool-chip-btn.tool-chip-btn-muted {
-      background: #334155;
-    }
-
-    .tool-chip-select {
-      height: 38px;
-      min-width: 168px;
-      border-radius: 8px;
-      border: 1px solid rgba(148, 163, 184, 0.72);
-      background: #0b6a63;
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1.25;
-      letter-spacing: 0.005em;
-      padding: 0 38px 0 14px;
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-    }
-
-    .controls-disclosure-summary {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-      cursor: pointer;
-      user-select: none;
-      list-style: none;
-    }
-
-    .controls-disclosure-summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .controls-disclosure-hint {
-      color: #64748b;
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 1.25;
-      text-align: right;
-      max-width: 56%;
-    }
-
-    .controls-disclosure > .controls-disclosure-summary::after {
-      content: '▾';
-      color: #64748b;
-      font-size: 12px;
-      font-weight: 900;
-      flex: 0 0 auto;
-      margin-left: 6px;
-      transform: translateY(-1px) rotate(-90deg);
-      transition: transform 140ms ease, color 140ms ease;
-    }
-
-    .controls-disclosure[open] > .controls-disclosure-summary::after {
-      transform: translateY(-1px) rotate(0deg);
-      color: #334155;
-    }
-
-    .control-group-scenario,
-    .control-group-analytics {
-      margin-bottom: 10px;
-    }
-
-    .scenario-row {
-      display: grid;
-      grid-template-columns: 74px 1fr auto;
-      gap: 8px;
-      align-items: center;
-      margin-top: 6px;
-    }
-
-    .scenario-row label {
-      font-size: 12px;
-      color: #334155;
-      font-weight: 700;
-    }
-
-    .scenario-row-actions {
-      grid-template-columns: 74px 1fr auto;
-      margin-top: 4px;
-    }
-
-    .scenario-row-actions .tool-chip-btn {
-      justify-self: start;
-      height: 30px;
-      font-size: 10px;
-      padding: 0 10px;
-    }
-
-    #scenario-scope,
-    #overlay-opacity-preset {
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.55);
-      background: #ffffff;
-      color: #0f172a;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 6px 8px;
-    }
-
-    .scenario-value {
-      min-width: 44px;
-      text-align: right;
-      color: #0f172a;
-      font-size: 12px;
-      font-weight: 800;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .scenario-toggle {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      margin-top: 8px;
-      font-size: 12px;
-      color: #334155;
-      font-weight: 700;
-    }
-
-    .analytics-card {
-      margin-top: 8px;
-      border: 1px solid rgba(148, 163, 184, 0.38);
-      border-radius: 12px;
-      background: rgba(248, 250, 252, 0.92);
-      padding: 10px 11px;
-    }
-
-    .analytics-card-title {
-      font-size: 12px;
-      font-weight: 800;
-      color: #0f172a;
-      margin-bottom: 4px;
-      letter-spacing: 0.01em;
-    }
-
-    .analytics-card-body {
-      font-size: 12px;
-      color: #334155;
-      line-height: 1.4;
-    }
-
-    .district-lines-loading-hint {
-      min-height: 0;
-      margin-top: 6px;
-      font-size: 11px;
-      line-height: 1.35;
-      color: #64748b;
-    }
-
-    .district-lines-loading-hint.is-visible {
-      min-height: 16px;
-    }
-
     </style>
 </head>
 <body>
@@ -8694,10 +7009,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <div id="map"></div>
-  <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-  <div class="mobile-sheet-scrim" id="mobile-sheet-scrim" aria-hidden="true"></div>
 
-  <div class="desktop-ui-right">
   <!-- Visualization Mode Tabs - VoteHub Style -->
   <div class="viz-modes" id="viz-modes">
     <button class="viz-mode-btn active" data-mode="margins" id="mode-margins">
@@ -8800,61 +7112,6 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
   </div>
-  </div>
-
-  <div class="desktop-ui-left">
-  <div class="map-topbar" id="map-topbar">
-    <div class="map-topbar-meta">
-      <div class="map-topbar-badge"><span class="badge-state-name">Virginia</span> <span class="badge-atlas-name">Commonwealth Explorer</span></div>
-      <div class="map-topbar-copy">
-        <strong>Fly to a locality, district, or precinct</strong>
-        <span>Try Fairfax County, VA-10, VA HD-57, VA SD-31, or Lynchburg City 101.</span>
-      </div>
-    </div>
-    <form class="fly-search-bar" id="fly-search-form" role="search">
-      <label class="sr-only" for="county-search">Fly to locality, district, or precinct</label>
-      <div class="fly-search-field">
-        <span class="fly-search-icon" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"></circle>
-            <path d="M16 16L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
-          </svg>
-        </span>
-        <input type="search" id="county-search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31..." autocomplete="off" spellcheck="false" />
-        <button type="button" class="fly-search-clear" id="fly-search-clear" aria-label="Clear search">x</button>
-      </div>
-      <button type="submit" class="fly-search-submit">Fly to</button>
-    </form>
-    <div class="map-topbar-quick-stats" data-viewport-precinct-count>Jump anywhere without changing the selected contest.</div>
-    <button type="button" class="mobile-topbar-toggle" id="mobile-topbar-toggle" aria-controls="map-topbar-details" aria-expanded="false">Show details</button>
-    <div class="map-topbar-details" id="map-topbar-details">
-      <div class="map-topbar-hints" aria-label="Search examples">
-        <button type="button" class="fly-search-chip" data-search-example="Fairfax County">Fairfax County</button>
-        <button type="button" class="fly-search-chip" data-search-example="VA-10">VA-10</button>
-        <button type="button" class="fly-search-chip" data-search-example="VA HD-57">VA HD-57</button>
-        <button type="button" class="fly-search-chip" data-search-example="VA SD-31">VA SD-31</button>
-        <button type="button" class="fly-search-chip" data-search-example="Lynchburg City 101">Lynchburg City 101</button>
-      </div>
-      <div class="context-banner" id="context-banner" aria-label="Current map state">
-        <div class="context-banner-item">
-          <span class="context-banner-label">View</span>
-          <span class="context-banner-value" id="context-view">Counties</span>
-        </div>
-        <div class="context-banner-item">
-          <span class="context-banner-label">Mode</span>
-          <span class="context-banner-value" id="context-mode">Margins</span>
-        </div>
-        <div class="context-banner-item">
-          <span class="context-banner-label">Contest</span>
-          <span class="context-banner-value" id="context-contest">Choose a contest</span>
-        </div>
-        <div class="context-banner-item">
-          <span class="context-banner-label">Focus</span>
-          <span class="context-banner-value" id="context-focus">Statewide</span>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Sidebar for County Details and Analysis (single instance only) -->
     <div class="sidebar minimized" id="sidebar">
@@ -8876,8 +7133,8 @@ document.addEventListener('DOMContentLoaded', function() {
         <details class="sidebar-panel" id="panel-search">
           <summary>Search</summary>
           <div style="margin-top: 10px;">
-            <label for="sidebar-county-search" style="font-weight:600;">Find</label>
-            <input type="text" id="sidebar-county-search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg City 101" autocomplete="off" spellcheck="false" inputmode="search" />
+            <label for="county-search" style="font-weight:600;">Find</label>
+            <input type="text" id="county-search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg City 101" autocomplete="off" spellcheck="false" inputmode="search" />
             <div style="margin-top:6px;font-size:12px;color:#64748b;">
               Tips: use <span style="font-weight:700;">VA-10</span> for Congress, <span style="font-weight:700;">VA HD-57</span> for House, <span style="font-weight:700;">VA SD-31</span> for Senate.
             </div>
@@ -8913,85 +7170,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <!-- Main Controls Dropdown (Contest Selector) -->
     <div class="main-controls" id="main-controls">
-        <div class="controls-header">
+        <div class="controls-header" style="display:flex;align-items:center;justify-content:space-between;">
             <div class="controls-heading">
-              <span class="controls-kicker">Atlas controls</span>
-              <h3 class="controls-title-pill">Virginia Election Atlas</h3>
-              <p class="controls-subtitle">Switch layers, jump to major regions, and compare contests without leaving the map.</p>
+              <span class="controls-kicker">The Commonwealth Explorer</span>
+              <h3 class="controls-title-pill">Virginia Elections</h3>
             </div>
             <div class="controls-actions">
-              <span class="controls-collapsed-label">Virginia Election Atlas</span>
               <button id="help-btn" title="Help" type="button">?</button>
-              <button class="minimize-btn" onclick="toggleMainControls()" id="controls-minimize-btn" title="Minimize controls">-</button>
+              <button class="minimize-btn" onclick="toggleMainControls()" id="controls-minimize-btn">-</button>
             </div>
         </div>
         <div class="controls-content" id="controls-content">
-            <div class="control-group control-group-search desktop-fly-group">
-                <label class="control-section-label" for="fly-to-search">Fly to</label>
-                <div class="desktop-fly-search-wrap">
-                  <div class="desktop-fly-search-field fly-search-field">
+            <div class="control-group control-group-search">
+                <label for="fly-to-search">Fly to</label>
+                <div class="fly-to-search-wrap">
+                  <div class="fly-to-search-field">
                     <input id="fly-to-search" class="fly-to-search" type="search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg City 101" autocomplete="off" spellcheck="false" inputmode="search" />
                   </div>
-                  <button id="fly-to-submit" class="desktop-fly-submit" type="button">Go</button>
+                  <button id="fly-to-submit" class="fly-to-submit" type="button">Go</button>
                 </div>
-                <div class="desktop-fly-helper">Jump to counties, independent cities, districts, or precincts without changing the selected contest.</div>
-                <div id="fly-to-quick-stats" class="desktop-quick-stats" aria-live="polite">Turn on Precincts to show a viewport count.</div>
-                <div class="desktop-fly-chip-row" aria-label="Fly-to examples">
-                  <button class="desktop-fly-chip fly-to-chip" type="button" data-query="Fairfax County" data-search-example="Fairfax County">Fairfax County</button>
-                  <button class="desktop-fly-chip fly-to-chip" type="button" data-query="VA-10" data-search-example="VA-10">VA-10</button>
-                  <button class="desktop-fly-chip fly-to-chip" type="button" data-query="VA HD-57" data-search-example="VA HD-57">VA HD-57</button>
-                  <button class="desktop-fly-chip fly-to-chip" type="button" data-query="VA SD-31" data-search-example="VA SD-31">VA SD-31</button>
-                  <button class="desktop-fly-chip fly-to-chip" type="button" data-query="Lynchburg City 101" data-search-example="Lynchburg City 101">Lynchburg City 101</button>
+                <div class="fly-to-helper">Jump to counties, independent cities, districts, or precincts without changing the selected contest.</div>
+                <div id="fly-to-quick-stats" class="fly-to-quick-stats" data-tone="muted" aria-live="polite">Turn on Precincts to show a viewport count.</div>
+                <div class="fly-to-chip-row" aria-label="Fly-to examples">
+                  <button class="fly-to-chip" type="button" data-query="Fairfax County">Fairfax County</button>
+                  <button class="fly-to-chip" type="button" data-query="VA-10">VA-10</button>
+                  <button class="fly-to-chip" type="button" data-query="VA HD-57">VA HD-57</button>
+                  <button class="fly-to-chip" type="button" data-query="VA SD-31">VA SD-31</button>
+                  <button class="fly-to-chip" type="button" data-query="Lynchburg City 101">Lynchburg City 101</button>
                 </div>
             </div>
-
-            <div class="control-group control-group-contest control-group-primary">
-                <span class="section-kicker">Contest</span>
-                <div class="contest-select-wrap contest-select-wrap-primary">
-                  <select id="contestSelect" aria-label="Select contest">
-                      <option value="">Select a Contest...</option>
-                  </select>
-                </div>
-                <div class="contest-onboard-hint" id="contest-onboard-hint" role="note" hidden>
-                  <span class="contest-onboard-kicker">Start here</span>
-                  <span class="contest-onboard-copy" id="contest-onboard-copy">Choose a contest, then hover or tap a county. Click or tap to pin details.</span>
-                </div>
-                <div class="contest-loading-indicator" id="contest-loading-indicator" aria-live="polite" aria-atomic="true" hidden>Loading…</div>
-                <div class="contest-search-wrap contest-search-wrap-secondary">
-                  <input id="contestSearch" type="search" placeholder="Search contests (e.g., President, Senate, 2008)..." autocomplete="off" spellcheck="false" aria-label="Search contests" />
-                </div>
-                <div class="contest-toolbar">
-                  <label>Quick tools</label>
-                  <div class="contest-tools-row">
-                    <button id="accessibility-toggle" title="Accessibility: Color Blind Mode" aria-label="Toggle color blind mode">&#9855;</button>
-                    <button id="label-toggle" title="Toggle County Labels" aria-label="Toggle county labels" aria-pressed="true">Aa</button>
-                    <button id="precinct-toggle" title="Enable Precinct Overlay (Zoom 8.0+)" aria-label="Toggle precinct overlay" aria-pressed="false">Precincts Off</button>
-                    <button id="split-ticket-toggle" title="Compare federal and statewide races" class="tool-chip-btn" type="button" aria-label="Toggle split ticket comparison" aria-pressed="false">Split Ticket</button>
-                    <button id="snapshot-share-btn" title="Download social snapshot" class="tool-chip-btn" type="button" aria-label="Download story snapshot">Story Snapshot</button>
-                    <select id="snapshot-variant" title="Story snapshot layout variant" class="tool-chip-select" aria-label="Story snapshot layout variant">
-                      <option value="balanced">Balanced</option>
-                      <option value="instagram">Instagram</option>
-                      <option value="tiktok">TikTok</option>
-                    </select>
-                    <button id="copy-link-btn" title="Copy shareable map link" class="tool-chip-btn tool-chip-btn-ghost" type="button" aria-label="Copy shareable map link">Copy Link</button>
-                    <button id="smart-insights-toggle" title="Toggle Smart Insights" class="tool-chip-btn tool-chip-btn-muted" type="button" aria-label="Toggle Smart Insights" aria-pressed="false">Smart Insights</button>
-                  </div>
-                  <div class="smart-insights-inline" id="smart-insights-inline" role="note" hidden>
-                    <span class="smart-insights-inline-copy">Highlights counties with close margins, big shifts, or notable growth.</span>
-                    <button type="button" class="smart-insights-inline-close" id="smart-insights-inline-close" aria-label="Dismiss Smart Insights explanation">Got it</button>
-                  </div>
-                  <details class="contest-tools-more" aria-label="More tools">
-                    <summary class="tool-chip-btn tool-chip-btn-muted" role="button">More</summary>
-                    <div class="contest-tools-row contest-tools-row-more">
-                      <button id="follow-hover-toggle" title="Auto-update hover tooltip while panning" class="tool-chip-btn tool-chip-btn-muted" type="button" aria-label="Toggle auto hover while panning" aria-pressed="false">Auto Hover Off</button>
-                      <button id="gps-locate-btn" title="Find my precinct by GPS" class="tool-chip-btn" type="button" aria-label="Find my precinct by GPS">Find My Precinct</button>
-                      <button id="reset-view-btn" title="Reset map camera and clear pinned focus" class="tool-chip-btn tool-chip-btn-muted" type="button" aria-label="Reset map view">Reset View</button>
-                    </div>
-                  </details>
-                </div>
-                <div class="controls-panel-note">Start here: pick a contest, then click a county or district for the full story. Shortcuts: `P` precincts, `L` labels, `C` copy link.</div>
-            </div>
-
             <div class="control-summary" id="control-summary">
                 <div class="control-summary-head">
                   <span class="control-summary-kicker">Current map</span>
@@ -9003,125 +7210,66 @@ document.addEventListener('DOMContentLoaded', function() {
                   <span class="control-summary-pill control-summary-pill-muted" id="control-summary-year">No contest selected</span>
                 </div>
             </div>
-
             <div class="desktop-statewide-panel" id="desktop-statewide-panel">
                 <div class="desktop-statewide-head">
                   <div class="desktop-statewide-copy">
                     <span class="desktop-statewide-kicker">Statewide snapshot</span>
                     <div class="desktop-statewide-title" data-statewide-contest-name="true">Choose a contest</div>
-                    <div class="desktop-statewide-sub">Keeps the statewide race call visible while you browse counties, districts, and trend history.</div>
+                    <div class="desktop-statewide-sub">Statewide margin and vote split.</div>
                   </div>
                   <span class="desktop-statewide-tag">Live summary</span>
                 </div>
                 <div class="desktop-statewide-body" data-statewide-content="true">
-                  <p class="desktop-statewide-placeholder">Select a contest to see the statewide leader, vote split, and competitiveness.</p>
+                  <p class="desktop-statewide-placeholder">Select a contest to see the statewide leader, vote split, and margin.</p>
                 </div>
             </div>
-
-            <div class="control-group" style="margin-bottom:12px;">
-                <span class="section-kicker">Quick Jumps</span>
-                <div class="region-jumps" id="region-jumps">
-                  <button type="button" class="region-jump-btn" data-region-jump="nova">Northern Virginia</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="richmond">Richmond</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="hamptonroads">Hampton Roads</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="roanoke">Roanoke</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="charlottesville">Charlottesville</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="shenandoah">Shenandoah</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="southside">Southside</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="southwest">Southwest</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="peninsula">Peninsula</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="tidewater">Tidewater</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="blueridge">Blue Ridge</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="historictriangle">Historic Triangle</button>
-                </div>
-            </div>
-
             <div class="control-group" style="margin-bottom:10px;">
-                <span class="section-kicker">Map Layer</span>
+                <label class="control-section-label">Geography</label>
                 <div class="view-toggle-row" style="display:flex;gap:6px;flex-wrap:wrap;">
                   <button id="counties-view" class="view-toggle-btn active" onclick="setMapView('counties')">Counties</button>
                   <button id="districts-view" class="view-toggle-btn" onclick="setMapView('districts')">Congress</button>
-                  <button id="state-house-view" class="view-toggle-btn" onclick="setMapView('state_house')">House of Delegates</button>
+                  <button id="state-house-view" class="view-toggle-btn" onclick="setMapView('state_house')">House of Delegates (HoD)</button>
                   <button id="state-senate-view" class="view-toggle-btn" onclick="setMapView('state_senate')">State Senate</button>
                 </div>
             </div>
-
-            <div class="control-group" style="margin-bottom:10px;">
-                <span class="section-kicker">District Lines</span>
-                <div class="view-toggle-row" style="display:flex;gap:6px;flex-wrap:wrap;">
-                  <button id="district-lines-2022" class="view-toggle-btn active" type="button" aria-pressed="true">2022 Lines</button>
-                  <button id="district-lines-2024" class="view-toggle-btn" type="button" aria-pressed="false">2024 Lines</button>
-                </div>
-                <div style="margin-top:4px;font-size:11px;color:#6b7280;">2022 keeps the longer history; 2024 reflects current congressional and legislative boundaries.</div>
-                <div id="district-lines-loading-hint" class="district-lines-loading-hint" aria-live="polite" aria-atomic="true"></div>
-            </div>
-
             <div class="control-group viz-inline-group" style="margin-bottom:10px;">
-              <span class="section-kicker">Analysis Mode</span>
+              <label style="display:block;font-weight:600;margin-bottom:8px;color:#374151;">Mode:</label>
               <div class="viz-modes-inline" id="viz-modes-inline">
                 <button class="viz-mode-btn active" data-mode="margins" type="button"><span>Margins</span></button>
                 <button class="viz-mode-btn" data-mode="winners" type="button"><span>Winners</span></button>
                 <button class="viz-mode-btn" data-mode="shift" type="button"><span>Shift</span></button>
                 <button class="viz-mode-btn" data-mode="flips" type="button"><span>Flips</span></button>
-                <button class="viz-mode-btn" data-mode="demographics" type="button"><span>Demographics</span></button>
               </div>
             </div>
-
-            <details class="control-group control-group-scenario controls-disclosure" id="scenario-disclosure">
-              <summary class="controls-disclosure-summary">
-                <span class="section-kicker">What-if & overlays</span>
-                <span class="controls-disclosure-hint">Scenario swing, turnout intensity, and contrast controls</span>
-              </summary>
-              <div class="scenario-row">
-                <label for="scenario-scope">Scope</label>
-                <select id="scenario-scope" aria-label="Scenario scope">
-                  <option value="statewide">Statewide</option>
-                  <option value="northern-virginia">Northern Virginia only</option>
-                </select>
-              </div>
-              <div class="scenario-row">
-                <label for="scenario-swing">Dem swing</label>
-                <input id="scenario-swing" type="range" min="-15" max="15" step="0.5" value="0" aria-label="Democratic swing percentage" />
-                <span class="scenario-value" id="scenario-swing-value">0.0%</span>
-              </div>
-              <div class="scenario-row scenario-row-actions">
-                <span></span>
-                <button id="scenario-reset-btn" class="tool-chip-btn tool-chip-btn-muted" type="button" aria-label="Reset scenario swing">Reset Swing</button>
-                <span></span>
-              </div>
-              <div class="scenario-row">
-                <label for="overlay-opacity-preset">Overlay</label>
-                <select id="overlay-opacity-preset" aria-label="Overlay opacity preset">
-                  <option value="reveal">Map Reveal</option>
-                  <option value="balanced">Balanced</option>
-                  <option value="focus">Data Focus</option>
-                </select>
-              </div>
-              <label class="scenario-toggle">
-                <input id="bivariate-opacity-toggle" type="checkbox" aria-label="Enable turnout intensity opacity mode" />
-                Turnout intensity opacity (bivariate)
-              </label>
-              <label class="scenario-toggle">
-                <input id="demographics-contrast-toggle" type="checkbox" aria-label="Enable high contrast demographics colors" />
-                High contrast demographics
-              </label>
-              <div class="controls-panel-note">Positive swing shifts margins toward Democrats. Negative values shift toward Republicans.</div>
-            </details>
-
-            <details class="control-group control-group-analytics controls-disclosure" id="analytics-disclosure">
-              <summary class="controls-disclosure-summary">
-                <span class="section-kicker">Advanced analytics</span>
-                <span class="controls-disclosure-hint">Realignment index and ghost precinct tracker</span>
-              </summary>
-              <div class="analytics-card" id="realignment-index-card">
-                <div class="analytics-card-title">Realignment Index</div>
-                <div class="analytics-card-body">Select a contest to load top shifting precincts.</div>
-              </div>
-              <div class="analytics-card" id="ghost-precinct-card">
-                <div class="analytics-card-title">Ghost Precinct Tracker</div>
-                <div class="analytics-card-body">Waiting for contest selection.</div>
-              </div>
-            </details>
+            <div class="control-group" style="margin-bottom:10px;">
+              <label class="control-section-label">Smart Insights</label>
+              <button class="insights-toggle" id="smart-insights-toggle" type="button" aria-pressed="false">
+                <span class="pill">Off</span>
+                <span class="copy">
+                  <strong>Smart Insights</strong>
+                  <span>Highlights closest margins, biggest shifts, and growth stories.</span>
+                </span>
+              </button>
+            </div>
+            <div class="control-group control-group-contest">
+                <label class="control-section-label" for="contestSelect">Contest</label>
+                <div class="contest-toolbar" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                  <button id="accessibility-toggle" title="Accessibility: Color Blind Mode" style="background:#1f2937;color:#fff;border-radius:50%;width:32px;height:32px;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.10);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;">&#9855;</button>
+                  <button id="label-toggle" title="Toggle County Labels" style="background:#1f2937;color:#fff;border-radius:50%;width:32px;height:32px;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.10);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:bold;">Aa</button>
+                  <button id="precinct-toggle" title="Enable Precinct Overlay (Zoom 8.0+)" style="background:#065f46;color:#fff;border-radius:8px;height:32px;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.10);font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:bold;padding:0 10px;">Precincts Off</button>
+                </div>
+                <div class="contest-search-wrap">
+                  <input id="contestSearch" type="search" placeholder="Search contests (e.g., President, Senate, 2008)..." autocomplete="off" spellcheck="false" />
+                </div>
+                <div class="contest-select-wrap">
+                  <select id="contestSelect">
+                      <option value="">Select a Contest...</option>
+                  </select>
+                </div>
+                <div style="margin-top:8px;font-size:12px;color:#64748b;line-height:1.3;">
+                  Tips: click a county or district for trends. Shortcuts: `P` precincts, `L` labels.
+                </div>
+            </div>
         </div>
     </div>
 
@@ -9134,7 +7282,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <div class="legend-handle" aria-hidden="true"></div>
               <div class="legend-copy">
                 <span class="legend-kicker">Map key</span>
-                <h4>Margin Categories</h4>
+                <h4>Political Categories</h4>
                 <p class="legend-subtitle" id="legend-subtitle">Two-party margin buckets for the selected contest.</p>
               </div>
             </div>
@@ -9163,9 +7311,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span class="legend-segment legend-color" style="background: #08306b;"></span>
               </div>
               <div class="legend-scale-caption">
-                <span class="rep">Annihilation Republican</span>
+                <span class="rep">Stronger Republican</span>
                 <span>Tossup</span>
-                <span class="dem">Annihilation Democratic</span>
+                <span class="dem">Stronger Democratic</span>
               </div>
               <div class="legend-axis margins">
                 <span class="rep">R +40</span>
@@ -9191,14 +7339,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="legend-footer" id="legend-footer">Darker shades indicate larger two-party leads in the current contest.</div>
     </div>
 
-    </div>
-
-    <nav class="mobile-dock" id="mobile-dock" aria-label="Mobile panel dock">
-      <button type="button" class="mobile-dock-btn" data-mobile-sheet-btn="search" aria-controls="map-topbar" aria-expanded="false" aria-pressed="false" title="Open search panel">Search</button>
-      <button type="button" class="mobile-dock-btn" data-mobile-sheet-btn="layers" aria-controls="main-controls" aria-expanded="false" aria-pressed="false" title="Open layers panel">Layers</button>
-      <button type="button" class="mobile-dock-btn" data-mobile-sheet-btn="legend" aria-controls="legend" aria-expanded="false" aria-pressed="false" title="Open legend panel">Legend</button>
-    </nav>
-
     <!-- Hover Tooltip -->
     <div id="hover-tooltip" class="hover-tooltip"></div>
 
@@ -9215,7 +7355,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <p><strong>Winners</strong>: solid color by winner (D/R), regardless of margin size.</p>
           <p><strong>Shift</strong>: change in <strong>signed</strong> margin vs the nearest available prior election for that contest (e.g. 2020->2024). Positive = more Republican; negative = more Democratic.</p>
 
-          <h3>Margin Categories</h3>
+          <h3>Political Categories</h3>
           <p>Category names are just shorthand for margin ranges:</p>
           <ul>
             <li><strong>Annihilation</strong>: &ge;40%</li>
@@ -9552,55 +7692,11 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!contestType || !year) {
         titleEl.textContent = 'Choose a contest';
         yearEl.textContent = 'No contest selected';
-        try { syncMapTopbarSummary(); } catch (_) {}
         return;
       }
 
       titleEl.textContent = formatContestName(contestType, year);
       yearEl.textContent = String(year);
-      try { syncMapTopbarSummary(); } catch (_) {}
-    }
-
-    function syncMapTopbarSummary() {
-      try {
-        const viewTarget = document.getElementById('context-view') || document.getElementById('topbar-context-view');
-        const modeTarget = document.getElementById('context-mode') || document.getElementById('topbar-context-mode');
-        const contestTarget = document.getElementById('context-contest') || document.getElementById('topbar-context-contest');
-        const focusTarget = document.getElementById('context-focus') || document.getElementById('topbar-context-focus');
-        const quickStatsTarget = document.querySelector('#map-topbar [data-viewport-precinct-count]') || document.getElementById('topbar-quick-stats');
-        if (viewTarget) viewTarget.textContent = document.getElementById('control-summary-view')?.textContent?.trim() || viewLabelForSummary(currentView);
-        if (modeTarget) modeTarget.textContent = document.getElementById('control-summary-mode')?.textContent?.trim() || modeLabelForSummary(currentVizMode);
-        if (contestTarget) {
-          const summaryTitle = document.getElementById('control-summary-title')?.textContent?.trim();
-          const summaryYear = document.getElementById('control-summary-year')?.textContent?.trim();
-          contestTarget.textContent = summaryTitle && summaryTitle !== 'Choose a contest'
-            ? (summaryYear && summaryYear !== 'No contest selected' ? `${summaryTitle} (${summaryYear})` : summaryTitle)
-            : 'Choose a contest';
-        }
-        if (focusTarget) {
-          focusTarget.textContent = document.getElementById('vote-context-title')?.textContent?.trim() || 'Statewide';
-        }
-        if (quickStatsTarget) {
-          quickStatsTarget.textContent = document.getElementById('fly-to-quick-stats')?.textContent?.trim() || 'Jump anywhere without changing the selected contest.';
-        }
-      } catch (_) {}
-    }
-
-    function setupMapTopbarMirrors() {
-      try {
-        syncMapTopbarSummary();
-        if (typeof MutationObserver === 'undefined') return;
-        const targets = [
-          document.getElementById('control-summary'),
-          document.getElementById('vote-counter-context'),
-          document.getElementById('fly-to-quick-stats')
-        ].filter(Boolean);
-        if (!targets.length) return;
-        const observer = new MutationObserver(() => {
-          try { syncMapTopbarSummary(); } catch (_) {}
-        });
-        targets.forEach(node => observer.observe(node, { childList: true, subtree: true, characterData: true }));
-      } catch (_) {}
     }
 
     function getStatewideContentNodes() {
@@ -12177,10 +10273,6 @@ document.addEventListener('DOMContentLoaded', function() {
       try { updateMobileOverlayOffsets(); } catch (_) {}
     }
 
-    function setVoteCounterMinimizedState(minimized) {
-      toggleVoteCounterPanel(minimized === true ? false : true);
-    }
-
     let voteCounterAutoMinimizedOnce = false;
     function maybeAutoMinimizeVoteCounterOnMobile() {
       if (voteCounterAutoMinimizedOnce) return;
@@ -12243,17 +10335,6 @@ document.addEventListener('DOMContentLoaded', function() {
           if (!isMobileNow()) return;
           if (e?.target && e.target.closest && e.target.closest('button')) return;
           toggleVoteCounterPanel();
-        });
-      }
-      const overlayScrim = document.getElementById('mobile-sheet-scrim');
-      if (overlayScrim && !overlayScrim.dataset.wired) {
-        overlayScrim.dataset.wired = 'true';
-        overlayScrim.addEventListener('click', () => {
-          if (!isMobileNow()) return;
-          try { minimizeMainControlsOnMobile(); } catch (_) {}
-          try { minimizeLegendOnMobile(); } catch (_) {}
-          try { closeAllMobileSheets(); } catch (_) {}
-          try { updateMobileOverlayOffsets(); } catch (_) {}
         });
       }
 
@@ -14863,12 +12944,7 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) { detailInsight = ''; }
 
       if (!detailInsight) {
-        if (currentVizMode === 'flips') {
-          try {
-            const f = (prevSignedForFlip !== null && prevYearForFlip) ? flipInfo(prevSignedForFlip, signedMarginPct) : { flipped: false, from: 'T', to: 'T' };
-            if (f.flipped && prevYearForFlip) detailInsight = `Flip: ${f.from}\u2192${f.to} vs ${prevYearForFlip}`;
-          } catch (_) {}
-        }
+        // Flip context is rendered via the dedicated Flip line/chip; avoid duplicating it here.
       }
 
       if (!detailInsight && currentVizMode === 'shift' && vizShiftCache?.prevYear) {
@@ -14900,8 +12976,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       } catch (_) {}
 
-      const tierShort = tierMeta?.shortLabel || tierMeta?.label || '';
-      const showDesktopFlipChip = !((window.matchMedia && window.matchMedia('(max-width: 768px)').matches) || document.documentElement.classList.contains('android-mobile'));
+      const isMobileTooltip = !!((window.matchMedia && window.matchMedia('(max-width: 768px)').matches) || document.documentElement.classList.contains('android-mobile'));
+      const tierQuickLabel = isMobileTooltip
+        ? (tierMeta?.shortLabel || tierMeta?.label || '')
+        : (tierMeta?.label || tierMeta?.shortLabel || '');
+      const showDesktopFlipChip = !isMobileTooltip;
       const deltaBlock = (() => {
         const lines = [];
         const prevYear = Number(vizPrevCache?.prevYear);
@@ -14942,9 +13021,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const compactInner = `
         <div class="tooltip-quickline">
           <span class="${escapeHtml(winnerCall.party || 'tie')}">${escapeHtml(winnerCall.text || '')}</span>
-          ${tierShort ? `<span class="tier">${escapeHtml(tierShort)}</span>` : ''}
+          ${tierQuickLabel ? `<span class="tier">${escapeHtml(tierQuickLabel)}</span>` : ''}
         </div>
         ${flipLine}
+        ${showDesktopFlipChip && flipChip ? `<div class="tooltip-flip-chip-row">${flipChip}</div>` : ''}
         ${deltaBlock}
       `.trim();
 
@@ -15355,602 +13435,31 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) {}
     }
 
-    function syncMobileOverlayState() {
-      try {
-        const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
-        const controls = document.getElementById('main-controls');
-        const legend = document.getElementById('legend');
-        const controlsOpen = !!(isMobile && controls && !controls.classList.contains('minimized') && controls.getClientRects().length);
-        const legendOpen = !!(isMobile && legend && !legend.classList.contains('minimized') && legend.getClientRects().length);
-        document.body.classList.toggle('mobile-overlay-open', controlsOpen || legendOpen);
-        document.body.classList.toggle('mobile-controls-open', controlsOpen);
-        document.body.classList.toggle('mobile-legend-open', legendOpen);
-      } catch (_) {}
-    }
-
-    const MOBILE_SHEET_PANEL_IDS = Object.freeze({
-      search: 'map-topbar',
-      layers: 'main-controls',
-      legend: 'legend'
-    });
-    const MOBILE_SHEET_PANEL_LABELS = Object.freeze({
-      search: 'search',
-      layers: 'layers',
-      legend: 'legend'
-    });
-    const MOBILE_SHEET_SNAP_SEQUENCE = Object.freeze(['half', 'full', 'collapsed']);
-    const MOBILE_SHEET_SWIPE_THRESHOLD_PX = 24;
-    const MOBILE_SHEET_FLICK_VELOCITY_PX_PER_MS = 0.45;
-    const MOBILE_SHEET_FLICK_WINDOW_MS = 120;
-    const MOBILE_SHEET_FLICK_MIN_TRAVEL_PX = 10;
-    let activeMobileSheetKey = null;
-    let mobileSheetVoteCounterSnapshot = null;
-    let mobileSheetSystemReady = false;
-    let mobileInputFocusWired = false;
-    let mobileInputRestoreTimer = null;
-    let mobileInputFocusSnapshot = null;
-
-    function isLikelyMobileRuntime() {
-      try {
-        const ua = (navigator.userAgent || '').toLowerCase();
-        const mobileUA = /android|iphone|ipad|ipod|mobile|silk|kindle|blackberry|opera mini/.test(ua);
-        const coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
-        const noHover = !!(window.matchMedia && window.matchMedia('(hover: none)').matches);
-        return mobileUA || (coarse && noHover);
-      } catch (_) {
-        return false;
-      }
-    }
-
-    function isMobileViewportNow() {
-      try {
-        const narrow = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
-        return narrow && isLikelyMobileRuntime();
-      } catch (_) {
-        return window.innerWidth <= 768;
-      }
-    }
-
-    function getMobileSheetPanel(key) {
-      const id = MOBILE_SHEET_PANEL_IDS[key];
-      return id ? document.getElementById(id) : null;
-    }
-
-    function getMobileSheetSnap(key) {
-      const panel = getMobileSheetPanel(key);
-      return panel?.dataset?.mobileSnap || 'collapsed';
-    }
-
-    function setMobileSheetSnap(panel, snap) {
-      if (!panel) return;
-      panel.dataset.mobileSnap = snap || 'collapsed';
-    }
-
-    function ensureMobileSheetGrab(panel, key) {
-      if (!panel || !key || panel.querySelector('.mobile-sheet-grab')) return;
-      const grab = document.createElement('button');
-      grab.type = 'button';
-      grab.className = 'mobile-sheet-grab';
-      grab.setAttribute('aria-label', 'Resize or close panel');
-      grab.title = 'Tap, swipe, or flick to resize panel';
-      let dragState = null;
-
-      function stampMs(rawTs) {
-        const t = Number(rawTs);
-        if (Number.isFinite(t) && t > 0) return t;
-        try {
-          if (typeof performance !== 'undefined' && performance && typeof performance.now === 'function') {
-            return performance.now();
-          }
-        } catch (_) {}
-        return Date.now();
-      }
-
-      function resetDragState() {
-        dragState = null;
-        grab.classList.remove('is-dragging');
-      }
-
-      function beginDrag(clientX, clientY, pointerId = null, rawTs = null) {
-        const t = stampMs(rawTs);
-        dragState = {
-          startX: Number(clientX) || 0,
-          startY: Number(clientY) || 0,
-          pointerId,
-          samples: [{ x: Number(clientX) || 0, y: Number(clientY) || 0, t }]
-        };
-        grab.classList.add('is-dragging');
-      }
-
-      function updateDrag(clientX, clientY, rawTs = null) {
-        if (!dragState) return;
-        const x = Number(clientX) || dragState.startX;
-        const y = Number(clientY) || dragState.startY;
-        const t = stampMs(rawTs);
-        dragState.lastX = x;
-        dragState.lastY = y;
-        dragState.samples.push({ x, y, t });
-        if (dragState.samples.length > 10) {
-          dragState.samples.splice(0, dragState.samples.length - 10);
-        }
-      }
-
-      function finishDrag(clientX, clientY, rawTs = null) {
-        if (!dragState) return;
-        const endX = Number(clientX) || dragState.lastX || dragState.startX;
-        const endY = Number(clientY) || dragState.lastY || dragState.startY;
-        const endT = stampMs(rawTs);
-        dragState.samples.push({ x: endX, y: endY, t: endT });
-        if (dragState.samples.length > 12) {
-          dragState.samples.splice(0, dragState.samples.length - 12);
-        }
-        const dy = endY - dragState.startY;
-        const dx = endX - dragState.startX;
-        const absDy = Math.abs(dy);
-        const absDx = Math.abs(dx);
-        const cutoff = endT - MOBILE_SHEET_FLICK_WINDOW_MS;
-        let ref = dragState.samples[0];
-        for (let i = dragState.samples.length - 1; i >= 0; i -= 1) {
-          const sample = dragState.samples[i];
-          if (sample.t <= cutoff) break;
-          ref = sample;
-        }
-        const refT = Number.isFinite(Number(ref?.t)) ? Number(ref.t) : endT;
-        const refY = Number.isFinite(Number(ref?.y)) ? Number(ref.y) : endY;
-        const vDt = Math.max(1, endT - refT);
-        const vy = (endY - refY) / vDt;
-        const absVy = Math.abs(vy);
-        const distanceSwipe = absDy >= MOBILE_SHEET_SWIPE_THRESHOLD_PX && absDy > absDx * 1.1;
-        const velocityFlick =
-          absVy >= MOBILE_SHEET_FLICK_VELOCITY_PX_PER_MS &&
-          absDy >= MOBILE_SHEET_FLICK_MIN_TRAVEL_PX &&
-          absDy > absDx * 0.65;
-        resetDragState();
-        if (!distanceSwipe && !velocityFlick) return;
-        grab.dataset.swiped = 'true';
-        if (dy < 0) {
-          swipeMobileSheet(key, 'up');
-        } else {
-          swipeMobileSheet(key, 'down');
-        }
-        window.setTimeout(() => {
-          if (grab) grab.dataset.swiped = '';
-        }, 160);
-      }
-
-      if (typeof window.PointerEvent !== 'undefined') {
-        grab.addEventListener('pointerdown', (event) => {
-          if (event.pointerType === 'mouse' && event.button !== 0) return;
-          event.preventDefault();
-          beginDrag(event.clientX, event.clientY, event.pointerId, event.timeStamp);
-          try { grab.setPointerCapture(event.pointerId); } catch (_) {}
-        });
-        grab.addEventListener('pointermove', (event) => {
-          if (!dragState) return;
-          if (dragState.pointerId !== null && event.pointerId !== dragState.pointerId) return;
-          updateDrag(event.clientX, event.clientY, event.timeStamp);
-        });
-        grab.addEventListener('pointerup', (event) => {
-          if (!dragState) return;
-          if (dragState.pointerId !== null && event.pointerId !== dragState.pointerId) return;
-          finishDrag(event.clientX, event.clientY, event.timeStamp);
-          try { grab.releasePointerCapture(event.pointerId); } catch (_) {}
-        });
-        grab.addEventListener('pointercancel', () => {
-          resetDragState();
-        });
-      } else {
-        grab.addEventListener('touchstart', (event) => {
-          const touch = event.changedTouches && event.changedTouches[0];
-          if (!touch) return;
-          beginDrag(touch.clientX, touch.clientY, touch.identifier, event.timeStamp);
-        }, { passive: true });
-        grab.addEventListener('touchmove', (event) => {
-          if (!dragState) return;
-          const touches = event.changedTouches;
-          if (!touches || !touches.length) return;
-          let matched = false;
-          for (let i = 0; i < touches.length; i += 1) {
-            const touch = touches[i];
-            if (dragState.pointerId !== null && touch.identifier !== dragState.pointerId) continue;
-            updateDrag(touch.clientX, touch.clientY, event.timeStamp);
-            matched = true;
-            break;
-          }
-          if (!matched) resetDragState();
-        }, { passive: true });
-        grab.addEventListener('touchend', (event) => {
-          if (!dragState) return;
-          const touches = event.changedTouches;
-          if (!touches || !touches.length) {
-            resetDragState();
-            return;
-          }
-          let matched = false;
-          for (let i = 0; i < touches.length; i += 1) {
-            const touch = touches[i];
-            if (dragState.pointerId !== null && touch.identifier !== dragState.pointerId) continue;
-            finishDrag(touch.clientX, touch.clientY, event.timeStamp);
-            matched = true;
-            break;
-          }
-          if (!matched) resetDragState();
-        }, { passive: true });
-        grab.addEventListener('touchcancel', () => {
-          resetDragState();
-        }, { passive: true });
-      }
-
-      grab.addEventListener('click', (event) => {
-        if (grab.dataset.swiped === 'true') {
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-        event.preventDefault();
-        event.stopPropagation();
-        toggleMobileSheet(key);
-      });
-      panel.insertBefore(grab, panel.firstChild);
-    }
-
-    function removeMobileSheetGrab(panel) {
-      if (!panel) return;
-      panel.querySelectorAll('.mobile-sheet-grab').forEach(node => node.remove());
-    }
-
-    function resetDesktopSheetState() {
-      try {
-        Object.keys(MOBILE_SHEET_PANEL_IDS).forEach(key => {
-          const panel = getMobileSheetPanel(key);
-          if (!panel) return;
-          panel.classList.remove('mobile-sheet-panel', 'mobile-sheet-active');
-          delete panel.dataset.mobileSnap;
-          removeMobileSheetGrab(panel);
-        });
-        const topbar = document.getElementById('map-topbar');
-        if (topbar) topbar.classList.remove('topbar-expanded');
-        document.body.classList.remove('mobile-sheet-open', 'mobile-overlay-open', 'mobile-input-active');
-        activeMobileSheetKey = null;
-        mobileSheetVoteCounterSnapshot = null;
-        mobileInputFocusSnapshot = null;
-        if (mobileInputRestoreTimer) {
-          clearTimeout(mobileInputRestoreTimer);
-          mobileInputRestoreTimer = null;
-        }
-        syncMobileDockButtons();
-      } catch (_) {}
-    }
-
-    function syncMobileDockButtons() {
-      const buttons = document.querySelectorAll('[data-mobile-sheet-btn]');
-      buttons.forEach(btn => {
-        const key = btn.getAttribute('data-mobile-sheet-btn') || '';
-        const pressed = key && key === activeMobileSheetKey;
-        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
-        btn.setAttribute('aria-expanded', pressed ? 'true' : 'false');
-        const panelId = MOBILE_SHEET_PANEL_IDS[key];
-        if (panelId) btn.setAttribute('aria-controls', panelId);
-        const panelLabel = MOBILE_SHEET_PANEL_LABELS[key] || 'panel';
-        btn.title = pressed ? `Collapse ${panelLabel} panel` : `Open ${panelLabel} panel`;
-      });
-      document.body.classList.toggle('mobile-sheet-open', !!activeMobileSheetKey && isMobileViewportNow());
-      document.body.classList.toggle('mobile-overlay-open', !!activeMobileSheetKey && isMobileViewportNow());
-      try {
-        if (!activeMobileSheetKey && mobileSheetVoteCounterSnapshot !== null) {
-          const blocked = !!(document.body.classList.contains('mobile-input-active') || mobileInputFocusSnapshot);
-          if (!blocked && mobileSheetVoteCounterSnapshot) {
-            setVoteCounterMinimizedState(false);
-          }
-          mobileSheetVoteCounterSnapshot = null;
-        }
-      } catch (_) {}
-    }
-
-    function expandLegendOnMobile() {
-      const legend = document.getElementById('legend');
-      const legendContent = document.getElementById('legend-content');
-      const minimizeBtn = document.getElementById('legend-minimize-btn');
-      if (!legend || !legendContent || !minimizeBtn) return;
-      legend.classList.remove('minimized');
-      legendContent.style.display = 'block';
-      minimizeBtn.textContent = '-';
-      minimizeBtn.title = 'Minimize legend';
-    }
-
-    function expandMainControlsOnMobile() {
-      const controls = document.getElementById('main-controls');
-      const controlsContent = document.getElementById('controls-content');
-      const minimizeBtn = document.getElementById('controls-minimize-btn');
-      if (!controls || !controlsContent || !minimizeBtn) return;
-      controls.classList.remove('minimized');
-      controlsContent.style.display = 'block';
-      minimizeBtn.textContent = '-';
-      minimizeBtn.title = 'Minimize controls';
-    }
-
-    function closeMobileSheet(key) {
-      const panel = getMobileSheetPanel(key);
-      if (!panel) return;
-      panel.classList.remove('mobile-sheet-active');
-      setMobileSheetSnap(panel, 'collapsed');
-      if (key === 'search') {
-        try {
-          const topbar = document.getElementById('map-topbar');
-          if (topbar) topbar.classList.remove('topbar-expanded');
-          if (typeof window.syncMobileTopbarToggle === 'function') window.syncMobileTopbarToggle();
-        } catch (_) {}
-      } else if (key === 'layers') {
-        try { minimizeMainControlsOnMobile(); } catch (_) {}
-      } else if (key === 'legend') {
-        try { minimizeLegendOnMobile(); } catch (_) {}
-      }
-    }
-
-    function openMobileSheet(key, snap = 'half') {
-      if (!isMobileViewportNow()) return;
-      const panel = getMobileSheetPanel(key);
-      if (!panel) return;
-      try {
-        if (mobileSheetVoteCounterSnapshot === null) {
-          const counter = document.getElementById('vote-counter');
-          mobileSheetVoteCounterSnapshot = !!(counter && !counter.classList.contains('minimized'));
-        }
-        setVoteCounterMinimizedState(true);
-      } catch (_) {}
-      try { closeHoverUI({ force: true }); } catch (_) {}
-      Object.keys(MOBILE_SHEET_PANEL_IDS).forEach(otherKey => {
-        if (otherKey === key) return;
-        closeMobileSheet(otherKey);
-      });
-      panel.classList.add('mobile-sheet-panel', 'mobile-sheet-active');
-      setMobileSheetSnap(panel, snap);
-      if (key === 'search') {
-        try {
-          const topbar = document.getElementById('map-topbar');
-          if (topbar) topbar.classList.add('topbar-expanded');
-          if (typeof window.syncMobileTopbarToggle === 'function') window.syncMobileTopbarToggle();
-        } catch (_) {}
-      } else if (key === 'layers') {
-        expandMainControlsOnMobile();
-      } else if (key === 'legend') {
-        expandLegendOnMobile();
-      }
-      if (snap === 'collapsed') {
-        closeMobileSheet(key);
-        activeMobileSheetKey = null;
-      } else {
-        activeMobileSheetKey = key;
-      }
-      syncMobileDockButtons();
-      try { updateMobileOverlayOffsets(); } catch (_) {}
-    }
-
-    function closeAllMobileSheets() {
-      if (!isMobileViewportNow()) {
-        resetDesktopSheetState();
-        try { updateMobileOverlayOffsets(); } catch (_) {}
-        return;
-      }
-      Object.keys(MOBILE_SHEET_PANEL_IDS).forEach(key => closeMobileSheet(key));
-      activeMobileSheetKey = null;
-      syncMobileDockButtons();
-      try { updateMobileOverlayOffsets(); } catch (_) {}
-    }
-
-    function swipeMobileSheet(key, direction = 'up') {
-      if (!isMobileViewportNow()) return;
-      if (!MOBILE_SHEET_PANEL_IDS[key]) return;
-      if (activeMobileSheetKey !== key) {
-        if (direction === 'up') openMobileSheet(key, 'half');
-        return;
-      }
-      const current = getMobileSheetSnap(key);
-      let next = current;
-      if (direction === 'up') {
-        next = current === 'collapsed' ? 'half' : 'full';
-      } else {
-        next = current === 'full' ? 'half' : 'collapsed';
-      }
-      if (next === 'collapsed') {
-        closeMobileSheet(key);
-        activeMobileSheetKey = null;
-        syncMobileDockButtons();
-        try { updateMobileOverlayOffsets(); } catch (_) {}
-        return;
-      }
-      openMobileSheet(key, next);
-    }
-
-    function toggleMobileSheet(key) {
-      if (!isMobileViewportNow()) return;
-      if (!MOBILE_SHEET_PANEL_IDS[key]) return;
-      if (activeMobileSheetKey !== key) {
-        openMobileSheet(key, 'half');
-        return;
-      }
-      const current = getMobileSheetSnap(key);
-      const idx = MOBILE_SHEET_SNAP_SEQUENCE.indexOf(current);
-      const next = MOBILE_SHEET_SNAP_SEQUENCE[(idx + 1) % MOBILE_SHEET_SNAP_SEQUENCE.length];
-      if (next === 'collapsed') {
-        closeMobileSheet(key);
-        activeMobileSheetKey = null;
-        syncMobileDockButtons();
-        try { updateMobileOverlayOffsets(); } catch (_) {}
-        return;
-      }
-      openMobileSheet(key, next);
-    }
-
-    function setupMobileDockAndSheets() {
-      if (mobileSheetSystemReady) return;
-      mobileSheetSystemReady = true;
-      try {
-        const syncSheetsForViewport = () => {
-          if (!isMobileViewportNow()) {
-            resetDesktopSheetState();
-            return;
-          }
-          Object.keys(MOBILE_SHEET_PANEL_IDS).forEach(key => {
-            const panel = getMobileSheetPanel(key);
-            if (!panel) return;
-            panel.classList.add('mobile-sheet-panel');
-            if (!panel.dataset.mobileSnap) setMobileSheetSnap(panel, 'collapsed');
-            panel.classList.remove('mobile-sheet-active');
-            ensureMobileSheetGrab(panel, key);
-          });
-          activeMobileSheetKey = null;
-          syncMobileDockButtons();
-        };
-
-        syncSheetsForViewport();
-
-        document.querySelectorAll('[data-mobile-sheet-btn]').forEach(btn => {
-          if (btn.dataset.mobileSheetReady === 'true') return;
-          btn.dataset.mobileSheetReady = 'true';
-          btn.addEventListener('click', () => {
-            const key = btn.getAttribute('data-mobile-sheet-btn') || '';
-            toggleMobileSheet(key);
-          });
-        });
-        const scrim = document.getElementById('mobile-sheet-scrim');
-        if (scrim && scrim.dataset.mobileSheetReady !== 'true') {
-          scrim.dataset.mobileSheetReady = 'true';
-          scrim.addEventListener('click', () => { closeAllMobileSheets(); });
-        }
-        if (!window.__mobileSheetEscapeReady) {
-          window.__mobileSheetEscapeReady = true;
-          document.addEventListener('keydown', (event) => {
-            if (event.key !== 'Escape') return;
-            if (!isMobileViewportNow()) return;
-            if (!activeMobileSheetKey) return;
-            event.preventDefault();
-            closeAllMobileSheets();
-          });
-        }
-        window.addEventListener('resize', () => {
-          try {
-            syncSheetsForViewport();
-            if (!isMobileViewportNow()) {
-              document.body.classList.remove('mobile-sheet-open', 'mobile-input-active');
-              mobileInputFocusSnapshot = null;
-              if (mobileInputRestoreTimer) {
-                clearTimeout(mobileInputRestoreTimer);
-                mobileInputRestoreTimer = null;
-              }
-            }
-          } catch (_) {}
-        }, { passive: true });
-      } catch (_) {}
-      if (isMobileViewportNow()) {
-        closeAllMobileSheets();
-      } else {
-        resetDesktopSheetState();
-      }
-    }
-
-    function isMobileEditableField(node) {
-      if (!node || !node.tagName) return false;
-      const tag = node.tagName.toLowerCase();
-      if (tag !== 'input' && tag !== 'textarea' && tag !== 'select') return false;
-      return !!(node.closest && (node.closest('#map-topbar') || node.closest('#main-controls')));
-    }
-
-    function restoreMobileInputFocusMode() {
-      if (!mobileInputFocusSnapshot) return;
-      const snap = mobileInputFocusSnapshot;
-      mobileInputFocusSnapshot = null;
-      document.body.classList.remove('mobile-input-active');
-      if (!isMobileViewportNow()) return;
-      try {
-        if (!snap.voteCounterWasMinimized) setVoteCounterMinimizedState(false);
-      } catch (_) {}
-      if (snap.activeSheetKey) {
-        openMobileSheet(snap.activeSheetKey, snap.activeSheetSnap || 'half');
-      } else {
-        closeAllMobileSheets();
-      }
-    }
-
-    function setupMobileInputFocusBehavior() {
-      if (mobileInputFocusWired) return;
-      mobileInputFocusWired = true;
-      document.addEventListener('focusin', (event) => {
-        const target = event.target;
-        if (!isMobileViewportNow()) return;
-        if (!isMobileEditableField(target)) return;
-        if (!mobileInputFocusSnapshot) {
-          const counter = document.getElementById('vote-counter');
-          mobileInputFocusSnapshot = {
-            voteCounterWasMinimized: !!(counter && counter.classList.contains('minimized')),
-            activeSheetKey: activeMobileSheetKey,
-            activeSheetSnap: activeMobileSheetKey ? getMobileSheetSnap(activeMobileSheetKey) : 'collapsed'
-          };
-        }
-        document.body.classList.add('mobile-input-active');
-        try { minimizeLegendOnMobile(); } catch (_) {}
-        try { setVoteCounterMinimizedState(true); } catch (_) {}
-        if (target.closest && target.closest('#map-topbar')) {
-          openMobileSheet('search', 'half');
-        }
-      }, true);
-      document.addEventListener('focusout', () => {
-        if (!isMobileViewportNow()) return;
-        if (mobileInputRestoreTimer) clearTimeout(mobileInputRestoreTimer);
-        mobileInputRestoreTimer = setTimeout(() => {
-          const active = document.activeElement;
-          if (isMobileEditableField(active)) return;
-          restoreMobileInputFocusMode();
-          mobileInputRestoreTimer = null;
-        }, 140);
-      }, true);
-    }
-
     function updateMobileOverlayOffsets() {
+      // On mobile, position floating UI elements relative to the actual legend height
+      // instead of assuming it always takes 50vh.
       try {
-        const isMobile = isMobileViewportNow();
-        const isDesktop = !isMobile;
         const root = document.documentElement;
-        const topbar = document.getElementById('map-topbar');
-        const voteCounter = document.getElementById('vote-counter');
-        const mobileDock = document.getElementById('mobile-dock');
-        const topbarVisible = !!(topbar && (!isMobile || topbar.classList.contains('mobile-sheet-active') || topbar.classList.contains('topbar-expanded')));
-        const th = topbarVisible ? Math.round(topbar.getBoundingClientRect().height || 0) : 0;
-        const dockVisible = !!(isMobile && mobileDock && mobileDock.getClientRects().length);
-        const dh = dockVisible ? Math.round(mobileDock.getBoundingClientRect().height || 0) : 0;
-        root.style.setProperty('--topbar-h', `${Math.max(0, th)}px`);
-        root.style.setProperty('--mobile-dock-h', `${Math.max(0, dh)}px`);
-        if (isDesktop) {
-          const counterVisible = !!(voteCounter && voteCounter.style.display !== 'none' && voteCounter.getClientRects().length);
-          const vh = counterVisible ? Math.round(voteCounter.getBoundingClientRect().height) : 0;
-          root.style.setProperty('--desktop-vote-counter-h', `${Math.max(0, vh)}px`);
+        const legend = document.getElementById('legend');
+        const controls = document.getElementById('main-controls');
+        const counter = document.getElementById('vote-counter');
+        const lh = legend ? Math.round(legend.getBoundingClientRect().height) : 56;
+        const ch = controls ? Math.round(controls.getBoundingClientRect().height) : 0;
+        const counterVisible = counter && counter.style.display !== 'none';
+        const cth = counterVisible ? Math.round(counter.getBoundingClientRect().height) : 0;
+        const counterBottom = counterVisible ? Math.round(counter.getBoundingClientRect().bottom) : 20;
+        root.style.setProperty('--counter-h', `${Math.max(0, cth)}px`);
+        root.style.setProperty('--desktop-counter-bottom', `${Math.max(20, counterBottom)}px`);
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile) {
           root.style.removeProperty('--legend-h');
           root.style.removeProperty('--controls-h');
-          root.style.removeProperty('--vote-counter-h');
-          syncMobileDockButtons();
           return;
         }
-        root.style.removeProperty('--desktop-vote-counter-h');
-        const counterVisibleMobile = !!(voteCounter && voteCounter.style.display !== 'none' && voteCounter.getClientRects().length);
-        const vhm = counterVisibleMobile ? Math.round(voteCounter.getBoundingClientRect().height || 0) : 0;
-        root.style.setProperty('--vote-counter-h', `${Math.max(0, vhm)}px`);
-        root.style.setProperty('--counter-h', `${Math.max(0, vhm)}px`);
-        const legend = document.getElementById('legend');
-        const controls = document.getElementById('main-controls');
-        const legendVisible = !!(legend && legend.classList.contains('mobile-sheet-active'));
-        const controlsVisible = !!(controls && controls.classList.contains('mobile-sheet-active'));
-        const lh = legendVisible ? Math.round(legend.getBoundingClientRect().height || 0) : 56;
-        const ch = controlsVisible ? Math.round(controls.getBoundingClientRect().height || 0) : 0;
         root.style.setProperty('--legend-h', `${Math.max(0, lh)}px`);
         root.style.setProperty('--controls-h', `${Math.max(0, ch)}px`);
-        syncMobileDockButtons();
       } catch (_) {}
     }
-
-    function syncInitialTopbarOffset() {
-      try { updateMobileOverlayOffsets(); } catch (_) {}
-    }
-    window.syncInitialTopbarOffset = syncInitialTopbarOffset;
 
     let mobileOverlayOffsetsWired = false;
     let overlayOffsetsResizeObserver = null;
@@ -15958,8 +13467,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (mobileOverlayOffsetsWired) return;
       mobileOverlayOffsetsWired = true;
       try {
-        try { setupMobileDockAndSheets(); } catch (_) {}
-        try { setupMobileInputFocusBehavior(); } catch (_) {}
         updateMobileOverlayOffsets();
         window.addEventListener('resize', () => { try { updateMobileOverlayOffsets(); } catch (_) {} }, { passive: true });
         window.addEventListener('orientationchange', () => { try { updateMobileOverlayOffsets(); } catch (_) {} }, { passive: true });
@@ -15967,7 +13474,7 @@ document.addEventListener('DOMContentLoaded', function() {
           overlayOffsetsResizeObserver = new ResizeObserver(() => {
             try { updateMobileOverlayOffsets(); } catch (_) {}
           });
-          ['map-topbar', 'legend', 'main-controls', 'vote-counter', 'mobile-dock'].forEach((id) => {
+          ['legend', 'main-controls', 'vote-counter'].forEach((id) => {
             const el = document.getElementById(id);
             if (el) overlayOffsetsResizeObserver.observe(el);
           });
@@ -15977,7 +13484,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function minimizeLegendOnMobile() {
       try {
-        const isMobile = isMobileViewportNow();
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
         if (!isMobile) return;
         const legend = document.getElementById('legend');
         const legendContent = document.getElementById('legend-content');
@@ -15994,7 +13501,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function minimizeMainControlsOnMobile() {
       try {
-        const isMobile = isMobileViewportNow();
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
         if (!isMobile) return;
         const controls = document.getElementById('main-controls');
         const controlsContent = document.getElementById('controls-content');
@@ -16973,7 +14480,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'line',
           source: 'counties',
           layout: { visibility: 'none' },
-          filter: ['==', ['get', '_'], '__'],
+          filter: ['==', 1, 0],
           paint: {
             'line-color': 'rgba(255, 255, 255, 0.35)',
             'line-width': 7,
@@ -16986,7 +14493,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'line',
           source: 'counties',
           layout: { visibility: 'none' },
-          filter: ['==', ['get', '_'], '__'],
+          filter: ['==', 1, 0],
           paint: {
             'line-color': 'rgba(255, 255, 255, 0.92)',
             'line-width': 2.2,
@@ -17752,10 +15259,6 @@ document.addEventListener('DOMContentLoaded', function() {
       return document.getElementById('fly-to-search') || document.getElementById('county-search');
     }
 
-    function getTopbarFlyToInput() {
-      return document.getElementById('county-search') || document.getElementById('topbar-fly-search');
-    }
-
     function setFlyToSearchValue(value, sourceInput = null) {
       const nextValue = value == null ? '' : String(value);
       getFlyToInputs().forEach(input => {
@@ -17783,56 +15286,12 @@ document.addEventListener('DOMContentLoaded', function() {
       handleSearchSelection(value);
     }
 
-    function setFlyToClearButtonState() {
-      const clearBtn = document.getElementById('fly-search-clear') || document.getElementById('topbar-fly-clear');
-      const input = getTopbarFlyToInput();
-      if (!clearBtn || !input) return;
-      clearBtn.classList.toggle('visible', !!String(input.value || '').trim());
-    }
-
     function setupFlyToQuickActions() {
       const submitBtn = document.getElementById('fly-to-submit');
       if (submitBtn && submitBtn.dataset.bound !== '1') {
         submitBtn.dataset.bound = '1';
         submitBtn.addEventListener('click', () => {
           submitFlyToSearch();
-        });
-      }
-
-      const topbarSubmitBtn = document.getElementById('topbar-fly-submit') || document.querySelector('#fly-search-form .fly-search-submit');
-      if (topbarSubmitBtn && topbarSubmitBtn.dataset.bound !== '1') {
-        topbarSubmitBtn.dataset.bound = '1';
-        topbarSubmitBtn.addEventListener('click', () => {
-          submitFlyToSearch(getTopbarFlyToInput());
-        });
-      }
-
-      const topbarForm = document.getElementById('fly-search-form');
-      if (topbarForm && topbarForm.dataset.bound !== '1') {
-        topbarForm.dataset.bound = '1';
-        topbarForm.addEventListener('submit', (event) => {
-          event.preventDefault();
-          submitFlyToSearch(getTopbarFlyToInput());
-        });
-      }
-
-      const topbarClearBtn = document.getElementById('fly-search-clear') || document.getElementById('topbar-fly-clear');
-      const topbarInput = getTopbarFlyToInput();
-      if (topbarInput && topbarInput.dataset.topbarBound !== '1') {
-        topbarInput.dataset.topbarBound = '1';
-        topbarInput.addEventListener('input', () => {
-          setFlyToClearButtonState();
-        });
-      }
-      if (topbarClearBtn && topbarClearBtn.dataset.bound !== '1') {
-        topbarClearBtn.dataset.bound = '1';
-        topbarClearBtn.addEventListener('click', () => {
-          setFlyToSearchValue('');
-          if (topbarInput) {
-            topbarInput.value = '';
-            topbarInput.focus();
-          }
-          setFlyToClearButtonState();
         });
       }
 
@@ -17848,23 +15307,6 @@ document.addEventListener('DOMContentLoaded', function() {
           submitFlyToSearch(input);
         });
       });
-
-      document.querySelectorAll('.fly-search-chip').forEach(btn => {
-        if (btn.dataset.bound === '1') return;
-        btn.dataset.bound = '1';
-        btn.addEventListener('click', () => {
-          const query = (btn.dataset.searchExample || btn.textContent || '').trim();
-          if (!query) return;
-          setFlyToSearchValue(query);
-          const input = document.getElementById('topbar-fly-search') || getPrimaryFlyToInput();
-          if (input) input.value = query;
-          setFlyToClearButtonState();
-          submitFlyToSearch(input);
-        });
-      });
-
-      setFlyToClearButtonState();
-      setupMapTopbarMirrors();
     }
 
     function attachSearchAutocomplete(searchInput, counties) {

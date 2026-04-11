@@ -12944,12 +12944,7 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) { detailInsight = ''; }
 
       if (!detailInsight) {
-        if (currentVizMode === 'flips') {
-          try {
-            const f = (prevSignedForFlip !== null && prevYearForFlip) ? flipInfo(prevSignedForFlip, signedMarginPct) : { flipped: false, from: 'T', to: 'T' };
-            if (f.flipped && prevYearForFlip) detailInsight = `Flip: ${f.from}\u2192${f.to} vs ${prevYearForFlip}`;
-          } catch (_) {}
-        }
+        // Flip context is rendered via the dedicated Flip line/chip; avoid duplicating it here.
       }
 
       if (!detailInsight && currentVizMode === 'shift' && vizShiftCache?.prevYear) {
@@ -12981,8 +12976,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       } catch (_) {}
 
-      const tierShort = tierMeta?.shortLabel || tierMeta?.label || '';
-      const showDesktopFlipChip = !((window.matchMedia && window.matchMedia('(max-width: 768px)').matches) || document.documentElement.classList.contains('android-mobile'));
+      const isMobileTooltip = !!((window.matchMedia && window.matchMedia('(max-width: 768px)').matches) || document.documentElement.classList.contains('android-mobile'));
+      const tierQuickLabel = isMobileTooltip
+        ? (tierMeta?.shortLabel || tierMeta?.label || '')
+        : (tierMeta?.label || tierMeta?.shortLabel || '');
+      const showDesktopFlipChip = !isMobileTooltip;
       const deltaBlock = (() => {
         const lines = [];
         const prevYear = Number(vizPrevCache?.prevYear);
@@ -13023,7 +13021,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const compactInner = `
         <div class="tooltip-quickline">
           <span class="${escapeHtml(winnerCall.party || 'tie')}">${escapeHtml(winnerCall.text || '')}</span>
-          ${tierShort ? `<span class="tier">${escapeHtml(tierShort)}</span>` : ''}
+          ${tierQuickLabel ? `<span class="tier">${escapeHtml(tierQuickLabel)}</span>` : ''}
         </div>
         ${flipLine}
         ${showDesktopFlipChip && flipChip ? `<div class="tooltip-flip-chip-row">${flipChip}</div>` : ''}

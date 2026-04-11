@@ -1986,6 +1986,20 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   .hover-tooltip .tooltip-flip.rep { color: #fecaca; }
   .hover-tooltip .tooltip-flip.dem { color: #bfdbfe; }
 
+  .hover-tooltip .tooltip-flip-chip-row {
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .hover-tooltip .tooltip-flip-chip-row .meta-chip {
+    margin: 0;
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
   body.colorblind-mode .hover-tooltip .tooltip-call.rep { color: #ffedd5; }
   body.colorblind-mode .hover-tooltip .tooltip-quickline .rep { color: #ffedd5; }
   body.colorblind-mode .hover-tooltip .tooltip-flip.rep { color: #ffedd5; }
@@ -12940,12 +12954,14 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) {}
 
       const tierShort = tierMeta?.shortLabel || tierMeta?.label || '';
+      const showDesktopFlipChip = !((window.matchMedia && window.matchMedia('(max-width: 768px)').matches) || document.documentElement.classList.contains('android-mobile'));
       const compactInner = `
         <div class="tooltip-quickline">
           <span class="${escapeHtml(winnerCall.party || 'tie')}">${escapeHtml(winnerCall.text || '')}</span>
           ${tierShort ? `<span class="tier">${escapeHtml(tierShort)}</span>` : ''}
         </div>
         ${flipLine}
+        ${showDesktopFlipChip && flipChip ? `<div class="tooltip-flip-chip-row">${flipChip}</div>` : ''}
         ${buildTooltipDeltaInsightHTML({
           voteShiftPrevYear: vizPrevCache?.prevYear || null,
           repDeltaVotes: (() => {
@@ -13046,6 +13062,9 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const winnerCall = winnerMarginCall(repVotes, demVotes, demVotes + repVotes + otherVotes, repCandidate, demCandidate);
+      const flipLine = (prevSignedForFlip !== null)
+        ? flipLineHTML(prevSignedForFlip, curSigned, vizPrevCache?.prevYear || null, Number(year))
+        : '';
       let insight = '';
       try {
         if (currentVizMode === 'flips') {
@@ -13063,6 +13082,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const inner = `
         <div class="tooltip-call ${escapeHtml(winnerCall.party)}">${escapeHtml(winnerCall.text)}</div>
+        ${flipLine}
         ${tooltipSublineHTML(insight)}
       `;
       showHoverTooltip(point.x, point.y, buildTooltipShell(title, inner, { kicker: subtitle }), { key: `precinct:${precinctNorm}`, copyText: title });
@@ -13211,19 +13231,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const signedMarginPct = ('margin_pct' in row) ? Number(row.margin_pct || 0) : signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
       const tierMeta = competitivenessTierMetaFromSignedMarginPct(signedMarginPct);
+      const winner = signedMarginPct > 0 ? 'R' : (signedMarginPct < 0 ? 'D' : 'T');
       let prevSignedForFlip = null;
       let prevYearForFlip = null;
-      if (currentVizMode === 'shift' || currentVizMode === 'flips') {
-        try {
-          const prevCached = await ensurePrevDistrictCache(scope, contestType, Number(year));
-          prevYearForFlip = prevCached?.prevYear || null;
-          const prevResults = prevCached?.prevNode?.general?.results || null;
-          if (prevResults) {
-            const prevRow = prevResults[String(districtNum)] || prevResults[String(Number(districtNum))] || null;
-            if (prevRow) prevSignedForFlip = Number(prevRow.margin_pct || 0);
-          }
-        } catch (_) {}
-      }
+      try {
+        const prevCached = await ensurePrevDistrictCache(scope, contestType, Number(year));
+        prevYearForFlip = prevCached?.prevYear || null;
+        const prevResults = prevCached?.prevNode?.general?.results || null;
+        if (prevResults) {
+          const prevRow = prevResults[String(districtNum)] || prevResults[String(Number(districtNum))] || null;
+          if (prevRow) prevSignedForFlip = Number(prevRow.margin_pct || 0);
+        }
+      } catch (_) {}
 
       const winnerCall = winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate);
       let insight = '';
@@ -13233,18 +13252,53 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
           insight = 'Shift: Unavailable';
         }
-      } else if (currentVizMode === 'flips' && prevSignedForFlip !== null && prevYearForFlip) {
-        try {
-          const f = flipInfo(prevSignedForFlip, signedMarginPct);
-          if (f.flipped) insight = `Flip: ${f.from}\u2192${f.to} vs ${prevYearForFlip}`;
-        } catch (_) {}
       }
       if (!insight && tierMeta?.label) insight = String(tierMeta.label);
 
-      const inner = `
-        <div class="tooltip-call ${escapeHtml(winnerCall.party)}">${escapeHtml(winnerCall.text)}</div>
-        ${tooltipSublineHTML(insight)}
-      `;
+      const chips = [];
+      if (currentVizMode === 'shift' && prevSignedForFlip !== null && prevYearForFlip) {
+        chips.push(shiftChipHTML(signedMarginPct - prevSignedForFlip, prevYearForFlip, Number(year)));
+      } else if (currentVizMode === 'shift') {
+        chips.push(shiftChipHTML(0, null, null));
+      } else {
+        chips.push(winnerChipHTML(winner));
+      }
+      chips.push(tierChipHTML(tierMeta));
+
+      if (prevSignedForFlip !== null) {
+        const flipChip = flipChipHTML(prevSignedForFlip, signedMarginPct);
+        if (flipChip) chips.push(flipChip);
+      }
+
+      const flipLine = (prevSignedForFlip !== null)
+        ? flipLineHTML(prevSignedForFlip, signedMarginPct, prevYearForFlip, Number(year))
+        : '';
+      const tierShort = tierMeta?.shortLabel || tierMeta?.label || '';
+      const useCompact = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+
+      const classicInner = `
+        <div class="hover-meta">${chips.join('')}</div>
+        ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate)}
+        ${insight ? `<div class="tooltip-insight">${escapeHtml(insight)}</div>` : ''}
+      `.trim();
+
+      const compactInner = `
+        <div class="tooltip-quickline">
+          <span class="${escapeHtml(winnerCall.party || 'tie')}">${escapeHtml(winnerCall.text || '')}</span>
+          ${tierShort ? `<span class="tier">${escapeHtml(tierShort)}</span>` : ''}
+        </div>
+        ${flipLine}
+        ${insight ? `<div class="tooltip-insight">${escapeHtml(insight)}</div>` : ''}
+        <details class="tooltip-more" aria-label="More details">
+          <summary>Details</summary>
+          <div class="tooltip-more-body">
+            <div class="hover-meta">${chips.join('')}</div>
+            ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate)}
+          </div>
+        </details>
+      `.trim();
+
+      const inner = useCompact ? compactInner : classicInner;
       showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, inner, { kicker: subtitle }), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
       wireTooltipButtons();
     }

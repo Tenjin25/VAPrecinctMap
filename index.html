@@ -1963,16 +1963,35 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   .hover-tooltip .tooltip-quickline .tie { color: #e2e8f0; }
 
   .hover-tooltip .tooltip-quickline .tier {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 900;
-    letter-spacing: 0.02em;
-    color: rgba(226, 232, 240, 0.86);
+    letter-spacing: 0.01em;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .hover-tooltip .tooltip-quickline .tier::before {
+    content: "";
+    margin: 0;
+  }
+  .hover-tooltip .tooltip-quickline .tier {
+    margin-left: 4px;
   }
 
   .hover-tooltip .tooltip-insight {
     margin-top: 6px;
     font-size: 12px;
     line-height: 1.4;
+    color: rgba(226, 232, 240, 0.92);
+  }
+
+  .hover-tooltip .tooltip-delta {
+    margin-top: 8px;
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: rgba(226, 232, 240, 0.92);
+  }
+
+  .hover-tooltip .tooltip-delta-line {
+    margin-top: 4px;
     color: rgba(226, 232, 240, 0.92);
   }
 
@@ -12416,18 +12435,27 @@ document.addEventListener('DOMContentLoaded', function() {
       };
     }
 
-    function getVirginiaGeographyPhrase(localityNormRaw, censusContext = null) {
+    function getVirginiaGeographyPhrase(localityNormRaw, censusContext = null, options = {}) {
       const norm = normalizeCountyLookupKey(localityNormRaw);
       const corridorLabel = String(censusContext?.corridorLabel || '').trim();
+      const corridorEmoji = String(censusContext?.corridorEmoji || '').trim();
+      const corridorTag = `${corridorEmoji ? `${corridorEmoji} ` : ''}${corridorLabel}`.trim();
+
+      const forProfile = !!options?.forProfile;
+      if (forProfile && corridorTag) return corridorTag;
+
       if (/NoVA/i.test(corridorLabel)) return 'Northern Virginia';
-      if (/Richmond/i.test(corridorLabel)) return 'the Richmond region';
+      if (/Richmond/i.test(corridorLabel)) return forProfile ? 'Richmond region' : 'the Richmond region';
       if (/Hampton Roads|Historic Triangle|Oceanfront/i.test(corridorLabel)) return 'Tidewater';
-      if (/Eastern Shore/i.test(corridorLabel)) return 'the Eastern Shore';
-      if (/New River Valley/i.test(corridorLabel)) return 'the New River Valley';
-      if (/Roanoke Valley|Upper Valley|Central Valley|I.?81/i.test(corridorLabel)) return 'the I-81 corridor';
+      if (/Eastern Shore/i.test(corridorLabel)) return forProfile ? 'Eastern Shore' : 'the Eastern Shore';
+      if (/New River Valley/i.test(corridorLabel)) return forProfile ? 'New River Valley' : 'the New River Valley';
+      if (/Roanoke Valley|Upper Valley|Central Valley|I.?81/i.test(corridorLabel)) return forProfile ? 'I-81 corridor' : 'the I-81 corridor';
+      if (/I.?95|Fredericksburg/i.test(corridorLabel)) return forProfile ? corridorLabel : `the ${corridorLabel}`.replace(/^the the\s+/i, 'the ');
       if (/coalfield/i.test(corridorLabel)) return 'Southwest Virginia';
       if (/Southside|Dan River|tobacco belt/i.test(corridorLabel)) return 'Southside Virginia';
-      if (VA_MILITARY_HEAVY_LOCALITIES.has(norm)) return 'coastal Virginia';
+      if (VA_MILITARY_HEAVY_LOCALITIES.has(norm)) return forProfile ? 'Coastal Virginia' : 'coastal Virginia';
+
+      if (forProfile && corridorLabel) return corridorLabel;
       return 'Virginia';
     }
 
@@ -12479,7 +12507,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function buildWhyVotesThisWay(localityNormRaw, archetype, winnerCall, trajectoryMeta = null, censusContext = null) {
-      const geography = getVirginiaGeographyPhrase(localityNormRaw, censusContext);
+        const geography = getVirginiaGeographyPhrase(localityNormRaw, censusContext);
       const growthPct = Number(censusContext?.changePct2020To2025);
       const growthText = Number.isFinite(growthPct)
         ? (Math.abs(growthPct) < 0.1
@@ -12955,6 +12983,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const tierShort = tierMeta?.shortLabel || tierMeta?.label || '';
       const showDesktopFlipChip = !((window.matchMedia && window.matchMedia('(max-width: 768px)').matches) || document.documentElement.classList.contains('android-mobile'));
+      const deltaBlock = (() => {
+        const lines = [];
+        const prevYear = Number(vizPrevCache?.prevYear);
+        const prev = vizPrevCache?.prevCountyTotals?.[norm] || null;
+        const curYear = Number(year);
+        const shortYearLabel = (y) => {
+          const n = Number(y);
+          if (!Number.isFinite(n)) return '';
+          const s = String(Math.trunc(n));
+          return s.length >= 2 ? s.slice(-2) : s.padStart(2, '0');
+        };
+
+        if (prev && Number.isFinite(prevYear) && Number.isFinite(curYear)) {
+          const repDelta = Number(repVotes) - Number(prev.rep);
+          const demDelta = Number(demVotes) - Number(prev.dem);
+          const totalDelta = Number(totalVotes) - Number(prev.total);
+          const label = `${shortYearLabel(prevYear)}\u2192${shortYearLabel(curYear)}`;
+          lines.push(
+            `Raw votes (${escapeHtml(label)}): ` +
+            `<span style="color:#fecaca;font-weight:800;">R ${escapeHtml(formatSignedCount(repDelta))}</span> • ` +
+            `<span style="color:#bfdbfe;font-weight:800;">D ${escapeHtml(formatSignedCount(demDelta))}</span> • ` +
+            `<span style="font-weight:800;">Total ${escapeHtml(formatSignedCount(totalDelta))}</span>`
+          );
+        }
+
+        const popLine = String(getVaPopulationDeltaLine(countyName) || '').trim();
+        if (popLine) {
+          popLine
+            .split('\n')
+            .map(s => String(s || '').trim())
+            .filter(Boolean)
+            .forEach(s => lines.push(escapeHtml(s)));
+        }
+
+        if (!lines.length) return '';
+        return `<div class="tooltip-delta">${lines.map(line => `<div class="tooltip-delta-line">${line}</div>`).join('')}</div>`;
+      })();
       const compactInner = `
         <div class="tooltip-quickline">
           <span class="${escapeHtml(winnerCall.party || 'tie')}">${escapeHtml(winnerCall.text || '')}</span>
@@ -12962,27 +13027,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         ${flipLine}
         ${showDesktopFlipChip && flipChip ? `<div class="tooltip-flip-chip-row">${flipChip}</div>` : ''}
-        ${buildTooltipDeltaInsightHTML({
-          voteShiftPrevYear: vizPrevCache?.prevYear || null,
-          repDeltaVotes: (() => {
-            const prev = vizPrevCache?.prevCountyTotals?.[norm] || null;
-            if (!prev) return NaN;
-            return Number(repVotes) - Number(prev.rep);
-          })(),
-          demDeltaVotes: (() => {
-            const prev = vizPrevCache?.prevCountyTotals?.[norm] || null;
-            if (!prev) return NaN;
-            return Number(demVotes) - Number(prev.dem);
-          })(),
-          voteShiftDeltaVotes: (() => {
-            const prev = vizPrevCache?.prevCountyTotals?.[norm] || null;
-            if (!prev) return NaN;
-            const curMargin = Number(repVotes) - Number(demVotes);
-            const prevMargin = Number(prev.rep) - Number(prev.dem);
-            return curMargin - prevMargin;
-          })(),
-          populationLine: getVaPopulationDeltaLine(countyName)
-        })}
+        ${deltaBlock}
       `.trim();
 
       const expandedInner = `
@@ -13679,7 +13724,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const archetype = buildLocalityArchetype(countyNorm, winnerCall, trajectoryMeta, censusContext);
         const whyBlock = buildWhyVotesThisWay(countyNorm, archetype, winnerCall, trajectoryMeta, censusContext);
         const toneClass = winnerCall.party === 'rep' ? 'tone-rep' : (winnerCall.party === 'dem' ? 'tone-dem' : 'tone-neutral');
-        const geographyValue = getVirginiaGeographyPhrase(countyNorm, censusContext);
+        const geographyValue = getVirginiaGeographyPhrase(countyNorm, censusContext, { forProfile: true });
         const populationSignal = censusContext
           ? (Number.isFinite(Number(censusContext.changePct2020To2025))
             ? `${censusContext.signalLabel} (${Math.abs(Number(censusContext.changePct2020To2025)).toFixed(1)}%)`

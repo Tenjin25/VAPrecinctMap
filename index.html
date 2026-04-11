@@ -767,11 +767,12 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
 @media (max-width: 768px) {
   .atlas-credit-bar {
-    bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + 14px);
-    max-width: calc(100vw - 16px);
-    padding: 5px 10px;
-    font-size: 10px;
+    bottom: calc(var(--safe-bottom, 0px) + 8px);
+    max-width: min(78vw, 320px);
+    padding: 4px 10px;
+    font-size: 9px;
     white-space: normal;
+    opacity: 0.82;
   }
 }
 /* Mobile: Full-width controls at top */
@@ -2948,6 +2949,26 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     color: #0f172a;
   }
 
+  .county-focus-summary-copy {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .county-focus-summary-title {
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1.25;
+    color: #0f172a;
+  }
+
+  .county-focus-summary-line {
+    font-size: 11px;
+    line-height: 1.35;
+    font-weight: 700;
+    color: #64748b;
+  }
+
   .county-detail-collapsible summary::-webkit-details-marker {
     display: none;
   }
@@ -3001,6 +3022,10 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
   .locality-focus-inline .county-focus-shell {
     margin: 0;
+  }
+
+  .county-focus-vote-breakdown .county-detail-body {
+    padding-top: 4px;
   }
 
   .county-focus-trend-strip {
@@ -3217,6 +3242,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     font-weight: 850;
     color: #334155;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -3264,6 +3290,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     text-overflow: ellipsis;
     white-space: normal;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     word-break: break-word;
@@ -3275,6 +3302,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     font-weight: 800;
     color: #475569;
     display: -webkit-box;
+    line-clamp: 3;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -3316,11 +3344,13 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     text-overflow: ellipsis;
     white-space: normal;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
 
   .focus-mini-card .v.long-form {
+    line-clamp: 3;
     -webkit-line-clamp: 3;
   }
 
@@ -3438,6 +3468,11 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
       font-size: 24px;
     }
 
+    .locality-focus-inline {
+      gap: 12px;
+      padding-bottom: calc(var(--legend-h, 56px) + var(--safe-bottom, 0px) + 18px);
+    }
+
     .focus-glance { padding: 12px 12px 10px; }
     .focus-glance-bullets li { grid-template-columns: 82px minmax(0, 1fr); }
 
@@ -3454,6 +3489,25 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
     .county-focus-trend-strip {
       grid-auto-columns: minmax(138px, 156px);
+    }
+
+    .county-detail-collapsible summary {
+      align-items: flex-start;
+    }
+
+    .county-focus-list-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2px;
+    }
+
+    .county-focus-list-value {
+      text-align: left;
+    }
+
+    .county-focus-summary-line {
+      max-width: 100%;
+      padding-right: 18px;
     }
   }
 
@@ -3949,6 +4003,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     word-break: break-word;
@@ -5626,6 +5681,11 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
       -webkit-overflow-scrolling: touch;
     }
 
+    .vote-counter.minimized {
+      max-height: 64px;
+      overflow: hidden;
+    }
+
     .vote-counter-context {
       gap: 10px;
       margin-bottom: 10px;
@@ -6519,6 +6579,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   .vote-item.layout-stacked .vote-label.candidate {
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     white-space: normal;
     overflow-wrap: anywhere;
@@ -7486,9 +7547,22 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     };
 
-    mapboxgl.accessToken = 'pk.eyJ1Ijoic2hhbWFyZGF2aXMiLCJhIjoiY21tYjlxamMxMG5nbTJ2cHU5amE5MTBxZyJ9.JSPHbYwzGQAV8TgI6MBwHw';
+    const DEFAULT_MAPBOX_TOKEN = '';
+    const resolvedMapboxToken = (
+      (typeof CONFIG.mapboxToken === 'string' && CONFIG.mapboxToken.trim()) ||
+      (typeof window.MAPBOX_ACCESS_TOKEN === 'string' && window.MAPBOX_ACCESS_TOKEN.trim()) ||
+      (typeof localStorage !== 'undefined' && typeof localStorage.getItem('mapboxToken') === 'string' && localStorage.getItem('mapboxToken').trim()) ||
+      DEFAULT_MAPBOX_TOKEN
+    );
 
-    const map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/light-v11', center: CONFIG.center, zoom: CONFIG.zoom });
+    mapboxgl.accessToken = resolvedMapboxToken;
+
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/light-v11',
+      center: CONFIG.center,
+      zoom: CONFIG.zoom
+    });
 
     const IS_COARSE_POINTER = (() => {
       try { return window.matchMedia && window.matchMedia('(pointer: coarse)').matches; } catch (_) { return false; }
@@ -8204,8 +8278,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!enabled) {
           map.setLayoutProperty(glowId, 'visibility', 'none');
           map.setLayoutProperty(outlineId, 'visibility', 'none');
-          map.setFilter(glowId, ['==', 1, 0]);
-          map.setFilter(outlineId, ['==', 1, 0]);
+          map.setFilter(glowId, ['==', ['get', '_'], '__never__']);
+          map.setFilter(outlineId, ['==', ['get', '_'], '__never__']);
           return;
         }
 
@@ -10128,6 +10202,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function setVoteCounterBaselineState(title, sub, demVotes, repVotes, otherVotes, meta = {}) {
       voteCounterBaseline = { title, sub, demVotes, repVotes, otherVotes, meta: normalizeVoteCounterMeta(meta) };
       if (!voteCounterPinned) {
+        syncVoteCounterPrimaryPanels();
         setVoteCounterContext(title, sub, { showClear: false });
         updateVoteCounter(demVotes, repVotes, otherVotes, voteCounterBaseline.meta);
         refreshFocusTrend(voteCounterBaseline);
@@ -10147,6 +10222,7 @@ document.addEventListener('DOMContentLoaded', function() {
       voteCounterPinned = null;
       voteCounterHoverActive = false;
       clearCountyDetails();
+      syncVoteCounterPrimaryPanels();
       setAtlasFocusMode(false);
       if (voteCounterBaseline) {
         setVoteCounterContext(voteCounterBaseline.title, voteCounterBaseline.sub, { showClear: false });
@@ -10257,20 +10333,47 @@ document.addEventListener('DOMContentLoaded', function() {
       try { updateMobileOverlayOffsets(); } catch (_) {}
     }
 
-    function toggleVoteCounterPanel(forceExpanded = null) {
+    function syncVoteCounterPrimaryPanels() {
+      const focusCard = document.getElementById('focus-card');
+      const inlineHost = document.getElementById('locality-focus-inline');
+      if (!focusCard) return;
+
+      const inlineActive = !!(inlineHost && !inlineHost.hidden && inlineHost.innerHTML && inlineHost.innerHTML.trim());
+      if (inlineActive) {
+        focusCard.style.display = 'none';
+        focusCard.classList.remove('visible');
+        focusCard.setAttribute('aria-hidden', 'true');
+        return;
+      }
+
+      focusCard.style.display = '';
+      focusCard.classList.add('visible');
+      focusCard.removeAttribute('aria-hidden');
+    }
+
+    function setVoteCounterMinimizedState(minimized) {
       const counter = document.getElementById('vote-counter');
       const btn = document.getElementById('vote-counter-minimize-btn');
       if (!counter || !btn) return;
 
+      const isMinimized = !!minimized;
+      counter.classList.toggle('minimized', isMinimized);
+      if (!isMinimized) syncVoteCounterPrimaryPanels();
+      btn.textContent = isMinimized ? '+' : '-';
+      btn.title = isMinimized ? 'Expand results' : 'Minimize results';
+      btn.setAttribute('aria-expanded', isMinimized ? 'false' : 'true');
+
+      try { updateMobileOverlayOffsets(); } catch (_) {}
+    }
+
+    function toggleVoteCounterPanel(forceExpanded = null) {
+      const counter = document.getElementById('vote-counter');
+      if (!counter) return;
+
       const shouldMinimize = forceExpanded === true
         ? false
         : (forceExpanded === false ? true : !counter.classList.contains('minimized'));
-      counter.classList.toggle('minimized', shouldMinimize);
-      btn.textContent = shouldMinimize ? '+' : '-';
-      btn.title = shouldMinimize ? 'Expand results' : 'Minimize results';
-      btn.setAttribute('aria-expanded', shouldMinimize ? 'false' : 'true');
-
-      try { updateMobileOverlayOffsets(); } catch (_) {}
+      setVoteCounterMinimizedState(shouldMinimize);
     }
 
     let voteCounterAutoMinimizedOnce = false;
@@ -10279,16 +10382,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
       if (!isMobile) return;
       const counter = document.getElementById('vote-counter');
-      const btn = document.getElementById('vote-counter-minimize-btn');
-      if (!counter || !btn) return;
+      if (!counter) return;
       if (counter.style.display === 'none') return;
       // Default to a compact card on first open; user can expand with the + button.
-      counter.classList.add('minimized');
-      btn.textContent = '+';
-      btn.title = 'Expand results';
-      btn.setAttribute('aria-expanded', 'false');
+      setVoteCounterMinimizedState(true);
       voteCounterAutoMinimizedOnce = true;
-      try { updateMobileOverlayOffsets(); } catch (_) {}
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -10539,13 +10637,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	      // Keep separate cache entries for county-mode vs precinct-mode loads.
 	      // Otherwise a county JSON slice cached while precincts are off gets reused
 	      // after toggling precincts on, causing county-uniform precinct shading.
-	      const key = `${contestType}_${year}_${preferPrecinctCSV ? 'precinct' : 'county'}`;
-	      if (contestSliceCache.has(key)) return contestSliceCache.get(key);
+        const sourceKey = `${contestType}_${year}`;
+        const cacheKey = `${sourceKey}_${preferPrecinctCSV ? 'precinct' : 'county'}`;
+        if (contestSliceCache.has(cacheKey)) return contestSliceCache.get(cacheKey);
 	      if (preferPrecinctCSV) {
 	        try {
 	          const rows = await loadStatewideSliceFromOpenElectionsCSV(contestType, Number(year));
 	          if (rows && rows.length) {
-	            contestSliceCache.set(key, rows);
+              contestSliceCache.set(cacheKey, rows);
 	            return rows;
 	          }
 	        } catch (err) {
@@ -10554,7 +10653,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	      }
 
 	      try {
-	        const payload = await loadJSON(`${CONFIG.paths.contests_dir}/${key}.json`);
+          const payload = await loadJSON(`${CONFIG.paths.contests_dir}/${sourceKey}.json`);
 	        const rows = (payload.rows || []).map(r => ({
 	          year: Number(year),
 	          county: r.county,
@@ -10569,21 +10668,21 @@ document.addEventListener('DOMContentLoaded', function() {
           [`${contestType}_winner`]: r.winner || '',
           [`${contestType}_color`]: r.color || ''
         }));
-	        contestSliceCache.set(key, rows);
+          contestSliceCache.set(cacheKey, rows);
 	        return rows;
 	      } catch (_) {
 	        // CSV-backed statewide fallback when available.
 	        if (getOpenElectionsCsvPath(contestType, Number(year))) {
 	          try {
 	            const rows = await loadStatewideSliceFromOpenElectionsCSV(contestType, Number(year));
-	            contestSliceCache.set(key, rows);
+              contestSliceCache.set(cacheKey, rows);
 	            return rows;
 	          } catch (err) {
 	            console.warn('Failed to load OpenElections CSV for', contestType, year, err?.message || err);
 	          }
 	        }
 	        const fallback = (electionData || []).filter(row => row.year == year);
-	        contestSliceCache.set(key, fallback);
+          contestSliceCache.set(cacheKey, fallback);
 	        return fallback;
 	      }
 	    }
@@ -13560,6 +13659,24 @@ document.addEventListener('DOMContentLoaded', function() {
       const target = getCountyDetailsRenderTarget();
       if (!target) return;
 
+      if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+        const controls = document.getElementById('main-controls');
+        const controlsContent = document.getElementById('controls-content');
+        const minimizeBtn = document.getElementById('controls-minimize-btn');
+        if (controls && !controls.classList.contains('minimized')) {
+          try { minimizeLegendOnMobile(); } catch (_) {}
+          try { minimizeVoteCounterOnMobile(); } catch (_) {}
+          controls.classList.add('minimized');
+          if (controlsContent) controlsContent.style.display = 'none';
+          if (minimizeBtn) {
+            minimizeBtn.textContent = '+';
+            minimizeBtn.title = 'Expand controls';
+          }
+          try { saveUIState(); } catch (_) {}
+          try { updateMobileOverlayOffsets(); } catch (_) {}
+        }
+      }
+
       const sidebar = document.getElementById('sidebar');
       if (target.mode === 'sidebar' && sidebar) {
         const detailsDiv = target.detailsDiv;
@@ -13707,6 +13824,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       function renderCountyPanel(series = null, loadState = 'loading') {
         const seriesLoaded = Array.isArray(series);
+        const mobileFocusLayout = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
         const localityType = localityNoun(countyNorm);
         const localitySubtype = localitySubtypeLabel(countyNorm);
         const localityScope = localityScopeLabel(countyNorm);
@@ -13940,6 +14058,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const whyHeadlineTight = tightenInsightLine(whyBlock?.headline, 150) || String(whyBlock?.headline || '').trim();
         const whyLineTight = tightenInsightLine(Array.isArray(whyBlock?.lines) ? whyBlock.lines[0] : '', 170);
         const profileDetailTight = tightenInsightLine(`${trajectoryDetail} ${populationDetail}`, 190);
+        const voteBreakdownHtml = `
+          <details class="county-detail-collapsible county-focus-vote-breakdown" aria-label="Vote breakdown"${mobileFocusLayout ? ' open' : ''}>
+            <summary>
+              <span class="county-focus-summary-copy">
+                <span class="county-focus-summary-title">Vote breakdown</span>
+                <span class="county-focus-summary-line">${escapeHtml(contestLabel)} • ${escapeHtml(totalVotes.toLocaleString())} votes</span>
+              </span>
+            </summary>
+            <div class="county-detail-body">
+              <div class="county-focus-list">
+                ${voteRows.map(row => `
+                  <div class="county-focus-list-item">
+                    <span class="county-focus-list-label">${row.label}</span>
+                    <span class="county-focus-list-value">${row.value}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </details>
+        `;
 
         const deeperContextHtml = `
           <details class="county-detail-collapsible">
@@ -13979,13 +14117,8 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
               <div class="county-focus-panel">
                 <div class="county-focus-section-title">Vote breakdown</div>
-                <div class="county-focus-list">
-                  ${voteRows.map(row => `
-                    <div class="county-focus-list-item">
-                      <span class="county-focus-list-label">${row.label}</span>
-                      <span class="county-focus-list-value">${row.value}</span>
-                    </div>
-                  `).join('')}
+                <div class="county-focus-panel-copy">
+                  <p>Expanded above for faster reading on phones and smaller screens.</p>
                 </div>
               </div>
             </div>
@@ -14058,6 +14191,8 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
               <div class="focus-glance-summary">${escapeHtml(glanceSentence)}</div>
             </section>
+
+            ${voteBreakdownHtml}
 
             <div class="county-focus-panel county-focus-trend-panel" aria-label="Trend and trajectory">
               <div class="county-focus-section-title">Trend / trajectory</div>
@@ -14480,7 +14615,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'line',
           source: 'counties',
           layout: { visibility: 'none' },
-          filter: ['==', 1, 0],
+          filter: ['==', ['get', '_'], '__never__'],
           paint: {
             'line-color': 'rgba(255, 255, 255, 0.35)',
             'line-width': 7,
@@ -14493,7 +14628,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'line',
           source: 'counties',
           layout: { visibility: 'none' },
-          filter: ['==', 1, 0],
+          filter: ['==', ['get', '_'], '__never__'],
           paint: {
             'line-color': 'rgba(255, 255, 255, 0.92)',
             'line-width': 2.2,

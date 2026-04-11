@@ -47,9 +47,9 @@ Virginia holds elections on a distinct off-year cycle (gubernatorial and state l
 | **CSV parsing** | PapaParse 5.4.1 (used for any runtime CSV loading) |
 | **Contest selector** | Dropdowns for contest type and year; manifest-driven so new contests appear automatically |
 | **Map views** | County fill, precinct outline overlay, congressional district, House of Delegates (HoD) district, state-senate district |
-| **Hover tooltip** | Condensed broadcast card (winner/margin + **vote change**/**margin change** vs prior comparable election + optional population change line). Works for **counties and independent cities**; tap/click `Pin` to freeze and reveal `Details`, and `Close` dismisses. On mobile it docks above the legend/results to prevent stacking. |
+| **Hover tooltip** | Condensed broadcast hover card for **counties, independent cities, precincts, and districts**. Shows a one-line winner call + (when available) vote change / margin change vs prior comparable election and an optional population-change line. `Pin` freezes the tooltip (and reveals `Details` + `Close`); `Close` dismisses and won’t immediately re-open until you move the pointer (prevents hover flicker). Mobile docks the tooltip above the legend/results so it stays readable. |
 | **Selected locality panel** | Broadcast-style county/city focus flow: header + badges → At a glance → Trend + Shift → Trajectory Snapshot → Census Insight → What to watch, with a collapsible deeper-context section (vote breakdown, demographics, non-geographic votes). |
-| **Focus trend panel** | NC-style trend layout in the vote counter with `Latest`, `Closest`, `Since`, and per-year timeline cards, plus a **Trajectory Snapshot** and optional **Census insight** (Vintage 2025) with corridor tags to explain how/why a partisan lean can form |
+| **Focus trend panel** | NC-style trend layout in the vote counter with `Latest`, `Closest`, `Since`, and per-year timeline cards (full vote totals; no `K`/`M` abbreviations), plus a **Trajectory Snapshot** and optional **Census insight** (Vintage 2025) with corridor tags to explain how/why a partisan lean can form |
 | **Smart Insights** | Optional (default OFF) story mode that subtly highlights closest margins, biggest shifts, and population-signal localities and surfaces a short tooltip insight without overriding user selection. |
 | **Focus mode** | When a locality is selected/pinned, the map subtly dims and the results panel elevates to keep attention on the active geography. |
 | **Winner labeling** | Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`), while statewide headline keeps short labels |
@@ -574,6 +574,41 @@ The entire front end lives in `index.html` — a single self-contained file with
 - The top-right vote breakdown uses tabular numerals and constrained card geometry to keep totals visually aligned.
 - A runtime overflow check measures each vote tile (`label`, `count`, and header width). When overflow is detected, the tile gets a `layout-stacked` class so text wraps instead of clipping.
 - Overflow checks run after counter animations complete, on viewport resize, and after candidate-label updates.
+
+### Hover Tooltip UX
+
+The hover tooltip is designed to be **fast, low-clutter, and Virginia-safe** (county vs. independent-city naming).
+
+**Desktop (fine pointer / mouse):**
+
+- Moving the cursor over a feature shows a compact tooltip near the cursor.
+- The tooltip is intentionally “read-only” until you `Pin` it; this keeps hover responsive and avoids accidental UI captures while panning.
+- `Pin` freezes the tooltip (it stops following the cursor and stops hover-refresh) and reveals the expandable `Details` section and the `Close` button.
+- `Close` dismisses the tooltip and suppresses immediate re-open for the same hovered feature until the pointer moves (prevents “close → instantly re-open” flicker).
+
+**Mobile / touch (coarse pointer):**
+
+- Tapping a feature pins the tooltip (so you can scroll the tooltip and interact with its controls).
+- The tooltip docks above the legend and vote counter to avoid UI stacking/overlap on small screens.
+
+**What the tooltip shows:**
+
+- **Winner call line** (e.g., `Trump +3.12%`) with party-tinted text on the dark tooltip surface.
+- **Delta insight lines** when prior-cycle context exists:
+  - Vote change since the prior comparable election (`R +… · D +…`)
+  - Margin change since the prior comparable election (`R/D +… votes`)
+  - Optional population-change lines (from `Data/CO-EST2025-POP-51-clean.csv`).
+- **Details (pinned only):** a full result card with vote totals and percent shares, plus meta chips (winner, rating tier, and—depending on visualization mode—shift/flip context).
+
+**Flip vs. shift context (to reduce clutter):**
+
+- In `Shift` mode, the tooltip emphasizes margin-change context.
+- In `Flips` mode, the tooltip surfaces flip-specific context (and otherwise keeps flip narration out of the hover card).
+
+**Color conventions inside the tooltip:**
+
+- Democratic: blues; Republican: reds; Other/third-party: grays; tossups: neutral.
+- Vote-share bars use solid colors: Dem `#3b82f6`, Other `#9ca3af`, Rep `#ef4444`.
 
 **Validation:**
 

@@ -3218,6 +3218,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     color: #334155;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -3265,6 +3266,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     word-break: break-word;
   }
@@ -3276,6 +3278,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     color: #475569;
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -3317,11 +3320,13 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
   }
 
   .focus-mini-card .v.long-form {
     -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 
   .focus-mini-card .v.rep { color: #7f1d1d; }
@@ -3940,6 +3945,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   }
 
   .focus-pill-value {
+    line-clamp: 2;
     display: -webkit-box;
     margin-top: 5px;
     font-size: 15px;
@@ -6520,6 +6526,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     white-space: normal;
     overflow-wrap: anywhere;
     word-break: break-word;
@@ -7099,6 +7106,217 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     }
   }
 
+  /* NCMap desktop shell alignment: desktop-only overlay architecture. */
+  @media (min-width: 769px) {
+    :root {
+      --desktop-left-w: 440px;
+      --desktop-right-w: 332px;
+    }
+
+    .main-controls {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      right: auto;
+      width: min(var(--desktop-left-w), calc(100vw - 40px));
+      min-width: 0;
+      max-width: var(--desktop-left-w);
+      max-height: none !important;
+      padding: 16px;
+      overflow: visible !important;
+      z-index: 1003;
+    }
+
+    .controls-content {
+      max-height: 70vh;
+      overflow-y: auto;
+      overflow-x: visible;
+      padding-right: 10px;
+      margin-right: -10px;
+    }
+
+    .main-controls.minimized {
+      top: 20px;
+      left: 20px;
+      width: auto;
+      min-width: 148px;
+      max-width: calc(100vw - 40px);
+      max-height: none;
+      overflow: visible;
+      padding: 10px 12px;
+      border-radius: 999px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+    }
+
+    .controls-header {
+      margin-bottom: 12px;
+    }
+
+    .control-group {
+      margin-bottom: 12px;
+    }
+
+    .view-toggle-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 42px;
+      padding: 8px 10px;
+    }
+
+    .legend {
+      position: fixed;
+      left: auto;
+      right: 20px;
+      bottom: 20px;
+      width: min(var(--desktop-left-w), calc(100vw - 40px));
+      min-width: 250px;
+      max-width: min(var(--desktop-left-w), calc(100vw - 40px));
+      max-height: min(44vh, 420px);
+      overflow-y: auto;
+      border-radius: 20px;
+      background: rgba(248, 250, 252, 0.92);
+      z-index: 1002;
+    }
+
+    .legend-header {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 18px;
+      border-bottom: none;
+      background: rgba(248, 250, 252, 0.96);
+    }
+
+    .legend-header-main {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    .legend-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .legend-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.10) 0%, rgba(37, 99, 235, 0.12) 100%);
+      color: #1e3a8a;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .legend-content {
+      display: grid;
+      gap: 12px;
+      padding: 14px 18px;
+    }
+
+    .legend-item {
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: normal;
+      white-space: normal;
+    }
+
+    .legend-footer {
+      padding: 10px 16px 16px;
+      border-top: 1px solid rgba(148, 163, 184, 0.16);
+    }
+
+    .legend.minimized {
+      width: auto;
+      left: auto;
+      right: 20px;
+      max-width: calc(100vw - 40px);
+      max-height: none;
+      overflow: visible;
+    }
+
+    .legend.minimized .legend-header {
+      position: relative;
+      top: auto;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+    }
+
+    .viz-modes {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      left: auto;
+      transform: none;
+      width: min(var(--desktop-right-w), calc(100vw - 40px));
+      padding: 10px;
+      gap: 8px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      z-index: 1004;
+    }
+
+    .viz-mode-btn {
+      flex: 1 1 calc(50% - 6px);
+      min-width: 0;
+      min-height: 48px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .viz-mode-btn.active::after {
+      display: none;
+    }
+
+    .vote-counter {
+      position: fixed;
+      top: 114px;
+      right: 20px;
+      left: auto;
+      transform: none;
+      width: min(var(--desktop-right-w), calc(100vw - 40px));
+      min-width: 286px;
+      max-width: var(--desktop-right-w);
+      max-height: min(56vh, 560px);
+      padding: 16px 16px 14px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 18px 44px rgba(15, 23, 42, 0.18);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      z-index: 1003;
+    }
+
+    .vote-counter::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--state-ribbon);
+    }
+
+    .atlas-credit-bar {
+      left: 50%;
+      bottom: 10px;
+      transform: translateX(-50%);
+      z-index: 1001;
+    }
+  }
+
     </style>
 </head>
 <body>
@@ -7527,7 +7745,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <div class="legend-handle" aria-hidden="true"></div>
               <div class="legend-copy">
                 <span class="legend-kicker">Map key</span>
-                <h4>Political Categories</h4>
+                <h4>Margin Categories</h4>
                 <p class="legend-subtitle" id="legend-subtitle">Two-party margin buckets for the selected contest.</p>
               </div>
             </div>
@@ -7556,9 +7774,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span class="legend-segment legend-color" style="background: #08306b;"></span>
               </div>
               <div class="legend-scale-caption">
-                <span class="rep">Stronger Republican</span>
+                <span class="rep">Annihilation Republican</span>
                 <span>Tossup</span>
-                <span class="dem">Stronger Democratic</span>
+                <span class="dem">Annihilation Democratic</span>
               </div>
               <div class="legend-axis margins">
                 <span class="rep">R +40</span>
@@ -13235,7 +13453,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const tierQuickLabel = isMobileTooltip
         ? (tierMeta?.shortLabel || tierMeta?.label || '')
         : (tierMeta?.label || tierMeta?.shortLabel || '');
-      const showDesktopFlipChip = !isMobileTooltip;
       const deltaBlock = (() => {
         const lines = [];
         const prevYear = Number(vizPrevCache?.prevYear);
@@ -13279,7 +13496,6 @@ document.addEventListener('DOMContentLoaded', function() {
           ${tierQuickLabel ? `<span class="tier">${escapeHtml(tierQuickLabel)}</span>` : ''}
         </div>
         ${flipLine}
-        ${showDesktopFlipChip && flipChip ? `<div class="tooltip-flip-chip-row">${flipChip}</div>` : ''}
         ${deltaBlock}
       `.trim();
 

@@ -6715,8 +6715,9 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   /* Mobile: keep tooltip as a docked card above BOTH legend + vote counter. */
   @media (max-width: 768px) {
     #hover-tooltip {
-      bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + 10px) !important;
-      max-height: 40vh;
+      /* Don't override the docked bottom calc set earlier; just cap height for readability. */
+      max-height: min(46vh, 420px);
+      overscroll-behavior: contain;
     }
   }
 
@@ -7494,6 +7495,21 @@ document.addEventListener('DOMContentLoaded', function() {
       try { return window.matchMedia && window.matchMedia('(pointer: coarse)').matches; } catch (_) { return false; }
     })();
 
+    function getCountyHoverCandidateLayerIds() {
+      // County hover can be driven by multiple county-shaped layers (base fill + overlays).
+      // We prefer the invisible interaction fill when present for consistent hit-testing.
+      return [
+        'county-fill',
+        // Future/NC parity: if a county overlay fill exists, allow it to drive hover too.
+        'county-split-overlay-fill',
+        // Smart Insights county glow/outline overlays.
+        'county-insights-outline',
+        'county-insights-glow',
+        // Outline-only county layer fallback (if someone removes/renames the fill).
+        'county-stroke'
+      ];
+    }
+
     function closeHoverUI({ force = false } = {}) {
       if (!force && tooltipPinned) return;
       countyTrendRequestId++;
@@ -7508,6 +7524,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function maybePinTooltipForTap() {
       try {
         setTooltipPinned(true);
+        // Some click paths pin after rendering; update the button label when it's present.
+        const pinBtn = document.getElementById('tooltip-pin-btn');
+        if (pinBtn) {
+          try { pinBtn.textContent = 'Unpin'; } catch (_) {}
+          try { pinBtn.setAttribute('aria-pressed', 'true'); } catch (_) {}
+        }
       } catch (_) {}
     }
 
@@ -7533,15 +7555,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mobile: tapping empty space closes any pinned tooltip/highlight.
     map.on('click', (e) => {
       if (!IS_COARSE_POINTER && !tooltipPinned) return;
-      const layers = [
+      const rawLayers = [
         'precinct-dot',
         'precinct-dot-missing',
         'precinct-fill',
-        'county-fill',
+        ...getCountyHoverCandidateLayerIds(),
         'district-fill',
         'state-house-fill',
         'state-senate-fill'
-      ].filter(id => map.getLayer(id));
+      ];
+      const layers = Array.from(new Set(rawLayers)).filter(id => map.getLayer(id));
       if (!layers.length) return closeHoverUI({ force: true });
       const f = map.queryRenderedFeatures(e.point, { layers });
       if (f && f.length) return;
@@ -12759,6 +12782,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let lastPrecinctHoverKey = null;
     let lastPrecinctHoverRenderedAt = 0;
     const PRECINCT_HOVER_THROTTLE_MS = 75;
+    let lastCountyHoverKey = null;
+    let lastCountyHoverRenderedAt = 0;
+    const COUNTY_HOVER_THROTTLE_MS = 55;
 
     function setLayerVisibilityIfExists(layerId, visibility) {
       if (!layerId || !map.getLayer(layerId)) return;
@@ -12856,7 +12882,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    function renderCountyHoverAtPoint(e) {
+    function renderCountyHoverAtPoint(e, { forceTooltip = false } = {}) {
       if (!(e.features && e.features[0])) return;
 
       // If precinct overlay is enabled and a precinct feature is under the cursor, let the
@@ -12881,13 +12907,30 @@ document.addEventListener('DOMContentLoaded', function() {
       const norm = normalizeCountyLookupKey(countyName);
       const row = getCountyResultRow(countyName);
       const contestValue = document.getElementById('contestSelect')?.value || '';
+      const isMobileTooltip = !!((window.matchMedia && window.matchMedia('(max-width: 768px)').matches) || document.documentElement.classList.contains('android-mobile'));
+
+      // Avoid rebuilding the same county tooltip repeatedly while the pointer moves within one county.
+      try {
+        const hoverKey = `${norm}|${contestValue}|${currentVizMode}|${isMobileTooltip ? 'm' : 'd'}|p${tooltipPinned ? '1' : '0'}`;
+        const tooltip = document.getElementById('hover-tooltip');
+        const tooltipVisible = !!tooltip && tooltip.style.display !== 'none' && (tooltip.innerHTML || '').trim().length > 0;
+        const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+
+        if (!tooltipPinned && tooltipVisible) {
+          if (hoverKey === lastCountyHoverKey) return;
+          if (now - lastCountyHoverRenderedAt < COUNTY_HOVER_THROTTLE_MS) return;
+        }
+
+        lastCountyHoverKey = hoverKey;
+        lastCountyHoverRenderedAt = now;
+      } catch (_) {}
 
       if (!contestValue || !row) {
         showHoverTooltip(
           e.point.x,
           e.point.y,
           buildTooltipShell(`${countyDisplay}`, tooltipSublineHTML('Select a contest to see results')),
-          { key: getCountyTooltipKey(countyName), copyText: countyDisplay }
+          { force: !!forceTooltip, key: getCountyTooltipKey(countyName), copyText: countyDisplay }
         );
         wireTooltipButtons();
         return;
@@ -12905,7 +12948,7 @@ document.addEventListener('DOMContentLoaded', function() {
           e.point.x,
           e.point.y,
           buildTooltipShell(`${countyDisplay}`, tooltipSublineHTML('No data available')),
-          { key: getCountyTooltipKey(countyName), copyText: countyDisplay }
+          { force: !!forceTooltip, key: getCountyTooltipKey(countyName), copyText: countyDisplay }
         );
         wireTooltipButtons();
         return;
@@ -12985,7 +13028,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       } catch (_) {}
 
-      const isMobileTooltip = !!((window.matchMedia && window.matchMedia('(max-width: 768px)').matches) || document.documentElement.classList.contains('android-mobile'));
       const tierQuickLabel = isMobileTooltip
         ? (tierMeta?.shortLabel || tierMeta?.label || '')
         : (tierMeta?.label || tierMeta?.shortLabel || '');
@@ -13027,15 +13069,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!lines.length) return '';
         return `<div class="tooltip-delta">${lines.map(line => `<div class="tooltip-delta-line">${line}</div>`).join('')}</div>`;
       })();
+      const showShiftExtras = currentVizMode === 'shift';
       const compactInner = `
         <div class="tooltip-quickline">
           <span class="${escapeHtml(winnerCall.party || 'tie')}">${escapeHtml(winnerCall.text || '')}</span>
           ${tierQuickLabel ? `<span class="tier">${escapeHtml(tierQuickLabel)}</span>` : ''}
         </div>
-        ${(currentVizMode === 'shift' && Number.isFinite(shiftDeltaForTooltip) && vizShiftCache?.prevYear) ? `<div class="tooltip-delta"><div class="tooltip-delta-line">${escapeHtml(shiftLabelText(shiftDeltaForTooltip, vizShiftCache.prevYear, vizShiftCache.year))}</div></div>` : ''}
+        ${(showShiftExtras && Number.isFinite(shiftDeltaForTooltip) && vizShiftCache?.prevYear) ? `<div class="tooltip-delta"><div class="tooltip-delta-line">${escapeHtml(shiftLabelText(shiftDeltaForTooltip, vizShiftCache.prevYear, vizShiftCache.year))}</div></div>` : ''}
         ${flipLine}
         ${showDesktopFlipChip && flipChip ? `<div class="tooltip-flip-chip-row">${flipChip}</div>` : ''}
-        ${deltaBlock}
+        ${showShiftExtras ? deltaBlock : ''}
       `.trim();
 
       const expandedInner = `
@@ -13056,7 +13099,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.point.x,
         e.point.y,
         buildTooltipShell(hoverTitle, inner, { kicker: subtitle }),
-        { key: getCountyTooltipKey(countyName), copyText: countyDisplay }
+        { force: !!forceTooltip, key: getCountyTooltipKey(countyName), copyText: countyDisplay }
       );
       wireTooltipButtons();
     }
@@ -13181,12 +13224,34 @@ document.addEventListener('DOMContentLoaded', function() {
         : (currentView === 'districts'
           ? 'district-fill'
           : (currentView === 'state_house' ? 'state-house-fill' : 'state-senate-fill'));
-      if (!map.getLayer(layerName)) {
+      if (layerName === 'county-fill') {
+        const anyCountyLayer = getCountyHoverCandidateLayerIds().some(id => map.getLayer(id));
+        if (!anyCountyLayer) {
+          clearHoverOutline();
+          return;
+        }
+      } else if (!map.getLayer(layerName)) {
         clearHoverOutline();
         return;
       }
 
-      const features = map.queryRenderedFeatures(lastPointerPoint, { layers: [layerName] });
+      let features = [];
+      if (layerName === 'county-fill') {
+        // County interactions can be driven by an overlay layer (Smart Insights glow/outline,
+        // county stroke, etc.). Query in a stable priority order so the tooltip doesn't
+        // flicker between layers.
+        const candidates = getCountyHoverCandidateLayerIds();
+        for (const id of candidates) {
+          if (!map.getLayer(id)) continue;
+          const f = map.queryRenderedFeatures(lastPointerPoint, { layers: [id] }) || [];
+          if (f && f.length) {
+            features = f;
+            break;
+          }
+        }
+      } else {
+        features = map.queryRenderedFeatures(lastPointerPoint, { layers: [layerName] }) || [];
+      }
       if (!features || !features.length) {
         hideHoverTooltip();
         clearHoverOutline();
@@ -14563,7 +14628,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 maxZoom: countyProfile.maxZoom
               });
               if (contestType && year && selectedRow) pinCountySelectionVoteCounter(countyName);
-              dismissHoverTooltipOnSelection();
+
+              // Mobile: tap should pin and show the docked tooltip card (Shift lines stay Shift-only).
+              // Desktop: keep click behavior focused on selection/fly-to without leaving a hover tooltip open.
+              if (IS_COARSE_POINTER) {
+                try {
+                  setTooltipPinned(true);
+                  renderCountyHoverAtPoint(e, { forceTooltip: true });
+                } catch (_) {}
+              } else {
+                dismissHoverTooltipOnSelection();
+              }
               // Optionally, expand sidebar if minimized
               const sidebar = document.getElementById('sidebar');
               if (sidebar && sidebar.classList.contains('minimized')) {
@@ -15883,6 +15958,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
       tooltip.setAttribute('data-pinned', tooltipPinned ? '1' : '0');
+      // Keep the pin button state consistent when pinning/unpinning programmatically.
+      const pinBtn = document.getElementById('tooltip-pin-btn');
+      if (pinBtn) {
+        try { pinBtn.textContent = tooltipPinned ? 'Unpin' : 'Pin'; } catch (_) {}
+        try { pinBtn.setAttribute('aria-pressed', tooltipPinned ? 'true' : 'false'); } catch (_) {}
+      }
     }
 
     function buildTooltipShell(title, innerHtml, options = {}) {

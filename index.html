@@ -12911,13 +12911,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Avoid rebuilding the same county tooltip repeatedly while the pointer moves within one county.
       try {
-        const hoverKey = `${norm}|${contestValue}|${currentVizMode}|${isMobileTooltip ? 'm' : 'd'}|p${tooltipPinned ? '1' : '0'}`;
+        // Include cache readiness in the key so the tooltip can refresh when async data
+        // (prev totals, population estimates) becomes available.
+        const prevYearKey = vizPrevCache?.prevYear ? String(vizPrevCache.prevYear) : '';
+        const shiftPrevKey = vizShiftCache?.prevYear ? String(vizShiftCache.prevYear) : '';
+        const popReadyKey = countyPopulationEstimatesByNorm ? '1' : '0';
+        const hoverKey = `${norm}|${contestValue}|${currentVizMode}|${isMobileTooltip ? 'm' : 'd'}|p${tooltipPinned ? '1' : '0'}|pv${prevYearKey}|sv${shiftPrevKey}|pop${popReadyKey}`;
         const tooltip = document.getElementById('hover-tooltip');
         const tooltipVisible = !!tooltip && tooltip.style.display !== 'none' && (tooltip.innerHTML || '').trim().length > 0;
         const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
 
-        if (!tooltipPinned && tooltipVisible) {
-          if (hoverKey === lastCountyHoverKey) return;
+        if (!tooltipPinned && !forceTooltip && tooltipVisible) {
           if (now - lastCountyHoverRenderedAt < COUNTY_HOVER_THROTTLE_MS) return;
         }
 

@@ -13078,7 +13078,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ${(showShiftExtras && Number.isFinite(shiftDeltaForTooltip) && vizShiftCache?.prevYear) ? `<div class="tooltip-delta"><div class="tooltip-delta-line">${escapeHtml(shiftLabelText(shiftDeltaForTooltip, vizShiftCache.prevYear, vizShiftCache.year))}</div></div>` : ''}
         ${flipLine}
         ${showDesktopFlipChip && flipChip ? `<div class="tooltip-flip-chip-row">${flipChip}</div>` : ''}
-        ${showShiftExtras ? deltaBlock : ''}
+        ${deltaBlock}
       `.trim();
 
       const expandedInner = `

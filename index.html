@@ -12638,7 +12638,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const s = Number(shiftPct) || 0;
       const dir = s > 0 ? 'R' : (s < 0 ? 'D' : 'T');
       const abs = Math.abs(s);
-      const label = abs < 0.01 ? 'No change' : `${dir} + ${abs.toFixed(2)}%`;
+      const label = abs < 0.01 ? 'No change' : `${dir}+${abs.toFixed(2)}%`;
       const dotColor = colorForShiftMode(s);
       const years = (prevYear && year) ? `${prevYear}->${year}` : '';
       return `<span class="meta-chip shift"><span class="dot" style="background:${dotColor};"></span>Shift: ${label}${years ? ` <span style="color:#64748b;font-weight:800;">(${years})</span>` : ''}</span>`;
@@ -12650,7 +12650,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const dir = s > 0 ? 'R' : (s < 0 ? 'D' : 'Even');
       const years = (prevYear && year) ? ` (${prevYear}\u2192${year})` : '';
       if (abs < 0.01) return `Shift: No meaningful change${years}`;
-      return `Shift: ${dir}+${abs.toFixed(2)} pts${years}`;
+      return `Shift: ${dir}+${abs.toFixed(2)}%${years}`;
     }
 
     function tooltipSublineHTML(text) {
@@ -12967,9 +12967,14 @@ document.addEventListener('DOMContentLoaded', function() {
       chips.push(winnerChipHTML(winner));
       chips.push(tierChipHTML(tierMeta));
       if (flipChip) chips.push(flipChip);
+      let shiftDeltaForTooltip = null;
       if (currentVizMode === 'shift' && vizShiftCache?.prevYear) {
-        const prevSigned = (prevSignedForFlip !== null) ? prevSignedForFlip : 0;
-        chips.push(shiftChipHTML(signedMarginPct - prevSigned, vizShiftCache.prevYear, vizShiftCache.year));
+        const prevForShift = vizShiftCache?.prevCountyTotals?.[norm] || null;
+        const prevSigned = prevForShift
+          ? signedMarginPctFromVotes(prevForShift.dem, prevForShift.rep, prevForShift.total)
+          : ((prevSignedForFlip !== null) ? prevSignedForFlip : 0);
+        shiftDeltaForTooltip = signedMarginPct - prevSigned;
+        chips.push(shiftChipHTML(shiftDeltaForTooltip, vizShiftCache.prevYear, vizShiftCache.year));
       }
 
       let demoLine = '';
@@ -13027,6 +13032,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <span class="${escapeHtml(winnerCall.party || 'tie')}">${escapeHtml(winnerCall.text || '')}</span>
           ${tierQuickLabel ? `<span class="tier">${escapeHtml(tierQuickLabel)}</span>` : ''}
         </div>
+        ${(currentVizMode === 'shift' && Number.isFinite(shiftDeltaForTooltip) && vizShiftCache?.prevYear) ? `<div class="tooltip-delta"><div class="tooltip-delta-line">${escapeHtml(shiftLabelText(shiftDeltaForTooltip, vizShiftCache.prevYear, vizShiftCache.year))}</div></div>` : ''}
         ${flipLine}
         ${showDesktopFlipChip && flipChip ? `<div class="tooltip-flip-chip-row">${flipChip}</div>` : ''}
         ${deltaBlock}

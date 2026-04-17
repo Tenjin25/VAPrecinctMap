@@ -7020,6 +7020,135 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     border-color: rgba(15, 23, 42, 0.18);
   }
 
+  @media (min-width: 769px) {
+    :root {
+      --desk-edge: 24px;
+      --desk-left-w: clamp(360px, 29vw, 408px);
+      --desk-gap: 16px;
+    }
+
+    .main-controls {
+      top: var(--desk-edge);
+      left: var(--desk-edge);
+      width: var(--desk-left-w);
+      min-width: var(--desk-left-w);
+      max-width: var(--desk-left-w);
+      max-height: calc(100vh - (var(--desk-edge) * 2));
+      border-radius: 20px;
+      padding: 16px;
+      z-index: 1100;
+    }
+
+    .legend {
+      left: var(--desk-edge);
+      bottom: var(--desk-edge);
+      width: min(var(--desk-left-w), 392px);
+      max-width: min(var(--desk-left-w), 392px);
+      border-radius: 18px;
+      z-index: 1090;
+    }
+
+    .vote-counter {
+      top: var(--desk-edge);
+      left: calc(50% + 88px);
+      transform: translateX(-50%);
+      width: min(560px, calc(100vw - var(--desk-left-w) - (var(--desk-edge) * 2) - var(--desk-gap)));
+      max-height: calc(100vh - (var(--desk-edge) * 2));
+      min-height: 150px;
+      border-radius: 20px;
+      z-index: 1085;
+    }
+
+    .vote-counter-context {
+      align-items: center;
+    }
+
+    .vote-counter-context .context-title {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: #334155;
+    }
+
+    .vote-counter-context .context-sub {
+      margin-top: 3px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .vote-counter-row {
+      gap: 12px;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      padding-top: 12px;
+      margin-top: 8px;
+    }
+
+    .vote-item {
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .vote-label {
+      font-size: 10px;
+      letter-spacing: 0.07em;
+    }
+
+    .vote-count {
+      font-size: 25px;
+    }
+
+    body.focus-mode .vote-counter {
+      top: auto;
+      left: auto;
+      right: var(--desk-edge);
+      bottom: var(--desk-edge);
+      transform: none;
+      width: min(650px, calc(100vw - var(--desk-left-w) - (var(--desk-edge) * 2) - var(--desk-gap)));
+      max-height: calc(100vh - (var(--desk-edge) * 2));
+    }
+
+    body.focus-mode #vote-counter .focus-card {
+      display: none !important;
+    }
+
+    body.focus-mode #vote-counter .locality-focus-inline {
+      display: block;
+      margin-top: 8px;
+      max-height: calc(100vh - 268px);
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    body.focus-mode #vote-counter .county-focus-shell {
+      gap: 12px;
+    }
+
+    body.focus-mode #vote-counter .county-focus-hero,
+    body.focus-mode #vote-counter .county-focus-summary-panel,
+    body.focus-mode #vote-counter .county-focus-breakdown-panel,
+    body.focus-mode #vote-counter .county-focus-trend-panel,
+    body.focus-mode #vote-counter .focus-census-insight,
+    body.focus-mode #vote-counter .focus-trajectory,
+    body.focus-mode #vote-counter .county-focus-panel,
+    body.focus-mode #vote-counter .county-detail-collapsible {
+      border-radius: 18px;
+    }
+
+    body.focus-mode #vote-counter .county-focus-hero {
+      padding: 16px;
+      gap: 12px;
+    }
+
+    body.focus-mode #vote-counter .county-focus-name {
+      font-size: clamp(28px, 2.4vw, 36px);
+    }
+
+    body.focus-mode #vote-counter .county-focus-summary-grid,
+    body.focus-mode #vote-counter .county-focus-trend-glance {
+      gap: 12px;
+    }
+  }
+
   /* Smart Insights toggle */
   .insights-toggle {
     width: 100%;
@@ -7371,7 +7500,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <summary>Search</summary>
           <div style="margin-top: 10px;">
             <label for="county-search" style="font-weight:600;">Find</label>
-            <input type="text" id="county-search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg (City) 101" autocomplete="off" spellcheck="false" inputmode="search" />
+            <input type="text" id="county-search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, City of Lynchburg 101" autocomplete="off" spellcheck="false" inputmode="search" />
             <div style="margin-top:6px;font-size:12px;color:#64748b;">
               Tips: use <span style="font-weight:700;">VA-10</span> for Congress, <span style="font-weight:700;">VA HD-57</span> for House, <span style="font-weight:700;">VA SD-31</span> for Senate.
             </div>
@@ -7422,7 +7551,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label for="fly-to-search">Fly to</label>
                 <div class="fly-to-search-wrap">
                   <div class="fly-to-search-field">
-                    <input id="fly-to-search" class="fly-to-search" type="search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg (City) 101" autocomplete="off" spellcheck="false" inputmode="search" />
+                    <input id="fly-to-search" class="fly-to-search" type="search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, City of Lynchburg 101" autocomplete="off" spellcheck="false" inputmode="search" />
                   </div>
                   <button id="fly-to-submit" class="fly-to-submit" type="button">Go</button>
                 </div>
@@ -7433,7 +7562,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <button class="fly-to-chip" type="button" data-query="VA-10">VA-10</button>
                   <button class="fly-to-chip" type="button" data-query="VA HD-57">VA HD-57</button>
                   <button class="fly-to-chip" type="button" data-query="VA SD-31">VA SD-31</button>
-                  <button class="fly-to-chip" type="button" data-query="Lynchburg City 101">Lynchburg (City) 101</button>
+                  <button class="fly-to-chip" type="button" data-query="City of Lynchburg 101">City of Lynchburg 101</button>
                 </div>
             </div>
             <div class="control-summary" id="control-summary">
@@ -8463,14 +8592,29 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!enabled) {
           map.setLayoutProperty(glowId, 'visibility', 'none');
           map.setLayoutProperty(outlineId, 'visibility', 'none');
-          map.setFilter(glowId, ['==', 1, 0]);
-          map.setFilter(outlineId, ['==', 1, 0]);
+          map.setFilter(glowId, ['==', ['get', '_'], '__']);
+          map.setFilter(outlineId, ['==', ['get', '_'], '__']);
           return;
         }
 
         const keys = Array.from(smartInsightsCountySet);
+        const matchValues = new Set();
+        const addMatchValue = (value) => {
+          const canonical = canonicalizeVirginiaLocalityKey(value);
+          if (!canonical) return;
+          matchValues.add(canonical);
+          const base = canonical.replace(/\s+(CITY COUNTY|CITY|COUNTY)$/i, '').trim();
+          if (!base) return;
+          matchValues.add(base);
+          matchValues.add(`${base} COUNTY`);
+          matchValues.add(`${base} CITY`);
+          matchValues.add(`CITY OF ${base}`);
+          matchValues.add(`${base} CITY COUNTY`);
+        };
+        keys.forEach(addMatchValue);
+
         const nameExpr = ['upcase', ['coalesce', ['get', 'NAMELSAD20'], ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME'], ['get', 'name']]];
-        const filter = ['in', nameExpr, ['literal', keys]];
+        const filter = ['in', nameExpr, ['literal', Array.from(matchValues)]];
         map.setFilter(glowId, filter);
         map.setFilter(outlineId, filter);
         map.setLayoutProperty(glowId, 'visibility', 'visible');
@@ -10367,7 +10511,7 @@ document.addEventListener('DOMContentLoaded', function() {
             trendOptions.censusContext = getVaCensusContext(meta.county);
             trendOptions.censusContextTitle = meta.kind === 'precinct'
               ? `${displayCountyName(meta.county)} Census Insight`
-              : 'County/City Census Insight';
+              : 'Locality Census Insight';
             if (trendOptions.trajectoryMeta) {
               trendOptions.trajectoryMeta = addCensusConfirmationToTrajectory(
                 trendOptions.trajectoryMeta,
@@ -10817,11 +10961,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	        }
 	      }
 
-	      try {
-	        const payload = await loadJSON(`${CONFIG.paths.contests_dir}/${key}.json`);
-	        const rows = (payload.rows || []).map(r => ({
-	          year: Number(year),
-	          county: r.county,
+        const mapContestRows = (payload) => (payload.rows || []).map(r => ({
+            year: Number(year),
+            county: r.county,
           [`${contestType}_dem`]: Number(r.dem_votes) || 0,
           [`${contestType}_rep`]: Number(r.rep_votes) || 0,
           [`${contestType}_other`]: Number(r.other_votes) || 0,
@@ -10833,23 +10975,34 @@ document.addEventListener('DOMContentLoaded', function() {
           [`${contestType}_winner`]: r.winner || '',
           [`${contestType}_color`]: r.color || ''
         }));
-	        contestSliceCache.set(key, rows);
-	        return rows;
-	      } catch (_) {
-	        // CSV-backed statewide fallback when available.
-	        if (getOpenElectionsCsvPath(contestType, Number(year))) {
-	          try {
-	            const rows = await loadStatewideSliceFromOpenElectionsCSV(contestType, Number(year));
-	            contestSliceCache.set(key, rows);
-	            return rows;
-	          } catch (err) {
-	            console.warn('Failed to load OpenElections CSV for', contestType, year, err?.message || err);
-	          }
-	        }
-	        const fallback = (electionData || []).filter(row => row.year == year);
-	        contestSliceCache.set(key, fallback);
-	        return fallback;
-	      }
+
+        try {
+          let payload = null;
+          try {
+            payload = await loadJSON(`${CONFIG.paths.contests_dir}/${key}.json`);
+          } catch (_) {
+            // Legacy/base filename fallback (e.g., president_2024.json)
+            payload = await loadJSON(`${CONFIG.paths.contests_dir}/${contestType}_${year}.json`);
+          }
+          const rows = mapContestRows(payload);
+	        
+          contestSliceCache.set(key, rows);
+          return rows;
+        } catch (_) {
+          // CSV-backed statewide fallback when available.
+          if (getOpenElectionsCsvPath(contestType, Number(year))) {
+            try {
+              const rows = await loadStatewideSliceFromOpenElectionsCSV(contestType, Number(year));
+              contestSliceCache.set(key, rows);
+              return rows;
+            } catch (err) {
+              console.warn('Failed to load OpenElections CSV for', contestType, year, err?.message || err);
+            }
+          }
+          const fallback = (electionData || []).filter(row => row.year == year);
+          contestSliceCache.set(key, fallback);
+          return fallback;
+        }
 	    }
 
       // Candidate labels are sometimes blank in older district contest slices (notably US Senate pre-2008).
@@ -12029,7 +12182,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (key === 'VIRGINIA') return 'Virginia';
       const base = toTitleCaseName(localityBaseName(key));
       if (!base) return 'Unknown Locality';
-      if (/\bCITY$/.test(key) && !/\bCOUNTY$/.test(key)) return `${base} (City)`;
+      if (/\bCITY$/.test(key) && !/\bCOUNTY$/.test(key)) return `City of ${base}`;
       if (/\bCOUNTY$/.test(key)) return `${base} County`;
       return toTitleCaseName(key);
     }
@@ -12040,12 +12193,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const cityOfMatch = s.match(/^City of\s+(.+)$/i);
       if (cityOfMatch) {
-        return `${toTitleCaseName(cityOfMatch[1].trim())} (City)`;
+        return `City of ${toTitleCaseName(cityOfMatch[1].trim())}`;
       }
 
       const cityMatch = s.match(/^(.+?)\s+City$/i);
       if (cityMatch) {
-        return `${toTitleCaseName(cityMatch[1].trim())} (City)`;
+        return `City of ${toTitleCaseName(cityMatch[1].trim())}`;
       }
 
       const countyMatch = s.match(/^(.+?)\s+County$/i);
@@ -12054,7 +12207,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const titled = toTitleCaseName(s);
-      if (VA_INDEPENDENT_CITIES.has(titled.toUpperCase())) return `${titled} (City)`;
+      if (VA_INDEPENDENT_CITIES.has(titled.toUpperCase())) return `City of ${titled}`;
       return `${titled} County`;
     }
 
@@ -14842,10 +14995,9 @@ document.addEventListener('DOMContentLoaded', function() {
           id: 'county-fill', 
           type: 'fill', 
           source: 'counties', 
-          // Keep the county layer for interactions/search, but don't paint a fill.
-          // This lets precinct/block/district coloring read cleanly while still
-          // showing county outlines.
-          paint: { 'fill-color': '#000000', 'fill-opacity': 0.0 } 
+          // Start with a visible neutral fill so counties are readable even before
+          // contest-driven recoloring runs.
+          paint: { 'fill-color': '#e0e0e0', 'fill-opacity': 0.74 } 
         });
         addLayerWithOptionalSourceLayer({ 
           id: 'county-stroke', 
@@ -14858,7 +15010,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'line',
           source: 'counties',
           layout: { visibility: 'none' },
-          filter: ['==', 1, 0],
+          filter: ['==', ['get', '_'], '__'],
           paint: {
             'line-color': 'rgba(255, 255, 255, 0.35)',
             'line-width': 7,
@@ -14871,7 +15023,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'line',
           source: 'counties',
           layout: { visibility: 'none' },
-          filter: ['==', 1, 0],
+          filter: ['==', ['get', '_'], '__'],
           paint: {
             'line-color': 'rgba(255, 255, 255, 0.92)',
             'line-width': 2.2,
@@ -18042,6 +18194,36 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const expr = ['case'];
+      const countyNameExpr = ['upcase', ['coalesce', ['get', 'NAMELSAD20'], ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME']]];
+
+      function countyMatchValues(countyNorm) {
+        const out = new Set();
+        const canonical = canonicalizeVirginiaLocalityKey(countyNorm);
+        const add = (value) => {
+          const key = canonicalizeVirginiaLocalityKey(value);
+          if (key) out.add(key);
+        };
+
+        add(canonical);
+        const base = (canonical || '').replace(/\s+(CITY COUNTY|CITY|COUNTY)$/i, '').trim();
+        if (base) {
+          add(base);
+          add(`${base} COUNTY`);
+          add(`${base} CITY`);
+          add(`CITY OF ${base}`);
+          add(`${base} CITY COUNTY`);
+        }
+
+        return Array.from(out);
+      }
+
+      function countyMatchExpr(countyNorm) {
+        const values = countyMatchValues(countyNorm);
+        if (!values.length) return ['==', countyNameExpr, '__NO_MATCH__'];
+        if (values.length === 1) return ['==', countyNameExpr, values[0]];
+        return ['in', countyNameExpr, ['literal', values]];
+      }
+
       let countiesProcessed = 0;
       
       Object.keys(countyAgg).forEach(countyName => {
@@ -18088,11 +18270,7 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         }
         // Match county key across county tileset and local precinct fallback
-        expr.push([
-          '==',
-          ['upcase', ['coalesce', ['get', 'NAMELSAD20'], ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME']]],
-          countyName
-        ]);
+        expr.push(countyMatchExpr(countyName));
         expr.push(color);
         countiesProcessed++;
       });
@@ -18124,9 +18302,9 @@ document.addEventListener('DOMContentLoaded', function() {
           const f = flipInfo(prevSigned, curSigned);
           if (!f.flipped) return;
           const toColor = colorForFlipMode(f.to);
-          flipColorExpr.push(['==', ['upcase', ['coalesce', ['get', 'NAMELSAD20'], ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME']]], countyNorm]);
+          flipColorExpr.push(countyMatchExpr(countyNorm));
           flipColorExpr.push(toColor);
-          flipWidthExpr.push(['==', ['upcase', ['coalesce', ['get', 'NAMELSAD20'], ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME']]], countyNorm]);
+          flipWidthExpr.push(countyMatchExpr(countyNorm));
           flipWidthExpr.push(3);
         });
         flipColorExpr.push('rgba(15,23,42,0.35)');

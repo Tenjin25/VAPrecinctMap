@@ -3540,6 +3540,88 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
   body.colorblind-mode .focus-trajectory-dot.rep { background: #d97706; }
 
+  /* Desktop-only hierarchy corrections for the selected panel (right-side vote counter). */
+  @media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+    /* Start the selected content higher (tighten header/meta padding). */
+    .vote-counter {
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+
+    .vote-counter-context {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      gap: 12px;
+    }
+
+    .vote-counter-context .context-sub {
+      margin-top: 3px;
+    }
+
+    .vote-counter-context .context-flip {
+      margin-top: 6px;
+    }
+
+    .vote-counter-meta {
+      margin-bottom: 10px;
+      padding: 9px 12px;
+    }
+
+    .locality-focus-inline {
+      gap: 8px;
+    }
+
+    /* Make the result bar read as part of the main result block. */
+    .county-focus-hero {
+      gap: 6px;
+      padding: 11px 12px 12px;
+    }
+
+    .county-focus-result {
+      gap: 3px;
+    }
+
+    .county-focus-support {
+      gap: 6px;
+    }
+
+    .county-focus-hero .focus-result-strip-inline {
+      padding-top: 2px;
+      gap: 6px;
+    }
+
+    .county-focus-hero .focus-result-strip-inline .focus-result-strip-bar {
+      height: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: rgba(148, 163, 184, 0.26);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78), 0 1px 0 rgba(15, 23, 42, 0.04);
+    }
+
+    .county-focus-hero .focus-result-strip-shareline {
+      font-size: 11.5px;
+      white-space: nowrap;
+    }
+
+    /* Keep trajectory secondary and clearly below the result. */
+    .focus-trajectory-compact {
+      padding-top: 12px;
+      margin-top: 4px;
+    }
+
+    .focus-trajectory-compact .focus-block-kicker {
+      font-weight: 850;
+      opacity: 0.88;
+    }
+
+    .focus-trajectory-rows {
+      gap: 5px;
+    }
+
+    .focus-trajectory-row {
+      font-size: 11.5px;
+    }
+  }
+
   .focus-interpretation-badge {
     display: inline-flex;
     align-items: center;

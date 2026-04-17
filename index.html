@@ -14805,22 +14805,27 @@ document.addEventListener('DOMContentLoaded', function() {
           const volatilityLabel = (() => {
             if (!seriesLoaded || seriesAsc.length < 3) return '';
             const signed = seriesAsc.map(row => signedMarginTowardGopFromRow(row));
-            const swings = signed
+            const swingsAll = signed
               .slice(1)
               .map((value, idx) => Math.abs(value - signed[idx]))
               .filter(v => Number.isFinite(v));
+            if (swingsAll.length < 2) return '';
+
+            // Focus on recent cycle-to-cycle motion (avoid tagging long-run realignment as "volatile").
+            const swings = swingsAll.slice(-5);
             if (swings.length < 2) return '';
 
-            const avg = swings.reduce((sum, v) => sum + v, 0) / swings.length;
             const sorted = swings.slice().sort((a, b) => a - b);
             const median = sorted[Math.floor(sorted.length / 2)];
+            const p80 = sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * 0.8))];
             const max = sorted[sorted.length - 1];
+            const bigSwings = swings.filter(v => v >= 8).length;
 
-            // Keep the label conservative: avoid calling "Volatile" on one-off swings.
-            if (avg < 2.0 && max < 4.5) return 'Stable';
-            if (avg < 4.0 && max < 7.5) return 'Moderate volatility';
-            if (median < 3.25 && swings.length <= 3) return 'Moderate volatility';
-            return 'Volatile';
+            // Conservative thresholds: "Volatile" requires repeated large swings, not a single outlier.
+            if (median < 2.75 && p80 < 4.75) return 'Stable';
+            if (bigSwings >= 2 || (median >= 5.5 && p80 >= 8.0 && max >= 9.0)) return 'Volatile';
+            if (median < 4.75 && p80 < 7.25) return 'Moderate volatility';
+            return 'Moderate volatility';
           })();
 
           if (loadState === 'loading') {

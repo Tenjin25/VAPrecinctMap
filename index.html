@@ -3076,6 +3076,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     display: flex;
     justify-content: space-between;
     gap: 12px;
+    min-width: 0;
     align-items: flex-start;
     font-size: 12px;
     line-height: 1.45;
@@ -3085,12 +3086,16 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   .county-focus-list-label {
     color: #64748b;
     font-weight: 800;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .county-focus-list-value {
     font-weight: 900;
     color: #0f172a;
     text-align: right;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .county-focus-trend-call {
@@ -3218,6 +3223,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     color: #334155;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -3265,6 +3271,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     word-break: break-word;
   }
@@ -3276,6 +3283,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     color: #475569;
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -3317,11 +3325,13 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
   }
 
   .focus-mini-card .v.long-form {
     -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 
   .focus-mini-card .v.rep { color: #7f1d1d; }
@@ -3950,6 +3960,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     word-break: break-word;
   }
@@ -6520,6 +6531,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     white-space: normal;
     overflow-wrap: anywhere;
     word-break: break-word;
@@ -6729,6 +6741,230 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   .county-detail-collapsible {
     background: linear-gradient(180deg, var(--atlas-glass-top) 0%, var(--atlas-glass-bot) 100%);
     border-color: var(--atlas-border-soft);
+  }
+
+  .county-focus-summary-panel,
+  .county-focus-breakdown-panel,
+  .county-focus-trend-panel {
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .county-focus-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .county-focus-summary-item {
+    display: grid;
+    gap: 4px;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(248, 250, 252, 0.9);
+  }
+
+  .county-focus-summary-label {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .county-focus-summary-value {
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1.25;
+    color: #0f172a;
+  }
+
+  .county-focus-summary-value.dem { color: #1d4ed8; }
+  .county-focus-summary-value.rep { color: #b91c1c; }
+  .county-focus-summary-value.tie { color: #475569; }
+
+  .county-focus-breakdown-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 2px;
+    margin-bottom: 6px;
+    align-items: center;
+  }
+
+  .county-focus-breakdown-label {
+    font-size: 11px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  .county-focus-breakdown-label.dem { color: #1d4ed8; text-align: left; }
+  .county-focus-breakdown-label.rep { color: #b91c1c; text-align: right; }
+  .county-focus-breakdown-label.midpoint { color: #64748b; text-align: center; }
+
+  .county-focus-breakdown-bar {
+    display: flex;
+    height: 14px;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    background: #e2e8f0;
+    margin-bottom: 10px;
+  }
+
+  .county-focus-breakdown-bar .dem { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+  .county-focus-breakdown-bar .rep { background: linear-gradient(90deg, #f87171, #dc2626); }
+  .county-focus-breakdown-bar .other { background: #94a3b8; }
+
+  .county-focus-breakdown-list .county-focus-list-item {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  .county-focus-trend-glance {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .county-focus-trend-glance-item {
+    display: grid;
+    gap: 4px;
+    padding: 9px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(248, 250, 252, 0.92);
+  }
+
+  .county-focus-trend-glance-item .k {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .county-focus-trend-glance-item .v {
+    font-size: 12px;
+    font-weight: 850;
+    line-height: 1.35;
+    color: #0f172a;
+  }
+
+  .focus-census-insight {
+    gap: 7px;
+    padding: 12px;
+  }
+
+  .focus-census-head.census-checkline {
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .focus-census-pill {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .focus-census-summary {
+    font-size: 12px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  .focus-census-metrics {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #475569;
+  }
+
+  .focus-census-source {
+    font-size: 10px;
+    color: #94a3b8;
+  }
+
+  .main-controls .control-group {
+    margin-bottom: 10px;
+  }
+
+  .main-controls .control-group label {
+    margin-bottom: 7px;
+    color: #334155;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 900;
+  }
+
+  .main-controls .controls-content {
+    gap: 12px;
+  }
+
+  .legend-content {
+    gap: 9px;
+  }
+
+  .legend-item {
+    min-height: 34px;
+    font-size: 12.5px;
+  }
+
+  .vote-counter {
+    padding: 14px;
+  }
+
+  .vote-counter-row {
+    gap: 10px;
+  }
+
+  .vote-item {
+    border-radius: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .county-focus-summary-grid,
+    .county-focus-trend-glance {
+      grid-template-columns: 1fr;
+    }
+
+    .county-focus-name {
+      line-height: 1.1;
+    }
+
+    .county-focus-badges {
+      gap: 5px;
+    }
+
+    .county-focus-pill {
+      min-height: 24px;
+      padding: 0 8px;
+      font-size: 9px;
+      letter-spacing: 0.04em;
+    }
+
+    .county-focus-list-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    .county-focus-list-value {
+      text-align: left;
+    }
+
+    .county-focus-summary-value,
+    .county-focus-trend-glance-item .v {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .county-focus-breakdown-label {
+      font-size: 10px;
+    }
   }
 
   .focus-glance {
@@ -7135,7 +7371,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <summary>Search</summary>
           <div style="margin-top: 10px;">
             <label for="county-search" style="font-weight:600;">Find</label>
-            <input type="text" id="county-search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg City 101" autocomplete="off" spellcheck="false" inputmode="search" />
+            <input type="text" id="county-search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg (City) 101" autocomplete="off" spellcheck="false" inputmode="search" />
             <div style="margin-top:6px;font-size:12px;color:#64748b;">
               Tips: use <span style="font-weight:700;">VA-10</span> for Congress, <span style="font-weight:700;">VA HD-57</span> for House, <span style="font-weight:700;">VA SD-31</span> for Senate.
             </div>
@@ -7186,7 +7422,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label for="fly-to-search">Fly to</label>
                 <div class="fly-to-search-wrap">
                   <div class="fly-to-search-field">
-                    <input id="fly-to-search" class="fly-to-search" type="search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg City 101" autocomplete="off" spellcheck="false" inputmode="search" />
+                    <input id="fly-to-search" class="fly-to-search" type="search" data-fly-to-search="true" placeholder="Fairfax County, VA-10, VA HD-57, VA SD-31, Lynchburg (City) 101" autocomplete="off" spellcheck="false" inputmode="search" />
                   </div>
                   <button id="fly-to-submit" class="fly-to-submit" type="button">Go</button>
                 </div>
@@ -7197,7 +7433,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <button class="fly-to-chip" type="button" data-query="VA-10">VA-10</button>
                   <button class="fly-to-chip" type="button" data-query="VA HD-57">VA HD-57</button>
                   <button class="fly-to-chip" type="button" data-query="VA SD-31">VA SD-31</button>
-                  <button class="fly-to-chip" type="button" data-query="Lynchburg City 101">Lynchburg City 101</button>
+                  <button class="fly-to-chip" type="button" data-query="Lynchburg City 101">Lynchburg (City) 101</button>
                 </div>
             </div>
             <div class="control-summary" id="control-summary">
@@ -9502,50 +9738,69 @@ document.addEventListener('DOMContentLoaded', function() {
       return { ...meta, censusCheck };
     }
 
-    function renderFocusCensusInsightHTML(context, title = 'County Census Insight') {
+    function renderFocusCensusInsightHTML(context, title = 'County Census Insight', options = {}) {
       if (!context) return '';
       const pop2025 = Number(context?.population2025);
       const delta2020to2025 = Number(context?.change2020To2025);
       const pct2020to2025 = Number(context?.changePct2020To2025);
       const delta2024to2025 = Number(context?.change2024To2025);
       const pct2024to2025 = Number(context?.changePct2024To2025);
+      const statePct2020to2025 = Number(context?.stateChangePct2020To2025);
+
+      const confidenceRaw = String(options?.confidenceLabel || 'Medium').trim().toLowerCase();
+      const confidenceLabel = confidenceRaw === 'high' ? 'High confidence' : (confidenceRaw === 'low' ? 'Low confidence' : 'Medium confidence');
+
+      const normalizeCheckLabel = (label) => {
+        const s = String(label || '').trim();
+        if (!s) return 'Mixed signals';
+        if (/reinforc/i.test(s)) return 'Reinforcing';
+        if (/realign/i.test(s)) return 'Realigning';
+        if (/mixed|volatile|steady|stable/i.test(s)) return 'Mixed signals';
+        if (/metro|corridor|growth/i.test(s)) return 'Metro-driven growth';
+        return s;
+      };
+
+      const censusCheckLine = `${context.signalEmoji || '📊'} ${normalizeCheckLabel(context.patternLabel || context.signalLabel)} · ${confidenceLabel}`;
 
       const metricParts = [];
-      if (Number.isFinite(pop2025) && pop2025 > 0) {
-        metricParts.push(`2025 est: ${Math.round(pop2025).toLocaleString()}`);
-      }
       if (Number.isFinite(pct2020to2025) || Number.isFinite(delta2020to2025)) {
         const pctLabel = formatPopulationChangePct(pct2020to2025);
-        const deltaLabel = Number.isFinite(delta2020to2025) ? formatSignedInt(delta2020to2025) : '';
-        if (pctLabel && deltaLabel) metricParts.push(`2020→2025: ${pctLabel} (${deltaLabel})`);
-        else if (pctLabel) metricParts.push(`2020→2025: ${pctLabel}`);
-        else if (deltaLabel) metricParts.push(`2020→2025: ${deltaLabel}`);
+        if (pctLabel) metricParts.push(`${pctLabel} since 2020`);
       }
       if (Number.isFinite(pct2024to2025) || Number.isFinite(delta2024to2025)) {
         const pctLabel = formatPopulationChangePct(pct2024to2025);
-        const deltaLabel = Number.isFinite(delta2024to2025) ? formatSignedInt(delta2024to2025) : '';
-        if (pctLabel && deltaLabel) metricParts.push(`2024→2025: ${pctLabel} (${deltaLabel})`);
-        else if (pctLabel) metricParts.push(`2024→2025: ${pctLabel}`);
-        else if (deltaLabel) metricParts.push(`2024→2025: ${deltaLabel}`);
+        if (pctLabel) metricParts.push(`${pctLabel} (2024→2025)`);
       }
+      if (Number.isFinite(pct2020to2025) && Number.isFinite(statePct2020to2025)) {
+        const deltaVsState = pct2020to2025 - statePct2020to2025;
+        if (Math.abs(deltaVsState) >= 1.25) {
+          metricParts.push(deltaVsState > 0 ? 'faster than VA average' : 'slower than VA average');
+        }
+      }
+
       const metricsHtml = metricParts.length
         ? `<p class="focus-census-metrics">${escapeHtml(metricParts.join(' • '))}</p>`
         : '';
+
+      const oneSentenceInsight = (() => {
+        const censusCheck = String(options?.trajectoryMeta?.censusCheck || '').trim();
+        if (censusCheck) {
+          return (censusCheck.split(/(?<=[.!?])\s+/)[0] || censusCheck).trim();
+        }
+        if (context.noteLabel) {
+          return (String(context.noteLabel).split(/(?<=[.!?])\s+/)[0] || String(context.noteLabel)).trim();
+        }
+        return 'Population growth is present but not strongly aligned politically.';
+      })();
+
       return `
         <div class="focus-census-insight" role="note" aria-label="${escapeHtml(title)}">
-          <div class="focus-census-head">
+          <div class="focus-census-head census-checkline">
             <span class="focus-census-kicker">${escapeHtml(title)}</span>
-            <span class="focus-census-pill">
-              <span class="focus-census-pill-emoji">${escapeHtml(context.signalEmoji || '📊')}</span>
-              ${escapeHtml(context.signalLabel || 'Steady population signal')}
-            </span>
+            <span class="focus-census-pill">${escapeHtml(censusCheckLine)}</span>
           </div>
-          <p class="focus-census-summary">
-            <span class="focus-census-inline-emoji">${escapeHtml(context.patternEmoji || '🧭')}</span>
-            ${escapeHtml(context.patternLabel || 'Mixed local and regional forces')}
-          </p>
           ${metricsHtml}
-          ${context.noteLabel ? `<p class="focus-census-note">${escapeHtml(context.noteLabel)}</p>` : ''}
+          <p class="focus-census-summary">${escapeHtml(oneSentenceInsight)}</p>
           ${context.sourceNote ? `<p class="focus-census-source">${escapeHtml(context.sourceNote)}</p>` : ''}
         </div>
       `;
@@ -9910,19 +10165,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const trajectoryHtml = options?.trajectoryMeta
         ? renderTrajectoryBlockHTML(options.trajectoryMeta)
         : '';
-      const censusCheckHtml = (() => {
-        const text = String(options?.trajectoryMeta?.censusCheck || '').trim();
-        if (!text) return '';
-        const trendText = String(options?.trajectoryMeta?.trend || '');
-        const tone = trendText.includes('←') ? 'dem' : (trendText.includes('→') ? 'rep' : 'neutral');
-        const toneClass = trajectoryToneClass(tone);
-        return `
-          <div class="focus-census-check ${toneClass}" role="note" aria-label="Census check">
-            <span class="focus-census-check-kicker">Census check</span>
-            <p class="focus-census-check-body">${escapeHtml(text)}</p>
-          </div>
-        `;
-      })();
       const focusCensusHtml = options?.censusContext
         ? renderFocusCensusInsightHTML(options.censusContext, options?.censusContextTitle || 'County Census Insight')
         : '';
@@ -10000,7 +10242,6 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
         ${trajectoryHtml}
-        ${censusCheckHtml}
         ${focusCensusHtml}
         <div class="focus-trend-list">${cards}</div>
       `;
@@ -11788,7 +12029,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (key === 'VIRGINIA') return 'Virginia';
       const base = toTitleCaseName(localityBaseName(key));
       if (!base) return 'Unknown Locality';
-      if (/\bCITY$/.test(key) && !/\bCOUNTY$/.test(key)) return `City of ${base}`;
+      if (/\bCITY$/.test(key) && !/\bCOUNTY$/.test(key)) return `${base} (City)`;
       if (/\bCOUNTY$/.test(key)) return `${base} County`;
       return toTitleCaseName(key);
     }
@@ -11799,12 +12040,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const cityOfMatch = s.match(/^City of\s+(.+)$/i);
       if (cityOfMatch) {
-        return `City of ${toTitleCaseName(cityOfMatch[1].trim())}`;
+        return `${toTitleCaseName(cityOfMatch[1].trim())} (City)`;
       }
 
       const cityMatch = s.match(/^(.+?)\s+City$/i);
       if (cityMatch) {
-        return `City of ${toTitleCaseName(cityMatch[1].trim())}`;
+        return `${toTitleCaseName(cityMatch[1].trim())} (City)`;
       }
 
       const countyMatch = s.match(/^(.+?)\s+County$/i);
@@ -11813,7 +12054,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const titled = toTitleCaseName(s);
-      if (VA_INDEPENDENT_CITIES.has(titled.toUpperCase())) return `City of ${titled}`;
+      if (VA_INDEPENDENT_CITIES.has(titled.toUpperCase())) return `${titled} (City)`;
       return `${titled} County`;
     }
 
@@ -13844,15 +14085,6 @@ document.addEventListener('DOMContentLoaded', function() {
           : (loadState === 'error'
             ? '<div class="county-focus-empty">Locality trend is temporarily unavailable.</div>'
             : renderCountyTrendPreviewHTML(series || []));
-        const voteRows = [
-          { label: `${escapeHtml(fullCandidateLabel(demCandidate, 'Democratic'))} (D)`, value: `${demVotes.toLocaleString()} • ${demPct.toFixed(2)}%` },
-          { label: `${escapeHtml(fullCandidateLabel(repCandidate, 'Republican'))} (R)`, value: `${repVotes.toLocaleString()} • ${repPct.toFixed(2)}%` },
-          ...(otherVotes > 0 ? [{ label: 'Other', value: `${otherVotes.toLocaleString()} • ${otherPct.toFixed(2)}%` }] : []),
-          { label: 'Total votes', value: totalVotes.toLocaleString() },
-          { label: 'Vote margin', value: `${Math.abs(repVotes - demVotes).toLocaleString()} votes` },
-          ...(precincts ? [{ label: 'Precincts', value: escapeHtml(precincts) }] : [])
-        ];
-
         const selectedYearNum = Number(year);
         const seriesAsc = seriesLoaded
           ? (series || []).slice().filter(Boolean).sort((a, b) => Number(a.year) - Number(b.year))
@@ -13879,7 +14111,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const badgeRow = [flipBadge, tierBadge].filter(Boolean).join('');
 
         const trajectoryBlock = trajectoryMeta ? renderTrajectoryBlockHTML(trajectoryMeta) : '';
-        const censusBlock = censusContext ? renderFocusCensusInsightHTML(censusContext, 'Population signal') : '';
+        const censusBlock = censusContext
+          ? renderFocusCensusInsightHTML(censusContext, 'Census check', {
+            confidenceLabel: confidenceMeta.label,
+            trajectoryMeta
+          })
+          : '';
 
         const glanceSentence = (() => {
           const statewideSigned = Number(statewideSummary?.signedMarginPct);
@@ -13899,26 +14136,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
           const sentence = [relativeClause, trendClause].filter(Boolean).join(', ');
           return sentence ? `${sentence}.` : 'Trend context is limited here.';
-        })();
-
-        const censusCheckHtml = (() => {
-          const raw = String(trajectoryMeta?.censusCheck || '').trim();
-          const text = (() => {
-            if (!raw) return '';
-            const firstSentence = raw.split(/(?<=[.!?])\s+/)[0] || raw;
-            const clipped = firstSentence.length > 180 ? `${firstSentence.slice(0, 177).trim()}…` : firstSentence;
-            return clipped;
-          })();
-          if (!text) return '';
-          const trendText = String(trajectoryMeta?.trend || '');
-          const tone = trendText.includes('←') ? 'dem' : (trendText.includes('→') ? 'rep' : 'neutral');
-          const toneClass = trajectoryToneClass(tone);
-          return `
-            <div class="focus-census-check ${toneClass}" role="note" aria-label="Census check">
-              <span class="focus-census-check-kicker">Census check</span>
-              <p class="focus-census-check-body">${escapeHtml(text)}</p>
-            </div>
-          `;
         })();
 
         const trendPopBridgeLine = (() => {
@@ -13965,15 +14182,112 @@ document.addEventListener('DOMContentLoaded', function() {
         const heroMetricsHtml = `
           <div class="county-focus-result" aria-label="Top summary metrics">
             <div class="county-focus-margin">${escapeHtml(marginHeroValue)}</div>
-            <div class="county-focus-winner">${escapeHtml(winnerValue)}</div>
-            <div class="county-focus-support" aria-label="Votes and shift">
-              <span>${escapeHtml(totalVotes.toLocaleString())} votes</span>
-              <span class="county-focus-support-dot" aria-hidden="true">\u2022</span>
-              <span>${escapeHtml(shiftMeta.value === 'Loading…' ? 'Shift loading…' : (shiftMeta.value === '—' ? 'Shift unavailable' : `Shift ${shiftMeta.value}${shiftMeta.note ? ` (${shiftMeta.note})` : ''}`))}</span>
+            <div class="county-focus-support" aria-label="Scope">
               <span class="county-focus-support-scope">${escapeHtml(`${localityScope} result`)}</span>
             </div>
           </div>
         `;
+
+        const leadPctValue = winnerCall.party === 'tie' ? 'Even' : `${winnerCall.marginPct.toFixed(2)}%`;
+
+        const resultSummaryHtml = `
+          <section class="county-focus-panel county-focus-summary-panel" aria-label="Result summary">
+            <div class="county-focus-section-title">Result summary</div>
+            <div class="county-focus-summary-grid">
+              <div class="county-focus-summary-item">
+                <span class="county-focus-summary-label">Winner</span>
+                <span class="county-focus-summary-value ${escapeHtml(winnerCall.party)}">${escapeHtml(winnerValue)}</span>
+              </div>
+              <div class="county-focus-summary-item">
+                <span class="county-focus-summary-label">Lead</span>
+                <span class="county-focus-summary-value ${escapeHtml(winnerCall.party)}">${escapeHtml(leadPctValue)}</span>
+              </div>
+              <div class="county-focus-summary-item">
+                <span class="county-focus-summary-label">Total votes</span>
+                <span class="county-focus-summary-value">${escapeHtml(totalVotes.toLocaleString())}</span>
+              </div>
+            </div>
+          </section>
+        `;
+
+        const voteBreakdownPanelHtml = `
+          <section class="county-focus-panel county-focus-breakdown-panel" aria-label="Vote breakdown">
+            <div class="county-focus-section-title">Vote breakdown</div>
+            <div class="county-focus-breakdown-head">
+              <span class="county-focus-breakdown-label dem">D ${escapeHtml(demPct.toFixed(2))}%</span>
+              <span class="county-focus-breakdown-label midpoint">100%</span>
+              <span class="county-focus-breakdown-label rep">R ${escapeHtml(repPct.toFixed(2))}%</span>
+            </div>
+            <div class="county-focus-breakdown-bar" aria-hidden="true">
+              <span class="dem" style="width:${demPct.toFixed(4)}%;"></span>
+              ${otherPct > 0 ? `<span class="other" style="width:${otherPct.toFixed(4)}%;"></span>` : ''}
+              <span class="rep" style="width:${repPct.toFixed(4)}%;"></span>
+            </div>
+            <div class="county-focus-list county-focus-breakdown-list">
+              <div class="county-focus-list-item">
+                <span class="county-focus-list-label">${escapeHtml(fullCandidateLabel(demCandidate, 'Democratic'))} (D)</span>
+                <span class="county-focus-list-value">${escapeHtml(demVotes.toLocaleString())}</span>
+              </div>
+              <div class="county-focus-list-item">
+                <span class="county-focus-list-label">${escapeHtml(fullCandidateLabel(repCandidate, 'Republican'))} (R)</span>
+                <span class="county-focus-list-value">${escapeHtml(repVotes.toLocaleString())}</span>
+              </div>
+              ${otherVotes > 0 ? `
+                <div class="county-focus-list-item">
+                  <span class="county-focus-list-label">Other</span>
+                  <span class="county-focus-list-value">${escapeHtml(otherVotes.toLocaleString())}</span>
+                </div>
+              ` : ''}
+            </div>
+          </section>
+        `;
+
+        const trendSummaryHtml = (() => {
+          if (!seriesLoaded || !seriesAsc.length) {
+            return `
+              <div class="county-focus-trend-glance">
+                <div class="county-focus-trend-glance-item"><span class="k">Selected</span><span class="v">Loading…</span></div>
+                <div class="county-focus-trend-glance-item"><span class="k">Closest</span><span class="v">Loading…</span></div>
+                <div class="county-focus-trend-glance-item"><span class="k">Since earliest</span><span class="v">Loading…</span></div>
+              </div>
+            `;
+          }
+          const selectedRow = seriesAsc.find(r => Number(r?.year) === selectedYearNum) || seriesAsc[seriesAsc.length - 1];
+          const selectedText = winnerMarginLabelShort(
+            Number(selectedRow?.rep_votes || 0),
+            Number(selectedRow?.dem_votes || 0),
+            Number(selectedRow?.total_votes || 0),
+            selectedRow?.rep_candidate,
+            selectedRow?.dem_candidate
+          );
+          const closestRow = seriesAsc.reduce((best, row) => {
+            const cur = Math.abs(Number(row?.margin_pct || 0));
+            if (!best) return row;
+            const bestAbs = Math.abs(Number(best?.margin_pct || 0));
+            return cur < bestAbs ? row : best;
+          }, null);
+          const closestText = closestRow
+            ? `${closestRow.year}: ${winnerMarginLabelShort(
+              Number(closestRow?.rep_votes || 0),
+              Number(closestRow?.dem_votes || 0),
+              Number(closestRow?.total_votes || 0),
+              closestRow?.rep_candidate,
+              closestRow?.dem_candidate
+            )}`
+            : 'Unavailable';
+          const earliestRow = seriesAsc[0];
+          const sinceShift = (earliestRow && selectedRow)
+            ? formatShiftLabel(Number(selectedRow?.margin_pct || 0) - Number(earliestRow?.margin_pct || 0))
+            : 'Unavailable';
+
+          return `
+            <div class="county-focus-trend-glance">
+              <div class="county-focus-trend-glance-item"><span class="k">Selected</span><span class="v">${escapeHtml(`${selectedRow?.year}: ${selectedText}`)}</span></div>
+              <div class="county-focus-trend-glance-item"><span class="k">Closest</span><span class="v">${escapeHtml(closestText)}</span></div>
+              <div class="county-focus-trend-glance-item"><span class="k">Since ${escapeHtml(earliestRow?.year || 'earliest')}</span><span class="v">${escapeHtml(sinceShift)}</span></div>
+            </div>
+          `;
+        })();
 
         const demographicsHtml = (() => {
           if (!countyDemo) return '';
@@ -14056,17 +14370,6 @@ document.addEventListener('DOMContentLoaded', function() {
                   <p>${escapeHtml(profileDetailTight || `${trajectoryDetail} ${populationDetail}`)}</p>
                 </div>
               </div>
-              <div class="county-focus-panel">
-                <div class="county-focus-section-title">Vote breakdown</div>
-                <div class="county-focus-list">
-                  ${voteRows.map(row => `
-                    <div class="county-focus-list-item">
-                      <span class="county-focus-list-label">${row.label}</span>
-                      <span class="county-focus-list-value">${row.value}</span>
-                    </div>
-                  `).join('')}
-                </div>
-              </div>
             </div>
           </details>
         `;
@@ -14117,6 +14420,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <div class="county-focus-badges" aria-label="Locality type and contest">
                     <span class="county-focus-pill muted">${escapeHtml(localitySubtype)}</span>
                     <span class="county-focus-pill muted">${escapeHtml(contestLabel)}</span>
+                    <span class="county-focus-pill ${escapeHtml(winnerCall.party)}">${escapeHtml(winnerCall.party === 'tie' ? 'TIE' : winnerCall.party.toUpperCase())}</span>
                   </div>
                 </div>
                 ${badgeRow ? `
@@ -14128,38 +14432,33 @@ document.addEventListener('DOMContentLoaded', function() {
               ${heroMetricsHtml}
             </section>
 
-            <section class="focus-glance ${toneClass}" aria-label="At a glance">
-              <div class="focus-glance-head">
-                <span class="focus-glance-kicker">At a glance</span>
-                <span class="focus-glance-meta" aria-label="Confidence">
-                  <span class="focus-glance-badge">${escapeHtml(confidenceMeta.label || 'Medium')} confidence</span>
-                </span>
-              </div>
-              <div class="focus-glance-summary">${escapeHtml(glanceSentence)}</div>
-            </section>
+            ${resultSummaryHtml}
 
-            <div class="county-focus-panel county-focus-trend-panel" aria-label="Trend and trajectory">
-              <div class="county-focus-section-title">Trend / trajectory</div>
+            ${voteBreakdownPanelHtml}
+
+            <div class="county-focus-panel county-focus-trend-panel" aria-label="Trend at a glance">
+              <div class="county-focus-section-title">Trend at a glance</div>
+              ${trendSummaryHtml}
               <div class="county-focus-panel-copy">
                 <p>${escapeHtml(trendPopBridgeLine || 'Year-by-year margins for this contest.')}</p>
               </div>
               <div class="county-focus-list">${trendMarkup}</div>
             </div>
 
+            ${censusBlock ? censusBlock : `
+              <div class="county-focus-panel" aria-label="Census check">
+                <div class="county-focus-section-title">Census check</div>
+                <div class="county-focus-panel-copy">
+                  <p>Population estimates are unavailable for this locality.</p>
+                </div>
+              </div>
+            `}
+
             ${trajectoryBlock}
 
             <details class="county-detail-collapsible county-focus-extended" aria-label="Extended analysis">
               <summary>Extended analysis</summary>
               <div class="county-detail-body">
-                ${censusBlock ? `${censusBlock}${censusCheckHtml}` : `
-                  <div class="county-focus-panel" aria-label="Census check">
-                    <div class="county-focus-section-title">Census check</div>
-                    <div class="county-focus-panel-copy">
-                      <p>Population estimates are unavailable for this locality.</p>
-                    </div>
-                  </div>
-                `}
-
                 ${demographicsHtml}
 
                 ${precinctNonGeoHtml}

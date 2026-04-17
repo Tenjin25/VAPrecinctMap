@@ -2254,6 +2254,11 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   .meta-chip.shift .dot { background: #0ea5e9; }
   .meta-chip.flip .dot { background: #a855f7; }
 
+  /* Shift/momentum chips: let party direction drive the dot color when known. */
+  .meta-chip.shift.rep .dot { background: #dc2626; }
+  .meta-chip.shift.dem .dot { background: #2563eb; }
+  .meta-chip.shift.tie .dot { background: #94a3b8; }
+
   .meta-chip.flip.dem {
     border-color: rgba(37, 99, 235, 0.65);
     background: rgba(37, 99, 235, 0.18);
@@ -2267,6 +2272,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   }
 
   body.colorblind-mode .meta-chip.rep .dot { background: #d97706; }
+  body.colorblind-mode .meta-chip.shift.rep .dot { background: #d97706; }
   body.colorblind-mode .meta-chip.flip.rep {
     border-color: rgba(217, 119, 6, 0.65);
     background: rgba(217, 119, 6, 0.18);
@@ -14799,11 +14805,21 @@ document.addEventListener('DOMContentLoaded', function() {
           const volatilityLabel = (() => {
             if (!seriesLoaded || seriesAsc.length < 3) return '';
             const signed = seriesAsc.map(row => signedMarginTowardGopFromRow(row));
-            const swings = signed.slice(1).map((value, idx) => Math.abs(value - signed[idx])).filter(v => Number.isFinite(v));
-            if (!swings.length) return '';
+            const swings = signed
+              .slice(1)
+              .map((value, idx) => Math.abs(value - signed[idx]))
+              .filter(v => Number.isFinite(v));
+            if (swings.length < 2) return '';
+
             const avg = swings.reduce((sum, v) => sum + v, 0) / swings.length;
-            if (avg < 1.5) return 'Stable';
-            if (avg < 3.25) return 'Moderate volatility';
+            const sorted = swings.slice().sort((a, b) => a - b);
+            const median = sorted[Math.floor(sorted.length / 2)];
+            const max = sorted[sorted.length - 1];
+
+            // Keep the label conservative: avoid calling "Volatile" on one-off swings.
+            if (avg < 2.0 && max < 4.5) return 'Stable';
+            if (avg < 4.0 && max < 7.5) return 'Moderate volatility';
+            if (median < 3.25 && swings.length <= 3) return 'Moderate volatility';
             return 'Volatile';
           })();
 
@@ -14871,7 +14887,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return body;
           })();
           if (momentumLabel) {
-            chips.push(`<span class="meta-chip compact shift"><span class="dot"></span>${escapeHtml(momentumLabel)}</span>`);
+            const rawTrend = String(trajectoryMeta?.trend || '').trim();
+            const tone = rawTrend.includes('→') ? 'rep' : (rawTrend.includes('←') ? 'dem' : 'tie');
+            chips.push(`<span class="meta-chip compact shift ${tone}"><span class="dot"></span>${escapeHtml(momentumLabel)}</span>`);
           }
 
           const longShiftLabel = (() => {
@@ -14888,7 +14906,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return `${delta > 0 ? 'R' : 'D'}+${abs.toFixed(2)} since ${baseYear}`;
           })();
           if (longShiftLabel) {
-            chips.push(`<span class="meta-chip compact shift"><span class="dot"></span>${escapeHtml(longShiftLabel)}</span>`);
+            const dir = longShiftLabel.startsWith('R+') ? 'rep' : (longShiftLabel.startsWith('D+') ? 'dem' : 'tie');
+            chips.push(`<span class="meta-chip compact shift ${dir}"><span class="dot"></span>${escapeHtml(longShiftLabel)}</span>`);
           }
 
           const sentence = String(glanceSentence || '').trim() || 'Trend context is limited here.';

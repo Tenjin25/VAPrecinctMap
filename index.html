@@ -2232,6 +2232,14 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     white-space: nowrap;
   }
 
+  .meta-chip.compact {
+    padding: 5px 9px;
+    font-size: 11px;
+    font-weight: 850;
+    border-color: rgba(15, 23, 42, 0.12);
+    background: rgba(248, 250, 252, 0.84);
+  }
+
   .meta-chip .dot {
     width: 8px;
     height: 8px;
@@ -2586,6 +2594,29 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     gap: 8px;
   }
 
+  @keyframes focus-shell-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes focus-margin-pop {
+    from { transform: translateY(1px) scale(0.995); filter: brightness(1.05); }
+    to { transform: translateY(0) scale(1); filter: brightness(1); }
+  }
+
+  .county-focus-shell {
+    animation: focus-shell-in 160ms ease-out;
+  }
+
+  .county-focus-shell .county-focus-margin {
+    animation: focus-margin-pop 160ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .county-focus-shell { animation: none !important; }
+    .county-focus-shell .county-focus-margin { animation: none !important; }
+  }
+
   .county-focus-hero,
   .county-story-card,
   .county-focus-mini-card,
@@ -2645,6 +2676,22 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     align-items: flex-start;
   }
 
+  .county-focus-subtitle {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.35;
+    font-weight: 850;
+    color: #475569;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: baseline;
+  }
+
+  .county-focus-subtitle .sep {
+    opacity: 0.65;
+  }
+
   .county-focus-name {
     margin: 2px 0 0;
     font-size: clamp(22px, 2.3vw, 28px);
@@ -2652,6 +2699,14 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     font-weight: 900;
     letter-spacing: -0.03em;
     color: #0f172a;
+  }
+
+  .county-focus-type {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    color: #64748b;
+    white-space: nowrap;
   }
 
   .county-focus-call {
@@ -2737,6 +2792,10 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     line-height: 1.35;
     font-weight: 800;
     color: #64748b;
+  }
+
+  .county-focus-support .sep {
+    opacity: 0.65;
   }
 
   .county-focus-support-dot {
@@ -3281,6 +3340,252 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   }
 
   .focus-glance-micro strong { color: #0f172a; }
+
+  /* Flow blocks: keep the locality panel feeling like one story (less box stacking). */
+  .focus-result-strip,
+  .focus-interpretation,
+  .focus-census-block {
+    display: grid;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(148, 163, 184, 0.16);
+  }
+
+  .focus-result-strip-head,
+  .focus-interpretation-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .focus-result-strip-kicker,
+  .focus-interpretation-kicker {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .focus-result-strip-total {
+    font-size: 11px;
+    font-weight: 850;
+    color: #475569;
+  }
+
+  .focus-result-strip-bar {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    height: 14px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(148, 163, 184, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  }
+
+  .focus-result-strip-bar span {
+    display: block;
+    height: 100%;
+  }
+
+  .focus-result-strip-bar span.dem { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+  .focus-result-strip-bar span.rep { background: linear-gradient(90deg, #f87171, #dc2626); }
+  .focus-result-strip-bar span.other { background: #94a3b8; }
+
+  .focus-result-strip-legend {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 900;
+    color: #475569;
+  }
+
+  .focus-result-strip-legend .dem { color: #1d4ed8; }
+  .focus-result-strip-legend .rep { color: #b91c1c; }
+  .focus-result-strip-legend .other { color: #475569; }
+
+  .focus-result-strip-inline {
+    padding-top: 6px;
+    border-top: none;
+    gap: 8px;
+  }
+
+  .focus-result-strip-inline .focus-result-strip-head,
+  .focus-result-strip-inline .focus-result-strip-legend {
+    display: none !important;
+  }
+
+  .focus-result-strip-inline .focus-result-strip-bar {
+    height: 12px;
+  }
+
+  .focus-result-strip-shareline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: baseline;
+    font-size: 11px;
+    line-height: 1.35;
+    font-weight: 900;
+    color: #475569;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .focus-result-strip-shareline .dem { color: #1d4ed8; }
+  .focus-result-strip-shareline .rep { color: #b91c1c; }
+  .focus-result-strip-shareline .sep { opacity: 0.65; }
+
+  .focus-glance-compact,
+  .focus-census-compact,
+  .focus-trajectory-compact {
+    display: grid;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(148, 163, 184, 0.16);
+  }
+
+  .focus-block-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .focus-block-kicker {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .focus-block-meta {
+    font-size: 11px;
+    font-weight: 850;
+    color: #64748b;
+    opacity: 0.92;
+    white-space: nowrap;
+  }
+
+  .focus-block-sentence {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.45;
+    font-weight: 850;
+    color: #0f172a;
+  }
+
+  .focus-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .focus-trajectory-rows {
+    position: relative;
+    display: grid;
+    gap: 6px;
+  }
+
+  .focus-trajectory-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12px;
+    line-height: 1.35;
+    font-weight: 850;
+    color: #334155;
+  }
+
+  .focus-trajectory-year {
+    color: #64748b;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+  }
+
+  .focus-trajectory-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 950;
+    color: #0f172a;
+    white-space: nowrap;
+  }
+
+  .focus-trajectory-value.rep { color: #b91c1c; }
+  .focus-trajectory-value.dem { color: #1d4ed8; }
+  .focus-trajectory-value.tie { color: #475569; }
+
+  .focus-trajectory-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #94a3b8;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+  }
+
+  .focus-trajectory-dot.dem { background: #2563eb; }
+  .focus-trajectory-dot.rep { background: #dc2626; }
+  .focus-trajectory-dot.tie { background: #94a3b8; }
+
+  body.colorblind-mode .focus-trajectory-dot.rep { background: #d97706; }
+
+  .focus-interpretation-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(255, 255, 255, 0.86);
+    color: #0f172a;
+    font-size: 11px;
+    font-weight: 850;
+  }
+
+  .focus-interpretation-paragraph {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 850;
+    color: #0f172a;
+  }
+
+  .focus-interpretation-lines {
+    display: grid;
+    gap: 8px;
+  }
+
+  .focus-interpretation-line {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .focus-interpretation-line .k {
+    font-weight: 900;
+    color: #64748b;
+    letter-spacing: 0.02em;
+  }
+
+  .focus-interpretation-line .v {
+    font-weight: 900;
+    color: #0f172a;
+    overflow-wrap: anywhere;
+  }
 
   .focus-mini-grid {
     margin: 0 0 12px 0;
@@ -4235,12 +4540,9 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   }
 
   .focus-census-summary {
-    display: flex;
-    align-items: flex-start;
-    gap: 7px;
     font-size: 13px;
-    font-weight: 800;
-    line-height: 1.4;
+    font-weight: 850;
+    line-height: 1.45;
     color: #0f172a;
   }
 
@@ -4257,9 +4559,53 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   }
 
   .focus-census-metrics {
-    font-size: 11px;
-    line-height: 1.45;
-    color: #475569;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .focus-census-metric {
+    display: grid;
+    gap: 3px;
+    padding: 8px 10px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    min-width: 0;
+  }
+
+  .focus-census-metric-label {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .focus-census-metric-value {
+    font-size: 12px;
+    font-weight: 950;
+    color: #0f172a;
+    line-height: 1.15;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 460px) {
+    .focus-census-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .focus-census-metric:last-child {
+      grid-column: 1 / -1;
+    }
   }
 
   .focus-census-check {
@@ -6622,10 +6968,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
      Goal: preserve the glass aesthetic while reducing competition
   ------------------------------------------------------------ */
   :root {
-    --atlas-edge: 20px;
-    --atlas-rhythm-8: 8px;
-    --atlas-rhythm-16: 16px;
-    --atlas-rhythm-24: 24px;
     --atlas-shadow-soft: 0 14px 34px rgba(15, 23, 42, 0.14);
     --atlas-shadow-focus: 0 22px 56px rgba(15, 23, 42, 0.22);
     --atlas-border-soft: rgba(148, 163, 184, 0.16);
@@ -6639,27 +6981,19 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     box-shadow: var(--atlas-shadow-soft) !important;
   }
 
-  .main-controls,
-  .legend {
-    left: var(--atlas-edge);
-  }
-
   .viz-modes,
   .viz-modes-inline {
     box-shadow: 0 12px 26px rgba(15, 23, 42, 0.10) !important;
   }
 
   .viz-modes {
-    top: 18px;
-    padding: 6px;
-    gap: 8px;
-    border-radius: 14px;
-    border-color: rgba(148, 163, 184, 0.20);
+    padding: 7px 8px;
+    border-radius: 18px;
+    border-color: rgba(148, 163, 184, 0.18);
   }
 
   .viz-mode-btn {
-    padding: 9px 13px;
-    border-radius: 9px;
+    padding: 9px 14px;
   }
 
   .viz-mode-btn.active {
@@ -6667,24 +7001,29 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   }
 
   .vote-counter {
-    top: 74px;
-    padding: 14px 16px;
-    border-radius: 14px;
+    padding: 15px;
     border-color: rgba(148, 163, 184, 0.16);
+    border-radius: 20px;
+  }
+
+  @media (min-width: 769px) {
+    .vote-counter {
+      top: 74px;
+    }
   }
 
   .vote-counter-context {
-    margin-bottom: 8px;
-    padding-bottom: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
     border-bottom-color: rgba(148, 163, 184, 0.18);
   }
 
-  .vote-counter-context .context-title {
-    letter-spacing: 0.045em;
-  }
-
+  /* Ensure locality nouns ("City of", "County") are never lost to ellipsis truncation. */
+  .vote-counter-context .context-title,
   .vote-counter-context .context-sub {
-    color: #64748b;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
   }
 
   .vote-counter-meta {
@@ -6693,12 +7032,12 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   }
 
   .vote-counter-row {
-    gap: 10px;
+    gap: 8px;
   }
 
   .vote-item {
     gap: 7px;
-    padding: 10px;
+    padding: 11px;
     border-color: rgba(148, 163, 184, 0.12);
     background: rgba(255, 255, 255, 0.80);
   }
@@ -6761,72 +7100,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
   .focus-glance {
     box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
-  }
-
-  .county-focus-shell {
-    gap: 12px;
-  }
-
-  .county-focus-hero,
-  .county-focus-panel,
-  .county-detail-collapsible,
-  .focus-glance,
-  .focus-trajectory,
-  .focus-census-insight {
-    border-radius: 14px;
-  }
-
-  .county-focus-panel,
-  .county-story-card,
-  .county-focus-mini-card {
-    padding: 12px;
-  }
-
-  .county-focus-section-title {
-    letter-spacing: 0.09em;
-    color: #475569;
-  }
-
-  .county-focus-panel-copy,
-  .county-focus-list {
-    gap: 6px;
-  }
-
-  .county-focus-panel-copy p,
-  .county-focus-empty {
-    color: #64748b;
-  }
-
-  .county-focus-trend-panel .county-focus-panel-copy p {
-    margin: 0;
-    font-size: 12px;
-    line-height: 1.45;
-  }
-
-  .focus-glance-summary {
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-  }
-
-  .focus-census-metrics-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 0;
-  }
-
-  .focus-census-metric {
-    display: inline-flex;
-    align-items: center;
-    min-height: 24px;
-    padding: 0 8px;
-    border-radius: 999px;
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    background: rgba(255, 255, 255, 0.74);
-    color: #334155;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.03em;
   }
 
   .focus-glance.tone-rep {
@@ -9596,43 +9869,57 @@ document.addEventListener('DOMContentLoaded', function() {
       return { ...meta, censusCheck };
     }
 
-    function renderFocusCensusInsightHTML(context, title = 'County Census Insight', options = {}) {
+    function renderFocusCensusInsightHTML(context, title = 'Census Check') {
       if (!context) return '';
       const pop2025 = Number(context?.population2025);
       const delta2020to2025 = Number(context?.change2020To2025);
       const pct2020to2025 = Number(context?.changePct2020To2025);
       const delta2024to2025 = Number(context?.change2024To2025);
       const pct2024to2025 = Number(context?.changePct2024To2025);
-      const rawInsight = String(options?.insight || context?.noteLabel || '').trim();
-      const compactInsight = (() => {
-        if (!rawInsight) return '';
-        const firstSentence = rawInsight.split(/(?<=[.!?])\s+/)[0] || rawInsight;
-        return firstSentence.length > 190
-          ? `${firstSentence.slice(0, 187).trim()}...`
-          : firstSentence;
-      })();
 
-      const metricParts = [];
+      const metrics = [];
       if (Number.isFinite(pop2025) && pop2025 > 0) {
-        metricParts.push(`2025 est: ${Math.round(pop2025).toLocaleString()}`);
+        metrics.push({ label: '2025 est', value: Math.round(pop2025).toLocaleString() });
       }
       if (Number.isFinite(pct2020to2025) || Number.isFinite(delta2020to2025)) {
         const pctLabel = formatPopulationChangePct(pct2020to2025);
         const deltaLabel = Number.isFinite(delta2020to2025) ? formatSignedInt(delta2020to2025) : '';
-        if (pctLabel && deltaLabel) metricParts.push(`2020→2025: ${pctLabel} (${deltaLabel})`);
-        else if (pctLabel) metricParts.push(`2020→2025: ${pctLabel}`);
-        else if (deltaLabel) metricParts.push(`2020→2025: ${deltaLabel}`);
+        const value = (pctLabel && deltaLabel) ? `${pctLabel} (${deltaLabel})` : (pctLabel || deltaLabel);
+        if (value) metrics.push({ label: '2020→2025', value });
       }
       if (Number.isFinite(pct2024to2025) || Number.isFinite(delta2024to2025)) {
         const pctLabel = formatPopulationChangePct(pct2024to2025);
         const deltaLabel = Number.isFinite(delta2024to2025) ? formatSignedInt(delta2024to2025) : '';
-        if (pctLabel && deltaLabel) metricParts.push(`2024→2025: ${pctLabel} (${deltaLabel})`);
-        else if (pctLabel) metricParts.push(`2024→2025: ${pctLabel}`);
-        else if (deltaLabel) metricParts.push(`2024→2025: ${deltaLabel}`);
+        const value = (pctLabel && deltaLabel) ? `${pctLabel} (${deltaLabel})` : (pctLabel || deltaLabel);
+        if (value) metrics.push({ label: '2024→2025', value });
       }
-      const metricsHtml = metricParts.length
-        ? `<div class="focus-census-metrics-row" aria-label="Census metrics">${metricParts.map(metric => `<span class="focus-census-metric">${escapeHtml(metric)}</span>`).join('')}</div>`
+
+      const firstSentence = (text) => {
+        const raw = String(text || '').trim();
+        if (!raw) return '';
+        return (raw.split(/(?<=[.!?])\s+/)[0] || raw).trim();
+      };
+
+      const insight = firstSentence(context.noteLabel) || firstSentence(context.patternLabel) || 'Population context is limited here.';
+      const footerParts = [
+        String(context.sourceNote || '').trim(),
+        String(context.corridorNote || '').trim()
+      ].filter(Boolean);
+      const footer = footerParts.length ? footerParts.join(' • ') : '';
+
+      const metricsHtml = metrics.length
+        ? `
+          <div class="focus-census-metrics" role="list" aria-label="Census metrics">
+            ${metrics.map(item => `
+              <div class="focus-census-metric" role="listitem">
+                <span class="focus-census-metric-label">${escapeHtml(item.label)}</span>
+                <span class="focus-census-metric-value">${escapeHtml(item.value)}</span>
+              </div>
+            `).join('')}
+          </div>
+        `
         : '';
+
       return `
         <div class="focus-census-insight" role="note" aria-label="${escapeHtml(title)}">
           <div class="focus-census-head">
@@ -9642,15 +9929,22 @@ document.addEventListener('DOMContentLoaded', function() {
               ${escapeHtml(context.signalLabel || 'Steady population signal')}
             </span>
           </div>
-          <p class="focus-census-summary">
-            <span class="focus-census-inline-emoji">${escapeHtml(context.patternEmoji || '🧭')}</span>
-            ${escapeHtml(context.patternLabel || 'Mixed local and regional forces')}
-          </p>
           ${metricsHtml}
-          ${compactInsight ? `<p class="focus-census-note">${escapeHtml(compactInsight)}</p>` : ''}
-          ${context.sourceNote ? `<p class="focus-census-source">${escapeHtml(context.sourceNote)}</p>` : ''}
+          <p class="focus-census-summary">${escapeHtml(insight)}</p>
+          ${footer ? `<p class="focus-census-source">${escapeHtml(footer)}</p>` : ''}
         </div>
       `;
+    }
+
+    function scrubCensusCheckDisplayText(raw) {
+      const text = String(raw || '').trim();
+      if (!text) return '';
+      return text
+        .replace(/\b[-+]\d+(?:\.\d+)?%/g, '')
+        .replace(/\(\s*[-+]\d[\d,]*\s*\)/g, '')
+        .replace(/\s{2,}/g, ' ')
+        .replace(/\s+([,.;:])/g, '$1')
+        .trim();
     }
 
     function classifyCountyTrajectory(series, options = {}) {
@@ -10013,7 +10307,9 @@ document.addEventListener('DOMContentLoaded', function() {
         ? renderTrajectoryBlockHTML(options.trajectoryMeta)
         : '';
       const censusCheckHtml = (() => {
-        const text = String(options?.trajectoryMeta?.censusCheck || '').trim();
+        const scrubbed = scrubCensusCheckDisplayText(options?.trajectoryMeta?.censusCheck || '');
+        if (!scrubbed) return '';
+        const text = (scrubbed.split(/(?<=[.!?])\s+/)[0] || scrubbed).trim();
         if (!text) return '';
         const trendText = String(options?.trajectoryMeta?.trend || '');
         const tone = trendText.includes('←') ? 'dem' : (trendText.includes('→') ? 'rep' : 'neutral');
@@ -11890,9 +12186,10 @@ document.addEventListener('DOMContentLoaded', function() {
       if (key === 'VIRGINIA') return 'Virginia';
       const base = toTitleCaseName(localityBaseName(key));
       if (!base) return 'Unknown Locality';
-      if (/\bCITY$/.test(key) && !/\bCOUNTY$/.test(key)) return `City of ${base}`;
+      if ((/\bCITY$/.test(key) && !/\bCOUNTY$/.test(key)) || VA_INDEPENDENT_CITIES.has(key)) return `City of ${base}`;
+      // Default to county when no explicit noun is present (prevents ambiguous "Fairfax"/"Richmond" display).
       if (/\bCOUNTY$/.test(key)) return `${base} County`;
-      return toTitleCaseName(key);
+      return `${base} County`;
     }
 
     function formatFlyToLocalityLabel(raw) {
@@ -13215,7 +13512,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const precinctNorm = (props.precinct_norm || '').toString().trim().toUpperCase();
       const countyName = (props.county_nam || '').toString().trim();
       const precId = (props.prec_id || '').toString().trim();
-      const title = `${countyName} - ${precId}`;
+      const title = `${displayCountyName(countyName)} - ${precId}`;
       setPrecinctHoverFeature(feature);
 
       const contestValue = document.getElementById('contestSelect')?.value || '';
@@ -13941,11 +14238,6 @@ document.addEventListener('DOMContentLoaded', function() {
           if (statusMain === 'Reinforcing') return 'Watch whether the next cycle deepens the current lean.';
           return 'Watch whether the next cycle confirms this direction.';
         })();
-        const trendMarkup = loadState === 'loading'
-          ? '<div class="county-focus-empty">Loading locality trend…</div>'
-          : (loadState === 'error'
-            ? '<div class="county-focus-empty">Locality trend is temporarily unavailable.</div>'
-            : renderCountyTrendPreviewHTML(series || []));
         const voteRows = [
           { label: `${escapeHtml(fullCandidateLabel(demCandidate, 'Democratic'))} (D)`, value: `${demVotes.toLocaleString()} • ${demPct.toFixed(2)}%` },
           { label: `${escapeHtml(fullCandidateLabel(repCandidate, 'Republican'))} (R)`, value: `${repVotes.toLocaleString()} • ${repPct.toFixed(2)}%` },
@@ -13964,26 +14256,35 @@ document.addEventListener('DOMContentLoaded', function() {
           : -1;
         const prevSeries = (seriesLoaded && curSeriesIndex > 0) ? seriesAsc[curSeriesIndex - 1] : null;
 
-        const flipBadge = (() => {
-          if (!prevSeries || !Number.isFinite(Number(prevSeries.year))) return '';
+        const signedMarginTowardGopFromRow = (row) => {
+          if (!row) return 0;
+          const explicit = Number(row.margin_pct);
+          const winnerRaw = (row.winner || '').toString().trim().toUpperCase();
+          const winnerNorm = winnerRaw === 'R' ? 'REP' : winnerRaw === 'D' ? 'DEM' : winnerRaw;
+          if (Number.isFinite(explicit) && explicit !== 0) {
+            if (winnerNorm === 'REP') return Math.abs(explicit);
+            if (winnerNorm === 'DEM') return -Math.abs(explicit);
+          }
+          const repVotes = Number(row.rep_votes);
+          const demVotes = Number(row.dem_votes);
+          const totalVotes = Number(row.total_votes);
+          if (Number.isFinite(repVotes) && Number.isFinite(demVotes) && Number.isFinite(totalVotes) && totalVotes > 0) {
+            return ((repVotes - demVotes) / totalVotes) * 100;
+          }
+          return 0;
+        };
+
+        const flipMeta = (() => {
+          if (!prevSeries || !Number.isFinite(Number(prevSeries.year))) return null;
           try {
-            const prevSigned = Number(prevSeries.margin_pct || 0);
+            const prevSigned = signedMarginTowardGopFromRow(prevSeries);
             const f = flipInfo(prevSigned, localSignedMargin);
-            if (!f.flipped) return '';
-            const cls = f.to === 'R' ? 'rep' : 'dem';
-            return `<span class="county-focus-pill ${cls}">Flip ${escapeHtml(f.from)}\u2192${escapeHtml(f.to)}</span>`;
+            if (!f.flipped) return null;
+            return { ...f, fromYear: Number(prevSeries.year), toYear: Number(selectedYearNum || year) };
           } catch (_) {
-            return '';
+            return null;
           }
         })();
-
-        const tierBadge = `<span class="county-focus-pill muted tier">${escapeHtml(competitivenessMeta.shortLabel || compactCompetitivenessLabel(winnerCall.marginPct, winnerCall.party))}</span>`;
-        const badgeRow = [flipBadge, tierBadge].filter(Boolean).join('');
-
-        const trajectoryBlock = trajectoryMeta ? renderTrajectoryBlockHTML(trajectoryMeta) : '';
-        const censusBlock = censusContext
-          ? renderFocusCensusInsightHTML(censusContext, 'Census signal', { insight: trajectoryMeta?.censusCheck || '' })
-          : '';
 
         const glanceSentence = (() => {
           const statewideSigned = Number(statewideSummary?.signedMarginPct);
@@ -14003,6 +14304,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
           const sentence = [relativeClause, trendClause].filter(Boolean).join(', ');
           return sentence ? `${sentence}.` : 'Trend context is limited here.';
+        })();
+
+        const censusCheckHtml = (() => {
+          const raw = scrubCensusCheckDisplayText(trajectoryMeta?.censusCheck || '');
+          const text = (() => {
+            if (!raw) return '';
+            const firstSentence = raw.split(/(?<=[.!?])\s+/)[0] || raw;
+            const clipped = firstSentence.length > 180 ? `${firstSentence.slice(0, 177).trim()}…` : firstSentence;
+            return clipped;
+          })();
+          if (!text) return '';
+          const trendText = String(trajectoryMeta?.trend || '');
+          const tone = trendText.includes('←') ? 'dem' : (trendText.includes('→') ? 'rep' : 'neutral');
+          const toneClass = trajectoryToneClass(tone);
+          return `
+            <div class="focus-census-check ${toneClass}" role="note" aria-label="Census check">
+              <span class="focus-census-check-kicker">Census check</span>
+              <p class="focus-census-check-body">${escapeHtml(text)}</p>
+            </div>
+          `;
         })();
 
         const trendPopBridgeLine = (() => {
@@ -14028,33 +14349,30 @@ document.addEventListener('DOMContentLoaded', function() {
             : `Population is ${signalLower} — churn can amplify cycle-to-cycle movement.`;
         })();
 
-        const partyLetter = winnerCall.party === 'rep' ? 'R' : (winnerCall.party === 'dem' ? 'D' : 'Even');
-        const winnerValue = winnerCall.party === 'tie' ? 'Even' : `${winnerCall.winnerName} (${partyLetter})`;
+        const partyLetter = winnerCall.party === 'rep' ? 'R' : (winnerCall.party === 'dem' ? 'D' : '');
+        const winnerValue = winnerCall.party === 'tie' ? 'Tie' : `${winnerCall.winnerName} (${partyLetter})`;
         const marginHeroValue = winnerCall.party === 'tie'
           ? 'Even'
           : String(winnerCall.text || '').trim() || `${winnerCall.shortLabel} +${Number(winnerCall.marginPct || 0).toFixed(2)}%`;
-        const shiftMeta = (() => {
-          if (loadState === 'loading') return { value: 'Loading…', note: 'vs prior election' };
-          if (!prevSeries || !Number.isFinite(Number(prevSeries.year))) return { value: '—', note: 'vs prior election' };
-          const prevSigned = Number(prevSeries.margin_pct || 0);
-          const delta = localSignedMargin - prevSigned;
+
+        const shiftInline = (() => {
+          if (!prevSeries || !Number.isFinite(Number(prevSeries.year))) return '';
+          const prevYear = Number(prevSeries.year);
+          const prevSigned = signedMarginTowardGopFromRow(prevSeries);
+          const delta = Number(localSignedMargin) - Number(prevSigned);
           const abs = Math.abs(delta);
-          if (abs < 0.01) return { value: 'Even', note: `${prevSeries.year}\u2192${selectedYearNum || year}` };
-          return {
-            value: `${delta > 0 ? 'R' : 'D'}+${abs.toFixed(2)} pts`,
-            note: `${prevSeries.year}\u2192${selectedYearNum || year}`
-          };
+          if (!Number.isFinite(abs)) return '';
+          if (abs < 0.01) return `Even since ${prevYear}`;
+          return `${delta > 0 ? 'R' : 'D'}+${abs.toFixed(2)} since ${prevYear}`;
         })();
 
         const heroMetricsHtml = `
-          <div class="county-focus-result" aria-label="Top summary metrics">
+          <div class="county-focus-result" aria-label="Topline result">
             <div class="county-focus-margin">${escapeHtml(marginHeroValue)}</div>
             <div class="county-focus-winner">${escapeHtml(winnerValue)}</div>
             <div class="county-focus-support" aria-label="Votes and shift">
-              <span>${escapeHtml(totalVotes.toLocaleString())} votes</span>
-              <span class="county-focus-support-dot" aria-hidden="true">\u2022</span>
-              <span>${escapeHtml(shiftMeta.value === 'Loading…' ? 'Shift loading…' : (shiftMeta.value === '—' ? 'Shift unavailable' : `Shift ${shiftMeta.value}${shiftMeta.note ? ` (${shiftMeta.note})` : ''}`))}</span>
-              <span class="county-focus-support-scope">${escapeHtml(`${localityScope} result`)}</span>
+              <span>${escapeHtml(`${totalVotes.toLocaleString()} votes`)}</span>
+              ${shiftInline ? `<span class="sep">\u2022</span><span>${escapeHtml(shiftInline)}</span>` : ''}
             </div>
           </div>
         `;
@@ -14191,59 +14509,216 @@ document.addEventListener('DOMContentLoaded', function() {
           `;
         })();
 
+        const resultStripHtml = (() => {
+          const pct = (n) => Number.isFinite(Number(n)) ? Number(n) : 0;
+          const d = pct(demPct);
+          const r = pct(repPct);
+          const o = pct(otherPct);
+          const barOther = otherVotes > 0 ? `<span class="other" style="width:${o.toFixed(4)}%;"></span>` : '';
+          const demShort = shortCandidateLabel(demCandidate, 'Democratic');
+          const repShort = shortCandidateLabel(repCandidate, 'Republican');
+          const winnerFirst = winnerCall.party === 'rep'
+            ? `<span class="rep">${escapeHtml(`${repShort} ${r.toFixed(2)}%`)}</span>`
+            : (winnerCall.party === 'dem'
+              ? `<span class="dem">${escapeHtml(`${demShort} ${d.toFixed(2)}%`)}</span>`
+              : `<span class="rep">${escapeHtml(`${repShort} ${r.toFixed(2)}%`)}</span>`);
+          const otherSecond = winnerCall.party === 'rep'
+            ? `<span class="dem">${escapeHtml(`${demShort} ${d.toFixed(2)}%`)}</span>`
+            : (winnerCall.party === 'dem'
+              ? `<span class="rep">${escapeHtml(`${repShort} ${r.toFixed(2)}%`)}</span>`
+              : `<span class="dem">${escapeHtml(`${demShort} ${d.toFixed(2)}%`)}</span>`);
+          return `
+            <div class="focus-result-strip focus-result-strip-inline" aria-label="Vote share">
+              <div class="focus-result-strip-bar" role="img" aria-label="Vote share bar">
+                <span class="dem" style="width:${d.toFixed(4)}%;"></span>
+                ${barOther}
+                <span class="rep" style="width:${r.toFixed(4)}%;"></span>
+              </div>
+              <div class="focus-result-strip-shareline" aria-label="Vote share line">
+                ${winnerFirst}
+                <span class="sep">\u2022</span>
+                ${otherSecond}
+              </div>
+            </div>
+          `;
+        })();
+
+        const trajectoryHtml = (() => {
+          const volatilityLabel = (() => {
+            if (!seriesLoaded || seriesAsc.length < 3) return '';
+            const signed = seriesAsc.map(row => signedMarginTowardGopFromRow(row));
+            const swings = signed.slice(1).map((value, idx) => Math.abs(value - signed[idx])).filter(v => Number.isFinite(v));
+            if (!swings.length) return '';
+            const avg = swings.reduce((sum, v) => sum + v, 0) / swings.length;
+            if (avg < 1.5) return 'Stable';
+            if (avg < 3.25) return 'Moderate volatility';
+            return 'Volatile';
+          })();
+
+          if (loadState === 'loading') {
+            return `
+              <section class="focus-trajectory-compact" aria-label="Trajectory">
+                <div class="focus-block-head">
+                  <span class="focus-block-kicker">Trajectory</span>
+                  <span class="focus-block-meta">Loading…</span>
+                </div>
+              </section>
+            `;
+          }
+
+          const rows = (seriesLoaded ? seriesAsc.slice().reverse() : []).slice(0, 5);
+          if (!rows.length) return '';
+
+          const metaBits = [];
+          if (volatilityLabel) {
+            metaBits.push(`<span class="meta-chip compact tie"><span class="dot"></span>${escapeHtml(volatilityLabel)}</span>`);
+          }
+
+          return `
+            <section class="focus-trajectory-compact" aria-label="Trajectory">
+              <div class="focus-block-head">
+                <span class="focus-block-kicker">Trajectory</span>
+                ${metaBits.length ? `<div class="focus-chip-row" aria-label="Trajectory chips">${metaBits.join('')}</div>` : ''}
+              </div>
+              <div class="focus-trajectory-rows" role="list" aria-label="Year-by-year margins">
+                ${rows.map(row => {
+                  const yearValue = Number(row?.year);
+                  const signed = signedMarginTowardGopFromRow(row);
+                  const abs = Math.abs(signed);
+                  const cls = abs < 0.005 ? 'tie' : (signed > 0 ? 'rep' : 'dem');
+                  const text = abs < 0.005 ? 'Even' : `+${abs.toFixed(2)}`;
+                  return `
+                    <div class="focus-trajectory-row" role="listitem">
+                      <span class="focus-trajectory-year">${escapeHtml(String(Number.isFinite(yearValue) ? yearValue : '—'))}</span>
+                      <span class="focus-trajectory-value ${cls}" aria-label="${escapeHtml(`${Number.isFinite(yearValue) ? yearValue : ''} ${cls.toUpperCase()} ${text}`)}">
+                        <span class="focus-trajectory-dot ${cls}" aria-hidden="true"></span>
+                        ${escapeHtml(text)}
+                      </span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </section>
+          `;
+        })();
+
+        const interpretationHtml = (() => {
+          const chips = [];
+
+          if (flipMeta) {
+            const cls = flipMeta.to === 'R' ? 'rep' : 'dem';
+            chips.push(`<span class="meta-chip compact flip ${cls}"><span class="dot"></span>Flip ${escapeHtml(flipMeta.from)}\u2192${escapeHtml(flipMeta.to)}</span>`);
+          }
+
+          if (trajectoryMeta?.status) {
+            const cls = trajectoryMeta.statusClass === 'rep' ? 'rep' : (trajectoryMeta.statusClass === 'dem' ? 'dem' : 'tie');
+            chips.push(`<span class="meta-chip compact ${cls}"><span class="dot"></span>${escapeHtml(String(trajectoryMeta.status).trim())}</span>`);
+          }
+
+          const momentumLabel = (() => {
+            const raw = String(trajectoryMeta?.trend || '').trim();
+            if (!raw) return '';
+            const noWindow = raw.replace(/\s*\([^)]*\)\s*$/, '');
+            const body = noWindow.replace(/^([\u2190\u2192\u2194\u2197\u2198])\s*/, '').trim();
+            if (!body || /not enough history/i.test(body)) return '';
+            return body;
+          })();
+          if (momentumLabel) {
+            chips.push(`<span class="meta-chip compact shift"><span class="dot"></span>${escapeHtml(momentumLabel)}</span>`);
+          }
+
+          const longShiftLabel = (() => {
+            if (!seriesLoaded || !seriesAsc.length) return '';
+            const latest = seriesAsc[seriesAsc.length - 1];
+            const base = seriesAsc.find(row => Number(row?.year) === 2008) || seriesAsc[0];
+            if (!latest || !base) return '';
+            const baseYear = Number(base.year);
+            if (!Number.isFinite(baseYear)) return '';
+            const delta = signedMarginTowardGopFromRow(latest) - signedMarginTowardGopFromRow(base);
+            const abs = Math.abs(delta);
+            if (!Number.isFinite(abs)) return '';
+            if (abs < 0.01) return `Even since ${baseYear}`;
+            return `${delta > 0 ? 'R' : 'D'}+${abs.toFixed(2)} since ${baseYear}`;
+          })();
+          if (longShiftLabel) {
+            chips.push(`<span class="meta-chip compact shift"><span class="dot"></span>${escapeHtml(longShiftLabel)}</span>`);
+          }
+
+          const sentence = String(glanceSentence || '').trim() || 'Trend context is limited here.';
+          const chipRow = chips.length
+            ? `<div class="focus-chip-row" aria-label="At a glance chips">${chips.slice(0, 3).join('')}</div>`
+            : '';
+
+          return `
+            <section class="focus-glance-compact" aria-label="At a glance">
+              <div class="focus-block-head">
+                <span class="focus-block-kicker">At a glance</span>
+              </div>
+              <p class="focus-block-sentence">${escapeHtml(sentence)}</p>
+              ${chipRow}
+            </section>
+          `;
+        })();
+
+        const censusHtml = (() => {
+          const signal = String(censusContext?.signalLabel || '').trim();
+          const conf = String(confidenceMeta?.label || '').trim() || 'Medium';
+          const headline = `${signal || 'Census'} \u00b7 ${conf} confidence`;
+
+          const momentumDescriptor = (() => {
+            const trend = String(trajectoryMeta?.trend || '').toLowerCase();
+            if (trend.includes('strong')) return 'meaningful';
+            if (trend.includes('moderate')) return 'modest';
+            if (trend.includes('slight')) return 'limited';
+            return 'modest';
+          })();
+
+          const censusSentence = (() => {
+            const s = (signal || '').toLowerCase();
+            if (!s) return 'Population context is limited here.';
+            if (s === 'growing') return `Population is rising, but recent electoral change is ${momentumDescriptor}.`;
+            if (s === 'declining') return `Population is falling, but recent electoral change is ${momentumDescriptor}.`;
+            if (s === 'stable') return `Population looks steady, and recent electoral change is ${momentumDescriptor}.`;
+            return `Population is ${s}, and recent electoral change is ${momentumDescriptor}.`;
+          })();
+
+          return `
+            <section class="focus-census-compact" aria-label="Census">
+              <div class="focus-block-head">
+                <span class="focus-block-kicker">Census</span>
+                <span class="focus-block-meta">${escapeHtml(headline)}</span>
+              </div>
+              <p class="focus-block-sentence">${escapeHtml(censusSentence)}</p>
+            </section>
+          `;
+        })();
+
         return `
           <div class="county-focus-shell">
             <section class="county-focus-hero" data-party="${escapeHtml(winnerCall.party)}" aria-label="Virginia locality focus">
               <div class="county-focus-header">
                 <div>
-                  <div class="county-focus-kicker">Virginia Locality Focus</div>
                   <h2 class="county-focus-name">${escapeHtml(countyDisplay)}</h2>
-                  <div class="county-focus-badges" aria-label="Locality type and contest">
-                    <span class="county-focus-pill muted">${escapeHtml(localitySubtype)}</span>
-                    <span class="county-focus-pill muted">${escapeHtml(contestLabel)}</span>
+                  <div class="county-focus-subtitle" aria-label="Context line">
+                    <span>${escapeHtml(localitySubtype || 'Locality')}</span>
+                    <span class="sep">\u2022</span>
+                    <span>${escapeHtml(`${formatContestName(contestType, year)} ${year}`)}</span>
                   </div>
                 </div>
-                ${badgeRow ? `
-                  <div class="county-focus-badges" aria-label="Badges">
-                    ${badgeRow}
-                  </div>
-                ` : ''}
               </div>
               ${heroMetricsHtml}
+              ${resultStripHtml}
             </section>
 
-            <section class="focus-glance ${toneClass}" aria-label="At a glance">
-              <div class="focus-glance-head">
-                <span class="focus-glance-kicker">At a glance</span>
-                <span class="focus-glance-meta" aria-label="Confidence">
-                  <span class="focus-glance-badge">${escapeHtml(confidenceMeta.label || 'Medium')} confidence</span>
-                </span>
-              </div>
-              <div class="focus-glance-summary">${escapeHtml(glanceSentence)}</div>
-            </section>
+            ${trajectoryHtml}
 
-            <div class="county-focus-panel county-focus-trend-panel" aria-label="Trend and trajectory">
-              <div class="county-focus-section-title">Result trajectory</div>
-              <div class="county-focus-panel-copy">
-                <p>${escapeHtml(trendPopBridgeLine || 'Year-by-year margins for this contest.')}</p>
-              </div>
-              <div class="county-focus-list">${trendMarkup}</div>
-            </div>
+            ${interpretationHtml}
 
-            ${trajectoryBlock}
+            ${censusHtml}
 
             <details class="county-detail-collapsible county-focus-extended" aria-label="Extended analysis">
               <summary>Extended analysis</summary>
               <div class="county-detail-body">
-                ${censusBlock ? `${censusBlock}` : `
-                  <div class="county-focus-panel" aria-label="Census check">
-                    <div class="county-focus-section-title">Census check</div>
-                    <div class="county-focus-panel-copy">
-                      <p>Population estimates are unavailable for this locality.</p>
-                    </div>
-                  </div>
-                `}
-
                 ${demographicsHtml}
 
                 ${precinctNonGeoHtml}
@@ -15083,7 +15558,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const precinctNorm = (props.precinct_norm || '').toString().trim().toUpperCase();
             const countyName = (props.county_nam || '').toString().trim();
             const precId = (props.prec_id || '').toString().trim();
-            const title = `${countyName} - ${precId}`;
+            const title = `${displayCountyName(countyName)} - ${precId}`;
 
             try {
               renderPrecinctHoverAtPoint(evt.point, evt.features?.[0]);
@@ -15509,31 +15984,23 @@ document.addEventListener('DOMContentLoaded', function() {
           return;
         }
 
-        const matches = counties
-          .filter(entry => {
-            const haystack = String(entry?.searchText || entry?.display || entry || '').toLowerCase();
-            return haystack.includes(searchValue);
-          })
-          .slice(0, 10);
+        const matches = counties.filter(county => county.toLowerCase().includes(searchValue)).slice(0, 10);
         if (!matches.length) {
           closeDropdown();
           return;
         }
 
         dropdown.innerHTML = '';
-        matches.forEach(entry => {
-          const label = String(entry?.display || entry || '').trim();
-          const value = String(entry?.value || label).trim();
-          if (!label) return;
+        matches.forEach(county => {
           const option = document.createElement('button');
           option.type = 'button';
           option.className = 'fly-to-option';
-          option.textContent = label;
+          option.textContent = county;
           option.addEventListener('click', () => {
-            searchInput.value = value;
-            setFlyToSearchValue(value, searchInput);
+            searchInput.value = county;
+            setFlyToSearchValue(county, searchInput);
             closeDropdown();
-            handleSearchSelection(value);
+            handleSearchSelection(county);
           });
           dropdown.appendChild(option);
         });
@@ -15573,27 +16040,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const sourceData = countiesSource ? (countiesSource._data || countiesSource.data || null) : null;
       let counties = [];
       if (sourceData && sourceData.features) {
-        const byCanonical = new Map();
-        sourceData.features.forEach(f => {
+        // Prefer NAMELSAD20 to keep counties and independent cities distinct.
+        counties = Array.from(new Set(sourceData.features.map(f => {
           const p = f.properties || {};
-          const rawName = p.NAMELSAD20 || p.NAME20 || p.County || p.COUNTYNAME || p.NAME || '';
-          const canonical = normalizeCountyLookupKey(rawName);
-          if (!canonical) return;
-          const display = displayCountyName(rawName);
-          const base = localityBaseName(rawName);
-          const tokens = [display, rawName, canonical, base].filter(Boolean);
-          if (!byCanonical.has(canonical)) {
-            byCanonical.set(canonical, {
-              display,
-              value: display,
-              searchText: tokens.join(' ')
-            });
-            return;
-          }
-          const existing = byCanonical.get(canonical);
-          existing.searchText = `${existing.searchText} ${tokens.join(' ')}`;
-        });
-        counties = Array.from(byCanonical.values()).sort((a, b) => a.display.localeCompare(b.display));
+          return p.NAMELSAD20 || p.NAME20 || p.County || p.COUNTYNAME || p.NAME || '';
+        }).filter(Boolean))).sort((a, b) => a.localeCompare(b));
       }
 
       getFlyToInputs().forEach(searchInput => attachSearchAutocomplete(searchInput, counties));

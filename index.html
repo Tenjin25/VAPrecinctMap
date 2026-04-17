@@ -2814,6 +2814,57 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     opacity: 0.65;
   }
 
+  /* Selected locality panel: standalone flip indicator (stronger than chips, quieter when no flip). */
+  .county-focus-flip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.26);
+    background: rgba(15, 23, 42, 0.045);
+    color: #334155;
+    font-size: 11px;
+    font-weight: 950;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .county-focus-flip .years {
+    font-weight: 850;
+    opacity: 0.82;
+  }
+
+  .county-focus-flip.flip-yes.dem {
+    background: rgba(37, 99, 235, 0.12);
+    border-color: rgba(37, 99, 235, 0.32);
+    color: #1e3a8a;
+  }
+
+  .county-focus-flip.flip-yes.rep {
+    background: rgba(220, 38, 38, 0.12);
+    border-color: rgba(220, 38, 38, 0.30);
+    color: #7f1d1d;
+  }
+
+  .county-focus-flip.flip-yes.neutral {
+    background: rgba(91, 33, 182, 0.12);
+    border-color: rgba(139, 92, 246, 0.30);
+    color: #4c1d95;
+  }
+
+  .county-focus-flip.flip-no {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-weight: 850;
+    letter-spacing: 0.01em;
+  }
+
   .county-focus-pill.dem {
     color: #1d4ed8;
     background: rgba(219, 234, 254, 0.8);
@@ -3377,9 +3428,8 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
   .focus-result-strip-bar {
     position: relative;
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
+    display: flex;
+    flex-wrap: nowrap;
     height: 14px;
     border-radius: 999px;
     overflow: hidden;
@@ -3390,6 +3440,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   .focus-result-strip-bar span {
     display: block;
     height: 100%;
+    flex: 0 0 auto;
   }
 
   .focus-result-strip-bar span.dem { background: linear-gradient(90deg, #2563eb, #60a5fa); }
@@ -3823,6 +3874,66 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   @media (max-width: 768px) {
     .county-focus-name {
       font-size: 24px;
+    }
+
+    /* Selected panel (inline locality focus): compact the opening rhythm on mobile. */
+    .locality-focus-inline {
+      gap: 8px;
+    }
+
+    .locality-focus-inline .county-focus-shell {
+      gap: 6px;
+    }
+
+    .locality-focus-inline .county-focus-hero {
+      padding: 10px;
+      gap: 6px;
+    }
+
+    .locality-focus-inline .county-focus-header {
+      gap: 6px;
+    }
+
+    .locality-focus-inline .county-focus-subtitle {
+      margin-top: 4px;
+      font-size: 11.5px;
+    }
+
+    .locality-focus-inline .county-focus-result {
+      gap: 3px;
+    }
+
+    .locality-focus-inline .county-focus-support {
+      gap: 5px;
+    }
+
+    .locality-focus-inline .county-focus-hero .focus-result-strip-inline {
+      padding-top: 2px;
+      gap: 5px;
+    }
+
+    .locality-focus-inline .county-focus-flip {
+      margin-top: 2px;
+    }
+
+    .locality-focus-inline .focus-trajectory-compact {
+      padding-top: 10px;
+      margin-top: 2px;
+      gap: 8px;
+    }
+
+    .locality-focus-inline .focus-trajectory-rows {
+      gap: 4px;
+    }
+
+    .locality-focus-inline .focus-chip-row {
+      gap: 6px;
+    }
+
+    .locality-focus-inline .meta-chip.compact {
+      min-height: 24px;
+      padding: 3px 8px;
+      font-size: 10.5px;
     }
 
     .focus-glance { padding: 12px 12px 10px; }
@@ -14356,18 +14467,6 @@ document.addEventListener('DOMContentLoaded', function() {
           return 0;
         };
 
-        const flipMeta = (() => {
-          if (!prevSeries || !Number.isFinite(Number(prevSeries.year))) return null;
-          try {
-            const prevSigned = signedMarginTowardGopFromRow(prevSeries);
-            const f = flipInfo(prevSigned, localSignedMargin);
-            if (!f.flipped) return null;
-            return { ...f, fromYear: Number(prevSeries.year), toYear: Number(selectedYearNum || year) };
-          } catch (_) {
-            return null;
-          }
-        })();
-
         const glanceSentence = (() => {
           const statewideSigned = Number(statewideSummary?.signedMarginPct);
           const deltaToState = Number.isFinite(statewideSigned) ? (localSignedMargin - statewideSigned) : NaN;
@@ -14592,10 +14691,58 @@ document.addEventListener('DOMContentLoaded', function() {
         })();
 
         const resultStripHtml = (() => {
-          const pct = (n) => Number.isFinite(Number(n)) ? Number(n) : 0;
-          const d = pct(demPct);
-          const r = pct(repPct);
-          const o = pct(otherPct);
+          const clampPct = (value) => {
+            const n = Number(value);
+            if (!Number.isFinite(n)) return 0;
+            return Math.max(0, Math.min(100, n));
+          };
+
+          const normalizeShare = () => {
+            const total = (Number.isFinite(totalVotes) && totalVotes > 0)
+              ? totalVotes
+              : (Number(demVotes || 0) + Number(repVotes || 0) + Number(otherVotes || 0));
+            if (!Number.isFinite(total) || total <= 0) return { dem: 0, rep: 0, other: 0 };
+
+            let dem = clampPct((Number(demVotes || 0) / total) * 100);
+            let rep = clampPct((Number(repVotes || 0) / total) * 100);
+            let other = clampPct((Number(otherVotes || 0) / total) * 100);
+
+            if (Number(otherVotes || 0) <= 0) {
+              other = 0;
+              const twoSum = dem + rep;
+              if (twoSum > 0) {
+                dem = clampPct((dem / twoSum) * 100);
+                rep = clampPct(100 - dem);
+              } else {
+                dem = 0;
+                rep = 0;
+              }
+              return { dem, rep, other };
+            }
+
+            const sum = dem + rep + other;
+            if (sum > 0) {
+              const scale = 100 / sum;
+              dem = clampPct(dem * scale);
+              rep = clampPct(rep * scale);
+              other = clampPct(100 - dem - rep);
+
+              const fixed = dem + rep + other;
+              if (Math.abs(100 - fixed) > 0.0001) {
+                const delta = 100 - fixed;
+                if (dem >= rep && dem >= other) dem = clampPct(dem + delta);
+                else if (rep >= dem && rep >= other) rep = clampPct(rep + delta);
+                else other = clampPct(other + delta);
+              }
+            }
+
+            return { dem, rep, other };
+          };
+
+          const share = normalizeShare();
+          const d = clampPct(share.dem);
+          const r = clampPct(share.rep);
+          const o = clampPct(share.other);
           const barOther = otherVotes > 0 ? `<span class="other" style="width:${o.toFixed(4)}%;"></span>` : '';
           const demShort = shortCandidateLabel(demCandidate, 'Democratic');
           const repShort = shortCandidateLabel(repCandidate, 'Republican');
@@ -14623,6 +14770,29 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
             </div>
           `;
+        })();
+
+        const flipIndicatorHtml = (() => {
+          if (!prevSeries || !Number.isFinite(Number(prevSeries.year))) return '';
+          const baselineYear = Number(prevSeries.year);
+          const toYear = Number(selectedYearNum || year);
+          if (!Number.isFinite(baselineYear) || !Number.isFinite(toYear)) return '';
+          try {
+            const prevSigned = signedMarginTowardGopFromRow(prevSeries);
+            const f = flipInfo(prevSigned, localSignedMargin);
+            if (f?.flipped) {
+              const cls = f.to === 'R' ? 'rep' : (f.to === 'D' ? 'dem' : 'neutral');
+              return `
+                <div class="county-focus-flip flip-yes ${cls}" aria-label="Flip indicator">
+                  <span>${escapeHtml(`Flip ${f.from}\u2192${f.to}`)}</span>
+                  <span class="years">${escapeHtml(`${baselineYear}\u2192${toYear}`)}</span>
+                </div>
+              `;
+            }
+            return `<div class="county-focus-flip flip-no" aria-label="Flip indicator">${escapeHtml(`No flip since ${baselineYear}`)}</div>`;
+          } catch (_) {
+            return '';
+          }
         })();
 
         const trajectoryHtml = (() => {
@@ -14686,11 +14856,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const interpretationHtml = (() => {
           const chips = [];
-
-          if (flipMeta) {
-            const cls = flipMeta.to === 'R' ? 'rep' : 'dem';
-            chips.push(`<span class="meta-chip compact flip ${cls}"><span class="dot"></span>Flip ${escapeHtml(flipMeta.from)}\u2192${escapeHtml(flipMeta.to)}</span>`);
-          }
 
           if (trajectoryMeta?.status) {
             const cls = trajectoryMeta.statusClass === 'rep' ? 'rep' : (trajectoryMeta.statusClass === 'dem' ? 'dem' : 'tie');
@@ -14790,6 +14955,7 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
               ${heroMetricsHtml}
               ${resultStripHtml}
+              ${flipIndicatorHtml}
             </section>
 
             ${trajectoryHtml}

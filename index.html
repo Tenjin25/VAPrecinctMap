@@ -7166,6 +7166,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   @media (min-width: 769px) {
     .vote-counter {
       top: var(--vote-counter-top, 74px);
+      padding: 14px;
     }
   }
 
@@ -7173,6 +7174,13 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     margin-bottom: 10px;
     padding-bottom: 10px;
     border-bottom-color: rgba(148, 163, 184, 0.18);
+  }
+
+  @media (min-width: 769px) {
+    .vote-counter-context {
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+    }
   }
 
   /* Ensure locality nouns ("City of", "County") are never lost to ellipsis truncation. */
@@ -10924,9 +10932,8 @@ document.addEventListener('DOMContentLoaded', function() {
       requestAnimationFrame(update);
     }
 
-    // Desktop: anchor the vote counter directly under the main controls.
-    // This avoids static `top:` values that drift when the controls height changes
-    // (minimized/expanded, dynamic content, etc). Mobile keeps its existing bottom-docked behavior.
+    // Desktop: anchor the vote counter under the top floating UI band (viz modes when present),
+    // falling back to the main controls header/capsule. Mobile keeps its existing bottom-docked behavior.
     function updateVoteCounterPosition() {
       try {
         const root = document.documentElement;
@@ -10937,29 +10944,51 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const controls = document.getElementById('main-controls');
+        const vizModes = document.getElementById('viz-modes');
         const counter = document.getElementById('vote-counter');
         if (!controls || !counter) return;
 
         const controlsStyle = window.getComputedStyle ? window.getComputedStyle(controls) : null;
         if (controlsStyle && controlsStyle.display === 'none') return;
 
-        const gap = 10; // Small, consistent gap under the control stack.
-        const minTop = 16; // Keep off the very top edge if controls are missing/mis-measured.
+        const vizGap = 6; // Tighter gap to keep results tied to the top UI band.
+        const controlsGap = 8; // Slightly larger to avoid crowding when panels overlap.
+        const minTop = 12; // Keep off the very top edge if controls are missing/mis-measured.
         const viewportH = window.innerHeight || document.documentElement.clientHeight || 720;
+        const viewportW = window.innerWidth || document.documentElement.clientWidth || 1024;
 
         const controlsHeader = document.querySelector('#main-controls .controls-header');
-        const anchorRect = controls.classList.contains('minimized')
-          ? controls.getBoundingClientRect()
-          : ((controlsHeader && controlsHeader.getBoundingClientRect) ? controlsHeader.getBoundingClientRect() : controls.getBoundingClientRect());
+        const controlsRect = controls.getBoundingClientRect();
+        const controlsHeaderRect = (controlsHeader && controlsHeader.getBoundingClientRect) ? controlsHeader.getBoundingClientRect() : null;
+        const controlsBandBottom = controls.classList.contains('minimized')
+          ? controlsRect.bottom
+          : (controlsHeaderRect ? controlsHeaderRect.bottom : Math.round(controlsRect.top + 72));
+        const controlsTopCandidate = Math.round(controlsBandBottom + controlsGap);
 
-        let top = Math.round(anchorRect.bottom + gap);
+        const vizStyle = (vizModes && window.getComputedStyle) ? window.getComputedStyle(vizModes) : null;
+        const vizVisible = !!(vizModes && (!vizStyle || vizStyle.display !== 'none') && vizModes.getBoundingClientRect);
+        const vizRect = vizVisible ? vizModes.getBoundingClientRect() : null;
+        const vizTopCandidate = vizRect ? Math.round(vizRect.bottom + vizGap) : null;
+
+        let top = vizTopCandidate != null ? vizTopCandidate : controlsTopCandidate;
+
+        // If the centered counter would overlap the left control stack horizontally (common on
+        // smaller desktops), keep it below the control header/minimized capsule to avoid collisions.
+        const counterStyle = window.getComputedStyle ? window.getComputedStyle(counter) : null;
+        const counterShown = !counterStyle || counterStyle.display !== 'none';
+        const counterRect = counterShown ? counter.getBoundingClientRect() : null;
+        const counterW = Math.round((counterRect && counterRect.width) || counter.offsetWidth || 520);
+        const counterLeft = Math.round((viewportW - counterW) / 2);
+        const counterRight = counterLeft + counterW;
+        const overlapsHorizontally = (counterRight > controlsRect.left) && (counterLeft < controlsRect.right);
+        if (vizTopCandidate != null && overlapsHorizontally) {
+          top = Math.max(top, controlsTopCandidate);
+        }
+
         top = Math.max(minTop, top);
 
         // If the counter is visible, keep it within the viewport when possible.
-        const counterStyle = window.getComputedStyle ? window.getComputedStyle(counter) : null;
-        const counterShown = !counterStyle || counterStyle.display !== 'none';
         if (counterShown) {
-          const counterRect = counter.getBoundingClientRect();
           const counterH = Math.round(counterRect.height) || counter.offsetHeight || 0;
           if (counterH > 0) {
             const maxTop = Math.max(minTop, viewportH - counterH - 16);

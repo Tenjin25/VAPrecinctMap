@@ -1211,8 +1211,9 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 .vote-counter {
   position: absolute;
   top: 80px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: auto;
+  right: 24px;
+  transform: none;
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
   padding: 16px 24px;
@@ -6426,9 +6427,9 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
     .vote-counter {
       top: 80px;
-      left: 50%;
-      right: auto;
-      transform: translateX(-50%);
+      left: auto;
+      right: 24px;
+      transform: none;
       width: clamp(320px, 24vw, 520px);
     }
 
@@ -7174,9 +7175,9 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   @media (min-width: 769px) {
     .vote-counter {
       top: 80px !important;
-      left: 50% !important;
-      right: auto !important;
-      transform: translateX(-50%) !important;
+      left: auto !important;
+      right: 24px !important;
+      transform: none !important;
     }
   }
 

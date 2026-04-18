@@ -1209,7 +1209,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 /* Vote Counter - VoteHub Style */
 .vote-counter {
   position: absolute;
-  top: 80px;
+  top: var(--vote-counter-top, 80px);
   left: 50%;
   transform: translateX(-50%);
   background: rgba(255, 255, 255, 0.98);
@@ -1219,6 +1219,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   border: 1px solid rgba(0,0,0,0.06);
   z-index: 1000;
+  transition: top 180ms ease;
   display: none;
   min-width: 400px;
 }
@@ -4230,7 +4231,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   }
 
   .vote-counter {
-    top: 88px;
+    top: var(--vote-counter-top, 88px);
     min-width: 0;
     width: min(520px, calc(100vw - 40px));
     max-height: min(56vh, 560px);
@@ -6424,7 +6425,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     }
 
     .vote-counter {
-      top: 20px;
+      top: var(--vote-counter-top, 20px);
       left: auto;
       right: 24px;
       transform: none;
@@ -7164,7 +7165,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
   @media (min-width: 769px) {
     .vote-counter {
-      top: 74px;
+      top: var(--vote-counter-top, 74px);
     }
   }
 
@@ -10923,6 +10924,53 @@ document.addEventListener('DOMContentLoaded', function() {
       requestAnimationFrame(update);
     }
 
+    // Desktop: anchor the vote counter directly under the main controls.
+    // This avoids static `top:` values that drift when the controls height changes
+    // (minimized/expanded, dynamic content, etc). Mobile keeps its existing bottom-docked behavior.
+    function updateVoteCounterPosition() {
+      try {
+        const root = document.documentElement;
+        const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+        if (isMobile) {
+          root.style.removeProperty('--vote-counter-top');
+          return;
+        }
+
+        const controls = document.getElementById('main-controls');
+        const counter = document.getElementById('vote-counter');
+        if (!controls || !counter) return;
+
+        const controlsStyle = window.getComputedStyle ? window.getComputedStyle(controls) : null;
+        if (controlsStyle && controlsStyle.display === 'none') return;
+
+        const gap = 10; // Small, consistent gap under the control stack.
+        const minTop = 16; // Keep off the very top edge if controls are missing/mis-measured.
+        const viewportH = window.innerHeight || document.documentElement.clientHeight || 720;
+
+        const controlsHeader = document.querySelector('#main-controls .controls-header');
+        const anchorRect = controls.classList.contains('minimized')
+          ? controls.getBoundingClientRect()
+          : ((controlsHeader && controlsHeader.getBoundingClientRect) ? controlsHeader.getBoundingClientRect() : controls.getBoundingClientRect());
+
+        let top = Math.round(anchorRect.bottom + gap);
+        top = Math.max(minTop, top);
+
+        // If the counter is visible, keep it within the viewport when possible.
+        const counterStyle = window.getComputedStyle ? window.getComputedStyle(counter) : null;
+        const counterShown = !counterStyle || counterStyle.display !== 'none';
+        if (counterShown) {
+          const counterRect = counter.getBoundingClientRect();
+          const counterH = Math.round(counterRect.height) || counter.offsetHeight || 0;
+          if (counterH > 0) {
+            const maxTop = Math.max(minTop, viewportH - counterH - 16);
+            top = Math.min(top, maxTop);
+          }
+        }
+
+        root.style.setProperty('--vote-counter-top', `${top}px`);
+      } catch (_) {}
+    }
+
     function showVoteCounter() {
       const counter = document.getElementById('vote-counter');
       if (counter) counter.style.display = 'block';
@@ -10931,12 +10979,14 @@ document.addEventListener('DOMContentLoaded', function() {
         updateMobileOverlayOffsets();
         requestAnimationFrame(() => updateMobileOverlayOffsets());
       } catch (_) {}
+      try { updateVoteCounterPosition(); } catch (_) {}
     }
 
     function hideVoteCounter() {
       const counter = document.getElementById('vote-counter');
       if (counter) counter.style.display = 'none';
       try { updateMobileOverlayOffsets(); } catch (_) {}
+      try { updateVoteCounterPosition(); } catch (_) {}
     }
 
     function toggleVoteCounterPanel(forceExpanded = null) {
@@ -10953,6 +11003,7 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.setAttribute('aria-expanded', shouldMinimize ? 'false' : 'true');
 
       try { updateMobileOverlayOffsets(); } catch (_) {}
+      try { updateVoteCounterPosition(); } catch (_) {}
     }
 
     let voteCounterAutoMinimizedOnce = false;
@@ -11021,7 +11072,9 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       window.addEventListener('resize', queueVoteBreakdownLayoutMeasure, { passive: true });
+      window.addEventListener('resize', () => { try { updateVoteCounterPosition(); } catch (_) {} }, { passive: true });
       queueVoteBreakdownLayoutMeasure();
+      try { updateVoteCounterPosition(); } catch (_) {}
     });
 
     async function loadJSON(path) {
@@ -14207,11 +14260,19 @@ document.addEventListener('DOMContentLoaded', function() {
       mobileOverlayOffsetsWired = true;
       try {
         updateMobileOverlayOffsets();
-        window.addEventListener('resize', () => { try { updateMobileOverlayOffsets(); } catch (_) {} }, { passive: true });
-        window.addEventListener('orientationchange', () => { try { updateMobileOverlayOffsets(); } catch (_) {} }, { passive: true });
+        try { updateVoteCounterPosition(); } catch (_) {}
+        window.addEventListener('resize', () => {
+          try { updateMobileOverlayOffsets(); } catch (_) {}
+          try { updateVoteCounterPosition(); } catch (_) {}
+        }, { passive: true });
+        window.addEventListener('orientationchange', () => {
+          try { updateMobileOverlayOffsets(); } catch (_) {}
+          try { updateVoteCounterPosition(); } catch (_) {}
+        }, { passive: true });
         if (window.ResizeObserver) {
           overlayOffsetsResizeObserver = new ResizeObserver(() => {
             try { updateMobileOverlayOffsets(); } catch (_) {}
+            try { updateVoteCounterPosition(); } catch (_) {}
           });
           ['legend', 'main-controls', 'vote-counter'].forEach((id) => {
             const el = document.getElementById(id);
@@ -14278,6 +14339,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       saveUIState();
       try { updateMobileOverlayOffsets(); } catch (_) {}
+      try { updateVoteCounterPosition(); } catch (_) {}
     }
 
     function getCountyDetailsRenderTarget() {

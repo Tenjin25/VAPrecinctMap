@@ -1207,9 +1207,10 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 }
 
 /* Vote Counter - VoteHub Style */
+/* [DESKTOP VOTE COUNTER POSITIONING CHANGE] NCMap parity: fixed anchor (no dynamic --vote-counter-top). */
 .vote-counter {
   position: absolute;
-  top: var(--vote-counter-top, 80px);
+  top: 80px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(255, 255, 255, 0.98);
@@ -1219,7 +1220,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   border: 1px solid rgba(0,0,0,0.06);
   z-index: 1000;
-  transition: top 180ms ease;
   display: none;
   min-width: 400px;
 }
@@ -4231,7 +4231,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   }
 
   .vote-counter {
-    top: var(--vote-counter-top, 88px);
+    top: 80px;
     min-width: 0;
     width: min(520px, calc(100vw - 40px));
     max-height: min(56vh, 560px);
@@ -6425,11 +6425,11 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     }
 
     .vote-counter {
-      top: var(--vote-counter-top, 20px);
-      left: auto;
-      right: 24px;
-      transform: none;
-      width: clamp(320px, 24vw, 380px);
+      top: 80px;
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      width: clamp(320px, 24vw, 520px);
     }
 
     .vote-counter-context {
@@ -7165,8 +7165,348 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
   @media (min-width: 769px) {
     .vote-counter {
-      top: var(--vote-counter-top, 74px);
+      top: 80px;
       padding: 14px;
+    }
+  }
+
+  /* [DESKTOP VOTE COUNTER POSITIONING CHANGE] Final guardrail against late overrides. */
+  @media (min-width: 769px) {
+    .vote-counter {
+      top: 80px !important;
+      left: 50% !important;
+      right: auto !important;
+      transform: translateX(-50%) !important;
+    }
+  }
+
+  /* [MOBILE DOCK/SHEET TRANSPLANT] NCMap-style mobile shell. */
+  .mobile-sheet-scrim,
+  .mobile-dock {
+    display: none;
+  }
+
+  .mobile-sheet-grab {
+    display: none;
+  }
+
+  /* Keep desktop visuals unchanged: topbar is mobile-only. */
+  @media (min-width: 769px) {
+    #map-topbar,
+    #mobile-sheet-scrim,
+    #mobile-dock {
+      display: none !important;
+    }
+  }
+
+  .map-topbar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1003;
+    width: min(440px, calc(100vw - 40px));
+    padding: 14px;
+    border-radius: 18px;
+    background: var(--ui-bg, rgba(255, 255, 255, 0.92));
+    color: var(--ui-text, #0f172a);
+    border: 1px solid var(--ui-border, rgba(15, 23, 42, 0.12));
+    box-shadow: var(--ui-shadow, 0 14px 36px rgba(15, 23, 42, 0.2));
+    backdrop-filter: blur(12px);
+  }
+
+  .map-topbar-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .map-topbar-badge {
+    flex: 0 0 auto;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--state-ribbon, linear-gradient(90deg, #b31942 0%, #f8fafc 50%, #0a3161 100%));
+    color: #0f172a;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .map-topbar-badge .badge-state-name { color: var(--state-blue, #0a3161); }
+  .map-topbar-badge .badge-atlas-name { color: var(--state-red, #b31942); }
+
+  .map-topbar-copy {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .map-topbar-copy strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  .map-topbar-copy span {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.35;
+    color: rgba(71, 85, 105, 0.92);
+  }
+
+  .map-topbar-details {
+    margin-top: 12px;
+  }
+
+  .mobile-topbar-toggle {
+    display: none;
+    margin-left: auto;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    background: rgba(248, 250, 252, 0.82);
+    color: #0f172a;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-weight: 900;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .map-topbar input[type="search"],
+  .map-topbar input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.44);
+    background: rgba(255, 255, 255, 0.98);
+    color: #0f172a;
+    font-size: 14px;
+    outline: none;
+  }
+
+  @media (max-width: 768px) {
+    :root {
+      --mobile-dock-h: 62px;
+      --mobile-sheet-gap: 10px;
+    }
+
+    .mobile-dock {
+      position: fixed;
+      left: 8px;
+      right: 8px;
+      bottom: calc(8px + var(--safe-bottom, 0px));
+      z-index: 10030;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      padding: 8px;
+      border-radius: 16px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+    }
+
+    .mobile-dock-btn {
+      min-height: 44px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 12px;
+      background: rgba(248, 250, 252, 0.92);
+      color: #0f172a;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .mobile-dock-btn:focus-visible {
+      outline: 2px solid #1d4ed8;
+      outline-offset: 2px;
+    }
+
+    .mobile-dock-btn[aria-pressed="true"] {
+      background: var(--state-accent-gradient, linear-gradient(135deg, #8f1434 0%, #082a52 100%));
+      border-color: rgba(15, 23, 42, 0.22);
+      color: #fff;
+      box-shadow: 0 8px 16px rgba(37, 99, 235, 0.22), 0 4px 12px rgba(220, 38, 38, 0.16);
+    }
+
+    .mobile-sheet-scrim {
+      position: fixed;
+      inset: 0;
+      z-index: 10019;
+      display: block;
+      background: rgba(15, 23, 42, 0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    body.mobile-sheet-open .mobile-sheet-scrim {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-sheet-panel {
+      position: fixed !important;
+      top: auto !important;
+      left: 8px !important;
+      right: 8px !important;
+      bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + var(--mobile-sheet-gap, 10px)) !important;
+      width: auto !important;
+      max-width: none !important;
+      transform: translateY(calc(100% + 28px));
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10020 !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      scroll-padding-top: 28px;
+      transition: transform 0.22s ease, opacity 0.2s ease, max-height 0.2s ease;
+    }
+
+    .mobile-sheet-grab {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin: -2px auto 6px;
+      padding: 6px 0 4px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      touch-action: none;
+    }
+
+    .mobile-sheet-grab::before {
+      content: '';
+      width: 42px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(100, 116, 139, 0.58);
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+    }
+
+    .mobile-sheet-grab.is-dragging::before {
+      background: rgba(30, 64, 175, 0.66);
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.14), 0 1px 0 rgba(30, 64, 175, 0.35);
+    }
+
+    .mobile-sheet-grab:focus-visible {
+      outline: 2px solid #1d4ed8;
+      outline-offset: 2px;
+      border-radius: 12px;
+    }
+
+    .mobile-sheet-panel.mobile-sheet-active {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-sheet-panel[data-mobile-snap="half"] {
+      max-height: min(56vh, 460px) !important;
+    }
+
+    .mobile-sheet-panel[data-mobile-snap="full"] {
+      max-height: min(84vh, 760px) !important;
+    }
+
+    .mobile-sheet-panel[data-mobile-snap="collapsed"] {
+      max-height: 58px !important;
+      overflow: hidden !important;
+    }
+
+    /* Mobile sheets should feel like the rest of VA glass UI. */
+    .map-topbar.mobile-sheet-panel,
+    .main-controls.mobile-sheet-panel,
+    .legend.mobile-sheet-panel {
+      border-radius: 18px !important;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.16) !important;
+      backdrop-filter: blur(8px) !important;
+    }
+
+    .map-topbar.mobile-sheet-panel {
+      padding: 12px !important;
+      min-height: 0 !important;
+    }
+
+    .map-topbar.mobile-sheet-panel .mobile-topbar-toggle {
+      display: none !important;
+    }
+
+    .map-topbar.mobile-sheet-panel .map-topbar-details {
+      display: block !important;
+    }
+
+    .map-topbar.mobile-sheet-panel[data-mobile-snap="collapsed"] .map-topbar-details,
+    .map-topbar.mobile-sheet-panel[data-mobile-snap="collapsed"] .map-topbar-copy span {
+      display: none !important;
+    }
+
+    /* [OVERLAY OFFSET LOGIC CHANGE] Dock-based spacing for vote counter + hover tooltip. */
+    .vote-counter {
+      bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 24px) !important;
+    }
+
+    #hover-tooltip {
+      bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 24px + var(--vote-counter-h, 0px) + 8px) !important;
+    }
+
+    body.mobile-sheet-open #hover-tooltip {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px) !important;
+    }
+
+    body.mobile-sheet-open .vote-counter,
+    body.mobile-sheet-open .viz-modes {
+      opacity: 0.22;
+      pointer-events: none;
+      transform: translateY(6px) !important;
+    }
+
+    .atlas-credit-bar {
+      bottom: calc(6px + var(--safe-bottom, 0px)) !important;
+      z-index: 10018;
+      max-width: calc(100vw - 16px);
+      padding: 5px 10px;
+      font-size: 10px;
+      white-space: normal;
+      opacity: 0.85;
+    }
+  }
+
+  @media (max-width: 900px) and (orientation: landscape) {
+    .mobile-dock {
+      left: 8px;
+      right: auto;
+      width: 126px;
+      grid-template-columns: 1fr;
+      bottom: calc(8px + var(--safe-bottom, 0px));
+    }
+
+    .mobile-sheet-panel {
+      left: 142px !important;
+      right: 8px !important;
+      bottom: 8px !important;
+      max-height: calc(100vh - 16px - var(--safe-top, 0px) - var(--safe-bottom, 0px)) !important;
+    }
+
+    .vote-counter {
+      left: 142px !important;
+      right: 8px !important;
+      bottom: 8px !important;
+    }
+
+    #hover-tooltip {
+      left: 142px !important;
+      right: 8px !important;
+      bottom: calc(8px + var(--vote-counter-h, 0px) + 8px) !important;
     }
   }
 
@@ -7617,6 +7957,22 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <div id="map"></div>
 
+  <!-- [MOBILE DOCK/SHEET TRANSPLANT] Mobile topbar shell (NCMap parity). -->
+  <div class="map-topbar" id="map-topbar" aria-label="Map topbar">
+    <div class="map-topbar-meta">
+      <div class="map-topbar-badge" aria-label="Atlas badge">
+        <span class="badge-state-name">Virginia</span>
+        <span class="badge-atlas-name">Atlas</span>
+      </div>
+      <div class="map-topbar-copy">
+        <strong>The Commonwealth Explorer</strong>
+        <span>Fly to counties, independent cities, districts, or precincts.</span>
+      </div>
+      <button class="mobile-topbar-toggle" id="mobile-topbar-toggle" type="button" aria-controls="map-topbar" aria-expanded="false">Show details</button>
+    </div>
+    <div class="map-topbar-details" id="map-topbar-details"></div>
+  </div>
+
   <!-- Visualization Mode Tabs - VoteHub Style -->
   <div class="viz-modes" id="viz-modes">
     <button class="viz-mode-btn active" data-mode="margins" id="mode-margins">
@@ -7946,6 +8302,14 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div class="legend-footer" id="legend-footer">Darker shades indicate larger two-party leads in the current contest.</div>
     </div>
+
+    <!-- [MOBILE DOCK/SHEET TRANSPLANT] Mobile scrim + dock (NCMap parity). -->
+    <div class="mobile-sheet-scrim" id="mobile-sheet-scrim" aria-hidden="true"></div>
+    <nav class="mobile-dock" id="mobile-dock" aria-label="Mobile panel dock">
+      <button type="button" class="mobile-dock-btn" data-mobile-sheet-btn="search" aria-controls="map-topbar" aria-expanded="false" aria-pressed="false" title="Open search panel">Search</button>
+      <button type="button" class="mobile-dock-btn" data-mobile-sheet-btn="layers" aria-controls="main-controls" aria-expanded="false" aria-pressed="false" title="Open layers panel">Layers</button>
+      <button type="button" class="mobile-dock-btn" data-mobile-sheet-btn="legend" aria-controls="legend" aria-expanded="false" aria-pressed="false" title="Open legend panel">Legend</button>
+    </nav>
 
     <!-- Hover Tooltip -->
     <div id="hover-tooltip" class="hover-tooltip" data-pinned="0"></div>
@@ -10932,73 +11296,9 @@ document.addEventListener('DOMContentLoaded', function() {
       requestAnimationFrame(update);
     }
 
-    // Desktop: anchor the vote counter under the top floating UI band (viz modes when present),
-    // falling back to the main controls header/capsule. Mobile keeps its existing bottom-docked behavior.
-    function updateVoteCounterPosition() {
-      try {
-        const root = document.documentElement;
-        const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
-        if (isMobile) {
-          root.style.removeProperty('--vote-counter-top');
-          return;
-        }
-
-        const controls = document.getElementById('main-controls');
-        const vizModes = document.getElementById('viz-modes');
-        const counter = document.getElementById('vote-counter');
-        if (!controls || !counter) return;
-
-        const controlsStyle = window.getComputedStyle ? window.getComputedStyle(controls) : null;
-        if (controlsStyle && controlsStyle.display === 'none') return;
-
-        const vizGap = 6; // Tighter gap to keep results tied to the top UI band.
-        const controlsGap = 8; // Slightly larger to avoid crowding when panels overlap.
-        const minTop = 12; // Keep off the very top edge if controls are missing/mis-measured.
-        const viewportH = window.innerHeight || document.documentElement.clientHeight || 720;
-        const viewportW = window.innerWidth || document.documentElement.clientWidth || 1024;
-
-        const controlsHeader = document.querySelector('#main-controls .controls-header');
-        const controlsRect = controls.getBoundingClientRect();
-        const controlsHeaderRect = (controlsHeader && controlsHeader.getBoundingClientRect) ? controlsHeader.getBoundingClientRect() : null;
-        const controlsBandBottom = controls.classList.contains('minimized')
-          ? controlsRect.bottom
-          : (controlsHeaderRect ? controlsHeaderRect.bottom : Math.round(controlsRect.top + 72));
-        const controlsTopCandidate = Math.round(controlsBandBottom + controlsGap);
-
-        const vizStyle = (vizModes && window.getComputedStyle) ? window.getComputedStyle(vizModes) : null;
-        const vizVisible = !!(vizModes && (!vizStyle || vizStyle.display !== 'none') && vizModes.getBoundingClientRect);
-        const vizRect = vizVisible ? vizModes.getBoundingClientRect() : null;
-        const vizTopCandidate = vizRect ? Math.round(vizRect.bottom + vizGap) : null;
-
-        let top = vizTopCandidate != null ? vizTopCandidate : controlsTopCandidate;
-
-        // If the centered counter would overlap the left control stack horizontally (common on
-        // smaller desktops), keep it below the control header/minimized capsule to avoid collisions.
-        const counterStyle = window.getComputedStyle ? window.getComputedStyle(counter) : null;
-        const counterShown = !counterStyle || counterStyle.display !== 'none';
-        const counterRect = counterShown ? counter.getBoundingClientRect() : null;
-        const counterW = Math.round((counterRect && counterRect.width) || counter.offsetWidth || 520);
-        const counterLeft = Math.round((viewportW - counterW) / 2);
-        const counterRight = counterLeft + counterW;
-        const overlapsHorizontally = (counterRight > controlsRect.left) && (counterLeft < controlsRect.right);
-        if (vizTopCandidate != null && overlapsHorizontally) {
-          top = Math.max(top, controlsTopCandidate);
-        }
-
-        top = Math.max(minTop, top);
-
-        // If the counter is visible, keep it within the viewport when possible.
-        if (counterShown) {
-          const counterH = Math.round(counterRect.height) || counter.offsetHeight || 0;
-          if (counterH > 0) {
-            const maxTop = Math.max(minTop, viewportH - counterH - 16);
-            top = Math.min(top, maxTop);
-          }
-        }
-
-        root.style.setProperty('--vote-counter-top', `${top}px`);
-      } catch (_) {}
-    }
+    // [DESKTOP VOTE COUNTER POSITIONING CHANGE] NCMap parity: desktop vote counter uses fixed CSS anchor.
+    // (No dynamic --vote-counter-top positioning.)
+    function updateVoteCounterPosition() { /* no-op (kept for legacy call sites) */ }
 
     function showVoteCounter() {
       const counter = document.getElementById('vote-counter');
@@ -11008,14 +11308,12 @@ document.addEventListener('DOMContentLoaded', function() {
         updateMobileOverlayOffsets();
         requestAnimationFrame(() => updateMobileOverlayOffsets());
       } catch (_) {}
-      try { updateVoteCounterPosition(); } catch (_) {}
     }
 
     function hideVoteCounter() {
       const counter = document.getElementById('vote-counter');
       if (counter) counter.style.display = 'none';
       try { updateMobileOverlayOffsets(); } catch (_) {}
-      try { updateVoteCounterPosition(); } catch (_) {}
     }
 
     function toggleVoteCounterPanel(forceExpanded = null) {
@@ -11032,7 +11330,6 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.setAttribute('aria-expanded', shouldMinimize ? 'false' : 'true');
 
       try { updateMobileOverlayOffsets(); } catch (_) {}
-      try { updateVoteCounterPosition(); } catch (_) {}
     }
 
     let voteCounterAutoMinimizedOnce = false;
@@ -11101,9 +11398,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       window.addEventListener('resize', queueVoteBreakdownLayoutMeasure, { passive: true });
-      window.addEventListener('resize', () => { try { updateVoteCounterPosition(); } catch (_) {} }, { passive: true });
       queueVoteBreakdownLayoutMeasure();
-      try { updateVoteCounterPosition(); } catch (_) {}
     });
 
     async function loadJSON(path) {
@@ -14227,6 +14522,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const legend = document.getElementById('legend');
       const legendContent = document.getElementById('legend-content');
       const minimizeBtn = document.getElementById('legend-minimize-btn');
+      if (!legend || !legendContent || !minimizeBtn) return;
       
       if (legend.classList.contains('minimized')) {
         // Expand legend
@@ -14243,6 +14539,23 @@ document.addEventListener('DOMContentLoaded', function() {
         minimizeBtn.textContent = '+';
         minimizeBtn.title = 'Expand legend';
       }
+
+      // [MOBILE DOCK/SHEET TRANSPLANT] Keep dock + sheet state in sync (NCMap parity).
+      try {
+        if (isMobileViewportNow && isMobileViewportNow()) {
+          legend.classList.add('mobile-sheet-panel');
+          if (legend.classList.contains('minimized')) {
+            legend.classList.remove('mobile-sheet-active');
+            setMobileSheetSnap(legend, 'collapsed');
+            if (activeMobileSheetKey === 'legend') activeMobileSheetKey = null;
+          } else {
+            legend.classList.add('mobile-sheet-active');
+            setMobileSheetSnap(legend, 'half');
+            activeMobileSheetKey = 'legend';
+          }
+          syncMobileDockButtons();
+        }
+      } catch (_) {}
       try { updateMobileOverlayOffsets(); } catch (_) {}
     }
 
@@ -14257,56 +14570,495 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateMobileOverlayOffsets() {
-      // On mobile, position floating UI elements relative to the actual legend height
-      // instead of assuming it always takes 50vh.
+      // [OVERLAY OFFSET LOGIC CHANGE] NCMap parity: measure topbar + mobile dock + sheets.
       try {
-        const root = document.documentElement;
-        const legend = document.getElementById('legend');
-        const controls = document.getElementById('main-controls');
-        const counter = document.getElementById('vote-counter');
-        const lh = legend ? Math.round(legend.getBoundingClientRect().height) : 56;
-        const ch = controls ? Math.round(controls.getBoundingClientRect().height) : 0;
-        const counterVisible = counter && counter.style.display !== 'none';
-        const cth = counterVisible ? Math.round(counter.getBoundingClientRect().height) : 0;
-        const counterBottom = counterVisible ? Math.round(counter.getBoundingClientRect().bottom) : 20;
-        root.style.setProperty('--counter-h', `${Math.max(0, cth)}px`);
-        root.style.setProperty('--desktop-counter-bottom', `${Math.max(20, counterBottom)}px`);
         const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+        const isDesktop = window.matchMedia && window.matchMedia('(min-width: 769px)').matches;
+        const root = document.documentElement;
+        const topbar = document.getElementById('map-topbar');
+        const voteCounter = document.getElementById('vote-counter');
+        const mobileDock = document.getElementById('mobile-dock');
+        const topbarVisible = !!(topbar && (!isMobile || topbar.classList.contains('mobile-sheet-active')));
+        const th = topbarVisible ? Math.round(topbar.getBoundingClientRect().height || 0) : 0;
+        const dockVisible = !!(isMobile && mobileDock && mobileDock.getClientRects().length);
+        const dh = dockVisible ? Math.round(mobileDock.getBoundingClientRect().height || 0) : 0;
+        root.style.setProperty('--topbar-h', `${Math.max(0, th)}px`);
+        root.style.setProperty('--mobile-dock-h', `${Math.max(0, dh)}px`);
+        if (isDesktop) {
+          const counterVisible = !!(voteCounter && voteCounter.style.display !== 'none' && voteCounter.getClientRects().length);
+          const vh = counterVisible ? Math.round(voteCounter.getBoundingClientRect().height) : 0;
+          root.style.setProperty('--desktop-vote-counter-h', `${Math.max(0, vh)}px`);
+        } else {
+          root.style.removeProperty('--desktop-vote-counter-h');
+        }
         if (!isMobile) {
           root.style.removeProperty('--legend-h');
           root.style.removeProperty('--controls-h');
+          root.style.removeProperty('--mobile-dock-h');
+          root.style.removeProperty('--vote-counter-h');
           return;
         }
+        const counterVisibleMobile = !!(voteCounter && voteCounter.style.display !== 'none' && voteCounter.getClientRects().length);
+        const vhm = counterVisibleMobile ? Math.round(voteCounter.getBoundingClientRect().height || 0) : 0;
+        root.style.setProperty('--vote-counter-h', `${Math.max(0, vhm)}px`);
+        const legend = document.getElementById('legend');
+        const controls = document.getElementById('main-controls');
+        const legendVisible = !!(legend && legend.classList.contains('mobile-sheet-active'));
+        const controlsVisible = !!(controls && controls.classList.contains('mobile-sheet-active'));
+        const lh = legendVisible ? Math.round(legend.getBoundingClientRect().height) : 56;
+        const ch = controlsVisible ? Math.round(controls.getBoundingClientRect().height) : 0;
         root.style.setProperty('--legend-h', `${Math.max(0, lh)}px`);
         root.style.setProperty('--controls-h', `${Math.max(0, ch)}px`);
       } catch (_) {}
     }
 
+    /* [MOBILE DOCK/SHEET TRANSPLANT] NCMap mobile helpers (ported). */
+    function isMobileViewportNow() {
+      try { return !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches); } catch (_) { return false; }
+    }
+
+    function syncMobileTopbarToggle() {
+      try {
+        const topbar = document.getElementById('map-topbar');
+        const toggle = document.getElementById('mobile-topbar-toggle');
+        if (!topbar || !toggle) return;
+        if (!isMobileViewportNow()) {
+          topbar.classList.remove('topbar-expanded');
+        }
+        const expanded = isMobileViewportNow() && topbar.classList.contains('topbar-expanded');
+        toggle.textContent = expanded ? 'Hide details' : 'Show details';
+        toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      } catch (_) {}
+    }
+
+    function collapseMobileTopbar() {
+      try {
+        if (!isMobileViewportNow()) return;
+        const topbar = document.getElementById('map-topbar');
+        if (!topbar) return;
+        topbar.classList.remove('topbar-expanded');
+        syncMobileTopbarToggle();
+        syncInitialTopbarOffset();
+      } catch (_) {}
+    }
+
+    function syncInitialTopbarOffset() {
+      try {
+        const topbar = document.getElementById('map-topbar');
+        if (!topbar) return;
+        const minTopbarHeight = isMobileViewportNow() ? 0 : 224;
+        const topbarHeight = Math.max(minTopbarHeight, Math.round(topbar.getBoundingClientRect().height || 0));
+        document.documentElement.style.setProperty('--topbar-h', `${topbarHeight}px`);
+        syncMobileTopbarToggle();
+        updateMobileOverlayOffsets();
+      } catch (_) {}
+    }
+
+    // [MOBILE DOCK/SHEET TRANSPLANT] Mobile topbar toggle wiring (NCMap parity).
+    if (!window.__mobileTopbarToggleReady) {
+      window.__mobileTopbarToggleReady = true;
+      document.addEventListener('DOMContentLoaded', () => {
+        try {
+          const mobileTopbarToggle = document.getElementById('mobile-topbar-toggle');
+          const topbar = document.getElementById('map-topbar');
+          if (mobileTopbarToggle && topbar) {
+            mobileTopbarToggle.addEventListener('click', () => {
+              if (!isMobileViewportNow()) return;
+              topbar.classList.toggle('topbar-expanded');
+              syncMobileTopbarToggle();
+              syncInitialTopbarOffset();
+            });
+          }
+          syncMobileTopbarToggle();
+          syncInitialTopbarOffset();
+        } catch (_) {}
+      }, { once: true });
+    }
+
+    const MOBILE_SHEET_PANEL_IDS = Object.freeze({
+      search: 'map-topbar',
+      layers: 'main-controls',
+      legend: 'legend'
+    });
+    const MOBILE_SHEET_SNAP_SEQUENCE = Object.freeze(['half', 'full', 'collapsed']);
+    const MOBILE_SHEET_SWIPE_THRESHOLD_PX = 24;
+    const MOBILE_SHEET_FLICK_VELOCITY_PX_PER_MS = 0.45;
+    const MOBILE_SHEET_FLICK_WINDOW_MS = 120;
+    const MOBILE_SHEET_FLICK_MIN_TRAVEL_PX = 10;
+    let activeMobileSheetKey = null;
+    let mobileSheetVoteCounterSnapshot = null; // null | boolean (was minimized before opening sheets)
+    let mobileSheetSystemReady = false;
+
+    let mobileTopbarMovedNode = null;
+    let mobileTopbarOriginalParent = null;
+    let mobileTopbarOriginalNext = null;
+
+    function getMobileSheetPanel(key) {
+      const id = MOBILE_SHEET_PANEL_IDS[key];
+      return id ? document.getElementById(id) : null;
+    }
+
+    function getMobileSheetSnap(key) {
+      const panel = getMobileSheetPanel(key);
+      return panel?.dataset?.mobileSnap || 'collapsed';
+    }
+
+    function setMobileSheetSnap(panel, snap) {
+      if (!panel) return;
+      panel.dataset.mobileSnap = snap || 'collapsed';
+    }
+
+    function setVoteCounterMinimizedState(minimized) {
+      try {
+        if (minimized) toggleVoteCounterPanel(false);
+        else toggleVoteCounterPanel(true);
+      } catch (_) {}
+    }
+
+    function ensureMobileSheetGrab(panel, key) {
+      if (!panel || !key || panel.querySelector('.mobile-sheet-grab')) return;
+      const grab = document.createElement('button');
+      grab.type = 'button';
+      grab.className = 'mobile-sheet-grab';
+      grab.setAttribute('aria-label', 'Resize or close panel');
+      grab.title = 'Tap, swipe, or flick to resize panel';
+      let dragState = null;
+
+      function stampMs(rawTs) {
+        const t = Number(rawTs);
+        if (Number.isFinite(t) && t > 0) return t;
+        try {
+          if (typeof performance !== 'undefined' && performance && typeof performance.now === 'function') {
+            return performance.now();
+          }
+        } catch (_) {}
+        return Date.now();
+      }
+
+      function resetDragState() {
+        dragState = null;
+        grab.classList.remove('is-dragging');
+      }
+
+      function beginDrag(clientX, clientY, pointerId = null, rawTs = null) {
+        const t = stampMs(rawTs);
+        dragState = {
+          startX: Number(clientX) || 0,
+          startY: Number(clientY) || 0,
+          pointerId,
+          samples: [{ x: Number(clientX) || 0, y: Number(clientY) || 0, t }]
+        };
+        grab.classList.add('is-dragging');
+      }
+
+      function updateDrag(clientX, clientY, rawTs = null) {
+        if (!dragState) return;
+        const x = Number(clientX) || dragState.startX;
+        const y = Number(clientY) || dragState.startY;
+        const t = stampMs(rawTs);
+        dragState.lastX = x;
+        dragState.lastY = y;
+        dragState.samples.push({ x, y, t });
+        if (dragState.samples.length > 10) {
+          dragState.samples.splice(0, dragState.samples.length - 10);
+        }
+      }
+
+      function velocityForSamples(samples) {
+        if (!samples || samples.length < 2) return { vx: 0, vy: 0 };
+        const tail = samples[samples.length - 1];
+        let head = samples[0];
+        for (let i = samples.length - 1; i >= 0; i--) {
+          const s = samples[i];
+          if ((tail.t - s.t) <= MOBILE_SHEET_FLICK_WINDOW_MS) {
+            head = s;
+          } else {
+            break;
+          }
+        }
+        const dt = Math.max(1, tail.t - head.t);
+        return { vx: (tail.x - head.x) / dt, vy: (tail.y - head.y) / dt };
+      }
+
+      function finishDrag(clientX, clientY, rawTs = null) {
+        if (!dragState) return;
+        const endX = Number(clientX) || dragState.lastX || dragState.startX;
+        const endY = Number(clientY) || dragState.lastY || dragState.startY;
+        const endT = stampMs(rawTs);
+        dragState.samples.push({ x: endX, y: endY, t: endT });
+        if (dragState.samples.length > 12) {
+          dragState.samples.splice(0, dragState.samples.length - 12);
+        }
+
+        const dy = endY - dragState.startY;
+        const absDy = Math.abs(dy);
+        const v = velocityForSamples(dragState.samples);
+        const flickDown = (v.vy > MOBILE_SHEET_FLICK_VELOCITY_PX_PER_MS) && (dy > MOBILE_SHEET_FLICK_MIN_TRAVEL_PX);
+        const flickUp = (v.vy < -MOBILE_SHEET_FLICK_VELOCITY_PX_PER_MS) && (dy < -MOBILE_SHEET_FLICK_MIN_TRAVEL_PX);
+
+        const snap = getMobileSheetSnap(key);
+        let next = null;
+        if (flickDown) {
+          next = snap === 'full' ? 'half' : 'collapsed';
+        } else if (flickUp) {
+          next = snap === 'collapsed' ? 'half' : 'full';
+        } else if (absDy > MOBILE_SHEET_SWIPE_THRESHOLD_PX) {
+          next = dy > 0 ? (snap === 'full' ? 'half' : 'collapsed') : (snap === 'collapsed' ? 'half' : 'full');
+        }
+
+        resetDragState();
+        if (!next) {
+          const current = getMobileSheetSnap(key);
+          const idx = MOBILE_SHEET_SNAP_SEQUENCE.indexOf(current);
+          next = MOBILE_SHEET_SNAP_SEQUENCE[(idx + 1) % MOBILE_SHEET_SNAP_SEQUENCE.length];
+        }
+        if (next === 'collapsed') {
+          closeMobileSheet(key);
+          activeMobileSheetKey = null;
+          syncMobileDockButtons();
+          updateMobileOverlayOffsets();
+          return;
+        }
+        openMobileSheet(key, next);
+      }
+
+      grab.addEventListener('click', (event) => {
+        if (!isMobileViewportNow()) return;
+        event.preventDefault();
+        const current = getMobileSheetSnap(key);
+        const idx = MOBILE_SHEET_SNAP_SEQUENCE.indexOf(current);
+        const next = MOBILE_SHEET_SNAP_SEQUENCE[(idx + 1) % MOBILE_SHEET_SNAP_SEQUENCE.length];
+        if (next === 'collapsed') {
+          closeMobileSheet(key);
+          activeMobileSheetKey = null;
+          syncMobileDockButtons();
+          updateMobileOverlayOffsets();
+          return;
+        }
+        openMobileSheet(key, next);
+      });
+
+      grab.addEventListener('pointerdown', (event) => {
+        if (!isMobileViewportNow()) return;
+        if (event.pointerType === 'mouse') return;
+        try { grab.setPointerCapture(event.pointerId); } catch (_) {}
+        beginDrag(event.clientX, event.clientY, event.pointerId, event.timeStamp);
+      });
+      grab.addEventListener('pointermove', (event) => {
+        if (!dragState) return;
+        updateDrag(event.clientX, event.clientY, event.timeStamp);
+      });
+      grab.addEventListener('pointerup', (event) => {
+        if (!dragState) return;
+        finishDrag(event.clientX, event.clientY, event.timeStamp);
+      });
+      grab.addEventListener('pointercancel', () => resetDragState());
+      grab.addEventListener('lostpointercapture', () => resetDragState());
+
+      try {
+        const first = panel.firstElementChild;
+        if (first) panel.insertBefore(grab, first);
+        else panel.appendChild(grab);
+      } catch (_) {
+        try { panel.appendChild(grab); } catch (_) {}
+      }
+    }
+
+    function syncMobileDockButtons() {
+      try {
+        document.querySelectorAll('[data-mobile-sheet-btn]').forEach(btn => {
+          const key = btn.getAttribute('data-mobile-sheet-btn') || '';
+          const pressed = !!(key && activeMobileSheetKey === key && isMobileViewportNow());
+          btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+          btn.setAttribute('aria-expanded', pressed ? 'true' : 'false');
+        });
+        const scrim = document.getElementById('mobile-sheet-scrim');
+        if (scrim) scrim.setAttribute('aria-hidden', activeMobileSheetKey ? 'false' : 'true');
+        document.body.classList.toggle('mobile-sheet-open', !!activeMobileSheetKey && isMobileViewportNow());
+      } catch (_) {}
+    }
+
+    function closeMobileSheet(key) {
+      const panel = getMobileSheetPanel(key);
+      if (!panel) return;
+      panel.classList.remove('mobile-sheet-active');
+      setMobileSheetSnap(panel, 'collapsed');
+      if (activeMobileSheetKey === key) activeMobileSheetKey = null;
+      if (!activeMobileSheetKey && mobileSheetVoteCounterSnapshot != null) {
+        setVoteCounterMinimizedState(!!mobileSheetVoteCounterSnapshot);
+        mobileSheetVoteCounterSnapshot = null;
+      }
+      syncMobileDockButtons();
+      updateMobileOverlayOffsets();
+    }
+
+    function openMobileSheet(key, snap = 'half') {
+      if (!key) return;
+      if (!isMobileViewportNow()) return;
+      Object.keys(MOBILE_SHEET_PANEL_IDS).forEach(k => {
+        if (k === key) return;
+        const p = getMobileSheetPanel(k);
+        if (!p) return;
+        p.classList.remove('mobile-sheet-active');
+        setMobileSheetSnap(p, 'collapsed');
+      });
+      const panel = getMobileSheetPanel(key);
+      if (!panel) return;
+      panel.classList.add('mobile-sheet-panel', 'mobile-sheet-active');
+      setMobileSheetSnap(panel, snap);
+      activeMobileSheetKey = key;
+      if (mobileSheetVoteCounterSnapshot == null) {
+        const counter = document.getElementById('vote-counter');
+        mobileSheetVoteCounterSnapshot = !!(counter && counter.classList.contains('minimized'));
+      }
+      setVoteCounterMinimizedState(true);
+      collapseMobileTopbar();
+      syncMobileDockButtons();
+      updateMobileOverlayOffsets();
+    }
+
+    function closeAllMobileSheets() {
+      Object.keys(MOBILE_SHEET_PANEL_IDS).forEach(key => closeMobileSheet(key));
+      activeMobileSheetKey = null;
+      syncMobileDockButtons();
+      updateMobileOverlayOffsets();
+    }
+
+    function toggleMobileSheet(key) {
+      if (!key) return;
+      if (!isMobileViewportNow()) return;
+      if (activeMobileSheetKey === key) {
+        closeMobileSheet(key);
+        return;
+      }
+      openMobileSheet(key, 'half');
+    }
+
+    function setupMobileDockAndSheets() {
+      if (mobileSheetSystemReady) return;
+      mobileSheetSystemReady = true;
+      try {
+        const topbarDetails = document.getElementById('map-topbar-details');
+        const controlsContent = document.getElementById('controls-content');
+        if (topbarDetails && controlsContent && !mobileTopbarMovedNode) {
+          const group = controlsContent.querySelector('.control-group-search');
+          if (group) {
+            mobileTopbarMovedNode = group;
+            mobileTopbarOriginalParent = group.parentElement;
+            mobileTopbarOriginalNext = group.nextElementSibling;
+          }
+        }
+
+        Object.keys(MOBILE_SHEET_PANEL_IDS).forEach(key => {
+          const panel = getMobileSheetPanel(key);
+          if (!panel) return;
+          panel.classList.add('mobile-sheet-panel');
+          setMobileSheetSnap(panel, 'collapsed');
+          panel.classList.remove('mobile-sheet-active');
+          ensureMobileSheetGrab(panel, key);
+        });
+
+        if (isMobileViewportNow()) {
+          try {
+            if (mobileTopbarMovedNode && topbarDetails) {
+              topbarDetails.appendChild(mobileTopbarMovedNode);
+            }
+          } catch (_) {}
+        }
+
+        document.querySelectorAll('[data-mobile-sheet-btn]').forEach(btn => {
+          if (btn.dataset.mobileSheetReady === 'true') return;
+          btn.dataset.mobileSheetReady = 'true';
+          btn.addEventListener('click', () => {
+            const key = btn.getAttribute('data-mobile-sheet-btn') || '';
+            toggleMobileSheet(key);
+          });
+        });
+
+        const scrim = document.getElementById('mobile-sheet-scrim');
+        if (scrim && scrim.dataset.mobileSheetReady !== 'true') {
+          scrim.dataset.mobileSheetReady = 'true';
+          scrim.addEventListener('click', () => { closeAllMobileSheets(); });
+        }
+
+        if (!window.__mobileSheetEscapeReady) {
+          window.__mobileSheetEscapeReady = true;
+          document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Escape') return;
+            if (!isMobileViewportNow()) return;
+            if (!activeMobileSheetKey) return;
+            event.preventDefault();
+            closeAllMobileSheets();
+          });
+        }
+
+        window.addEventListener('resize', () => {
+          try {
+            const topbarDetailsNow = document.getElementById('map-topbar-details');
+            if (!isMobileViewportNow()) {
+              closeAllMobileSheets();
+              document.body.classList.remove('mobile-sheet-open');
+              Object.keys(MOBILE_SHEET_PANEL_IDS).forEach(key => {
+                const panel = getMobileSheetPanel(key);
+                if (!panel) return;
+                panel.classList.remove('mobile-sheet-active');
+                setMobileSheetSnap(panel, 'collapsed');
+              });
+              // Restore the fly-to group back into main controls on desktop.
+              if (mobileTopbarMovedNode && mobileTopbarOriginalParent) {
+                if (mobileTopbarOriginalNext && mobileTopbarOriginalNext.parentElement === mobileTopbarOriginalParent) {
+                  mobileTopbarOriginalParent.insertBefore(mobileTopbarMovedNode, mobileTopbarOriginalNext);
+                } else {
+                  mobileTopbarOriginalParent.insertBefore(mobileTopbarMovedNode, mobileTopbarOriginalParent.firstElementChild);
+                }
+              }
+            } else {
+              Object.keys(MOBILE_SHEET_PANEL_IDS).forEach(key => {
+                const panel = getMobileSheetPanel(key);
+                if (!panel) return;
+                panel.classList.add('mobile-sheet-panel');
+                ensureMobileSheetGrab(panel, key);
+                if (!panel.dataset.mobileSnap) setMobileSheetSnap(panel, 'collapsed');
+              });
+              if (mobileTopbarMovedNode && topbarDetailsNow && mobileTopbarMovedNode.parentElement !== topbarDetailsNow) {
+                topbarDetailsNow.appendChild(mobileTopbarMovedNode);
+              }
+            }
+            updateMobileOverlayOffsets();
+          } catch (_) {}
+        }, { passive: true });
+      } catch (_) {}
+      closeAllMobileSheets();
+    }
+
     let mobileOverlayOffsetsWired = false;
-    let overlayOffsetsResizeObserver = null;
     function wireMobileOverlayOffsets() {
       if (mobileOverlayOffsetsWired) return;
       mobileOverlayOffsetsWired = true;
       try {
         updateMobileOverlayOffsets();
-        try { updateVoteCounterPosition(); } catch (_) {}
-        window.addEventListener('resize', () => {
-          try { updateMobileOverlayOffsets(); } catch (_) {}
-          try { updateVoteCounterPosition(); } catch (_) {}
-        }, { passive: true });
-        window.addEventListener('orientationchange', () => {
-          try { updateMobileOverlayOffsets(); } catch (_) {}
-          try { updateVoteCounterPosition(); } catch (_) {}
-        }, { passive: true });
-        if (window.ResizeObserver) {
-          overlayOffsetsResizeObserver = new ResizeObserver(() => {
-            try { updateMobileOverlayOffsets(); } catch (_) {}
-            try { updateVoteCounterPosition(); } catch (_) {}
-          });
-          ['legend', 'main-controls', 'vote-counter'].forEach((id) => {
-            const el = document.getElementById(id);
-            if (el) overlayOffsetsResizeObserver.observe(el);
-          });
+        window.addEventListener('resize', () => { try { updateMobileOverlayOffsets(); } catch (_) {} }, { passive: true });
+        window.addEventListener('orientationchange', () => { try { updateMobileOverlayOffsets(); } catch (_) {} }, { passive: true });
+        try {
+          if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then === 'function') {
+            document.fonts.ready.then(() => { try { updateMobileOverlayOffsets(); } catch (_) {} });
+          }
+        } catch (_) {}
+        if (typeof ResizeObserver !== 'undefined') {
+          const targets = ['map-topbar', 'main-controls', 'legend', 'vote-counter', 'mobile-dock']
+            .map(id => document.getElementById(id))
+            .filter(Boolean);
+          if (targets.length) {
+            if (window.__overlayOffsetsResizeObserver) {
+              try { window.__overlayOffsetsResizeObserver.disconnect(); } catch (_) {}
+            }
+            window.__overlayOffsetsResizeObserver = new ResizeObserver(() => {
+              try { updateMobileOverlayOffsets(); } catch (_) {}
+            });
+            targets.forEach(node => {
+              try { window.__overlayOffsetsResizeObserver.observe(node); } catch (_) {}
+            });
+          }
         }
       } catch (_) {}
     }
@@ -14324,6 +15076,13 @@ document.addEventListener('DOMContentLoaded', function() {
         legendContent.style.display = 'none';
         minimizeBtn.textContent = '+';
         minimizeBtn.title = 'Expand legend';
+        try {
+          legend.classList.add('mobile-sheet-panel');
+          legend.classList.remove('mobile-sheet-active');
+          setMobileSheetSnap(legend, 'collapsed');
+          if (activeMobileSheetKey === 'legend') activeMobileSheetKey = null;
+          syncMobileDockButtons();
+        } catch (_) {}
         try { updateMobileOverlayOffsets(); } catch (_) {}
       } catch (_) {}
     }
@@ -14341,6 +15100,13 @@ document.addEventListener('DOMContentLoaded', function() {
         controlsContent.style.display = 'none';
         minimizeBtn.textContent = '+';
         minimizeBtn.title = 'Expand controls';
+        try {
+          controls.classList.add('mobile-sheet-panel');
+          controls.classList.remove('mobile-sheet-active');
+          setMobileSheetSnap(controls, 'collapsed');
+          if (activeMobileSheetKey === 'layers') activeMobileSheetKey = null;
+          syncMobileDockButtons();
+        } catch (_) {}
         try { updateMobileOverlayOffsets(); } catch (_) {}
       } catch (_) {}
     }
@@ -14350,6 +15116,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const controls = document.getElementById('main-controls');
       const controlsContent = document.getElementById('controls-content');
       const minimizeBtn = document.getElementById('controls-minimize-btn');
+      if (!controls || !controlsContent || !minimizeBtn) return;
       
       if (controls.classList.contains('minimized')) {
         // Expand controls
@@ -14367,8 +15134,24 @@ document.addEventListener('DOMContentLoaded', function() {
         minimizeBtn.title = 'Expand controls';
       }
       saveUIState();
+
+      // [MOBILE DOCK/SHEET TRANSPLANT] Keep dock + sheet state in sync (NCMap parity).
+      try {
+        if (isMobileViewportNow && isMobileViewportNow()) {
+          controls.classList.add('mobile-sheet-panel');
+          if (controls.classList.contains('minimized')) {
+            controls.classList.remove('mobile-sheet-active');
+            setMobileSheetSnap(controls, 'collapsed');
+            if (activeMobileSheetKey === 'layers') activeMobileSheetKey = null;
+          } else {
+            controls.classList.add('mobile-sheet-active');
+            setMobileSheetSnap(controls, 'half');
+            activeMobileSheetKey = 'layers';
+          }
+          syncMobileDockButtons();
+        }
+      } catch (_) {}
       try { updateMobileOverlayOffsets(); } catch (_) {}
-      try { updateVoteCounterPosition(); } catch (_) {}
     }
 
     function getCountyDetailsRenderTarget() {
@@ -17794,7 +18577,10 @@ document.addEventListener('DOMContentLoaded', function() {
         setupVizModes();
         try { wireSmartInsightsToggle(); } catch (_) {}
         try { wireMobileOverlayOffsets(); } catch (_) {}
+        try { syncInitialTopbarOffset(); } catch (_) {}
+        try { setupMobileDockAndSheets(); } catch (_) {}
         try { minimizeLegendOnMobile(); } catch (_) {}
+        try { minimizeMainControlsOnMobile(); } catch (_) {}
         appReady = true;
         scheduleViewportPrecinctQuickStatsUpdate(150);
         try { await restoreUIState(); } catch (_) {}

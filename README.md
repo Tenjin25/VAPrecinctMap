@@ -53,12 +53,25 @@ Virginia holds elections on a distinct off-year cycle (gubernatorial and state l
 | **Smart Insights** | Optional (default OFF) story mode that subtly highlights closest margins, biggest shifts, and population-signal localities and surfaces a short tooltip insight without overriding user selection. |
 | **Focus mode** | When a locality is selected/pinned, the map subtly dims and the results panel elevates to keep attention on the active geography. |
 | **Winner labeling** | Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`), while statewide headline keeps short labels |
-| **NCMap parity styling** | Right-rail controls, legend, and vote counter surfaces are aligned with the latest `NCMap.html` layout language |
+| **NCMap parity styling** | Desktop and mobile UI placement now mirrors NCMap structure: desktop left/right anchoring parity, mobile sheet + dock parity, and synchronized overlay stacking/offset behavior |
 | **Locality search** | Free-text search with fly-to animation using turf bbox for counties, independent cities, precincts, and districts |
 | **Virginia-safe alias handling** | Independent-city queries accept both `City of ...` and `... City` forms, while ambiguous bare names like `Fairfax` or `Richmond` are not auto-merged and instead require a city/county distinction |
 | **Vote-card overflow fallback** | Top-right vote tiles auto-switch to stacked card layout when labels/counts overflow, preventing truncation of large totals |
 | **Mobile-first layout** | iOS safe-area insets, stable viewport units (`svh`/`dvh`), touch-friendly controls, bottom-sheet legend |
 | **Minimizable panels** | Controls, legend, and the top-right results panel can be collapsed to free map space |
+
+### Latest UI parity update (April 2026)
+
+- Adopted NCMap desktop layout variables and anchoring parity for Virginia:
+  - `--desktop-left-w: 500px`
+  - `--desktop-right-w: 340px`
+  - `--desktop-right-gap: 14px`
+  - `--desktop-vote-counter-h: 0px`
+- Desktop `map-topbar` is hidden and the desktop vote counter is fixed to top-right (`top: 20px`, `right: 24px`) with no dynamic JS top positioning.
+- Main controls desktop placement/minimized placement follows NCMap anchors and spacing.
+- Mobile keeps the NCMap sheet/dock stack (`map-topbar`, `main-controls`, `legend`, `mobile-dock`, `vote-counter`, `hover-tooltip`).
+- Mobile layering/offset parity is enforced so `hover-tooltip` sits above `vote-counter`, and `vote-counter` sits above `mobile-dock`.
+- `updateMobileOverlayOffsets()` remains the source of truth for mobile open/close/minimize state offsets while preserving Virginia-specific election logic and locality normalization behavior.
 
 ---
 

@@ -513,6 +513,35 @@ body { height: var(--app-height); }
   transition: opacity 0.15s ease;
 }
 
+/* Match NCMap hover-preview opacity hierarchy. */
+body.hover-preview-active .main-controls,
+body.hover-preview-active .vote-counter,
+body.hover-preview-active .viz-modes,
+body.hover-preview-active .legend {
+  opacity: 0.94;
+}
+
+body.focus-active.hover-preview-active .vote-counter {
+  opacity: 1;
+}
+
+@media (min-width: 769px) {
+  body.hover-preview-active .main-controls,
+  body.hover-preview-active .vote-counter,
+  body.hover-preview-active .viz-modes,
+  body.hover-preview-active .legend {
+    opacity: 1;
+  }
+}
+
+#hover-tooltip[data-context="preview"] {
+  opacity: 0.88;
+}
+
+body.focus-active #hover-tooltip[data-context="preview"] {
+  opacity: 0.82;
+}
+
 .hover-tooltip .tooltip-copy {
   min-width: 0;
   flex: 1 1 auto;
@@ -767,7 +796,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
 
 @media (max-width: 768px) {
   .atlas-credit-bar {
-    bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + 14px);
+    bottom: calc(var(--legend-h, 56px) + var(--vote-counter-h, 0px) + var(--safe-bottom, 0px) + 14px);
     max-width: calc(100vw - 16px);
     padding: 5px 10px;
     font-size: 10px;
@@ -1793,7 +1822,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     overflow-y: auto;
     padding: 6px;
     border-radius: 14px;
-    border: 1px solid rgba(148, 163, 184, 0.25);
+    border: 1px solid rgba(148, 163, 184, 0.24);
     background: rgba(255, 255, 255, 0.98);
     box-shadow: 0 16px 34px rgba(15, 23, 42, 0.16);
     z-index: 1006;
@@ -3991,14 +4020,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
       padding-bottom: calc(8px + var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px)) !important;
     }
 
-    html.android-mobile .vote-counter {
-      bottom: calc(var(--legend-h, 56px) + var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px) + 12px) !important;
-    }
-
-    html.android-mobile #hover-tooltip {
-      bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px) + 10px) !important;
-    }
-
     .contest-toolbar {
       display: flex !important;
       align-items: center !important;
@@ -4091,7 +4112,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   }
 
   :root {
-    --counter-h: 0px;
+    --vote-counter-h: 0px;
     --desktop-counter-bottom: 20px;
     --desktop-right-stack-gap: 40px;
   }
@@ -4111,7 +4132,7 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     display: block;
     height: 4px;
     background: var(--state-ribbon);
-    opacity: 0.9;
+    opacity: 0.86;
   }
 
   .legend-header {
@@ -5685,16 +5706,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
       font-size: 12px;
     }
 
-    .vote-counter {
-      left: 50%;
-      right: auto;
-      bottom: calc(var(--legend-h, 56px) + var(--safe-bottom, 0px) + 14px) !important;
-      width: min(94vw, 520px);
-      max-width: 94vw;
-      padding: 14px;
-      border-radius: 18px;
-    }
-
     .vote-counter-meta {
       padding: 9px 10px;
       margin-bottom: 12px;
@@ -5713,20 +5724,11 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
       padding: 10px;
     }
 
-    #hover-tooltip {
-      left: 8px !important;
-      right: 8px !important;
-      width: auto !important;
-      max-width: none !important;
-      top: auto !important;
-      bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + 18px) !important;
-    }
-
     #status-panel {
       top: auto !important;
       left: 12px !important;
       right: 12px !important;
-      bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + 28px) !important;
+      bottom: calc(var(--legend-h, 56px) + var(--vote-counter-h, 0px) + var(--safe-bottom, 0px) + 28px) !important;
       max-width: none !important;
     }
 
@@ -5734,13 +5736,6 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
       padding-bottom: calc(10px + var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px)) !important;
     }
 
-    html.android-mobile .vote-counter {
-      bottom: calc(var(--legend-h, 56px) + var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px) + 14px) !important;
-    }
-
-    html.android-mobile #hover-tooltip {
-      bottom: calc(var(--legend-h, 56px) + var(--counter-h, 0px) + var(--safe-bottom, 0px) + var(--android-vv-bottom, 0px) + 18px) !important;
-    }
   }
 
   .control-summary {
@@ -7452,10 +7447,12 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     /* [OVERLAY OFFSET LOGIC CHANGE] Dock-based spacing for vote counter + hover tooltip. */
     .vote-counter {
       bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 24px) !important;
+      z-index: 10031 !important;
     }
 
     #hover-tooltip {
       bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 24px + var(--vote-counter-h, 0px) + 8px) !important;
+      z-index: 10032 !important;
     }
 
     body.mobile-sheet-open #hover-tooltip {
@@ -7729,6 +7726,46 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
   body.focus-mode .vote-counter {
     box-shadow: var(--atlas-shadow-focus) !important;
     border-color: rgba(15, 23, 42, 0.18);
+  }
+
+  /* NCMap desktop parity guardrail: keep final desktop anchoring deterministic. */
+  @media (min-width: 769px) {
+    :root {
+      --desktop-left-w: 500px;
+      --desktop-right-w: 340px;
+      --desktop-right-gap: 14px;
+      --desktop-vote-counter-h: 0px;
+    }
+
+    #map-topbar {
+      display: none !important;
+    }
+
+    body #main-controls.main-controls {
+      top: 20px !important;
+      left: 24px !important;
+      width: min(var(--desktop-left-w), calc(100vw - 48px)) !important;
+      max-width: var(--desktop-left-w) !important;
+      max-height: calc(100vh - 40px) !important;
+      padding: 16px !important;
+      border-radius: 22px !important;
+    }
+
+    body #main-controls.main-controls.minimized {
+      top: 20px !important;
+      left: 24px !important;
+      min-width: 252px !important;
+      max-width: 296px !important;
+      padding: 12px 14px !important;
+      border-radius: 16px !important;
+    }
+
+    body #vote-counter.vote-counter {
+      top: 20px !important;
+      right: 24px !important;
+      left: auto !important;
+      transform: none !important;
+    }
   }
 
   /* Smart Insights toggle */
@@ -8495,13 +8532,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function maybePinTooltipForTap() {
       try {
-        setTooltipPinned(true);
-        // Some click paths pin after rendering; update the button label when it's present.
-        const pinBtn = document.getElementById('tooltip-pin-btn');
-        if (pinBtn) {
-          try { pinBtn.textContent = 'Unpin'; } catch (_) {}
-          try { pinBtn.setAttribute('aria-pressed', 'true'); } catch (_) {}
-        }
+        // Pinning is disabled for hover cards; keep tap behavior non-sticky.
+        setTooltipPinned(false);
       } catch (_) {}
     }
 
@@ -13971,7 +14003,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showHoverTooltip(
           e.point.x,
           e.point.y,
-          buildTooltipShell(`${countyDisplay}`, tooltipSublineHTML('Select a contest to see results')),
+          buildTooltipShell(`${countyDisplay}`, tooltipSublineHTML('Select a contest to see results'), { showPin: false, showClose: false }),
           { force: !!forceTooltip, key: getCountyTooltipKey(countyName), copyText: countyDisplay }
         );
         wireTooltipButtons();
@@ -13989,7 +14021,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showHoverTooltip(
           e.point.x,
           e.point.y,
-          buildTooltipShell(`${countyDisplay}`, tooltipSublineHTML('No data available')),
+          buildTooltipShell(`${countyDisplay}`, tooltipSublineHTML('No data available'), { showPin: false, showClose: false }),
           { force: !!forceTooltip, key: getCountyTooltipKey(countyName), copyText: countyDisplay }
         );
         wireTooltipButtons();
@@ -14140,7 +14172,7 @@ document.addEventListener('DOMContentLoaded', function() {
       showHoverTooltip(
         e.point.x,
         e.point.y,
-        buildTooltipShell(hoverTitle, inner, { kicker: subtitle }),
+        buildTooltipShell(hoverTitle, inner, { kicker: subtitle, showPin: false, showClose: false }),
         { force: !!forceTooltip, key: getCountyTooltipKey(countyName), copyText: countyDisplay }
       );
       wireTooltipButtons();
@@ -14172,14 +14204,14 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) {}
       const [contestType, year] = parseContestValue(contestValue);
       if (!contestType || !year) {
-        showHoverTooltip(point.x, point.y, buildTooltipShell(title, tooltipSublineHTML('Select a contest to see results')), { key: `precinct:${precinctNorm}`, copyText: title });
+        showHoverTooltip(point.x, point.y, buildTooltipShell(title, tooltipSublineHTML('Select a contest to see results'), { showPin: false, showClose: false }), { key: `precinct:${precinctNorm}`, copyText: title });
         wireTooltipButtons();
         return;
       }
 
       const row = currentPrecinctResults ? currentPrecinctResults.get(precinctNorm) : null;
       if (!row) {
-        showHoverTooltip(point.x, point.y, buildTooltipShell(title, tooltipSublineHTML('No precinct results loaded for this contest in this view. Switch to Counties and pick the contest.')), { key: `precinct:${precinctNorm}`, copyText: title });
+        showHoverTooltip(point.x, point.y, buildTooltipShell(title, tooltipSublineHTML('No precinct results loaded for this contest in this view. Switch to Counties and pick the contest.'), { showPin: false, showClose: false }), { key: `precinct:${precinctNorm}`, copyText: title });
         wireTooltipButtons();
         return;
       }
@@ -14223,7 +14255,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ${flipLine}
         ${tooltipSublineHTML(insight)}
       `;
-      showHoverTooltip(point.x, point.y, buildTooltipShell(title, inner, { kicker: subtitle }), { key: `precinct:${precinctNorm}`, copyText: title });
+      showHoverTooltip(point.x, point.y, buildTooltipShell(title, inner, { kicker: subtitle, showPin: false, showClose: false }), { key: `precinct:${precinctNorm}`, copyText: title });
       wireTooltipButtons();
       setVoteCounterHoverState(
         `Hover: ${title}`,
@@ -14331,7 +14363,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const contestValue = document.getElementById('contestSelect')?.value || '';
       if (!contestValue) {
-        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('Select a contest to see results')), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
+        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('Select a contest to see results'), { showPin: false, showClose: false }), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
         wireTooltipButtons();
         return;
       }
@@ -14353,7 +14385,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       if (!row) {
-        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('No data for this contest')), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
+        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('No data for this contest'), { showPin: false, showClose: false }), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
         wireTooltipButtons();
         return;
       }
@@ -14363,7 +14395,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const otherVotes = Number(row.other_votes || 0);
       const totalVotes = Number(row.total_votes || 0);
       if (totalVotes <= 0) {
-        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('No data for this contest')), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
+        showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, tooltipSublineHTML('No data for this contest'), { showPin: false, showClose: false }), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
         wireTooltipButtons();
         return;
       }
@@ -14459,7 +14491,7 @@ document.addEventListener('DOMContentLoaded', function() {
       `.trim();
 
       const inner = useCompact ? compactInner : classicInner;
-      showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, inner, { kicker: subtitle }), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
+      showHoverTooltip(e.point.x, e.point.y, buildTooltipShell(`${districtLabel} ${districtNum}`, inner, { kicker: subtitle, showPin: false, showClose: false }), { key: `district:${scope}:${districtNum}`, copyText: `${districtLabel} ${districtNum}` });
       wireTooltipButtons();
     }
 
@@ -14586,9 +14618,7 @@ document.addEventListener('DOMContentLoaded', function() {
         root.style.setProperty('--topbar-h', `${Math.max(0, th)}px`);
         root.style.setProperty('--mobile-dock-h', `${Math.max(0, dh)}px`);
         if (isDesktop) {
-          const counterVisible = !!(voteCounter && voteCounter.style.display !== 'none' && voteCounter.getClientRects().length);
-          const vh = counterVisible ? Math.round(voteCounter.getBoundingClientRect().height) : 0;
-          root.style.setProperty('--desktop-vote-counter-h', `${Math.max(0, vh)}px`);
+          root.style.setProperty('--desktop-vote-counter-h', '0px');
         } else {
           root.style.removeProperty('--desktop-vote-counter-h');
         }
@@ -16401,11 +16431,11 @@ document.addEventListener('DOMContentLoaded', function() {
               });
               if (contestType && year && selectedRow) pinCountySelectionVoteCounter(countyName);
 
-              // Mobile: tap should pin and show the docked tooltip card (Shift lines stay Shift-only).
+              // Mobile: tap shows the docked tooltip card without pinning.
               // Desktop: keep click behavior focused on selection/fly-to without leaving a hover tooltip open.
               if (IS_COARSE_POINTER) {
                 try {
-                  setTooltipPinned(true);
+                  setTooltipPinned(false);
                   renderCountyHoverAtPoint(e, { forceTooltip: true });
                 } catch (_) {}
               } else {
@@ -16550,7 +16580,6 @@ document.addEventListener('DOMContentLoaded', function() {
           if (e?.point && e?.features?.[0]) {
             prepareTooltipForSelection();
             renderPrecinctHoverAtPoint(e.point, e.features[0]);
-            maybePinTooltipForTap();
           }
         } catch (_) {}
       });
@@ -16772,7 +16801,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
               renderPrecinctHoverAtPoint(evt.point, evt.features?.[0]);
             } catch (_) {
-              showHoverTooltip(evt.point.x, evt.point.y, buildTooltipShell(title, tooltipSublineHTML('Hover details unavailable.')), { key: `precinct:${precinctNorm}`, copyText: title });
+              showHoverTooltip(evt.point.x, evt.point.y, buildTooltipShell(title, tooltipSublineHTML('Hover details unavailable.'), { showPin: false, showClose: false }), { key: `precinct:${precinctNorm}`, copyText: title });
               wireTooltipButtons();
             }
           });
@@ -16783,7 +16812,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!f) return;
             prepareTooltipForSelection();
             renderPrecinctHoverAtPoint(e.point, f);
-            maybePinTooltipForTap();
           } catch (_) {}
         });
         map.on('mouseleave', layerId, () => {
@@ -17742,6 +17770,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const safeTitle = escapeHtml(String(title || '').trim());
       const kickerRaw = (options && options.kicker != null) ? String(options.kicker) : '';
       const kicker = kickerRaw.trim();
+      const showPin = options?.showPin !== false;
+      const showClose = options?.showClose !== false;
       return `
         <div class="tooltip-head">
           <div class="tooltip-copy">
@@ -17749,8 +17779,8 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="tooltip-title">${safeTitle}</div>
           </div>
           <div class="tooltip-actions">
-            <button class="tooltip-btn" id="tooltip-pin-btn" type="button" aria-pressed="${tooltipPinned ? 'true' : 'false'}">${tooltipPinned ? 'Unpin' : 'Pin'}</button>
-            <button class="tooltip-btn" id="tooltip-close-btn" type="button">Close</button>
+            ${showPin ? `<button class="tooltip-btn" id="tooltip-pin-btn" type="button" aria-pressed="${tooltipPinned ? 'true' : 'false'}">${tooltipPinned ? 'Unpin' : 'Pin'}</button>` : ''}
+            ${showClose ? '<button class="tooltip-btn" id="tooltip-close-btn" type="button">Close</button>' : ''}
           </div>
         </div>
         <div class="tooltip-body">${innerHtml || ''}</div>

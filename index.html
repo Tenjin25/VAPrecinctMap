@@ -11223,12 +11223,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function pinVoteCounterState(title, sub, demVotes, repVotes, otherVotes, meta = {}) {
-      voteCounterPinned = { title, sub, demVotes, repVotes, otherVotes, meta: normalizeVoteCounterMeta(meta) };
+      const normalizedMeta = normalizeVoteCounterMeta(meta);
+      voteCounterPinned = { title, sub, demVotes, repVotes, otherVotes, meta: normalizedMeta };
       voteCounterHoverActive = false;
       setVoteCounterContext(title, sub, { showClear: true });
-      updateVoteCounter(demVotes, repVotes, otherVotes, voteCounterPinned.meta);
+      updateVoteCounter(demVotes, repVotes, otherVotes, normalizedMeta);
       refreshFocusTrend(voteCounterPinned);
-      setAtlasFocusMode(true);
+      // District selections keep full UI opacity; locality selections retain focus-mode dimming.
+      setAtlasFocusMode(normalizedMeta.kind !== 'district');
     }
 
     function clearPinnedVoteCounterState() {
@@ -14445,7 +14447,6 @@ document.addEventListener('DOMContentLoaded', function() {
           insight = 'Shift: Unavailable';
         }
       }
-      if (!insight && tierMeta?.label) insight = String(tierMeta.label);
 
       const chips = [];
       if (currentVizMode === 'shift' && prevSignedForFlip !== null && prevYearForFlip) {

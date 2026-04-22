@@ -7468,6 +7468,17 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
       transform: translateY(6px) !important;
     }
 
+    body.mobile-input-active .vote-counter {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px) !important;
+    }
+    body.mobile-input-active #hover-tooltip {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px) !important;
+    }
+
     .atlas-credit-bar {
       bottom: calc(6px + var(--safe-bottom, 0px)) !important;
       z-index: 10018;
@@ -7476,6 +7487,58 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
       font-size: 10px;
       white-space: normal;
       opacity: 0.85;
+    }
+  }
+
+  @media (max-width: 375px) {
+    :root {
+      --mobile-dock-h: 56px;
+      --mobile-sheet-gap: 8px;
+    }
+
+    .mobile-dock {
+      left: 6px;
+      right: 6px;
+      bottom: calc(6px + var(--safe-bottom, 0px));
+      gap: 6px;
+      padding: 6px;
+      border-radius: 14px;
+    }
+
+    .mobile-dock-btn {
+      min-height: 40px;
+      font-size: 12px;
+      border-radius: 10px;
+    }
+
+    .mobile-sheet-panel {
+      left: 6px !important;
+      right: 6px !important;
+      border-radius: 14px !important;
+    }
+
+    .map-topbar.mobile-sheet-panel,
+    .main-controls.mobile-sheet-panel,
+    .legend.mobile-sheet-panel {
+      border-radius: 14px !important;
+    }
+
+    .legend.mobile-sheet-panel .legend-header {
+      border-radius: 14px 14px 0 0 !important;
+    }
+
+    #main-controls .view-toggle-btn,
+    #main-controls .region-jump-btn,
+    .viz-mode-btn {
+      min-height: 40px !important;
+      font-size: 11px !important;
+      padding: 8px 10px !important;
+    }
+
+    #main-controls select,
+    #main-controls input[type="search"],
+    #main-controls input[type="text"] {
+      font-size: 15px !important;
     }
   }
 
@@ -7587,17 +7650,8 @@ body.colorblind-mode .hover-tooltip .tooltip-title-badge.rep {
     filter: none;
   }
 
-  /* Hover stays lightweight while something is selected. */
-  body.focus-mode #hover-tooltip[data-pinned="0"] {
-    opacity: 0.62;
-    transform: scale(0.98);
-    filter: saturate(0.9);
-  }
-
+  /* Keep hover tooltip readable even when a selection is active. */
   @media (max-width: 768px) {
-    body.focus-mode #hover-tooltip[data-pinned="0"] {
-      display: none !important;
-    }
     body.focus-mode .legend {
       opacity: 0.76;
     }
@@ -11231,6 +11285,8 @@ document.addEventListener('DOMContentLoaded', function() {
       refreshFocusTrend(voteCounterPinned);
       // District selections keep full UI opacity; locality selections retain focus-mode dimming.
       setAtlasFocusMode(normalizedMeta.kind !== 'district');
+      // Avoid a lingering "faded" hover tooltip once something is selected.
+      try { hideHoverTooltip(); } catch (_) {}
     }
 
     function clearPinnedVoteCounterState() {
@@ -14720,6 +14776,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let activeMobileSheetKey = null;
     let mobileSheetVoteCounterSnapshot = null; // null | boolean (was minimized before opening sheets)
     let mobileSheetSystemReady = false;
+    let mobileInputFocusWired = false;
+    let mobileInputRestoreTimer = null;
+    let mobileInputFocusSnapshot = null;
 
     let mobileTopbarMovedNode = null;
     let mobileTopbarOriginalParent = null;
@@ -14917,8 +14976,11 @@ document.addEventListener('DOMContentLoaded', function() {
       setMobileSheetSnap(panel, 'collapsed');
       if (activeMobileSheetKey === key) activeMobileSheetKey = null;
       if (!activeMobileSheetKey && mobileSheetVoteCounterSnapshot != null) {
-        setVoteCounterMinimizedState(!!mobileSheetVoteCounterSnapshot);
-        mobileSheetVoteCounterSnapshot = null;
+        const blocked = !!(document.body.classList.contains('mobile-input-active') || mobileInputFocusSnapshot);
+        if (!blocked) {
+          setVoteCounterMinimizedState(!!mobileSheetVoteCounterSnapshot);
+          mobileSheetVoteCounterSnapshot = null;
+        }
       }
       syncMobileDockButtons();
       updateMobileOverlayOffsets();
@@ -14959,11 +15021,22 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleMobileSheet(key) {
       if (!key) return;
       if (!isMobileViewportNow()) return;
-      if (activeMobileSheetKey === key) {
-        closeMobileSheet(key);
+      if (!MOBILE_SHEET_PANEL_IDS[key]) return;
+      if (activeMobileSheetKey !== key) {
+        openMobileSheet(key, 'half');
         return;
       }
-      openMobileSheet(key, 'half');
+      const current = getMobileSheetSnap(key);
+      const idx = MOBILE_SHEET_SNAP_SEQUENCE.indexOf(current);
+      const next = MOBILE_SHEET_SNAP_SEQUENCE[(idx + 1) % MOBILE_SHEET_SNAP_SEQUENCE.length];
+      if (next === 'collapsed') {
+        closeMobileSheet(key);
+        activeMobileSheetKey = null;
+        syncMobileDockButtons();
+        updateMobileOverlayOffsets();
+        return;
+      }
+      openMobileSheet(key, next);
     }
 
     function setupMobileDockAndSheets() {
@@ -15029,7 +15102,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const topbarDetailsNow = document.getElementById('map-topbar-details');
             if (!isMobileViewportNow()) {
               closeAllMobileSheets();
-              document.body.classList.remove('mobile-sheet-open');
+              document.body.classList.remove('mobile-sheet-open', 'mobile-input-active');
+              mobileInputFocusSnapshot = null;
+              if (mobileInputRestoreTimer) {
+                clearTimeout(mobileInputRestoreTimer);
+                mobileInputRestoreTimer = null;
+              }
               Object.keys(MOBILE_SHEET_PANEL_IDS).forEach(key => {
                 const panel = getMobileSheetPanel(key);
                 if (!panel) return;
@@ -15060,7 +15138,65 @@ document.addEventListener('DOMContentLoaded', function() {
           } catch (_) {}
         }, { passive: true });
       } catch (_) {}
+      try { setupMobileInputFocusBehavior(); } catch (_) {}
       closeAllMobileSheets();
+    }
+
+    function isMobileEditableField(node) {
+      if (!node || !node.tagName) return false;
+      const tag = node.tagName.toLowerCase();
+      if (tag !== 'input' && tag !== 'textarea' && tag !== 'select') return false;
+      return !!(node.closest && (node.closest('#map-topbar') || node.closest('#main-controls')));
+    }
+
+    function restoreMobileInputFocusMode() {
+      if (!mobileInputFocusSnapshot) return;
+      const snap = mobileInputFocusSnapshot;
+      mobileInputFocusSnapshot = null;
+      document.body.classList.remove('mobile-input-active');
+      if (!isMobileViewportNow()) return;
+      try {
+        if (!snap.voteCounterWasMinimized) setVoteCounterMinimizedState(false);
+      } catch (_) {}
+      if (snap.activeSheetKey) {
+        openMobileSheet(snap.activeSheetKey, snap.activeSheetSnap || 'half');
+      } else {
+        closeAllMobileSheets();
+      }
+    }
+
+    function setupMobileInputFocusBehavior() {
+      if (mobileInputFocusWired) return;
+      mobileInputFocusWired = true;
+      document.addEventListener('focusin', (event) => {
+        const target = event.target;
+        if (!isMobileViewportNow()) return;
+        if (!isMobileEditableField(target)) return;
+        if (!mobileInputFocusSnapshot) {
+          const counter = document.getElementById('vote-counter');
+          mobileInputFocusSnapshot = {
+            voteCounterWasMinimized: !!(counter && counter.classList.contains('minimized')),
+            activeSheetKey: activeMobileSheetKey,
+            activeSheetSnap: activeMobileSheetKey ? getMobileSheetSnap(activeMobileSheetKey) : 'collapsed'
+          };
+        }
+        document.body.classList.add('mobile-input-active');
+        try { minimizeLegendOnMobile(); } catch (_) {}
+        try { setVoteCounterMinimizedState(true); } catch (_) {}
+        if (target.closest && target.closest('#map-topbar')) {
+          openMobileSheet('search', 'half');
+        }
+      }, true);
+      document.addEventListener('focusout', () => {
+        if (!isMobileViewportNow()) return;
+        if (mobileInputRestoreTimer) clearTimeout(mobileInputRestoreTimer);
+        mobileInputRestoreTimer = setTimeout(() => {
+          const active = document.activeElement;
+          if (isMobileEditableField(active)) return;
+          restoreMobileInputFocusMode();
+          mobileInputRestoreTimer = null;
+        }, 140);
+      }, true);
     }
 
     let mobileOverlayOffsetsWired = false;

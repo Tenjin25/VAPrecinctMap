@@ -23,6 +23,7 @@ An interactive, browser-based choropleth map of Virginia election results at the
 9. [Front-End Architecture](#front-end-architecture)
 10. [Dependencies](#dependencies)
 11. [Known Limitations & Future Work](#known-limitations--future-work)
+12. [License](#license)
 
 ---
 
@@ -675,3 +676,10 @@ Standard library only (`csv`, `json`, `re`, `zipfile`, `argparse`, `collections`
 - **2023 state legislative districts** — Returns for the 2023 Virginia House of Delegates and Senate of Virginia elections are available in the district contest files, but some precinct-to-district boundary edge cases may affect margins in split precincts.
 
 - **Possible additions** — presidential primary results, special elections, U.S. House of Representatives by district, swing-shift annotation (margin change between election cycles), downloadable data tables per district.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+

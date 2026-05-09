@@ -196,8 +196,28 @@
       "year": 2024,
       "file": "congressional_president_2024.json",
       "rows": 11,
-      "dem_total": 2336695,
-      "rep_total": 2081622,
+      "dem_total": 2336694,
+      "rep_total": 2081621,
+      "major_party_contested": true
+    },
+    {
+      "scope": "congressional",
+      "contest_type": "us_house",
+      "year": 2022,
+      "file": "congressional_us_house_2022.json",
+      "rows": 11,
+      "dem_total": 1522202,
+      "rep_total": 1448394,
+      "major_party_contested": true
+    },
+    {
+      "scope": "congressional",
+      "contest_type": "us_house",
+      "year": 2024,
+      "file": "congressional_us_house_2024.json",
+      "rows": 11,
+      "dem_total": 2276469,
+      "rep_total": 2109210,
       "major_party_contested": true
     },
     {

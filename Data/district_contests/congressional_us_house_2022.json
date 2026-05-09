@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "scope": "congressional",
+    "contest_type": "us_house",
+    "year": 2022,
+    "district_count": 11,
+    "input_votes": 2983598,
+    "matched_votes": 2983598,
+    "direct_matched_votes": 2983598,
+    "allocated_votes": 0,
+    "match_coverage_pct": 100.0,
+    "direct_match_coverage_pct": 100.0
+  },
+  "general": {
+    "results": {
+      "1": {
+        "dem_votes": 147229,
+        "rep_votes": 191828,
+        "other_votes": 3681,
+        "total_votes": 342738,
+        "dem_candidate": "Herbert Carroll Jones, Jr",
+        "rep_candidate": "Robert Joseph Wittman",
+        "winner": "Republican",
+        "margin": 44599,
+        "margin_pct": 13.012563532494209,
+        "color": "#ef3b2c"
+      },
+      "10": {
+        "dem_votes": 155295,
+        "rep_votes": 136691,
+        "other_votes": 565,
+        "total_votes": 292551,
+        "dem_candidate": "Jennifer Tosini Wexton",
+        "rep_candidate": "Hung Cao",
+        "winner": "Democratic",
+        "margin": 18604,
+        "margin_pct": -6.3592330909824275,
+        "color": "#9ecae1"
+      },
+      "11": {
+        "dem_votes": 193804,
+        "rep_votes": 96025,
+        "other_votes": 854,
+        "total_votes": 290683,
+        "dem_candidate": "Gerald Edward Connolly",
+        "rep_candidate": "James G. Myles",
+        "winner": "Democratic",
+        "margin": 97779,
+        "margin_pct": -33.637674029785025,
+        "color": "#08519c"
+      },
+      "2": {
+        "dem_votes": 141667,
+        "rep_votes": 152191,
+        "other_votes": 438,
+        "total_votes": 294296,
+        "dem_candidate": "Elaine G. Luria",
+        "rep_candidate": "Jennifer Ann Kiggans",
+        "winner": "Republican",
+        "margin": 10524,
+        "margin_pct": 3.5759915187430344,
+        "color": "#fcae91"
+      },
+      "3": {
+        "dem_votes": 139659,
+        "rep_votes": 67668,
+        "other_votes": 516,
+        "total_votes": 207843,
+        "dem_candidate": "Robert Cortez Scott",
+        "rep_candidate": "Terry T. Namkung",
+        "winner": "Democratic",
+        "margin": 71991,
+        "margin_pct": -34.63720211890706,
+        "color": "#08519c"
+      },
+      "4": {
+        "dem_votes": 118127,
+        "rep_votes": 76088,
+        "other_votes": 310,
+        "total_votes": 194525,
+        "dem_candidate": "A. Donald McEachin",
+        "rep_candidate": "Leon Benjamin",
+        "winner": "Democratic",
+        "margin": 42039,
+        "margin_pct": -21.611103971211925,
+        "color": "#3182bd"
+      },
+      "5": {
+        "dem_votes": 129996,
+        "rep_votes": 177191,
+        "other_votes": 588,
+        "total_votes": 307775,
+        "dem_candidate": "Joshua Marquis Throneburg",
+        "rep_candidate": "Robert George Good",
+        "winner": "Republican",
+        "margin": 47195,
+        "margin_pct": 15.3342539192592,
+        "color": "#ef3b2c"
+      },
+      "6": {
+        "dem_votes": 95410,
+        "rep_votes": 173352,
+        "other_votes": 469,
+        "total_votes": 269231,
+        "dem_candidate": "Jennifer Lynn Lewis",
+        "rep_candidate": "Benjamin Lee Cline",
+        "winner": "Republican",
+        "margin": 77942,
+        "margin_pct": 28.94986090011923,
+        "color": "#cb181d"
+      },
+      "7": {
+        "dem_votes": 143357,
+        "rep_votes": 130586,
+        "other_votes": 637,
+        "total_votes": 274580,
+        "dem_candidate": "Abigail Anne Davis Spanberger",
+        "rep_candidate": "Yesli Isabel Vega",
+        "winner": "Democratic",
+        "margin": 12771,
+        "margin_pct": -4.651103503532668,
+        "color": "#c6dbef"
+      },
+      "8": {
+        "dem_votes": 191631,
+        "rep_votes": 64567,
+        "other_votes": 4389,
+        "total_votes": 260587,
+        "dem_candidate": "Donald Sternoff Beyer, Jr.",
+        "rep_candidate": "Karina Allison Lipsman",
+        "winner": "Democratic",
+        "margin": 127064,
+        "margin_pct": -48.76068261271668,
+        "color": "#08306b"
+      },
+      "9": {
+        "dem_votes": 66027,
+        "rep_votes": 182207,
+        "other_votes": 555,
+        "total_votes": 248789,
+        "dem_candidate": "Taysha Lee Devaughan",
+        "rep_candidate": "Howard Morgan Griffith",
+        "winner": "Republican",
+        "margin": 116180,
+        "margin_pct": 46.69820611039877,
+        "color": "#67000d"
+      }
+    }
+  }
+}

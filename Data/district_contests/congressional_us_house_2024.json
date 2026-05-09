@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "scope": "congressional",
+    "contest_type": "us_house",
+    "year": 2024,
+    "district_count": 11,
+    "input_votes": 4428081,
+    "matched_votes": 4428081,
+    "direct_matched_votes": 4428081,
+    "allocated_votes": 0,
+    "match_coverage_pct": 100.0,
+    "direct_match_coverage_pct": 100.0
+  },
+  "general": {
+    "results": {
+      "1": {
+        "dem_votes": 208445,
+        "rep_votes": 269657,
+        "other_votes": 804,
+        "total_votes": 478906,
+        "dem_candidate": "Leslie C. Mehta",
+        "rep_candidate": "Robert J. Wittman",
+        "winner": "Republican",
+        "margin": 61212,
+        "margin_pct": 12.781631468388369,
+        "color": "#ef3b2c"
+      },
+      "10": {
+        "dem_votes": 215131,
+        "rep_votes": 196343,
+        "other_votes": 1538,
+        "total_votes": 413012,
+        "dem_candidate": "Suhas Subramanyam",
+        "rep_candidate": "Mike W. Clancy",
+        "winner": "Democratic",
+        "margin": 18788,
+        "margin_pct": -4.549020367446951,
+        "color": "#c6dbef"
+      },
+      "11": {
+        "dem_votes": 275076,
+        "rep_votes": 135562,
+        "other_votes": 1867,
+        "total_votes": 412505,
+        "dem_candidate": "Gerald E. \"Gerry\" Connolly",
+        "rep_candidate": "Mike L. Van Meter",
+        "winner": "Democratic",
+        "margin": 139514,
+        "margin_pct": -33.821165804050864,
+        "color": "#08519c"
+      },
+      "2": {
+        "dem_votes": 191666,
+        "rep_votes": 207368,
+        "other_votes": 9668,
+        "total_votes": 408702,
+        "dem_candidate": "Missy Cotter Smasal",
+        "rep_candidate": "Jen A. Kiggans",
+        "winner": "Republican",
+        "margin": 15702,
+        "margin_pct": 3.8419190510445262,
+        "color": "#fcae91"
+      },
+      "3": {
+        "dem_votes": 219926,
+        "rep_votes": 93801,
+        "other_votes": 670,
+        "total_votes": 314397,
+        "dem_candidate": "Robert C. \"Bobby\" Scott",
+        "rep_candidate": "John Sitka, III",
+        "winner": "Democratic",
+        "margin": 126125,
+        "margin_pct": -40.116476938393184,
+        "color": "#08306b"
+      },
+      "4": {
+        "dem_votes": 252885,
+        "rep_votes": 121814,
+        "other_votes": 809,
+        "total_votes": 375508,
+        "dem_candidate": "Jennifer L. McClellan",
+        "rep_candidate": "William J. \"Bill\" Moher III",
+        "winner": "Democratic",
+        "margin": 131071,
+        "margin_pct": -34.9049820509816,
+        "color": "#08519c"
+      },
+      "5": {
+        "dem_votes": 184229,
+        "rep_votes": 249564,
+        "other_votes": 2046,
+        "total_votes": 435839,
+        "dem_candidate": "Gloria Tinsley Witt",
+        "rep_candidate": "John J. McGuire, III",
+        "winner": "Republican",
+        "margin": 65335,
+        "margin_pct": 14.990627272914999,
+        "color": "#ef3b2c"
+      },
+      "6": {
+        "dem_votes": 141612,
+        "rep_votes": 256933,
+        "other_votes": 8490,
+        "total_votes": 407035,
+        "dem_candidate": "Ken L. Mitchell",
+        "rep_candidate": "Ben L. Cline",
+        "winner": "Republican",
+        "margin": 115321,
+        "margin_pct": 28.331961624921693,
+        "color": "#cb181d"
+      },
+      "7": {
+        "dem_votes": 203336,
+        "rep_votes": 192847,
+        "other_votes": 1116,
+        "total_votes": 397299,
+        "dem_candidate": "Eugene S. Vindman",
+        "rep_candidate": "Derrick M. Anderson",
+        "winner": "Democratic",
+        "margin": 10489,
+        "margin_pct": -2.640077120757918,
+        "color": "#c6dbef"
+      },
+      "8": {
+        "dem_votes": 274593,
+        "rep_votes": 94676,
+        "other_votes": 14646,
+        "total_votes": 383915,
+        "dem_candidate": "Donald S. Beyer, Jr.",
+        "rep_candidate": "Jerry W. Torres",
+        "winner": "Democratic",
+        "margin": 179917,
+        "margin_pct": -46.86375890496594,
+        "color": "#08306b"
+      },
+      "9": {
+        "dem_votes": 109570,
+        "rep_votes": 290645,
+        "other_votes": 748,
+        "total_votes": 400963,
+        "dem_candidate": "Karen G. H. Baker",
+        "rep_candidate": "Howard Morgan Griffith",
+        "winner": "Republican",
+        "margin": 181075,
+        "margin_pct": 45.1600272344331,
+        "color": "#67000d"
+      }
+    }
+  }
+}

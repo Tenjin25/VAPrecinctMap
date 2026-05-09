@@ -675,7 +675,9 @@ Standard library only (`csv`, `json`, `re`, `zipfile`, `argparse`, `collections`
 
 - **2023 state legislative districts** — Returns for the 2023 Virginia House of Delegates and Senate of Virginia elections are available in the district contest files, but some precinct-to-district boundary edge cases may affect margins in split precincts.
 
-- **Possible additions** — presidential primary results, special elections, U.S. House of Representatives by district, swing-shift annotation (margin change between election cycles), downloadable data tables per district.
+- **Possible additions** — presidential primary results, special elections, swing-shift annotation (margin change between election cycles), downloadable data tables per district.
+
+- **Newly added (May 2026)** — U.S. House district contest slices aligned to current congressional lines for 2022 and 2024 are now included in `Data/district_contests/` as `congressional_us_house_2022.json` and `congressional_us_house_2024.json`.
 
 ---
 

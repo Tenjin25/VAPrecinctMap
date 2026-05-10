@@ -10294,11 +10294,13 @@ document.addEventListener('DOMContentLoaded', function() {
     let congressionalData = []; // Optional legacy district-level table
     let candidateNameCache = new Map();
     let contestSliceCache = new Map();
+    let precinctDetailSliceCache = new Map();
     let districtSliceCache = new Map();
     // In-flight request dedupe (promise reuse) for atlas-wide loads.
     const jsonInflightByPath = new Map(); // requestPath -> Promise<any>
     const csvInflightByPath = new Map(); // requestPath -> Promise<string>
     const contestSliceInflight = new Map(); // `${contestType}_${year}` -> Promise<rows[]>
+    const precinctDetailSliceInflight = new Map(); // `${contestType}_${year}` -> Promise<rows[]>
     const districtSliceInflight = new Map(); // `${linesYear}|${scope}_${contestType}_${year}` -> Promise<payload>
     let countyTrendSeriesCache = new Map(); // Map<string key, Array<seriesRow>> (in-session cache)
     const districtCarryCrosswalkCache = new Map();
@@ -15166,6 +15168,33 @@ document.addEventListener('DOMContentLoaded', function() {
           [`${contestType}_dem_candidate`]: v.demCand,
           [`${contestType}_rep_candidate`]: v.repCand
         }));
+      }
+
+      async function loadPrecinctDetailSlice(contestType, year) {
+        const key = `${contestType}_${year}`;
+        if (precinctDetailSliceCache.has(key)) return precinctDetailSliceCache.get(key);
+        if (precinctDetailSliceInflight.has(key)) return precinctDetailSliceInflight.get(key);
+
+        const p = atlasPerf(`slice.precinctDetail:${key}`, async () => {
+          if (getOpenElectionsCsvPath(contestType, Number(year))) {
+            const rows = await loadStatewideSliceFromOpenElectionsCSV(contestType, Number(year));
+            precinctDetailSliceCache.set(key, rows);
+            return rows;
+          }
+
+          const rows = await loadContestSlice(contestType, year);
+          const hasPrecinctRows = Array.isArray(rows) && rows.some(row => String(row?.county || '').includes(' - '));
+          const out = hasPrecinctRows ? rows : [];
+          precinctDetailSliceCache.set(key, out);
+          return out;
+        });
+
+        precinctDetailSliceInflight.set(key, p);
+        try {
+          return await p;
+        } finally {
+          precinctDetailSliceInflight.delete(key);
+        }
       }
 
       function computeStatewideMarginPctFromSliceRows(rows, contestType) {
@@ -31871,10 +31900,12 @@ document.addEventListener('DOMContentLoaded', function() {
       // provide a shorter base code (e.g. "03S" vs "03SE"/"03SM").
       let precinctIdx = null;
       let precinctAliasIdx = null;
+      let precinctContestData = null;
       if (needsPrecinctDetail) {
         try { precinctIdx = await ensurePrecinctCodeIndex(); } catch (_) { precinctIdx = null; }
         try { precinctAliasIdx = await ensurePrecinctAliasIndex(); } catch (_) { precinctAliasIdx = null; }
         try { await ensurePrecinctVariantOverrides(); } catch (_) {}
+        try { precinctContestData = await loadPrecinctDetailSlice(contestType, year); } catch (_) { precinctContestData = null; }
       }
       if (staleCheck()) return;
 
@@ -32099,6 +32130,10 @@ document.addEventListener('DOMContentLoaded', function() {
           : (needsPrecinctDetail && !skipPrecinctRowBuild ? `precinct.match.build:${precinctCacheKey}` : '');
         const perfT0 = (perfOn && perfLabel) ? atlasPerfNow() : 0;
 
+        const precinctRows = (needsPrecinctDetail && Array.isArray(precinctContestData) && precinctContestData.length)
+          ? precinctContestData
+          : contestData;
+
         for (const row of contestData) {
           if (staleCheck()) return;
           const rowName = (row.county || '').toString();
@@ -32117,24 +32152,6 @@ document.addEventListener('DOMContentLoaded', function() {
           const totalVotes = Number(adjusted.total || 0);
           const demCand = (row[`${contestType}_dem_candidate`] || '').toString();
           const repCand = (row[`${contestType}_rep_candidate`] || '').toString();
-
-          if (needsPrecinctDetail && !skipPrecinctRowBuild) {
-            const norms = precinctNormVariants(rowName);
-            const adjustedSigned = signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
-            const adjustedWinner = adjustedSigned > 0 ? 'REPUBLICAN' : (adjustedSigned < 0 ? 'DEMOCRAT' : 'TIE');
-            const adjustedRow = {
-              ...row,
-              [`${contestType}_dem`]: demVotes,
-              [`${contestType}_rep`]: repVotes,
-              [`${contestType}_other`]: otherVotes,
-              [`${contestType}_total`]: totalVotes,
-              [`${contestType}_margin_pct`]: adjustedSigned,
-              [`${contestType}_winner`]: adjustedWinner
-            };
-            norms.forEach(n => {
-              currentPrecinctResults.set(n, adjustedRow);
-            });
-          }
 
           if (!cachedAggBundle) {
             statewidedemVotes += demVotes;
@@ -32223,6 +32240,40 @@ document.addEventListener('DOMContentLoaded', function() {
             countyAgg[countyNorm][`${contestType}_rep`] += repVotes;
             countyAgg[countyNorm][`${contestType}_other`] += otherVotes;
             countyAgg[countyNorm][`${contestType}_total`] += totalVotes;
+          }
+        }
+
+        if (needsPrecinctDetail && !skipPrecinctRowBuild && currentPrecinctResults) {
+          for (const row of precinctRows) {
+            if (staleCheck()) return;
+            const rowName = (row.county || '').toString();
+            const countyOnly = rowName.includes(' - ') ? rowName.split(' - ')[0] : rowName;
+            const countyNorm = normalizeCountyName(countyOnly);
+            if (!countyNorm) continue;
+
+            const rawDemVotes = Number(row[`${contestType}_dem`] || 0);
+            const rawRepVotes = Number(row[`${contestType}_rep`] || 0);
+            const rawOtherVotes = Number(row[`${contestType}_other`] || 0);
+            const rawTotalVotes = Number(row[`${contestType}_total`] || 0);
+            const adjusted = applyScenarioShiftToVotes(countyNorm, rawDemVotes, rawRepVotes, rawOtherVotes, rawTotalVotes);
+            const demVotes = Number(adjusted.dem || 0);
+            const repVotes = Number(adjusted.rep || 0);
+            const otherVotes = Number(adjusted.other || 0);
+            const totalVotes = Number(adjusted.total || 0);
+            const adjustedSigned = signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
+            const adjustedWinner = adjustedSigned > 0 ? 'REPUBLICAN' : (adjustedSigned < 0 ? 'DEMOCRAT' : 'TIE');
+            const adjustedRow = {
+              ...row,
+              [`${contestType}_dem`]: demVotes,
+              [`${contestType}_rep`]: repVotes,
+              [`${contestType}_other`]: otherVotes,
+              [`${contestType}_total`]: totalVotes,
+              [`${contestType}_margin_pct`]: adjustedSigned,
+              [`${contestType}_winner`]: adjustedWinner
+            };
+            precinctNormVariants(rowName).forEach(n => {
+              currentPrecinctResults.set(n, adjustedRow);
+            });
           }
         }
 

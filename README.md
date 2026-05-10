@@ -29,6 +29,10 @@ An interactive, browser-based choropleth map of Virginia election results at the
 
 ## Project Overview
 
+`index.html` is the canonical production entry point for the Virginia map. It now carries the promoted NCMap-derived Virginia interface, including the aligned selected-locality focus design, Virginia locality normalization, district search shortcuts, and the current desktop/mobile UI parity work.
+
+The app expects a Mapbox token to be supplied at runtime through `window.MAPBOX_TOKEN` or `localStorage.mapbox_token`; the production entry point no longer ships with a hardcoded token fallback.
+
 Virginia holds elections on a distinct off-year cycle (gubernatorial and state legislative races in odd years, federal races in even years), and its 133 independent cities alongside 95 counties create one of the more complex local-government geographies in the United States.  This project assembles precinct-level election returns from 2008 through 2025 into a single interactive map that lets users:
 
 - Switch between **five election contests** (President, U.S. Senate, Governor, Lieutenant Governor, Attorney General) across **multiple years**
@@ -83,7 +87,7 @@ Virginia holds elections on a distinct off-year cycle (gubernatorial and state l
 
 ```
 VAPrecinctMap/
-├── index.html                          # Single-file front-end (Mapbox GL JS, styles, JS)
+├── index.html                          # Canonical production front-end (Mapbox GL JS, styles, JS)
 ├── README.md
 ├── .gitignore
 │

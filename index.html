@@ -10962,47 +10962,6 @@ document.addEventListener('DOMContentLoaded', function() {
         demCandidate: 'Roy Cooper',
         repCandidate: 'Michael Whatley',
         description: 'Blended 2022 + 2020 Senate anchors with a 2024 President climate and calibrated 55–60% turnout'
-      },
-      'nc_supreme_court_model_2026': {
-        contestType: 'nc_supreme_court_model',
-        year: 2026,
-        displayName: 'NC Supreme Court Model',
-        optionLabel: 'NC Supreme Court Associate Justice Seat 1 (2026) Model',
-        groupLabel: 'NC Supreme Court',
-        // Judicial models are intentionally more cautious: more shrinkage, less trend chasing,
-        // and extra brakes for counties that behave noisily in downballot races.
-        judicialModel: true,
-        baseContestType: 'nc_supreme_court_associate_justice_seat_05',
-        baseYear: 2022,
-        // Optional base blend: Seat 03 + Seat 05, then blend with the 2024 cycle.
-        baseMixContestType: 'nc_supreme_court_associate_justice_seat_03',
-        baseMixYear: 2022,
-        baseMixWeight: 0.5, // 0 => pure baseMix (Seat 03), 1 => pure base (Seat 05)
-        climateContestType: 'nc_supreme_court_associate_justice_seat_06',
-        climateYear: 2024,
-        // Calibration refinement (2026-04): judicial baselines can be noisier; keep more shrinkage to climate,
-        // apply stronger statewide recentering, and cap trend nudges.
-        blendWeight: 0.60, // roughly 40% climate + 30% Seat05 + 30% Seat03 (after baseMix)
-        statewideRecenterStrength: 0.95,
-        trendNudgeMaxPts: 0.45,
-        baselineReliabilityMinVotes: 15000,
-        baselineReliabilityMaxVotes: 110000,
-        baselineReliabilityFloor: 0.42,
-        stableCountyBrakeMin: 0.46,
-        safeCountyBrakeMargin: 16,
-        judicialNoiseSeatSplitBrakeEnabled: true,
-        judicialNoiseShareBrakeEnabled: true,
-        // Partisan anchor floor (minority share): prevents one noisy judicial cycle from overdriving crossover behavior.
-        partisanAnchorEnabled: true,
-        partisanAnchorWeight: 0.20, // 0.15..0.25 recommended; judicial blend should still dominate
-        partisanAnchorContestType: 'president',
-        partisanAnchorYear: 2024,
-        partisanAnchorSecondContestType: 'us_senate',
-        partisanAnchorSecondYear: 2022,
-        partisanAnchorSecondWeight: 0.40, // 0..1 share for the second anchor inside the partisan floor
-        demCandidate: 'Anita Earls',
-        repCandidate: 'Sarah Stevens',
-        description: 'Blend of 2022 Seat 03 + Seat 05 with a 2024 climate adjustment'
       }
     };
     const MODELED_SENATE_UX_FEATURES = {
@@ -19052,11 +19011,11 @@ document.addEventListener('DOMContentLoaded', function() {
           if (modeledDef?.groupLabel) return modeledDef.groupLabel;
 	        if (contestType === 'president') return 'US President';
 	        if (contestType === 'us_senate') return 'US Senate';
-	        if (contestType === 'governor') return 'NC Governor';
-	        if (contestType === 'lieutenant_governor') return 'NC Lieutenant Governor';
-	        if (contestType === 'attorney_general') return 'NC Attorney General';
-	        if (contestType === 'secretary_of_state') return 'NC Secretary of State';
-	        if (contestType === 'treasurer') return 'NC Treasurer';
+	        if (contestType === 'governor') return 'Governor';
+	        if (contestType === 'lieutenant_governor') return 'Lieutenant Governor';
+	        if (contestType === 'attorney_general') return 'Attorney General';
+	        if (contestType === 'secretary_of_state') return 'Secretary of State';
+	        if (contestType === 'treasurer') return 'Treasurer';
 	        if (contestType === 'auditor') return 'Auditor';
 	        if (contestType === 'labor_commissioner') return 'Labor Commissioner';
 	        if (contestType === 'insurance_commissioner') return 'Insurance Commissioner';
@@ -19067,6 +19026,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	        return formatContestName(contestType, '');
 	      }
 
+
+          function isCopiedNorthCarolinaContest(contestType) {
+            const ct = String(contestType || '').trim().toLowerCase();
+            return ct === 'nc_supreme_court_model'
+              || ct.startsWith('nc_supreme_court_')
+              || ct.startsWith('nc_court_of_appeals_');
+          }
+
 	      function extractSeatNumFromType(contestType) {
 	        const m = (contestType || '').match(/(?:seat_|seat)(\d+)/i);
 	        return m ? Number(m[1]) : null;
@@ -19075,11 +19042,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	      const groupOrder = [
 	        'US President',
 	        'US Senate',
-	        'NC Governor',
-	        'NC Lieutenant Governor',
-	        'NC Attorney General',
-	        'NC Secretary of State',
-	        'NC Treasurer',
+	        'Governor',
+	        'Lieutenant Governor',
+	        'Attorney General',
+	        'Secretary of State',
+	        'Treasurer',
 	        'Auditor',
 	        'Labor Commissioner',
 	        'Insurance Commissioner',
@@ -19091,6 +19058,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	      const grouped = new Map(); // label -> Array<{contestType, year}>
 	      Object.keys(contestYearPairs).forEach(contestType => {
+            if (isCopiedNorthCarolinaContest(contestType)) return;
 	        const label = groupLabelForContestType(contestType);
 	        const years = Array.from(contestYearPairs[contestType] || []).map(Number);
 	        years.forEach(year => {
@@ -19236,11 +19204,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	      function groupLabelForContestType(contestType) {
 	        if (contestType === 'president') return 'US President';
 	        if (contestType === 'us_senate') return 'US Senate';
-	        if (contestType === 'governor') return 'NC Governor';
-	        if (contestType === 'lieutenant_governor') return 'NC Lieutenant Governor';
-	        if (contestType === 'attorney_general') return 'NC Attorney General';
-	        if (contestType === 'secretary_of_state') return 'NC Secretary of State';
-	        if (contestType === 'treasurer') return 'NC Treasurer';
+	        if (contestType === 'governor') return 'Governor';
+	        if (contestType === 'lieutenant_governor') return 'Lieutenant Governor';
+	        if (contestType === 'attorney_general') return 'Attorney General';
+	        if (contestType === 'secretary_of_state') return 'Secretary of State';
+	        if (contestType === 'treasurer') return 'Treasurer';
 	        if (contestType === 'auditor') return 'Auditor';
 	        if (contestType === 'labor_commissioner') return 'Labor Commissioner';
 	        if (contestType === 'insurance_commissioner') return 'Insurance Commissioner';
@@ -19252,11 +19220,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	      const groupOrder = [
 	        'US President',
 	        'US Senate',
-	        'NC Governor',
-	        'NC Lieutenant Governor',
-	        'NC Attorney General',
-	        'NC Secretary of State',
-	        'NC Treasurer',
+	        'Governor',
+	        'Lieutenant Governor',
+	        'Attorney General',
+	        'Secretary of State',
+	        'Treasurer',
 	        'Auditor',
 	        'Labor Commissioner',
 	        'Insurance Commissioner',

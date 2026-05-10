@@ -10962,6 +10962,47 @@ document.addEventListener('DOMContentLoaded', function() {
         demCandidate: 'Roy Cooper',
         repCandidate: 'Michael Whatley',
         description: 'Blended 2022 + 2020 Senate anchors with a 2024 President climate and calibrated 55–60% turnout'
+      },
+      'nc_supreme_court_model_2026': {
+        contestType: 'nc_supreme_court_model',
+        year: 2026,
+        displayName: 'NC Supreme Court Model',
+        optionLabel: 'NC Supreme Court Associate Justice Seat 1 (2026) Model',
+        groupLabel: 'NC Supreme Court',
+        // Judicial models are intentionally more cautious: more shrinkage, less trend chasing,
+        // and extra brakes for counties that behave noisily in downballot races.
+        judicialModel: true,
+        baseContestType: 'nc_supreme_court_associate_justice_seat_05',
+        baseYear: 2022,
+        // Optional base blend: Seat 03 + Seat 05, then blend with the 2024 cycle.
+        baseMixContestType: 'nc_supreme_court_associate_justice_seat_03',
+        baseMixYear: 2022,
+        baseMixWeight: 0.5, // 0 => pure baseMix (Seat 03), 1 => pure base (Seat 05)
+        climateContestType: 'nc_supreme_court_associate_justice_seat_06',
+        climateYear: 2024,
+        // Calibration refinement (2026-04): judicial baselines can be noisier; keep more shrinkage to climate,
+        // apply stronger statewide recentering, and cap trend nudges.
+        blendWeight: 0.60, // roughly 40% climate + 30% Seat05 + 30% Seat03 (after baseMix)
+        statewideRecenterStrength: 0.95,
+        trendNudgeMaxPts: 0.45,
+        baselineReliabilityMinVotes: 15000,
+        baselineReliabilityMaxVotes: 110000,
+        baselineReliabilityFloor: 0.42,
+        stableCountyBrakeMin: 0.46,
+        safeCountyBrakeMargin: 16,
+        judicialNoiseSeatSplitBrakeEnabled: true,
+        judicialNoiseShareBrakeEnabled: true,
+        // Partisan anchor floor (minority share): prevents one noisy judicial cycle from overdriving crossover behavior.
+        partisanAnchorEnabled: true,
+        partisanAnchorWeight: 0.20, // 0.15..0.25 recommended; judicial blend should still dominate
+        partisanAnchorContestType: 'president',
+        partisanAnchorYear: 2024,
+        partisanAnchorSecondContestType: 'us_senate',
+        partisanAnchorSecondYear: 2022,
+        partisanAnchorSecondWeight: 0.40, // 0..1 share for the second anchor inside the partisan floor
+        demCandidate: 'Anita Earls',
+        repCandidate: 'Sarah Stevens',
+        description: 'Blend of 2022 Seat 03 + Seat 05 with a 2024 climate adjustment'
       }
     };
     const MODELED_SENATE_UX_FEATURES = {
@@ -11927,22 +11968,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function getModeledContestManifestEntries(view = currentView) {
-      const scope = view === 'districts'
-        ? 'congressional'
-        : (view === 'state_house' ? 'state_house' : (view === 'state_senate' ? 'state_senate' : ''));
-      return Object.values(MODELED_CONTEST_DEFINITIONS).map(def => ({
-        year: def.year,
-        scope: scope || undefined,
-        contest_type: def.contestType,
-        file: scope
-          ? `${scope}_${def.contestType}_${def.year}.synthetic.json`
-          : `${def.contestType}_${def.year}.synthetic.json`,
-        rows: 1,
-        districts: scope ? 1 : undefined,
-        major_party_contested: true,
-        modeled: true,
-        synthetic: true
-      }));
+      // Commonwealth Explorer cleanup: do not inject copied NC modeled contests
+      // (US Senate model / NC Supreme Court model) into the contest dropdown.
+      return [];
     }
 
     function mergeManifestEntriesWithModeled(entries, view = currentView) {
@@ -18996,6 +19024,16 @@ document.addEventListener('DOMContentLoaded', function() {
 	        const rows = Number(entry.rows || entry.districts || 0) || 0;
 	        if (!contestType || rows <= 0) return;
 
+          // Commonwealth Explorer cleanup: hide copied NC/model-only contest types from the dropdown.
+          // This prevents the NC Supreme Court model, NC Court of Appeals races, and the
+          // copied 2026 US Senate model from surfacing in this Virginia atlas.
+          const copiedNcOrModelContest =
+            contestType === 'us_senate_model' ||
+            contestType === 'nc_supreme_court_model' ||
+            contestType.startsWith('nc_supreme_court_') ||
+            contestType.startsWith('nc_court_of_appeals_');
+          if (copiedNcOrModelContest) return;
+
           // Hide older NC judicial contests until we have reliable D/R-alignment (endorsement) data.
           // NC appellate judicial races are nonpartisan in older cycles; without endorsements they read as "OTHER".
           const isJudicial = contestType.startsWith('nc_supreme_court_') || contestType.startsWith('nc_court_of_appeals_');
@@ -19026,14 +19064,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	        return formatContestName(contestType, '');
 	      }
 
-
-          function isCopiedNorthCarolinaContest(contestType) {
-            const ct = String(contestType || '').trim().toLowerCase();
-            return ct === 'nc_supreme_court_model'
-              || ct.startsWith('nc_supreme_court_')
-              || ct.startsWith('nc_court_of_appeals_');
-          }
-
 	      function extractSeatNumFromType(contestType) {
 	        const m = (contestType || '').match(/(?:seat_|seat)(\d+)/i);
 	        return m ? Number(m[1]) : null;
@@ -19052,13 +19082,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	        'Insurance Commissioner',
 	        'Agriculture Commissioner',
 	        'Superintendent of Public Instruction',
-	        'NC Supreme Court',
-	        'Court of Appeals'
+	
 	      ];
 
 	      const grouped = new Map(); // label -> Array<{contestType, year}>
 	      Object.keys(contestYearPairs).forEach(contestType => {
-            if (isCopiedNorthCarolinaContest(contestType)) return;
 	        const label = groupLabelForContestType(contestType);
 	        const years = Array.from(contestYearPairs[contestType] || []).map(Number);
 	        years.forEach(year => {

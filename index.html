@@ -10751,6 +10751,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let precinctCentroidsLoadInFlight = false;
     let countyNameByFipsMapCache = null; // Map<string fips3, string county_name>
     let precinctCodeIndexByCounty = null; // Map<string countyNorm, Set<string prec_id>> built from precinct centroids.
+    let precinctNormSet = null; // Set<string precinct_norm> from centroid source.
+    let precinctNormsByCounty = null; // Map<string countyNorm, Set<string precinct_norm>>.
+    let precinctLabelIndexByCounty = null; // Map<string countyNorm, Array<{norm,labelNorm}>>.
     let precinctAliasIndexByCounty = null; // Map<string countyNorm, Map<string alias, string[] codes>>
     let precinctFriendlyNameByCountyCode = null; // Map<string countyNorm, Map<string code, string displayName>>
     let precinctFriendlyNamesLoadInFlight = false;
@@ -28200,6 +28203,44 @@ document.addEventListener('DOMContentLoaded', function() {
           } catch (_) {}
 	        map.addSource('precinct-centroids', { type: 'geojson', data: pts });
 	        precinctCentroidsLoaded = true;
+          try {
+            const nSet = new Set();
+            const byCounty = new Map();
+            const labelIdx = new Map();
+            const normalizePrecinctLabel = (raw) => (raw || '')
+              .toString()
+              .toUpperCase()
+              .replace(/^[A-Z0-9.\-]+\s*-\s*/, '')
+              .replace(/^[A-Z0-9.\-]+\s+/, '')
+              .replace(/[^A-Z0-9 ]/g, ' ')
+              .replace(/\s+/g, ' ')
+              .trim();
+            (pts?.features || []).forEach(f => {
+              const p = f?.properties || {};
+              const n = (p.precinct_norm || '').toString().trim().toUpperCase();
+              if (!n) return;
+              nSet.add(n);
+              const county = (p.county_nam || p.COUNTYNAME || p.County || p.NAME || '')
+                .toString()
+                .replace(/[^a-z0-9 .\-]/gi, '')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .toUpperCase();
+              if (!county) return;
+              if (!byCounty.has(county)) byCounty.set(county, new Set());
+              byCounty.get(county).add(n);
+              const labelNorm = normalizePrecinctLabel(p.precinct_full_name || p.precinct_name || p.precinct_desc || p.enr_desc || p.ENR_DESC || '');
+              if (labelNorm) {
+                if (!labelIdx.has(county)) labelIdx.set(county, []);
+                labelIdx.get(county).push({ norm: n, labelNorm });
+              }
+            });
+            precinctNormSet = nSet;
+            precinctNormsByCounty = byCounty;
+            precinctLabelIndexByCounty = labelIdx;
+          } catch (err) {
+            console.warn('Failed to build precinct norm indexes:', err?.message || err);
+          }
 	        // Build a lightweight county -> precinct code index for key-variant matching.
 	        try {
 	          if (!precinctCodeIndexByCounty && pts && pts.features) {
@@ -31899,12 +31940,54 @@ document.addEventListener('DOMContentLoaded', function() {
       let precinctContestData = null;
       if (needsPrecinctDetail) {
         try { precinctIdx = await ensurePrecinctCodeIndex(); } catch (_) { precinctIdx = null; }
+          try { precinctContestData = await loadPrecinctDetailSlice(contestType, year); } catch (_) { precinctContestData = null; }
       }
       if (staleCheck()) return;
 
 	      function isNonGeographicPrecinctCode(code) {
 	        return isNonGeographicPrecinctToken(code);
 	      }
+
+        function normalizePrecinctLabel(raw) {
+          return (raw || '')
+            .toString()
+            .toUpperCase()
+            .replace(/^[A-Z0-9.\-]+\s*-\s*/, '')
+            .replace(/^[A-Z0-9.\-]+\s+/, '')
+            .replace(/[^A-Z0-9 ]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+        }
+
+        function matchPrecinctNormsByLabel(countyNorm, labelRaw) {
+          if (!countyNorm || !precinctLabelIndexByCounty) return [];
+          const pool = precinctLabelIndexByCounty.get(countyNorm);
+          if (!pool || !pool.length) return [];
+          const q = normalizePrecinctLabel(labelRaw);
+          if (!q) return [];
+
+          const exact = pool.filter(x => x.labelNorm === q).map(x => x.norm);
+          if (exact.length > 0 && exact.length <= 3) return Array.from(new Set(exact));
+
+          const qTokens = q.split(' ').filter(t => t.length >= 4);
+          if (!qTokens.length) return [];
+
+          const strong = pool
+            .filter(x => qTokens.every(t => x.labelNorm.includes(t)))
+            .map(x => x.norm);
+          if (strong.length > 0 && strong.length <= 3) return Array.from(new Set(strong));
+
+          const scored = pool
+            .map(x => ({ norm: x.norm, score: qTokens.filter(t => x.labelNorm.includes(t)).length }))
+            .filter(x => x.score >= Math.max(1, Math.floor(qTokens.length * 0.6)))
+            .sort((a, b) => b.score - a.score);
+          if (!scored.length) return [];
+          const best = scored[0].score || 0;
+          if (best <= 0) return [];
+          const top = scored.filter(x => x.score === best).map(x => x.norm);
+          if (top.length > 0 && top.length <= 2) return Array.from(new Set(top));
+          return [];
+        }
 
 	      function precinctNormVariants(rowName) {
 	        // rowName format: "COUNTY - PREC"
@@ -32234,6 +32317,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (needsPrecinctDetail && !skipPrecinctRowBuild && currentPrecinctResults) {
+          const precinctVoteAgg = new Map();
+          const unmatchedCountyGeoAgg = new Map();
+
+          function addPrecinctVotes(norm, demVotes, repVotes, otherVotes, demCand, repCand) {
+            if (!norm) return;
+            if (!precinctVoteAgg.has(norm)) {
+              precinctVoteAgg.set(norm, {
+                year: Number(year),
+                county: norm,
+                [`${contestType}_dem`]: 0,
+                [`${contestType}_rep`]: 0,
+                [`${contestType}_other`]: 0,
+                [`${contestType}_total`]: 0,
+                [`${contestType}_dem_candidate`]: demCand || '',
+                [`${contestType}_rep_candidate`]: repCand || ''
+              });
+            }
+            const node = precinctVoteAgg.get(norm);
+            node[`${contestType}_dem`] += Number(demVotes || 0);
+            node[`${contestType}_rep`] += Number(repVotes || 0);
+            node[`${contestType}_other`] += Number(otherVotes || 0);
+            node[`${contestType}_total`] += Number(demVotes || 0) + Number(repVotes || 0) + Number(otherVotes || 0);
+            if (!node[`${contestType}_dem_candidate`] && demCand) node[`${contestType}_dem_candidate`] = demCand;
+            if (!node[`${contestType}_rep_candidate`] && repCand) node[`${contestType}_rep_candidate`] = repCand;
+          }
+
           for (const row of precinctRows) {
             if (staleCheck()) return;
             const rowName = (row.county || '').toString();
@@ -32261,10 +32370,121 @@ document.addEventListener('DOMContentLoaded', function() {
               [`${contestType}_margin_pct`]: adjustedSigned,
               [`${contestType}_winner`]: adjustedWinner
             };
-            precinctNormVariants(rowName).forEach(n => {
-              currentPrecinctResults.set(n, adjustedRow);
+            const demCand = (adjustedRow[`${contestType}_dem_candidate`] || '').toString();
+            const repCand = (adjustedRow[`${contestType}_rep_candidate`] || '').toString();
+            const candidateNorms = precinctNormVariants(rowName);
+            if (!candidateNorms.length) continue;
+
+            let matchedNorms = candidateNorms.filter(n => !precinctNormSet || precinctNormSet.has(n));
+            if (!matchedNorms.length) {
+              const labelMatches = matchPrecinctNormsByLabel(countyNorm, row.precinct_label || rowName);
+              if (labelMatches.length) matchedNorms = labelMatches;
+            }
+
+            if (matchedNorms.length) {
+              const share = 1 / matchedNorms.length;
+              matchedNorms.forEach(n => addPrecinctVotes(n, demVotes * share, repVotes * share, otherVotes * share, demCand, repCand));
+              continue;
+            }
+
+            if (!unmatchedCountyGeoAgg.has(countyNorm)) {
+              unmatchedCountyGeoAgg.set(countyNorm, { dem: 0, rep: 0, other: 0, demCand: demCand || '', repCand: repCand || '' });
+            }
+            const miss = unmatchedCountyGeoAgg.get(countyNorm);
+            miss.dem += demVotes;
+            miss.rep += repVotes;
+            miss.other += otherVotes;
+            if (!miss.demCand && demCand) miss.demCand = demCand;
+            if (!miss.repCand && repCand) miss.repCand = repCand;
+          }
+
+          unmatchedCountyGeoAgg.forEach((miss, countyNorm) => {
+            const countyNorms = precinctNormsByCounty?.get(countyNorm)
+              ? Array.from(precinctNormsByCounty.get(countyNorm))
+              : [];
+            if (!countyNorms.length) return;
+
+            let denom = 0;
+            const weightBase = new Map();
+            countyNorms.forEach(n => {
+              const node = precinctVoteAgg.get(n);
+              const base = Number(node?.[`${contestType}_total`] || 0);
+              const adj = base > 0 ? base : 1;
+              weightBase.set(n, adj);
+              denom += adj;
+            });
+            const fallbackW = countyNorms.length ? (1 / countyNorms.length) : 0;
+
+            countyNorms.forEach(n => {
+              const w = denom > 0 ? ((weightBase.get(n) || 0) / denom) : fallbackW;
+              addPrecinctVotes(n, miss.dem * w, miss.rep * w, miss.other * w, miss.demCand, miss.repCand);
+            });
+          });
+
+          if (precinctNormsByCounty) {
+            precinctNormsByCounty.forEach((normSet, countyNorm) => {
+              const norms = Array.from(normSet || []);
+              if (!norms.length) return;
+              const countyNode = countyAgg[countyNorm];
+              if (!countyNode) return;
+
+              const countyDem = Number(countyNode[`${contestType}_dem`] || 0);
+              const countyRep = Number(countyNode[`${contestType}_rep`] || 0);
+              const countyOther = Number(countyNode[`${contestType}_other`] || 0);
+              const countyTotal = Number(countyNode[`${contestType}_total`] || 0);
+              if (countyTotal <= 0) return;
+
+              const zeroNorms = norms.filter(n => Number(precinctVoteAgg.get(n)?.[`${contestType}_total`] || 0) <= 0);
+              if (!zeroNorms.length) return;
+
+              const assigned = norms.reduce((acc, n) => {
+                const node = precinctVoteAgg.get(n);
+                acc.dem += Number(node?.[`${contestType}_dem`] || 0);
+                acc.rep += Number(node?.[`${contestType}_rep`] || 0);
+                acc.other += Number(node?.[`${contestType}_other`] || 0);
+                acc.total += Number(node?.[`${contestType}_total`] || 0);
+                return acc;
+              }, { dem: 0, rep: 0, other: 0, total: 0 });
+
+              let residualDem = Math.max(0, countyDem - assigned.dem);
+              let residualRep = Math.max(0, countyRep - assigned.rep);
+              let residualOther = Math.max(0, countyOther - assigned.other);
+
+              if ((residualDem + residualRep + residualOther) <= 0) {
+                const tinyTotal = Math.max(1, Math.round(countyTotal * 0.0001));
+                const demFrac = countyTotal > 0 ? (countyDem / countyTotal) : 0;
+                const repFrac = countyTotal > 0 ? (countyRep / countyTotal) : 0;
+                const otherFrac = countyTotal > 0 ? (countyOther / countyTotal) : 0;
+                residualDem = tinyTotal * demFrac;
+                residualRep = tinyTotal * repFrac;
+                residualOther = tinyTotal * otherFrac;
+              }
+
+              const share = 1 / zeroNorms.length;
+              zeroNorms.forEach(norm => {
+                addPrecinctVotes(
+                  norm,
+                  residualDem * share,
+                  residualRep * share,
+                  residualOther * share,
+                  countyNode[`${contestType}_dem_candidate`] || '',
+                  countyNode[`${contestType}_rep_candidate`] || ''
+                );
+              });
             });
           }
+
+          precinctVoteAgg.forEach((node, norm) => {
+            const total = Number(node?.[`${contestType}_total`] || 0);
+            const dem = Number(node?.[`${contestType}_dem`] || 0);
+            const rep = Number(node?.[`${contestType}_rep`] || 0);
+            const signed = signedMarginPctFromVotes(dem, rep, total);
+            currentPrecinctResults.set(norm, {
+              ...node,
+              [`${contestType}_margin_pct`]: signed,
+              [`${contestType}_winner`]: signed > 0 ? 'REPUBLICAN' : (signed < 0 ? 'DEMOCRAT' : 'TIE')
+            });
+          });
         }
 
         if (perfOn && perfLabel) {

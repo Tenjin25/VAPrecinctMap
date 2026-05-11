@@ -282,6 +282,18 @@ def derive_district(row: Dict[str, str]) -> str:
     return district_name
 
 
+def is_summary_candidate(candidate: str) -> bool:
+    c = clean_text(candidate).upper()
+    return c in {"TOTAL VOTES CAST", "UNDERVOTES", "OVERVOTES", "TOTAL"}
+
+
+def normalize_election_type(raw: str) -> str:
+    et = slugify(raw or "general")
+    if et == "general_election":
+        return "general"
+    return et
+
+
 def convert_long_file(
     csv_path: Path,
     output_root: Path,
@@ -295,22 +307,52 @@ def convert_long_file(
     election_date = ""
     election_type = "general"
     offices: set[str] = set()
+    current_locality = ""
 
     for row in rows:
-        county = normalize_locality(row.get("LocalityName", ""), locality_alias_map)
-        precinct = normalize_precinct(row.get("PrecinctName", ""))
-        office = clean_text(row.get("OfficeTitle", ""))
-        candidate = clean_text(row.get("CandidateName", ""))
-        party = normalize_party(row.get("Party", ""), candidate)
-        votes = parse_int(row.get("TOTAL_VOTES", ""))
-        district = derive_district(row)
+        # Format A: "Election Results_<GUID>.csv" (existing parser).
+        if "LocalityName" in row or "PrecinctName" in row or "OfficeTitle" in row:
+            county = normalize_locality(row.get("LocalityName", ""), locality_alias_map)
+            precinct = normalize_precinct(row.get("PrecinctName", ""))
+            office = clean_text(row.get("OfficeTitle", ""))
+            candidate = clean_text(row.get("CandidateName", ""))
+            party = normalize_party(row.get("Party", ""), candidate)
+            votes = parse_int(row.get("TOTAL_VOTES", ""))
+            district = derive_district(row)
+            row_election_date = clean_text(row.get("ElectionDate", ""))
+            row_election_type = clean_text(row.get("ElectionType", ""))
+        else:
+            # Format B: ELStats export with lowercase snake-case headers.
+            division_type = clean_text(row.get("division_type", ""))
+            division_name = clean_text(row.get("division_name", ""))
+            if division_type.lower() == "locality":
+                current_locality = normalize_locality(division_name, locality_alias_map)
+                continue
+            if division_type.lower() != "precinct":
+                continue
+
+            county = current_locality
+            precinct = normalize_precinct(division_name)
+            office = clean_text(row.get("office_name", ""))
+            candidate = clean_text(row.get("candidate_name", ""))
+            party = normalize_party(row.get("candidate_party_name", ""), candidate)
+            votes = parse_int(row.get("votes", ""))
+            district = ""
+            district_type = clean_text(row.get("district_type", ""))
+            district_name = clean_text(row.get("district_name", ""))
+            if district_name and district_type.lower() not in {"state", "commonwealth"}:
+                district = district_name
+            row_election_date = clean_text(row.get("election_date", ""))
+            row_election_type = clean_text(row.get("election_type", ""))
 
         if not election_date:
-            election_date = clean_text(row.get("ElectionDate", ""))
-        if clean_text(row.get("ElectionType", "")):
-            election_type = slugify(row.get("ElectionType", "general"))
+            election_date = row_election_date
+        if row_election_type:
+            election_type = normalize_election_type(row_election_type)
 
         if not county or not precinct or not office or not candidate or votes <= 0:
+            continue
+        if is_summary_candidate(candidate):
             continue
 
         offices.add(office)

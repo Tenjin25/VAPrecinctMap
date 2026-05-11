@@ -27,7 +27,7 @@ except ImportError as exc:
 
 SCOPES = ("congressional", "state_house", "state_senate")
 STATEWIDE_CONTESTS = ("president", "us_senate", "governor", "lieutenant_governor", "attorney_general")
-DISTRICT_CONTESTS = ("state_house", "state_senate")
+DISTRICT_CONTESTS = ("state_house", "state_senate", "us_house")
 ALL_CONTESTS = set(STATEWIDE_CONTESTS) | set(DISTRICT_CONTESTS)
 # Blend unmatched-vote allocation toward party-specific district shares while
 # retaining a strong anchor to county-level matched turnout shares.
@@ -112,7 +112,7 @@ def normalize_office_text(office: str) -> str:
     return re.sub(r"[^A-Z0-9 ]+", "", (office or "").upper()).strip()
 
 
-def classify_office(office: str, year: int) -> tuple[str, str, str | None] | None:
+def classify_office(office: str, year: int, district_hint: str = "") -> tuple[str, str, str | None] | None:
     norm = normalize_office_text(office)
     raw_u = (office or "").upper()
     if norm == "PRESIDENT":
@@ -133,6 +133,26 @@ def classify_office(office: str, year: int) -> tuple[str, str, str | None] | Non
     m_sen = re.search(r"MEMBER,\s*SENATE OF VIRGINIA\s*\((\d+)(?:ST|ND|RD|TH)\s+DISTRICT\)", raw_u)
     if m_sen and year in {2023, 2025}:
         return ("district", "state_senate", str(int(m_sen.group(1))))
+
+    # U.S. House district contests can appear with district in either the office
+    # string or the dedicated CSV district column (OpenElections style).
+    if norm in {
+        "US HOUSE",
+        "U S HOUSE",
+        "US HOUSE OF REPRESENTATIVES",
+        "U S HOUSE OF REPRESENTATIVES",
+        "HOUSE OF REPRESENTATIVES",
+    }:
+        if district_hint:
+            d = normalize_district_id(district_hint)
+            if d:
+                return ("district", "us_house", d)
+    m_us_house = re.search(
+        r"(?:US|U\.S\.|U S)\s+HOUSE(?:\s+OF\s+REPRESENTATIVES)?\s*\((\d+)(?:ST|ND|RD|TH)\s+DISTRICT\)",
+        raw_u,
+    )
+    if m_us_house:
+        return ("district", "us_house", str(int(m_us_house.group(1))))
 
     return None
 
@@ -744,7 +764,7 @@ def build_explicit_precinct_district_overrides(
             reader = csv.DictReader(f)
             for row in reader:
                 office = row.get("office", "")
-                classified = classify_office(office, year)
+                classified = classify_office(office, year, row.get("district", ""))
                 if not classified:
                     continue
                 kind, contest_type, office_district = classified
@@ -1017,7 +1037,7 @@ def build_district_contests(
             reader = csv.DictReader(f)
             for row in reader:
                 office = row.get("office", "")
-                classified = classify_office(office, year)
+                classified = classify_office(office, year, row.get("district", ""))
                 if not classified:
                     continue
 
@@ -1092,7 +1112,7 @@ def build_district_contests(
                 else:
                     if not office_district:
                         continue
-                    scope = contest_type
+                    scope = "congressional" if contest_type == "us_house" else contest_type
                     if allowed_scopes is not None and scope not in allowed_scopes:
                         continue
                     district_id = normalize_district_id(office_district)

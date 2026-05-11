@@ -162,6 +162,13 @@ def normalize_locality_key(raw: str) -> str:
     return s
 
 
+def normalize_openelections_locality_key(raw: str, year: int | None = None) -> str:
+    text = (raw or "").strip()
+    if year == 2025:
+        text = text.replace("&", " AND ")
+    return normalize_locality_key(text)
+
+
 def canonical_locality_from_census(name20: str, namelsad20: str) -> str:
     value = normalize_locality_key(namelsad20) or normalize_locality_key(name20)
     if not value:
@@ -204,8 +211,8 @@ def build_locality_alias_map(county_geojson: Path) -> dict[str, str]:
     }
 
 
-def canonicalize_locality(raw: str, locality_alias_map: dict[str, str]) -> str:
-    key = normalize_locality_key(raw)
+def canonicalize_locality(raw: str, locality_alias_map: dict[str, str], year: int | None = None) -> str:
+    key = normalize_openelections_locality_key(raw, year)
     if not key:
         return ""
     return locality_alias_map.get(key, key)
@@ -1031,7 +1038,7 @@ def build_district_contests(
                     if not allowed_scopes:
                         continue
 
-                county = canonicalize_locality(row.get("county", ""), locality_alias_map)
+                county = canonicalize_locality(row.get("county", ""), locality_alias_map, year=year)
                 precinct = row.get("precinct", "")
                 party_bucket = normalize_party_bucket(row.get("party", ""))
                 candidate = (row.get("candidate") or "").strip()

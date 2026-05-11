@@ -24,6 +24,13 @@ def normalize_key(value: str) -> str:
     return re.sub(r"\s+", " ", (value or "").strip()).upper()
 
 
+def normalize_openelections_locality(value: str, year: int | None = None) -> str:
+    text = (value or "").strip()
+    if year == 2025:
+        text = text.replace("&", " AND ")
+    return re.sub(r"\s+", " ", text).upper()
+
+
 def canonical_locality_from_census(name20: str, namelsad20: str) -> str:
     value = normalize_key(namelsad20) or normalize_key(name20)
     if not value:
@@ -67,8 +74,8 @@ def build_locality_alias_map(county_geojson: Path) -> dict[str, str]:
     }
 
 
-def normalize_locality(raw: str, locality_alias_map: dict[str, str]) -> str:
-    u = normalize_key(raw)
+def normalize_locality(raw: str, locality_alias_map: dict[str, str], year: int | None = None) -> str:
+    u = normalize_openelections_locality(raw, year)
     if not u:
         return ""
     m_city_of = re.match(r"^CITY OF\s+(.+)$", u)
@@ -156,7 +163,7 @@ def build_slices(openelections_dir: Path, locality_alias_map: dict[str, str]) ->
                 contest_type = classify_contest(row.get("office", ""))
                 if not contest_type:
                     continue
-                county = normalize_locality(row.get("county", ""), locality_alias_map)
+                county = normalize_locality(row.get("county", ""), locality_alias_map, year=year)
                 if not county:
                     continue
                 try:

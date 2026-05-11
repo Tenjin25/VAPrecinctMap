@@ -31926,6 +31926,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	      function normalizeCountyName(name) {
 	        return (name || '')
+              .replace(/&/g, ' AND ')
 	          .replace(/[^a-z0-9 .\-]/gi, '')
 	          .replace(/\s+/g, ' ')
 	          .trim()

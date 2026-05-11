@@ -13511,6 +13511,12 @@ document.addEventListener('DOMContentLoaded', function() {
       return votes.toLocaleString();
     }
 
+    function formatVoteCountForDisplay(value) {
+      const votes = Number(value || 0);
+      if (!Number.isFinite(votes)) return '0';
+      return Math.max(0, Math.round(votes)).toLocaleString();
+    }
+
     function formatCompactDeltaTotal(value) {
       const n = Number(value || 0);
       if (!Number.isFinite(n) || n <= 0) return '0';
@@ -13672,7 +13678,7 @@ document.addEventListener('DOMContentLoaded', function() {
       marginEl.textContent = leadLabel;
       marginEl.className = `focus-pill-value ${winnerParty}`;
       marginEl.title = leadLabel;
-      totalEl.textContent = total.toLocaleString();
+      totalEl.textContent = formatVoteCountForDisplay(total);
       barDem.style.width = `${demPct.toFixed(4)}%`;
       barOther.style.width = `${otherPct.toFixed(4)}%`;
       barRep.style.width = `${repPct.toFixed(4)}%`;
@@ -21131,7 +21137,7 @@ document.addEventListener('DOMContentLoaded', function() {
       marginEl.textContent = leadDisplayLabel;
       marginEl.className = `focus-pill-value ${winnerParty}`;
       marginEl.title = leadDisplayLabel;
-      totalEl.textContent = total.toLocaleString();
+      totalEl.textContent = formatVoteCountForDisplay(total);
       barDem.style.width = `${demPct.toFixed(4)}%`;
       barOther.style.width = `${otherPct.toFixed(4)}%`;
       barRep.style.width = `${repPct.toFixed(4)}%`;
@@ -21142,7 +21148,7 @@ document.addEventListener('DOMContentLoaded', function() {
       barRepLabelEl.textContent = isCountyContext
         ? `${shortCandidateLabel(resolvedCandidates.repCandidate, 'Rep')} ${formatPctForCountyCloseRace(repPct, marginPct)}%`
         : formatFocusBarLabel(resolvedCandidates.repCandidate, repPct, 'Rep', marginPct);
-      if (totalMetaEl) totalMetaEl.textContent = `${total.toLocaleString()} total votes`;
+      if (totalMetaEl) totalMetaEl.textContent = `${formatVoteCountForDisplay(total)} total votes`;
       if (leadMetaEl) {
         leadMetaEl.textContent = winnerParty === 'tie'
           ? 'Even race'
@@ -21607,19 +21613,19 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="rc-row">
             <div class="rc-chip">
               <div class="k">D: ${demFull}</div>
-              <div class="v" style="color:#1d4ed8;">${d.toLocaleString()} (${demPct.toFixed(2)}%)</div>
+              <div class="v" style="color:#1d4ed8;">${formatVoteCountForDisplay(d)} (${demPct.toFixed(2)}%)</div>
             </div>
             <div class="rc-chip">
               <div class="k">OTHER</div>
-              <div class="v" style="color:#475569;">${o.toLocaleString()} (${otherPct.toFixed(2)}%)</div>
+              <div class="v" style="color:#475569;">${formatVoteCountForDisplay(o)} (${otherPct.toFixed(2)}%)</div>
             </div>
             <div class="rc-chip">
               <div class="k">R: ${repFull}</div>
-              <div class="v" style="color:#b91c1c;">${r.toLocaleString()} (${repPct.toFixed(2)}%)</div>
+              <div class="v" style="color:#b91c1c;">${formatVoteCountForDisplay(r)} (${repPct.toFixed(2)}%)</div>
             </div>
           </div>
           <div style="margin-top:10px;font-size:12px;color:#64748b;">
-            Total votes: <strong style="color:#0f172a;">${total.toLocaleString()}</strong>
+            Total votes: <strong style="color:#0f172a;">${formatVoteCountForDisplay(total)}</strong>
           </div>
         </div>
       `;

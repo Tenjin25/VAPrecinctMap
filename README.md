@@ -21,15 +21,18 @@ An interactive, browser-based choropleth map of Virginia election results at the
 7. [Locality Canonicalization](#locality-canonicalization)
 8. [Precinct Matching & Label Enrichment](#precinct-matching--label-enrichment)
 9. [Front-End Architecture](#front-end-architecture)
-10. [Dependencies](#dependencies)
-11. [Known Limitations & Future Work](#known-limitations--future-work)
-12. [License](#license)
+10. [Index File Lineage](#index-file-lineage)
+11. [Dependencies](#dependencies)
+12. [Known Limitations & Future Work](#known-limitations--future-work)
+13. [License](#license)
 
 ---
 
 ## Project Overview
 
 `index.html` is the canonical production entry point for the Virginia map. It now carries the promoted NCMap-derived Virginia interface, including the aligned selected-locality focus design, Virginia locality normalization, district search shortcuts, and the current desktop/mobile UI parity work.
+
+Recent `index.html` changes restored precinct-mode behavior to match the simpler Virginia-safe `.v1` matching path. In practice that means precinct dot mode again loads the precinct-detail slice, rebuilds the centroid/label indexes used for matching, and redistributes unmatched geographic precinct rows across known county precinct norms instead of falling back to flat county coloring too early.
 
 The app expects a Mapbox token to be supplied at runtime through `window.MAPBOX_TOKEN` or `localStorage.mapbox_token`; the production entry point no longer ships with a hardcoded token fallback.
 
@@ -88,6 +91,10 @@ Virginia holds elections on a distinct off-year cycle (gubernatorial and state l
 ```
 VAPrecinctMap/
 ├── index.html                          # Canonical production front-end (Mapbox GL JS, styles, JS)
+├── index.v1.html                       # Virginia-only reference snapshot for earlier precinct matching behavior
+├── index.lastcommit.html               # Saved historical snapshot from an earlier committed front-end state
+├── index_no_rating_title_badge_fixed.html # UI snapshot preserving an earlier badge/title treatment
+├── index_va_trajectory_wrap_patched.html  # Trajectory-layout experiment / patched snapshot
 ├── README.md
 ├── .gitignore
 │
@@ -120,6 +127,8 @@ VAPrecinctMap/
 ```
 
 ZIP files are excluded from version control (`.gitignore`) because the TIGER tabblock and VTD archives exceed GitHub's recommended file-size limit.
+
+The additional `index*.html` files are snapshots and experiments, not parallel production entry points. `index.html` is the file that should be treated as current, while the others are useful for regression checks, UI comparison, or recovering a prior implementation detail.
 
 Additional utility scripts currently in `scripts/`:
 
@@ -556,6 +565,36 @@ For polygon and centroid GeoJSON features the `precinct_norm` compound key `COUN
 ## Front-End Architecture
 
 The entire front end lives in `index.html` — a single self-contained file with no build toolchain.
+
+### Recent `index.html` maintenance
+
+- Reverted precinct normalization away from NC-specific alias and override hooks so Virginia precinct codes are matched using the narrower `.v1`-style rules.
+- Restored precinct-detail row loading in precinct mode so statewide dot mode colors from precinct rows instead of county rows.
+- Reintroduced centroid-backed precinct norm indexes and label-based fallback matching used to resolve rows whose code token drifted but whose precinct label still matches loaded geometry.
+- Added county-level redistribution/backfill for unmatched geographic precinct rows so renamed or split precincts still receive a bounded color assignment instead of dropping out entirely.
+
+Those changes are the reason the current `main` branch once again populates precinct colors correctly in precinct mode.
+
+---
+
+## Index File Lineage
+
+The repository contains several HTML snapshots that reflect how the front end evolved:
+
+| File | Status | Purpose |
+|---|---|---|
+| `index.html` | Current | Canonical production front end on `main` |
+| `index.v1.html` | Reference | Earlier Virginia-only baseline used to compare precinct centroid behavior and matching logic |
+| `index.lastcommit.html` | Archive | Saved prior committed state for rollback/comparison |
+| `index_no_rating_title_badge_fixed.html` | Archive | UI variant preserving an earlier rating-title/badge fix |
+| `index_va_trajectory_wrap_patched.html` | Archive | Trajectory-layout patch snapshot |
+
+The most important practical distinction is between `index.html` and `index.v1.html`:
+
+- `index.v1.html` is the clean Virginia reference for older centroid matching behavior.
+- `index.html` is the living front end, but its current precinct-mode logic was intentionally brought back into alignment with `.v1` after NC-specific normalization drift caused precinct dots to stop populating reliably.
+
+When debugging future precinct regressions, compare `index.html` against `index.v1.html` first before assuming the broader NCMap-derived behavior is correct for Virginia.
 
 **Runtime dependencies (CDN):**
 

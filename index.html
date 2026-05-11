@@ -28570,7 +28570,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const code = resolvePrecinctCanonicalCode(countyNameOrNorm, precinctCodeRaw);
       if (!code) return '';
       const friendly = getPrecinctFriendlyName(countyNameOrNorm, code);
-      if (!friendly) return `Precinct ${code}`;
+      if (!friendly) return code;
       return `${friendly} (${code})`;
     }
 
@@ -28582,6 +28582,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const compact = upper.replace(/[^A-Z0-9]/g, '');
       const codeCompact = code ? code.replace(/[^A-Z0-9]/g, '') : '';
       if (codeCompact && compact === codeCompact) return true;
+      if (/^\d+\s*-\s*VTD\s*\d+$/i.test(full)) return true;
       if (/VOTING\s*DISTRICT/i.test(upper)) return true;
       // "CODE CODE" variants, or short opaque labels.
       if (codeCompact && compact === (codeCompact + codeCompact)) return true;
@@ -28597,11 +28598,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const full = String(fullName || '').replace(/\s+/g, ' ').trim();
       const fallbackFull = String(fallbackFullName || '').replace(/\s+/g, ' ').trim();
+      const fullLooksNoisy = isNoisyPrecinctFullName(full, rawCode);
+      const fallbackLooksNoisy = isNoisyPrecinctFullName(fallbackFull, rawCode);
 
       // If the shapefile's "full name" is just a code-ish token (or a "VOTING DISTRICT" placeholder),
       // prefer a real friendly label when we have it.
-      if (friendlyLabel && (isNoisyPrecinctFullName(full, rawCode) || isNoisyPrecinctFullName(fallbackFull, rawCode))) {
+      if (friendlyLabel && (fullLooksNoisy || fallbackLooksNoisy)) {
         return friendlyLabel;
+      }
+
+      // Match .v1 behavior more closely: when only a noisy VTD-style label is available,
+      // fall back to the canonical code instead of surfacing the raw shapefile text.
+      if (!friendlyLabel && (fullLooksNoisy || fallbackLooksNoisy) && canonicalCode) {
+        return canonicalCode;
       }
 
       // If the full name looks like "CRDM CREEDMOOR" or "01 PATTERSON", prefer the normalized friendly label.

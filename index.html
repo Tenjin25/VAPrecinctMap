@@ -14475,6 +14475,26 @@ document.addEventListener('DOMContentLoaded', function() {
       return out;
     }
 
+    function filterTrendSeriesForComparableContestYears(contestType, series, referenceYear) {
+      const ct = String(contestType || '').trim();
+      const list = Array.isArray(series) ? series.slice() : [];
+      if (ct !== 'us_senate' || !list.length) return list;
+
+      const normalized = list
+        .map(item => ({ item, year: Number(item?.year) }))
+        .filter(entry => Number.isFinite(entry.year))
+        .sort((a, b) => a.year - b.year);
+      if (!normalized.length) return list;
+
+      const anchorYearRaw = Number(referenceYear);
+      const fallbackYear = normalized[normalized.length - 1]?.year;
+      const anchorYear = Number.isFinite(anchorYearRaw) ? anchorYearRaw : fallbackYear;
+      if (!Number.isFinite(anchorYear)) return normalized.map(entry => entry.item);
+
+      const comparable = normalized.filter(entry => Math.abs(entry.year - anchorYear) % 6 === 0);
+      return (comparable.length ? comparable : normalized).map(entry => entry.item);
+    }
+
     async function refreshFocusTrend(state) {
       const reqId = ++voteCounterTrendRequestId;
       const contestValue = document.getElementById('contestSelect')?.value || '';
@@ -14524,6 +14544,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
           series = await getStatewideTrendSeries(contestType);
         }
+
+        series = filterTrendSeriesForComparableContestYears(contestType, series, Number(year));
 
         if ((meta.kind === 'county' || meta.kind === 'precinct') && meta.county) {
           try {

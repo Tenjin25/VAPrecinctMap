@@ -280,7 +280,6 @@
           { id: 'accessibility-toggle', label: 'Toggle color blind mode', keyShortcuts: 'B' },
           { id: 'label-toggle', label: 'Toggle county labels', keyShortcuts: 'L' },
           { id: 'precinct-toggle', label: 'Toggle precinct overlay', keyShortcuts: 'P' },
-          { id: 'split-ticket-toggle', label: 'Toggle split ticket comparison', keyShortcuts: 'T' },
           { id: 'gps-locate-btn', label: 'Find my precinct by GPS', keyShortcuts: 'G' },
           { id: 'follow-hover-toggle', label: 'Toggle auto hover while panning' },
           { id: 'snapshot-share-btn', label: 'Download story snapshot', keyShortcuts: 'X' },
@@ -350,10 +349,6 @@
         }
         if (ev.key === 'b' || ev.key === 'B') {
           const btn = document.getElementById('accessibility-toggle');
-          if (btn) btn.click();
-        }
-        if (ev.key === 't' || ev.key === 'T') {
-          const btn = document.getElementById('split-ticket-toggle');
           if (btn) btn.click();
         }
         if (ev.key === 'g' || ev.key === 'G') {
@@ -7632,7 +7627,6 @@ body.focus-active #hover-tooltip[data-context="preview"] {
       grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
 
-    .contest-toolbar #split-ticket-toggle,
     .contest-toolbar #gps-locate-btn,
     .contest-toolbar #snapshot-share-btn,
     .contest-toolbar #copy-link-btn,
@@ -7729,7 +7723,6 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     .contest-toolbar .tool-chip-select,
     .contest-toolbar #precinct-toggle,
     .contest-toolbar #snapshot-variant,
-    .contest-toolbar #split-ticket-toggle,
     .contest-toolbar #gps-locate-btn,
     .contest-toolbar #snapshot-share-btn,
     .contest-toolbar #copy-link-btn,
@@ -8939,16 +8932,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
   }
 
-  const splitTicketBtn = document.getElementById('split-ticket-toggle');
-  if (splitTicketBtn) {
-    if (typeof syncSplitTicketToggleUI === 'function') syncSplitTicketToggleUI();
-    splitTicketBtn.onclick = function() {
-      if (typeof toggleSplitTicketContest === 'function') {
-        toggleSplitTicketContest().catch(() => {});
-      }
-    };
-  }
-
   const barometerChip = document.getElementById('legend-bellwether-chip');
   if (barometerChip) {
     barometerChip.onclick = function() {
@@ -9406,7 +9389,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button id="accessibility-toggle" title="Accessibility: Color Blind Mode" data-testid="tool-colorblind" aria-label="Toggle color blind mode" aria-pressed="false">&#9855;</button>
                     <button id="label-toggle" title="Toggle County Labels" data-testid="tool-labels" aria-label="Toggle county labels" aria-pressed="true">Aa</button>
                     <button id="precinct-toggle" title="Enable Precinct Overlay (Zoom 8.0+)" data-testid="tool-precinct-overlay" aria-label="Toggle precinct overlay" aria-pressed="false">Precincts Off</button>
-                    <button id="split-ticket-toggle" title="Overlay Governor over President to highlight split-ticket patterns" class="tool-chip-btn" type="button" data-testid="tool-split-ticket" aria-label="Toggle split ticket comparison" aria-pressed="false">Pres-Gov</button>
                     <button id="snapshot-share-btn" title="Download 9:16 social snapshot" class="tool-chip-btn" type="button" data-testid="tool-snapshot" aria-label="Download story snapshot">Story Snapshot</button>
                     <select id="snapshot-variant" title="Story snapshot layout variant" class="tool-chip-select" data-testid="snapshot-variant" aria-label="Story snapshot layout variant">
                       <option value="balanced">Balanced</option>
@@ -23182,7 +23164,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	      const longShiftLinesHTML = [
 	        renderShiftLineHTML(shiftSince2008, 2008),
-	        renderShiftLineHTML(shiftSince2000, 2000)
 	      ].filter(Boolean).join('');
 
 	      const storyHTML = (latestResultText || recentShiftLineHTML || voteDeltaLineHTML || longShiftLinesHTML)
@@ -23993,6 +23974,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function syncSplitTicketToggleUI() {
       const btn = document.getElementById('split-ticket-toggle');
+      updateSplitTicketLegendChipVisibility();
       if (!btn) return;
       const enabled = !!splitTicketOverlayEnabled;
       btn.textContent = enabled ? 'Pres-Gov On' : 'Pres-Gov';
@@ -24006,7 +23988,6 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.title = enabled
         ? 'Disable split-ticket overlay (Governor over President).'
         : 'Overlay Governor results over President to highlight split-ticket places.';
-      updateSplitTicketLegendChipVisibility();
     }
 
     function setSplitTicketOverlayVisibility() {

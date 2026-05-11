@@ -1283,6 +1283,12 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   color: #64748b;
   line-height: 1.4;
 }
+.census-context-note {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.45;
+}
 .sidebar-winner {
   font-size: 14px !important;
   font-weight: 700 !important;
@@ -4375,6 +4381,11 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     font-size: 12px;
     line-height: 1.45;
     color: #334155;
+  }
+
+  .focus-census-note.is-subtle {
+    font-size: 11.5px;
+    color: #64748b;
   }
 
   .focus-census-source {
@@ -20426,7 +20437,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (key === 'A. GORE' || key === 'A GORE' || key === 'AL GORE') return 'Al Gore';
       if (key === 'G. W. BUSH' || key === 'G W BUSH' || key === 'GEORGE W BUSH') return 'George W. Bush';
       if (key === 'OBAMA' || key === 'B. OBAMA' || key === 'B OBAMA') return 'Barack Obama';
-      if (key === 'ROMNEY' || key === 'M. ROMNEY' || key === 'M ROMNEY') return 'Mitt Romney';
+      if (key === 'ROMNEY' || key === 'M. ROMNEY' || key === 'M ROMNEY' || key === 'WILLARD M. ROMNEY' || key === 'WILLARD M ROMNEY') return 'Mitt Romney';
       if (key === 'MCCAIN' || key === 'J. MCCAIN' || key === 'J MCCAIN') return 'John McCain';
       return raw;
     }
@@ -21798,10 +21809,304 @@ document.addEventListener('DOMContentLoaded', function() {
       return `${value > 0 ? 'up' : 'down'} ${Math.abs(value).toFixed(1)}%`;
     }
 
+    const VA_CORRIDOR_DESCRIPTORS = [
+      {
+        corridorEmoji: '🏙️',
+        macroRegion: 'Northern Virginia',
+        corridorLabel: 'NoVA outer-suburban growth',
+        corridorNote: 'Part of NoVA\'s outer growth ring, where housing and commuter churn have been more visible than in slower-growing Virginia localities.',
+        members: new Set(['LOUDOUN COUNTY', 'PRINCE WILLIAM COUNTY', 'MANASSAS CITY', 'MANASSAS PARK CITY', 'FAIRFAX CITY'])
+      },
+      {
+        corridorEmoji: '🏢',
+        macroRegion: 'Northern Virginia',
+        corridorLabel: 'NoVA mature core',
+        corridorNote: 'Part of NoVA\'s mature core, where electorate change is often shaped more by turnover and composition shifts than by raw new growth.',
+        members: new Set(['ARLINGTON COUNTY', 'FAIRFAX COUNTY', 'ALEXANDRIA CITY', 'FALLS CHURCH CITY'])
+      },
+      {
+        corridorEmoji: '🛣️',
+        macroRegion: 'Northern Virginia',
+        corridorLabel: 'I-95 Fredericksburg exurbs',
+        corridorNote: 'Sits along the Fredericksburg exurban belt, where spillover from the Washington commute shed has been a recurring backdrop.',
+        members: new Set(['STAFFORD COUNTY', 'SPOTSYLVANIA COUNTY', 'KING GEORGE COUNTY', 'FREDERICKSBURG CITY', 'CAROLINE COUNTY'])
+      },
+      {
+        corridorEmoji: '🏛️',
+        macroRegion: 'Richmond Metro',
+        corridorLabel: 'Richmond core',
+        corridorNote: 'In the Richmond core, where urban turnout and composition shifts tend to matter more than pure suburban expansion.',
+        members: new Set(['RICHMOND CITY', 'HENRICO COUNTY'])
+      },
+      {
+        corridorEmoji: '🏡',
+        macroRegion: 'Richmond Metro',
+        corridorLabel: 'Richmond exurbs',
+        corridorNote: 'In the Richmond exurbs, where outward metro growth and commuter churn have been part of the local context.',
+        members: new Set(['CHESTERFIELD COUNTY', 'HANOVER COUNTY', 'POWHATAN COUNTY', 'GOOCHLAND COUNTY', 'NEW KENT COUNTY', 'LOUISA COUNTY', 'KING WILLIAM COUNTY'])
+      },
+      {
+        corridorEmoji: '🌊',
+        macroRegion: 'Hampton Roads',
+        corridorLabel: 'Hampton Roads Southside edge',
+        corridorNote: 'On the Southside growth edge of Hampton Roads, where newer suburban expansion has been more visible than in the core cities.',
+        members: new Set(['SUFFOLK CITY', 'CHESAPEAKE CITY', 'ISLE OF WIGHT COUNTY'])
+      },
+      {
+        corridorEmoji: '🏖️',
+        macroRegion: 'Hampton Roads',
+        corridorLabel: 'Historic Triangle',
+        corridorNote: 'In the Historic Triangle, where Peninsula-side growth and tourism-driven churn create a different local backdrop from Southside Hampton Roads.',
+        members: new Set(['JAMES CITY COUNTY', 'WILLIAMSBURG CITY', 'YORK COUNTY'])
+      },
+      {
+        corridorEmoji: '⚓',
+        macroRegion: 'Hampton Roads',
+        corridorLabel: 'Hampton Roads urban core',
+        corridorNote: 'In the older Hampton Roads core, where slower growth and local churn matter more than rapid in-migration.',
+        members: new Set(['NORFOLK CITY', 'PORTSMOUTH CITY', 'NEWPORT NEWS CITY', 'HAMPTON CITY'])
+      },
+      {
+        corridorEmoji: '🏄',
+        macroRegion: 'Hampton Roads',
+        corridorLabel: 'Oceanfront mature suburb',
+        corridorNote: 'In the oceanfront suburban belt, where population change is usually steadier than in the newer Southside edge.',
+        members: new Set(['VIRGINIA BEACH CITY'])
+      },
+      {
+        corridorEmoji: '🦀',
+        macroRegion: 'Eastern Shore',
+        corridorLabel: 'Eastern Shore',
+        corridorNote: 'On the Eastern Shore, where slower population change often makes local turnout and composition shifts more noticeable than rapid growth.',
+        members: new Set(['ACCOMACK COUNTY', 'NORTHAMPTON COUNTY'])
+      },
+      {
+        corridorEmoji: '🚚',
+        macroRegion: 'Shenandoah Valley',
+        corridorLabel: 'I-81 Upper Valley',
+        corridorNote: 'In the upper Valley section of the I-81 corridor, tied more to Winchester and Front Royal growth patterns.',
+        members: new Set(['FREDERICK COUNTY', 'CLARKE COUNTY', 'WARREN COUNTY'])
+      },
+      {
+        corridorEmoji: '🧭',
+        macroRegion: 'Shenandoah Valley',
+        corridorLabel: 'I-81 Central Valley',
+        corridorNote: 'In the central Valley stretch of I-81, where logistics, college towns, and small-metro churn overlap.',
+        members: new Set(['SHENANDOAH COUNTY', 'PAGE COUNTY', 'ROCKINGHAM COUNTY', 'HARRISONBURG CITY', 'AUGUSTA COUNTY', 'STAUNTON CITY', 'WAYNESBORO CITY', 'ROCKBRIDGE COUNTY', 'LEXINGTON CITY'])
+      },
+      {
+        corridorEmoji: '🏔️',
+        macroRegion: 'Roanoke Valley',
+        corridorLabel: 'Roanoke Valley (I-81)',
+        corridorNote: 'In the Roanoke Valley section of I-81, where city-suburb sorting is usually more relevant than very fast net growth.',
+        members: new Set(['BOTETOURT COUNTY', 'ROANOKE COUNTY', 'ROANOKE CITY', 'SALEM CITY'])
+      },
+      {
+        corridorEmoji: '🎓',
+        macroRegion: 'New River Valley',
+        corridorLabel: 'New River Valley (I-81)',
+        corridorNote: 'In the New River Valley, where university and young-adult churn are a larger part of the regional backdrop.',
+        members: new Set(['MONTGOMERY COUNTY', 'RADFORD CITY'])
+      },
+      {
+        corridorEmoji: '⛰️',
+        macroRegion: 'Southwest Virginia',
+        corridorLabel: 'SW coalfield decline corridor',
+        corridorNote: 'In the Southwest coalfield corridor, where long-run population decline has been more pronounced than in most of Virginia.',
+        members: new Set(['BUCHANAN COUNTY', 'DICKENSON COUNTY', 'WISE COUNTY', 'TAZEWELL COUNTY', 'SMYTH COUNTY', 'LEE COUNTY', 'RUSSELL COUNTY', 'SCOTT COUNTY', 'NORTON CITY', 'BRISTOL CITY'])
+      },
+      {
+        corridorEmoji: '🏭',
+        macroRegion: 'Southside',
+        corridorLabel: 'Southside Dan River',
+        corridorNote: 'In the Dan River industrial belt of Southside, where slower growth and older industrial settlement patterns still shape the local context.',
+        members: new Set(['HALIFAX COUNTY', 'PITTSYLVANIA COUNTY', 'DANVILLE CITY', 'HENRY COUNTY', 'MARTINSVILLE CITY'])
+      },
+      {
+        corridorEmoji: '🌾',
+        macroRegion: 'Southside',
+        corridorLabel: 'Southside tobacco belt',
+        corridorNote: 'In the Southside tobacco belt, where population change tends to be steadier and more rural than in metro-adjacent Virginia.',
+        members: new Set(['BRUNSWICK COUNTY', 'MECKLENBURG COUNTY', 'LUNENBURG COUNTY', 'CHARLOTTE COUNTY'])
+      },
+      {
+        corridorEmoji: '🛣️',
+        macroRegion: 'Southside',
+        corridorLabel: 'Southside I-95 border',
+        corridorNote: 'Along the Southside I-95 border, where local churn is modest but still distinct from the interior counties.',
+        members: new Set(['GREENSVILLE COUNTY', 'EMPORIA CITY', 'SUSSEX COUNTY'])
+      },
+      {
+        corridorEmoji: '🌾',
+        macroRegion: 'Southside',
+        corridorLabel: 'Southside interior',
+        corridorNote: 'In Southside\'s interior, where long-run composition and turnout changes usually matter more than rapid in-migration.',
+        members: new Set(['PRINCE EDWARD COUNTY', 'BUCKINGHAM COUNTY', 'CUMBERLAND COUNTY'])
+      }
+    ];
+
+    const VA_MILITARY_HEAVY_LOCALITIES = new Set([
+      'CHESAPEAKE CITY',
+      'HAMPTON CITY',
+      'NEWPORT NEWS CITY',
+      'NORFOLK CITY',
+      'PORTSMOUTH CITY',
+      'VIRGINIA BEACH CITY'
+    ]);
+
+    const VA_COLLEGE_DRIVEN_LOCALITIES = new Set([
+      'ALBEMARLE COUNTY',
+      'CHARLOTTESVILLE CITY',
+      'HARRISONBURG CITY',
+      'JAMES CITY COUNTY',
+      'LEXINGTON CITY',
+      'MONTGOMERY COUNTY',
+      'RADFORD CITY'
+    ]);
+
+    const VA_MACRO_REGION_LOOKUP = (() => {
+      const lookup = new Map();
+      Object.values(REGION_JUMPS || {}).forEach(region => {
+        const label = String(region?.label || '').trim();
+        (region?.counties || []).forEach(name => {
+          const normalized = normalizePopulationLocalityKey(name);
+          if (normalized && label && !lookup.has(normalized)) lookup.set(normalized, label);
+        });
+      });
+      return lookup;
+    })();
+
+    function getVaCorridorDescriptor(countyNormRaw, estimate = null) {
+      const norm = normalizePopulationLocalityKey(countyNormRaw);
+      if (!norm) return null;
+
+      for (const descriptor of VA_CORRIDOR_DESCRIPTORS) {
+        if (descriptor.members.has(norm)) {
+          return {
+            corridorEmoji: descriptor.corridorEmoji || '',
+            macroRegion: descriptor.macroRegion,
+            corridorLabel: descriptor.corridorLabel,
+            corridorNote: descriptor.corridorNote
+          };
+        }
+      }
+
+      const totalPct = Number(estimate?.changePct2020To2025);
+      const macroRegion = VA_MACRO_REGION_LOOKUP.get(norm) || '';
+      if (macroRegion) {
+        return {
+          corridorEmoji: '',
+          macroRegion,
+          corridorLabel: '',
+          corridorNote: ''
+        };
+      }
+      if (Number.isFinite(totalPct) && totalPct >= 12) {
+        return {
+          corridorEmoji: '🚀',
+          macroRegion: '',
+          corridorLabel: 'High-growth outlier',
+          corridorNote: 'A population outlier relative to most Virginia localities, with faster recent churn than the statewide norm.'
+        };
+      }
+      if (Number.isFinite(totalPct) && totalPct <= -4) {
+        return {
+          corridorEmoji: '📉',
+          macroRegion: '',
+          corridorLabel: 'High-decline outlier',
+          corridorNote: 'A population-decline outlier relative to most Virginia localities, with slower turnover than faster-growing parts of the state.'
+        };
+      }
+      return null;
+    }
+
+    function getVirginiaGeographyPhrase(localityNormRaw, censusContext = null, options = {}) {
+      const norm = normalizePopulationLocalityKey(localityNormRaw);
+      const corridorLabel = String(censusContext?.corridorLabel || '').trim();
+      const corridorEmoji = String(censusContext?.corridorEmoji || '').trim();
+      const macroRegion = String(censusContext?.macroRegion || '').trim();
+      const forProfile = !!options?.forProfile;
+
+      if (forProfile && corridorLabel) {
+        return `${corridorEmoji ? `${corridorEmoji} ` : ''}${corridorLabel}`.trim();
+      }
+      if (/NoVA/i.test(corridorLabel)) return 'Northern Virginia';
+      if (/Richmond/i.test(corridorLabel)) return forProfile ? 'Richmond Metro' : 'the Richmond Metro';
+      if (/Hampton Roads|Historic Triangle|Oceanfront/i.test(corridorLabel)) return 'Hampton Roads';
+      if (/Eastern Shore/i.test(corridorLabel)) return forProfile ? 'Eastern Shore' : 'the Eastern Shore';
+      if (/New River Valley/i.test(corridorLabel)) return forProfile ? 'New River Valley' : 'the New River Valley';
+      if (/Roanoke Valley|Upper Valley|Central Valley|I-81/i.test(corridorLabel)) return forProfile ? 'I-81 corridor' : 'the I-81 corridor';
+      if (/I-95|Fredericksburg/i.test(corridorLabel)) return forProfile ? 'I-95 exurbs' : 'the I-95 exurbs';
+      if (/coalfield/i.test(corridorLabel)) return 'Southwest Virginia';
+      if (/Southside|Dan River|tobacco belt/i.test(corridorLabel)) return 'Southside';
+      if (macroRegion) return macroRegion;
+      if (norm && /CITY$/.test(norm)) return 'Independent city';
+      return 'Virginia';
+    }
+
+    function buildVirginiaLocalityArchetype(localityNormRaw, winnerCall, censusContext = null, trajectoryMeta = null) {
+      const norm = normalizePopulationLocalityKey(localityNormRaw);
+      const corridorLabel = String(censusContext?.corridorLabel || '').trim();
+      const marginPct = Math.abs(Number(winnerCall?.marginPct) || 0);
+      const party = String(winnerCall?.party || 'tie').toLowerCase();
+      const fastGrowth = Number(censusContext?.changePct2020To2025) >= 6;
+      const competitive = marginPct < 6 || String(trajectoryMeta?.statusMain || '').trim() === 'Competitive';
+
+      if (VA_MILITARY_HEAVY_LOCALITIES.has(norm)) {
+        if (competitive) return 'Military-heavy coastal battleground';
+        return party === 'dem' ? 'Military-heavy coastal Democratic base' : 'Military-heavy coastal GOP area';
+      }
+      if (VA_COLLEGE_DRIVEN_LOCALITIES.has(norm) || /New River Valley/i.test(corridorLabel)) {
+        if (competitive) return 'College-driven swing locality';
+        return 'College-driven locality';
+      }
+      if (/NoVA mature core/i.test(corridorLabel)) {
+        if (party === 'dem' && marginPct >= 12) return 'Northern Virginia Democratic stronghold';
+        if (competitive) return fastGrowth ? 'Fast-growing Northern Virginia battleground' : 'Northern Virginia swing locality';
+        if (party === 'rep' && fastGrowth) return 'Fast-growing Northern Virginia GOP outlier';
+        return party === 'dem' ? 'Northern Virginia Democratic-leaning suburb' : 'Northern Virginia Republican-leaning suburb';
+      }
+      if (/NoVA outer-suburban/i.test(corridorLabel)) {
+        if (competitive) return 'Fast-growing Northern Virginia battleground';
+        if (party === 'rep' && fastGrowth) return 'Fast-growing Northern Virginia GOP outlier';
+        return party === 'dem' ? 'Northern Virginia Democratic-leaning suburb' : 'Northern Virginia Republican-leaning suburb';
+      }
+      if (/I-95 Fredericksburg exurbs/i.test(corridorLabel)) {
+        if (competitive) return 'Fast-growing exurban battleground';
+        if (fastGrowth && party === 'rep') return 'Fast-growing exurban GOP area';
+        if (fastGrowth && party === 'dem') return 'Fast-growing Democratic-leaning suburb';
+        return party === 'rep' ? 'Republican-leaning exurb' : 'Democratic-leaning exurb';
+      }
+      if (/Richmond core/i.test(corridorLabel)) {
+        return party === 'dem' ? 'Richmond urban Democratic base' : 'Richmond crossover locality';
+      }
+      if (/Richmond exurbs/i.test(corridorLabel)) {
+        if (competitive) return 'Richmond suburban battleground';
+        if (fastGrowth && party === 'rep') return 'Fast-growing exurban GOP area';
+        if (party === 'dem') return 'Richmond suburban Democratic gain';
+        return 'Richmond-area Republican base';
+      }
+      if (/Hampton Roads|Historic Triangle|Oceanfront/i.test(corridorLabel)) {
+        if (competitive) return 'Tidewater swing region';
+        return party === 'dem' ? 'Tidewater Democratic anchor' : 'Tidewater Republican base';
+      }
+      if (/coalfield|Roanoke Valley|Upper Valley|Central Valley|Southside|Dan River|tobacco belt/i.test(corridorLabel)) {
+        if (party === 'rep' && marginPct >= 12) return 'Appalachian Republican base';
+        if (competitive) return 'Interior Virginia battleground';
+      }
+      if (fastGrowth && party === 'rep') return 'Fast-growing exurban GOP area';
+      if (fastGrowth && party === 'dem') return 'Fast-growing Democratic-leaning suburb';
+      if (competitive) return 'Virginia battleground locality';
+      if (party === 'rep') return marginPct >= 12 ? 'Rural Republican base' : 'Republican-leaning locality';
+      if (party === 'dem') return marginPct >= 12 ? 'Urban Democratic base' : 'Democratic-leaning locality';
+      return 'Closely divided locality';
+    }
+
     function getNcCensusContext(countyNorm) {
       const norm = normalizePopulationLocalityKey(countyNorm);
       const estimate = countyPopulationEstimatesByNorm?.get(norm) || null;
       const statewide = countyPopulationEstimateStatewide || null;
+      const corridor = getVaCorridorDescriptor(norm, estimate);
 
       const totalPct = Number(estimate?.changePct2020To2025);
       const recentPct = Number(estimate?.changePct2024To2025);
@@ -21886,6 +22191,10 @@ document.addEventListener('DOMContentLoaded', function() {
         patternLabel,
         noteEmoji,
         noteLabel,
+        corridorEmoji: corridor?.corridorEmoji || '',
+        macroRegion: corridor?.macroRegion || '',
+        corridorLabel: corridor?.corridorLabel || '',
+        corridorNote: corridor?.corridorNote || '',
         sourceNote
       };
     }
@@ -21980,7 +22289,10 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="census-context-card">
             <p class="census-context-line"><span class="census-emoji">${escapeHtml(context.signalEmoji || '📊')}</span><span><b>Population signal:</b> ${escapeHtml(context.signalLabel || 'Steady population signal')}</span></p>
             <p class="census-context-line"><span class="census-emoji">${escapeHtml(context.patternEmoji || '🧭')}</span><span><b>Growth pattern:</b> ${escapeHtml(context.patternLabel || 'Mixed local and regional forces')}</span></p>
+            ${context.macroRegion ? `<p class="census-context-line"><span class="census-emoji">🗺️</span><span><b>Regional context:</b> ${escapeHtml(context.macroRegion)}</span></p>` : ''}
             <p class="census-context-line"><span class="census-emoji">${escapeHtml(context.noteEmoji || '🗳️')}</span><span><b>Why it matters:</b> ${escapeHtml(context.noteLabel || '')}</span></p>
+            ${context.corridorLabel ? `<p class="census-context-note"><b>Subregion:</b> ${escapeHtml(context.corridorLabel)}</p>` : ''}
+            ${context.corridorNote ? `<p class="census-context-note">${escapeHtml(context.corridorNote)}</p>` : ''}
             <p class="census-context-source">${escapeHtml(context.sourceNote || '')}</p>
           </div>
         </div>
@@ -21990,6 +22302,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	    function renderFocusCensusInsightHTML(context, title = 'County Census Insight') {
 	      if (!context) return '';
 	      const growthType = classifyGrowthType(context?.countyNorm || '', Number(context?.changePct2020To2025));
+	      const macroRegion = String(context?.macroRegion || '').trim();
+	      const corridorLabel = String(context?.corridorLabel || '').trim();
 	      const growthChipHtml = growthType
 	        ? `
 	          <div class="focus-census-chips" aria-label="Growth type">
@@ -21997,6 +22311,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	          </div>
 	        `
 	        : '';
+	      const regionalChipHtml = macroRegion
+          ? `
+            <div class="focus-census-chips" aria-label="Regional context">
+              <span class="focus-trend-chip">${escapeHtml(macroRegion)}</span>
+            </div>
+          `
+          : '';
 	      return `
 	        <div class="focus-census-insight" role="note" aria-label="${escapeHtml(title)}">
 	          <div class="focus-census-head">
@@ -22011,7 +22332,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	            ${escapeHtml(context.patternLabel || 'Mixed local and regional forces')}
 	          </p>
 	          ${growthChipHtml}
+            ${regionalChipHtml}
 	          ${context.noteLabel ? `<p class="focus-census-note">${escapeHtml(context.noteLabel)}</p>` : ''}
+            ${corridorLabel ? `<p class="focus-census-note is-subtle"><strong>Regional context:</strong> ${escapeHtml(corridorLabel)}</p>` : ''}
 	          ${context.sourceNote ? `<p class="focus-census-source">${escapeHtml(context.sourceNote)}</p>` : ''}
 	        </div>
 	      `;
@@ -22345,9 +22668,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const stateSigned = ((sr - sd) / two) * 100;
         const delta = Number(selectedSigned) - stateSigned;
         if (!Number.isFinite(delta)) return '';
-        if (Math.abs(delta) < 0.005) return 'Compared with NC: about even';
+        if (Math.abs(delta) < 0.005) return 'Compared with VA: about even';
         const word = delta > 0 ? 'redder' : 'bluer';
-        return `Compared with NC: ${Math.abs(delta).toFixed(2)} pts ${word}`;
+        return `Compared with VA: ${Math.abs(delta).toFixed(2)} pts ${word}`;
       })();
 
       function buildNarrativeSentence(options = {}) {
@@ -27126,7 +27449,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
       }
 
-      const vsNcShort = (() => {
+      const vsVaShort = (() => {
         try {
           const rows = currentElectionResults ? Object.values(currentElectionResults) : [];
           if (!rows.length) return '';
@@ -27162,6 +27485,14 @@ document.addEventListener('DOMContentLoaded', function() {
       const glanceHeadline = winner === 'Tie'
         ? `${countyDisplay} is essentially tied in ${year}.`
         : `${countyDisplay} is a ${winner === 'Republican' ? 'GOP' : 'Democratic'} win in ${year} — ${marginShort}.`;
+
+      const populationSignalShort = (() => {
+        const signal = String(censusContext?.signalLabel || '').trim();
+        const totalPct = Number(censusContext?.changePct2020To2025);
+        if (signal && Number.isFinite(totalPct)) return `${signal} (${Math.abs(totalPct).toFixed(1)}%)`;
+        if (signal) return signal;
+        return 'Population data limited';
+      })();
 
       const popBullet = (() => {
         const pat = String(censusContext?.patternLabel || '').trim();
@@ -27206,6 +27537,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (absMargin >= 2) return { level: 'medium', label: 'Medium', pct: 46 };
         return { level: 'low', label: 'Low', pct: 30 };
       })();
+      const countyProfileCall = {
+        party: partyTone,
+        marginPct: Math.abs(Number(signedMarginPct) || 0)
+      };
+      const geographyShort = getVirginiaGeographyPhrase(norm, censusContext, { forProfile: true }) || 'Virginia';
+      const archetypeShort = buildVirginiaLocalityArchetype(norm, countyProfileCall, censusContext, null);
 
       const miniCards = [];
       miniCards.push({
@@ -27217,13 +27554,15 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         `
       });
-      miniCards.push({ k: 'Compared with NC', v: vsNcShort || '—' });
-      miniCards.push({ k: 'Total votes', v: totalVotes.toLocaleString() });
+      miniCards.push({ k: 'Compared with VA', v: vsVaShort || 'About even with Virginia.' });
+      miniCards.push({ k: 'Population signal', v: populationSignalShort });
+      miniCards.push({ k: 'Geography', v: geographyShort || 'Virginia' });
+      miniCards.push({ k: 'Archetype', v: archetypeShort || 'Virginia locality' });
       miniCards.push({ k: 'What to watch', v: 'Whether the next cycle confirms this direction.', id: 'county-watch' });
 
       focusContent += `
         <div class="focus-mini-grid" aria-label="Key facts">
-          ${miniCards.slice(0, 4).map(card => `
+          ${miniCards.map(card => `
             <div class="focus-mini-card">
               <span class="k">${escapeHtml(card.k)}</span>
               ${card.html

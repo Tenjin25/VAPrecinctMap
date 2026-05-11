@@ -29688,6 +29688,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       if (parsed.kind === 'precinct') {
+        if (currentView !== 'counties') {
+          await setMapView('counties');
+        }
+        if (!precinctsEnabled && typeof togglePrecinctOverlay === 'function') {
+          await togglePrecinctOverlay();
+        }
         await handlePrecinctSelection(parsed.county, parsed.code);
         return;
       }

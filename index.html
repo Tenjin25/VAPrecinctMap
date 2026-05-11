@@ -20006,6 +20006,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const raw = (name || '').toString().trim();
       if (!raw) return fallback;
       const ticketLead = stripRunningMateName(raw);
+      if (/^Joseph\s+Robinette\s+Biden\s*,?\s*Jr\.?$/i.test(ticketLead)) {
+        return 'Joseph R. Biden';
+      }
       const cleaned = ticketLead.replace(/\([^)]*\)/g, ' ').replace(/[^A-Za-z .,\'-]/g, ' ').replace(/\s+/g, ' ').trim();
       if (!cleaned) return fallback;
       return toTitleCaseName(cleaned);

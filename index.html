@@ -21014,9 +21014,18 @@ document.addEventListener('DOMContentLoaded', function() {
       const winnerShort = winnerPartyKey === 'rep' ? 'Trump' : (winnerPartyKey === 'dem' ? 'Harris' : 'Tie');
       const winnerText = (winnerName || winnerShort || '').toString().trim();
       const winnerToneClass = winnerPartyKey === 'rep' ? 'rep' : (winnerPartyKey === 'dem' ? 'dem' : 'tie');
-      const winnerDisplayText = (winnerLineText || '').toString().trim() || `${winnerText} +${marginFormatter(marginAbs)}%`;
+      const voteMarginLabel = Math.abs(rVotes - dVotes).toLocaleString();
+      const winnerDisplayText = (winnerLineText || '').toString().trim()
+        || (winnerPartyKey === 'tie'
+          ? 'Tie'
+          : `${winnerText} +${marginFormatter(marginAbs)}% ${voteMarginLabel} votes`);
+      const voteLeadStyle = winnerToneClass === 'rep'
+        ? 'font-size:12px;font-weight:800;opacity:0.96;color:#fecaca;font-family:\"JetBrains Mono\",\"Consolas\",\"SFMono-Regular\",monospace;'
+        : (winnerToneClass === 'dem'
+          ? 'font-size:12px;font-weight:800;opacity:0.96;color:#bfdbfe;font-family:\"JetBrains Mono\",\"Consolas\",\"SFMono-Regular\",monospace;'
+          : 'font-size:12px;font-weight:800;opacity:0.92;color:#e2e8f0;font-family:\"JetBrains Mono\",\"Consolas\",\"SFMono-Regular\",monospace;');
       const winnerLine = showWinnerLine
-        ? `<div class="vhr-winner ${winnerToneClass}">${escapeHtml(winnerDisplayText)}</div>`
+        ? `<div class="vhr-winner ${winnerToneClass}" style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;"><span>${escapeHtml(winnerDisplayText)}</span><span class="vhr-raw-lead ${winnerToneClass}" style="${voteLeadStyle}">${escapeHtml(`${formatVotehubVotes(Math.abs(rVotes - dVotes))} votes`)}</span></div>`
         : '';
       const prevSigned = Number(prevSignedMarginPct);
       const curSigned = Number(currentSignedMarginPct);

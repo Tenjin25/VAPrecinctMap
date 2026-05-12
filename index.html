@@ -717,24 +717,6 @@ body.focus-active.hover-preview-active .vote-counter {
   font-weight: 600;
 }
 
-#hover-tooltip[data-context="votehub-results"] .vhr-row.rep .vhr-name,
-#hover-tooltip[data-context="votehub-results"] .vhr-row.rep .vhr-votes,
-#hover-tooltip[data-context="votehub-results"] .vhr-row.rep .vhr-pct {
-  color: #dc2626;
-}
-
-#hover-tooltip[data-context="votehub-results"] .vhr-row.dem .vhr-name,
-#hover-tooltip[data-context="votehub-results"] .vhr-row.dem .vhr-votes,
-#hover-tooltip[data-context="votehub-results"] .vhr-row.dem .vhr-pct {
-  color: #1d4ed8;
-}
-
-#hover-tooltip[data-context="votehub-results"] .vhr-row.other .vhr-name,
-#hover-tooltip[data-context="votehub-results"] .vhr-row.other .vhr-votes,
-#hover-tooltip[data-context="votehub-results"] .vhr-row.other .vhr-pct {
-  color: #475569;
-}
-
 #hover-tooltip[data-context="votehub-results"] .vhr-votes,
 #hover-tooltip[data-context="votehub-results"] .vhr-pct {
   font-variant-numeric: tabular-nums;
@@ -21014,8 +20996,8 @@ document.addEventListener('DOMContentLoaded', function() {
         return formatVotehubPct(v, 2);
       };
       const rows = [];
-      const demLabel = fullCandidateLabel(demName, 'Democratic');
-      const repLabel = fullCandidateLabel(repName, 'Republican');
+      const demLabel = (demName || 'Democratic').toString().trim() || 'Democratic';
+      const repLabel = (repName || 'Republican').toString().trim() || 'Republican';
       const otherLabel = (otherName || 'Other').toString().trim() || 'Other';
 
       const candidateRows = [

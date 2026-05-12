@@ -4,6 +4,20 @@ An interactive, browser-based choropleth map of Virginia election results at the
 
 ---
 
+## Latest Update (May 12, 2026)
+
+- Added compact VoteHub-style hover cards for:
+  - Precinct mode
+  - Congressional districts
+  - House of Delegates districts
+  - State Senate districts
+- Kept county/locality hover on the existing richer atlas-style tooltip path (unchanged).
+- Added winner-line margin display (with `%`) and optional flip callouts (`Flipped R→D` / `Flipped D→R`) with party-color emphasis.
+- Re-aligned compact-card decimal behavior to the existing front-end display pipeline to reduce drift between row shares and winner margin text.
+- Preserved map coloring logic, selected locality panel structure, trend/timeline systems, and mobile docking behavior.
+
+---
+
 ## Table of Contents
 
 1. [Project Overview](#project-overview)

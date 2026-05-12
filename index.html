@@ -929,16 +929,17 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   list-style: none;
   cursor: pointer;
   user-select: none;
-  display: inline-flex;
+  display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
   min-height: 44px;
-  padding: 8px 12px;
+  padding: 11px 14px;
   border-radius: 12px;
   border: 1px solid rgba(148, 163, 184, 0.22);
   background: rgba(15, 23, 42, 0.18);
   color: rgba(226, 232, 240, 0.96);
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -26115,8 +26116,6 @@ document.addEventListener('DOMContentLoaded', function() {
         : '';
 
       const marginCall = winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate, signedMarginPct, { precision: 'county' });
-      const tierShort = tierMeta?.shortLabel || tierMeta?.label || '';
-      const tierLong = tierMeta?.label || '';
       const flipLine = (prevSignedForFlip !== null)
         ? flipLineHTML(prevSignedForFlip, signedMarginPct, vizPrevCache?.prevYear || null, Number(year))
         : '';
@@ -26157,76 +26156,55 @@ document.addEventListener('DOMContentLoaded', function() {
       })();
       const finalInsight = tooltipInsight || smartInsight;
       const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
-      const desktopCollapsed = isDesktopTooltipMode() && !pinnedShell;
-      const deltaBlock = buildCountyDeltaBlockHTML(norm, contestType, { presentation: desktopCollapsed ? 'desktop-collapsed' : 'desktop-expanded' });
-      const useCompact = isMobileTooltipMode();
-
-      const classicInner = `
-        <div class="hover-meta">${chips.join('')}</div>
-        ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate, { precision: 'county' })}
+      const deltaBlock = buildCountyDeltaBlockHTML(norm, contestType, { presentation: 'desktop-expanded' });
+      const winnerName = winner === 'R'
+        ? shortCandidateLabel(repCandidate, 'Republican')
+        : (winner === 'D' ? shortCandidateLabel(demCandidate, 'Democratic') : 'Tie');
+      const winnerParty = winner === 'R' ? 'rep' : (winner === 'D' ? 'dem' : 'tie');
+      const votehubCore = buildVotehubResultsTooltip({
+        title: `${countyDisplay}`,
+        subtitle: 'County',
+        demName: demCandidate,
+        repName: repCandidate,
+        otherName: 'Other',
+        demVotes,
+        repVotes,
+        otherVotes,
+        totalVotes,
+        winnerName,
+        winnerParty,
+        marginPct: Math.abs(signedMarginPct),
+        winnerLineText: marginCall?.text || '',
+        prevSignedMarginPct: prevSignedForFlip,
+        currentSignedMarginPct: signedMarginPct,
+        flipYearLabel: vizPrevCache?.prevYear || null,
+        districtType: 'County',
+        showWinnerLine: true
+      });
+      const detailLines = `
         ${finalInsight ? `<div class="tooltip-insight">${escapeHtml(finalInsight)}</div>` : ''}
+        ${shiftLine}
+        ${flipLine}
         ${deltaBlock}
         ${splitInsightLine}
         ${demoLine}
       `.trim();
-
-      const desktopCollapsedInner = `
-        <div class="tooltip-quickline">
-          <span class="${escapeHtml(marginCall.party || 'tie')}">${escapeHtml(marginCall.text || '')}</span>
-          ${tierLong ? `<span class="tier">${escapeHtml(tierLong)}</span>` : ''}
-        </div>
-        ${shiftLine}
-        ${flipLine}
-        ${finalInsight ? `<div class="tooltip-insight">${escapeHtml(finalInsight)}</div>` : ''}
-        ${deltaBlock}
-      `.trim();
-
-      const compactInner = `
-        <div class="tooltip-quickline">
-          <span class="${escapeHtml(marginCall.party || 'tie')}">${escapeHtml(marginCall.text || '')}</span>
-          ${tierShort ? `<span class="tier">${escapeHtml(tierShort)}</span>` : ''}
-        </div>
-        ${shiftLine}
-        ${flipLine}
-        ${finalInsight ? `<div class="tooltip-insight">${escapeHtml(finalInsight)}</div>` : ''}
-        ${deltaBlock}
+      const inner = `
+        ${votehubCore}
         <details class="tooltip-more" aria-label="More details">
-          <summary>Details</summary>
-          <div class="tooltip-more-body">
-            <div class="hover-meta">${chips.join('')}</div>
-            ${buildResultCardHTML('', subtitle, demVotes, repVotes, otherVotes, demCandidate, repCandidate, { precision: 'county' })}
-            ${splitInsightLine}
-            ${demoLine}
-          </div>
+          <summary>More details</summary>
+          <div class="tooltip-more-body">${detailLines}</div>
         </details>
       `.trim();
-      const actionHint = useCompact
-        ? (pinnedShell ? 'Pinned • tap Close to dismiss' : (isTouchInteractionMode() ? 'Tap to pin details' : 'Click to pin details'))
-        : '';
-      const inner = isDesktopTooltipMode()
-        ? (desktopCollapsed ? desktopCollapsedInner : classicInner)
-        : `${useCompact ? compactInner : classicInner}${actionHint ? `<div class="tooltip-hint">${escapeHtml(actionHint)}</div>` : ''}`;
 
-      const hoverTitle = buildTooltipTitleWithTier(`${countyDisplay}`);
       const copyText = `${countyDisplay}`;
       showHoverTooltip(
         e.point.x,
         e.point.y,
-        buildTooltipShell(hoverTitle, inner, { pinned: pinnedShell, showClose: pinnedShell, copyText }),
-        { force: !!forceTooltip, pinned: pinnedShell, context: pinnedShell ? 'pinned' : 'detail', copyText }
+        buildTooltipShell('', inner, { pinned: pinnedShell, showClose: pinnedShell, copyText }),
+        { force: !!forceTooltip, pinned: pinnedShell, context: 'votehub-results', copyText }
       );
-      if (desktopCollapsed) {
-        desktopHoverExpandState = {
-          kind: 'county',
-          x: e.point.x,
-          y: e.point.y,
-          title: hoverTitle,
-          expandedInner: classicInner,
-          copyText
-        };
-      } else {
-        clearDesktopHoverExpandState();
-      }
+      clearDesktopHoverExpandState();
       wireTooltipButtons();
       try { markOnboardingSeen(); } catch (_) {}
     }

@@ -2475,8 +2475,8 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   overflow-wrap: anywhere;
 }
 
-.vote-label.dem { color: var(--state-blue); }
-.vote-label.rep { color: var(--state-red); }
+.vote-label.dem { color: #2563eb; }
+.vote-label.rep { color: #dc2626; }
 .vote-label.other { color: #6b7280; }
 
 .vote-count {
@@ -2485,8 +2485,8 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   font-variant-numeric: tabular-nums;
 }
 
-.vote-count.dem { color: var(--state-blue); }
-.vote-count.rep { color: var(--state-red); }
+.vote-count.dem { color: #2563eb; }
+.vote-count.rep { color: #dc2626; }
 
 .vote-percent {
   font-size: 13px;
@@ -7065,8 +7065,8 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     flex: 0 0 auto;
   }
 
-  .vote-item.dem .vote-swatch { background: var(--state-blue); }
-  .vote-item.rep .vote-swatch { background: var(--state-red); }
+  .vote-item.dem .vote-swatch { background: #2563eb; }
+  .vote-item.rep .vote-swatch { background: #dc2626; }
   .vote-item.other .vote-swatch { background: #64748b; }
 
   .vote-count {
@@ -7120,8 +7120,8 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     transition: width 240ms ease;
   }
 
-  .vote-share-fill.dem { background: linear-gradient(90deg, #6489bd 0%, var(--state-blue) 100%); }
-  .vote-share-fill.rep { background: linear-gradient(90deg, #cf5f7e 0%, var(--state-red) 100%); }
+  .vote-share-fill.dem { background: linear-gradient(90deg, #93c5fd 0%, #2563eb 100%); }
+  .vote-share-fill.rep { background: linear-gradient(90deg, #fca5a5 0%, #dc2626 100%); }
   .vote-share-fill.other { background: linear-gradient(90deg, #94a3b8 0%, #64748b 100%); }
 
   /* Safe fallback: if one-line layout overflows, JS adds .layout-stacked per card. */
@@ -27808,7 +27808,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       let demColor;
       if (isColorblind) demColor = cbColorForMargin(parseFloat(marginPct), 'D');
-      else demColor = '#1d4ed8';
+      else demColor = '#2563eb';
 
       focusContent += `
         <details class="focus-disclosure" id="county-vote-details">

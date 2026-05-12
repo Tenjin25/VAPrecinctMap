@@ -27793,7 +27793,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const splitInsight = getSplitTicketCountyInsight(norm, contestType, demVotes, repVotes, totalVotes);
 
       // For colorblind mode, use the correct accessibility palette for Republican vote breakdown
-      let repColor = '#f87171';
+      let repColor = '#dc2626';
       if (isColorblind) {
         if (parseFloat(marginPct) >= 40) repColor = '#cc5500';
         else if (parseFloat(marginPct) >= 30 && parseFloat(marginPct) <= 39.99) repColor = '#ff6600';
@@ -27804,11 +27804,11 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (parseFloat(marginPct) >= 0.51 && parseFloat(marginPct) <= 0.99) repColor = '#ffeecc';
         else repColor = '#cccccc';
       } else {
-        repColor = '#f87171';
+        repColor = '#dc2626';
       }
       let demColor;
       if (isColorblind) demColor = cbColorForMargin(parseFloat(marginPct), 'D');
-      else demColor = '#60a5fa';
+      else demColor = '#1d4ed8';
 
       focusContent += `
         <details class="focus-disclosure" id="county-vote-details">

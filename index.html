@@ -20963,11 +20963,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const repLabel = (repName || 'Republican').toString().trim() || 'Republican';
       const otherLabel = (otherName || 'Other').toString().trim() || 'Other';
 
-      rows.push(`<div class="vhr-row rep"><span class="vhr-dot"></span><span class="vhr-name">${escapeHtml(repLabel)}</span><span class="vhr-votes">${escapeHtml(formatVotehubVotes(rVotes))}</span><span class="vhr-pct">${escapeHtml(pctFormatter(repPct))}%</span></div>`);
-      rows.push(`<div class="vhr-row dem"><span class="vhr-dot"></span><span class="vhr-name">${escapeHtml(demLabel)}</span><span class="vhr-votes">${escapeHtml(formatVotehubVotes(dVotes))}</span><span class="vhr-pct">${escapeHtml(pctFormatter(demPct))}%</span></div>`);
-      if (oVotes > 0) {
-        rows.push(`<div class="vhr-row other"><span class="vhr-dot"></span><span class="vhr-name">${escapeHtml(otherLabel)}</span><span class="vhr-votes">${escapeHtml(formatVotehubVotes(oVotes))}</span><span class="vhr-pct">${escapeHtml(pctFormatter(otherPct))}%</span></div>`);
-      }
+      const candidateRows = [
+        { partyClass: 'rep', label: repLabel, votes: rVotes, pct: repPct },
+        { partyClass: 'dem', label: demLabel, votes: dVotes, pct: demPct }
+      ];
+      if (oVotes > 0) candidateRows.push({ partyClass: 'other', label: otherLabel, votes: oVotes, pct: otherPct });
+      candidateRows.sort((a, b) => (Number(b.votes || 0) - Number(a.votes || 0)));
+      candidateRows.forEach(row => {
+        rows.push(`<div class="vhr-row ${row.partyClass}"><span class="vhr-dot"></span><span class="vhr-name">${escapeHtml(row.label)}</span><span class="vhr-votes">${escapeHtml(formatVotehubVotes(row.votes))}</span><span class="vhr-pct">${escapeHtml(pctFormatter(row.pct))}%</span></div>`);
+      });
 
       const winnerPartyKey = String(winnerParty || '').toLowerCase();
       const winnerShort = winnerPartyKey === 'rep' ? 'Trump' : (winnerPartyKey === 'dem' ? 'Harris' : 'Tie');

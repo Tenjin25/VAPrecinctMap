@@ -923,25 +923,32 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid rgba(148, 163, 184, 0.22);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
 }
 
 .hover-tooltip .tooltip-more summary {
   list-style: none;
   cursor: pointer;
   user-select: none;
-  display: flex;
+  display: inline-flex;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: 11px 14px;
-  border-radius: 12px;
+  min-height: 34px;
+  padding: 8px 12px;
+  border-radius: 10px;
   border: 1px solid rgba(148, 163, 184, 0.22);
   background: rgba(15, 23, 42, 0.18);
   color: rgba(226, 232, 240, 0.96);
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 900;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
@@ -951,6 +958,34 @@ body.focus-active #hover-tooltip[data-context="preview"] {
 
 .hover-tooltip .tooltip-more-body {
   margin-top: 10px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.hover-tooltip .tooltip-more-body > * {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.hover-tooltip .tooltip-more-body .result-card,
+.hover-tooltip .tooltip-more-body .demo-hover-card,
+.hover-tooltip .tooltip-more-body .hover-meta,
+.hover-tooltip .tooltip-more-body .demo-race-row {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.hover-tooltip .tooltip-more-body .meta-chip,
+.hover-tooltip .tooltip-more-body .demo-race-chip {
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .quick-tooltip {

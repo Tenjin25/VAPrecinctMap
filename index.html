@@ -25958,6 +25958,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const props = e.features[0].properties || {};
       const countyName = props.NAMELSAD20 || props.NAME20 || props.CountyName || props.COUNTYNAME || props.county_nam || props.NAME || props.name || 'Unknown Locality';
+      const localityLabelRaw = (props.NAMELSAD20 || props.NAME20 || props.CountyName || props.COUNTYNAME || props.county_nam || props.NAME || props.name || '').toString().trim();
+      const isIndependentCity = /^city of\s+/i.test(localityLabelRaw) || /\bindependent city\b/i.test(localityLabelRaw);
+      const localityTypeLabel = isIndependentCity ? 'Independent City' : 'County';
       const countyDisplay = displayCountyName(countyName);
       setCountyHoverOutline(countyName);
       const norm = (countyName || '').toString().replace(/[^a-z0-9 .\-]/gi, '').replace(/\s+/g, ' ').trim().toUpperCase();
@@ -26163,7 +26166,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const winnerParty = winner === 'R' ? 'rep' : (winner === 'D' ? 'dem' : 'tie');
       const votehubCore = buildVotehubResultsTooltip({
         title: `${countyDisplay}`,
-        subtitle: 'County',
+        subtitle: localityTypeLabel,
         demName: demCandidate,
         repName: repCandidate,
         otherName: 'Other',

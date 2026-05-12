@@ -13870,6 +13870,10 @@ document.addEventListener('DOMContentLoaded', function() {
         b.innerHTML = tag ? `<span class="context-tag">${escapeHtml(tag)}</span>` : '';
         return;
       }
+      if (kind === 'precinct') {
+        b.innerHTML = tag ? `<span class="context-tag">${escapeHtml(tag)}</span>` : '';
+        return;
+      }
       const tierMeta = competitivenessTierMetaFromSignedMarginPct(Number(signedMarginPct));
       if (!tierMeta || !tierMeta.label) {
         b.innerHTML = tag ? `<span class="context-tag">${escapeHtml(tag)}</span>` : '';
@@ -26124,7 +26128,6 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         chips.push(winnerChipHTML(winner));
       }
-      chips.push(tierChipHTML(tierMeta));
 
       if (prevSignedForFlip !== null) {
         const flipChip = flipChipHTML(prevSignedForFlip, curSigned);
@@ -26178,7 +26181,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const compactInner = `
         <div class="tooltip-quickline">
           <span class="${escapeHtml(marginCall.party || 'tie')}">${escapeHtml(marginCall.text || '')}</span>
-          ${tierShort ? `<span class="tier">${escapeHtml(tierShort)}</span>` : ''}
         </div>
         ${tooltipInsightForView ? `<div class="tooltip-insight">${escapeHtml(tooltipInsightForView)}</div>` : ''}
         <details class="tooltip-more" aria-label="More details">

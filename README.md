@@ -30,7 +30,7 @@ An interactive, browser-based choropleth map of Virginia election results at the
 
 ## Project Overview
 
-`index.html` is the canonical production entry point for the Virginia map. It now carries the promoted NCMap-derived Virginia interface, including the aligned selected-locality focus design, Virginia locality normalization, district search shortcuts, and the current desktop/mobile UI parity work.
+`index.html` is the canonical production entry point for the Virginia map. It now carries the promoted NCMap-derived Virginia interface, including the aligned selected-locality focus design, Virginia locality normalization, district search shortcuts, the current desktop/mobile UI parity work, and a Virginia-specific chrome palette built around Commonwealth flag-inspired navy, red, and cream accents.
 
 Recent `index.html` changes restored precinct-mode behavior to match the simpler Virginia-safe `.v1` matching path. In practice that means precinct dot mode again loads the precinct-detail slice, rebuilds the centroid/label indexes used for matching, and redistributes unmatched geographic precinct rows across known county precinct norms instead of falling back to flat county coloring too early.
 
@@ -61,7 +61,7 @@ Virginia holds elections on a distinct off-year cycle (gubernatorial and state l
 | **Smart Insights** | Optional (default OFF) story mode that subtly highlights closest margins, biggest shifts, and population-signal localities and surfaces a short tooltip insight without overriding user selection. |
 | **Focus mode** | When a locality is selected/pinned, the map subtly dims and the results panel elevates to keep attention on the active geography. |
 | **Winner labeling** | Desktop winner pill shows full candidate names (for example, `Donald J. Trump (R)`), while statewide headline keeps short labels |
-| **NCMap parity styling** | Desktop and mobile UI placement now mirrors NCMap structure: desktop left/right anchoring parity, mobile sheet + dock parity, and synchronized overlay stacking/offset behavior |
+| **NCMap parity styling** | Desktop and mobile UI placement now mirrors NCMap structure: desktop left/right anchoring parity, mobile sheet + dock parity, synchronized overlay stacking/offset behavior, and Virginia-specific UI chrome accents for controls, tabs, ribbons, legend surfaces, and vote cards |
 | **Locality search** | Free-text search with fly-to animation using turf bbox for counties, independent cities, precincts, and districts |
 | **Virginia-safe alias handling** | Independent-city queries accept both `City of ...` and `... City` forms, while ambiguous bare names like `Fairfax` or `Richmond` are not auto-merged and instead require a city/county distinction |
 | **Vote-card overflow fallback** | Top-right vote tiles auto-switch to stacked card layout when labels/counts overflow, preventing truncation of large totals |
@@ -83,6 +83,8 @@ Virginia holds elections on a distinct off-year cycle (gubernatorial and state l
 - Hover tooltip opacity hierarchy now mirrors NCMap (`hover-preview` dimming and preview-card alpha treatment).
 - Fly-to dropdown and legend ribbon alpha were normalized to NCMap values for visual consistency.
 - Pin controls were removed from hover tooltips (county, precinct, and district) for NC-style non-sticky hover behavior.
+- Shared UI chrome now uses a Virginia-forward palette: Commonwealth navy/red active states, ribbon gradients, softened cream neutrals, and matching control/legend/result-panel accents.
+- The top vote summary line keeps its legacy dem/rep lead colors so quick statewide and locality margin reads still match the earlier broadcast treatment.
 
 ---
 

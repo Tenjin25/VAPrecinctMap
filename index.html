@@ -26200,8 +26200,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
       const deltaBlock = buildCountyDeltaBlockHTML(norm, contestType, { presentation: 'desktop-expanded' });
       const winnerName = winner === 'R'
-        ? shortCandidateLabel(repCandidate, 'Republican')
-        : (winner === 'D' ? shortCandidateLabel(demCandidate, 'Democratic') : 'Tie');
+        ? marginCall.winnerName
+        : (winner === 'D' ? marginCall.winnerName : 'Tie');
       const winnerParty = winner === 'R' ? 'rep' : (winner === 'D' ? 'dem' : 'tie');
       const votehubCore = buildVotehubResultsTooltip({
         title: `${countyDisplay}`,
@@ -26216,7 +26216,7 @@ document.addEventListener('DOMContentLoaded', function() {
         winnerName,
         winnerParty,
         marginPct: Math.abs(signedMarginPct),
-        winnerLineText: marginCall?.text || '',
+        winnerLineText: marginCall?.uncontested ? (marginCall?.text || '') : '',
         prevSignedMarginPct: prevSignedForFlip,
         currentSignedMarginPct: signedMarginPct,
         flipYearLabel: vizPrevCache?.prevYear || null,
@@ -26366,8 +26366,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       const marginCall = winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate, curSigned);
       const winnerName = curSigned > 0
-        ? shortCandidateLabel(repCandidate, 'Republican')
-        : (curSigned < 0 ? shortCandidateLabel(demCandidate, 'Democratic') : 'Tie');
+        ? marginCall.winnerName
+        : (curSigned < 0 ? marginCall.winnerName : 'Tie');
       const winnerParty = curSigned > 0 ? 'rep' : (curSigned < 0 ? 'dem' : 'tie');
       const inner = buildVotehubResultsTooltip({
         title,
@@ -26382,7 +26382,7 @@ document.addEventListener('DOMContentLoaded', function() {
         winnerName,
         winnerParty,
         marginPct: Math.abs(curSigned),
-        winnerLineText: marginCall?.text || '',
+        winnerLineText: marginCall?.uncontested ? (marginCall?.text || '') : '',
         prevSignedMarginPct: prevSignedForFlip,
         currentSignedMarginPct: curSigned,
         flipYearLabel: vizPrevCache?.prevYear || null,
@@ -26661,8 +26661,8 @@ document.addEventListener('DOMContentLoaded', function() {
         ? `VA-${String(districtNum).padStart(2, '0')}`
         : `${districtLabel} ${districtNum}`;
       const winnerName = signedMarginPct > 0
-        ? shortCandidateLabel(repCandidate, 'Republican')
-        : (signedMarginPct < 0 ? shortCandidateLabel(demCandidate, 'Democratic') : 'Tie');
+        ? marginCall.winnerName
+        : (signedMarginPct < 0 ? marginCall.winnerName : 'Tie');
       const winnerParty = signedMarginPct > 0 ? 'rep' : (signedMarginPct < 0 ? 'dem' : 'tie');
       const inner = buildVotehubResultsTooltip({
         title: districtTitle,
@@ -26677,7 +26677,7 @@ document.addEventListener('DOMContentLoaded', function() {
         winnerName,
         winnerParty,
         marginPct: Math.abs(signedMarginPct),
-        winnerLineText: marginCall?.text || '',
+        winnerLineText: marginCall?.uncontested ? (marginCall?.text || '') : '',
         prevSignedMarginPct: prevSignedForFlip,
         currentSignedMarginPct: signedMarginPct,
         flipYearLabel: prevYearForFlip,

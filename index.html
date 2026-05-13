@@ -21090,13 +21090,16 @@ document.addEventListener('DOMContentLoaded', function() {
         || (winnerPartyKey === 'tie'
           ? 'Tie'
           : `${winnerText} <span class="vhr-margin-pct">+${marginFormatter(marginAbs)}%</span>`);
+      const winnerDisplayHtml = (winnerLineText || '').toString().trim()
+        ? escapeHtml(winnerDisplayText)
+        : `${escapeHtml(winnerText)} <span class="vhr-margin-pct">+${escapeHtml(marginFormatter(marginAbs))}%</span>`;
       const voteLeadStyle = winnerToneClass === 'rep'
         ? 'font-size:12px;font-weight:800;opacity:0.96;color:#fecaca;font-family:\"JetBrains Mono\",\"Consolas\",\"SFMono-Regular\",monospace;'
         : (winnerToneClass === 'dem'
           ? 'font-size:12px;font-weight:800;opacity:0.96;color:#bfdbfe;font-family:\"JetBrains Mono\",\"Consolas\",\"SFMono-Regular\",monospace;'
           : 'font-size:12px;font-weight:800;opacity:0.92;color:#e2e8f0;font-family:\"JetBrains Mono\",\"Consolas\",\"SFMono-Regular\",monospace;');
       const winnerLine = showWinnerLine
-        ? `<div class="vhr-winner ${winnerToneClass}" style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;"><span>${escapeHtml(winnerDisplayText)}</span><span class="vhr-raw-lead ${winnerToneClass}" style="${voteLeadStyle}">${escapeHtml(`${formatVotehubVotes(Math.abs(rVotes - dVotes))} votes`)}</span></div>`
+        ? `<div class="vhr-winner ${winnerToneClass}" style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;"><span>${winnerDisplayHtml}</span><span class="vhr-raw-lead ${winnerToneClass}" style="${voteLeadStyle}">${escapeHtml(`${formatVotehubVotes(Math.abs(rVotes - dVotes))} votes`)}</span></div>`
         : '';
       const prevSigned = Number(prevSignedMarginPct);
       const curSigned = Number(currentSignedMarginPct);

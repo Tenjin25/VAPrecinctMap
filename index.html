@@ -728,8 +728,13 @@ body.focus-active.hover-preview-active .vote-counter {
 }
 
 #hover-tooltip[data-context="votehub-results"] .vhr-pct {
-  font-weight: 500;
-  color: #94a3b8;
+  font-weight: 900;
+  color: #e2e8f0;
+}
+
+#hover-tooltip[data-context="votehub-results"] .vhr-margin-pct {
+  font-weight: 900;
+  color: inherit;
 }
 
 #hover-tooltip[data-context="votehub-results"] .vhr-total {
@@ -21084,7 +21089,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const winnerDisplayText = (winnerLineText || '').toString().trim()
         || (winnerPartyKey === 'tie'
           ? 'Tie'
-          : `${winnerText} +${marginFormatter(marginAbs)}%`);
+          : `${winnerText} <span class="vhr-margin-pct">+${marginFormatter(marginAbs)}%</span>`);
       const voteLeadStyle = winnerToneClass === 'rep'
         ? 'font-size:12px;font-weight:800;opacity:0.96;color:#fecaca;font-family:\"JetBrains Mono\",\"Consolas\",\"SFMono-Regular\",monospace;'
         : (winnerToneClass === 'dem'
@@ -30983,8 +30988,8 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
               <div style="margin-bottom: 16px;">
                 <h5>Vote Breakdown</h5>
-                <p><span style="color: #2563eb; font-weight: bold;">Democratic: </span>${toFixedForDisplay(demPct, 2)}% (${demVotes.toLocaleString()})</p>
-                <p><span style="color: #dc2626; font-weight: bold;">Republican: </span>${toFixedForDisplay(repPct, 2)}% (${repVotes.toLocaleString()})</p>
+                <p><span style="color: #2563eb; font-weight: bold;">Democratic: </span><strong>${toFixedForDisplay(demPct, 2)}%</strong> (${demVotes.toLocaleString()})</p>
+                <p><span style="color: #dc2626; font-weight: bold;">Republican: </span><strong>${toFixedForDisplay(repPct, 2)}%</strong> (${repVotes.toLocaleString()})</p>
                 <p><strong>Total Votes:</strong> ${totalVotes.toLocaleString()}</p>
               </div>
             `;
@@ -31165,9 +31170,9 @@ document.addEventListener('DOMContentLoaded', function() {
             ${marginLineText}
           </div>
           <div style="margin-top:8px;font-size:14px;">
-            <div><span style="color:#2563eb;font-weight:800;">${fullCandidateLabel(demCandidate, 'Democratic')} (D)</span>: ${toFixedForDisplay(demPct, 2)}% (${demVotes.toLocaleString()})</div>
-            <div><span style="color:#dc2626;font-weight:800;">${fullCandidateLabel(repCandidate, 'Republican')} (R)</span>: ${toFixedForDisplay(repPct, 2)}% (${repVotes.toLocaleString()})</div>
-            ${otherVotes > 0 ? `<div><span style="color:#6b7280;font-weight:800;">Other</span>: ${toFixedForDisplay(othPct, 2)}% (${otherVotes.toLocaleString()})</div>` : ''}
+            <div><span style="color:#2563eb;font-weight:800;">${fullCandidateLabel(demCandidate, 'Democratic')} (D)</span>: <strong>${toFixedForDisplay(demPct, 2)}%</strong> (${demVotes.toLocaleString()})</div>
+            <div><span style="color:#dc2626;font-weight:800;">${fullCandidateLabel(repCandidate, 'Republican')} (R)</span>: <strong>${toFixedForDisplay(repPct, 2)}%</strong> (${repVotes.toLocaleString()})</div>
+            ${otherVotes > 0 ? `<div><span style="color:#6b7280;font-weight:800;">Other</span>: <strong>${toFixedForDisplay(othPct, 2)}%</strong> (${otherVotes.toLocaleString()})</div>` : ''}
             <div style="margin-top:6px;color:#374151;font-weight:700;">Total Votes: ${totalVotes.toLocaleString()}</div>
           </div>
           <div style="margin-top:8px;font-size:14px;font-weight:800;color:${compColor};">Competitiveness: ${compLabel}</div>

@@ -26741,6 +26741,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       } catch (_) {}
       const marginCall = winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate, signedMarginPct);
+      const districtShiftDelta = (Number.isFinite(Number(prevSignedForFlip)) && Number.isFinite(Number(signedMarginPct)))
+        ? (Number(signedMarginPct) - Number(prevSignedForFlip))
+        : NaN;
+      const districtShiftClass = Number.isFinite(districtShiftDelta)
+        ? (Math.abs(districtShiftDelta) < 0.01 ? 'tie' : (districtShiftDelta > 0 ? 'rep' : 'dem'))
+        : 'tie';
       const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
       const subtitleByScope = scope === 'congressional'
         ? 'Congressional District'
@@ -26770,7 +26776,11 @@ document.addEventListener('DOMContentLoaded', function() {
         currentSignedMarginPct: signedMarginPct,
         flipYearLabel: prevYearForFlip,
         districtType: subtitleByScope,
-        showWinnerLine: true
+        showWinnerLine: true,
+        showShiftLine: currentVizMode === 'shift' && Number.isFinite(districtShiftDelta) && !!prevYearForFlip,
+        shiftLineText: Number.isFinite(districtShiftDelta) ? formatShiftLabel(districtShiftDelta) : '',
+        shiftToneClass: districtShiftClass,
+        shiftYearLabel: prevYearForFlip ? `${prevYearForFlip}→${year}` : ''
       });
       const copyText = `${districtLabel} ${districtNum} (Lines ${currentDistrictLinesYear})`;
       showHoverTooltip(

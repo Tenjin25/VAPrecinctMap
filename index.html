@@ -714,13 +714,22 @@ body.focus-active.hover-preview-active .vote-counter {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 #hover-tooltip[data-context="votehub-results"] .vhr-votes,
 #hover-tooltip[data-context="votehub-results"] .vhr-pct {
   font-variant-numeric: tabular-nums;
-  color: #cbd5e1;
+}
+
+#hover-tooltip[data-context="votehub-results"] .vhr-votes {
+  font-weight: 800;
+  color: #f1f5f9;
+}
+
+#hover-tooltip[data-context="votehub-results"] .vhr-pct {
+  font-weight: 500;
+  color: #94a3b8;
 }
 
 #hover-tooltip[data-context="votehub-results"] .vhr-total {
@@ -20986,15 +20995,29 @@ document.addEventListener('DOMContentLoaded', function() {
       const oVotes = Number(otherVotes || 0);
       const total = dVotes + rVotes + oVotes;
       const safeTotal = total > 0 ? total : 0;
+      const rawMarginAbs = Math.abs(Number(marginPct) || 0);
+      const displayMarginAbs = safeTotal > 0 && typeof countyMarginPctDisplayValue === 'function'
+        ? countyMarginPctDisplayValue(rVotes, dVotes, safeTotal)
+        : rawMarginAbs;
       const demPct = safeTotal > 0 ? (dVotes / safeTotal) * 100 : 0;
       const repPct = safeTotal > 0 ? (rVotes / safeTotal) * 100 : 0;
       const otherPct = safeTotal > 0 ? (oVotes / safeTotal) * 100 : 0;
-      const marginAbs = Math.abs(Number(marginPct) || 0);
-      const pctFormatter = (v) => Number(v || 0).toFixed(2);
+      const pctFormatter = (v) => {
+        if (typeof formatPctForCountyCloseRace === 'function') {
+          return formatPctForCountyCloseRace(v, displayMarginAbs);
+        }
+        if (typeof toFixedForDisplay === 'function') {
+          const digits = typeof countyMarginDisplayDigits === 'function' ? countyMarginDisplayDigits(displayMarginAbs) : 2;
+          return toFixedForDisplay(v, digits);
+        }
+        return formatVotehubPct(v, 2);
+      };
       const marginFormatter = (v) => {
+        if (typeof formatCountyMarginPctForDisplay === 'function') return formatCountyMarginPctForDisplay(v);
         if (typeof formatMarginPctForDisplay === 'function') return formatMarginPctForDisplay(v);
         return formatVotehubPct(v, 2);
       };
+      const marginAbs = displayMarginAbs;
       const rows = [];
       const demLabel = (demName || 'Democratic').toString().trim() || 'Democratic';
       const repLabel = (repName || 'Republican').toString().trim() || 'Republican';

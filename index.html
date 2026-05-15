@@ -21068,8 +21068,8 @@ document.addEventListener('DOMContentLoaded', function() {
       };
       const marginAbs = displayMarginAbs;
       const rows = [];
-      const demLabel = (demName || 'Democratic').toString().trim() || 'Democratic';
-      const repLabel = (repName || 'Republican').toString().trim() || 'Republican';
+      const demLabel = fullCandidateLabel(demName, 'Democratic');
+      const repLabel = fullCandidateLabel(repName, 'Republican');
       const otherLabel = (otherName || 'Other').toString().trim() || 'Other';
 
       const candidateRows = [

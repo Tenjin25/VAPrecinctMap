@@ -8787,9 +8787,10 @@ body.focus-active #hover-tooltip[data-context="preview"] {
       bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 18px) !important;
     }
 
-    #hover-tooltip {
+      #hover-tooltip {
       bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 18px + var(--vote-counter-h, 0px) + 6px) !important;
-      max-width: min(92vw, 360px) !important;
+      max-width: none !important;
+      width: auto !important;
     }
   }
 
@@ -27413,6 +27414,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const ch = controlsVisible ? Math.round(controls.getBoundingClientRect().height) : 0;
         root.style.setProperty('--legend-h', `${Math.max(0, lh)}px`);
         root.style.setProperty('--controls-h', `${Math.max(0, ch)}px`);
+        try {
+          const tooltip = document.getElementById('hover-tooltip');
+          if (tooltip && tooltip.style.display !== 'none') positionMobileHoverTooltip();
+        } catch (_) {}
       } catch (_) {}
     }
 
@@ -30703,6 +30708,35 @@ document.addEventListener('DOMContentLoaded', function() {
       hoverTooltipSuppression.until = 0;
     }
 
+    function positionMobileHoverTooltip() {
+      const tooltip = document.getElementById('hover-tooltip');
+      if (!tooltip) return;
+      const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+      if (!isMobile) return;
+      const voteCounter = document.getElementById('vote-counter');
+      const mobileDock = document.getElementById('mobile-dock');
+      let anchorTop = window.innerHeight;
+      try {
+        if (voteCounter && voteCounter.style.display !== 'none' && voteCounter.getClientRects().length) {
+          anchorTop = Math.min(anchorTop, Math.round(voteCounter.getBoundingClientRect().top || window.innerHeight));
+        }
+      } catch (_) {}
+      try {
+        if (mobileDock && mobileDock.getClientRects().length) {
+          anchorTop = Math.min(anchorTop, Math.round(mobileDock.getBoundingClientRect().top || window.innerHeight));
+        }
+      } catch (_) {}
+      const safeTopRaw = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-top')) || 0;
+      const gap = 10;
+      const bottomPx = Math.max(8, Math.round((window.innerHeight - anchorTop) + gap));
+      const maxH = Math.max(120, Math.round(anchorTop - safeTopRaw - 16));
+      tooltip.style.setProperty('left', '8px', 'important');
+      tooltip.style.setProperty('right', '8px', 'important');
+      tooltip.style.setProperty('top', 'auto', 'important');
+      tooltip.style.setProperty('bottom', `${bottomPx}px`, 'important');
+      tooltip.style.setProperty('max-height', `${maxH}px`, 'important');
+    }
+
     function showHoverTooltip(x, y, content, { force = false, pinned = false, context = '', copyText = '' } = {}) {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
@@ -30731,6 +30765,13 @@ document.addEventListener('DOMContentLoaded', function() {
       tooltip.dataset.copyText = (copyText || '').toString();
       try { document.body.classList.toggle('hover-preview-active', !pinned); } catch (_) {}
       try { wireDesktopTooltipExpandOnClick(); } catch (_) {}
+      const mobileAnchored = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+      if (mobileAnchored) {
+        tooltip.style.left = '';
+        tooltip.style.top = '';
+        positionMobileHoverTooltip();
+        return;
+      }
        
       // Position tooltip near mouse but avoid edges
       const tooltipRect = tooltip.getBoundingClientRect();
@@ -30874,6 +30915,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip || tooltip.style.display === 'none') return;
       if (tooltipPinned) return;
+      if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+        positionMobileHoverTooltip();
+        return;
+      }
       
       const tooltipRect = tooltip.getBoundingClientRect();
       const padding = 15;

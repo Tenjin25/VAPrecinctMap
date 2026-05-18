@@ -30713,21 +30713,31 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!tooltip) return;
       const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
       if (!isMobile) return;
+      if (document.body.classList.contains('mobile-sheet-open') || document.body.classList.contains('mobile-input-active')) return;
       const voteCounter = document.getElementById('vote-counter');
       const mobileDock = document.getElementById('mobile-dock');
       let anchorTop = window.innerHeight;
+      const isVisiblyRenderable = (el) => {
+        if (!el || !el.getClientRects || !el.getClientRects().length) return false;
+        const cs = getComputedStyle(el);
+        if (!cs) return false;
+        if (cs.display === 'none' || cs.visibility === 'hidden') return false;
+        if ((parseFloat(cs.opacity) || 0) < 0.15) return false;
+        return true;
+      };
       try {
-        if (voteCounter && voteCounter.style.display !== 'none' && voteCounter.getClientRects().length) {
+        if (isVisiblyRenderable(voteCounter)) {
           anchorTop = Math.min(anchorTop, Math.round(voteCounter.getBoundingClientRect().top || window.innerHeight));
         }
       } catch (_) {}
       try {
-        if (mobileDock && mobileDock.getClientRects().length) {
+        if (isVisiblyRenderable(mobileDock)) {
           anchorTop = Math.min(anchorTop, Math.round(mobileDock.getBoundingClientRect().top || window.innerHeight));
         }
       } catch (_) {}
       const safeTopRaw = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-top')) || 0;
       const gap = 10;
+      anchorTop = Math.max(anchorTop, safeTopRaw + 140);
       const bottomPx = Math.max(8, Math.round((window.innerHeight - anchorTop) + gap));
       const maxH = Math.max(120, Math.round(anchorTop - safeTopRaw - 16));
       tooltip.style.setProperty('left', '8px', 'important');
@@ -30735,6 +30745,8 @@ document.addEventListener('DOMContentLoaded', function() {
       tooltip.style.setProperty('top', 'auto', 'important');
       tooltip.style.setProperty('bottom', `${bottomPx}px`, 'important');
       tooltip.style.setProperty('max-height', `${maxH}px`, 'important');
+      tooltip.style.setProperty('z-index', '10031', 'important');
+      tooltip.style.setProperty('transform', 'none', 'important');
     }
 
     function showHoverTooltip(x, y, content, { force = false, pinned = false, context = '', copyText = '' } = {}) {

@@ -91,6 +91,18 @@
       flex: 1 1 auto;
     }
   }
+  @media (pointer: coarse) {
+    #hover-tooltip {
+      position: fixed !important;
+      left: 8px !important;
+      right: 8px !important;
+      top: auto !important;
+      bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 24px + var(--vote-counter-h, 0px) + 8px) !important;
+      max-width: none !important;
+      width: auto !important;
+      z-index: 10031 !important;
+    }
+  }
     .spinner svg {
       vertical-align: middle;
     }
@@ -30732,6 +30744,11 @@ document.addEventListener('DOMContentLoaded', function() {
       tooltip.dataset.copyText = (copyText || '').toString();
       try { document.body.classList.toggle('hover-preview-active', !pinned); } catch (_) {}
       try { wireDesktopTooltipExpandOnClick(); } catch (_) {}
+      if (isTouchInteractionMode()) {
+        tooltip.style.left = '';
+        tooltip.style.top = '';
+        return;
+      }
       // Position tooltip near mouse but avoid edges
       const tooltipRect = tooltip.getBoundingClientRect();
       const padding = 15;
@@ -30874,6 +30891,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip || tooltip.style.display === 'none') return;
       if (tooltipPinned) return;
+      if (isTouchInteractionMode()) return;
       const tooltipRect = tooltip.getBoundingClientRect();
       const padding = 15;
       

@@ -63,7 +63,7 @@
         bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 24px + var(--vote-counter-h, 0px) + 8px) !important;
       max-width: none !important;
       width: auto !important;
-      max-height: min(54vh, calc(100vh - 16px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
+      max-height: min(46vh, calc(100vh - 24px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
       overflow: auto;
       -webkit-overflow-scrolling: touch;
       touch-action: pan-y;
@@ -71,7 +71,7 @@
     }
     @supports (height: 100svh) {
       #hover-tooltip {
-        max-height: min(54svh, calc(100svh - 16px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
+        max-height: min(46svh, calc(100svh - 24px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
       }
     }
     #hover-tooltip .tooltip-btn {
@@ -27414,10 +27414,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const ch = controlsVisible ? Math.round(controls.getBoundingClientRect().height) : 0;
         root.style.setProperty('--legend-h', `${Math.max(0, lh)}px`);
         root.style.setProperty('--controls-h', `${Math.max(0, ch)}px`);
-        try {
-          const tooltip = document.getElementById('hover-tooltip');
-          if (tooltip && tooltip.style.display !== 'none') positionMobileHoverTooltip();
-        } catch (_) {}
       } catch (_) {}
     }
 
@@ -30708,47 +30704,6 @@ document.addEventListener('DOMContentLoaded', function() {
       hoverTooltipSuppression.until = 0;
     }
 
-    function positionMobileHoverTooltip() {
-      const tooltip = document.getElementById('hover-tooltip');
-      if (!tooltip) return;
-      const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
-      if (!isMobile) return;
-      if (document.body.classList.contains('mobile-sheet-open') || document.body.classList.contains('mobile-input-active')) return;
-      const voteCounter = document.getElementById('vote-counter');
-      const mobileDock = document.getElementById('mobile-dock');
-      let anchorTop = window.innerHeight;
-      const isVisiblyRenderable = (el) => {
-        if (!el || !el.getClientRects || !el.getClientRects().length) return false;
-        const cs = getComputedStyle(el);
-        if (!cs) return false;
-        if (cs.display === 'none' || cs.visibility === 'hidden') return false;
-        if ((parseFloat(cs.opacity) || 0) < 0.15) return false;
-        return true;
-      };
-      try {
-        if (isVisiblyRenderable(voteCounter)) {
-          anchorTop = Math.min(anchorTop, Math.round(voteCounter.getBoundingClientRect().top || window.innerHeight));
-        }
-      } catch (_) {}
-      try {
-        if (isVisiblyRenderable(mobileDock)) {
-          anchorTop = Math.min(anchorTop, Math.round(mobileDock.getBoundingClientRect().top || window.innerHeight));
-        }
-      } catch (_) {}
-      const safeTopRaw = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-top')) || 0;
-      const gap = 10;
-      anchorTop = Math.max(anchorTop, safeTopRaw + 140);
-      const bottomPx = Math.max(8, Math.round((window.innerHeight - anchorTop) + gap));
-      const maxH = Math.max(120, Math.round(anchorTop - safeTopRaw - 16));
-      tooltip.style.setProperty('left', '8px', 'important');
-      tooltip.style.setProperty('right', '8px', 'important');
-      tooltip.style.setProperty('top', 'auto', 'important');
-      tooltip.style.setProperty('bottom', `${bottomPx}px`, 'important');
-      tooltip.style.setProperty('max-height', `${maxH}px`, 'important');
-      tooltip.style.setProperty('z-index', '10031', 'important');
-      tooltip.style.setProperty('transform', 'none', 'important');
-    }
-
     function showHoverTooltip(x, y, content, { force = false, pinned = false, context = '', copyText = '' } = {}) {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
@@ -30777,14 +30732,6 @@ document.addEventListener('DOMContentLoaded', function() {
       tooltip.dataset.copyText = (copyText || '').toString();
       try { document.body.classList.toggle('hover-preview-active', !pinned); } catch (_) {}
       try { wireDesktopTooltipExpandOnClick(); } catch (_) {}
-      const mobileAnchored = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
-      if (mobileAnchored) {
-        tooltip.style.left = '';
-        tooltip.style.top = '';
-        positionMobileHoverTooltip();
-        return;
-      }
-       
       // Position tooltip near mouse but avoid edges
       const tooltipRect = tooltip.getBoundingClientRect();
       const padding = 15;
@@ -30927,11 +30874,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip || tooltip.style.display === 'none') return;
       if (tooltipPinned) return;
-      if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
-        positionMobileHoverTooltip();
-        return;
-      }
-      
       const tooltipRect = tooltip.getBoundingClientRect();
       const padding = 15;
       

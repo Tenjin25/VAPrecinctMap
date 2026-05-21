@@ -63,7 +63,7 @@
         bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 24px + var(--vote-counter-h, 0px) + 8px) !important;
       max-width: none !important;
       width: auto !important;
-      max-height: min(46vh, calc(100vh - 24px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
+      max-height: min(58vh, calc(100vh - 12px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
       overflow: auto;
       -webkit-overflow-scrolling: touch;
       touch-action: pan-y;
@@ -71,7 +71,7 @@
     }
     @supports (height: 100svh) {
       #hover-tooltip {
-        max-height: min(46svh, calc(100svh - 24px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
+        max-height: min(58svh, calc(100svh - 12px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
       }
     }
     #hover-tooltip .tooltip-btn {
@@ -89,18 +89,6 @@
     }
     #hover-tooltip .tooltip-btn {
       flex: 1 1 auto;
-    }
-  }
-  @media (pointer: coarse) {
-    #hover-tooltip {
-      position: fixed !important;
-      left: 8px !important;
-      right: 8px !important;
-      top: auto !important;
-      bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 24px + var(--vote-counter-h, 0px) + 8px) !important;
-      max-width: none !important;
-      width: auto !important;
-      z-index: 10031 !important;
     }
   }
     .spinner svg {
@@ -30745,6 +30733,7 @@ document.addEventListener('DOMContentLoaded', function() {
       try { document.body.classList.toggle('hover-preview-active', !pinned); } catch (_) {}
       try { wireDesktopTooltipExpandOnClick(); } catch (_) {}
       if (isTouchInteractionMode()) {
+        // Touch devices should stay CSS-anchored; never apply cursor-based placement.
         tooltip.style.left = '';
         tooltip.style.top = '';
         return;

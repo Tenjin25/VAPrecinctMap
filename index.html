@@ -10323,7 +10323,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function isMobileTooltipMode() {
-      return isMobileViewportNow();
+      return isMobileViewportNow() || isTouchInteractionMode();
     }
 
     function isDesktopTooltipMode() {
@@ -10337,6 +10337,20 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (_) {}
       return false;
     }
+
+    let lastPointerWasTouch = false;
+    try {
+      window.addEventListener('pointerdown', (ev) => {
+        const pt = (ev && ev.pointerType) ? String(ev.pointerType).toLowerCase() : '';
+        lastPointerWasTouch = (pt === 'touch' || pt === 'pen');
+      }, { passive: true });
+      window.addEventListener('touchstart', () => {
+        lastPointerWasTouch = true;
+      }, { passive: true });
+      window.addEventListener('mousemove', () => {
+        lastPointerWasTouch = false;
+      }, { passive: true });
+    } catch (_) {}
 
     function closeHoverUI({ force = false } = {}) {
       if (!force && tooltipPinned) return;
@@ -30704,8 +30718,19 @@ document.addEventListener('DOMContentLoaded', function() {
       hoverTooltipSuppression.until = 0;
     }
 
-    function showHoverTooltip(x, y, content, { force = false, pinned = false, context = '', copyText = '' } = {}) {
+    function ensureHoverTooltipInBody() {
       const tooltip = document.getElementById('hover-tooltip');
+      if (!tooltip) return null;
+      try {
+        if (tooltip.parentElement !== document.body) {
+          document.body.appendChild(tooltip);
+        }
+      } catch (_) {}
+      return tooltip;
+    }
+
+    function showHoverTooltip(x, y, content, { force = false, pinned = false, context = '', copyText = '' } = {}) {
+      const tooltip = ensureHoverTooltipInBody() || document.getElementById('hover-tooltip');
       if (!tooltip) return;
       if (isTouchInteractionMode() && !force && !tooltipPinned) return;
       if (tooltipPinned && !force) return;
@@ -30730,12 +30755,19 @@ document.addEventListener('DOMContentLoaded', function() {
       tooltip.style.display = 'block';
       tooltip.dataset.context = String(context || '');
       tooltip.dataset.copyText = (copyText || '').toString();
+      tooltip.dataset.pinned = pinned ? '1' : '0';
       try { document.body.classList.toggle('hover-preview-active', !pinned); } catch (_) {}
       try { wireDesktopTooltipExpandOnClick(); } catch (_) {}
-      if (isTouchInteractionMode()) {
-        // Touch devices should stay CSS-anchored; never apply cursor-based placement.
-        tooltip.style.left = '';
-        tooltip.style.top = '';
+      const shouldDockNow = !!(pinned || force || isTouchInteractionMode() || !isDesktopTooltipMode() || lastPointerWasTouch);
+      if (shouldDockNow) {
+        tooltip.style.setProperty('position', 'fixed', 'important');
+        tooltip.style.setProperty('left', '8px', 'important');
+        tooltip.style.setProperty('right', '8px', 'important');
+        tooltip.style.setProperty('top', 'auto', 'important');
+        // Deterministic mobile tap anchor: avoid dynamic dock-height vars that can spike.
+        tooltip.style.setProperty('bottom', 'calc(var(--safe-bottom, 0px) + 76px)', 'important');
+        tooltip.style.setProperty('max-height', 'min(52vh, calc(100vh - 20px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - 76px))', 'important');
+        tooltip.style.setProperty('transform', 'none', 'important');
         return;
       }
       // Position tooltip near mouse but avoid edges
@@ -30758,7 +30790,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function hideHoverTooltip() {
-      const tooltip = document.getElementById('hover-tooltip');
+      const tooltip = ensureHoverTooltipInBody() || document.getElementById('hover-tooltip');
       if (!tooltip) return;
       if (tooltipPinned) return;
       tooltip.style.display = 'none';
@@ -30770,7 +30802,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function setTooltipPinned(pinned) {
       tooltipPinned = !!pinned;
-      const tooltip = document.getElementById('hover-tooltip');
+      const tooltip = ensureHoverTooltipInBody() || document.getElementById('hover-tooltip');
       if (!tooltip) return;
       tooltip.setAttribute('data-pinned', tooltipPinned ? '1' : '0');
     }
@@ -30877,10 +30909,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateHoverTooltipPosition(x, y) {
-      const tooltip = document.getElementById('hover-tooltip');
+      const tooltip = ensureHoverTooltipInBody() || document.getElementById('hover-tooltip');
       if (!tooltip || tooltip.style.display === 'none') return;
       if (tooltipPinned) return;
-      if (isTouchInteractionMode()) return;
+      if ((tooltip.dataset && tooltip.dataset.pinned === '1') || isTouchInteractionMode() || !isDesktopTooltipMode() || lastPointerWasTouch) return;
       const tooltipRect = tooltip.getBoundingClientRect();
       const padding = 15;
       

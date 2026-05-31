@@ -2774,12 +2774,98 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   }
 
   .hover-tooltip {
-    border: 1px solid rgba(15, 23, 42, 0.20);
-    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.25);
+    background: rgba(15, 23, 42, 0.95);
+    color: #e2e8f0;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    box-shadow: 0 18px 44px rgba(2, 6, 23, 0.55);
     backdrop-filter: blur(14px);
     border-radius: 14px;
     max-width: 280px;
     animation: tooltip-in 140ms ease-out;
+  }
+
+  .hover-tooltip .tooltip-title {
+    color: #f8fafc;
+  }
+
+  #hover-tooltip[data-context="preview"] {
+    max-width: 252px;
+    opacity: 0.88;
+    border-color: rgba(148, 163, 184, 0.18);
+  }
+
+  #hover-tooltip[data-context="votehub-results"] {
+    background: rgba(3, 7, 18, 0.96);
+    color: #e5e7eb;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-radius: 8px;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.22);
+    padding: 0;
+    max-width: 310px;
+    min-width: 250px;
+    backdrop-filter: blur(10px);
+    opacity: 1;
+  }
+
+  #hover-tooltip[data-context="votehub-results"] .votehub-results-card {
+    padding: 12px 14px;
+    font-family: inherit;
+  }
+
+  #hover-tooltip[data-context="votehub-results"][data-pinned="0"] .tooltip-head {
+    display: none;
+  }
+
+  #hover-tooltip[data-context="votehub-results"] .vhr-row {
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 12.5px;
+    color: #e2e8f0;
+  }
+
+  #hover-tooltip[data-context="votehub-results"] .vhr-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 800;
+  }
+
+  #hover-tooltip[data-context="votehub-results"] .vhr-votes,
+  #hover-tooltip[data-context="votehub-results"] .vhr-pct {
+    font-variant-numeric: tabular-nums;
+  }
+
+  #hover-tooltip[data-context="votehub-results"] .vhr-votes {
+    font-weight: 800;
+    color: #f1f5f9;
+  }
+
+  #hover-tooltip[data-context="votehub-results"] .vhr-pct {
+    font-weight: 900;
+    font-size: inherit;
+    color: #e2e8f0;
+    line-height: inherit;
+  }
+
+  .hover-tooltip .tooltip-title-badge.rep {
+    color: #991b1b;
+    background: rgba(239, 68, 68, 0.16);
+    border-color: rgba(220, 38, 38, 0.35);
+  }
+
+  .hover-tooltip .tooltip-title-badge.dem {
+    color: #1e3a8a;
+    background: rgba(59, 130, 246, 0.16);
+    border-color: rgba(37, 99, 235, 0.35);
+  }
+
+  .hover-tooltip .tooltip-title-badge.tie {
+    color: #e2e8f0;
+    background: rgba(100, 116, 139, 0.28);
+    border-color: rgba(148, 163, 184, 0.38);
   }
 
   .hover-tooltip .tooltip-head {
@@ -2795,17 +2881,17 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   }
 
   .hover-tooltip .tooltip-btn {
-    border: 1px solid rgba(15, 23, 42, 0.16);
-    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.32);
+    background: rgba(30, 41, 59, 0.84);
     border-radius: 10px;
     padding: 6px 8px;
     font-size: 12px;
     cursor: pointer;
-    color: #0f172a;
+    color: #f1f5f9;
   }
 
   .hover-tooltip .tooltip-btn:hover {
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(51, 65, 85, 0.96);
   }
 
   /* Allow interacting with tooltip buttons only when pinned. */
@@ -30758,17 +30844,6 @@ document.addEventListener('DOMContentLoaded', function() {
       hoverTooltipSuppression.until = 0;
     }
 
-    function ensureHoverTooltipInBody() {
-      const tooltip = document.getElementById('hover-tooltip');
-      if (!tooltip) return null;
-      try {
-        if (tooltip.parentElement !== document.body) {
-          document.body.appendChild(tooltip);
-        }
-      } catch (_) {}
-      return tooltip;
-    }
-
     function showHoverTooltip(x, y, content, { force = false, pinned = false, context = '', copyText = '' } = {}) {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
@@ -30818,7 +30893,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function hideHoverTooltip() {
-      const tooltip = ensureHoverTooltipInBody() || document.getElementById('hover-tooltip');
+      const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
       if (tooltipPinned) return;
       tooltip.style.display = 'none';
@@ -30830,7 +30905,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function setTooltipPinned(pinned) {
       tooltipPinned = !!pinned;
-      const tooltip = ensureHoverTooltipInBody() || document.getElementById('hover-tooltip');
+      const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
       tooltip.setAttribute('data-pinned', tooltipPinned ? '1' : '0');
     }
@@ -30937,10 +31012,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateHoverTooltipPosition(x, y) {
-      const tooltip = ensureHoverTooltipInBody() || document.getElementById('hover-tooltip');
+      const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip || tooltip.style.display === 'none') return;
       if (tooltipPinned) return;
-      if ((tooltip.dataset && tooltip.dataset.pinned === '1') || isTouchInteractionMode() || !isDesktopTooltipMode() || lastPointerWasTouch) return;
       const tooltipRect = tooltip.getBoundingClientRect();
       const padding = 15;
       

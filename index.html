@@ -30908,6 +30908,22 @@ document.addEventListener('DOMContentLoaded', function() {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
       tooltip.setAttribute('data-pinned', tooltipPinned ? '1' : '0');
+      try {
+        if (tooltipPinned) {
+          // Freeze position while pinned so mobile panel expansion doesn't shift tooltip.
+          const rect = tooltip.getBoundingClientRect();
+          tooltip.style.setProperty('left', `${Math.round(rect.left)}px`, 'important');
+          tooltip.style.setProperty('top', `${Math.round(rect.top)}px`, 'important');
+          tooltip.style.setProperty('right', 'auto', 'important');
+          tooltip.style.setProperty('bottom', 'auto', 'important');
+        } else {
+          // Restore CSS-driven placement when unpinned.
+          tooltip.style.removeProperty('left');
+          tooltip.style.removeProperty('top');
+          tooltip.style.removeProperty('right');
+          tooltip.style.removeProperty('bottom');
+        }
+      } catch (_) {}
     }
 
     function buildTooltipShell(title, innerHtml, options = {}) {

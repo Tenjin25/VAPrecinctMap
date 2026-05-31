@@ -316,13 +316,8 @@
       var topbar = document.getElementById('map-topbar');
 
       if (mobileTopbarToggle && topbar) {
-        mobileTopbarToggle.addEventListener('click', function(ev) {
+        mobileTopbarToggle.addEventListener('click', function() {
           if (!isMobileViewport()) return;
-          if (wasRecentTooltipUiTap()) {
-            try { ev?.preventDefault?.(); } catch (_) {}
-            try { ev?.stopPropagation?.(); } catch (_) {}
-            return;
-          }
           topbar.classList.toggle('topbar-expanded');
           syncMobileTopbarToggle();
           syncInitialTopbarOffset();
@@ -27103,11 +27098,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       grab.addEventListener('click', (event) => {
-        if (wasRecentTooltipUiTap()) {
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
         if (grab.dataset.swiped === 'true') {
           event.preventDefault();
           event.stopPropagation();
@@ -27256,7 +27246,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function toggleMobileSheet(key) {
       if (!isMobileViewportNow()) return;
-      if (wasRecentTooltipUiTap()) return;
       if (!MOBILE_SHEET_PANEL_IDS[key]) return;
       if (activeMobileSheetKey !== key) {
         openMobileSheet(key, 'half');
@@ -30712,17 +30701,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Hover Tooltip Functions - VoteHub Style
     const hoverTooltipSuppression = { key: '', x: 0, y: 0, until: 0 };
-    let lastTooltipUiTapAt = 0;
-
-    function markTooltipUiTap() {
-      const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
-      lastTooltipUiTapAt = now;
-    }
-
-    function wasRecentTooltipUiTap(ms = 500) {
-      const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
-      return (now - (Number(lastTooltipUiTapAt) || 0)) <= Math.max(0, Number(ms) || 0);
-    }
 
     function suppressHoverTooltip(key, x, y, { ms = 30000 } = {}) {
       const k = (key || '').toString().trim();
@@ -30777,15 +30755,6 @@ document.addEventListener('DOMContentLoaded', function() {
       tooltip.dataset.context = String(context || '');
       tooltip.dataset.copyText = (copyText || '').toString();
       tooltip.dataset.pinned = pinned ? '1' : '0';
-      try {
-        if (tooltip.dataset.tooltipTapStampWired !== '1') {
-          tooltip.dataset.tooltipTapStampWired = '1';
-          const stamp = () => { markTooltipUiTap(); };
-          tooltip.addEventListener('pointerdown', stamp, { capture: true, passive: true });
-          tooltip.addEventListener('touchstart', stamp, { capture: true, passive: true });
-          tooltip.addEventListener('click', stamp, { capture: true, passive: true });
-        }
-      } catch (_) {}
       try { document.body.classList.toggle('hover-preview-active', !pinned); } catch (_) {}
       try { wireDesktopTooltipExpandOnClick(); } catch (_) {}
       const shouldDockNow = !!(pinned || force || isTouchInteractionMode() || !isDesktopTooltipMode() || lastPointerWasTouch);

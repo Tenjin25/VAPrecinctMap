@@ -30849,7 +30849,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!tooltip) return;
       if (isTouchInteractionMode() && !force && !tooltipPinned) return;
       if (tooltipPinned && !force) return;
-      const prevCopyText = (tooltip?.dataset?.copyText || '').toString();
 
       // If the user explicitly closed a hover tooltip while the pointer is still sitting on the same feature,
       // don't immediately reopen it on the next hover refresh (common in precinct mode).
@@ -30888,14 +30887,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (top + tooltipRect.height > window.innerHeight) {
         top = y - tooltipRect.height - padding;
       }
-
-      // Keep pinned tooltip fixed for the same selection across re-renders/layout changes.
-      const isLockedPinned = !!(tooltipPinned && pinned && tooltip.dataset && tooltip.dataset.lockedPos === '1');
-      const sameSelection = (prevCopyText || '').trim() && (prevCopyText === (copyText || '').toString());
-      if (!(isLockedPinned && sameSelection)) {
-        tooltip.style.left = left + 'px';
-        tooltip.style.top = top + 'px';
-      }
+      
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
     }
 
     function hideHoverTooltip() {
@@ -30914,24 +30908,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
       tooltip.setAttribute('data-pinned', tooltipPinned ? '1' : '0');
-      try {
-        if (tooltipPinned) {
-          // Freeze position while pinned so mobile panel expansion doesn't shift tooltip.
-          const rect = tooltip.getBoundingClientRect();
-          tooltip.style.setProperty('left', `${Math.round(rect.left)}px`, 'important');
-          tooltip.style.setProperty('top', `${Math.round(rect.top)}px`, 'important');
-          tooltip.style.setProperty('right', 'auto', 'important');
-          tooltip.style.setProperty('bottom', 'auto', 'important');
-          tooltip.dataset.lockedPos = '1';
-        } else {
-          // Restore CSS-driven placement when unpinned.
-          tooltip.style.removeProperty('left');
-          tooltip.style.removeProperty('top');
-          tooltip.style.removeProperty('right');
-          tooltip.style.removeProperty('bottom');
-          try { delete tooltip.dataset.lockedPos; } catch (_) { tooltip.dataset.lockedPos = '0'; }
-        }
-      } catch (_) {}
     }
 
     function buildTooltipShell(title, innerHtml, options = {}) {
@@ -31039,6 +31015,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip || tooltip.style.display === 'none') return;
       if (tooltipPinned) return;
+      
       const tooltipRect = tooltip.getBoundingClientRect();
       const padding = 15;
       
@@ -31051,7 +31028,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (top + tooltipRect.height > window.innerHeight) {
         top = y - tooltipRect.height - padding;
       }
-
+      
       tooltip.style.left = left + 'px';
       tooltip.style.top = top + 'px';
     }

@@ -30757,20 +30757,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         stopOnly(ev);
       };
-      const maybeBlockGhostClick = (ev) => {
-        try {
-          if (!isTouchInteractionMode()) return;
-          if (!wasRecentTooltipTouch(700)) return;
-          const target = ev?.target;
-          if (target && tooltip.contains && tooltip.contains(target)) return;
-          ev.preventDefault();
-          ev.stopPropagation();
-        } catch (_) {}
-      };
-      if (!window.__tooltipGhostClickBlockerWired) {
-        window.__tooltipGhostClickBlockerWired = true;
-        document.addEventListener('click', maybeBlockGhostClick, true);
-      }
       tooltip.addEventListener('click', stopOnly, true);
       tooltip.addEventListener('mousedown', stopOnly, true);
       tooltip.addEventListener('mouseup', stopOnly, true);

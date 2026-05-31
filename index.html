@@ -9016,6 +9016,50 @@ body.focus-active #hover-tooltip[data-context="preview"] {
       font-feature-settings: "tnum" 1;
     }
   }
+
+  /* Mobile tooltip parity with desktop style while keeping touch-friendly behavior. */
+  @media (max-width: 768px) {
+    #hover-tooltip {
+      border-radius: 14px !important;
+      border: 1px solid rgba(148, 163, 184, 0.28) !important;
+      background: rgba(15, 23, 42, 0.95) !important;
+      color: #e2e8f0 !important;
+      box-shadow: 0 18px 44px rgba(2, 6, 23, 0.55) !important;
+      backdrop-filter: blur(14px) !important;
+      padding: 0 !important;
+      max-width: 310px !important;
+      min-width: 250px !important;
+      width: min(310px, calc(100vw - 16px)) !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    #hover-tooltip .tooltip-head {
+      flex-direction: row !important;
+      align-items: flex-start !important;
+      justify-content: space-between !important;
+      gap: 10px !important;
+    }
+
+    #hover-tooltip .tooltip-actions {
+      width: auto !important;
+      display: flex !important;
+      gap: 6px !important;
+    }
+
+    #hover-tooltip .tooltip-btn {
+      flex: 0 0 auto !important;
+      min-height: 0 !important;
+      padding: 6px 8px !important;
+      font-size: 12px !important;
+      border-radius: 10px !important;
+    }
+
+    #hover-tooltip .tooltip-trends {
+      font-size: 13px !important;
+      line-height: 1.45 !important;
+    }
+  }
     </style>
 </head>
 <body>
@@ -30771,9 +30815,17 @@ document.addEventListener('DOMContentLoaded', function() {
       if (top + tooltipRect.height > window.innerHeight) {
         top = y - tooltipRect.height - padding;
       }
-      
-      tooltip.style.left = left + 'px';
-      tooltip.style.top = top + 'px';
+
+      if (isTouchInteractionMode()) {
+        // On touch, use desktop-like floating placement near interaction point.
+        tooltip.style.setProperty('left', left + 'px', 'important');
+        tooltip.style.setProperty('top', top + 'px', 'important');
+        tooltip.style.setProperty('right', 'auto', 'important');
+        tooltip.style.setProperty('bottom', 'auto', 'important');
+      } else {
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
+      }
     }
 
     function hideHoverTooltip() {
@@ -30912,9 +30964,16 @@ document.addEventListener('DOMContentLoaded', function() {
       if (top + tooltipRect.height > window.innerHeight) {
         top = y - tooltipRect.height - padding;
       }
-      
-      tooltip.style.left = left + 'px';
-      tooltip.style.top = top + 'px';
+
+      if (isTouchInteractionMode()) {
+        tooltip.style.setProperty('left', left + 'px', 'important');
+        tooltip.style.setProperty('top', top + 'px', 'important');
+        tooltip.style.setProperty('right', 'auto', 'important');
+        tooltip.style.setProperty('bottom', 'auto', 'important');
+      } else {
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
+      }
     }
 
     function showDistrictDetails(districtNum) {

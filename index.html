@@ -30729,7 +30729,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showHoverTooltip(x, y, content, { force = false, pinned = false, context = '', copyText = '' } = {}) {
-      const tooltip = ensureHoverTooltipInBody() || document.getElementById('hover-tooltip');
+      const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
       if (isTouchInteractionMode() && !force && !tooltipPinned) return;
       if (tooltipPinned && !force) return;
@@ -30754,21 +30754,9 @@ document.addEventListener('DOMContentLoaded', function() {
       tooltip.style.display = 'block';
       tooltip.dataset.context = String(context || '');
       tooltip.dataset.copyText = (copyText || '').toString();
-      tooltip.dataset.pinned = pinned ? '1' : '0';
       try { document.body.classList.toggle('hover-preview-active', !pinned); } catch (_) {}
       try { wireDesktopTooltipExpandOnClick(); } catch (_) {}
-      const shouldDockNow = !!(pinned || force || isTouchInteractionMode() || !isDesktopTooltipMode() || lastPointerWasTouch);
-      if (shouldDockNow) {
-        tooltip.style.setProperty('position', 'fixed', 'important');
-        tooltip.style.setProperty('left', '8px', 'important');
-        tooltip.style.setProperty('right', '8px', 'important');
-        tooltip.style.setProperty('top', 'auto', 'important');
-        // Deterministic mobile tap anchor: avoid dynamic dock-height vars that can spike.
-        tooltip.style.setProperty('bottom', 'calc(var(--safe-bottom, 0px) + 76px)', 'important');
-        tooltip.style.setProperty('max-height', 'min(52vh, calc(100vh - 20px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - 76px))', 'important');
-        tooltip.style.setProperty('transform', 'none', 'important');
-        return;
-      }
+       
       // Position tooltip near mouse but avoid edges
       const tooltipRect = tooltip.getBoundingClientRect();
       const padding = 15;

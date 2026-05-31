@@ -10182,8 +10182,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-05-31-4';
-    const APP_BUILD_ID = '2026-05-31-4';
+    const DATA_CACHE_BUSTER = '2026-05-31-5';
+    const APP_BUILD_ID = '2026-05-31-5';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -14972,24 +14972,12 @@ document.addEventListener('DOMContentLoaded', function() {
       refreshFocusTrend(voteCounterPinned);
       setFocusModeActive(true);
       try {
-        setVoteCounterMinimizedState(false);
+        const touch = (typeof isTouchInteractionMode === 'function') ? isTouchInteractionMode() : false;
+        // Mobile: keep selected panel minimized while tooltip is active; user can expand manually.
+        setVoteCounterMinimizedState(!!touch);
       } catch (_) {}
       try {
         if (String(meta?.kind || '').toLowerCase() === 'county') pulseCountySelection(meta?.county || title);
-      } catch (_) {}
-      try {
-        // Mobile UX: once selection is pinned into the panel, dismiss hover tooltip
-        // so it does not jump/reposition as overlays auto-expand.
-        if (typeof isTouchInteractionMode === 'function' && isTouchInteractionMode()) {
-          setTooltipPinned(false);
-          const tooltip = document.getElementById('hover-tooltip');
-          if (tooltip) {
-            tooltip.style.display = 'none';
-            try { tooltip.dataset.context = ''; } catch (_) {}
-            try { tooltip.dataset.copyText = ''; } catch (_) {}
-          }
-          try { document.body.classList.remove('hover-preview-active'); } catch (_) {}
-        }
       } catch (_) {}
       updateRecountRadarBadge();
       try { announceForScreenReader(buildAriaSummary(title || 'Selected area', demVotes, repVotes, otherVotes)); } catch (_) {}
@@ -28648,7 +28636,12 @@ document.addEventListener('DOMContentLoaded', function() {
               handleCountySelection(countyName);
               setCountyHoverOutline(countyName);
               setTooltipPinned(false);
-              hideHoverTooltip();
+              if (isTouchInteractionMode()) {
+                renderCountyHoverAtPoint(e, { forceTooltip: true });
+                setTooltipPinned(true);
+              } else {
+                hideHoverTooltip();
+              }
             }
           }
         });
@@ -29821,7 +29814,18 @@ document.addEventListener('DOMContentLoaded', function() {
               try {
                 setDistrictHoverOutline('congressional', districtNum);
                 setTooltipPinned(false);
-                hideHoverTooltip();
+                if (isTouchInteractionMode()) {
+                  await renderDistrictHover(
+                    e,
+                    'congressional',
+                    'Congressional District',
+                    ['DISTRICT', 'CD118FP', 'CD119FP', 'district_id', 'district', 'NAMELSAD'],
+                    { forceTooltip: true }
+                  );
+                  setTooltipPinned(true);
+                } else {
+                  hideHoverTooltip();
+                }
               } catch (_) {}
             }
           }
@@ -29927,7 +29931,18 @@ document.addEventListener('DOMContentLoaded', function() {
               try {
                 setDistrictHoverOutline('state_house', districtNum);
                 setTooltipPinned(false);
-                hideHoverTooltip();
+                if (isTouchInteractionMode()) {
+                  await renderDistrictHover(
+                    e,
+                    'state_house',
+                    'House of Delegates District',
+                    ['DISTRICT', 'SLDLST', 'district_id', 'district', 'NAMELSAD'],
+                    { forceTooltip: true }
+                  );
+                  setTooltipPinned(true);
+                } else {
+                  hideHoverTooltip();
+                }
               } catch (_) {}
             }
           }
@@ -30033,7 +30048,18 @@ document.addEventListener('DOMContentLoaded', function() {
               try {
                 setDistrictHoverOutline('state_senate', districtNum);
                 setTooltipPinned(false);
-                hideHoverTooltip();
+                if (isTouchInteractionMode()) {
+                  await renderDistrictHover(
+                    e,
+                    'state_senate',
+                    'State Senate District',
+                    ['DISTRICT', 'SLDUST', 'district_id', 'district', 'NAMELSAD'],
+                    { forceTooltip: true }
+                  );
+                  setTooltipPinned(true);
+                } else {
+                  hideHoverTooltip();
+                }
               } catch (_) {}
             }
           }
@@ -30823,9 +30849,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function showHoverTooltip(x, y, content, { force = false, pinned = false, context = '', copyText = '' } = {}) {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
-      // Mobile precedence rule: once a selection is pinned to the panel,
-      // do not render hover tooltip overlays until selection is cleared.
-      if (isTouchInteractionMode() && voteCounterPinned) return;
       if (isTouchInteractionMode() && !force && !tooltipPinned) return;
       if (tooltipPinned && !force) return;
 

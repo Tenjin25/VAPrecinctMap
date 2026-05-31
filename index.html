@@ -10450,7 +10450,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mobile: tapping empty space closes any pinned tooltip/highlight.
     map.on('click', (e) => {
       if (!IS_COARSE_POINTER) return;
-      if (isTouchInteractionMode() && wasRecentTooltipTouch()) return;
       try { lastPointerPoint = e.point; } catch (_) {}
       const layers = [
         'precinct-dot',
@@ -24247,13 +24246,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let lastCountyHoverKey = null;
     let lastCountyHoverRenderedAt = 0;
     const COUNTY_HOVER_THROTTLE_MS = 55;
-    let tooltipTouchStartedAt = 0;
-
-    function wasRecentTooltipTouch(ms = 420) {
-      const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
-      return (now - (Number(tooltipTouchStartedAt) || 0)) <= Math.max(0, Number(ms) || 0);
-    }
-
     // Desktop: allow click-to-expand (pin) for collapsed hover cards without changing map click behavior.
     let desktopHoverExpandState = null; // { kind, x, y, title, expandedInner, copyText }
 
@@ -26407,7 +26399,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const [contestType, year] = parseContestValue(contestValue);
       if (!contestType || !year) {
         const hoverTitle = buildTooltipTitleWithTier(title);
-        const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
+        const pinnedShell = !!tooltipPinned;
         const copyText = (precinctNorm || title || '').toString().trim();
         if (isDesktopTooltipMode()) {
           showHoverTooltip(
@@ -26438,7 +26430,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const row = currentPrecinctResults ? currentPrecinctResults.get(precinctNorm) : null;
       if (!row) {
         const hoverTitle = buildTooltipTitleWithTier(title);
-        const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
+        const pinnedShell = !!tooltipPinned;
         const copyText = (precinctNorm || title || '').toString().trim();
         if (isDesktopTooltipMode()) {
           showHoverTooltip(
@@ -26507,7 +26499,7 @@ document.addEventListener('DOMContentLoaded', function() {
         districtType: 'Precinct',
         showWinnerLine: true
       });
-      const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
+      const pinnedShell = !!tooltipPinned;
       const copyText = (precinctNorm || title || '').toString().trim();
       showHoverTooltip(
         point.x,
@@ -26515,9 +26507,6 @@ document.addEventListener('DOMContentLoaded', function() {
         buildTooltipShell('', inner, { pinned: pinnedShell, showClose: pinnedShell, copyText }),
         { force: !!forceTooltip, pinned: pinnedShell, context: 'votehub-results', copyText }
       );
-      if (forceTooltip && isTouchInteractionMode()) {
-        setTooltipPinned(true);
-      }
       wireTooltipButtons();
       const precinctMeta = { kind: 'precinct', county: countyName, precinct: title, precinctNorm, contestType, year: Number(year) };
       const precinctCandidates = { demCandidate, repCandidate };
@@ -28511,7 +28500,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         // Add county click event handler
         map.on('click', 'county-fill', async (e) => {
-          if (isTouchInteractionMode() && wasRecentTooltipTouch()) return;
           if (e.features && e.features[0] && e.features[0].properties) {
             const countyName = e.features[0].properties.precinct_name || e.features[0].properties.NAMELSAD20 || e.features[0].properties.NAME20 || e.features[0].properties.CountyName || e.features[0].properties.county_nam || e.features[0].properties.COUNTYNAME || e.features[0].properties.County || e.features[0].properties.NAME || e.features[0].properties.name;
             if (countyName) {
@@ -28773,7 +28761,6 @@ document.addEventListener('DOMContentLoaded', function() {
       applySelectedPrecinctHighlightFilter();
 
       const handlePrecinctPolygonClick = (e) => {
-        if (isTouchInteractionMode() && wasRecentTooltipTouch()) return;
         try {
           if (e?.originalEvent?.defaultPrevented) return;
           try { e?.originalEvent?.preventDefault?.(); } catch (_) {}
@@ -28791,7 +28778,6 @@ document.addEventListener('DOMContentLoaded', function() {
             zoomToClickedPrecinctFeature(e.features[0], { padding: 44, duration: 900, maxZoom: 13.8 });
             setTooltipPinned(false);
             renderPrecinctHoverAtPoint(e.point, e.features[0], { forceTooltip: true, pinSelection: true });
-            if (isTouchInteractionMode()) setTooltipPinned(true);
             const full = (props.precinct_full_name || props.precinct_desc || props.enr_desc || props.ENR_DESC || '').toString().replace(/\s+/g, ' ').trim();
             const label = full || (props.prec_id || '').toString().trim();
             setStatus(`Selected precinct highlighted in yellow: ${props.county_nam || ''} ${label}`.trim());
@@ -29399,7 +29385,6 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         });
         map.on('click', layerId, (e) => {
-          if (isTouchInteractionMode() && wasRecentTooltipTouch()) return;
           try {
             const f = e?.features?.[0];
             if (!f) return;
@@ -29409,7 +29394,6 @@ document.addEventListener('DOMContentLoaded', function() {
             zoomToClickedPrecinctFeature(f, { padding: 42, duration: 880, maxZoom: 13.0 });
             setTooltipPinned(false);
             renderPrecinctHoverAtPoint(e.point, f, { forceTooltip: true, pinSelection: true });
-            if (isTouchInteractionMode()) setTooltipPinned(true);
             if (props.county_nam && props.prec_id) {
               showCountyDetails(props.county_nam);
               const full = (props.precinct_full_name || props.precinct_desc || props.enr_desc || props.ENR_DESC || '').toString().replace(/\s+/g, ' ').trim();
@@ -29664,7 +29648,6 @@ document.addEventListener('DOMContentLoaded', function() {
          
         // Add click handler for districts with full trends popup
         map.on('click', 'district-fill', async (e) => {
-          if (isTouchInteractionMode() && wasRecentTooltipTouch()) return;
           if (e.features && e.features[0] && e.features[0].properties) {
             const props = e.features[0].properties;
             const districtNum = normalizeDistrictNumber(props.DISTRICT || props.CD118FP || props.CD119FP || props.district_id || props.district);
@@ -29784,7 +29767,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add click handler for state house districts with full trends popup
         map.on('click', 'state-house-fill', async (e) => {
-          if (isTouchInteractionMode() && wasRecentTooltipTouch()) return;
           if (e.features && e.features[0] && e.features[0].properties) {
             const props = e.features[0].properties;
             const districtNum = normalizeDistrictNumber(props.DISTRICT || props.SLDLST || props.district_id || props.district);
@@ -29902,7 +29884,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add click handler for state senate districts with full trends popup
         map.on('click', 'state-senate-fill', async (e) => {
-          if (isTouchInteractionMode() && wasRecentTooltipTouch()) return;
           if (e.features && e.features[0] && e.features[0].properties) {
             const props = e.features[0].properties;
             const districtNum = normalizeDistrictNumber(props.DISTRICT || props.SLDUST || props.district_id || props.district);
@@ -30747,30 +30728,6 @@ document.addEventListener('DOMContentLoaded', function() {
       return tooltip;
     }
 
-    function wireTooltipTouchShield() {
-      const tooltip = document.getElementById('hover-tooltip');
-      if (!tooltip) return;
-      if (tooltip.dataset && tooltip.dataset.touchShieldWired === '1') return;
-      try { tooltip.dataset.touchShieldWired = '1'; } catch (_) {}
-      const stopOnly = (ev) => {
-        try { ev?.stopPropagation?.(); } catch (_) {}
-      };
-      const markTouchAndStop = (ev) => {
-        if (isTouchInteractionMode() || (ev && ev.pointerType === 'touch')) {
-          const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
-          tooltipTouchStartedAt = now;
-        }
-        stopOnly(ev);
-      };
-      tooltip.addEventListener('click', stopOnly, true);
-      tooltip.addEventListener('mousedown', stopOnly, true);
-      tooltip.addEventListener('mouseup', stopOnly, true);
-      tooltip.addEventListener('pointerdown', markTouchAndStop, true);
-      tooltip.addEventListener('pointerup', stopOnly, true);
-      tooltip.addEventListener('touchstart', markTouchAndStop, true);
-      tooltip.addEventListener('touchend', stopOnly, true);
-    }
-
     function showHoverTooltip(x, y, content, { force = false, pinned = false, context = '', copyText = '' } = {}) {
       const tooltip = ensureHoverTooltipInBody() || document.getElementById('hover-tooltip');
       if (!tooltip) return;
@@ -30800,7 +30757,6 @@ document.addEventListener('DOMContentLoaded', function() {
       tooltip.dataset.pinned = pinned ? '1' : '0';
       try { document.body.classList.toggle('hover-preview-active', !pinned); } catch (_) {}
       try { wireDesktopTooltipExpandOnClick(); } catch (_) {}
-      try { wireTooltipTouchShield(); } catch (_) {}
       const shouldDockNow = !!(pinned || force || isTouchInteractionMode() || !isDesktopTooltipMode() || lastPointerWasTouch);
       if (shouldDockNow) {
         tooltip.style.setProperty('position', 'fixed', 'important');
@@ -30811,10 +30767,6 @@ document.addEventListener('DOMContentLoaded', function() {
         tooltip.style.setProperty('bottom', 'calc(var(--safe-bottom, 0px) + 76px)', 'important');
         tooltip.style.setProperty('max-height', 'min(52vh, calc(100vh - 20px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - 76px))', 'important');
         tooltip.style.setProperty('transform', 'none', 'important');
-        if (isTouchInteractionMode()) {
-          // On mobile, keep tooltip taps from passing through to map/panels beneath it.
-          tooltip.style.setProperty('pointer-events', 'auto', 'important');
-        }
         return;
       }
       // Position tooltip near mouse but avoid edges
@@ -30841,7 +30793,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!tooltip) return;
       if (tooltipPinned) return;
       tooltip.style.display = 'none';
-      try { tooltip.style.removeProperty('pointer-events'); } catch (_) {}
       clearDesktopHoverExpandState();
       try { tooltip.dataset.context = ''; } catch (_) {}
       try { tooltip.dataset.copyText = ''; } catch (_) {}

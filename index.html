@@ -14977,6 +14977,20 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         if (String(meta?.kind || '').toLowerCase() === 'county') pulseCountySelection(meta?.county || title);
       } catch (_) {}
+      try {
+        // Mobile UX: once selection is pinned into the panel, dismiss hover tooltip
+        // so it does not jump/reposition as overlays auto-expand.
+        if (typeof isTouchInteractionMode === 'function' && isTouchInteractionMode()) {
+          setTooltipPinned(false);
+          const tooltip = document.getElementById('hover-tooltip');
+          if (tooltip) {
+            tooltip.style.display = 'none';
+            try { tooltip.dataset.context = ''; } catch (_) {}
+            try { tooltip.dataset.copyText = ''; } catch (_) {}
+          }
+          try { document.body.classList.remove('hover-preview-active'); } catch (_) {}
+        }
+      } catch (_) {}
       updateRecountRadarBadge();
       try { announceForScreenReader(buildAriaSummary(title || 'Selected area', demVotes, repVotes, otherVotes)); } catch (_) {}
       try { updateContextBanner(); } catch (_) {}

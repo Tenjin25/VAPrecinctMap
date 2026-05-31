@@ -9017,9 +9017,14 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     }
   }
 
-  /* Mobile tooltip parity with desktop style while keeping touch-friendly behavior. */
+  /* Mobile strict desktop parity: floating tooltip, no dock-style sizing/placement. */
   @media (max-width: 768px) {
     #hover-tooltip {
+      position: fixed !important;
+      top: auto !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
       border-radius: 14px !important;
       border: 1px solid rgba(148, 163, 184, 0.28) !important;
       background: rgba(15, 23, 42, 0.95) !important;
@@ -9027,11 +9032,12 @@ body.focus-active #hover-tooltip[data-context="preview"] {
       box-shadow: 0 18px 44px rgba(2, 6, 23, 0.55) !important;
       backdrop-filter: blur(14px) !important;
       padding: 0 !important;
-      max-width: 310px !important;
-      min-width: 250px !important;
-      width: min(310px, calc(100vw - 16px)) !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
+      width: auto !important;
+      min-width: 0 !important;
+      max-width: 280px !important;
+      max-height: none !important;
+      overflow: visible !important;
+      transform: none !important;
     }
 
     #hover-tooltip .tooltip-head {

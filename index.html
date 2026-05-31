@@ -10182,8 +10182,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-05-31-2';
-    const APP_BUILD_ID = '2026-05-31-2';
+    const DATA_CACHE_BUSTER = '2026-05-31-4';
+    const APP_BUILD_ID = '2026-05-31-4';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -28648,12 +28648,7 @@ document.addEventListener('DOMContentLoaded', function() {
               handleCountySelection(countyName);
               setCountyHoverOutline(countyName);
               setTooltipPinned(false);
-              if (isTouchInteractionMode()) {
-                renderCountyHoverAtPoint(e, { forceTooltip: true });
-                setTooltipPinned(true);
-              } else {
-                hideHoverTooltip();
-              }
+              hideHoverTooltip();
             }
           }
         });
@@ -29826,18 +29821,7 @@ document.addEventListener('DOMContentLoaded', function() {
               try {
                 setDistrictHoverOutline('congressional', districtNum);
                 setTooltipPinned(false);
-                if (isTouchInteractionMode()) {
-                  await renderDistrictHover(
-                    e,
-                    'congressional',
-                    'Congressional District',
-                    ['DISTRICT', 'CD118FP', 'CD119FP', 'district_id', 'district', 'NAMELSAD'],
-                    { forceTooltip: true }
-                  );
-                  setTooltipPinned(true);
-                } else {
-                  hideHoverTooltip();
-                }
+                hideHoverTooltip();
               } catch (_) {}
             }
           }
@@ -29943,18 +29927,7 @@ document.addEventListener('DOMContentLoaded', function() {
               try {
                 setDistrictHoverOutline('state_house', districtNum);
                 setTooltipPinned(false);
-                if (isTouchInteractionMode()) {
-                  await renderDistrictHover(
-                    e,
-                    'state_house',
-                    'House of Delegates District',
-                    ['DISTRICT', 'SLDLST', 'district_id', 'district', 'NAMELSAD'],
-                    { forceTooltip: true }
-                  );
-                  setTooltipPinned(true);
-                } else {
-                  hideHoverTooltip();
-                }
+                hideHoverTooltip();
               } catch (_) {}
             }
           }
@@ -30060,18 +30033,7 @@ document.addEventListener('DOMContentLoaded', function() {
               try {
                 setDistrictHoverOutline('state_senate', districtNum);
                 setTooltipPinned(false);
-                if (isTouchInteractionMode()) {
-                  await renderDistrictHover(
-                    e,
-                    'state_senate',
-                    'State Senate District',
-                    ['DISTRICT', 'SLDUST', 'district_id', 'district', 'NAMELSAD'],
-                    { forceTooltip: true }
-                  );
-                  setTooltipPinned(true);
-                } else {
-                  hideHoverTooltip();
-                }
+                hideHoverTooltip();
               } catch (_) {}
             }
           }
@@ -30861,6 +30823,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function showHoverTooltip(x, y, content, { force = false, pinned = false, context = '', copyText = '' } = {}) {
       const tooltip = document.getElementById('hover-tooltip');
       if (!tooltip) return;
+      // Mobile precedence rule: once a selection is pinned to the panel,
+      // do not render hover tooltip overlays until selection is cleared.
+      if (isTouchInteractionMode() && voteCounterPinned) return;
       if (isTouchInteractionMode() && !force && !tooltipPinned) return;
       if (tooltipPinned && !force) return;
 

@@ -30774,7 +30774,7 @@ document.addEventListener('DOMContentLoaded', function() {
       tooltip.addEventListener('click', stopOnly, true);
       tooltip.addEventListener('mousedown', stopOnly, true);
       tooltip.addEventListener('mouseup', stopOnly, true);
-      tooltip.addEventListener('pointerdown', stopOnly, true);
+      tooltip.addEventListener('pointerdown', markTouchAndStop, true);
       tooltip.addEventListener('pointerup', stopOnly, true);
       tooltip.addEventListener('touchstart', markTouchAndStop, true);
       tooltip.addEventListener('touchend', stopOnly, true);

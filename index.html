@@ -60,19 +60,38 @@
       left: 8px !important;
       right: 8px !important;
       top: auto !important;
-        bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 24px + var(--vote-counter-h, 0px) + 8px) !important;
+      bottom: calc(var(--safe-bottom, 0px) + var(--mobile-dock-h, 62px) + 24px + var(--vote-counter-h, 0px) + 8px) !important;
       max-width: none !important;
       width: auto !important;
-      max-height: min(58vh, calc(100vh - 12px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
+      max-height: min(57vh, calc(100vh - 12px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
       overflow: auto;
       -webkit-overflow-scrolling: touch;
       touch-action: pan-y;
+      overscroll-behavior: contain;
       z-index: 10031 !important;
+      padding: 12px 14px !important;
+      border-radius: 12px !important;
+      font-size: 13.5px !important;
+      line-height: 1.5 !important;
+      background: rgba(3, 7, 18, 0.97) !important;
+      color: #f8fafc !important;
+      border: 1px solid rgba(148, 163, 184, 0.24) !important;
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.42), 0 2px 10px rgba(0, 0, 0, 0.28) !important;
     }
     @supports (height: 100svh) {
       #hover-tooltip {
-        max-height: min(58svh, calc(100svh - 12px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
+        max-height: min(57svh, calc(100svh - 12px - var(--safe-top, 0px) - var(--safe-bottom, 0px) - var(--mobile-dock-h, 62px) - var(--vote-counter-h, 0px)));
       }
+    }
+    #hover-tooltip .tooltip-trends {
+      font-size: 13.5px;
+    }
+      #hover-tooltip .tooltip-vote-line {
+        margin: 5px 0;
+      }
+    #hover-tooltip .tooltip-vote-pct {
+      padding: 1px 6px;
+      font-size: 0.94em;
     }
     #hover-tooltip .tooltip-btn {
       min-height: 44px;
@@ -89,6 +108,27 @@
     }
     #hover-tooltip .tooltip-btn {
       flex: 1 1 auto;
+    }
+    body.mobile-sheet-open #hover-tooltip {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px) !important;
+    }
+    body.mobile-sheet-open .vote-counter,
+    body.mobile-sheet-open .viz-modes {
+      opacity: 0.22;
+      pointer-events: none;
+      transform: translateY(6px) !important;
+    }
+    body.mobile-input-active .vote-counter {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px) !important;
+    }
+    body.mobile-input-active #hover-tooltip {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px) !important;
     }
   }
     .spinner svg {
@@ -9017,55 +9057,6 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     }
   }
 
-  /* Mobile strict desktop parity: floating tooltip, no dock-style sizing/placement. */
-  @media (max-width: 768px) {
-    #hover-tooltip {
-      position: fixed !important;
-      top: auto !important;
-      bottom: auto !important;
-      left: auto !important;
-      right: auto !important;
-      border-radius: 14px !important;
-      border: 1px solid rgba(148, 163, 184, 0.28) !important;
-      background: rgba(15, 23, 42, 0.95) !important;
-      color: #e2e8f0 !important;
-      box-shadow: 0 18px 44px rgba(2, 6, 23, 0.55) !important;
-      backdrop-filter: blur(14px) !important;
-      padding: 0 !important;
-      width: auto !important;
-      min-width: 0 !important;
-      max-width: 280px !important;
-      max-height: none !important;
-      overflow: visible !important;
-      transform: none !important;
-    }
-
-    #hover-tooltip .tooltip-head {
-      flex-direction: row !important;
-      align-items: flex-start !important;
-      justify-content: space-between !important;
-      gap: 10px !important;
-    }
-
-    #hover-tooltip .tooltip-actions {
-      width: auto !important;
-      display: flex !important;
-      gap: 6px !important;
-    }
-
-    #hover-tooltip .tooltip-btn {
-      flex: 0 0 auto !important;
-      min-height: 0 !important;
-      padding: 6px 8px !important;
-      font-size: 12px !important;
-      border-radius: 10px !important;
-    }
-
-    #hover-tooltip .tooltip-trends {
-      font-size: 13px !important;
-      line-height: 1.45 !important;
-    }
-  }
     </style>
 </head>
 <body>
@@ -30822,16 +30813,8 @@ document.addEventListener('DOMContentLoaded', function() {
         top = y - tooltipRect.height - padding;
       }
 
-      if (isTouchInteractionMode()) {
-        // On touch, use desktop-like floating placement near interaction point.
-        tooltip.style.setProperty('left', left + 'px', 'important');
-        tooltip.style.setProperty('top', top + 'px', 'important');
-        tooltip.style.setProperty('right', 'auto', 'important');
-        tooltip.style.setProperty('bottom', 'auto', 'important');
-      } else {
-        tooltip.style.left = left + 'px';
-        tooltip.style.top = top + 'px';
-      }
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
     }
 
     function hideHoverTooltip() {
@@ -30971,15 +30954,8 @@ document.addEventListener('DOMContentLoaded', function() {
         top = y - tooltipRect.height - padding;
       }
 
-      if (isTouchInteractionMode()) {
-        tooltip.style.setProperty('left', left + 'px', 'important');
-        tooltip.style.setProperty('top', top + 'px', 'important');
-        tooltip.style.setProperty('right', 'auto', 'important');
-        tooltip.style.setProperty('bottom', 'auto', 'important');
-      } else {
-        tooltip.style.left = left + 'px';
-        tooltip.style.top = top + 'px';
-      }
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
     }
 
     function showDistrictDetails(districtNum) {

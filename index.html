@@ -4372,11 +4372,11 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     line-height: 1.2;
     white-space: normal;
     overflow: hidden;
-    text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
     -webkit-box-orient: vertical;
+    overflow-wrap: anywhere;
     word-break: break-word;
   }
 
@@ -7274,8 +7274,9 @@ body.focus-active #hover-tooltip[data-context="preview"] {
 
   .vote-label.candidate {
     display: block;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .vote-percent {
@@ -20265,7 +20266,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function shortCandidateLabel(name, fallback) {
       const raw = (name || '').toString().trim();
       if (!raw) return fallback;
-      const ticketLead = stripRunningMateName(raw);
+      const ticketLead = preferredCandidateDisplayName(raw);
       const cleaned = ticketLead.replace(/\([^)]*\)/g, ' ').replace(/[^A-Za-z .'-]/g, ' ').replace(/\s+/g, ' ').trim();
       if (!cleaned) return fallback;
       const parts = cleaned.split(' ').filter(Boolean);
@@ -20401,13 +20402,117 @@ document.addEventListener('DOMContentLoaded', function() {
     function fullCandidateLabel(name, fallback = '') {
       const raw = (name || '').toString().trim();
       if (!raw) return fallback;
-      const ticketLead = stripRunningMateName(raw);
-      if (/^Joseph\s+Robinette\s+Biden\s*,?\s*Jr\.?$/i.test(ticketLead)) {
-        return 'Joseph R. Biden';
+      const displayName = preferredCandidateDisplayName(raw);
+      if (!displayName) return fallback;
+      return displayName;
+    }
+
+    function preferredCandidateDisplayName(name) {
+      const raw = stripRunningMateName((name || '').toString().trim());
+      if (!raw) return '';
+
+      const cleaned = raw
+        .replace(/\([^)]*\)/g, ' ')
+        .replace(/,/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      if (!cleaned) return '';
+
+      const normalizedKey = cleaned
+        .toUpperCase()
+        .replace(/[.]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+      const aliasMap = {
+        'ABIGAIL ANNE DAVIS SPANBERGER': 'Abigail D. Spanberger',
+        'ABIGAIL D SPANBERGER': 'Abigail D. Spanberger',
+        'CHARLENA JONES': 'Charlena Jones',
+        'CHARNIELE L HERRING': 'Charniele L. Herring',
+        'COREY ALAN STEWART': 'Corey A. Stewart',
+        'GLENN ALLEN YOUNGKIN': 'Glenn A. Youngkin',
+        'HERBERT CARROLL JONES JR': 'Herb Jones',
+        'WINSOME EARLE SEARS': 'Winsome Earle-Sears',
+        'WINSOME EARLE-SEARS': 'Winsome Earle-Sears',
+        'JASON S MIYARES': 'Jason S. Miyares',
+        'JASON STUART REDDING MIYARES': 'Jason S. Miyares',
+        'JAY C JONES': 'Jay C. Jones',
+        'JILL E STEIN': 'Jill E. Stein',
+        'JOHN MCCAIN': 'John McCain',
+        'JOSEPH ROBINETTE BIDEN': 'Joseph R. Biden',
+        'JOSEPH ROBINETTE BIDEN JR': 'Joseph R. Biden, Jr.',
+        'KEN T CUCCINELLI': 'Ken T. Cuccinelli',
+        'KEN T CUCCINELLI II': 'Ken T. Cuccinelli, II',
+        'KENNETH THOMAS CUCCINELLI': 'Ken T. Cuccinelli',
+        'KENNETH THOMAS CUCCINELLI II': 'Ken T. Cuccinelli, II',
+        'MARK D OBENSHAIN': 'Mark D. Obenshain',
+        'MARK DUDLEY OBENSHAIN': 'Mark D. Obenshain',
+        'MARK L EARLEY': 'Mark L. Earley',
+        'MARK L EARLEY JR': 'Mark L. Earley, Jr.',
+        'MARK RANKIN HERRING': 'Mark R. Herring',
+        'MICHAEL J JONES': 'Michael J. Jones',
+        'JAY C JONES JR': 'Jay C. Jones, Jr.',
+        'SAUNDRA T DAVIS': 'Saundra T. Davis',
+        'SEAN C STEINWAY': 'Sean C. Steinway',
+        'WILLIAM P DAVIS': 'William P. Davis',
+        'WILL P DAVIS': 'Will P. Davis',
+        'JAMES JIM S GILMORE III': 'Jim S. Gilmore, III',
+        'JAMES JIM S GILMORE': 'Jim S. Gilmore'
+      };
+      if (aliasMap[normalizedKey]) return aliasMap[normalizedKey];
+
+      const parts = cleaned.split(' ').filter(Boolean);
+      if (!parts.length) return '';
+
+      const isInitialToken = (token) => {
+        const normalized = (token || '').toString().replace(/[^A-Za-z]/g, '');
+        return normalized.length === 1;
+      };
+
+      const suffixTokens = [];
+      while (parts.length > 1 && isNameSuffixToken(parts[parts.length - 1])) {
+        suffixTokens.unshift(parts.pop());
       }
-      const cleaned = ticketLead.replace(/\([^)]*\)/g, ' ').replace(/[^A-Za-z .,\'-]/g, ' ').replace(/\s+/g, ' ').trim();
-      if (!cleaned) return fallback;
-      return toTitleCaseName(cleaned);
+      if (!parts.length) return '';
+
+      let firstIndex = 0;
+      const nicknameToken = parts[1] || '';
+      if (parts.length >= 3 && !isInitialToken(nicknameToken) && nicknameToken.length <= 4 && (parts[0] || '').length >= 5) {
+        firstIndex = 1;
+      }
+
+      const first = toTitleCaseName(parts[firstIndex] || '');
+      if (!first) return '';
+
+      const last = toTitleCaseName(parts[parts.length - 1] || '');
+      if (!last) return first;
+
+      const middle = [];
+      for (let i = firstIndex + 1; i < parts.length - 1; i += 1) {
+        const token = (parts[i] || '').toString().trim();
+        if (!token) continue;
+        const normalized = token.replace(/[^A-Za-z]/g, '');
+        if (normalized.length === 1) {
+          middle.push(`${normalized.toUpperCase()}.`);
+        }
+      }
+
+      const displayTokens = [first, ...middle, last].filter(Boolean);
+      let displayName = displayTokens.join(' ');
+      if (suffixTokens.length) {
+        const suffix = suffixTokens
+          .map(token => {
+            const normalized = (token || '').toString().replace(/[^A-Za-z0-9]/g, '');
+            if (!normalized) return '';
+            if (/^\d+(ST|ND|RD|TH)$/i.test(normalized)) return normalized.toUpperCase();
+            if (/^(JR|SR|JNR)$/i.test(normalized)) return `${normalized.charAt(0).toUpperCase()}r.`;
+            if (/^(II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX)$/i.test(normalized)) return normalized.toUpperCase();
+            return toTitleCaseName(normalized);
+          })
+          .filter(Boolean)
+          .join(' ');
+        if (suffix) displayName = `${displayName}, ${suffix}`;
+      }
+      return displayName;
     }
 
     function toTitleCaseName(raw) {

@@ -6707,11 +6707,12 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     border-radius: 14px;
     border: 1px solid rgba(148, 163, 184, 0.16);
     background: rgba(255, 255, 255, 0.86);
+    min-width: 0;
   }
 
   .statewide-breakdown-head {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
     min-width: 0;
   }
@@ -6730,14 +6731,27 @@ body.focus-active #hover-tooltip[data-context="preview"] {
 
   .statewide-breakdown-label {
     min-width: 0;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.06em;
+    display: grid;
+    gap: 2px;
+    line-height: 1.22;
+    overflow: visible;
+    white-space: normal;
+  }
+
+  .statewide-breakdown-party {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #64748b;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  }
+
+  .statewide-breakdown-candidate {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    color: #0f172a;
+    overflow-wrap: anywhere;
   }
 
   .statewide-breakdown-value {
@@ -9142,6 +9156,130 @@ body.focus-active #hover-tooltip[data-context="preview"] {
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1;
     }
+  }
+
+  /* Virginia color pass: flag blue/red with warm seal-inspired gold accents. */
+  :root {
+    --state-blue: #0a3161;
+    --state-blue-strong: #061f3f;
+    --state-red: #b31942;
+    --state-red-strong: #8d1731;
+    --virginia-gold: #c79a3b;
+    --virginia-gold-soft: #f3ddb0;
+    --virginia-parchment: #fbf5e8;
+    --virginia-panel: #fffaf0;
+    --virginia-border: rgba(120, 78, 25, 0.24);
+    --state-ribbon: linear-gradient(90deg, #8d1731 0%, #b31942 28%, #fbf5e8 48%, #c79a3b 52%, #0a3161 76%, #061f3f 100%);
+    --state-accent-gradient: linear-gradient(135deg, #8d1731 0%, #0a3161 88%);
+    --ui-bg: rgba(255, 250, 240, 0.96);
+    --ui-border: var(--virginia-border);
+    --ui-shadow: 0 18px 44px rgba(6, 31, 63, 0.22);
+    --ui-text: #10243e;
+    --ui-muted: #576879;
+    --ui-accent: var(--state-blue);
+    --ui-accent-2: var(--state-red);
+  }
+
+  body {
+    background:
+      radial-gradient(circle at 12% 8%, rgba(10, 49, 97, 0.18) 0%, rgba(10, 49, 97, 0) 42%),
+      radial-gradient(circle at 88% 10%, rgba(179, 25, 66, 0.15) 0%, rgba(179, 25, 66, 0) 38%),
+      linear-gradient(180deg, #f8f1e2 0%, #eef4fb 52%, #f9f4ea 100%);
+  }
+
+  .main-controls,
+  .legend,
+  .vote-counter,
+  .desktop-statewide-panel,
+  #status-panel {
+    border-color: var(--virginia-border) !important;
+    background:
+      linear-gradient(180deg, rgba(255, 250, 240, 0.98) 0%, rgba(246, 239, 225, 0.95) 100%) !important;
+    box-shadow: 0 18px 42px rgba(6, 31, 63, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+  }
+
+  .main-controls::before,
+  .legend::before,
+  .vote-counter::before {
+    background: var(--state-ribbon) !important;
+  }
+
+  .controls-title-pill,
+  .legend-badge,
+  .map-topbar-badge,
+  .desktop-statewide-tag,
+  .control-summary,
+  .view-toggle-btn.active,
+  .viz-mode-btn.active,
+  .mode-toggle.active,
+  .fly-search-submit {
+    background: var(--state-accent-gradient) !important;
+    border-color: rgba(243, 221, 176, 0.58) !important;
+    color: #fffaf0 !important;
+    box-shadow: 0 10px 24px rgba(6, 31, 63, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+  }
+
+  .main-controls .control-group,
+  .statewide-breakdown-item,
+  .statewide-stat,
+  .legend-swatch-card,
+  .context-banner-item {
+    border-color: rgba(120, 78, 25, 0.18) !important;
+    background: linear-gradient(180deg, rgba(255, 252, 246, 0.96) 0%, rgba(251, 245, 232, 0.90) 100%) !important;
+  }
+
+  .desktop-statewide-kicker,
+  .statewide-kicker,
+  .legend-kicker,
+  .controls-kicker,
+  .context-tag {
+    color: #704f19 !important;
+  }
+
+  .statewide-card {
+    border-color: rgba(120, 78, 25, 0.22) !important;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(199, 154, 59, 0.18) 0%, rgba(199, 154, 59, 0) 38%),
+      linear-gradient(180deg, rgba(255, 252, 246, 0.99) 0%, rgba(251, 245, 232, 0.95) 100%) !important;
+    box-shadow: 0 18px 38px rgba(6, 31, 63, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.78) !important;
+  }
+
+  .statewide-card::before {
+    content: '';
+    height: 3px;
+    border-radius: 999px;
+    background: var(--state-ribbon);
+  }
+
+  .statewide-call[data-party="dem"],
+  .statewide-share-chip.dem,
+  .legend-axis .dem,
+  .legend-scale-caption .dem {
+    color: var(--state-blue) !important;
+  }
+
+  .statewide-call[data-party="rep"],
+  .statewide-share-chip.rep,
+  .legend-axis .rep,
+  .legend-scale-caption .rep {
+    color: var(--state-red) !important;
+  }
+
+  .statewide-share-chip.dem {
+    background: rgba(10, 49, 97, 0.10) !important;
+    border-color: rgba(10, 49, 97, 0.24) !important;
+  }
+
+  .statewide-share-chip.rep {
+    background: rgba(179, 25, 66, 0.10) !important;
+    border-color: rgba(179, 25, 66, 0.24) !important;
+  }
+
+  .statewide-competitive,
+  .legend-chip,
+  .fly-search-chip {
+    border-color: rgba(199, 154, 59, 0.38) !important;
+    background: rgba(255, 250, 240, 0.18) !important;
   }
 
     </style>
@@ -22095,7 +22233,10 @@ document.addEventListener('DOMContentLoaded', function() {
           `<div class="statewide-breakdown-item">` +
             `<div class="statewide-breakdown-head">` +
               `<span class="statewide-dot ${item.key}"></span>` +
-              `<span class="statewide-breakdown-label">${item.label}: ${item.candidate}</span>` +
+              `<span class="statewide-breakdown-label">` +
+                `<span class="statewide-breakdown-party">${escapeHtml(item.label)}</span>` +
+                `<span class="statewide-breakdown-candidate">${escapeHtml(item.candidate)}</span>` +
+              `</span>` +
             `</div>` +
             `<div class="statewide-breakdown-value" style="color:${item.color};">` +
               `${item.votes.toLocaleString()}` +

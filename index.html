@@ -9209,6 +9209,7 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   .map-topbar-badge,
   .desktop-statewide-tag,
   .control-summary,
+  .controls-collapsed-label,
   .view-toggle-btn.active,
   .viz-mode-btn.active,
   .mode-toggle.active,
@@ -9217,6 +9218,11 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     border-color: rgba(243, 221, 176, 0.58) !important;
     color: #fffaf0 !important;
     box-shadow: 0 10px 24px rgba(6, 31, 63, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+  }
+
+  .controls-collapsed-label::before {
+    background: linear-gradient(135deg, var(--virginia-gold-soft) 0%, var(--virginia-gold) 100%) !important;
+    box-shadow: 0 0 0 4px rgba(199, 154, 59, 0.18) !important;
   }
 
   .main-controls .control-group,
@@ -20591,6 +20597,14 @@ document.addEventListener('DOMContentLoaded', function() {
         'JAY C JONES JR': 'Jay C. Jones, Jr.',
         'SAUNDRA T DAVIS': 'Saundra T. Davis',
         'SEAN C STEINWAY': 'Sean C. Steinway',
+        'TERANCE R MCAULIFFE': 'Terry R. McAuliffe',
+        'TERANCE RICHARD MCAULIFFE': 'Terry R. McAuliffe',
+        'TERENCE R MCAULIFFE': 'Terry R. McAuliffe',
+        'TERENCE RICHARD MCAULIFFE': 'Terry R. McAuliffe',
+        'TERRANCE R MCAULIFFE': 'Terry R. McAuliffe',
+        'TERRANCE RICHARD MCAULIFFE': 'Terry R. McAuliffe',
+        'TERRY MCAULIFFE': 'Terry R. McAuliffe',
+        'TERRY R MCAULIFFE': 'Terry R. McAuliffe',
         'WILLIAM P DAVIS': 'William P. Davis',
         'WILL P DAVIS': 'Will P. Davis',
         'JAMES JIM S GILMORE III': 'Jim S. Gilmore, III',

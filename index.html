@@ -6712,7 +6712,7 @@ body.focus-active #hover-tooltip[data-context="preview"] {
 
   .statewide-breakdown-head {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
     min-width: 0;
   }
@@ -6731,27 +6731,38 @@ body.focus-active #hover-tooltip[data-context="preview"] {
 
   .statewide-breakdown-label {
     min-width: 0;
-    display: grid;
-    gap: 2px;
-    line-height: 1.22;
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: 4px;
+    row-gap: 1px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    line-height: 1.25;
+    color: #64748b;
     overflow: visible;
     white-space: normal;
   }
 
   .statewide-breakdown-party {
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: 0.08em;
+    font: inherit;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #64748b;
+    color: inherit;
+  }
+
+  .statewide-breakdown-separator {
+    color: inherit;
   }
 
   .statewide-breakdown-candidate {
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: -0.01em;
-    color: #0f172a;
+    min-width: 0;
+    font: inherit;
+    letter-spacing: 0.01em;
+    color: inherit;
     overflow-wrap: anywhere;
+    text-transform: none;
   }
 
   .statewide-breakdown-value {
@@ -22249,6 +22260,7 @@ document.addEventListener('DOMContentLoaded', function() {
               `<span class="statewide-dot ${item.key}"></span>` +
               `<span class="statewide-breakdown-label">` +
                 `<span class="statewide-breakdown-party">${escapeHtml(item.label)}</span>` +
+                `<span class="statewide-breakdown-separator">:</span>` +
                 `<span class="statewide-breakdown-candidate">${escapeHtml(item.candidate)}</span>` +
               `</span>` +
             `</div>` +

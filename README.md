@@ -687,7 +687,7 @@ The hover tooltip is designed to be **fast, low-clutter, and Virginia-safe** (co
 **County vs. precinct vs. district:**
 
 - **Counties / independent cities:** compact margin call + tier, optional Flip line/chip, and (when available) the NC-style raw vote delta block; pinned `Details` expands to the full result card + chips.
-- **Districts (CD / HoD / State Senate):** desktop hover uses the chip row + full result card; compact (mobile) shows quickline + Flip line when applicable.
+- **Districts (CD / HoD / State Senate):** desktop hover uses the chip row + full result card; compact (mobile) shows quickline + Flip line when applicable. For Virginia legislative district elections, the statewide leader card uses Virginia chamber leadership labels rather than candidate slates: Speaker Don Scott vs Todd Gilbert for House 2023, Speaker Don Scott vs Terry Kilgore for House 2025, and Louise Lucas vs Tommy Norment for Senate 2023.
 - **Precincts:** compact hover call; Flip line appears when prior precinct margins are available (typically in `Shift`/`Flips` contexts where prior-precinct caches are loaded).
 
 **Color conventions inside the tooltip:**

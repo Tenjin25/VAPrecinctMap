@@ -20427,19 +20427,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const parts = cleaned.split(' ').filter(Boolean);
       if (!parts.length) return fallback;
 
-      const isLeadingInitialToken = (token) => {
-        const normalized = (token || '').toString().replace(/[^A-Za-z]/g, '');
-        return normalized.length === 1;
-      };
-
-      // Virginia legislative names often use a public-facing initial + name format
-      // (ex: "R. Lee Ware", "W. Green", "C. Todd Gilbert"). Keep that compact
-      // label intact instead of reducing it to "Ware" or a malformed "R. Ware".
-      if (parts.length >= 2 && isLeadingInitialToken(parts[0])) {
-        return cleaned;
-      }
-
       // Prefer the surname in compact labels; ignore trailing suffixes like Jr./III.
+      // Full-name surfaces still use preferredCandidateDisplayName(), which preserves
+      // public legislative names like "R. Lee Ware" and "W. Chad Green".
       let idx = parts.length - 1;
       while (idx > 0 && isNameSuffixToken(parts[idx])) idx -= 1;
       return parts[idx];

@@ -751,11 +751,9 @@ body.focus-active.hover-preview-active .vote-counter {
 }
 
 #hover-tooltip[data-context="votehub-results"] .vhr-name {
-  overflow: visible;
-  text-overflow: clip;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-weight: 800;
 }
 
@@ -2829,13 +2827,11 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   }
 
   #hover-tooltip[data-context="votehub-results"] .vhr-name {
-  overflow: visible;
-  text-overflow: clip;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  font-weight: 800;
-}
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 800;
+  }
 
   #hover-tooltip[data-context="votehub-results"] .vhr-votes,
   #hover-tooltip[data-context="votehub-results"] .vhr-pct {
@@ -7300,11 +7296,10 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
   .vote-label.candidate {
     display: block;
     white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
     overflow-wrap: anywhere;
     word-break: break-word;
   }
@@ -7355,11 +7350,13 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     word-break: break-word;
     text-align: left;
   }
+
   .vote-item.layout-stacked .vote-label.candidate {
-    display: block;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
     overflow-wrap: anywhere;
     word-break: break-word;
   }
@@ -20429,6 +20426,19 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!cleaned) return fallback;
       const parts = cleaned.split(' ').filter(Boolean);
       if (!parts.length) return fallback;
+
+      const isLeadingInitialToken = (token) => {
+        const normalized = (token || '').toString().replace(/[^A-Za-z]/g, '');
+        return normalized.length === 1;
+      };
+
+      // Virginia legislative names often use a public-facing initial + name format
+      // (ex: "R. Lee Ware", "W. Green", "C. Todd Gilbert"). Keep that compact
+      // label intact instead of reducing it to "Ware" or a malformed "R. Ware".
+      if (parts.length >= 2 && isLeadingInitialToken(parts[0])) {
+        return cleaned;
+      }
+
       // Prefer the surname in compact labels; ignore trailing suffixes like Jr./III.
       let idx = parts.length - 1;
       while (idx > 0 && isNameSuffixToken(parts[idx])) idx -= 1;
@@ -20648,6 +20658,42 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       if (!parts.length) return '';
 
+      const appendSuffixText = (displayName) => {
+        if (!suffixTokens.length) return displayName;
+        const suffix = suffixTokens
+          .map(token => {
+            const normalized = (token || '').toString().replace(/[^A-Za-z0-9]/g, '');
+            if (!normalized) return '';
+            if (/^\d+(ST|ND|RD|TH)$/i.test(normalized)) return normalized.toUpperCase();
+            if (/^(JR|SR|JNR)$/i.test(normalized)) return `${normalized.charAt(0).toUpperCase()}r.`;
+            if (/^(II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX)$/i.test(normalized)) return normalized.toUpperCase();
+            return toTitleCaseName(normalized);
+          })
+          .filter(Boolean)
+          .join(' ');
+        return suffix ? `${displayName}, ${suffix}` : displayName;
+      };
+
+      // Preserve public legislative names that start with an initial followed by
+      // the actual given/public name, such as "R. Lee Ware" or "C. Todd Gilbert".
+      // The generic formatter below only keeps middle initials, so without this
+      // branch it collapses those names to "R. Ware" / "C. Gilbert".
+      if (parts.length >= 3 && isInitialToken(parts[0]) && !isInitialToken(parts[1])) {
+        const firstInitial = `${parts[0].replace(/[^A-Za-z]/g, '').toUpperCase()}.`;
+        const displayTokens = [firstInitial];
+        for (let i = 1; i < parts.length; i += 1) {
+          const token = (parts[i] || '').toString().trim();
+          if (!token) continue;
+          if (isInitialToken(token)) {
+            displayTokens.push(`${token.replace(/[^A-Za-z]/g, '').toUpperCase()}.`);
+          } else {
+            displayTokens.push(toTitleCaseName(token));
+          }
+        }
+        const displayName = displayTokens.filter(Boolean).join(' ');
+        if (displayName) return appendSuffixText(displayName);
+      }
+
       let firstIndex = 0;
       const nicknameToken = parts[1] || '';
       if (parts.length >= 3 && !isInitialToken(nicknameToken) && nicknameToken.length <= 4 && (parts[0] || '').length >= 5) {
@@ -20671,22 +20717,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const displayTokens = [first, ...middle, last].filter(Boolean);
-      let displayName = displayTokens.join(' ');
-      if (suffixTokens.length) {
-        const suffix = suffixTokens
-          .map(token => {
-            const normalized = (token || '').toString().replace(/[^A-Za-z0-9]/g, '');
-            if (!normalized) return '';
-            if (/^\d+(ST|ND|RD|TH)$/i.test(normalized)) return normalized.toUpperCase();
-            if (/^(JR|SR|JNR)$/i.test(normalized)) return `${normalized.charAt(0).toUpperCase()}r.`;
-            if (/^(II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX)$/i.test(normalized)) return normalized.toUpperCase();
-            return toTitleCaseName(normalized);
-          })
-          .filter(Boolean)
-          .join(' ');
-        if (suffix) displayName = `${displayName}, ${suffix}`;
-      }
-      return displayName;
+      const displayName = displayTokens.join(' ');
+      return appendSuffixText(displayName);
     }
 
     function toTitleCaseName(raw) {
@@ -34515,4 +34547,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-

@@ -751,9 +751,11 @@ body.focus-active.hover-preview-active .vote-counter {
 }
 
 #hover-tooltip[data-context="votehub-results"] .vhr-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   font-weight: 800;
 }
 
@@ -2827,11 +2829,13 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   }
 
   #hover-tooltip[data-context="votehub-results"] .vhr-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-weight: 800;
-  }
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-weight: 800;
+}
 
   #hover-tooltip[data-context="votehub-results"] .vhr-votes,
   #hover-tooltip[data-context="votehub-results"] .vhr-pct {
@@ -7296,10 +7300,11 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-
   .vote-label.candidate {
     display: block;
     white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
     overflow-wrap: anywhere;
     word-break: break-word;
   }
@@ -7350,13 +7355,11 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     word-break: break-word;
     text-align: left;
   }
-
   .vote-item.layout-stacked .vote-label.candidate {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    display: block;
     white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
     overflow-wrap: anywhere;
     word-break: break-word;
   }
@@ -34512,3 +34515,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+

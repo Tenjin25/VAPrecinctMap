@@ -10338,8 +10338,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-09-1';
-    const APP_BUILD_ID = '2026-07-09-1';
+    const DATA_CACHE_BUSTER = '2026-07-09-2';
+    const APP_BUILD_ID = '2026-07-09-2';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -34207,7 +34207,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }, { dem: 0, rep: 0, other: 0, total: 0, demCandidate: '', repCandidate: '' });
       }
 
-      const contestData = electionData.filter(row => row.year == year);
+      // Use the same canonical county / independent-city slice as the county
+      // layer. The legacy electionData collection can be empty or partial when
+      // contests are loaded lazily, which made the statewide panel disappear on
+      // a layer switch.
+      const contestData = await loadContestSlice(contestType, year);
       // The statewide snapshot is always sourced from county / independent-city
       // returns. District layers may use reallocated totals to color the map, but
       // switching layers must not change the statewide race result.

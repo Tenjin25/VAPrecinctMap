@@ -10338,8 +10338,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-05-31-5';
-    const APP_BUILD_ID = '2026-05-31-5';
+    const DATA_CACHE_BUSTER = '2026-07-09-1';
+    const APP_BUILD_ID = '2026-07-09-1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -34208,6 +34208,26 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const contestData = electionData.filter(row => row.year == year);
+      // The statewide snapshot is always sourced from county / independent-city
+      // returns. District layers may use reallocated totals to color the map, but
+      // switching layers must not change the statewide race result.
+      const countyStatewideTotals = computeStatewideTotalsFromRows(contestData, contestType);
+      const countyStatewideCandidates = {
+        demCandidate: countyStatewideTotals.demCandidate || resolvedStatewideCandidates().demCandidate,
+        repCandidate: countyStatewideTotals.repCandidate || resolvedStatewideCandidates().repCandidate
+      };
+      setStatewideContestTitle(`${formatContestName(contestType, year)} (${year}) - Statewide Result`);
+      updateStatewideResults(
+        contestType,
+        year,
+        Number(countyStatewideTotals.dem || 0),
+        Number(countyStatewideTotals.rep || 0),
+        Number(countyStatewideTotals.total || 0),
+        {
+          otherVotes: Math.max(0, Number(countyStatewideTotals.other || 0)),
+          ...countyStatewideCandidates
+        }
+      );
 
       // Prefer district-level results reallocated to 2024 lines when available.
       if (currentView === 'districts' || currentView === 'state_house' || currentView === 'state_senate') {
@@ -34356,12 +34376,12 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           setVoteCounterBaselineState(
             'Statewide',
-            `${formatContestLabel(contestType, year)} (${linesLabel})`,
-            totalDem,
-            totalRep,
-            totalOther,
+            `${formatContestLabel(contestType, year)}`,
+            Number(countyStatewideTotals.dem || 0),
+            Number(countyStatewideTotals.rep || 0),
+            Math.max(0, Number(countyStatewideTotals.other || 0)),
             { kind: 'statewide', contestType, year: Number(year) },
-            resolvedStatewideCandidates()
+            countyStatewideCandidates
           );
           return;
         }
@@ -34437,11 +34457,11 @@ document.addEventListener('DOMContentLoaded', function() {
         setVoteCounterBaselineState(
           'Statewide',
           `${formatContestLabel(contestType, year)}`,
-          totalDem,
-          totalRep,
-          totalOther,
+          Number(countyStatewideTotals.dem || 0),
+          Number(countyStatewideTotals.rep || 0),
+          Math.max(0, Number(countyStatewideTotals.other || 0)),
           { kind: 'statewide', contestType, year: Number(year) },
-          resolvedStatewideCandidates()
+          countyStatewideCandidates
         );
         setStatewideContestTitle(`${formatContestName(contestType, year)} (${year}) - ${getReadableViewLabel(currentView)} demographic profile`);
         setStatus(mapped > 0
@@ -34506,11 +34526,11 @@ document.addEventListener('DOMContentLoaded', function() {
         setVoteCounterBaselineState(
           'Statewide',
           `${formatContestLabel(contestType, year)}`,
-          totalDem,
-          totalRep,
-          totalOther,
+          Number(countyStatewideTotals.dem || 0),
+          Number(countyStatewideTotals.rep || 0),
+          Math.max(0, Number(countyStatewideTotals.other || 0)),
           { kind: 'statewide', contestType, year: Number(year) },
-          resolvedStatewideCandidates()
+          countyStatewideCandidates
         );
       } else {
         const statewideTotals = computeStatewideTotalsFromRows(contestData, contestType);

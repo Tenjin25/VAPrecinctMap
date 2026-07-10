@@ -9773,7 +9773,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="map-topbar-badge"><span class="badge-state-name">Virginia</span> <span class="badge-atlas-name">Atlas</span></div>
       <div class="map-topbar-copy">
         <strong>The Commonwealth Explorer</strong>
-        <span>Try Fairfax County, VA-10, HD 57, SD 31, or City of Lynchburg 101.</span>
+        <span>Try Fairfax County, CD 2, HD 57, SD 31, or City of Lynchburg 101.</span>
       </div>
     </div>
     <form class="fly-search-bar" id="fly-search-form" role="search">
@@ -9785,7 +9785,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <path d="M16 16L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
           </svg>
         </span>
-        <input type="search" id="county-search" placeholder="Fly to Fairfax County, VA-10, HD 57, SD 31..." autocomplete="off" spellcheck="false" />
+        <input type="search" id="county-search" placeholder="Fly to Fairfax County, CD 2, HD 57..." autocomplete="off" spellcheck="false" />
         <button type="button" class="fly-search-clear" id="fly-search-clear" aria-label="Clear search">x</button>
       </div>
       <button type="submit" class="fly-search-submit" data-testid="fly-submit">Fly to</button>
@@ -9796,7 +9796,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="map-topbar-details" id="map-topbar-details">
       <div class="map-topbar-hints" aria-label="Search examples">
         <button type="button" class="fly-search-chip" data-search-example="Fairfax County">Fairfax County</button>
-        <button type="button" class="fly-search-chip" data-search-example="VA-10">VA-10</button>
+        <button type="button" class="fly-search-chip" data-search-example="CD 2">CD 2</button>
         <button type="button" class="fly-search-chip" data-search-example="HD 57">HD 57</button>
         <button type="button" class="fly-search-chip" data-search-example="SD 31">SD 31</button>
         <button type="button" class="fly-search-chip" data-search-example="City of Lynchburg 101">City of Lynchburg 101</button>
@@ -9867,7 +9867,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label class="control-section-label" for="desktop-fly-search">Fly to</label>
                 <div class="desktop-fly-search-wrap">
                   <div class="desktop-fly-search-field fly-search-field">
-                    <input id="desktop-fly-search" type="search" placeholder="Fairfax County, VA-10, HD 57, SD 31, City of Lynchburg 101" autocomplete="off" spellcheck="false" inputmode="search" />
+                    <input id="desktop-fly-search" type="search" placeholder="Fairfax County, CD 2, HD 57, SD 31, City of Lynchburg 101" autocomplete="off" spellcheck="false" inputmode="search" />
                   </div>
                   <button id="desktop-fly-submit" class="desktop-fly-submit" type="button">Go</button>
                 </div>
@@ -9875,7 +9875,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="desktop-quick-stats" data-viewport-precinct-count>Viewing precincts...</div>
                 <div class="desktop-fly-chip-row" aria-label="Fly-to examples">
                   <button class="desktop-fly-chip" type="button" data-search-example="Fairfax County">Fairfax County</button>
-                  <button class="desktop-fly-chip" type="button" data-search-example="VA-10">VA-10</button>
+                  <button class="desktop-fly-chip" type="button" data-search-example="CD 2">CD 2</button>
                   <button class="desktop-fly-chip" type="button" data-search-example="HD 57">HD 57</button>
                   <button class="desktop-fly-chip" type="button" data-search-example="SD 31">SD 31</button>
                   <button class="desktop-fly-chip" type="button" data-search-example="City of Lynchburg 101">City of Lynchburg 101</button>
@@ -10338,8 +10338,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-09-4';
-    const APP_BUILD_ID = '2026-07-09-4';
+    const DATA_CACHE_BUSTER = '2026-07-10-1';
+    const APP_BUILD_ID = '2026-07-10-1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -14981,6 +14981,42 @@ document.addEventListener('DOMContentLoaded', function() {
               dem_votes: agg.dem,
               rep_votes: agg.rep,
               other_votes: Math.max(0, agg.total - agg.dem - agg.rep),
+              total_votes: agg.total,
+              dem_candidate: '',
+              rep_candidate: '',
+              winner: margin > 0 ? 'REP' : (margin < 0 ? 'DEM' : 'TIE'),
+              margin_pct: signedMarginPctFromVotes(agg.dem, agg.rep, agg.total)
+            });
+          });
+      }
+      if (!out.length && (contestType === 'state_house' || contestType === 'state_senate') && Array.isArray(electionData) && electionData.length) {
+        const byYear = new Map();
+        electionData.forEach(row => {
+          const year = Number(row?.year);
+          if (!Number.isFinite(year)) return;
+          const dem = Number(row?.[`${contestType}_dem`]) || 0;
+          const rep = Number(row?.[`${contestType}_rep`]) || 0;
+          const other = Number(row?.[`${contestType}_other`]) || 0;
+          const fallbackTotal = dem + rep + other;
+          const total = Number(row?.[`${contestType}_total`]) || fallbackTotal;
+          if (total <= 0) return;
+          if (!byYear.has(year)) byYear.set(year, { dem: 0, rep: 0, other: 0, total: 0 });
+          const agg = byYear.get(year);
+          agg.dem += dem;
+          agg.rep += rep;
+          agg.other += other;
+          agg.total += total;
+        });
+        Array.from(byYear.entries())
+          .sort((a, b) => a[0] - b[0])
+          .forEach(([year, agg]) => {
+            if (agg.total <= 0) return;
+            const margin = agg.rep - agg.dem;
+            out.push({
+              year,
+              dem_votes: agg.dem,
+              rep_votes: agg.rep,
+              other_votes: agg.other,
               total_votes: agg.total,
               dem_candidate: '',
               rep_candidate: '',

@@ -10370,8 +10370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-governor-cd-calibration-2';
-    const APP_BUILD_ID = '2026-07-26-governor-cd-calibration-2';
+    const DATA_CACHE_BUSTER = '2026-07-26-governor-cd-calibration-3';
+    const APP_BUILD_ID = '2026-07-26-governor-cd-calibration-3';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -14226,8 +14226,17 @@ document.addEventListener('DOMContentLoaded', function() {
       const demPct = (d / total) * 100;
       const repPct = (r / total) * 100;
       const otherPct = (o / total) * 100;
-      const marginPct = marginPctValue(r, d, total);
-      const signedMarginPct = signedMarginPctFromVotes(d, r, total);
+      const explicitSignedMarginPct = Number(meta?.marginPct);
+      const hasExplicitMarginPct = meta?.marginPct !== null
+        && meta?.marginPct !== undefined
+        && meta?.marginPct !== ''
+        && Number.isFinite(explicitSignedMarginPct);
+      const marginPct = hasExplicitMarginPct
+        ? Math.abs(explicitSignedMarginPct)
+        : marginPctValue(r, d, total);
+      const signedMarginPct = hasExplicitMarginPct
+        ? explicitSignedMarginPct
+        : signedMarginPctFromVotes(d, r, total);
       const winnerParty = repPct > demPct ? 'rep' : (demPct > repPct ? 'dem' : 'tie');
       const winnerLabel = winnerParty === 'rep'
         ? formatVoteCounterWinnerLabel(resolvedCandidates.repCandidate, 'R', 'Republican')
@@ -14239,9 +14248,11 @@ document.addEventListener('DOMContentLoaded', function() {
         : (winnerParty === 'dem'
           ? formatVoteCounterCandidateLabel(resolvedCandidates.demCandidate, 'D', 'Democratic')
           : 'Tie');
-      const leadLabel = isCountyContext
-        ? leadCountyMarginPctLabel(r, d, total)
-        : focusLeadMarginLabel(r, d, total);
+      const leadLabel = hasExplicitMarginPct
+        ? `${formatMarginPctForDisplay(marginPct)}%`
+        : (isCountyContext
+          ? leadCountyMarginPctLabel(r, d, total)
+          : focusLeadMarginLabel(r, d, total));
 
       renderVoteContextTierBadge(meta, signedMarginPct);
 
@@ -21349,17 +21360,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function marginPctDisplayValue(repVotes, demVotes, totalVotes) {
-      const rawMarginPct = marginPctValue(repVotes, demVotes, totalVotes);
-      const t = Number(totalVotes) || 0;
-      if (t <= 0) return 0;
-      const repPctDisplay = Number(formatPctForCloseRace((Number(repVotes || 0) / t) * 100, rawMarginPct));
-      const demPctDisplay = Number(formatPctForCloseRace((Number(demVotes || 0) / t) * 100, rawMarginPct));
-      if (!Number.isFinite(repPctDisplay) || !Number.isFinite(demPctDisplay)) return rawMarginPct;
-      const diff = Math.abs(repPctDisplay - demPctDisplay);
-      // If rounding causes both sides to display equal, fall back to the true margin so we don't
-      // incorrectly show a tie (or 0.000%) when there is a non-zero lead.
-      if (diff === 0 && rawMarginPct > 0) return rawMarginPct;
-      return diff;
+      return marginPctValue(repVotes, demVotes, totalVotes);
     }
 
     function leadMarginPctLabel(repVotes, demVotes, totalVotes) {
@@ -21385,15 +21386,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function countyMarginPctDisplayValue(repVotes, demVotes, totalVotes) {
-      const rawMarginPct = marginPctValue(repVotes, demVotes, totalVotes);
-      const t = Number(totalVotes) || 0;
-      if (t <= 0) return 0;
-      const repPctDisplay = Number(formatPctForCountyCloseRace((Number(repVotes || 0) / t) * 100, rawMarginPct));
-      const demPctDisplay = Number(formatPctForCountyCloseRace((Number(demVotes || 0) / t) * 100, rawMarginPct));
-      if (!Number.isFinite(repPctDisplay) || !Number.isFinite(demPctDisplay)) return rawMarginPct;
-      const diff = Math.abs(repPctDisplay - demPctDisplay);
-      if (diff === 0 && rawMarginPct > 0) return rawMarginPct;
-      return diff;
+      return marginPctValue(repVotes, demVotes, totalVotes);
     }
 
 
@@ -21503,7 +21496,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate, signedPctOverride = NaN, options = {}) {
       const signedFromVotes = signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
-      const signed = Number.isFinite(Number(signedPctOverride)) ? Number(signedPctOverride) : signedFromVotes;
+      const hasSignedOverride = Number.isFinite(Number(signedPctOverride));
+      const signed = hasSignedOverride ? Number(signedPctOverride) : signedFromVotes;
       const repVoteNum = Number(repVotes) || 0;
       const demVoteNum = Number(demVotes) || 0;
       const totalVoteNum = Number(totalVotes) || 0;
@@ -21516,13 +21510,14 @@ document.addEventListener('DOMContentLoaded', function() {
       const repMissingAny = repMissing || repMissingByVotes;
       const demMissingAny = demMissing || demMissingByVotes;
 
-      // Keep hover tooltip margins on the same display pipeline as the rest of the UI.
-      // The sign can still come from the active/derived margin, but the printed number
-      // should be derived from the same rounded vote-share display values used in cards.
+      // Prefer an explicit source margin when one is available; otherwise calculate the
+      // raw vote margin before formatting so independently rounded shares cannot distort it.
       const useCountyPrecision = String(options?.precision || '').toLowerCase() === 'county';
-      const marginPct = useCountyPrecision
-        ? countyMarginPctDisplayValue(repVotes, demVotes, totalVotes)
-        : marginPctDisplayValue(repVotes, demVotes, totalVotes);
+      const marginPct = hasSignedOverride
+        ? Math.abs(signed)
+        : (useCountyPrecision
+          ? countyMarginPctDisplayValue(repVotes, demVotes, totalVotes)
+          : marginPctDisplayValue(repVotes, demVotes, totalVotes));
       const marginLabel = useCountyPrecision
         ? formatCountyMarginPctForDisplay(marginPct)
         : formatMarginPctForDisplay(marginPct);
@@ -22090,7 +22085,14 @@ document.addEventListener('DOMContentLoaded', function() {
       const demPct = (d / total) * 100;
       const repPct = (r / total) * 100;
       const otherPct = (o / total) * 100;
-      const marginPct = marginPctValue(r, d, total);
+      const explicitSignedMarginPct = Number(meta?.marginPct);
+      const hasExplicitMarginPct = meta?.marginPct !== null
+        && meta?.marginPct !== undefined
+        && meta?.marginPct !== ''
+        && Number.isFinite(explicitSignedMarginPct);
+      const marginPct = hasExplicitMarginPct
+        ? Math.abs(explicitSignedMarginPct)
+        : marginPctValue(r, d, total);
       const winnerParty = repPct > demPct ? 'rep' : (demPct > repPct ? 'dem' : 'tie');
       const winnerLabel = winnerParty === 'rep'
         ? formatVoteCounterWinnerLabel(resolvedCandidates.repCandidate, 'R', 'Republican')
@@ -22102,16 +22104,18 @@ document.addEventListener('DOMContentLoaded', function() {
         : (winnerParty === 'dem'
           ? formatVoteCounterCandidateLabel(resolvedCandidates.demCandidate, 'D', 'Democratic')
           : 'Tie');
-      const leadLabel = isCountyContext
-        ? leadCountyMarginPctLabel(r, d, total)
-        : focusLeadMarginLabel(r, d, total);
+      const leadLabel = hasExplicitMarginPct
+        ? `${formatMarginPctForDisplay(marginPct)}%`
+        : (isCountyContext
+          ? leadCountyMarginPctLabel(r, d, total)
+          : focusLeadMarginLabel(r, d, total));
       const winnerCallMeta = winnerMarginCall(
         r,
         d,
         total,
         resolvedCandidates.repCandidate,
         resolvedCandidates.demCandidate,
-        NaN,
+        hasExplicitMarginPct ? explicitSignedMarginPct : NaN,
         { precision: isCountyContext ? 'county' : 'default' }
       );
       const leadDisplayLabel = winnerCallMeta?.uncontested ? winnerCallMeta.shortLabel : leadLabel;
@@ -27420,6 +27424,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       if (!demCandidate) demCandidate = getCandidateName(year, formatContestName(contestType, year), 'Democrat');
       if (!repCandidate) repCandidate = getCandidateName(year, formatContestName(contestType, year), 'Republican');
+      const signedMarginPct = ('margin_pct' in row) ? Number(row.margin_pct || 0) : signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
       setVoteCounterHoverState(
         `Hover: ${districtLabel} ${districtNum}`,
         `${formatContestLabel(contestType, year)}`,
@@ -27427,10 +27432,9 @@ document.addEventListener('DOMContentLoaded', function() {
         repVotes,
         otherVotes,
         { demCandidate, repCandidate },
-        { kind: 'district', scope, districtNum: Number(districtNum), contestType, year: Number(year) }
+        { kind: 'district', scope, districtNum: Number(districtNum), contestType, year: Number(year), marginPct: signedMarginPct }
       );
 
-      const signedMarginPct = ('margin_pct' in row) ? Number(row.margin_pct || 0) : signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
       let prevSignedForFlip = null;
       let prevYearForFlip = null;
       try {

@@ -10370,8 +10370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-governor-cd-calibration-3';
-    const APP_BUILD_ID = '2026-07-26-governor-cd-calibration-3';
+    const DATA_CACHE_BUSTER = '2026-07-26-governor-cd-calibration-4';
+    const APP_BUILD_ID = '2026-07-26-governor-cd-calibration-4';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -14733,8 +14733,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const selectedYearRaw = Number(options?.selectedYear);
       const selectedYear = Number.isFinite(selectedYearRaw) ? selectedYearRaw : null;
       const useCountyMarginPrecision = String(options?.marginPrecision || '').toLowerCase() === 'county';
-      const leadMarginLabelFn = useCountyMarginPrecision ? leadCountyMarginPctLabel : leadMarginPctLabel;
-      const winnerMarginLabelFn = useCountyMarginPrecision ? winnerMarginLabelShortCounty : winnerMarginLabelShort;
       const contestTypeHint = (options?.contestType || '').toString().trim();
       if (!chartEl) return;
       if (captionEl) captionEl.textContent = caption;
@@ -14750,9 +14748,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const total = Number(trendItem?.total_votes || 0);
         const dem = Number(trendItem?.dem_votes || 0);
         const rep = Number(trendItem?.rep_votes || 0);
-        const rawSigned = Number.isFinite(Number(trendItem?.margin_pct))
-          ? Number(trendItem.margin_pct)
-          : signedMarginPctFromVotes(dem, rep, total);
+        const explicitSigned = Number(trendItem?.margin_pct);
+        if (Number.isFinite(explicitSigned)) return explicitSigned;
+        const rawSigned = signedMarginPctFromVotes(dem, rep, total);
         // If a historical row doesn't carry vote totals (for example, some pre-aggregated trend bundles),
         // fall back to the signed margin directly so "Since 2020 / 2008 / 2000" deltas don't collapse to 0.
         if (!(Number.isFinite(total) && total > 0)) return rawSigned;
@@ -14763,6 +14761,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (rawSigned > 0) return Math.abs(absDisplay);
         if (rawSigned < 0) return -Math.abs(absDisplay);
         return 0;
+      };
+      const formatTrendMarginPct = (signedPct) => {
+        const marginAbs = Math.abs(Number(signedPct) || 0);
+        return useCountyMarginPrecision
+          ? formatCountyMarginPctForDisplay(marginAbs)
+          : formatMarginPctForDisplay(marginAbs);
       };
       const annotated = sortedSeries.map((item, idx) => {
         const prev = idx > 0 ? sortedSeries[idx - 1] : null;
@@ -14780,7 +14784,7 @@ document.addEventListener('DOMContentLoaded', function() {
           year: Number(item?.year),
           office: contestTypeHint ? formatContestName(contestTypeHint, Number(item?.year)) : ''
         });
-        const leadLabel = leadMarginLabelFn(repVotes, demVotes, totalVotes);
+        const leadLabel = signedPct === 0 ? 'Tie' : `${formatTrendMarginPct(signedPct)}%`;
         const shiftMeta = describeTrendShift(signedPct, prevSignedPct, prev ? prev.year : '');
         const flip = prev ? flipInfo(prevSignedPct, signedPct) : { flipped: false, from: 'T', to: 'T' };
         return {
@@ -14812,12 +14816,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }, null);
       const summaryLine = (() => {
         if (summaryEntry.winnerMeta.partyClass === 'tie') return 'Tie';
-        const marginAbs = useCountyMarginPrecision
-          ? countyMarginPctDisplayValue(summaryEntry.repVotes, summaryEntry.demVotes, summaryEntry.totalVotes)
-          : marginPctDisplayValue(summaryEntry.repVotes, summaryEntry.demVotes, summaryEntry.totalVotes);
-        const marginLabel = useCountyMarginPrecision
-          ? formatCountyMarginPctForDisplay(marginAbs)
-          : formatMarginPctForDisplay(marginAbs);
+        const marginLabel = formatTrendMarginPct(summaryEntry.signedPct);
         const winnerLast = getWinnerLastName(summaryEntry.item, {
           contestType: contestTypeHint,
           year: Number(summaryEntry.item?.year),
@@ -14975,7 +14974,7 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
               <div class="focus-trend-stat">
                 <span class="focus-trend-stat-label">Closest</span>
-                <span class="focus-trend-stat-value ${closest.winnerMeta.partyClass}">${escapeHtml(`${closest.item.year}: ${winnerMarginLabelFn(closest.repVotes, closest.demVotes, closest.totalVotes, closest.item.rep_candidate, closest.item.dem_candidate)}`)}</span>
+                <span class="focus-trend-stat-value ${closest.winnerMeta.partyClass}">${escapeHtml(`${closest.item.year}: ${getWinnerLastName(closest.item, { contestType: contestTypeHint, year: Number(closest.item?.year), office: contestTypeHint ? formatContestName(contestTypeHint, Number(closest.item?.year)) : '' })} +${formatTrendMarginPct(closest.signedPct)}%`)}</span>
               </div>
               <div class="focus-trend-stat">
                 <span class="focus-trend-stat-label">History</span>
@@ -21360,7 +21359,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function marginPctDisplayValue(repVotes, demVotes, totalVotes) {
-      return marginPctValue(repVotes, demVotes, totalVotes);
+      const rawMarginPct = marginPctValue(repVotes, demVotes, totalVotes);
+      const t = Number(totalVotes) || 0;
+      if (t <= 0) return 0;
+      const repPctDisplay = Number(formatPctForCloseRace((Number(repVotes || 0) / t) * 100, rawMarginPct));
+      const demPctDisplay = Number(formatPctForCloseRace((Number(demVotes || 0) / t) * 100, rawMarginPct));
+      if (!Number.isFinite(repPctDisplay) || !Number.isFinite(demPctDisplay)) return rawMarginPct;
+      const diff = Math.abs(repPctDisplay - demPctDisplay);
+      if (diff === 0 && rawMarginPct > 0) return rawMarginPct;
+      return diff;
     }
 
     function leadMarginPctLabel(repVotes, demVotes, totalVotes) {
@@ -21386,7 +21393,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function countyMarginPctDisplayValue(repVotes, demVotes, totalVotes) {
-      return marginPctValue(repVotes, demVotes, totalVotes);
+      const rawMarginPct = marginPctValue(repVotes, demVotes, totalVotes);
+      const t = Number(totalVotes) || 0;
+      if (t <= 0) return 0;
+      const repPctDisplay = Number(formatPctForCountyCloseRace((Number(repVotes || 0) / t) * 100, rawMarginPct));
+      const demPctDisplay = Number(formatPctForCountyCloseRace((Number(demVotes || 0) / t) * 100, rawMarginPct));
+      if (!Number.isFinite(repPctDisplay) || !Number.isFinite(demPctDisplay)) return rawMarginPct;
+      const diff = Math.abs(repPctDisplay - demPctDisplay);
+      if (diff === 0 && rawMarginPct > 0) return rawMarginPct;
+      return diff;
     }
 
 

@@ -10370,8 +10370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-governor-cd-calibration-5';
-    const APP_BUILD_ID = '2026-07-26-governor-cd-calibration-5';
+    const DATA_CACHE_BUSTER = '2026-07-26-governor-cd-calibration-6';
+    const APP_BUILD_ID = '2026-07-26-governor-cd-calibration-6';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -24086,6 +24086,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const demVotes = Number(row.dem_votes);
         const totalVotes = Number(row.total_votes);
         const rawSigned = getSignedMarginTowardGop(row);
+        // District slices can retain an authoritative source margin while their vote totals
+        // are calibrated to statewide totals. Use that source value in the trajectory card;
+        // recomputing from the calibrated votes would turn VPAP's D+2.23 into D+2.24.
+        const explicitSigned = Number(row.margin_pct);
+        if (unitLower !== 'county' && Number.isFinite(explicitSigned)) return rawSigned;
         if (!(Number.isFinite(totalVotes) && totalVotes > 0)) return rawSigned;
         const useCounty = unitLower === 'county';
         const absDisplay = useCounty

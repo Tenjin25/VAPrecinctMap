@@ -1,0 +1,18 @@
+{
+  "features": 2536,
+  "localities": 133,
+  "duplicate_keys": 0,
+  "invalid_geometries": 0,
+  "empty_geometries": 0,
+  "bounds": [
+    -83.675395,
+    36.54059,
+    -75.166435,
+    39.466012
+  ],
+  "source_page": "https://www.elections.virginia.gov/casting-a-ballot/redistricting/gis/",
+  "legacy_bridge_methods": {
+    "exact_key": 2278,
+    "largest_overlap": 187
+  }
+}

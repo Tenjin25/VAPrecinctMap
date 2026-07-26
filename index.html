@@ -10370,8 +10370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-precinct-locations-1';
-    const APP_BUILD_ID = '2026-07-26-precinct-locations-1';
+    const DATA_CACHE_BUSTER = '2026-07-26-current-precincts-1';
+    const APP_BUILD_ID = '2026-07-26-current-precincts-1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -10408,6 +10408,7 @@ document.addEventListener('DOMContentLoaded', function() {
       paths: {
         counties: withBase('./Data/tl_2020_51_county20.geojson'),
         precincts: withBase('./Data/va_precincts.geojson'),
+        precincts_current: withBase('./Data/va_precincts_current.geojson'),
         precinct_centroids: withBase('./Data/va_precinct_centroids.geojson'),
         precinct_friendly_names: withBase('./Data/precinct_friendly_names.json'),
         precinct_polling_places: withBase('./Data/precinct_polling_places.json'),
@@ -11285,7 +11286,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let precinctsEnabled = false;
     let precinctSourceLoaded = false;
     let precinctLoadInFlight = false;
-    let precinctGeometryMode = null; // 'precinct' or 'vtd20' based on contest year
+    let precinctGeometryMode = null; // 'current', 'precinct', or 'vtd20' based on contest year
     let lastPrecinctFillExpr = null; // Cached fill-color expression for precinct overlay.
     let lastPrecinctDotExpr = null; // Cached circle-color expression for precinct dots (statewide zoom).
     let lastCountyFillExpr = null; // Cached fill-color expression for county layer.
@@ -29240,8 +29241,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getDesiredPrecinctGeometryMode() {
       const year = Number(currentContestMeta?.year);
-      // VTD20 is only useful for truly legacy cycles; modern precinct-level contest keys (2014+)
-      // are aligned to `data/Voting_Precincts.geojson` precinct IDs (including split precinct suffixes).
+      // ELECT's locality-maintained layer directly matches essentially all 2023+
+      // election precinct keys. Preserve the Census-2020-derived layer for older
+      // elections so historical results are not painted onto later redistricting.
+      if (Number.isFinite(year) && year >= 2023) return 'current';
       if (Number.isFinite(year) && year <= 2012) return 'vtd20';
       return 'precinct';
     }
@@ -29254,23 +29257,27 @@ document.addEventListener('DOMContentLoaded', function() {
       precinctLoadInFlight = true;
       const switching = !!(precinctSourceLoaded && existingSrc && precinctGeometryMode && precinctGeometryMode !== desiredMode);
       setStatus(switching ? 'Switching precinct geometry...' : 'Loading precinct geometry...');
-      let usedVtdFallback = desiredMode === 'vtd20';
+      let loadedMode = desiredMode;
       let precincts = null;
       try {
-        const primaryPath = desiredMode === 'vtd20'
-          ? (CONFIG.paths?.precincts_fallback_vtd20 || CONFIG.paths.precincts)
-          : CONFIG.paths.precincts;
+        const primaryPath = desiredMode === 'current'
+          ? (CONFIG.paths?.precincts_current || CONFIG.paths.precincts)
+          : (desiredMode === 'vtd20'
+            ? (CONFIG.paths?.precincts_fallback_vtd20 || CONFIG.paths.precincts)
+            : CONFIG.paths.precincts);
         precincts = await loadJSON(primaryPath);
       } catch (err) {
-        const fallbackPath = CONFIG.paths?.precincts_fallback_vtd20;
+        const fallbackPath = desiredMode === 'current'
+          ? CONFIG.paths.precincts
+          : CONFIG.paths?.precincts_fallback_vtd20;
         if (!fallbackPath) {
           precinctLoadInFlight = false;
           throw err;
         }
         try {
           precincts = await loadJSON(fallbackPath);
-          usedVtdFallback = true;
-          console.warn('Primary precinct geometry load failed; using VTD20 fallback:', err?.message || err);
+          loadedMode = desiredMode === 'current' ? 'precinct' : 'vtd20';
+          console.warn('Primary precinct geometry load failed; using fallback:', err?.message || err);
         } catch (fallbackErr) {
           precinctLoadInFlight = false;
           throw fallbackErr;
@@ -29335,7 +29342,7 @@ document.addEventListener('DOMContentLoaded', function() {
         map.addSource('precincts', { type: 'geojson', data: precincts, generateId: true });
       }
       precinctSourceLoaded = true;
-      precinctGeometryMode = usedVtdFallback ? 'vtd20' : 'precinct';
+      precinctGeometryMode = loadedMode;
       precinctLoadInFlight = false;
       addPrecinctLayers();
       ensureSplitTicketOverlayLayers();
@@ -29365,7 +29372,11 @@ document.addEventListener('DOMContentLoaded', function() {
           applyContest(contestKey).catch(() => {});
         }
       } catch (_) {}
-      setStatus(usedVtdFallback ? 'Precinct geometry ready (VTD20)' : 'Precinct geometry ready');
+      setStatus(
+        loadedMode === 'current'
+          ? 'Precinct geometry ready (current ELECT)'
+          : (loadedMode === 'vtd20' ? 'Precinct geometry ready (VTD20)' : 'Precinct geometry ready')
+      );
       return true;
     }
 

@@ -4,3 +4,4 @@ __pycache__/
 
 # Raw source archives (some exceed GitHub file size limits)
 Data/*.zip
+Data/elect_precinct_zips/

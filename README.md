@@ -118,6 +118,7 @@ VAPrecinctMap/
 │   ├── build_va_geojson_from_zips.py
 │   ├── convert_va_csvs_to_openelections.py
 │   ├── build_va_precincts_from_crosswalks.py
+│   ├── build_current_va_precincts_from_elect.py
 │   ├── build_precinct_friendly_names.js
 │   ├── build_precinct_polling_places.js
 │   ├── build_precinct_centroids_geojson.py
@@ -606,9 +607,24 @@ coverage totals, and unmatched Census-era precincts.
 For the most current precinct boundaries, use the Virginia Department of
 Elections [GIS ZIP packages](https://www.elections.virginia.gov/casting-a-ballot/redistricting/gis/).
 ELECT publishes one package per county or independent city and notes that recent
-local boundary changes may take a few weeks to appear. The map's existing
-`Data/va_precincts.geojson` remains Census-2020-derived until those 133 locality
-packages are merged into a replacement statewide layer.
+local boundary changes may take a few weeks to appear. Run:
+
+```bash
+python scripts/build_current_va_precincts_from_elect.py
+```
+
+The script downloads and caches all 133 packages, merges and validates them,
+repairs invalid polygons, dissolves split geometry records that share an
+official precinct ID, and writes `Data/va_precincts_current.geojson`. It also
+writes `Data/precinct_geometry_version_crosswalk.csv`, an audit bridge from the
+Census-2020-derived geometry to the current geometry.
+
+The front end selects geometry by election vintage: 2023 and newer use the
+current ELECT layer; 2013–2022 retain `Data/va_precincts.geojson`; and older
+cycles retain the existing VTD fallback behavior. This avoids painting old
+returns onto precinct boundaries created years later. The current build directly
+matches all regular 2025 precinct result keys and 99.8% of 2024 keys after the
+same normalization used by the map.
 
 ---
 
@@ -760,7 +776,7 @@ Standard library only (`csv`, `json`, `re`, `zipfile`, `argparse`, `collections`
 
 ## Known Limitations & Future Work
 
-- **Precinct boundary vintage mismatch** — The precinct polygons are based on Census 2020 VTDs.  Precincts are routinely redrawn between elections, so boundaries may not exactly match the practical precincts used in 2009, 2017, or 2025.  The county-specific blend factors in Step 6 partially mitigate this for district apportionment.
+- **Precinct boundary vintage mismatch** — Elections from 2023 onward use the current locality-maintained ELECT geometry, while older elections use the Census-2020-derived layer. Exact election-year boundary archives are not yet available for every historical cycle. The generated geometry-version crosswalk records old-to-current overlaps; block-weighted crosswalks are the preferred next step for accurately handling historical precinct splits and mergers.
 
 - **Absentee / provisional / early-vote precincts** — Non-geographic precincts (absentee, provisional, mail, curbside) are excluded from district apportionment because they cannot be assigned a spatial location.  Their votes are included in county-level totals but cannot be attributed to a sub-county district.
 

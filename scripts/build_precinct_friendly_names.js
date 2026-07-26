@@ -4,9 +4,10 @@ const path = require('path');
 const readline = require('readline');
 
 const repoRoot = path.resolve(__dirname, '..');
-const geojsonPath = path.resolve(repoRoot, process.argv[2] || 'Data/va_precincts.geojson');
+const geojsonPath = path.resolve(repoRoot, process.argv[2] || 'Data/va_precincts_current.geojson');
 const outputPath = path.resolve(repoRoot, process.argv[3] || 'Data/precinct_friendly_names.json');
 const dataDir = path.join(repoRoot, 'Data');
+const geometryBridgePath = path.join(dataDir, 'precinct_geometry_version_crosswalk.csv');
 
 const uppercaseTokens = new Set([
   'AME', 'CME', 'EMS', 'JFK', 'JMU', 'JR', 'II', 'III', 'IV', 'MLK',
@@ -15,6 +16,15 @@ const uppercaseTokens = new Set([
 const manualOverrides = {
   'FAIRFAX COUNTY': {
     '700': 'Fairfax Court'
+  },
+  'HAMPTON CITY': {
+    '113': 'Hampton University'
+  },
+  'WASHINGTON COUNTY': {
+    '204': 'Woodland Hills'
+  },
+  'WYTHE COUNTY': {
+    '603': 'Evergreen'
   }
 };
 
@@ -33,9 +43,15 @@ function splitCodeAndName(raw) {
   return match ? [normalizeCode(match[1]), match[2].trim()] : ['', ''];
 }
 
-function isUsableName(raw) {
+function isUsableName(raw, code = '') {
   const name = String(raw || '').trim();
-  return Boolean(name && !/^VTD(?:\s+\d+)?$/i.test(name));
+  if (!name || /^VTD(?:\s+\d+)?$/i.test(name)) return false;
+  const normalizedCode = normalizeCode(code);
+  if (/^PRECINCT\s+[A-Z0-9.-]+$/i.test(name)) {
+    const genericCode = normalizeCode(name.replace(/^PRECINCT\s+/i, ''));
+    if (!normalizedCode || genericCode === normalizedCode) return false;
+  }
+  return true;
 }
 
 function formatDisplayName(raw) {
@@ -78,6 +94,35 @@ function parseCsvLine(line) {
   return values;
 }
 
+function collectGeometryBridgeNames() {
+  const out = new Map();
+  if (!fs.existsSync(geometryBridgePath)) return out;
+  const lines = fs.readFileSync(geometryBridgePath, 'utf8')
+    .replace(/^\uFEFF/, '')
+    .split(/\r?\n/)
+    .filter(Boolean);
+  if (!lines.length) return out;
+  const headers = parseCsvLine(lines.shift());
+
+  for (const line of lines) {
+    const values = parseCsvLine(line);
+    const row = {};
+    headers.forEach((header, index) => { row[header] = values[index] || ''; });
+    const locality = normalizeLocality(row.locality);
+    const currentCode = normalizeCode(row.current_prec_id);
+    const [, legacyName] = splitCodeAndName(row.legacy_precinct_name);
+    if (!locality || !currentCode || !isUsableName(legacyName)) continue;
+    const key = `${locality}\u0000${currentCode}`;
+    const score = Number(row.legacy_area_overlap || 0);
+    const previous = out.get(key);
+    if (!previous || score > previous.score) {
+      out.set(key, { name: legacyName, score });
+    }
+  }
+
+  return new Map([...out].map(([key, value]) => [key, value.name]));
+}
+
 async function collectRecentElectionNames() {
   const files = fs.readdirSync(dataDir)
     .filter(name => /^Election Results_.*\.csv$/i.test(name)
@@ -102,7 +147,7 @@ async function collectRecentElectionNames() {
       headers.forEach((header, index) => { row[header] = values[index] || ''; });
       const locality = normalizeLocality(row.LocalityName || row['County/City']);
       const [code, name] = splitCodeAndName(row.PrecinctName || row.Pct);
-      if (!locality || !code || !isUsableName(name)) continue;
+      if (!locality || !code || !isUsableName(name, code)) continue;
 
       const key = `${locality}\u0000${code}`;
       const electionDate = String(row.ElectionDate || fallbackDate).trim();
@@ -136,6 +181,7 @@ function sortCodes(entries) {
 async function main() {
   const geojson = JSON.parse(fs.readFileSync(geojsonPath, 'utf8').replace(/^\uFEFF/, ''));
   const recentNames = await collectRecentElectionNames();
+  const bridgeNames = collectGeometryBridgeNames();
   const countyMaps = new Map();
   const unresolved = [];
 
@@ -149,7 +195,9 @@ async function main() {
 
     const key = `${locality}\u0000${code}`;
     let name = recentNames.get(key) || '';
-    if (!name && isUsableName(geometryName)) name = geometryName;
+    if (!isUsableName(name, code)) name = '';
+    if (!name && isUsableName(geometryName, code)) name = geometryName;
+    if (!name) name = bridgeNames.get(key) || '';
 
     // Census VTD split pieces use a final sub-piece digit (4011, 4012, ...).
     // Give each piece its official parent precinct name when available.
@@ -160,7 +208,7 @@ async function main() {
 
     if (!name) {
       unresolved.push({ county: locality, code });
-      continue;
+      name = `Precinct ${code}`;
     }
     if (!countyMaps.has(locality)) countyMaps.set(locality, new Map());
     countyMaps.get(locality).set(code, formatDisplayName(name));
@@ -175,7 +223,8 @@ async function main() {
     version: 1,
     generated_at: new Date().toISOString(),
     generated_from: [
-      'Data/va_precincts.geojson',
+      path.relative(repoRoot, geojsonPath).replace(/\\/g, '/'),
+      'Data/precinct_geometry_version_crosswalk.csv',
       'Data/Election Results_*.csv',
       'Data/Virginia_Elections_Database__2024_*_including_precincts.csv'
     ],

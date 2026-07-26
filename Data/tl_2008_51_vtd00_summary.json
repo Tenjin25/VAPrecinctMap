@@ -1,0 +1,14 @@
+{
+  "features": 2169,
+  "localities": 135,
+  "duplicate_keys": 0,
+  "invalid_geometries": 0,
+  "empty_geometries": 0,
+  "bounds": [
+    -83.675415,
+    36.540759,
+    -75.166435,
+    39.466012
+  ],
+  "source": "https://www2.census.gov/geo/tiger/TIGER2008/51_VIRGINIA/"
+}

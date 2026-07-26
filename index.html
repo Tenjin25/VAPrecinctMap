@@ -10370,8 +10370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-friendly-precinct-names-1';
-    const APP_BUILD_ID = '2026-07-26-friendly-precinct-names-1';
+    const DATA_CACHE_BUSTER = '2026-07-26-vtd00-crosswalk-1';
+    const APP_BUILD_ID = '2026-07-26-vtd00-crosswalk-1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -10408,8 +10408,10 @@ document.addEventListener('DOMContentLoaded', function() {
       paths: {
         counties: withBase('./Data/tl_2020_51_county20.geojson'),
         precincts: withBase('./Data/va_precincts.geojson'),
+        precincts_current: withBase('./Data/va_precincts_current.geojson'),
         precinct_centroids: withBase('./Data/va_precinct_centroids.geojson'),
         precinct_friendly_names: withBase('./Data/precinct_friendly_names.json'),
+        precinct_polling_places: withBase('./Data/precinct_polling_places.json'),
         districts: withBase('./Data/tl_2024_51_cd119.geojson'),
         districts_2024: withBase('./Data/tl_2024_51_cd119.geojson'),
         state_house: withBase('./Data/tl_2022_51_sldl.geojson'),
@@ -11284,7 +11286,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let precinctsEnabled = false;
     let precinctSourceLoaded = false;
     let precinctLoadInFlight = false;
-    let precinctGeometryMode = null; // 'precinct' or 'vtd20' based on contest year
+    let precinctGeometryMode = null; // 'current', 'precinct', or 'vtd20' based on contest year
     let lastPrecinctFillExpr = null; // Cached fill-color expression for precinct overlay.
     let lastPrecinctDotExpr = null; // Cached circle-color expression for precinct dots (statewide zoom).
     let lastCountyFillExpr = null; // Cached fill-color expression for county layer.
@@ -11302,6 +11304,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let precinctFriendlyNameByCountyCode = null; // Map<string countyNorm, Map<string code, string displayName>>
     let precinctFriendlyNamesLoadInFlight = false;
     let precinctFriendlyNamesFileLoaded = false;
+    let precinctPollingPlaceByCountyCode = null; // Map<string countyNorm, Map<string code, pollingPlace>>
+    let precinctPollingPlacesLoadInFlight = false;
+    let precinctPollingPlacesFileLoaded = false;
     let precinctAliasLoadInFlight = false;
     let precinctVariantOverridesByCounty = null; // Map<string countyNorm, Map<string alias, string[] codes>>
     let precinctVariantOverridesLoadInFlight = false;
@@ -12933,12 +12938,16 @@ document.addEventListener('DOMContentLoaded', function() {
       startupPrecinctAliasPreloadScheduled = true;
       const aliasPath = CONFIG.paths?.precinct_aliases;
       const friendlyPath = CONFIG.paths?.precinct_friendly_names;
-      if (!aliasPath && !friendlyPath) return;
+      const pollingPath = CONFIG.paths?.precinct_polling_places;
+      if (!aliasPath && !friendlyPath && !pollingPath) return;
 
       // Load lightweight code->name labels immediately so hover feels "instant".
       try {
         if (friendlyPath && !precinctFriendlyNameByCountyCode && !precinctFriendlyNamesLoadInFlight) {
           ensurePrecinctFriendlyNamesIndex().catch(() => {});
+        }
+        if (pollingPath && !precinctPollingPlaceByCountyCode && !precinctPollingPlacesLoadInFlight) {
+          ensurePrecinctPollingPlacesIndex().catch(() => {});
         }
       } catch (_) {}
 
@@ -20847,21 +20856,8 @@ document.addEventListener('DOMContentLoaded', function() {
       return localityNoun(key) === 'city' ? `City of ${base}` : `${base} County`;
     }
 
-    const VA_AMBIGUOUS_LOCALITY_BASES = new Set([
-      'FAIRFAX',
-      'FRANKLIN',
-      'RICHMOND',
-      'ROANOKE'
-    ]);
-
     function displayPrecinctLocalityName(raw) {
-      const key = canonicalizeVirginiaLocalityKey(raw);
-      const baseKey = localityBaseName(key);
-      const base = toTitleCaseName(baseKey);
-      if (base && VA_AMBIGUOUS_LOCALITY_BASES.has(baseKey.toUpperCase())) {
-        return localityNoun(key) === 'city' ? `City of ${base}` : `${base} County`;
-      }
-      return base || displayCountyName(raw);
+      return displayCountyName(raw);
     }
 
     function numericOrNull(value) {
@@ -27050,6 +27046,8 @@ document.addEventListener('DOMContentLoaded', function() {
         fallbackFullName: fallbackFull
       });
       const title = `${displayPrecinctLocalityName(countyName)} - ${displayPrecinct}`;
+      const pollingPlace = getPrecinctPollingPlace(countyName, displayCode);
+      const pollingPlaceHtml = buildPrecinctPollingPlaceHoverHTML(pollingPlace);
       setPrecinctHoverFeature(feature);
 
       const contestValue = document.getElementById('contestSelect')?.value || '';
@@ -27077,7 +27075,7 @@ document.addEventListener('DOMContentLoaded', function() {
           showHoverTooltip(
             point.x,
             point.y,
-            buildTooltipShell(hoverTitle, '<div style="color:#64748b;">Select a contest to see results</div>', { pinned: pinnedShell, copyText }),
+            buildTooltipShell(hoverTitle, `<div style="color:#64748b;">Select a contest to see results</div>${pollingPlaceHtml}`, { pinned: pinnedShell, copyText }),
             { force: !!forceTooltip, pinned: pinnedShell, context: pinnedShell ? 'pinned' : 'detail', copyText }
           );
           wireTooltipButtons();
@@ -27090,7 +27088,7 @@ document.addEventListener('DOMContentLoaded', function() {
           point.y,
           buildTooltipShell(
             hoverTitle,
-            `<div class="tooltip-kicker">Start</div><div style="color:rgba(226,232,240,0.92);font-weight:650;">${escapeHtml(startText)}</div>`,
+            `<div class="tooltip-kicker">Start</div><div style="color:rgba(226,232,240,0.92);font-weight:650;">${escapeHtml(startText)}</div>${pollingPlaceHtml}`,
             { pinned: pinnedShell, copyText }
           ),
           { force: !!forceTooltip, pinned: pinnedShell, context: pinnedShell ? 'pinned' : 'detail', copyText }
@@ -27108,7 +27106,7 @@ document.addEventListener('DOMContentLoaded', function() {
           showHoverTooltip(
             point.x,
             point.y,
-            buildTooltipShell(hoverTitle, '<div style="color:#64748b;">No precinct results loaded for this contest in this view. Switch to Counties and pick the contest.</div>', { pinned: pinnedShell, copyText }),
+            buildTooltipShell(hoverTitle, `<div style="color:#64748b;">No precinct results loaded for this contest in this view. Switch to Counties and pick the contest.</div>${pollingPlaceHtml}`, { pinned: pinnedShell, copyText }),
             { force: !!forceTooltip, pinned: pinnedShell, context: pinnedShell ? 'pinned' : 'detail', copyText }
           );
           wireTooltipButtons();
@@ -27117,7 +27115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showHoverTooltip(
           point.x,
           point.y,
-          buildTooltipShell(hoverTitle, '<div class="tooltip-kicker">Not available</div><div style="color:rgba(226,232,240,0.92);">No precinct results loaded for this contest in this view. Switch to Counties and pick the contest.</div>', { pinned: pinnedShell, copyText }),
+          buildTooltipShell(hoverTitle, `<div class="tooltip-kicker">Not available</div><div style="color:rgba(226,232,240,0.92);">No precinct results loaded for this contest in this view. Switch to Counties and pick the contest.</div>${pollingPlaceHtml}`, { pinned: pinnedShell, copyText }),
           { force: !!forceTooltip, pinned: pinnedShell, context: pinnedShell ? 'pinned' : 'detail', copyText }
         );
         wireTooltipButtons();
@@ -27151,7 +27149,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ? marginCall.shortLabel
         : (curSigned < 0 ? marginCall.shortLabel : 'Tie');
       const winnerParty = curSigned > 0 ? 'rep' : (curSigned < 0 ? 'dem' : 'tie');
-      const inner = buildVotehubResultsTooltip({
+      const resultHtml = buildVotehubResultsTooltip({
         title,
         subtitle: 'Precinct',
         demName: demCandidate,
@@ -27171,6 +27169,7 @@ document.addEventListener('DOMContentLoaded', function() {
         districtType: 'Precinct',
         showWinnerLine: true
       });
+      const inner = `${resultHtml}${pollingPlaceHtml}`;
       const pinnedShell = !!tooltipPinned;
       const copyText = (precinctNorm || title || '').toString().trim();
       showHoverTooltip(
@@ -29242,8 +29241,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getDesiredPrecinctGeometryMode() {
       const year = Number(currentContestMeta?.year);
-      // VTD20 is only useful for truly legacy cycles; modern precinct-level contest keys (2014+)
-      // are aligned to `data/Voting_Precincts.geojson` precinct IDs (including split precinct suffixes).
+      // ELECT's locality-maintained layer directly matches essentially all 2023+
+      // election precinct keys. Preserve the Census-2020-derived layer for older
+      // elections so historical results are not painted onto later redistricting.
+      if (Number.isFinite(year) && year >= 2023) return 'current';
       if (Number.isFinite(year) && year <= 2012) return 'vtd20';
       return 'precinct';
     }
@@ -29256,23 +29257,27 @@ document.addEventListener('DOMContentLoaded', function() {
       precinctLoadInFlight = true;
       const switching = !!(precinctSourceLoaded && existingSrc && precinctGeometryMode && precinctGeometryMode !== desiredMode);
       setStatus(switching ? 'Switching precinct geometry...' : 'Loading precinct geometry...');
-      let usedVtdFallback = desiredMode === 'vtd20';
+      let loadedMode = desiredMode;
       let precincts = null;
       try {
-        const primaryPath = desiredMode === 'vtd20'
-          ? (CONFIG.paths?.precincts_fallback_vtd20 || CONFIG.paths.precincts)
-          : CONFIG.paths.precincts;
+        const primaryPath = desiredMode === 'current'
+          ? (CONFIG.paths?.precincts_current || CONFIG.paths.precincts)
+          : (desiredMode === 'vtd20'
+            ? (CONFIG.paths?.precincts_fallback_vtd20 || CONFIG.paths.precincts)
+            : CONFIG.paths.precincts);
         precincts = await loadJSON(primaryPath);
       } catch (err) {
-        const fallbackPath = CONFIG.paths?.precincts_fallback_vtd20;
+        const fallbackPath = desiredMode === 'current'
+          ? CONFIG.paths.precincts
+          : CONFIG.paths?.precincts_fallback_vtd20;
         if (!fallbackPath) {
           precinctLoadInFlight = false;
           throw err;
         }
         try {
           precincts = await loadJSON(fallbackPath);
-          usedVtdFallback = true;
-          console.warn('Primary precinct geometry load failed; using VTD20 fallback:', err?.message || err);
+          loadedMode = desiredMode === 'current' ? 'precinct' : 'vtd20';
+          console.warn('Primary precinct geometry load failed; using fallback:', err?.message || err);
         } catch (fallbackErr) {
           precinctLoadInFlight = false;
           throw fallbackErr;
@@ -29337,7 +29342,7 @@ document.addEventListener('DOMContentLoaded', function() {
         map.addSource('precincts', { type: 'geojson', data: precincts, generateId: true });
       }
       precinctSourceLoaded = true;
-      precinctGeometryMode = usedVtdFallback ? 'vtd20' : 'precinct';
+      precinctGeometryMode = loadedMode;
       precinctLoadInFlight = false;
       addPrecinctLayers();
       ensureSplitTicketOverlayLayers();
@@ -29367,7 +29372,11 @@ document.addEventListener('DOMContentLoaded', function() {
           applyContest(contestKey).catch(() => {});
         }
       } catch (_) {}
-      setStatus(usedVtdFallback ? 'Precinct geometry ready (VTD20)' : 'Precinct geometry ready');
+      setStatus(
+        loadedMode === 'current'
+          ? 'Precinct geometry ready (current ELECT)'
+          : (loadedMode === 'vtd20' ? 'Precinct geometry ready (VTD20)' : 'Precinct geometry ready')
+      );
       return true;
     }
 
@@ -29787,6 +29796,38 @@ document.addEventListener('DOMContentLoaded', function() {
       return precinctFriendlyNameByCountyCode;
     }
 
+    async function ensurePrecinctPollingPlacesIndex() {
+      if (precinctPollingPlacesFileLoaded && precinctPollingPlaceByCountyCode) return precinctPollingPlaceByCountyCode;
+      if (precinctPollingPlacesLoadInFlight) return null;
+      const path = CONFIG.paths?.precinct_polling_places;
+      if (!path) return null;
+      precinctPollingPlacesLoadInFlight = true;
+      try {
+        const payload = await loadJSON(path);
+        const counties = payload?.counties || {};
+        const out = new Map();
+        Object.entries(counties).forEach(([countyRaw, codesObj]) => {
+          const countyNorm = normalizeCountyToken(countyRaw);
+          if (!countyNorm || !codesObj || typeof codesObj !== 'object') return;
+          const perCounty = new Map();
+          Object.entries(codesObj).forEach(([codeRaw, placeRaw]) => {
+            const code = String(codeRaw || '').trim().toUpperCase();
+            if (!code || !placeRaw || typeof placeRaw !== 'object') return;
+            perCounty.set(code, placeRaw);
+          });
+          if (perCounty.size) out.set(countyNorm, perCounty);
+        });
+        if (out.size) precinctPollingPlaceByCountyCode = out;
+        precinctPollingPlacesFileLoaded = true;
+        lastPrecinctHoverKey = '';
+      } catch (err) {
+        console.warn('Failed to load precinct polling places:', err?.message || err);
+      } finally {
+        precinctPollingPlacesLoadInFlight = false;
+      }
+      return precinctPollingPlaceByCountyCode;
+    }
+
     function resolvePrecinctCanonicalCode(countyNameOrNorm, precinctCodeRaw) {
       const countyNorm = normalizeCountyToken(countyNameOrNorm);
       const raw = String(precinctCodeRaw || '').trim().toUpperCase();
@@ -29857,6 +29898,34 @@ document.addEventListener('DOMContentLoaded', function() {
       const rawName = perCounty ? (perCounty.get(code) || '') : '';
       if (!rawName) return '';
       return toTitleCaseName(String(rawName).replace(/[_]+/g, ' ').replace(/\s+/g, ' ').trim());
+    }
+
+    function getPrecinctPollingPlace(countyNameOrNorm, precinctCodeRaw) {
+      const countyNorm = normalizeCountyToken(countyNameOrNorm);
+      const code = resolvePrecinctCanonicalCode(countyNorm, precinctCodeRaw);
+      if (!countyNorm || !code) return null;
+      const perCounty = precinctPollingPlaceByCountyCode ? precinctPollingPlaceByCountyCode.get(countyNorm) : null;
+      return perCounty ? (perCounty.get(code) || null) : null;
+    }
+
+    function buildPrecinctPollingPlaceHoverHTML(place) {
+      if (!place || typeof place !== 'object') return '';
+      const location = toTitleCaseName(String(place.location || '').replace(/\s+/g, ' ').trim());
+      const addressParts = [
+        place.address_line_1,
+        place.address_line_2,
+        place.city
+      ].map(value => toTitleCaseName(String(value || '').replace(/\s+/g, ' ').trim())).filter(Boolean);
+      const stateZip = [String(place.state || '').trim().toUpperCase(), String(place.zip || '').trim()].filter(Boolean).join(' ');
+      if (stateZip) addressParts.push(stateZip);
+      const room = toTitleCaseName(String(place.room || '').replace(/\s+/g, ' ').trim());
+      if (!location && !addressParts.length && !room) return '';
+      return `
+        <div class="tooltip-kicker" style="margin-top:8px;">2025 polling place</div>
+        ${location ? `<div style="color:rgba(241,245,249,0.96);font-weight:700;">${escapeHtml(location)}</div>` : ''}
+        ${addressParts.length ? `<div style="color:rgba(203,213,225,0.92);">${escapeHtml(addressParts.join(', '))}</div>` : ''}
+        ${room ? `<div style="color:rgba(148,163,184,0.92);">Voting room: ${escapeHtml(room)}</div>` : ''}
+      `;
     }
 
     function formatPrecinctDisplayLabel(countyNameOrNorm, precinctCodeRaw) {

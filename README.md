@@ -119,6 +119,7 @@ VAPrecinctMap/
 │   ├── convert_va_csvs_to_openelections.py
 │   ├── build_va_precincts_from_crosswalks.py
 │   ├── build_current_va_precincts_from_elect.py
+│   ├── fetch_va_vtd00_from_census.py
 │   ├── build_precinct_friendly_names.js
 │   ├── build_precinct_polling_places.js
 │   ├── build_precinct_centroids_geojson.py
@@ -625,6 +626,23 @@ cycles retain the existing VTD fallback behavior. This avoids painting old
 returns onto precinct boundaries created years later. The current build directly
 matches all regular 2025 precinct result keys and 99.8% of 2024 keys after the
 same normalization used by the map.
+
+For historical crosswalk work, `scripts/fetch_va_vtd00_from_census.py`
+downloads the county-level Census 2000 VTD shapefiles from the official
+TIGER2008 archive (with the official TIGER2010 republication as a fallback) and
+merges them into `Data/tl_2008_51_vtd00.geojson`. The output contains 2,169 VTDs
+across all 135 Virginia localities that existed in the archive, including the
+former independent cities of Bedford and Clifton Forge.
+
+```bash
+python scripts/fetch_va_vtd00_from_census.py
+```
+
+The raw ZIP cache is ignored. The merged VTD00 layer is retained as a crosswalk
+input rather than used directly for election display: only about 84–85% of the
+2008–2009 result keys are unchanged from the Census 2000 VTD codes. For
+historical transfer work, combine it with `tl_2008_51_tabblock00.zip`,
+`nhgis_blk2000_blk2010_51.zip`, and the existing 2010→2020 block crosswalks.
 
 ---
 

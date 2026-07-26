@@ -1,0 +1,10 @@
+{
+  "blocks_total": 145399,
+  "blocks_assigned_to_vtd00": 145399,
+  "blocks_unassigned_to_vtd00": 0,
+  "block_paths": 401447,
+  "old_vtds_with_successors": 2169,
+  "weighted_links": 6331,
+  "split_old_vtds": 1771,
+  "max_area_share_sum_error": 2.220446049250313e-16
+}

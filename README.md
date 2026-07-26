@@ -120,6 +120,8 @@ VAPrecinctMap/
 │   ├── build_va_precincts_from_crosswalks.py
 │   ├── build_current_va_precincts_from_elect.py
 │   ├── fetch_va_vtd00_from_census.py
+│   ├── build_vtd00_to_vtd20_block_crosswalk.py
+│   ├── build_precinct_result_geometry_crosswalk.py
 │   ├── build_precinct_friendly_names.js
 │   ├── build_precinct_polling_places.js
 │   ├── build_precinct_centroids_geojson.py
@@ -591,11 +593,11 @@ Regenerate it after updating precinct geometry or official election exports:
 node scripts/build_precinct_friendly_names.js
 ```
 
-The front end also loads `Data/precinct_polling_places.json`, derived from the
+`Data/precinct_polling_places.json` is retained as a derived reference from the
 Virginia Department of Elections statewide polling-place table for the 2025
-November General Election. Precinct hover cards show the official facility,
-street address, and voting room when a safe geometry-to-current-precinct match
-is available. Regenerate it with:
+November General Election, but the front end does not load it or display street
+addresses. Visible precinct labels come from `Data/precinct_friendly_names.json`.
+Regenerate the reference file with:
 
 ```bash
 node scripts/build_precinct_polling_places.js
@@ -627,6 +629,20 @@ returns onto precinct boundaries created years later. The current build directly
 matches all regular 2025 precinct result keys and 99.8% of 2024 keys after the
 same normalization used by the map.
 
+For elections shown on the current ELECT layer, generate
+`Data/precinct_result_geometry_crosswalk.json` with:
+
+```bash
+python scripts/build_precinct_result_geometry_crosswalk.py
+```
+
+The generator compares each election year's reported precinct keys with current
+geometry, finds changed parent precincts, and allocates each parent's complete
+vote total among its current successors by polygon overlap. It also records
+current precincts that cannot legitimately inherit a reported result, such as a
+precinct created after that election or one with no registered voters. This
+keeps the front end data-driven instead of embedding precinct-specific fixes.
+
 For historical crosswalk work, `scripts/fetch_va_vtd00_from_census.py`
 downloads the county-level Census 2000 VTD shapefiles from the official
 TIGER2008 archive (with the official TIGER2010 republication as a fallback) and
@@ -643,6 +659,19 @@ input rather than used directly for election display: only about 84–85% of the
 2008–2009 result keys are unchanged from the Census 2000 VTD codes. For
 historical transfer work, combine it with `tl_2008_51_tabblock00.zip`,
 `nhgis_blk2000_blk2010_51.zip`, and the existing 2010→2020 block crosswalks.
+
+The complete block-chained VTD crosswalk can be generated with:
+
+```bash
+python scripts/build_vtd00_to_vtd20_block_crosswalk.py
+```
+
+This dissolves TIGER2008 `A/B/C` block suffix pieces back to their original
+15-digit Census 2000 block GEOIDs, assigns those blocks to VTD00, carries them
+through the NHGIS 2000→2010 and 2010→2020 relationships, and joins the resulting
+2020 blocks to VTD20. The generated
+`Data/vtd00_to_vtd20_block_crosswalk.csv` preserves weighted one-to-many links
+for historical splits and mergers.
 
 ---
 

@@ -1,0 +1,598 @@
+{
+  "meta": {
+    "description": "Election-year precinct result keys allocated to current ELECT polygons",
+    "method": "legacy polygon to current polygon land-area overlap",
+    "weights_conserve_each_source": true,
+    "minimum_parent_coverage": 0.05,
+    "minimum_target_weight": 0.005
+  },
+  "years": {
+    "2023": {
+      "splits": [
+        {
+          "source": "ALEXANDRIA CITY - 210",
+          "targets": [
+            [
+              "ALEXANDRIA CITY - 212",
+              0.900169
+            ],
+            [
+              "ALEXANDRIA CITY - 210",
+              0.099831
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "ALEXANDRIA CITY - 305",
+          "targets": [
+            [
+              "ALEXANDRIA CITY - 310",
+              0.520311
+            ],
+            [
+              "ALEXANDRIA CITY - 305",
+              0.479689
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "APPOMATTOX COUNTY - 502",
+          "targets": [
+            [
+              "APPOMATTOX COUNTY - 501",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 106",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 106",
+              0.603814
+            ],
+            [
+              "CHESTERFIELD COUNTY - 115",
+              0.396186
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 107",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 115",
+              0.992049
+            ],
+            [
+              "CHESTERFIELD COUNTY - 102",
+              0.007951
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 204",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 221",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 206",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 222",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 212",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 221",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 302",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 321",
+              0.981621
+            ],
+            [
+              "CHESTERFIELD COUNTY - 401",
+              0.011567
+            ],
+            [
+              "CHESTERFIELD COUNTY - 316",
+              0.006811
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 308",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 321",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 317",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 322",
+              0.53934
+            ],
+            [
+              "CHESTERFIELD COUNTY - 320",
+              0.46066
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 318",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 322",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 406",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 421",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 407",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 421",
+              0.981675
+            ],
+            [
+              "CHESTERFIELD COUNTY - 419",
+              0.0124
+            ],
+            [
+              "CHESTERFIELD COUNTY - 415",
+              0.005925
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 416",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 422",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 417",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 422",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 501",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 521",
+              0.84015
+            ],
+            [
+              "CHESTERFIELD COUNTY - 519",
+              0.15985
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 502",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 521",
+              0.982138
+            ],
+            [
+              "CHESTERFIELD COUNTY - 513",
+              0.017862
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "CHESTERFIELD COUNTY - 516",
+          "targets": [
+            [
+              "CHESTERFIELD COUNTY - 516",
+              0.669779
+            ],
+            [
+              "CHESTERFIELD COUNTY - 222",
+              0.330221
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "FAIRFAX COUNTY - 519",
+          "targets": [
+            [
+              "FAIRFAX COUNTY - 536",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "FAIRFAX COUNTY - 607",
+          "targets": [
+            [
+              "FAIRFAX COUNTY - 607",
+              0.890925
+            ],
+            [
+              "FAIRFAX COUNTY - 637",
+              0.101002
+            ],
+            [
+              "FAIRFAX COUNTY - 408",
+              0.008073
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "GILES COUNTY - 101",
+          "targets": [
+            [
+              "GILES COUNTY - 102",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "GOOCHLAND COUNTY - 402",
+          "targets": [
+            [
+              "GOOCHLAND COUNTY - 402",
+              0.844822
+            ],
+            [
+              "GOOCHLAND COUNTY - 403",
+              0.113362
+            ],
+            [
+              "GOOCHLAND COUNTY - 502",
+              0.041815
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "GOOCHLAND COUNTY - 502",
+          "targets": [
+            [
+              "GOOCHLAND COUNTY - 502",
+              0.977196
+            ],
+            [
+              "GOOCHLAND COUNTY - 403",
+              0.022804
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "HAMPTON CITY - 105",
+          "targets": [
+            [
+              "HAMPTON CITY - 105",
+              0.591116
+            ],
+            [
+              "HAMPTON CITY - 113",
+              0.399576
+            ],
+            [
+              "HAMPTON CITY - 111",
+              0.009308
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "MADISON COUNTY - 9",
+          "targets": [
+            [
+              "MADISON COUNTY - 6",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "TAZEWELL COUNTY - 107",
+          "targets": [
+            [
+              "TAZEWELL COUNTY - 109",
+              0.580668
+            ],
+            [
+              "TAZEWELL COUNTY - 112",
+              0.352637
+            ],
+            [
+              "TAZEWELL COUNTY - 103",
+              0.066695
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        }
+      ],
+      "unresolved_current": [
+        {
+          "precinct": "BRISTOL CITY - 5",
+          "name": "005 - FIFTH PRECINCT",
+          "reason": "created_after_election_or_no_reported_parent"
+        },
+        {
+          "precinct": "FAIRFAX COUNTY - 700",
+          "name": "FAIRFAX COURT PRECINCT",
+          "reason": "no_registered_voters"
+        }
+      ],
+      "counts": {
+        "result_keys": 2542,
+        "current_geometry_keys": 2536,
+        "direct_keys": 2521,
+        "split_sources": 27,
+        "unresolved_current": 2
+      }
+    },
+    "2024": {
+      "splits": [
+        {
+          "source": "APPOMATTOX COUNTY - 502",
+          "targets": [
+            [
+              "APPOMATTOX COUNTY - 501",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "FAIRFAX COUNTY - 607",
+          "targets": [
+            [
+              "FAIRFAX COUNTY - 607",
+              0.890925
+            ],
+            [
+              "FAIRFAX COUNTY - 637",
+              0.101002
+            ],
+            [
+              "FAIRFAX COUNTY - 408",
+              0.008073
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "GILES COUNTY - 101",
+          "targets": [
+            [
+              "GILES COUNTY - 102",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "HAMPTON CITY - 105",
+          "targets": [
+            [
+              "HAMPTON CITY - 105",
+              0.591116
+            ],
+            [
+              "HAMPTON CITY - 113",
+              0.399576
+            ],
+            [
+              "HAMPTON CITY - 111",
+              0.009308
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "MADISON COUNTY - 9",
+          "targets": [
+            [
+              "MADISON COUNTY - 6",
+              1.0
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "RICHMOND COUNTY - 201",
+          "targets": [
+            [
+              "RICHMOND COUNTY - 201",
+              0.541839
+            ],
+            [
+              "RICHMOND COUNTY - 101",
+              0.237499
+            ],
+            [
+              "RICHMOND COUNTY - 502",
+              0.177122
+            ],
+            [
+              "RICHMOND COUNTY - 301",
+              0.043541
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "RICHMOND COUNTY - 501",
+          "targets": [
+            [
+              "RICHMOND COUNTY - 501",
+              0.779752
+            ],
+            [
+              "RICHMOND COUNTY - 502",
+              0.220248
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "TAZEWELL COUNTY - 107",
+          "targets": [
+            [
+              "TAZEWELL COUNTY - 109",
+              0.580668
+            ],
+            [
+              "TAZEWELL COUNTY - 112",
+              0.352637
+            ],
+            [
+              "TAZEWELL COUNTY - 103",
+              0.066695
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        }
+      ],
+      "unresolved_current": [
+        {
+          "precinct": "FAIRFAX COUNTY - 700",
+          "name": "FAIRFAX COURT PRECINCT",
+          "reason": "no_registered_voters"
+        }
+      ],
+      "counts": {
+        "result_keys": 2536,
+        "current_geometry_keys": 2536,
+        "direct_keys": 2532,
+        "split_sources": 8,
+        "unresolved_current": 1
+      }
+    },
+    "2025": {
+      "splits": [
+        {
+          "source": "HAMPTON CITY - 105",
+          "targets": [
+            [
+              "HAMPTON CITY - 105",
+              0.591116
+            ],
+            [
+              "HAMPTON CITY - 113",
+              0.399576
+            ],
+            [
+              "HAMPTON CITY - 111",
+              0.009308
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "RICHMOND COUNTY - 201",
+          "targets": [
+            [
+              "RICHMOND COUNTY - 201",
+              0.541839
+            ],
+            [
+              "RICHMOND COUNTY - 101",
+              0.237499
+            ],
+            [
+              "RICHMOND COUNTY - 502",
+              0.177122
+            ],
+            [
+              "RICHMOND COUNTY - 301",
+              0.043541
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        },
+        {
+          "source": "RICHMOND COUNTY - 501",
+          "targets": [
+            [
+              "RICHMOND COUNTY - 501",
+              0.779752
+            ],
+            [
+              "RICHMOND COUNTY - 502",
+              0.220248
+            ]
+          ],
+          "method": "legacy_to_current_land_overlap"
+        }
+      ],
+      "unresolved_current": [
+        {
+          "precinct": "FAIRFAX COUNTY - 700",
+          "name": "FAIRFAX COURT PRECINCT",
+          "reason": "no_registered_voters"
+        }
+      ],
+      "counts": {
+        "result_keys": 2533,
+        "current_geometry_keys": 2536,
+        "direct_keys": 2533,
+        "split_sources": 3,
+        "unresolved_current": 1
+      }
+    }
+  }
+}

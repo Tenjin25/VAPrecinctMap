@@ -10370,8 +10370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-friendly-split-results-1';
-    const APP_BUILD_ID = '2026-07-26-friendly-split-results-1';
+    const DATA_CACHE_BUSTER = '2026-07-26-generated-precinct-crosswalk-1';
+    const APP_BUILD_ID = '2026-07-26-generated-precinct-crosswalk-1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -10411,6 +10411,7 @@ document.addEventListener('DOMContentLoaded', function() {
         precincts_current: withBase('./Data/va_precincts_current.geojson'),
         precinct_centroids: withBase('./Data/va_precinct_centroids.geojson'),
         precinct_friendly_names: withBase('./Data/precinct_friendly_names.json'),
+        precinct_result_geometry_crosswalk: withBase('./Data/precinct_result_geometry_crosswalk.json'),
         districts: withBase('./Data/tl_2024_51_cd119.geojson'),
         districts_2024: withBase('./Data/tl_2024_51_cd119.geojson'),
         state_house: withBase('./Data/tl_2022_51_sldl.geojson'),
@@ -11303,37 +11304,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let precinctFriendlyNameByCountyCode = null; // Map<string countyNorm, Map<string code, string displayName>>
     let precinctFriendlyNamesLoadInFlight = false;
     let precinctFriendlyNamesFileLoaded = false;
-    // Current ELECT polygons added after the latest available election can
-    // split older reporting precincts. Preserve the parent vote total while
-    // distributing it across the successor polygons by land-overlap share.
-    const PRECINCT_RESULT_SPLITS = [
-      {
-        throughYear: 2025,
-        source: 'HAMPTON CITY - 105',
-        targets: [
-          ['HAMPTON CITY - 105', 0.59667],
-          ['HAMPTON CITY - 113', 0.40333]
-        ]
-      },
-      {
-        throughYear: 2025,
-        source: 'RICHMOND COUNTY - 501',
-        targets: [
-          ['RICHMOND COUNTY - 501', 0.779764],
-          ['RICHMOND COUNTY - 502', 0.220236]
-        ]
-      },
-      {
-        throughYear: 2025,
-        source: 'RICHMOND COUNTY - 201',
-        targets: [
-          ['RICHMOND COUNTY - 201', 0.541839],
-          ['RICHMOND COUNTY - 101', 0.237499],
-          ['RICHMOND COUNTY - 502', 0.177122],
-          ['RICHMOND COUNTY - 301', 0.04354]
-        ]
-      }
-    ];
+    let precinctResultGeometryCrosswalk = null;
+    let precinctResultGeometryCrosswalkLoadInFlight = null;
     let precinctAliasLoadInFlight = false;
     let precinctVariantOverridesByCounty = null; // Map<string countyNorm, Map<string alias, string[] codes>>
     let precinctVariantOverridesLoadInFlight = false;
@@ -29820,6 +29792,27 @@ document.addEventListener('DOMContentLoaded', function() {
       return precinctFriendlyNameByCountyCode;
     }
 
+    async function ensurePrecinctResultGeometryCrosswalk() {
+      if (precinctResultGeometryCrosswalk) return precinctResultGeometryCrosswalk;
+      if (precinctResultGeometryCrosswalkLoadInFlight) return precinctResultGeometryCrosswalkLoadInFlight;
+      const path = CONFIG.paths?.precinct_result_geometry_crosswalk;
+      if (!path) return null;
+      const request = loadJSON(path)
+        .then(payload => {
+          precinctResultGeometryCrosswalk = payload && typeof payload === 'object' ? payload : null;
+          return precinctResultGeometryCrosswalk;
+        })
+        .catch(err => {
+          console.warn('Failed to load precinct result geometry crosswalk:', err?.message || err);
+          return null;
+        })
+        .finally(() => {
+          precinctResultGeometryCrosswalkLoadInFlight = null;
+        });
+      precinctResultGeometryCrosswalkLoadInFlight = request;
+      return request;
+    }
+
     function resolvePrecinctCanonicalCode(countyNameOrNorm, precinctCodeRaw) {
       const countyNorm = normalizeCountyToken(countyNameOrNorm);
       const raw = String(precinctCodeRaw || '').trim().toUpperCase();
@@ -33336,7 +33329,10 @@ document.addEventListener('DOMContentLoaded', function() {
       let precinctContestData = null;
       if (needsPrecinctDetail) {
         try { precinctIdx = await ensurePrecinctCodeIndex(); } catch (_) { precinctIdx = null; }
-          try { precinctContestData = await loadPrecinctDetailSlice(contestType, year); } catch (_) { precinctContestData = null; }
+        try { precinctContestData = await loadPrecinctDetailSlice(contestType, year); } catch (_) { precinctContestData = null; }
+        if (Number(year) >= 2023) {
+          try { await ensurePrecinctResultGeometryCrosswalk(); } catch (_) {}
+        }
       }
       if (staleCheck()) return;
 
@@ -33817,10 +33813,17 @@ document.addEventListener('DOMContentLoaded', function() {
             });
           });
 
+          const unresolvedCurrentPrecinctNorms = new Set();
           if (getDesiredPrecinctGeometryMode() === 'current') {
             const selectedYear = Number(year);
-            PRECINCT_RESULT_SPLITS.forEach(split => {
-              if (!Number.isFinite(selectedYear) || selectedYear > Number(split.throughYear)) return;
+            const yearCrosswalk = Number.isFinite(selectedYear)
+              ? precinctResultGeometryCrosswalk?.years?.[String(selectedYear)]
+              : null;
+            (yearCrosswalk?.unresolved_current || []).forEach(entry => {
+              const norm = normalizeCountyName(entry?.precinct);
+              if (norm) unresolvedCurrentPrecinctNorms.add(norm);
+            });
+            (yearCrosswalk?.splits || []).forEach(split => {
               const sourceNorm = normalizeCountyName(split.source);
               const sourceNode = precinctVoteAgg.get(sourceNorm);
               if (!sourceNode) return;
@@ -33869,7 +33872,10 @@ document.addEventListener('DOMContentLoaded', function() {
               const countyTotal = Number(countyNode[`${contestType}_total`] || 0);
               if (countyTotal <= 0) return;
 
-              const zeroNorms = norms.filter(n => Number(precinctVoteAgg.get(n)?.[`${contestType}_total`] || 0) <= 0);
+              const zeroNorms = norms.filter(n => (
+                !unresolvedCurrentPrecinctNorms.has(n)
+                && Number(precinctVoteAgg.get(n)?.[`${contestType}_total`] || 0) <= 0
+              ));
               if (!zeroNorms.length) return;
 
               const assigned = norms.reduce((acc, n) => {

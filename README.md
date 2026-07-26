@@ -121,6 +121,7 @@ VAPrecinctMap/
 │   ├── build_current_va_precincts_from_elect.py
 │   ├── fetch_va_vtd00_from_census.py
 │   ├── build_vtd00_to_vtd20_block_crosswalk.py
+│   ├── build_precinct_result_geometry_crosswalk.py
 │   ├── build_precinct_friendly_names.js
 │   ├── build_precinct_polling_places.js
 │   ├── build_precinct_centroids_geojson.py
@@ -627,6 +628,20 @@ cycles retain the existing VTD fallback behavior. This avoids painting old
 returns onto precinct boundaries created years later. The current build directly
 matches all regular 2025 precinct result keys and 99.8% of 2024 keys after the
 same normalization used by the map.
+
+For elections shown on the current ELECT layer, generate
+`Data/precinct_result_geometry_crosswalk.json` with:
+
+```bash
+python scripts/build_precinct_result_geometry_crosswalk.py
+```
+
+The generator compares each election year's reported precinct keys with current
+geometry, finds changed parent precincts, and allocates each parent's complete
+vote total among its current successors by polygon overlap. It also records
+current precincts that cannot legitimately inherit a reported result, such as a
+precinct created after that election or one with no registered voters. This
+keeps the front end data-driven instead of embedding precinct-specific fixes.
 
 For historical crosswalk work, `scripts/fetch_va_vtd00_from_census.py`
 downloads the county-level Census 2000 VTD shapefiles from the official

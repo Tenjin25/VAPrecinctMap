@@ -583,6 +583,14 @@ The pipeline normalizes precinct codes with the following rules:
 
 For polygon and centroid GeoJSON features the `precinct_norm` compound key `COUNTY_NAME - PREC_ID` is stored to enable O(1) map lookups at render time.
 
+`Data/va_precinct_centroids.geojson` is generated from the current ELECT
+precinct polygons, not the older VTD20 layer. The generator uses an interior
+representative point so dots remain inside concave and multipart precincts:
+
+```bash
+python scripts/build_precinct_centroids_geojson.py
+```
+
 The front end loads `Data/precinct_friendly_names.json` as its county-scoped
 `precinct code -> display name` source. The generated index prefers the newest
 official election-export label, falls back to the polygon label, and assigns
@@ -636,12 +644,22 @@ For elections shown on the current ELECT layer, generate
 python scripts/build_precinct_result_geometry_crosswalk.py
 ```
 
-The generator compares each election year's reported precinct keys with current
-geometry, finds changed parent precincts, and allocates each parent's complete
-vote total among its current successors by polygon overlap. It also records
-current precincts that cannot legitimately inherit a reported result, such as a
-precinct created after that election or one with no registered voters. This
-keeps the front end data-driven instead of embedding precinct-specific fixes.
+The generator uses `Data/tl_2020_51_vtd20.zip` as the historical precinct
+source, joins exact block-to-VTD assignments, and places 2020 Census blocks into
+the current ELECT precincts. Each changed parent's complete vote total is
+allocated among its successors using PL 94-171 block voting-age population.
+VTD20 sub-pieces are first collapsed to an unambiguous reported parent code
+(for example, Bristol `41` and `42` become reported precinct `4`).
+Total block population and then land area are retained as fallbacks. It also
+records current precincts that cannot legitimately inherit a reported result,
+such as a precinct created after that election or one with no registered
+voters. This keeps the front end data-driven instead of embedding
+precinct-specific fixes.
+
+The first run reads the official Census
+[Virginia PL 94-171 legacy ZIP](https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Virginia/va2020.pl.zip)
+from `Data/va2020.pl.zip` and writes the compact, committed
+`Data/va_2020_block_population.csv` cache. Raw source ZIPs remain ignored.
 
 For historical crosswalk work, `scripts/fetch_va_vtd00_from_census.py`
 downloads the county-level Census 2000 VTD shapefiles from the official

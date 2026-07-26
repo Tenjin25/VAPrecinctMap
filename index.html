@@ -10370,8 +10370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-governor-cd-calibration-1';
-    const APP_BUILD_ID = '2026-07-26-governor-cd-calibration-1';
+    const DATA_CACHE_BUSTER = '2026-07-26-governor-cd-calibration-2';
+    const APP_BUILD_ID = '2026-07-26-governor-cd-calibration-2';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -21604,10 +21604,17 @@ document.addEventListener('DOMContentLoaded', function() {
       const oVotes = Number(otherVotes || 0);
       const total = dVotes + rVotes + oVotes;
       const safeTotal = total > 0 ? total : 0;
-      const rawMarginAbs = Math.abs(Number(marginPct) || 0);
-      const displayMarginAbs = safeTotal > 0 && typeof countyMarginPctDisplayValue === 'function'
-        ? countyMarginPctDisplayValue(rVotes, dVotes, safeTotal)
-        : rawMarginAbs;
+      const explicitMarginPct = Number(marginPct);
+      const hasExplicitMarginPct = marginPct !== null
+        && marginPct !== undefined
+        && marginPct !== ''
+        && Number.isFinite(explicitMarginPct);
+      const rawMarginAbs = hasExplicitMarginPct ? Math.abs(explicitMarginPct) : 0;
+      const displayMarginAbs = hasExplicitMarginPct
+        ? rawMarginAbs
+        : (safeTotal > 0 && typeof countyMarginPctDisplayValue === 'function'
+          ? countyMarginPctDisplayValue(rVotes, dVotes, safeTotal)
+          : rawMarginAbs);
       const demPct = safeTotal > 0 ? (dVotes / safeTotal) * 100 : 0;
       const repPct = safeTotal > 0 ? (rVotes / safeTotal) * 100 : 0;
       const otherPct = safeTotal > 0 ? (oVotes / safeTotal) * 100 : 0;

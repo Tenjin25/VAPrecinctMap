@@ -10370,8 +10370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-block-weighted-precinct-crosswalk-1';
-    const APP_BUILD_ID = '2026-07-26-block-weighted-precinct-crosswalk-1';
+    const DATA_CACHE_BUSTER = '2026-07-26-canonical-friendly-names-1';
+    const APP_BUILD_ID = '2026-07-26-canonical-friendly-names-1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -11302,7 +11302,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let precinctLabelIndexByCounty = null; // Map<string countyNorm, Array<{norm,labelNorm}>>.
     let precinctAliasIndexByCounty = null; // Map<string countyNorm, Map<string alias, string[] codes>>
     let precinctFriendlyNameByCountyCode = null; // Map<string countyNorm, Map<string code, string displayName>>
-    let precinctFriendlyNamesLoadInFlight = false;
+    let precinctFriendlyNamesLoadInFlight = null;
     let precinctFriendlyNamesFileLoaded = false;
     let precinctResultGeometryCrosswalk = null;
     let precinctResultGeometryCrosswalkLoadInFlight = null;
@@ -29481,6 +29481,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	      if (precinctCentroidsLoadInFlight) return false;
 	      precinctCentroidsLoadInFlight = true;
 	      try {
+          try { await ensurePrecinctFriendlyNamesIndex(); } catch (_) {}
 	        const pts = await loadJSON(CONFIG.paths.precinct_centroids);
           precinctCentroidsData = pts;
           try {
@@ -29767,35 +29768,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function ensurePrecinctFriendlyNamesIndex() {
       if (precinctFriendlyNamesFileLoaded && precinctFriendlyNameByCountyCode) return precinctFriendlyNameByCountyCode;
-      if (precinctFriendlyNamesLoadInFlight) return null;
+      if (precinctFriendlyNamesLoadInFlight) return precinctFriendlyNamesLoadInFlight;
       const path = CONFIG.paths?.precinct_friendly_names;
       if (!path) return null;
-      precinctFriendlyNamesLoadInFlight = true;
-      try {
-        const payload = await loadJSON(path);
-        const counties = payload?.counties || {};
-        const out = precinctFriendlyNameByCountyCode || new Map();
-        Object.entries(counties).forEach(([countyRaw, codesObj]) => {
-          const countyNorm = normalizeCountyToken(countyRaw);
-          if (!countyNorm || !codesObj || typeof codesObj !== 'object') return;
-          const perCounty = out.has(countyNorm) ? out.get(countyNorm) : new Map();
-          Object.entries(codesObj).forEach(([codeRaw, nameRaw]) => {
-            const code = String(codeRaw || '').trim().toUpperCase();
-            if (!code) return;
-            const cleaned = String(nameRaw || '').replace(/[_]+/g, ' ').replace(/\s+/g, ' ').trim();
-            if (!cleaned) return;
-            perCounty.set(code, toTitleCaseName(cleaned));
+      const request = loadJSON(path)
+        .then(payload => {
+          const counties = payload?.counties || {};
+          const out = precinctFriendlyNameByCountyCode || new Map();
+          Object.entries(counties).forEach(([countyRaw, codesObj]) => {
+            const countyNorm = normalizeCountyToken(countyRaw);
+            if (!countyNorm || !codesObj || typeof codesObj !== 'object') return;
+            const perCounty = out.has(countyNorm) ? out.get(countyNorm) : new Map();
+            Object.entries(codesObj).forEach(([codeRaw, nameRaw]) => {
+              const code = String(codeRaw || '').trim().toUpperCase();
+              if (!code) return;
+              const cleaned = String(nameRaw || '').replace(/[_]+/g, ' ').replace(/\s+/g, ' ').trim();
+              if (!cleaned) return;
+              perCounty.set(code, toTitleCaseName(cleaned));
+            });
+            if (perCounty && perCounty.size) out.set(countyNorm, perCounty);
           });
-          if (perCounty && perCounty.size) out.set(countyNorm, perCounty);
+          if (out.size) precinctFriendlyNameByCountyCode = out;
+          precinctFriendlyNamesFileLoaded = true;
+          return precinctFriendlyNameByCountyCode;
+        })
+        .catch(err => {
+          console.warn('Failed to load precinct friendly names:', err?.message || err);
+          return null;
+        })
+        .finally(() => {
+          precinctFriendlyNamesLoadInFlight = null;
         });
-        if (out.size) precinctFriendlyNameByCountyCode = out;
-        precinctFriendlyNamesFileLoaded = true;
-      } catch (err) {
-        console.warn('Failed to load precinct friendly names:', err?.message || err);
-      } finally {
-        precinctFriendlyNamesLoadInFlight = false;
-      }
-      return precinctFriendlyNameByCountyCode;
+      precinctFriendlyNamesLoadInFlight = request;
+      return request;
     }
 
     async function ensurePrecinctResultGeometryCrosswalk() {
@@ -29920,33 +29925,23 @@ document.addEventListener('DOMContentLoaded', function() {
       const canonicalCode = rawCode ? resolvePrecinctCanonicalCode(countyName, rawCode) : '';
       const friendly = rawCode ? getPrecinctFriendlyName(countyName, rawCode) : '';
       const friendlyLabel = friendly || '';
+      // Friendly-name JSON is the canonical display source. Geometry and
+      // result labels are fallbacks only when the index has no entry.
+      if (friendlyLabel) return friendlyLabel;
 
       const full = String(fullName || '').replace(/\s+/g, ' ').trim();
       const fallbackFull = String(fallbackFullName || '').replace(/\s+/g, ' ').trim();
       const fullLooksNoisy = isNoisyPrecinctFullName(full, rawCode);
       const fallbackLooksNoisy = isNoisyPrecinctFullName(fallbackFull, rawCode);
 
-      // If the shapefile's "full name" is just a code-ish token (or a "VOTING DISTRICT" placeholder),
-      // prefer a real friendly label when we have it.
-      if (friendlyLabel && (fullLooksNoisy || fallbackLooksNoisy)) {
-        return friendlyLabel;
-      }
-
       // Match .v1 behavior more closely: when only a noisy VTD-style label is available,
       // fall back to the canonical code instead of surfacing the raw shapefile text.
-      if (!friendlyLabel && (fullLooksNoisy || fallbackLooksNoisy) && canonicalCode) {
+      if ((fullLooksNoisy || fallbackLooksNoisy) && canonicalCode) {
         return `Precinct ${canonicalCode}`;
       }
 
-      // If the full name looks like "CRDM CREEDMOOR" or "01 PATTERSON", prefer the normalized friendly label.
-      if (friendlyLabel && rawCode) {
-        const fullUpper = full.toUpperCase();
-        const fullCompact = fullUpper.replace(/[_]+/g, ' ').replace(/\s+/g, ' ').trim();
-        if (fullCompact.startsWith(`${rawCode} `) || fullCompact.startsWith(`${rawCode}_`)) return friendlyLabel;
-      }
-
       const codeOnly = canonicalCode || rawCode;
-      return full || fallbackFull || friendlyLabel || (codeOnly ? `Precinct ${codeOnly}` : '');
+      return full || fallbackFull || (codeOnly ? `Precinct ${codeOnly}` : '');
     }
 
     async function ensurePrecinctVariantOverrides() {

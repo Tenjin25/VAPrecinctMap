@@ -593,8 +593,10 @@ python scripts/build_precinct_centroids_geojson.py
 
 The front end loads `Data/precinct_friendly_names.json` as its county-scoped
 `precinct code -> display name` source. The generated index prefers the newest
-official election-export label, falls back to the polygon label, and assigns
-split Census VTD pieces their official parent precinct name when possible.
+meaningful official election-export label, falls back to the current polygon
+label, and uses the geometry-version bridge for current labels that contain
+only a generic precinct number. The frontend treats this JSON as canonical;
+raw geometry labels are used only when the friendly-name index has no entry.
 Regenerate it after updating precinct geometry or official election exports:
 
 ```bash

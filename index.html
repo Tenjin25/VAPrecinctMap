@@ -9619,6 +9619,24 @@ document.addEventListener('DOMContentLoaded', function() {
       try { saveUIState(); } catch (_) {}
     });
   }
+  const popChangeMetricSelect = document.getElementById('pop-change-metric');
+  if (popChangeMetricSelect) {
+    popChangeMetricSelect.value = String(populationChangeMetric || 'pct') === 'abs' ? 'abs' : 'pct';
+    popChangeMetricSelect.addEventListener('change', function() {
+      populationChangeMetric = String(this.value || 'pct') === 'abs' ? 'abs' : 'pct';
+      const key = document.getElementById('contestSelect')?.value || '';
+      if (key && typeof applyContest === 'function' && currentVizMode === 'population_change') {
+        applyContest(key).catch(() => {});
+      } else if (typeof renderLegendForVizMode === 'function') {
+        renderLegendForVizMode(currentVizMode || 'margins');
+        if (currentVizMode === 'population_change' && typeof applyPopulationChangeLayer === 'function') {
+          try { applyPopulationChangeLayer(); } catch (_) {}
+        }
+      }
+      try { updatePopulationMetricLegendChip(); } catch (_) {}
+      try { saveUIState(); } catch (_) {}
+    });
+  }
 
   // Modeled contest tuning (2026 synthetic entries).
   const modelPreset = document.getElementById('model-preset');
@@ -9986,6 +10004,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button class="viz-mode-btn" data-mode="shift" type="button"><span>Shift</span></button>
                 <button class="viz-mode-btn" data-mode="flips" type="button"><span>Flips</span></button>
                 <button class="viz-mode-btn" data-mode="demographics" type="button"><span>Demographics</span></button>
+                <button class="viz-mode-btn" data-mode="population_change" type="button" title="Map Census population change for Virginia localities"><span>Pop Change</span></button>
               </div>
             </div>
             <details class="control-group control-group-scenario controls-disclosure" id="scenario-disclosure">
@@ -10026,6 +10045,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input id="demographics-contrast-toggle" type="checkbox" data-testid="demographics-contrast-toggle" aria-label="Enable high contrast demographics colors" />
                 High contrast demographics
               </label>
+              <div class="scenario-row">
+                <label for="pop-change-metric">Pop change metric</label>
+                <select id="pop-change-metric" data-testid="pop-change-metric" aria-label="Population change metric">
+                  <option value="pct">Percent (2020→2025)</option>
+                  <option value="abs">Absolute count (2020→2025)</option>
+                </select>
+                <span class="scenario-value" aria-hidden="true"></span>
+                <div class="scenario-help">Used by Pop Change mode in county and independent-city view.</div>
+              </div>
               <div class="controls-panel-note">
                 Positive swing shifts margins toward Democrats. Negative values shift toward Republicans. Modeled 2026 Senate and Court entries inherit this swing.
                 <span id="modeled-context-badge" class="modeled-context-badge" style="display:none;">Modeled Scenario</span>
@@ -10113,6 +10141,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="legend-context-chips" id="legend-context-chips">
           <span class="legend-context-chip" id="legend-bellwether-chip" data-testid="legend-bellwether-chip" title="Barometer counties are the best statewide-margin mirrors across the last 2–3 available cycles (closest to the statewide two-party margin).">Barometer</span>
           <span class="legend-context-chip" id="legend-split-chip" data-testid="legend-split-chip" title="Pres-Gov mode keeps President as the base contest and overlays Governor margins on top." style="display:none;"></span>
+          <span class="legend-context-chip" id="legend-popmetric-chip" data-testid="legend-popmetric-chip" title="Active population metric for Pop Change mode." style="display:none;"></span>
           <span class="legend-context-chip" id="filters-active-chip" data-testid="filters-active-chip" title="Active toggles" style="display:none;"></span>
         </div>
     </div>
@@ -10135,6 +10164,9 @@ document.addEventListener('DOMContentLoaded', function() {
     </button>
     <button class="viz-mode-btn" data-mode="demographics" id="mode-demographics">
       <span>Demographics</span>
+    </button>
+    <button class="viz-mode-btn" data-mode="population_change" id="mode-population-change" title="Map Census population change for Virginia localities">
+      <span>Pop Change</span>
     </button>
   </div>
 
@@ -10338,8 +10370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-21-1';
-    const APP_BUILD_ID = '2026-07-21-1';
+    const DATA_CACHE_BUSTER = '2026-07-26-friendly-precinct-names-1';
+    const APP_BUILD_ID = '2026-07-26-friendly-precinct-names-1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -10377,6 +10409,7 @@ document.addEventListener('DOMContentLoaded', function() {
         counties: withBase('./Data/tl_2020_51_county20.geojson'),
         precincts: withBase('./Data/va_precincts.geojson'),
         precinct_centroids: withBase('./Data/va_precinct_centroids.geojson'),
+        precinct_friendly_names: withBase('./Data/precinct_friendly_names.json'),
         districts: withBase('./Data/tl_2024_51_cd119.geojson'),
         districts_2024: withBase('./Data/tl_2024_51_cd119.geojson'),
         state_house: withBase('./Data/tl_2022_51_sldl.geojson'),
@@ -10384,7 +10417,7 @@ document.addEventListener('DOMContentLoaded', function() {
         state_senate: withBase('./Data/tl_2022_51_sldu.geojson'),
         state_senate_2022: withBase('./Data/tl_2022_51_sldu.geojson'),
         county_demographics: withBase('./Data/county_demographics_2020_dp1.json'),
-        county_population_estimates: withBase('./Data/CO-EST2025-POP-51-clean.csv'),
+        county_population_estimates: withBase('./Data/county_population_estimates_2025.csv'),
         election: withBase('./Data/va_elections_aggregated.json'),
         district_election: withBase('./Data/va_district_results_2024_lines.json'),
         district_contests_dir: withBase('./Data/district_contests'),
@@ -11245,7 +11278,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var currentView = 'counties'; // 'counties', 'districts', 'state_house', 'state_senate'
     let currentElectionResults = null; // Current contest results for county details
     let currentPrecinctResults = null; // Current contest results keyed by precinct
-    var currentVizMode = 'margins'; // 'margins', 'winners', 'shift', 'flips', 'demographics'
+    var currentVizMode = 'margins'; // 'margins', 'winners', 'shift', 'flips', 'demographics', 'population_change'
+    var populationChangeMetric = 'pct'; // 'pct' | 'abs'
     let previousElectionData = null; // For shift mode
     let precinctsEnabled = false;
     let precinctSourceLoaded = false;
@@ -11561,7 +11595,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let analyticsPanelsTimer = null;
     let analyticsPanelsRequestId = 0;
     const URL_VIEW_VALUES = new Set(['counties', 'districts', 'state_house', 'state_senate', 'vtds_2000']);
-    const URL_MODE_VALUES = new Set(['margins', 'winners', 'shift', 'flips', 'demographics']);
+    const URL_MODE_VALUES = new Set(['margins', 'winners', 'shift', 'flips', 'demographics', 'population_change']);
 
     function normalizeURLViewToken(raw) {
       const token = String(raw || '').trim().toLowerCase();
@@ -11593,6 +11627,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const demoContrastHigh = demoContrastRaw
         ? (demoContrastRaw === 'high' || demoContrastRaw === '1' || demoContrastRaw === 'true' || demoContrastRaw === 'on' || demoContrastRaw === 'yes')
         : null;
+      const popMetricRaw = String(params.get('popmetric') || '').trim().toLowerCase();
+      const popMetric = popMetricRaw ? (popMetricRaw === 'abs' ? 'abs' : 'pct') : null;
       const mBlendRaw = String(params.get('mblend') || '').trim();
       const mTurnoutRaw = String(params.get('mturnout') || '').trim();
       const mBonusRaw = String(params.get('mbonus') || '').trim();
@@ -11609,11 +11645,12 @@ document.addEventListener('DOMContentLoaded', function() {
         sscopeRaw ||
         barometerEnabled !== null ||
         demoContrastHigh !== null ||
+        popMetric !== null ||
         mBlendRaw ||
         mTurnoutRaw ||
         mBonusRaw
       );
-      return { hasAny, view, contest, mode, focus, lines, swing, sscope, barometerEnabled, demoContrastHigh, mBlend, mTurnout, mBonus };
+      return { hasAny, view, contest, mode, focus, lines, swing, sscope, barometerEnabled, demoContrastHigh, popMetric, mBlend, mTurnout, mBonus };
     }
 
     function getFocusURLTokenFromState() {
@@ -11668,6 +11705,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       if (barometerOverlayEnabled) params.set('barometer', '1');
       if (demographicsHighContrastEnabled) params.set('democontrast', 'high');
+      if (String(populationChangeMetric || 'pct') === 'abs') params.set('popmetric', 'abs');
 
       try {
         const idx = contestValue ? contestValue.lastIndexOf('_') : -1;
@@ -11797,6 +11835,12 @@ document.addEventListener('DOMContentLoaded', function() {
           demographicsHighContrastEnabled = !!state.demoContrastHigh;
           const demoContrastToggle = document.getElementById('demographics-contrast-toggle');
           if (demoContrastToggle) demoContrastToggle.checked = demographicsHighContrastEnabled;
+        }
+
+        if (state.popMetric !== null) {
+          populationChangeMetric = state.popMetric === 'abs' ? 'abs' : 'pct';
+          const popMetricSelect = document.getElementById('pop-change-metric');
+          if (popMetricSelect) popMetricSelect.value = populationChangeMetric;
         }
 
         if (state.barometerEnabled !== null) {
@@ -13945,6 +13989,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function switchVizMode(mode) {
+      if (mode === 'population_change' && currentView !== 'counties') {
+        setStatus('Pop Change is available in Counties view. Switch to Counties, then choose Pop Change.');
+        setVizModeUI(currentVizMode);
+        return;
+      }
       currentVizMode = mode;
       
       // Update button states
@@ -13955,8 +14004,18 @@ document.addEventListener('DOMContentLoaded', function() {
       const contestSelect = document.getElementById('contestSelect');
       if (contestSelect && contestSelect.value) {
         applyContest(contestSelect.value);
+      } else if (mode === 'population_change' && currentView === 'counties') {
+        try {
+          applyPopulationChangeLayer();
+          setStatewideContestTitle(String(populationChangeMetric || 'pct') === 'abs'
+            ? 'Virginia Locality Population Change (2020–2025, absolute)'
+            : 'Virginia Locality Population Change (2020–2025, percent)');
+          setStatus('Applied Census Vintage 2025 population-change mode.');
+        } catch (_) {}
       }
       updateContextBanner();
+      try { updatePopulationMetricLegendChip(); } catch (_) {}
+      try { updateFiltersActiveChip(); } catch (_) {}
       saveUIState();
     }
 
@@ -20331,6 +20390,12 @@ document.addEventListener('DOMContentLoaded', function() {
         candidates: voteCounterPinned.candidates ? { ...voteCounterPinned.candidates } : null
       } : null;
       currentView = view;
+      if (currentView !== 'counties' && currentVizMode === 'population_change') {
+        currentVizMode = 'margins';
+        setVizModeUI('margins');
+        renderLegendForVizMode('margins');
+        setStatus('Pop Change is available for Virginia counties and independent cities; switched analysis back to Margins.');
+      }
       if (currentView !== 'districts' && normalizeDistrictLinesYear(currentDistrictLinesYear) === 2026) {
         currentDistrictLinesYear = 2024;
       }
@@ -20780,6 +20845,23 @@ document.addEventListener('DOMContentLoaded', function() {
       const base = toTitleCaseName(localityBaseName(key));
       if (!base) return 'Unknown Locality';
       return localityNoun(key) === 'city' ? `City of ${base}` : `${base} County`;
+    }
+
+    const VA_AMBIGUOUS_LOCALITY_BASES = new Set([
+      'FAIRFAX',
+      'FRANKLIN',
+      'RICHMOND',
+      'ROANOKE'
+    ]);
+
+    function displayPrecinctLocalityName(raw) {
+      const key = canonicalizeVirginiaLocalityKey(raw);
+      const baseKey = localityBaseName(key);
+      const base = toTitleCaseName(baseKey);
+      if (base && VA_AMBIGUOUS_LOCALITY_BASES.has(baseKey.toUpperCase())) {
+        return localityNoun(key) === 'city' ? `City of ${base}` : `${base} County`;
+      }
+      return base || displayCountyName(raw);
     }
 
     function numericOrNull(value) {
@@ -21851,6 +21933,45 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
     }
 
+    function buildPopulationChangeLegendHTML() {
+      const useAbs = String(populationChangeMetric || 'pct') === 'abs';
+      const colors = useAbs
+        ? [
+            colorForPopulationChangeAbsMode(-30000),
+            colorForPopulationChangeAbsMode(-15000),
+            colorForPopulationChangeAbsMode(-4000),
+            colorForPopulationChangeAbsMode(0),
+            colorForPopulationChangeAbsMode(4000),
+            colorForPopulationChangeAbsMode(15000),
+            colorForPopulationChangeAbsMode(30000)
+          ]
+        : [
+            colorForPopulationChangeMode(-7),
+            colorForPopulationChangeMode(-3),
+            colorForPopulationChangeMode(-1),
+            colorForPopulationChangeMode(0),
+            colorForPopulationChangeMode(1),
+            colorForPopulationChangeMode(3),
+            colorForPopulationChangeMode(7)
+          ];
+      return `
+        <div class="legend-scale-shell">
+          ${buildLegendSpectrum(colors, 'shift')}
+          <div class="legend-scale-caption">
+            <span class="dem">Decline</span>
+            <span>Near flat</span>
+            <span class="rep">Growth</span>
+          </div>
+          <div class="legend-axis shift">
+            ${useAbs
+              ? '<span class="dem">-25k+</span><span class="dem">-10k</span><span class="dem">-2.5k</span><span>0</span><span>+2.5k</span><span class="rep">+10k</span><span class="rep">+25k+</span>'
+              : '<span class="dem">-5%+</span><span class="dem">-2%</span><span class="dem">-1%</span><span>0</span><span>+1%</span><span class="rep">+3%</span><span class="rep">+5%+</span>'
+            }
+          </div>
+        </div>
+      `;
+    }
+
     function renderLegendForVizMode(mode, meta = {}) {
       const legend = document.getElementById('legend');
       const header = legend ? legend.querySelector('.legend-header h4') : null;
@@ -21898,6 +22019,14 @@ document.addEventListener('DOMContentLoaded', function() {
             : 'County shares use DP1 total population; district/precinct shares use available VAP race fields.';
         }
         content.innerHTML = buildDemographicsLegendHTML();
+      } else if (mode === 'population_change') {
+        if (header) header.textContent = 'Population Change (2020–2025)';
+        if (subtitle) subtitle.textContent = String(populationChangeMetric || 'pct') === 'abs'
+          ? 'Virginia locality resident-population count change from April 1, 2020 to July 1, 2025 (Census Vintage 2025 estimates).'
+          : 'Virginia locality resident-population percent change from April 1, 2020 to July 1, 2025 (Census Vintage 2025 estimates).';
+        if (badge) badge.textContent = String(populationChangeMetric || 'pct') === 'abs' ? 'Pop Change (Abs)' : 'Pop Change (%)';
+        if (footer) footer.textContent = 'Brown indicates decline; green indicates growth. Gray means no estimate is available.';
+        content.innerHTML = buildPopulationChangeLegendHTML();
       } else {
         if (header) header.textContent = 'Margin Categories';
         if (subtitle) subtitle.textContent = 'Buckets by two-party margin (Rep% − Dem%). Red = Republican lead; blue = Democratic lead.';
@@ -22615,18 +22744,24 @@ document.addEventListener('DOMContentLoaded', function() {
       const byNorm = new Map();
       let statewide = null;
       (Array.isArray(rows) ? rows : []).forEach(row => {
-        const countyName = (row?.county_name || '').toString().trim();
-        const countyNorm = normalizeCountyToken(row?.county_norm || countyName);
+        const countyName = (row?.name || row?.county_name || '').toString().trim();
+        const countyNorm = normalizeCountyToken(row?.normalized_name || row?.county_norm || countyName);
         if (!countyName || !countyNorm) return;
 
-        const population2020 = Number(row?.population_2020 || 0);
-        const population2021 = Number(row?.population_2021 || 0);
-        const population2022 = Number(row?.population_2022 || 0);
-        const population2023 = Number(row?.population_2023 || 0);
-        const population2024 = Number(row?.population_2024 || 0);
-        const population2025 = Number(row?.population_2025 || 0);
-        const changePct2020To2025 = Number(row?.change_2020_2025_pct);
-        const changePct2024To2025 = Number(row?.change_2024_2025_pct);
+        const population2020 = Number(row?.estimate_2020 || row?.population_2020 || 0);
+        const population2021 = Number(row?.estimate_2021 || row?.population_2021 || 0);
+        const population2022 = Number(row?.estimate_2022 || row?.population_2022 || 0);
+        const population2023 = Number(row?.estimate_2023 || row?.population_2023 || 0);
+        const population2024 = Number(row?.estimate_2024 || row?.population_2024 || 0);
+        const population2025 = Number(row?.estimate_2025 || row?.population_2025 || 0);
+        const change2020To2025Raw = row?.change_2020_to_2025 ?? row?.change_2020_2025;
+        const changePct2020To2025Raw = row?.pct_change_2020_to_2025 ?? row?.change_2020_2025_pct;
+        const change2020To2025 = Number(change2020To2025Raw);
+        const changePct2020To2025 = Number(changePct2020To2025Raw);
+        const change2024To2025 = population2025 - population2024;
+        const changePct2024To2025 = population2024 > 0
+          ? (change2024To2025 / population2024) * 100
+          : NaN;
         const changePct2023To2024 = population2023 > 0 && population2024 > 0
           ? ((population2024 - population2023) / population2023) * 100
           : NaN;
@@ -22655,8 +22790,10 @@ document.addEventListener('DOMContentLoaded', function() {
           monotoneUp,
           monotoneDown,
           volatile,
-          change2020To2025: Number(row?.change_2020_2025 || 0),
-          change2024To2025: Number(row?.change_2024_2025 || 0),
+          change2020To2025: Number.isFinite(change2020To2025)
+            ? change2020To2025
+            : (population2025 - population2020),
+          change2024To2025,
           changePct2020To2025: Number.isFinite(changePct2020To2025) ? changePct2020To2025 : NaN,
           changePct2024To2025: Number.isFinite(changePct2024To2025) ? changePct2024To2025 : NaN,
           changePct2023To2024: Number.isFinite(changePct2023To2024) ? changePct2023To2024 : NaN
@@ -22673,6 +22810,34 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!Number.isFinite(value)) return '';
       if (Math.abs(value) < 0.05) return 'roughly flat';
       return `${value > 0 ? 'up' : 'down'} ${Math.abs(value).toFixed(1)}%`;
+    }
+
+    function buildPopulationChangeSummaryHTML(countyNorm) {
+      const estimate = countyPopulationEstimatesByNorm?.get(normalizeCountyToken(countyNorm)) || null;
+      if (!estimate) return '<div class="tooltip-insight">No Census population estimate is available for this locality.</div>';
+      const p2020 = Number(estimate.population2020 || 0);
+      const p2025 = Number(estimate.population2025 || 0);
+      const pct = Number(estimate.changePct2020To2025);
+      const abs = Number(estimate.change2020To2025);
+      if (!(p2020 > 0) || !(p2025 > 0) || !Number.isFinite(pct) || !Number.isFinite(abs)) return '';
+      const tone = abs > 0 ? 'Growth' : (abs < 0 ? 'Decline' : 'Flat');
+      const toneColor = abs > 0 ? '#86efac' : (abs < 0 ? '#fdba74' : '#e2e8f0');
+      const signAbs = abs > 0 ? '+' : '';
+      const signPct = pct > 0 ? '+' : '';
+      const statePct = Number(countyPopulationEstimateStatewide?.changePct2020To2025);
+      const statewideText = Number.isFinite(statePct)
+        ? ` · Virginia ${statePct >= 0 ? '+' : ''}${statePct.toFixed(1)}%`
+        : '';
+      const primary = String(populationChangeMetric || 'pct') === 'abs'
+        ? `${signAbs}${Math.round(abs).toLocaleString()} residents`
+        : `${signPct}${pct.toFixed(1)}%`;
+      return `
+        <div class="tooltip-insight" style="margin:0 0 8px;padding:9px 10px;border-radius:10px;background:rgba(15,23,42,0.32);border:1px solid rgba(148,163,184,0.34);">
+          <strong style="color:#f8fafc;">Population change: ${escapeHtml(primary)}</strong><br>
+          <span style="color:rgba(226,232,240,0.94);">${p2020.toLocaleString()} → ${p2025.toLocaleString()}${escapeHtml(statewideText)}</span><br>
+          <span style="color:${toneColor};font-size:11px;font-weight:800;">${tone} · Census Vintage 2025</span>
+        </div>
+      `.trim();
     }
 
     const VA_CORRIDOR_DESCRIPTORS = [
@@ -24869,7 +25034,8 @@ document.addEventListener('DOMContentLoaded', function() {
         winners: 'Winners',
         shift: 'Shift',
         flips: 'Flips',
-        demographics: 'Demographics'
+        demographics: 'Demographics',
+        population_change: 'Pop Change'
       };
       return labels[mode] || 'Margins';
     }
@@ -25493,6 +25659,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateFiltersActiveChip() {
+      try { updatePopulationMetricLegendChip(); } catch (_) {}
       const chip = document.getElementById('filters-active-chip');
       if (!chip) return;
       const labels = [];
@@ -25510,6 +25677,17 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!active) return;
       chip.textContent = `Active: ${labels.length}`;
       chip.title = `Active toggles: ${labels.join(', ')}`;
+    }
+
+    function updatePopulationMetricLegendChip() {
+      const chip = document.getElementById('legend-popmetric-chip');
+      if (!chip) return;
+      const visible = currentView === 'counties' && currentVizMode === 'population_change';
+      chip.style.display = visible ? 'inline-flex' : 'none';
+      if (!visible) return;
+      const metric = String(populationChangeMetric || 'pct') === 'abs' ? 'Absolute count' : 'Percent';
+      chip.textContent = `Metric: ${metric}`;
+      chip.title = `Pop Change metric: ${metric} (2020→2025).`;
     }
 
     function updateBellwetherLayerVisibility() {
@@ -25532,6 +25710,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (countyVisible) syncBellwetherCountyLayerFilter();
       }
       updateBellwetherLegendChipVisibility();
+      updatePopulationMetricLegendChip();
       updateFiltersActiveChip();
     }
 
@@ -26616,6 +26795,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const hoverTitle = buildTooltipTitleWithTier(`${countyDisplay}`);
         const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
         const copyText = `${countyDisplay}`;
+        if (currentVizMode === 'population_change') {
+          const populationSummary = buildPopulationChangeSummaryHTML(norm);
+          showHoverTooltip(
+            e.point.x,
+            e.point.y,
+            buildTooltipShell(hoverTitle, populationSummary, { pinned: pinnedShell, showClose: pinnedShell, copyText }),
+            { force: !!forceTooltip, pinned: pinnedShell, context: 'votehub-results', copyText }
+          );
+          wireTooltipButtons();
+          return;
+        }
         if (isDesktopTooltipMode()) {
           showHoverTooltip(
             e.point.x,
@@ -26780,6 +26970,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const finalInsight = tooltipInsight || smartInsight;
       const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
       const deltaBlock = buildCountyDeltaBlockHTML(norm, contestType, { presentation: 'desktop-expanded' });
+      const popChangeSummary = currentVizMode === 'population_change'
+        ? buildPopulationChangeSummaryHTML(norm)
+        : '';
       const winnerName = winner === 'R'
         ? marginCall.shortLabel
         : (winner === 'D' ? marginCall.shortLabel : 'Tie');
@@ -26821,6 +27014,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ? votehubCore
         : `
         ${votehubCore}
+        ${currentVizMode === 'population_change' ? popChangeSummary : ''}
         <details class="tooltip-more" aria-label="More details">
           <summary>More details</summary>
           <div class="tooltip-more-body">${detailLines}</div>
@@ -26855,7 +27049,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fullName: precFull,
         fallbackFullName: fallbackFull
       });
-      const title = `${displayCountyName(countyName)} - ${displayPrecinct}`;
+      const title = `${displayPrecinctLocalityName(countyName)} - ${displayPrecinct}`;
       setPrecinctHoverFeature(feature);
 
       const contestValue = document.getElementById('contestSelect')?.value || '';
@@ -29669,8 +29863,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const code = resolvePrecinctCanonicalCode(countyNameOrNorm, precinctCodeRaw);
       if (!code) return '';
       const friendly = getPrecinctFriendlyName(countyNameOrNorm, code);
-      if (!friendly) return code;
-      return `${friendly} (${code})`;
+      if (!friendly) return `Precinct ${code}`;
+      return friendly;
     }
 
     function isNoisyPrecinctFullName(fullRaw, codeRaw = '') {
@@ -29693,7 +29887,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const rawCode = String(code || '').trim().toUpperCase();
       const canonicalCode = rawCode ? resolvePrecinctCanonicalCode(countyName, rawCode) : '';
       const friendly = rawCode ? getPrecinctFriendlyName(countyName, rawCode) : '';
-      const friendlyLabel = (canonicalCode && friendly) ? `${friendly} (${canonicalCode})` : '';
+      const friendlyLabel = friendly || '';
 
       const full = String(fullName || '').replace(/\s+/g, ' ').trim();
       const fallbackFull = String(fallbackFullName || '').replace(/\s+/g, ' ').trim();
@@ -29709,7 +29903,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Match .v1 behavior more closely: when only a noisy VTD-style label is available,
       // fall back to the canonical code instead of surfacing the raw shapefile text.
       if (!friendlyLabel && (fullLooksNoisy || fallbackLooksNoisy) && canonicalCode) {
-        return canonicalCode;
+        return `Precinct ${canonicalCode}`;
       }
 
       // If the full name looks like "CRDM CREEDMOOR" or "01 PATTERSON", prefer the normalized friendly label.
@@ -30508,9 +30702,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (parsed.kind === 'hd') return `House of Delegates District ${parsed.num}`;
       if (parsed.kind === 'sd') return `State Senate District ${parsed.num}`;
       if (parsed.kind === 'precinct') {
-        const countyDisplay = displayCountyName(parsed.county || '');
-        const precinctLabel = formatPrecinctDisplayLabel(countyDisplay || parsed.county || '', parsed.code || '');
-        return `${countyDisplay || (parsed.county || '').toString().trim()} ${precinctLabel || (parsed.code || '').toString().trim()}`.trim();
+        const localityDisplay = displayPrecinctLocalityName(parsed.county || '');
+        const precinctLabel = formatPrecinctDisplayLabel(parsed.county || localityDisplay || '', parsed.code || '');
+        return `${localityDisplay || (parsed.county || '').toString().trim()} - ${precinctLabel || (parsed.code || '').toString().trim()}`.trim();
       }
       return fallbackRaw;
     }
@@ -30925,7 +31119,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const resolvedCode = matchedTarget.includes(' - ') ? matchedTarget.split(' - ')[1].trim().toUpperCase() : code;
-      const displayTitle = `${displayCountyName(county)} - ${formatPrecinctDisplayLabel(county, resolvedCode)}`;
+      const displayTitle = `${displayPrecinctLocalityName(county)} - ${formatPrecinctDisplayLabel(county, resolvedCode)}`;
 
       // Pin vote counter if we have precinct-level results keyed by precinct_norm.
       const contestValue = document.getElementById('contestSelect')?.value || '';
@@ -32515,6 +32709,58 @@ document.addEventListener('DOMContentLoaded', function() {
       return ['#dbeafe', '#93c5fd', '#3b82f6', '#1e3a8a'][bin - 1];
     }
 
+    function colorForPopulationChangeMode(changePct) {
+      const v = Number(changePct);
+      if (!Number.isFinite(v)) return '#e2e8f0';
+      if (v <= -5) return '#5a3b1f';
+      if (v <= -2) return '#8c613c';
+      if (v <= -0.5) return '#b08968';
+      if (v < 1) return '#f8fafc';
+      if (v < 2) return '#a9d6a5';
+      if (v < 5) return '#52b788';
+      return '#1b7f4a';
+    }
+
+    function colorForPopulationChangeAbsMode(changeAbs) {
+      const v = Number(changeAbs);
+      if (!Number.isFinite(v)) return '#e2e8f0';
+      if (v <= -25000) return '#5a3b1f';
+      if (v <= -10000) return '#8c613c';
+      if (v <= -2500) return '#b08968';
+      if (v < 2500) return '#f8fafc';
+      if (v < 10000) return '#a9d6a5';
+      if (v < 25000) return '#52b788';
+      return '#1b7f4a';
+    }
+
+    function applyPopulationChangeLayer() {
+      if (currentView !== 'counties' || !map || !map.getLayer('county-fill')) return false;
+      const countyExpr = ['case'];
+      if (countyPopulationEstimatesByNorm && typeof countyPopulationEstimatesByNorm.forEach === 'function') {
+        countyPopulationEstimatesByNorm.forEach((estimate, countyNorm) => {
+          const useAbs = String(populationChangeMetric || 'pct') === 'abs';
+          const color = useAbs
+            ? colorForPopulationChangeAbsMode(estimate?.change2020To2025)
+            : colorForPopulationChangeMode(estimate?.changePct2020To2025);
+          countyExpr.push([
+            '==',
+            ['upcase', ['coalesce', ['get', 'NAMELSAD20'], ['get', 'NAME20'], ['get', 'CountyName'], ['get', 'COUNTYNAME'], ['get', 'county_nam'], ['get', 'NAME']]],
+            countyNorm
+          ]);
+          countyExpr.push(color);
+        });
+      }
+      countyExpr.push('#e2e8f0');
+      map.setPaintProperty('county-fill', 'fill-color', countyExpr);
+      if (map.getLayer('county-stroke')) {
+        map.setPaintProperty('county-stroke', 'line-color', '#333');
+        map.setPaintProperty('county-stroke', 'line-width', 1);
+      }
+      applyLayerOpacityTuning();
+      updatePopulationMetricLegendChip();
+      return true;
+    }
+
     function classifyDemographicDominance(whitePct, blackPct, hispanicPct, nativePct = null, asianPct = null, pacificPct = null, multiracialPct = null) {
       const entries = [
         { key: 'white', value: numericOrNull(whitePct) },
@@ -33781,6 +34027,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (staleCheck()) return;
         setStatewideContestTitle(`${formatContestName(contestType, year)} (${year})`);
         setStatus(`Applied demographic mode: ${formatContestLabel(contestType, year)}`);
+        return;
+      }
+
+      if (mode === 'population_change' && currentView === 'counties') {
+        renderLegendForVizMode('population_change');
+        vizShiftCache = null;
+        if (staleCheck()) return;
+
+        try { applyPopulationChangeLayer(); } catch (_) {}
+        try { scheduleAnalyticsPanelsUpdate(contestType, year, contestData, 150); } catch (_) {}
+        if (staleCheck()) return;
+        setStatewideContestTitle(String(populationChangeMetric || 'pct') === 'abs'
+          ? 'Virginia Locality Population Change (2020–2025, absolute)'
+          : 'Virginia Locality Population Change (2020–2025, percent)');
+        setStatus(`Applied Virginia locality population-change mode (2020–2025, ${String(populationChangeMetric || 'pct') === 'abs' ? 'absolute' : 'percent'}).`);
         return;
       }
 

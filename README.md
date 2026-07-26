@@ -118,6 +118,7 @@ VAPrecinctMap/
 │   ├── build_va_geojson_from_zips.py
 │   ├── convert_va_csvs_to_openelections.py
 │   ├── build_va_precincts_from_crosswalks.py
+│   ├── build_precinct_friendly_names.js
 │   ├── build_precinct_centroids_geojson.py
 │   ├── build_va_county_contests_from_openelections.py
 │   └── build_va_district_contests_from_crosswalks.py
@@ -182,7 +183,8 @@ The front-end can optionally load a cleaned county/locality population-estimates
 
 | File | Contents |
 |---|---|
-| `Data/CO-EST2025-POP-51-clean.csv` | Virginia county + independent-city population estimates (2020–2025) with precomputed change columns and a normalized key |
+| `Data/county_population_estimates_2025.csv` | Cleaned Virginia county + independent-city population estimates (2020–2025), including the statewide row, Census GEOIDs, and precomputed change columns |
+| `Data/county_population_estimates_2025.json` | The same cleaned estimates with source metadata and year-indexed series |
 
 If this file is missing, the map still works; the Census insight/check sections simply won’t render.
 
@@ -576,6 +578,16 @@ The pipeline normalizes precinct codes with the following rules:
 
 For polygon and centroid GeoJSON features the `precinct_norm` compound key `COUNTY_NAME - PREC_ID` is stored to enable O(1) map lookups at render time.
 
+The front end loads `Data/precinct_friendly_names.json` as its county-scoped
+`precinct code -> display name` source. The generated index prefers the newest
+official election-export label, falls back to the polygon label, and assigns
+split Census VTD pieces their official parent precinct name when possible.
+Regenerate it after updating precinct geometry or official election exports:
+
+```bash
+node scripts/build_precinct_friendly_names.js
+```
+
 ---
 
 ## Front-End Architecture
@@ -675,7 +687,7 @@ The hover tooltip is designed to be **fast, low-clutter, and Virginia-safe** (co
   - A Flip chip (desktop) to make flips scannable without expanding.
 - **Delta block** (when prior-cycle county totals exist):
   - `Raw votes (YY→YY): R ±… • D ±… • Total ±…` (party-colored, NC-style).
-  - Optional population-change lines (from `Data/CO-EST2025-POP-51-clean.csv`), when loaded.
+  - Optional population-change lines and Pop Change map mode (from `Data/county_population_estimates_2025.csv`), when loaded.
 - **Details (pinned only):** a full result card with vote totals and percent shares, plus meta chips (winner, rating tier, and—depending on context—shift/flip).
 
 **Flip vs. shift context (to reduce clutter):**

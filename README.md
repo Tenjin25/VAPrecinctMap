@@ -119,6 +119,7 @@ VAPrecinctMap/
 │   ├── convert_va_csvs_to_openelections.py
 │   ├── build_va_precincts_from_crosswalks.py
 │   ├── build_precinct_friendly_names.js
+│   ├── build_precinct_polling_places.js
 │   ├── build_precinct_centroids_geojson.py
 │   ├── build_va_county_contests_from_openelections.py
 │   └── build_va_district_contests_from_crosswalks.py
@@ -587,6 +588,27 @@ Regenerate it after updating precinct geometry or official election exports:
 ```bash
 node scripts/build_precinct_friendly_names.js
 ```
+
+The front end also loads `Data/precinct_polling_places.json`, derived from the
+Virginia Department of Elections statewide polling-place table for the 2025
+November General Election. Precinct hover cards show the official facility,
+street address, and voting room when a safe geometry-to-current-precinct match
+is available. Regenerate it with:
+
+```bash
+node scripts/build_precinct_polling_places.js
+```
+
+Polling-place assignments are election-specific and can change. The generated
+JSON therefore retains the election name, official source URLs, match method,
+coverage totals, and unmatched Census-era precincts.
+
+For the most current precinct boundaries, use the Virginia Department of
+Elections [GIS ZIP packages](https://www.elections.virginia.gov/casting-a-ballot/redistricting/gis/).
+ELECT publishes one package per county or independent city and notes that recent
+local boundary changes may take a few weeks to appear. The map's existing
+`Data/va_precincts.geojson` remains Census-2020-derived until those 133 locality
+packages are merged into a replacement statewide layer.
 
 ---
 

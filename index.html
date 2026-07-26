@@ -27035,7 +27035,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ${demoLine}
       `.trim();
       const inner = isDesktopTooltipMode()
-        ? votehubCore
+        ? `${votehubCore}${popChangeSummary}`.trim()
         : `
         ${votehubCore}
         ${currentVizMode === 'population_change' ? popChangeSummary : ''}

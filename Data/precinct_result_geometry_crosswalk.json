@@ -1,10 +1,27 @@
 {
   "meta": {
-    "description": "Election-year precinct result keys allocated to current ELECT polygons",
-    "method": "legacy polygon to current polygon land-area overlap",
+    "description": "Election-year VTD20 result keys allocated to current ELECT precincts",
+    "preferred_method": "2020 Census block voting-age population",
+    "fallback_method": "2020 Census block total population, then block or polygon land area",
     "weights_conserve_each_source": true,
     "minimum_parent_coverage": 0.05,
-    "minimum_target_weight": 0.005
+    "minimum_target_weight": 0.005,
+    "sources": {
+      "vtd20": "Data/tl_2020_51_vtd20.zip",
+      "current_precincts": "Data/va_precincts_current.geojson",
+      "tabulation_blocks": "Data/tl_2020_51_tabblock20.zip",
+      "block_assignments": "Data/BlockAssign_ST51_VA.zip",
+      "pl94_redistricting_data": "Data/va2020.pl.zip"
+    },
+    "block_stats": {
+      "blocks_total": 163491,
+      "blocks_with_population": 163491,
+      "blocks_assigned_to_current": 163160,
+      "blocks_unassigned_to_current": 331,
+      "total_population_unassigned_to_current": 170,
+      "voting_age_population_unassigned_to_current": 143,
+      "blocks_with_complete_transition": 163160
+    }
   },
   "years": {
     "2023": {
@@ -14,66 +31,80 @@
           "targets": [
             [
               "ALEXANDRIA CITY - 212",
-              0.900169
+              0.816845
             ],
             [
               "ALEXANDRIA CITY - 210",
-              0.099831
+              0.183155
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "ALEXANDRIA CITY - 305",
           "targets": [
             [
               "ALEXANDRIA CITY - 310",
-              0.520311
+              0.62217
             ],
             [
               "ALEXANDRIA CITY - 305",
-              0.479689
+              0.37783
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "APPOMATTOX COUNTY - 502",
           "targets": [
             [
               "APPOMATTOX COUNTY - 501",
-              1.0
+              0.99435
+            ],
+            [
+              "APPOMATTOX COUNTY - 101",
+              0.00565
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
+        },
+        {
+          "source": "BRISTOL CITY - 4",
+          "targets": [
+            [
+              "BRISTOL CITY - 4",
+              0.662442
+            ],
+            [
+              "BRISTOL CITY - 5",
+              0.337558
+            ]
+          ],
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 106",
           "targets": [
             [
               "CHESTERFIELD COUNTY - 106",
-              0.603814
+              0.875
             ],
             [
               "CHESTERFIELD COUNTY - 115",
-              0.396186
+              0.125
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 107",
           "targets": [
             [
               "CHESTERFIELD COUNTY - 115",
-              0.992049
-            ],
-            [
-              "CHESTERFIELD COUNTY - 102",
-              0.007951
+              1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 204",
@@ -83,7 +114,7 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 206",
@@ -93,7 +124,7 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 212",
@@ -103,25 +134,17 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 302",
           "targets": [
             [
               "CHESTERFIELD COUNTY - 321",
-              0.981621
-            ],
-            [
-              "CHESTERFIELD COUNTY - 401",
-              0.011567
-            ],
-            [
-              "CHESTERFIELD COUNTY - 316",
-              0.006811
+              1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 308",
@@ -131,21 +154,21 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 317",
           "targets": [
             [
               "CHESTERFIELD COUNTY - 322",
-              0.53934
+              0.634131
             ],
             [
               "CHESTERFIELD COUNTY - 320",
-              0.46066
+              0.365869
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 318",
@@ -155,7 +178,7 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 406",
@@ -165,25 +188,17 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 407",
           "targets": [
             [
               "CHESTERFIELD COUNTY - 421",
-              0.981675
-            ],
-            [
-              "CHESTERFIELD COUNTY - 419",
-              0.0124
-            ],
-            [
-              "CHESTERFIELD COUNTY - 415",
-              0.005925
+              1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 416",
@@ -193,7 +208,7 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 417",
@@ -203,49 +218,45 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 501",
           "targets": [
             [
               "CHESTERFIELD COUNTY - 521",
-              0.84015
+              0.883424
             ],
             [
               "CHESTERFIELD COUNTY - 519",
-              0.15985
+              0.116576
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 502",
           "targets": [
             [
               "CHESTERFIELD COUNTY - 521",
-              0.982138
-            ],
-            [
-              "CHESTERFIELD COUNTY - 513",
-              0.017862
+              1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "CHESTERFIELD COUNTY - 516",
           "targets": [
             [
-              "CHESTERFIELD COUNTY - 516",
-              0.669779
+              "CHESTERFIELD COUNTY - 222",
+              0.520124
             ],
             [
-              "CHESTERFIELD COUNTY - 222",
-              0.330221
+              "CHESTERFIELD COUNTY - 516",
+              0.479876
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "FAIRFAX COUNTY - 519",
@@ -255,25 +266,21 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "FAIRFAX COUNTY - 607",
           "targets": [
             [
               "FAIRFAX COUNTY - 607",
-              0.890925
+              0.843386
             ],
             [
               "FAIRFAX COUNTY - 637",
-              0.101002
-            ],
-            [
-              "FAIRFAX COUNTY - 408",
-              0.008073
+              0.156614
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "GILES COUNTY - 101",
@@ -283,57 +290,53 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "GOOCHLAND COUNTY - 402",
           "targets": [
             [
               "GOOCHLAND COUNTY - 402",
-              0.844822
+              0.799304
             ],
             [
               "GOOCHLAND COUNTY - 403",
-              0.113362
+              0.194166
             ],
             [
               "GOOCHLAND COUNTY - 502",
-              0.041815
+              0.00653
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "GOOCHLAND COUNTY - 502",
           "targets": [
             [
               "GOOCHLAND COUNTY - 502",
-              0.977196
+              0.75026
             ],
             [
               "GOOCHLAND COUNTY - 403",
-              0.022804
+              0.24974
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "HAMPTON CITY - 105",
           "targets": [
             [
-              "HAMPTON CITY - 105",
-              0.591116
-            ],
-            [
               "HAMPTON CITY - 113",
-              0.399576
+              0.570209
             ],
             [
-              "HAMPTON CITY - 111",
-              0.009308
+              "HAMPTON CITY - 105",
+              0.429791
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "MADISON COUNTY - 9",
@@ -343,33 +346,24 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "TAZEWELL COUNTY - 107",
           "targets": [
             [
               "TAZEWELL COUNTY - 109",
-              0.580668
+              0.664975
             ],
             [
               "TAZEWELL COUNTY - 112",
-              0.352637
-            ],
-            [
-              "TAZEWELL COUNTY - 103",
-              0.066695
+              0.335025
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         }
       ],
       "unresolved_current": [
-        {
-          "precinct": "BRISTOL CITY - 5",
-          "name": "005 - FIFTH PRECINCT",
-          "reason": "created_after_election_or_no_reported_parent"
-        },
         {
           "precinct": "FAIRFAX COUNTY - 700",
           "name": "FAIRFAX COURT PRECINCT",
@@ -380,8 +374,12 @@
         "result_keys": 2542,
         "current_geometry_keys": 2536,
         "direct_keys": 2521,
-        "split_sources": 27,
-        "unresolved_current": 2
+        "split_sources": 28,
+        "unresolved_current": 1,
+        "collapsed_vtd20_pieces": 34,
+        "methods": {
+          "vtd20_to_current_2020_block_voting_age_population": 28
+        }
       }
     },
     "2024": {
@@ -391,28 +389,28 @@
           "targets": [
             [
               "APPOMATTOX COUNTY - 501",
-              1.0
+              0.99435
+            ],
+            [
+              "APPOMATTOX COUNTY - 101",
+              0.00565
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "FAIRFAX COUNTY - 607",
           "targets": [
             [
               "FAIRFAX COUNTY - 607",
-              0.890925
+              0.843386
             ],
             [
               "FAIRFAX COUNTY - 637",
-              0.101002
-            ],
-            [
-              "FAIRFAX COUNTY - 408",
-              0.008073
+              0.156614
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "GILES COUNTY - 101",
@@ -422,25 +420,21 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "HAMPTON CITY - 105",
           "targets": [
             [
-              "HAMPTON CITY - 105",
-              0.591116
-            ],
-            [
               "HAMPTON CITY - 113",
-              0.399576
+              0.570209
             ],
             [
-              "HAMPTON CITY - 111",
-              0.009308
+              "HAMPTON CITY - 105",
+              0.429791
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "MADISON COUNTY - 9",
@@ -450,61 +444,57 @@
               1.0
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "RICHMOND COUNTY - 201",
           "targets": [
             [
               "RICHMOND COUNTY - 201",
-              0.541839
-            ],
-            [
-              "RICHMOND COUNTY - 101",
-              0.237499
-            ],
-            [
-              "RICHMOND COUNTY - 502",
-              0.177122
+              0.805351
             ],
             [
               "RICHMOND COUNTY - 301",
-              0.043541
+              0.09548
+            ],
+            [
+              "RICHMOND COUNTY - 101",
+              0.073339
+            ],
+            [
+              "RICHMOND COUNTY - 502",
+              0.02583
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "RICHMOND COUNTY - 501",
           "targets": [
             [
               "RICHMOND COUNTY - 501",
-              0.779752
+              0.728995
             ],
             [
               "RICHMOND COUNTY - 502",
-              0.220248
+              0.271005
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "TAZEWELL COUNTY - 107",
           "targets": [
             [
               "TAZEWELL COUNTY - 109",
-              0.580668
+              0.664975
             ],
             [
               "TAZEWELL COUNTY - 112",
-              0.352637
-            ],
-            [
-              "TAZEWELL COUNTY - 103",
-              0.066695
+              0.335025
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         }
       ],
       "unresolved_current": [
@@ -519,7 +509,11 @@
         "current_geometry_keys": 2536,
         "direct_keys": 2532,
         "split_sources": 8,
-        "unresolved_current": 1
+        "unresolved_current": 1,
+        "collapsed_vtd20_pieces": 34,
+        "methods": {
+          "vtd20_to_current_2020_block_voting_age_population": 8
+        }
       }
     },
     "2025": {
@@ -528,55 +522,51 @@
           "source": "HAMPTON CITY - 105",
           "targets": [
             [
-              "HAMPTON CITY - 105",
-              0.591116
-            ],
-            [
               "HAMPTON CITY - 113",
-              0.399576
+              0.570209
             ],
             [
-              "HAMPTON CITY - 111",
-              0.009308
+              "HAMPTON CITY - 105",
+              0.429791
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "RICHMOND COUNTY - 201",
           "targets": [
             [
               "RICHMOND COUNTY - 201",
-              0.541839
-            ],
-            [
-              "RICHMOND COUNTY - 101",
-              0.237499
-            ],
-            [
-              "RICHMOND COUNTY - 502",
-              0.177122
+              0.805351
             ],
             [
               "RICHMOND COUNTY - 301",
-              0.043541
+              0.09548
+            ],
+            [
+              "RICHMOND COUNTY - 101",
+              0.073339
+            ],
+            [
+              "RICHMOND COUNTY - 502",
+              0.02583
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         },
         {
           "source": "RICHMOND COUNTY - 501",
           "targets": [
             [
               "RICHMOND COUNTY - 501",
-              0.779752
+              0.728995
             ],
             [
               "RICHMOND COUNTY - 502",
-              0.220248
+              0.271005
             ]
           ],
-          "method": "legacy_to_current_land_overlap"
+          "method": "vtd20_to_current_2020_block_voting_age_population"
         }
       ],
       "unresolved_current": [
@@ -591,7 +581,11 @@
         "current_geometry_keys": 2536,
         "direct_keys": 2533,
         "split_sources": 3,
-        "unresolved_current": 1
+        "unresolved_current": 1,
+        "collapsed_vtd20_pieces": 34,
+        "methods": {
+          "vtd20_to_current_2020_block_voting_age_population": 3
+        }
       }
     }
   }

@@ -10370,8 +10370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-generated-precinct-crosswalk-1';
-    const APP_BUILD_ID = '2026-07-26-generated-precinct-crosswalk-1';
+    const DATA_CACHE_BUSTER = '2026-07-26-block-weighted-precinct-crosswalk-1';
+    const APP_BUILD_ID = '2026-07-26-block-weighted-precinct-crosswalk-1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -27162,8 +27162,14 @@ document.addEventListener('DOMContentLoaded', function() {
         districtType: 'Precinct',
         showWinnerLine: true
       });
+      const estimateMethod = String(row?._estimate_method || '');
+      const estimateBasis = estimateMethod.includes('block_voting_age_population')
+        ? '2020 Census block voting-age population'
+        : (estimateMethod.includes('block_total_population')
+          ? '2020 Census block population'
+          : 'boundary overlap');
       const estimateNote = row?._estimated_from_precincts?.length
-        ? `<div style="margin-top:7px;color:rgba(148,163,184,0.92);font-size:11px;">Estimated from pre-split precinct returns using boundary overlap.</div>`
+        ? `<div style="margin-top:7px;color:rgba(148,163,184,0.92);font-size:11px;">Estimated from pre-split precinct returns using ${escapeHtml(estimateBasis)}.</div>`
         : '';
       const inner = `${resultHtml}${estimateNote}`;
       const pinnedShell = !!tooltipPinned;
@@ -33853,7 +33859,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ...(targetNode._estimated_from_precincts || []),
                     sourceNorm
                   ]));
-                  targetNode._estimate_method = 'Land-area allocation from pre-split precinct';
+                  targetNode._estimate_method = split.method || 'vtd20_to_current_land_overlap_fallback';
                 }
               });
             });

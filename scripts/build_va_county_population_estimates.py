@@ -229,7 +229,7 @@ def write_json(output_path: Path, meta: dict, payload: dict) -> None:
     output_path.write_text(json.dumps(output, indent=2), encoding="utf-8")
 
 
-def write_csv(output_path: Path, counties: dict[str, dict]) -> None:
+def write_csv(output_path: Path, statewide: dict, counties: dict[str, dict]) -> None:
     fieldnames = [
         "normalized_name",
         "name",
@@ -252,6 +252,7 @@ def write_csv(output_path: Path, counties: dict[str, dict]) -> None:
     with output_path.open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
+        writer.writerow({name: statewide.get(name, "") for name in fieldnames})
         for key in sorted(counties):
             row = counties[key]
             writer.writerow({name: row.get(name, "") for name in fieldnames})
@@ -261,7 +262,7 @@ def build_outputs(input_csv: Path, county_geojson: Path, output_json: Path, outp
     locality_index = build_locality_index(county_geojson)
     meta, payload = parse_rows(input_csv, locality_index)
     write_json(output_json, meta, payload)
-    write_csv(output_csv, payload["counties"])
+    write_csv(output_csv, payload["statewide"], payload["counties"])
 
 
 def main() -> None:

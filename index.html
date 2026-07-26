@@ -10370,8 +10370,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-governor-cd-calibration-4';
-    const APP_BUILD_ID = '2026-07-26-governor-cd-calibration-4';
+    const DATA_CACHE_BUSTER = '2026-07-26-governor-cd-calibration-5';
+    const APP_BUILD_ID = '2026-07-26-governor-cd-calibration-5';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -20342,13 +20342,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const payload = await loadDistrictSlice(scope, contestType, year);
         const row = pickDistrictSliceRow(payload, districtId);
         if (!row) return true;
+        const demVotes = Number(row.dem_votes || 0);
+        const repVotes = Number(row.rep_votes || 0);
+        const otherVotes = Number(row.other_votes || 0);
+        const totalVotes = Number(row.total_votes || (demVotes + repVotes + otherVotes));
+        const signedMarginPct = Number.isFinite(Number(row.margin_pct))
+          ? Number(row.margin_pct)
+          : signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
         pinVoteCounterState(
           `Selected: ${title}`,
           `${formatContestLabel(contestType, year)}`,
-          Number(row.dem_votes || 0),
-          Number(row.rep_votes || 0),
-          Number(row.other_votes || 0),
-          { kind: 'district', scope, districtNum: districtId, contestType, year: Number(year) },
+          demVotes,
+          repVotes,
+          otherVotes,
+          { kind: 'district', scope, districtNum: districtId, contestType, year: Number(year), marginPct: signedMarginPct },
           { demCandidate: row.dem_candidate || '', repCandidate: row.rep_candidate || '' }
         );
       } catch (err) {
@@ -30395,13 +30402,17 @@ document.addEventListener('DOMContentLoaded', function() {
                   const demVotes = Number(row.dem_votes || 0);
                   const repVotes = Number(row.rep_votes || 0);
                   const otherVotes = Number(row.other_votes || 0);
+                  const totalVotes = Number(row.total_votes || (demVotes + repVotes + otherVotes));
+                  const signedMarginPct = Number.isFinite(Number(row.margin_pct))
+                    ? Number(row.margin_pct)
+                    : signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
                   pinVoteCounterState(
                     `Selected: Congressional District ${districtNum}`,
                     `${formatContestLabel(contestType, year)}`,
                     demVotes,
                     repVotes,
                     otherVotes,
-                    { kind: 'district', scope: 'congressional', districtNum: Number(districtNum), contestType, year: Number(year) },
+                    { kind: 'district', scope: 'congressional', districtNum: Number(districtNum), contestType, year: Number(year), marginPct: signedMarginPct },
                     { demCandidate: row.dem_candidate || '', repCandidate: row.rep_candidate || '' }
                   );
                 }).catch(() => {});

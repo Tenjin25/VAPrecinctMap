@@ -10420,8 +10420,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-pop-change-tooltip-1';
-    const APP_BUILD_ID = '2026-07-26-pop-change-tooltip-1';
+    const DATA_CACHE_BUSTER = '2026-07-26-trajectory-rounded-shifts-1';
+    const APP_BUILD_ID = '2026-07-26-trajectory-rounded-shifts-1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -14799,11 +14799,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const dem = Number(trendItem?.dem_votes || 0);
         const rep = Number(trendItem?.rep_votes || 0);
         const explicitSigned = Number(trendItem?.margin_pct);
-        if (Number.isFinite(explicitSigned)) return explicitSigned;
         const rawSigned = signedMarginPctFromVotes(dem, rep, total);
+        if (trendItem?.margin_pct_authoritative && Number.isFinite(explicitSigned)) {
+          return roundForDisplay(explicitSigned, 2);
+        }
         // If a historical row doesn't carry vote totals (for example, some pre-aggregated trend bundles),
         // fall back to the signed margin directly so "Since 2020 / 2008 / 2000" deltas don't collapse to 0.
-        if (!(Number.isFinite(total) && total > 0)) return rawSigned;
+        if (!(Number.isFinite(total) && total > 0)) {
+          return Number.isFinite(explicitSigned) ? explicitSigned : rawSigned;
+        }
+        // District margins use the final whole-vote total, including third-party/other votes.
+        // This avoids carrying a pre-round allocation margin into the historical display.
+        if (!useCountyMarginPrecision) return roundForDisplay(rawSigned, 2);
         const absDisplay = useCountyMarginPrecision
           ? countyMarginPctDisplayValue(rep, dem, total)
           : marginPctDisplayValue(rep, dem, total);
@@ -20395,10 +20402,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const demVotes = Number(row.dem_votes || 0);
         const repVotes = Number(row.rep_votes || 0);
         const otherVotes = Number(row.other_votes || 0);
-        const totalVotes = Number(row.total_votes || (demVotes + repVotes + otherVotes));
-        const signedMarginPct = Number.isFinite(Number(row.margin_pct))
-          ? Number(row.margin_pct)
-          : signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
+        const signedMarginPct = signedDistrictMarginPct(row, payload);
         pinVoteCounterState(
           `Selected: ${title}`,
           `${formatContestLabel(contestType, year)}`,
@@ -22799,16 +22803,23 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!repCand) repCand = cand.rep || '';
           } catch (_) {}
         }
+        const demVotes = Number(r.dem_votes) || 0;
+        const repVotes = Number(r.rep_votes) || 0;
+        const otherVotes = Number(r.other_votes) || 0;
+        const totalVotes = Number(r.total_votes) || (demVotes + repVotes + otherVotes);
+        const sourceMarginIsAuthoritative = districtSourceMarginIsAuthoritative(payload);
+        const displayMarginPct = signedDistrictMarginPct(r, payload);
         out.push({
           year,
-          dem_votes: Number(r.dem_votes) || 0,
-          rep_votes: Number(r.rep_votes) || 0,
-          other_votes: Number(r.other_votes) || 0,
-          total_votes: Number(r.total_votes) || 0,
+          dem_votes: demVotes,
+          rep_votes: repVotes,
+          other_votes: otherVotes,
+          total_votes: totalVotes,
           dem_candidate: demCand,
           rep_candidate: repCand,
           winner: r.winner || '',
-          margin_pct: Number(r.margin_pct) || 0,
+          margin_pct: displayMarginPct,
+          margin_pct_authoritative: sourceMarginIsAuthoritative,
           coverage_pct: payload?.meta?.match_coverage_pct
         });
       }
@@ -24212,12 +24223,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const demVotes = Number(row.dem_votes);
         const totalVotes = Number(row.total_votes);
         const rawSigned = getSignedMarginTowardGop(row);
-        // District slices can retain an authoritative source margin while their vote totals
-        // are calibrated to statewide totals. Use that source value in the trajectory card;
-        // recomputing from the calibrated votes would turn VPAP's D+2.23 into D+2.24.
+        // District slices can explicitly mark a source margin as authoritative when their
+        // vote totals were calibrated while preserving that source margin.
         const explicitSigned = Number(row.margin_pct);
-        if (unitLower !== 'county' && Number.isFinite(explicitSigned)) return rawSigned;
+        if (unitLower !== 'county' && row.margin_pct_authoritative && Number.isFinite(explicitSigned)) {
+          return roundForDisplay(rawSigned, 2);
+        }
         if (!(Number.isFinite(totalVotes) && totalVotes > 0)) return rawSigned;
+        // For ordinary district years, calculate from the final total vote count (including
+        // other votes) before rounding. Stored margins may predate whole-vote allocation.
+        if (unitLower !== 'county') {
+          return roundForDisplay(signedMarginPctFromVotes(demVotes, repVotes, totalVotes), 2);
+        }
         const useCounty = unitLower === 'county';
         const absDisplay = useCounty
           ? countyMarginPctDisplayValue(repVotes, demVotes, totalVotes)
@@ -27619,7 +27636,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       if (!demCandidate) demCandidate = getCandidateName(year, formatContestName(contestType, year), 'Democrat');
       if (!repCandidate) repCandidate = getCandidateName(year, formatContestName(contestType, year), 'Republican');
-      const signedMarginPct = ('margin_pct' in row) ? Number(row.margin_pct || 0) : signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
+      const signedMarginPct = signedDistrictMarginPct(row, node);
       setVoteCounterHoverState(
         `Hover: ${districtLabel} ${districtNum}`,
         `${formatContestLabel(contestType, year)}`,
@@ -27639,7 +27656,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (prevResults) {
           const prevRow = prevResults[String(districtNum)] || prevResults[String(Number(districtNum))] || null;
           if (prevRow) {
-            const prevSignedRaw = Number(prevRow.margin_pct);
+            const prevSignedRaw = signedDistrictMarginPct(prevRow, prevCached?.prevNode);
             if (Number.isFinite(prevSignedRaw)) prevSignedForFlip = prevSignedRaw;
           }
         }
@@ -30575,10 +30592,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   const demVotes = Number(row.dem_votes || 0);
                   const repVotes = Number(row.rep_votes || 0);
                   const otherVotes = Number(row.other_votes || 0);
-                  const totalVotes = Number(row.total_votes || (demVotes + repVotes + otherVotes));
-                  const signedMarginPct = Number.isFinite(Number(row.margin_pct))
-                    ? Number(row.margin_pct)
-                    : signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
+                  const signedMarginPct = signedDistrictMarginPct(row, node);
                   pinVoteCounterState(
                     `Selected: Congressional District ${districtNum}`,
                     `${formatContestLabel(contestType, year)}`,
@@ -30697,13 +30711,14 @@ document.addEventListener('DOMContentLoaded', function() {
                   const demVotes = Number(row.dem_votes || 0);
                   const repVotes = Number(row.rep_votes || 0);
                   const otherVotes = Number(row.other_votes || 0);
+                  const signedMarginPct = signedDistrictMarginPct(row, node);
                   pinVoteCounterState(
                     `Selected: House of Delegates District ${districtNum}`,
                     `${formatContestLabel(contestType, year)}`,
                     demVotes,
                     repVotes,
                     otherVotes,
-                    { kind: 'district', scope: 'state_house', districtNum: Number(districtNum), contestType, year: Number(year) },
+                    { kind: 'district', scope: 'state_house', districtNum: Number(districtNum), contestType, year: Number(year), marginPct: signedMarginPct },
                     { demCandidate: row.dem_candidate || '', repCandidate: row.rep_candidate || '' }
                   );
                 }).catch(() => {});
@@ -30814,13 +30829,14 @@ document.addEventListener('DOMContentLoaded', function() {
                   const demVotes = Number(row.dem_votes || 0);
                   const repVotes = Number(row.rep_votes || 0);
                   const otherVotes = Number(row.other_votes || 0);
+                  const signedMarginPct = signedDistrictMarginPct(row, node);
                   pinVoteCounterState(
                     `Selected: State Senate District ${districtNum}`,
                     `${formatContestLabel(contestType, year)}`,
                     demVotes,
                     repVotes,
                     otherVotes,
-                    { kind: 'district', scope: 'state_senate', districtNum: Number(districtNum), contestType, year: Number(year) },
+                    { kind: 'district', scope: 'state_senate', districtNum: Number(districtNum), contestType, year: Number(year), marginPct: signedMarginPct },
                     { demCandidate: row.dem_candidate || '', repCandidate: row.rep_candidate || '' }
                   );
                 }).catch(() => {});
@@ -32027,7 +32043,29 @@ document.addEventListener('DOMContentLoaded', function() {
       return results[keyA] || results[keyB] || null;
     }
 
-    function renderDistrictElectionInfoHTML(contestType, year, row, fallbackCandidates) {
+    function districtSourceMarginIsAuthoritative(payload) {
+      return Boolean(
+        payload?.meta?.calibrated_to_statewide &&
+        /margins?\s+preserved/i.test(String(payload?.meta?.calibration_method || ''))
+      );
+    }
+
+    function signedDistrictMarginPct(row, payload = null) {
+      if (!row) return 0;
+      const explicit = Number(row.margin_pct);
+      if (districtSourceMarginIsAuthoritative(payload) && Number.isFinite(explicit)) return explicit;
+      const demVotes = Number(row.dem_votes || 0);
+      const repVotes = Number(row.rep_votes || 0);
+      const otherVotes = Number(row.other_votes || 0);
+      const totalRaw = Number(row.total_votes);
+      const totalVotes = Number.isFinite(totalRaw) && totalRaw > 0
+        ? totalRaw
+        : (demVotes + repVotes + otherVotes);
+      if (totalVotes > 0) return signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
+      return Number.isFinite(explicit) ? explicit : 0;
+    }
+
+    function renderDistrictElectionInfoHTML(contestType, year, row, fallbackCandidates, payload = null) {
       if (!row) return '<div style="color:#999;">No results for this district/contest.</div>';
       const demVotes = Number(row.dem_votes || 0);
       const repVotes = Number(row.rep_votes || 0);
@@ -32045,10 +32083,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const demPct = (demVotes / totalVotes) * 100.0;
       const repPct = (repVotes / totalVotes) * 100.0;
       const othPct = (otherVotes / totalVotes) * 100.0;
-      const signedRaw = Number(row.margin_pct);
-      const signedMarginPct = Number.isFinite(signedRaw)
-        ? signedRaw
-        : signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
+      const signedMarginPct = signedDistrictMarginPct(row, payload);
       const marginPct = Math.abs(signedMarginPct);
       const winnerParty = signedMarginPct > 0 ? 'R' : (signedMarginPct < 0 ? 'D' : 'TIE');
       const winnerCall = winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate, signedMarginPct);
@@ -32229,7 +32264,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const repBlank = !((row.rep_candidate || '').toString().trim());
             if (demBlank || repBlank) cand = await getContestCandidates(contestType, year);
           }
-          if (el) el.innerHTML = renderDistrictElectionInfoHTML(contestType, year, row, cand);
+          if (el) el.innerHTML = renderDistrictElectionInfoHTML(contestType, year, row, cand, payload);
         } catch (err) {
           if (reqId !== districtSidebarRequestId) return;
           const el = document.getElementById('district-election');
@@ -32317,7 +32352,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const repBlank = !((row.rep_candidate || '').toString().trim());
             if (demBlank || repBlank) cand = await getContestCandidates(contestType, year);
           }
-          if (el) el.innerHTML = renderDistrictElectionInfoHTML(contestType, year, row, cand);
+          if (el) el.innerHTML = renderDistrictElectionInfoHTML(contestType, year, row, cand, payload);
         } catch (err) {
           if (reqId !== districtSidebarRequestId) return;
           const el = document.getElementById('district-election');

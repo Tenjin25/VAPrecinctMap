@@ -10420,8 +10420,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-trajectory-rounded-shifts-1';
-    const APP_BUILD_ID = '2026-07-26-trajectory-rounded-shifts-1';
+    const DATA_CACHE_BUSTER = '2026-07-26-vote-share-allocate-1';
+    const APP_BUILD_ID = '2026-07-26-vote-share-allocate-1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -14273,21 +14273,26 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
-      const demPct = (d / total) * 100;
-      const repPct = (r / total) * 100;
-      const otherPct = (o / total) * 100;
       const explicitSignedMarginPct = Number(meta?.marginPct);
       const hasExplicitMarginPct = meta?.marginPct !== null
         && meta?.marginPct !== undefined
         && meta?.marginPct !== ''
         && Number.isFinite(explicitSignedMarginPct);
-      const marginPct = hasExplicitMarginPct
+      const rawMarginPct = hasExplicitMarginPct
         ? Math.abs(explicitSignedMarginPct)
         : marginPctValue(r, d, total);
+      const pctDigits = isCountyContext
+        ? countyMarginDisplayDigits(rawMarginPct)
+        : marginDisplayDigits(rawMarginPct);
+      const allocated = allocateDisplayVotePcts(d, r, o, pctDigits);
+      const demPct = allocated.demPct;
+      const repPct = allocated.repPct;
+      const otherPct = allocated.otherPct;
+      const marginPct = allocated.marginPct;
       const signedMarginPct = hasExplicitMarginPct
         ? explicitSignedMarginPct
         : signedMarginPctFromVotes(d, r, total);
-      const winnerParty = repPct > demPct ? 'rep' : (demPct > repPct ? 'dem' : 'tie');
+      const winnerParty = r > d ? 'rep' : (d > r ? 'dem' : 'tie');
       const winnerLabel = winnerParty === 'rep'
         ? formatVoteCounterWinnerLabel(resolvedCandidates.repCandidate, 'R', 'Republican')
         : (winnerParty === 'dem'
@@ -14298,11 +14303,7 @@ document.addEventListener('DOMContentLoaded', function() {
         : (winnerParty === 'dem'
           ? formatVoteCounterCandidateLabel(resolvedCandidates.demCandidate, 'D', 'Democratic')
           : 'Tie');
-      const leadLabel = hasExplicitMarginPct
-        ? `${formatMarginPctForDisplay(marginPct)}%`
-        : (isCountyContext
-          ? leadCountyMarginPctLabel(r, d, total)
-          : focusLeadMarginLabel(r, d, total));
+      const leadLabel = `${formatAllocatedPct(marginPct, pctDigits)}%`;
 
       renderVoteContextTierBadge(meta, signedMarginPct);
 
@@ -14313,16 +14314,12 @@ document.addEventListener('DOMContentLoaded', function() {
       marginEl.className = `focus-pill-value ${winnerParty}`;
       marginEl.title = leadLabel;
       totalEl.textContent = formatVoteCountForDisplay(total);
-      barDem.style.width = `${demPct.toFixed(4)}%`;
-      barOther.style.width = `${otherPct.toFixed(4)}%`;
-      barRep.style.width = `${repPct.toFixed(4)}%`;
-      barDemLabelEl.textContent = isCountyContext
-        ? `${shortCandidateLabel(resolvedCandidates.demCandidate, 'Dem')} ${formatPctForCountyCloseRace(demPct, marginPct)}%`
-        : formatFocusBarLabel(resolvedCandidates.demCandidate, demPct, 'Dem', marginPct);
+      barDem.style.width = `${demPct}%`;
+      barOther.style.width = `${otherPct}%`;
+      barRep.style.width = `${repPct}%`;
+      barDemLabelEl.textContent = `${shortCandidateLabel(resolvedCandidates.demCandidate, 'Dem')} ${formatAllocatedPct(demPct, pctDigits)}%`;
       barMidLabelEl.textContent = '50%';
-      barRepLabelEl.textContent = isCountyContext
-        ? `${shortCandidateLabel(resolvedCandidates.repCandidate, 'Rep')} ${formatPctForCountyCloseRace(repPct, marginPct)}%`
-        : formatFocusBarLabel(resolvedCandidates.repCandidate, repPct, 'Rep', marginPct);
+      barRepLabelEl.textContent = `${shortCandidateLabel(resolvedCandidates.repCandidate, 'Rep')} ${formatAllocatedPct(repPct, pctDigits)}%`;
     }
 
     function updateVoteCounter(demVotes, repVotes, otherVotes = 0, candidates = null, meta = null) {
@@ -14353,20 +14350,20 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
-      const demPct = (demVotes / totalVotes) * 100;
-      const repPct = (repVotes / totalVotes) * 100;
-      const otherPct = (otherVotes / totalVotes) * 100;
       const marginPct = marginPctValue(repVotes, demVotes, totalVotes);
       const isCountyContext = String(meta?.kind || '').toLowerCase() === 'county';
-      const pctFormatter = isCountyContext ? formatPctForCountyCloseRace : formatPctForCloseRace;
+      const pctDigits = isCountyContext
+        ? countyMarginDisplayDigits(marginPct)
+        : marginDisplayDigits(marginPct);
+      const allocated = allocateDisplayVotePcts(demVotes, repVotes, otherVotes, pctDigits);
       
       animateCounter('dem-count', demVotes);
       animateCounter('rep-count', repVotes);
       animateCounter('other-count', otherVotes);
       
-      document.getElementById('dem-percent').textContent = pctFormatter(demPct, marginPct) + '%';
-      document.getElementById('rep-percent').textContent = pctFormatter(repPct, marginPct) + '%';
-      document.getElementById('other-percent').textContent = pctFormatter(otherPct, marginPct) + '%';
+      document.getElementById('dem-percent').textContent = formatAllocatedPct(allocated.demPct, pctDigits) + '%';
+      document.getElementById('rep-percent').textContent = formatAllocatedPct(allocated.repPct, pctDigits) + '%';
+      document.getElementById('other-percent').textContent = formatAllocatedPct(allocated.otherPct, pctDigits) + '%';
       updateVoteCounterSummary(demVotes, repVotes, otherVotes, candidates, meta);
       
       showVoteCounter();
@@ -20117,9 +20114,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const otherVotes = Number.isFinite(opts?.otherVotes) ? Math.max(0, Number(opts.otherVotes)) : Math.max(0, totalVotes - demVotes - repVotes);
         const isMobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
 
-        const demPct = (demVotes / totalVotes) * 100;
-        const repPct = (repVotes / totalVotes) * 100;
-        const otherPct = (otherVotes / totalVotes) * 100;
+        const allocated = allocateDisplayVotePcts(demVotes, repVotes, otherVotes, 2);
+        const demPct = allocated.demPct;
+        const repPct = allocated.repPct;
+        const otherPct = allocated.otherPct;
         const marginPct = marginPctValue(repVotes, demVotes, totalVotes);
         const marginLabel = formatMarginPctForDisplay(marginPctDisplayValue(repVotes, demVotes, totalVotes));
         const winner = demPct > repPct ? 'Democratic' : 'Republican';
@@ -20204,12 +20202,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isMobile) {
           const chips = breakdownItems.map(item => (
             `<div style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid rgba(15,23,42,0.12);background:#fff;white-space:nowrap;color:${item.color};font-size:14px;font-weight:700;">` +
-            `${item.label}: ${item.votes.toLocaleString()} (${item.pct.toFixed(2)}%)</div>`
+            `${item.label}: ${item.votes.toLocaleString()} (${formatAllocatedPct(item.pct, 2)}%)</div>`
           )).join('');
           breakdownRow = `<div style="display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:2px 0 2px 0;margin-top:8px;">${chips}</div>`;
         } else {
           const rows = breakdownItems.map(item => (
-            `<div style="color:${item.color};font-size:15px;font-weight:700;">${item.label}: ${item.votes.toLocaleString()} (${item.pct.toFixed(2)}%)</div>`
+            `<div style="color:${item.color};font-size:15px;font-weight:700;">${item.label}: ${item.votes.toLocaleString()} (${formatAllocatedPct(item.pct, 2)}%)</div>`
           )).join('');
           breakdownRow = `<div style="display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:space-between;margin-top:6px;">${rows}</div>`;
         }
@@ -21362,6 +21360,67 @@ document.addEventListener('DOMContentLoaded', function() {
       return roundForDisplay(value, d).toFixed(d);
     }
 
+    // Format an already-quantized display share (from allocateDisplayVotePcts) without re-rounding.
+    function formatAllocatedPct(value, digits = 2) {
+      const d = Math.max(0, Math.floor(Number(digits) || 0));
+      const factor = Math.pow(10, d);
+      const units = Math.round((Number(value) || 0) * factor);
+      const sign = units < 0 ? '-' : '';
+      const abs = Math.abs(units);
+      if (d === 0) return `${sign}${abs}`;
+      const whole = Math.floor(abs / factor);
+      const frac = String(abs % factor).padStart(d, '0');
+      return `${sign}${whole}.${frac}`;
+    }
+
+    // Largest-remainder vote shares so Dem/Rep/Other always sum to 100 at the chosen precision.
+    // Avoids the classic 99.99/100.01 and margin-vs-share 0.01 drift from rounding each side alone.
+    function allocateDisplayVotePcts(demVotes, repVotes, otherVotes = 0, digits = 2) {
+      const dVotes = Math.max(0, Number(demVotes) || 0);
+      const rVotes = Math.max(0, Number(repVotes) || 0);
+      const oVotes = Math.max(0, Number(otherVotes) || 0);
+      const total = dVotes + rVotes + oVotes;
+      const d = Math.max(0, Math.floor(Number(digits) || 0));
+      const factor = Math.pow(10, d);
+      const target = 100 * factor;
+      if (!(total > 0)) {
+        return { demPct: 0, repPct: 0, otherPct: 0, marginPct: 0, digits: d };
+      }
+
+      const parts = [
+        { key: 'dem', votes: dVotes },
+        { key: 'rep', votes: rVotes },
+        { key: 'other', votes: oVotes }
+      ].map((part) => {
+        const exact = (part.votes / total) * target;
+        const base = Math.floor(exact + Number.EPSILON * 8);
+        return { ...part, exact, base, frac: exact - base };
+      });
+
+      let sum = parts.reduce((acc, part) => acc + part.base, 0);
+      let remaining = target - sum;
+      parts
+        .slice()
+        .sort((a, b) => (b.frac - a.frac) || (b.votes - a.votes) || a.key.localeCompare(b.key))
+        .forEach((part) => {
+          if (remaining <= 0) return;
+          part.base += 1;
+          remaining -= 1;
+        });
+
+      const byKeyUnits = Object.fromEntries(parts.map((part) => [part.key, part.base]));
+      const demUnits = byKeyUnits.dem || 0;
+      const repUnits = byKeyUnits.rep || 0;
+      const otherUnits = byKeyUnits.other || 0;
+      return {
+        demPct: demUnits / factor,
+        repPct: repUnits / factor,
+        otherPct: otherUnits / factor,
+        marginPct: Math.abs(repUnits - demUnits) / factor,
+        digits: d
+      };
+    }
+
     function formatVotehubPct(value, digits = 2) {
       const n = Number(value);
       if (!Number.isFinite(n)) return (0).toFixed(digits);
@@ -21420,15 +21479,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function marginPctDisplayValue(repVotes, demVotes, totalVotes) {
-      const rawMarginPct = marginPctValue(repVotes, demVotes, totalVotes);
       const t = Number(totalVotes) || 0;
       if (t <= 0) return 0;
-      const repPctDisplay = Number(formatPctForCloseRace((Number(repVotes || 0) / t) * 100, rawMarginPct));
-      const demPctDisplay = Number(formatPctForCloseRace((Number(demVotes || 0) / t) * 100, rawMarginPct));
-      if (!Number.isFinite(repPctDisplay) || !Number.isFinite(demPctDisplay)) return rawMarginPct;
-      const diff = Math.abs(repPctDisplay - demPctDisplay);
-      if (diff === 0 && rawMarginPct > 0) return rawMarginPct;
-      return diff;
+      const dem = Number(demVotes || 0);
+      const rep = Number(repVotes || 0);
+      const other = Math.max(0, t - dem - rep);
+      const rawMarginPct = marginPctValue(rep, dem, t);
+      const digits = marginDisplayDigits(rawMarginPct);
+      return allocateDisplayVotePcts(dem, rep, other, digits).marginPct;
     }
 
     function leadMarginPctLabel(repVotes, demVotes, totalVotes) {
@@ -21454,15 +21512,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function countyMarginPctDisplayValue(repVotes, demVotes, totalVotes) {
-      const rawMarginPct = marginPctValue(repVotes, demVotes, totalVotes);
       const t = Number(totalVotes) || 0;
       if (t <= 0) return 0;
-      const repPctDisplay = Number(formatPctForCountyCloseRace((Number(repVotes || 0) / t) * 100, rawMarginPct));
-      const demPctDisplay = Number(formatPctForCountyCloseRace((Number(demVotes || 0) / t) * 100, rawMarginPct));
-      if (!Number.isFinite(repPctDisplay) || !Number.isFinite(demPctDisplay)) return rawMarginPct;
-      const diff = Math.abs(repPctDisplay - demPctDisplay);
-      if (diff === 0 && rawMarginPct > 0) return rawMarginPct;
-      return diff;
+      const dem = Number(demVotes || 0);
+      const rep = Number(repVotes || 0);
+      const other = Math.max(0, t - dem - rep);
+      const rawMarginPct = marginPctValue(rep, dem, t);
+      const digits = countyMarginDisplayDigits(rawMarginPct);
+      return allocateDisplayVotePcts(dem, rep, other, digits).marginPct;
     }
 
 
@@ -21586,14 +21643,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const repMissingAny = repMissing || repMissingByVotes;
       const demMissingAny = demMissing || demMissingByVotes;
 
-      // Prefer an explicit source margin when one is available; otherwise calculate the
-      // raw vote margin before formatting so independently rounded shares cannot distort it.
+      // Prefer vote-share display margins so the printed lead always matches the
+      // Dem/Rep/Other breakdown. An explicit signed override still controls winner/sign.
       const useCountyPrecision = String(options?.precision || '').toLowerCase() === 'county';
-      const marginPct = hasSignedOverride
-        ? Math.abs(signed)
-        : (useCountyPrecision
-          ? countyMarginPctDisplayValue(repVotes, demVotes, totalVotes)
-          : marginPctDisplayValue(repVotes, demVotes, totalVotes));
+      const marginPct = useCountyPrecision
+        ? countyMarginPctDisplayValue(repVotes, demVotes, totalVotes)
+        : marginPctDisplayValue(repVotes, demVotes, totalVotes);
       const marginLabel = useCountyPrecision
         ? formatCountyMarginPctForDisplay(marginPct)
         : formatMarginPctForDisplay(marginPct);
@@ -21680,30 +21735,20 @@ document.addEventListener('DOMContentLoaded', function() {
         && marginPct !== undefined
         && marginPct !== ''
         && Number.isFinite(explicitMarginPct);
-      const rawMarginAbs = hasExplicitMarginPct ? Math.abs(explicitMarginPct) : 0;
-      const displayMarginAbs = hasExplicitMarginPct
-        ? rawMarginAbs
-        : (safeTotal > 0 && typeof countyMarginPctDisplayValue === 'function'
-          ? countyMarginPctDisplayValue(rVotes, dVotes, safeTotal)
-          : rawMarginAbs);
-      const demPct = safeTotal > 0 ? (dVotes / safeTotal) * 100 : 0;
-      const repPct = safeTotal > 0 ? (rVotes / safeTotal) * 100 : 0;
-      const otherPct = safeTotal > 0 ? (oVotes / safeTotal) * 100 : 0;
-      const pctFormatter = (v) => {
-        if (typeof formatPctForCountyCloseRace === 'function') {
-          return formatPctForCountyCloseRace(v, displayMarginAbs);
-        }
-        if (typeof toFixedForDisplay === 'function') {
-          const digits = typeof countyMarginDisplayDigits === 'function' ? countyMarginDisplayDigits(displayMarginAbs) : 2;
-          return toFixedForDisplay(v, digits);
-        }
-        return formatVotehubPct(v, 2);
-      };
-      const marginFormatter = (v) => {
-        if (typeof formatCountyMarginPctForDisplay === 'function') return formatCountyMarginPctForDisplay(v);
-        if (typeof formatMarginPctForDisplay === 'function') return formatMarginPctForDisplay(v);
-        return formatVotehubPct(v, 2);
-      };
+      const rawMarginAbs = hasExplicitMarginPct
+        ? Math.abs(explicitMarginPct)
+        : (safeTotal > 0 ? Math.abs((rVotes - dVotes) / safeTotal) * 100 : 0);
+      const pctDigits = typeof countyMarginDisplayDigits === 'function'
+        ? countyMarginDisplayDigits(rawMarginAbs)
+        : 2;
+      const allocated = allocateDisplayVotePcts(dVotes, rVotes, oVotes, pctDigits);
+      const demPct = allocated.demPct;
+      const repPct = allocated.repPct;
+      const otherPct = allocated.otherPct;
+      // Keep the winner margin on the same quantized shares shown in the breakdown.
+      const displayMarginAbs = allocated.marginPct;
+      const pctFormatter = (v) => formatAllocatedPct(v, pctDigits);
+      const marginFormatter = (v) => formatAllocatedPct(v, pctDigits);
       const marginAbs = displayMarginAbs;
       const rows = [];
       const demLabel = fullCandidateLabel(demName, 'Democratic');
@@ -21795,7 +21840,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const oVotes = Number(otherVotes || 0);
       const total = Number(totalVotes || (dVotes + rVotes + oVotes) || 0);
       const safeTotal = total > 0 ? total : 0;
-      const pct = (value) => safeTotal > 0 ? (Number(value || 0) / safeTotal) * 100 : 0;
+      const rawMarginAbs = safeTotal > 0 ? Math.abs((rVotes - dVotes) / safeTotal) * 100 : 0;
+      const pctDigits = typeof countyMarginDisplayDigits === 'function'
+        ? countyMarginDisplayDigits(rawMarginAbs)
+        : 2;
+      const allocated = allocateDisplayVotePcts(dVotes, rVotes, oVotes, pctDigits);
       const normalizeCandidateLabel = (value, fallback) => {
         const cleaned = typeof fullCandidateLabel === 'function'
           ? fullCandidateLabel(value, '')
@@ -21804,12 +21853,12 @@ document.addEventListener('DOMContentLoaded', function() {
       };
 
       const rows = [
-        { partyClass: 'rep', label: normalizeCandidateLabel(repName, 'Republican'), votes: rVotes, pct: pct(rVotes) },
-        { partyClass: 'dem', label: normalizeCandidateLabel(demName, 'Democratic'), votes: dVotes, pct: pct(dVotes) }
+        { partyClass: 'rep', label: normalizeCandidateLabel(repName, 'Republican'), votes: rVotes, pct: allocated.repPct },
+        { partyClass: 'dem', label: normalizeCandidateLabel(demName, 'Democratic'), votes: dVotes, pct: allocated.demPct }
       ];
       if (oVotes > 0) {
         const otherLabel = (otherName || 'Other').toString().trim() || 'Other';
-        rows.push({ partyClass: 'other', label: otherLabel, votes: oVotes, pct: pct(oVotes) });
+        rows.push({ partyClass: 'other', label: otherLabel, votes: oVotes, pct: allocated.otherPct });
       }
       rows.sort((a, b) => Number(b.votes || 0) - Number(a.votes || 0));
 
@@ -21827,7 +21876,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const flipLine = flipLabel ? `<div class="vhr-flip ${flipToneClass}">${escapeHtml(flipLabel)}</div>` : '';
 
       const rowHtml = rows.map(row => (
-        `<div class="vhr-row ${row.partyClass}"><span class="vhr-dot"></span><span class="vhr-name">${escapeHtml(row.label)}</span><span class="vhr-votes">${escapeHtml(formatVotehubVotes(row.votes))}</span><span class="vhr-pct">${escapeHtml(formatVotehubPct(row.pct, 2))}%</span></div>`
+        `<div class="vhr-row ${row.partyClass}"><span class="vhr-dot"></span><span class="vhr-name">${escapeHtml(row.label)}</span><span class="vhr-votes">${escapeHtml(formatVotehubVotes(row.votes))}</span><span class="vhr-pct">${escapeHtml(formatAllocatedPct(row.pct, pctDigits))}%</span></div>`
       )).join('');
 
       return `
@@ -22234,18 +22283,23 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
-      const demPct = (d / total) * 100;
-      const repPct = (r / total) * 100;
-      const otherPct = (o / total) * 100;
       const explicitSignedMarginPct = Number(meta?.marginPct);
       const hasExplicitMarginPct = meta?.marginPct !== null
         && meta?.marginPct !== undefined
         && meta?.marginPct !== ''
         && Number.isFinite(explicitSignedMarginPct);
-      const marginPct = hasExplicitMarginPct
+      const rawMarginPct = hasExplicitMarginPct
         ? Math.abs(explicitSignedMarginPct)
         : marginPctValue(r, d, total);
-      const winnerParty = repPct > demPct ? 'rep' : (demPct > repPct ? 'dem' : 'tie');
+      const pctDigits = isCountyContext
+        ? countyMarginDisplayDigits(rawMarginPct)
+        : marginDisplayDigits(rawMarginPct);
+      const allocated = allocateDisplayVotePcts(d, r, o, pctDigits);
+      const demPct = allocated.demPct;
+      const repPct = allocated.repPct;
+      const otherPct = allocated.otherPct;
+      const marginPct = allocated.marginPct;
+      const winnerParty = r > d ? 'rep' : (d > r ? 'dem' : 'tie');
       const winnerLabel = winnerParty === 'rep'
         ? formatVoteCounterWinnerLabel(resolvedCandidates.repCandidate, 'R', 'Republican')
         : (winnerParty === 'dem'
@@ -22256,11 +22310,7 @@ document.addEventListener('DOMContentLoaded', function() {
         : (winnerParty === 'dem'
           ? formatVoteCounterCandidateLabel(resolvedCandidates.demCandidate, 'D', 'Democratic')
           : 'Tie');
-      const leadLabel = hasExplicitMarginPct
-        ? `${formatMarginPctForDisplay(marginPct)}%`
-        : (isCountyContext
-          ? leadCountyMarginPctLabel(r, d, total)
-          : focusLeadMarginLabel(r, d, total));
+      const leadLabel = `${formatAllocatedPct(marginPct, pctDigits)}%`;
       const winnerCallMeta = winnerMarginCall(
         r,
         d,
@@ -22279,16 +22329,12 @@ document.addEventListener('DOMContentLoaded', function() {
       marginEl.className = `focus-pill-value ${winnerParty}`;
       marginEl.title = leadDisplayLabel;
       totalEl.textContent = formatVoteCountForDisplay(total);
-      barDem.style.width = `${demPct.toFixed(4)}%`;
-      barOther.style.width = `${otherPct.toFixed(4)}%`;
-      barRep.style.width = `${repPct.toFixed(4)}%`;
-      barDemLabelEl.textContent = isCountyContext
-        ? `${shortCandidateLabel(resolvedCandidates.demCandidate, 'Dem')} ${formatPctForCountyCloseRace(demPct, marginPct)}%`
-        : formatFocusBarLabel(resolvedCandidates.demCandidate, demPct, 'Dem', marginPct);
+      barDem.style.width = `${demPct}%`;
+      barOther.style.width = `${otherPct}%`;
+      barRep.style.width = `${repPct}%`;
+      barDemLabelEl.textContent = `${shortCandidateLabel(resolvedCandidates.demCandidate, 'Dem')} ${formatAllocatedPct(demPct, pctDigits)}%`;
       barMidLabelEl.textContent = '50%';
-      barRepLabelEl.textContent = isCountyContext
-        ? `${shortCandidateLabel(resolvedCandidates.repCandidate, 'Rep')} ${formatPctForCountyCloseRace(repPct, marginPct)}%`
-        : formatFocusBarLabel(resolvedCandidates.repCandidate, repPct, 'Rep', marginPct);
+      barRepLabelEl.textContent = `${shortCandidateLabel(resolvedCandidates.repCandidate, 'Rep')} ${formatAllocatedPct(repPct, pctDigits)}%`;
       if (totalMetaEl) totalMetaEl.textContent = `${formatVoteCountForDisplay(total)} total votes`;
       if (leadMetaEl) {
         leadMetaEl.textContent = winnerParty === 'tie'
@@ -22298,9 +22344,9 @@ document.addEventListener('DOMContentLoaded', function() {
             : compactWinnerMarginLabel(r, d, total, resolvedCandidates.repCandidate, resolvedCandidates.demCandidate)));
         leadMetaEl.dataset.party = winnerParty;
       }
-      if (demShareFill) demShareFill.style.width = `${demPct.toFixed(2)}%`;
-      if (repShareFill) repShareFill.style.width = `${repPct.toFixed(2)}%`;
-      if (otherShareFill) otherShareFill.style.width = `${otherPct.toFixed(2)}%`;
+      if (demShareFill) demShareFill.style.width = `${demPct}%`;
+      if (repShareFill) repShareFill.style.width = `${repPct}%`;
+      if (otherShareFill) otherShareFill.style.width = `${otherPct}%`;
     }
     function isModeledSenateEnhancementContest(contestType, year) {
       return false;
@@ -32080,11 +32126,13 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!demCandidate) demCandidate = 'D';
       if (!repCandidate) repCandidate = 'R';
 
-      const demPct = (demVotes / totalVotes) * 100.0;
-      const repPct = (repVotes / totalVotes) * 100.0;
-      const othPct = (otherVotes / totalVotes) * 100.0;
       const signedMarginPct = signedDistrictMarginPct(row, payload);
       const marginPct = Math.abs(signedMarginPct);
+      const pctDigits = marginDisplayDigits(marginPct);
+      const allocated = allocateDisplayVotePcts(demVotes, repVotes, otherVotes, pctDigits);
+      const demPct = allocated.demPct;
+      const repPct = allocated.repPct;
+      const othPct = allocated.otherPct;
       const winnerParty = signedMarginPct > 0 ? 'R' : (signedMarginPct < 0 ? 'D' : 'TIE');
       const winnerCall = winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate, signedMarginPct);
 
@@ -32132,9 +32180,9 @@ document.addEventListener('DOMContentLoaded', function() {
             ${marginLineText}
           </div>
           <div style="margin-top:8px;font-size:14px;">
-            <div><span style="color:#2563eb;font-weight:800;">${fullCandidateLabel(demCandidate, 'Democratic')} (D)</span>: <strong>${toFixedForDisplay(demPct, 2)}%</strong> (${demVotes.toLocaleString()})</div>
-            <div><span style="color:#dc2626;font-weight:800;">${fullCandidateLabel(repCandidate, 'Republican')} (R)</span>: <strong>${toFixedForDisplay(repPct, 2)}%</strong> (${repVotes.toLocaleString()})</div>
-            ${otherVotes > 0 ? `<div><span style="color:#6b7280;font-weight:800;">Other</span>: <strong>${toFixedForDisplay(othPct, 2)}%</strong> (${otherVotes.toLocaleString()})</div>` : ''}
+            <div><span style="color:#2563eb;font-weight:800;">${fullCandidateLabel(demCandidate, 'Democratic')} (D)</span>: <strong>${formatAllocatedPct(demPct, pctDigits)}%</strong> (${demVotes.toLocaleString()})</div>
+            <div><span style="color:#dc2626;font-weight:800;">${fullCandidateLabel(repCandidate, 'Republican')} (R)</span>: <strong>${formatAllocatedPct(repPct, pctDigits)}%</strong> (${repVotes.toLocaleString()})</div>
+            ${otherVotes > 0 ? `<div><span style="color:#6b7280;font-weight:800;">Other</span>: <strong>${formatAllocatedPct(othPct, pctDigits)}%</strong> (${otherVotes.toLocaleString()})</div>` : ''}
             <div style="margin-top:6px;color:#374151;font-weight:700;">Total Votes: ${totalVotes.toLocaleString()}</div>
           </div>
           <div style="margin-top:8px;font-size:14px;font-weight:800;color:${compColor};">Competitiveness: ${compLabel}</div>

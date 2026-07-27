@@ -10,10 +10,11 @@
     "allocated_votes": 230821,
     "match_coverage_pct": 99.90436146172577,
     "direct_match_coverage_pct": 93.16790035614191,
-    "calibrated_to_statewide": true,
-    "calibration_method": "District turnout minimally reweighted from the complete congressional crosswalk baseline; VPAP district margins preserved.",
-    "calibrated_dem_total": 1976857,
-    "calibrated_rep_total": 1449586
+    "target_dem_total": 1976857,
+    "target_rep_total": 1449586,
+    "target_total_votes": 3426443,
+    "target_method": "District turnout reweighted from baseline to hit statewide dem/rep totals while preserving VPAP district signed margins; final margin_pct derived from allocated votes.",
+    "vpap_margin_source": "2025 Governor's Election"
   },
   "general": {
     "results": {
@@ -26,32 +27,8 @@
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
         "margin": 8486,
-        "margin_pct": -2.2312429869055057,
+        "margin_pct": -2.2312202560933927,
         "color": "#c6dbef"
-      },
-      "10": {
-        "dem_votes": 186195,
-        "rep_votes": 123359,
-        "other_votes": 0,
-        "total_votes": 309554,
-        "dem_candidate": "Abigail D. Spanberger",
-        "rep_candidate": "Winsome Earle-Sears",
-        "winner": "Democratic",
-        "margin": 62836,
-        "margin_pct": -20.298760634045845,
-        "color": "#3182bd"
-      },
-      "11": {
-        "dem_votes": 238329,
-        "rep_votes": 85852,
-        "other_votes": 0,
-        "total_votes": 324181,
-        "dem_candidate": "Abigail D. Spanberger",
-        "rep_candidate": "Winsome Earle-Sears",
-        "winner": "Democratic",
-        "margin": 152477,
-        "margin_pct": -47.034780473963266,
-        "color": "#08306b"
       },
       "2": {
         "dem_votes": 166711,
@@ -62,7 +39,7 @@
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
         "margin": 22978,
-        "margin_pct": -7.401375842938061,
+        "margin_pct": -7.401656981613431,
         "color": "#9ecae1"
       },
       "3": {
@@ -74,7 +51,7 @@
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
         "margin": 104953,
-        "margin_pct": -42.44834720503349,
+        "margin_pct": -42.44864447293597,
         "color": "#08306b"
       },
       "4": {
@@ -86,7 +63,7 @@
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
         "margin": 118350,
-        "margin_pct": -36.65656803341373,
+        "margin_pct": -36.65652817612479,
         "color": "#08519c"
       },
       "5": {
@@ -98,7 +75,7 @@
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Republican",
         "margin": 25348,
-        "margin_pct": 7.644967498181305,
+        "margin_pct": 7.645071781879599,
         "color": "#fb6a4a"
       },
       "6": {
@@ -110,7 +87,7 @@
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Republican",
         "margin": 51684,
-        "margin_pct": 17.322261597621303,
+        "margin_pct": 17.322465176763952,
         "color": "#ef3b2c"
       },
       "7": {
@@ -122,7 +99,7 @@
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
         "margin": 43095,
-        "margin_pct": -14.20174401316654,
+        "margin_pct": -14.201727473150347,
         "color": "#6baed6"
       },
       "8": {
@@ -134,7 +111,7 @@
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
         "margin": 194396,
-        "margin_pct": -60.35588899459328,
+        "margin_pct": -60.35568361048671,
         "color": "#08306b"
       },
       "9": {
@@ -146,8 +123,32 @@
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Republican",
         "margin": 103268,
-        "margin_pct": 37.36612106455745,
+        "margin_pct": 37.36612053493892,
         "color": "#a50f15"
+      },
+      "10": {
+        "dem_votes": 186195,
+        "rep_votes": 123359,
+        "other_votes": 0,
+        "total_votes": 309554,
+        "dem_candidate": "Abigail D. Spanberger",
+        "rep_candidate": "Winsome Earle-Sears",
+        "winner": "Democratic",
+        "margin": 62836,
+        "margin_pct": -20.298881616777685,
+        "color": "#3182bd"
+      },
+      "11": {
+        "dem_votes": 238329,
+        "rep_votes": 85852,
+        "other_votes": 0,
+        "total_votes": 324181,
+        "dem_candidate": "Abigail D. Spanberger",
+        "rep_candidate": "Winsome Earle-Sears",
+        "winner": "Democratic",
+        "margin": 152477,
+        "margin_pct": -47.03452700806031,
+        "color": "#08306b"
       }
     }
   }

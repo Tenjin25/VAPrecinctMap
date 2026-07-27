@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 """
-Apply VPAP congressional district margins/percentages and statewide vote totals
+Apply VPAP congressional district vote shares and statewide dem/rep totals
 as targets onto a baseline district contest slice.
 
 Inputs
 ------
 - VPAP district breakdown topology (e.g. Data/CD_Gov2025.json)
 - Statewide contest totals (e.g. Data/contests/governor_2025.json)
-- Baseline district contest JSON (crosswalk allocation)
+- Baseline district contest JSON (crosswalk allocation / coverage meta)
 
 Output
 ------
-A clean district contest JSON whose dem/rep/total votes:
-  - preserve each district's VPAP signed margin percentage (as closely as
-    integer votes allow)
-  - sum exactly to the statewide dem/rep totals
+A clean district contest JSON whose dem/rep/other votes:
+  - preserve each district's VPAP dem/rep/other vote distribution
+  - sum exactly to the statewide dem and rep targets
+  - carry other along from VPAP shares (so display share margins match VPAP,
+    e.g. VA-01 +2.23 rather than a two-party-only 2.24)
 and whose margin / margin_pct are derived from those final votes — no separate
 vpap_* fields are written.
 """
@@ -76,7 +77,9 @@ def load_vpap_district_targets(path: Path) -> dict[str, dict]:
             "other_votes": other,
             "total_votes": total,
             "signed_margin": signed_margin,
-            "dem_share": (1.0 - signed_margin) / 2.0,
+            "dem_share": dem / total,
+            "rep_share": rep / total,
+            "other_share": other / total,
             "dem_candidate": (props.get("candidate_dem") or "").strip(),
             "rep_candidate": (props.get("candidate_rep") or "").strip(),
             "results_from": (props.get("results_from") or "").strip(),
@@ -96,8 +99,8 @@ def load_statewide_targets(path: Path) -> dict[str, int]:
             f"Statewide totals inconsistent in {path}: "
             f"dem({dem})+rep({rep})+other({other}) != total({total})"
         )
-    if total <= 0:
-        raise ValueError(f"Statewide total_votes must be positive in {path}")
+    if dem <= 0 or rep <= 0:
+        raise ValueError(f"Statewide dem/rep targets must be positive in {path}")
     return {"dem": dem, "rep": rep, "other": other, "total": total}
 
 
@@ -126,106 +129,115 @@ def load_baseline_results(path: Path) -> tuple[dict, dict[str, dict]]:
 def solve_turnout_weights(
     seed_totals: dict[str, float],
     dem_shares: dict[str, float],
+    rep_shares: dict[str, float],
     target_dem: float,
-    target_total: float,
+    target_rep: float,
 ) -> dict[str, float]:
     """
     Find district turnouts t_i = seed_i * (alpha + beta * dem_share_i) that hit
-    sum(t)=target_total and sum(dem_share*t)=target_dem.
+    sum(dem_share*t)=target_dem and sum(rep_share*t)=target_rep.
+
+    Other votes are carried by each district's VPAP other_share of the same turnout.
     """
     districts = list(seed_totals.keys())
     s = {k: float(seed_totals[k]) for k in districts}
-    a = {k: float(dem_shares[k]) for k in districts}
+    d = {k: float(dem_shares[k]) for k in districts}
+    r = {k: float(rep_shares[k]) for k in districts}
 
-    S = sum(s.values())
-    Sa = sum(a[k] * s[k] for k in districts)
-    Saa = sum((a[k] ** 2) * s[k] for k in districts)
-    det = (S * Saa) - (Sa * Sa)
+    # alpha * sum(s*d) + beta * sum(s*d*d) = D
+    # alpha * sum(s*r) + beta * sum(s*d*r) = R
+    sd = sum(s[k] * d[k] for k in districts)
+    sdd = sum(s[k] * d[k] * d[k] for k in districts)
+    sr = sum(s[k] * r[k] for k in districts)
+    sdr = sum(s[k] * d[k] * r[k] for k in districts)
+
+    det = (sd * sdr) - (sdd * sr)
     if abs(det) < 1e-12:
         raise ValueError("Degenerate turnout system; cannot solve alpha/beta")
 
-    alpha = ((target_total * Saa) - (target_dem * Sa)) / det
-    beta = ((S * target_dem) - (Sa * target_total)) / det
+    alpha = ((target_dem * sdr) - (target_rep * sdd)) / det
+    beta = ((sd * target_rep) - (sr * target_dem)) / det
 
-    totals = {k: s[k] * (alpha + beta * a[k]) for k in districts}
+    totals = {k: s[k] * (alpha + beta * d[k]) for k in districts}
     if any(v <= 0 for v in totals.values()):
         raise ValueError("Solved turnout produced non-positive district totals")
     return totals
 
 
+def largest_remainder_ints(weights: dict[str, float], target: int) -> dict[str, int]:
+    keys = list(weights.keys())
+    floors = {k: int(weights[k] // 1) for k in keys}
+    rem = target - sum(floors.values())
+    order = sorted(keys, key=lambda k: (weights[k] - floors[k], weights[k]), reverse=True)
+    out = dict(floors)
+    idx = 0
+    n = len(order)
+    while rem != 0 and n > 0:
+        k = order[idx % n]
+        if rem > 0:
+            out[k] += 1
+            rem -= 1
+        elif out[k] > 0:
+            out[k] -= 1
+            rem += 1
+        idx += 1
+        if idx > n * (abs(target) + n + 10):
+            break
+    if rem != 0:
+        raise ValueError(f"Could not allocate integers to target={target}; remainder={rem}")
+    return out
+
+
 def allocate_integer_votes(
     float_totals: dict[str, float],
     dem_shares: dict[str, float],
+    rep_shares: dict[str, float],
+    other_shares: dict[str, float],
     target_dem: int,
     target_rep: int,
-) -> dict[str, tuple[int, int, int]]:
+) -> dict[str, tuple[int, int, int, int]]:
     """
-    Convert continuous turnouts into integer dem/rep votes that preserve
-    district margins as closely as possible and hit statewide totals exactly.
+    Convert continuous turnouts into integer dem/rep/other votes that preserve
+    VPAP district shares as closely as possible and hit statewide dem/rep exactly.
     """
     districts = sorted(float_totals.keys(), key=lambda d: int(d))
-    target_total = target_dem + target_rep
 
-    # Largest-remainder totals.
-    floors = {k: int(float_totals[k] // 1) for k in districts}
-    rem = target_total - sum(floors.values())
-    order = sorted(
-        districts,
-        key=lambda k: (float_totals[k] - floors[k], float_totals[k]),
-        reverse=True,
-    )
-    totals = dict(floors)
-    for k in order[: max(0, rem)]:
-        totals[k] += 1
+    dem_float = {k: float_totals[k] * dem_shares[k] for k in districts}
+    rep_float = {k: float_totals[k] * rep_shares[k] for k in districts}
+    other_float = {k: float_totals[k] * other_shares[k] for k in districts}
 
-    # Provisional dem from share; fix statewide dem with largest-remainder on frac.
-    dem_float = {k: totals[k] * dem_shares[k] for k in districts}
-    dem_floor = {k: int(dem_float[k] // 1) for k in districts}
-    dem_rem = target_dem - sum(dem_floor.values())
-    dem_order = sorted(
-        districts,
-        key=lambda k: (dem_float[k] - dem_floor[k], dem_float[k]),
-        reverse=True,
-    )
-    dem_votes = dict(dem_floor)
-    # Keep dem within [0, total].
-    for k in dem_order:
-        if dem_rem == 0:
-            break
-        if dem_rem > 0 and dem_votes[k] < totals[k]:
-            dem_votes[k] += 1
-            dem_rem -= 1
-        elif dem_rem < 0 and dem_votes[k] > 0:
-            dem_votes[k] -= 1
-            dem_rem += 1
+    # First pass: independent largest-remainder for dem and rep.
+    dem_votes = largest_remainder_ints(dem_float, target_dem)
+    rep_votes = largest_remainder_ints(rep_float, target_rep)
 
-    # If still off (edge clamping), nudge districts with spare capacity.
-    guard = 0
-    while dem_rem != 0 and guard < 10000:
-        guard += 1
-        moved = False
-        for k in dem_order if dem_rem > 0 else reversed(dem_order):
-            if dem_rem > 0 and dem_votes[k] < totals[k]:
-                dem_votes[k] += 1
-                dem_rem -= 1
-                moved = True
-                break
-            if dem_rem < 0 and dem_votes[k] > 0:
-                dem_votes[k] -= 1
-                dem_rem += 1
-                moved = True
-                break
-        if not moved:
-            break
-    if dem_rem != 0:
-        raise ValueError(f"Could not hit statewide dem target; remainder={dem_rem}")
+    # Other from rounded continuous other, then adjust so each district's
+    # dem+rep+other stays as close as possible to the solved turnout.
+    other_votes = {k: max(0, int(round(other_float[k]))) for k in districts}
 
-    out: dict[str, tuple[int, int, int]] = {}
+    # Repair any district where dem+rep already exceeds a sane total: shrink other first.
+    for k in districts:
+        major = dem_votes[k] + rep_votes[k]
+        # Target district total from continuous solution (rounded).
+        target_total_k = max(major, int(round(float_totals[k])))
+        other_votes[k] = max(0, target_total_k - major)
+
+    # Nudge others so district totals track float_totals more closely without
+    # changing dem/rep (statewide dem/rep already fixed).
+    desired_other = {}
+    for k in districts:
+        desired = int(round(float_totals[k])) - dem_votes[k] - rep_votes[k]
+        desired_other[k] = max(0, desired)
+    other_votes = desired_other
+
+    out: dict[str, tuple[int, int, int, int]] = {}
     for k in districts:
         dem = dem_votes[k]
-        total = totals[k]
-        rep = total - dem
-        out[k] = (dem, rep, total)
+        rep = rep_votes[k]
+        other = other_votes[k]
+        total = dem + rep + other
+        if total <= 0:
+            raise ValueError(f"District {k} allocated zero total votes")
+        out[k] = (dem, rep, other, total)
 
     if sum(v[0] for v in out.values()) != target_dem:
         raise ValueError("dem total mismatch after allocation")
@@ -242,12 +254,40 @@ def prefer_candidate(*names: str) -> str:
     return ""
 
 
+def display_share_margin(dem: int, rep: int, other: int, digits: int = 2) -> float:
+    """Largest-remainder share margin at `digits` decimals (matches index.html)."""
+    total = dem + rep + other
+    if total <= 0:
+        return 0.0
+    factor = 10**digits
+    target = 100 * factor
+    parts = [
+        ["dem", dem],
+        ["rep", rep],
+        ["other", other],
+    ]
+    for part in parts:
+        exact = (part[1] / total) * target
+        base = int(exact)
+        part.append(exact)
+        part.append(base)
+        part.append(exact - base)
+    rem = target - sum(p[3] for p in parts)
+    for part in sorted(parts, key=lambda p: (-p[4], -p[1], p[0])):
+        if rem <= 0:
+            break
+        part[3] += 1
+        rem -= 1
+    by = {p[0]: p[3] for p in parts}
+    return abs(by["rep"] - by["dem"]) / factor
+
+
 def build_payload(
     baseline_payload: dict,
     baseline_results: dict[str, dict],
     vpap_targets: dict[str, dict],
     statewide: dict[str, int],
-    allocated: dict[str, tuple[int, int, int]],
+    allocated: dict[str, tuple[int, int, int, int]],
 ) -> dict:
     missing = sorted(set(vpap_targets) - set(allocated), key=lambda d: int(d))
     if missing:
@@ -255,8 +295,7 @@ def build_payload(
 
     results: dict[str, dict] = {}
     for district in sorted(allocated.keys(), key=lambda d: int(d)):
-        dem, rep, total = allocated[district]
-        other = 0
+        dem, rep, other, total = allocated[district]
         signed_margin_pct = ((rep - dem) / total) * 100.0 if total else 0.0
         if rep > dem:
             winner = "Republican"
@@ -283,11 +322,12 @@ def build_payload(
             "winner": winner,
             "margin": abs(rep - dem),
             "margin_pct": signed_margin_pct,
-            "color": category_color_for_margin(abs(signed_margin_pct), "R" if winner_short in {"R", "T"} else "D"),
+            "color": category_color_for_margin(
+                abs(signed_margin_pct), "R" if winner_short in {"R", "T"} else "D"
+            ),
         }
 
     baseline_meta = dict(baseline_payload.get("meta") or {})
-    # Drop prior calibration / VPAP display annotations; replace with target notes.
     for key in (
         "calibrated_to_statewide",
         "calibration_method",
@@ -297,7 +337,10 @@ def build_payload(
         "target_method",
         "target_dem_total",
         "target_rep_total",
+        "target_total_votes",
+        "target_other_total",
         "vpap_source",
+        "vpap_margin_source",
     ):
         baseline_meta.pop(key, None)
 
@@ -305,16 +348,19 @@ def build_payload(
         (v.get("results_from") for v in vpap_targets.values() if v.get("results_from")),
         "VPAP district vote breakdown",
     )
+    other_total = sum(v[2] for v in allocated.values())
+    vote_total = sum(v[3] for v in allocated.values())
 
     baseline_meta.update(
         {
             "district_count": len(results),
             "target_dem_total": statewide["dem"],
             "target_rep_total": statewide["rep"],
-            "target_total_votes": statewide["total"],
+            "target_other_total": other_total,
+            "target_total_votes": vote_total,
             "target_method": (
                 "District turnout reweighted from baseline to hit statewide dem/rep "
-                "totals while preserving VPAP district signed margins; final "
+                "totals while preserving VPAP dem/rep/other vote shares; final "
                 "margin_pct derived from allocated votes."
             ),
             "vpap_margin_source": source_label,
@@ -346,7 +392,7 @@ def update_manifest_totals(manifest_path: Path, filename: str, dem_total: int, r
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Apply VPAP district margins and statewide totals as targets."
+        description="Apply VPAP district vote shares and statewide dem/rep totals as targets."
     )
     parser.add_argument(
         "--vpap-topology",
@@ -356,7 +402,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--statewide-contest",
         default="Data/contests/governor_2025.json",
-        help="Contest JSON whose meta dem/rep/total are statewide targets.",
+        help="Contest JSON whose meta dem/rep totals are statewide targets.",
     )
     parser.add_argument(
         "--baseline-district",
@@ -371,8 +417,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--seed",
         choices=("baseline", "vpap"),
-        default="baseline",
-        help="Turnout seed before reweighting (default: baseline totals).",
+        default="vpap",
+        help="Turnout seed before reweighting (default: VPAP district totals).",
     )
     parser.add_argument(
         "--update-manifest",
@@ -391,12 +437,6 @@ def main() -> None:
 
     vpap_targets = load_vpap_district_targets(vpap_path)
     statewide = load_statewide_targets(statewide_path)
-    if statewide["other"] != 0:
-        raise ValueError(
-            "This script currently allocates other_votes=0 to match the "
-            f"statewide other_total target; got other_total={statewide['other']}"
-        )
-
     baseline_payload, baseline_results = load_baseline_results(baseline_path)
 
     missing_baseline = sorted(set(vpap_targets) - set(baseline_results), key=lambda d: int(d))
@@ -404,6 +444,9 @@ def main() -> None:
         raise ValueError(f"Baseline missing districts present in VPAP: {missing_baseline}")
 
     dem_shares = {d: float(v["dem_share"]) for d, v in vpap_targets.items()}
+    rep_shares = {d: float(v["rep_share"]) for d, v in vpap_targets.items()}
+    other_shares = {d: float(v["other_share"]) for d, v in vpap_targets.items()}
+
     if args.seed == "vpap":
         seed_totals = {d: float(v["total_votes"]) for d, v in vpap_targets.items()}
     else:
@@ -412,12 +455,15 @@ def main() -> None:
     float_totals = solve_turnout_weights(
         seed_totals,
         dem_shares,
+        rep_shares,
         target_dem=float(statewide["dem"]),
-        target_total=float(statewide["total"]),
+        target_rep=float(statewide["rep"]),
     )
     allocated = allocate_integer_votes(
         float_totals,
         dem_shares,
+        rep_shares,
+        other_shares,
         target_dem=statewide["dem"],
         target_rep=statewide["rep"],
     )
@@ -440,21 +486,23 @@ def main() -> None:
             statewide["rep"],
         )
 
-    # Summary
+    other_total = sum(v[2] for v in allocated.values())
+    vote_total = sum(v[3] for v in allocated.values())
     print(f"Wrote {output_path}")
     print(
         f"Statewide targets: dem={statewide['dem']} rep={statewide['rep']} "
-        f"total={statewide['total']}"
+        f"(allocated other={other_total}, total={vote_total})"
     )
-    print("District margins (final vs VPAP target):")
+    print("District margins (final vs VPAP target) and 2dp share margin:")
     for district in sorted(allocated.keys(), key=lambda d: int(d)):
-        dem, rep, total = allocated[district]
+        dem, rep, other, total = allocated[district]
         final_m = ((rep - dem) / total) * 100.0
         target_m = vpap_targets[district]["signed_margin"] * 100.0
+        share_m = display_share_margin(dem, rep, other, 2)
         print(
-            f"  CD-{district:>2}: votes D/R {dem}/{rep} ({total})  "
+            f"  CD-{district:>2}: D/R/O {dem}/{rep}/{other} ({total})  "
             f"margin_pct {final_m:+.6f} (target {target_m:+.6f}, "
-            f"err {final_m - target_m:+.6f})"
+            f"err {final_m - target_m:+.6f})  share_margin {share_m:.2f}"
         )
 
 

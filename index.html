@@ -10420,8 +10420,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-hd-sd-labels-2';
-    const APP_BUILD_ID = '2026-07-26-hd-sd-labels-2';
+    const DATA_CACHE_BUSTER = '2026-07-26-hd-sd-labels-3';
+    const APP_BUILD_ID = '2026-07-26-hd-sd-labels-3';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -27700,7 +27700,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!repCandidate) repCandidate = getCandidateName(year, formatContestName(contestType, year), 'Republican');
       const signedMarginPct = signedDistrictMarginPct(row, node);
       setVoteCounterHoverState(
-        `Hover: ${getDistrictHoverTitle(scope, districtNum)}`,
+        `Hover: ${getDistrictTitleForScope(scope, districtNum)}`,
         `${formatContestLabel(contestType, year)}`,
         demVotes,
         repVotes,

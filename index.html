@@ -9841,7 +9841,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="map-topbar-badge"><span class="badge-state-name">Virginia</span> <span class="badge-atlas-name">Atlas</span></div>
       <div class="map-topbar-copy">
         <strong>The Commonwealth Explorer</strong>
-        <span>Try Fairfax County, CD 2, HD 57, SD 31, or City of Lynchburg 101.</span>
+        <span>Try Fairfax County, CD 2, HD-57, SD-31, or City of Lynchburg 101.</span>
       </div>
     </div>
     <form class="fly-search-bar" id="fly-search-form" role="search">
@@ -9853,7 +9853,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <path d="M16 16L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
           </svg>
         </span>
-        <input type="search" id="county-search" placeholder="Fly to Fairfax County, CD 2, HD 57..." autocomplete="off" spellcheck="false" />
+        <input type="search" id="county-search" placeholder="Fly to Fairfax County, CD 2, HD-57..." autocomplete="off" spellcheck="false" />
         <button type="button" class="fly-search-clear" id="fly-search-clear" aria-label="Clear search">x</button>
       </div>
       <button type="submit" class="fly-search-submit" data-testid="fly-submit">Fly to</button>
@@ -9865,8 +9865,8 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="map-topbar-hints" aria-label="Search examples">
         <button type="button" class="fly-search-chip" data-search-example="Fairfax County">Fairfax County</button>
         <button type="button" class="fly-search-chip" data-search-example="CD 2">CD 2</button>
-        <button type="button" class="fly-search-chip" data-search-example="HD 57">HD 57</button>
-        <button type="button" class="fly-search-chip" data-search-example="SD 31">SD 31</button>
+        <button type="button" class="fly-search-chip" data-search-example="HD-57">HD-57</button>
+        <button type="button" class="fly-search-chip" data-search-example="SD-31">SD-31</button>
         <button type="button" class="fly-search-chip" data-search-example="City of Lynchburg 101">City of Lynchburg 101</button>
       </div>
       <div class="context-banner" id="context-banner" aria-label="Current map state">
@@ -9935,7 +9935,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label class="control-section-label" for="desktop-fly-search">Fly to</label>
                 <div class="desktop-fly-search-wrap">
                   <div class="desktop-fly-search-field fly-search-field">
-                    <input id="desktop-fly-search" type="search" placeholder="Fairfax County, CD 2, HD 57, SD 31, City of Lynchburg 101" autocomplete="off" spellcheck="false" inputmode="search" />
+                    <input id="desktop-fly-search" type="search" placeholder="Fairfax County, CD 2, HD-57, SD-31, City of Lynchburg 101" autocomplete="off" spellcheck="false" inputmode="search" />
                   </div>
                   <button id="desktop-fly-submit" class="desktop-fly-submit" type="button">Go</button>
                 </div>
@@ -9944,8 +9944,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="desktop-fly-chip-row" aria-label="Fly-to examples">
                   <button class="desktop-fly-chip" type="button" data-search-example="Fairfax County">Fairfax County</button>
                   <button class="desktop-fly-chip" type="button" data-search-example="CD 2">CD 2</button>
-                  <button class="desktop-fly-chip" type="button" data-search-example="HD 57">HD 57</button>
-                  <button class="desktop-fly-chip" type="button" data-search-example="SD 31">SD 31</button>
+                  <button class="desktop-fly-chip" type="button" data-search-example="HD-57">HD-57</button>
+                  <button class="desktop-fly-chip" type="button" data-search-example="SD-31">SD-31</button>
                   <button class="desktop-fly-chip" type="button" data-search-example="City of Lynchburg 101">City of Lynchburg 101</button>
                 </div>
             </div>
@@ -10420,8 +10420,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-vote-share-allocate-1';
-    const APP_BUILD_ID = '2026-07-26-vote-share-allocate-1';
+    const DATA_CACHE_BUSTER = '2026-07-26-hd-sd-labels-2';
+    const APP_BUILD_ID = '2026-07-26-hd-sd-labels-2';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -15194,7 +15194,7 @@ document.addEventListener('DOMContentLoaded', function() {
             : (meta.kind === 'district'
               ? (meta.scope === 'congressional'
                 ? `Congressional District ${meta.districtNum}`
-                : (meta.scope === 'state_house' ? `House of Delegates District ${meta.districtNum}` : `State Senate District ${meta.districtNum}`))
+                : getDistrictTitleForScope(meta.scope, meta.districtNum))
               : (meta.kind === 'precinct' ? `${meta.precinct}` : 'Trend history'))));
 
       renderFocusTrendEmpty('Loading trend history...', baseCaption);
@@ -20356,16 +20356,31 @@ document.addEventListener('DOMContentLoaded', function() {
       return null;
     }
 
+    function padDistrictNumber(districtNum) {
+      const n = Number(String(districtNum ?? '').toString().replace(/[^0-9]/g, ''));
+      return Number.isFinite(n) ? String(n).padStart(2, '0') : String(districtNum || '').padStart(2, '0');
+    }
+
     function getDistrictTitleForScope(scope, districtNum) {
-      if (scope === 'state_house') return `House of Delegates District ${districtNum}`;
-      if (scope === 'state_senate') return `State Senate District ${districtNum}`;
+      const padded = padDistrictNumber(districtNum);
+      if (scope === 'state_house') return `House of Delegates District ${padded}`;
+      if (scope === 'state_senate') return `State Senate District ${padded}`;
       return `Congressional District ${districtNum}`;
     }
 
+    function formatStateDistrictCode(scopeOrKind, districtNum) {
+      const padded = padDistrictNumber(districtNum);
+      const key = String(scopeOrKind || '').toLowerCase();
+      if (key === 'state_house' || key === 'house' || key === 'hd') return `HD-${padded}`;
+      if (key === 'state_senate' || key === 'senate' || key === 'sd') return `SD-${padded}`;
+      return padded;
+    }
+
     function getDistrictHoverTitle(scope, districtNum) {
-      if (scope === 'state_house') return `HD-${districtNum}`;
-      if (scope === 'state_senate') return `SD-${districtNum}`;
-      return `Congressional District ${districtNum}`;
+      if (scope === 'state_house' || scope === 'state_senate') {
+        return formatStateDistrictCode(scope, districtNum);
+      }
+      return `VA-${padDistrictNumber(districtNum)}`;
     }
 
     function getDistrictChamberForScope(scope) {
@@ -27553,9 +27568,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const hoverTitle = scope === 'congressional'
         ? `VA-${String(districtNum).padStart(2, '0')}`
         : getDistrictHoverTitle(scope, districtNum);
+      const districtCopyLabel = hoverTitle;
       if (!contestValue) {
         const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
-        const copyText = `${districtLabel} ${districtNum} (Lines ${currentDistrictLinesYear})`;
+        const copyText = `${districtCopyLabel} (Lines ${currentDistrictLinesYear})`;
         if (isDesktopTooltipMode()) {
           showHoverTooltip(
             e.point.x,
@@ -27604,7 +27620,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (!row) {
         const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
-        const copyText = `${districtLabel} ${districtNum} (Lines ${currentDistrictLinesYear})`;
+        const copyText = `${districtCopyLabel} (Lines ${currentDistrictLinesYear})`;
         if (isDesktopTooltipMode()) {
           showHoverTooltip(
             e.point.x,
@@ -27642,7 +27658,7 @@ document.addEventListener('DOMContentLoaded', function() {
         : (demVotes + repVotes + otherVotes);
       if (totalVotes <= 0) {
         const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
-        const copyText = `${districtLabel} ${districtNum} (Lines ${currentDistrictLinesYear})`;
+        const copyText = `${districtCopyLabel} (Lines ${currentDistrictLinesYear})`;
         if (isDesktopTooltipMode()) {
           showHoverTooltip(
             e.point.x,
@@ -27684,7 +27700,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!repCandidate) repCandidate = getCandidateName(year, formatContestName(contestType, year), 'Republican');
       const signedMarginPct = signedDistrictMarginPct(row, node);
       setVoteCounterHoverState(
-        `Hover: ${districtLabel} ${districtNum}`,
+        `Hover: ${getDistrictHoverTitle(scope, districtNum)}`,
         `${formatContestLabel(contestType, year)}`,
         demVotes,
         repVotes,
@@ -27747,7 +27763,7 @@ document.addEventListener('DOMContentLoaded', function() {
         shiftToneClass: districtShiftClass,
         shiftYearLabel: prevYearForFlip ? `${prevYearForFlip}→${year}` : ''
       });
-      const copyText = `${districtLabel} ${districtNum} (Lines ${currentDistrictLinesYear})`;
+      const copyText = `${districtCopyLabel} (Lines ${currentDistrictLinesYear})`;
       showHoverTooltip(
         e.point.x,
         e.point.y,
@@ -30744,7 +30760,7 @@ document.addEventListener('DOMContentLoaded', function() {
               zoomToClickedDistrictFeature(e.features[0], { padding: 40, duration: 850, maxZoom: 11.2 });
               // Show detailed sidebar (results + trends).
               showStateDistrictDetails(districtNum, 'house');
-              lastSelectedCounty = `House of Delegates District ${districtNum}`;
+              lastSelectedCounty = getDistrictTitleForScope('state_house', districtNum);
 
               const contestValue = document.getElementById('contestSelect')?.value || '';
               if (contestValue) {
@@ -30759,7 +30775,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   const otherVotes = Number(row.other_votes || 0);
                   const signedMarginPct = signedDistrictMarginPct(row, node);
                   pinVoteCounterState(
-                    `Selected: House of Delegates District ${districtNum}`,
+                    `Selected: ${getDistrictTitleForScope('state_house', districtNum)}`,
                     `${formatContestLabel(contestType, year)}`,
                     demVotes,
                     repVotes,
@@ -30862,7 +30878,7 @@ document.addEventListener('DOMContentLoaded', function() {
               zoomToClickedDistrictFeature(e.features[0], { padding: 40, duration: 850, maxZoom: 11.0 });
               // Show detailed sidebar (results + trends).
               showStateDistrictDetails(districtNum, 'senate');
-              lastSelectedCounty = `State Senate District ${districtNum}`;
+              lastSelectedCounty = getDistrictTitleForScope('state_senate', districtNum);
 
               const contestValue = document.getElementById('contestSelect')?.value || '';
               if (contestValue) {
@@ -30877,7 +30893,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   const otherVotes = Number(row.other_votes || 0);
                   const signedMarginPct = signedDistrictMarginPct(row, node);
                   pinVoteCounterState(
-                    `Selected: State Senate District ${districtNum}`,
+                    `Selected: ${getDistrictTitleForScope('state_senate', districtNum)}`,
                     `${formatContestLabel(contestType, year)}`,
                     demVotes,
                     repVotes,
@@ -30998,8 +31014,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function getSearchSuggestionLabel(parsed, fallbackRaw) {
       if (!parsed) return fallbackRaw;
       if (parsed.kind === 'cd') return `Congressional District ${parsed.num}`;
-      if (parsed.kind === 'hd') return `House of Delegates District ${parsed.num}`;
-      if (parsed.kind === 'sd') return `State Senate District ${parsed.num}`;
+      if (parsed.kind === 'hd') return getDistrictTitleForScope('state_house', parsed.num);
+      if (parsed.kind === 'sd') return getDistrictTitleForScope('state_senate', parsed.num);
       if (parsed.kind === 'precinct') {
         const localityDisplay = displayPrecinctLocalityName(parsed.county || '');
         const precinctLabel = formatPrecinctDisplayLabel(parsed.county || localityDisplay || '', parsed.code || '');
@@ -31996,7 +32012,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const subEl = document.getElementById('county-subhead');
       const contentEl = document.getElementById('county-info-content');
       
-      const title = chamber === 'house' ? `House of Delegates District ${districtNum}` : `State Senate District ${districtNum}`;
+      const title = getDistrictTitleForScope(chamber === 'house' ? 'state_house' : 'state_senate', districtNum);
       nameEl.textContent = title;
       if (subEl) subEl.textContent = '';
       // Get district info from appropriate CSV
@@ -32340,7 +32356,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const contentEl = document.getElementById('county-info-content');
       if (!detailsDiv || !nameEl || !contentEl) return;
 
-      const title = chamber === 'house' ? `House of Delegates District ${districtNum}` : `State Senate District ${districtNum}`;
+      const title = getDistrictTitleForScope(chamber === 'house' ? 'state_house' : 'state_senate', districtNum);
       window.lastSelectedCounty = title;
       updateContextBanner();
       nameEl.textContent = title;
@@ -32534,9 +32550,9 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>`;
         }
       } else if (type === 'house') {
-        displayName = `House of Delegates District ${districtNum}`;
+        displayName = getDistrictTitleForScope('state_house', districtNum);
       } else if (type === 'senate') {
-        displayName = `State Senate District ${districtNum}`;
+        displayName = getDistrictTitleForScope('state_senate', districtNum);
       }
       
       return `<div class="quick-tooltip">

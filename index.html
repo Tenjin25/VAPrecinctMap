@@ -10420,8 +10420,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-07-26-hd-sd-labels-3';
-    const APP_BUILD_ID = '2026-07-26-hd-sd-labels-3';
+    const DATA_CACHE_BUSTER = '2026-07-27-vpap-district-targets-1';
+    const APP_BUILD_ID = '2026-07-27-vpap-district-targets-1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -20412,9 +20412,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const payload = await loadDistrictSlice(scope, contestType, year);
         const row = pickDistrictSliceRow(payload, districtId);
         if (!row) return true;
-        const demVotes = Number(row.dem_votes || 0);
-        const repVotes = Number(row.rep_votes || 0);
-        const otherVotes = Number(row.other_votes || 0);
+        const displayVotes = districtDisplayVoteSet(row, payload);
+        const demVotes = displayVotes.dem;
+        const repVotes = displayVotes.rep;
+        const otherVotes = displayVotes.other;
         const signedMarginPct = signedDistrictMarginPct(row, payload);
         pinVoteCounterState(
           `Selected: ${title}`,
@@ -22864,10 +22865,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!repCand) repCand = cand.rep || '';
           } catch (_) {}
         }
-        const demVotes = Number(r.dem_votes) || 0;
-        const repVotes = Number(r.rep_votes) || 0;
-        const otherVotes = Number(r.other_votes) || 0;
-        const totalVotes = Number(r.total_votes) || (demVotes + repVotes + otherVotes);
+        const displayVotes = districtDisplayVoteSet(r, payload);
+        const demVotes = displayVotes.dem;
+        const repVotes = displayVotes.rep;
+        const otherVotes = displayVotes.other;
+        const totalVotes = displayVotes.total;
         const sourceMarginIsAuthoritative = districtSourceMarginIsAuthoritative(payload);
         const displayMarginPct = signedDistrictMarginPct(r, payload);
         out.push({
@@ -27649,13 +27651,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
-      const demVotes = Number(row.dem_votes || 0);
-      const repVotes = Number(row.rep_votes || 0);
-      const otherVotes = Number(row.other_votes || 0);
-      const totalVotesRaw = Number(row.total_votes);
-      const totalVotes = Number.isFinite(totalVotesRaw) && totalVotesRaw > 0
-        ? totalVotesRaw
-        : (demVotes + repVotes + otherVotes);
+      const displayVotes = districtDisplayVoteSet(row, node);
+      const demVotes = displayVotes.dem;
+      const repVotes = displayVotes.rep;
+      const otherVotes = displayVotes.other;
+      const totalVotes = displayVotes.total;
       if (totalVotes <= 0) {
         const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
         const copyText = `${districtCopyLabel} (Lines ${currentDistrictLinesYear})`;
@@ -30651,9 +30651,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 loadDistrictSlice('congressional', contestType, year).then(node => {
                   const row = node?.general?.results?.[String(districtNum)] || node?.general?.results?.[String(Number(districtNum))] || null;
                   if (!row) return;
-                  const demVotes = Number(row.dem_votes || 0);
-                  const repVotes = Number(row.rep_votes || 0);
-                  const otherVotes = Number(row.other_votes || 0);
+                  const displayVotes = districtDisplayVoteSet(row, node);
+                  const demVotes = displayVotes.dem;
+                  const repVotes = displayVotes.rep;
+                  const otherVotes = displayVotes.other;
                   const signedMarginPct = signedDistrictMarginPct(row, node);
                   pinVoteCounterState(
                     `Selected: Congressional District ${districtNum}`,
@@ -30770,9 +30771,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 loadDistrictSlice('state_house', contestType, year).then(node => {
                   const row = node?.general?.results?.[String(districtNum)] || node?.general?.results?.[String(Number(districtNum))] || null;
                   if (!row) return;
-                  const demVotes = Number(row.dem_votes || 0);
-                  const repVotes = Number(row.rep_votes || 0);
-                  const otherVotes = Number(row.other_votes || 0);
+                  const displayVotes = districtDisplayVoteSet(row, node);
+                  const demVotes = displayVotes.dem;
+                  const repVotes = displayVotes.rep;
+                  const otherVotes = displayVotes.other;
                   const signedMarginPct = signedDistrictMarginPct(row, node);
                   pinVoteCounterState(
                     `Selected: ${getDistrictTitleForScope('state_house', districtNum)}`,
@@ -30888,9 +30890,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 loadDistrictSlice('state_senate', contestType, year).then(node => {
                   const row = node?.general?.results?.[String(districtNum)] || node?.general?.results?.[String(Number(districtNum))] || null;
                   if (!row) return;
-                  const demVotes = Number(row.dem_votes || 0);
-                  const repVotes = Number(row.rep_votes || 0);
-                  const otherVotes = Number(row.other_votes || 0);
+                  const displayVotes = districtDisplayVoteSet(row, node);
+                  const demVotes = displayVotes.dem;
+                  const repVotes = displayVotes.rep;
+                  const otherVotes = displayVotes.other;
                   const signedMarginPct = signedDistrictMarginPct(row, node);
                   pinVoteCounterState(
                     `Selected: ${getDistrictTitleForScope('state_senate', districtNum)}`,
@@ -32106,33 +32109,48 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function districtSourceMarginIsAuthoritative(payload) {
-      return Boolean(
-        payload?.meta?.calibrated_to_statewide &&
-        /margins?\s+preserved/i.test(String(payload?.meta?.calibration_method || ''))
+      const method = String(
+        payload?.meta?.target_method ||
+        payload?.meta?.calibration_method ||
+        ''
       );
+      return Boolean(
+        (
+          payload?.meta?.calibrated_to_statewide ||
+          Number.isFinite(Number(payload?.meta?.target_dem_total))
+        ) &&
+        /margins?/i.test(method)
+      );
+    }
+
+    function districtDisplayVoteSet(row, payload = null) {
+      if (!row) return { dem: 0, rep: 0, other: 0, total: 0, source: 'none' };
+      const dem = Number(row.dem_votes) || 0;
+      const rep = Number(row.rep_votes) || 0;
+      const other = Number(row.other_votes) || 0;
+      const totalRaw = Number(row.total_votes);
+      const total = Number.isFinite(totalRaw) && totalRaw > 0 ? totalRaw : (dem + rep + other);
+      return { dem, rep, other, total, source: 'district-slice' };
     }
 
     function signedDistrictMarginPct(row, payload = null) {
       if (!row) return 0;
-      const explicit = Number(row.margin_pct);
-      if (districtSourceMarginIsAuthoritative(payload) && Number.isFinite(explicit)) return explicit;
-      const demVotes = Number(row.dem_votes || 0);
-      const repVotes = Number(row.rep_votes || 0);
-      const otherVotes = Number(row.other_votes || 0);
-      const totalRaw = Number(row.total_votes);
-      const totalVotes = Number.isFinite(totalRaw) && totalRaw > 0
-        ? totalRaw
-        : (demVotes + repVotes + otherVotes);
+      const displayVotes = districtDisplayVoteSet(row, payload);
+      const demVotes = displayVotes.dem;
+      const repVotes = displayVotes.rep;
+      const totalVotes = displayVotes.total;
       if (totalVotes > 0) return signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
+      const explicit = Number(row.margin_pct);
       return Number.isFinite(explicit) ? explicit : 0;
     }
 
     function renderDistrictElectionInfoHTML(contestType, year, row, fallbackCandidates, payload = null) {
       if (!row) return '<div style="color:#999;">No results for this district/contest.</div>';
-      const demVotes = Number(row.dem_votes || 0);
-      const repVotes = Number(row.rep_votes || 0);
-      const otherVotes = Number(row.other_votes || 0);
-      const totalVotes = Number(row.total_votes || (demVotes + repVotes + otherVotes));
+      const displayVotes = districtDisplayVoteSet(row, payload);
+      const demVotes = displayVotes.dem;
+      const repVotes = displayVotes.rep;
+      const otherVotes = displayVotes.other;
+      const totalVotes = displayVotes.total;
       if (totalVotes <= 0) return '<div style="color:#999;">No results for this district/contest.</div>';
 
       let demCandidate = stripRunningMateName((row.dem_candidate || '').toString().trim());

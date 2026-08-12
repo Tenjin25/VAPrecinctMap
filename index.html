@@ -10420,8 +10420,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-08-12-dem-lean-palette-v1';
-    const APP_BUILD_ID = '2026-08-11-pre-overnight-palette-v1';
+    const DATA_CACHE_BUSTER = '2026-08-12-trend-shift-display-drift-v1';
+    const APP_BUILD_ID = '2026-08-12-trend-shift-display-drift-v1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -14797,23 +14797,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const rep = Number(trendItem?.rep_votes || 0);
         const explicitSigned = Number(trendItem?.margin_pct);
         const rawSigned = signedMarginPctFromVotes(dem, rep, total);
-        if (trendItem?.margin_pct_authoritative && Number.isFinite(explicitSigned)) {
-          return roundForDisplay(explicitSigned, 2);
-        }
         // If a historical row doesn't carry vote totals (for example, some pre-aggregated trend bundles),
         // fall back to the signed margin directly so "Since 2020 / 2008 / 2000" deltas don't collapse to 0.
         if (!(Number.isFinite(total) && total > 0)) {
           return Number.isFinite(explicitSigned) ? explicitSigned : rawSigned;
         }
-        // District margins use the final whole-vote total, including third-party/other votes.
-        // This avoids carrying a pre-round allocation margin into the historical display.
-        if (!useCountyMarginPrecision) return roundForDisplay(rawSigned, 2);
+        // Use the same allocated display shares shown on the trend card. The explicit margin may
+        // still determine the winning side, but its magnitude must not drift from Dem vs. Rep.
         const absDisplay = useCountyMarginPrecision
           ? countyMarginPctDisplayValue(rep, dem, total)
           : marginPctDisplayValue(rep, dem, total);
-        if (absDisplay === 0 && rawSigned !== 0) return rawSigned;
-        if (rawSigned > 0) return Math.abs(absDisplay);
-        if (rawSigned < 0) return -Math.abs(absDisplay);
+        const signedForSide = trendItem?.margin_pct_authoritative && Number.isFinite(explicitSigned)
+          ? explicitSigned
+          : rawSigned;
+        if (absDisplay === 0 && signedForSide !== 0) return signedForSide;
+        if (signedForSide > 0) return Math.abs(absDisplay);
+        if (signedForSide < 0) return -Math.abs(absDisplay);
         return 0;
       };
       const formatTrendMarginPct = (signedPct) => {
@@ -14827,10 +14826,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalVotes = Number(item.total_votes || 0);
         const demVotes = Number(item.dem_votes || 0);
         const repVotes = Number(item.rep_votes || 0);
-        const otherVotes = Number(item.other_votes || 0);
-        const demPct = totalVotes > 0 ? (demVotes / totalVotes) * 100 : 0;
-        const repPct = totalVotes > 0 ? (repVotes / totalVotes) * 100 : 0;
-        const otherPct = totalVotes > 0 ? (otherVotes / totalVotes) * 100 : 0;
+        const otherVotes = Math.max(0, totalVotes - demVotes - repVotes);
+        const rawMarginPct = marginPctValue(repVotes, demVotes, totalVotes);
+        const pctDigits = useCountyMarginPrecision
+          ? countyMarginDisplayDigits(rawMarginPct)
+          : marginDisplayDigits(rawMarginPct);
+        const allocated = allocateDisplayVotePcts(demVotes, repVotes, otherVotes, pctDigits);
+        const demPct = allocated.demPct;
+        const repPct = allocated.repPct;
+        const otherPct = allocated.otherPct;
         const signedPct = signedTrendDisplayMarginPct(item);
         const prevSignedPct = prev ? signedTrendDisplayMarginPct(prev) : NaN;
         const winnerMeta = getTrendWinnerMeta(item, {
@@ -14851,6 +14855,7 @@ document.addEventListener('DOMContentLoaded', function() {
           demPct,
           repPct,
           otherPct,
+          pctDigits,
           signedPct,
           winnerMeta,
           leadLabel,
@@ -14978,7 +14983,7 @@ document.addEventListener('DOMContentLoaded', function() {
             : '';
           const leadSummary = entry.leadLabel === 'Tie' ? 'Even race' : entry.leadLabel;
           const otherChip = entry.otherPct >= 0.05
-            ? `<span class="focus-trend-chip">Other ${escapeHtml(entry.otherPct.toFixed(2))}%</span>`
+            ? `<span class="focus-trend-chip">Other ${escapeHtml(formatAllocatedPct(entry.otherPct, entry.pctDigits))}%</span>`
             : '';
           return `
             <div class="focus-trend-entry">
@@ -14992,8 +14997,8 @@ document.addEventListener('DOMContentLoaded', function() {
                   <span class="focus-trend-entry-margin">${escapeHtml(leadSummary)}</span>
                 </div>
                 <div class="focus-trend-entry-scale">
-                  <span class="dem">${escapeHtml(`${getCandidateLastName(entry.item, 'Democrat', { contestType: contestTypeHint, year: Number(entry.item?.year), office: contestTypeHint ? formatContestName(contestTypeHint, Number(entry.item?.year)) : '' })} ${entry.demPct.toFixed(2)}%`)}</span>
-                  <span class="rep">${escapeHtml(`${getCandidateLastName(entry.item, 'Republican', { contestType: contestTypeHint, year: Number(entry.item?.year), office: contestTypeHint ? formatContestName(contestTypeHint, Number(entry.item?.year)) : '' })} ${entry.repPct.toFixed(2)}%`)}</span>
+                  <span class="dem">${escapeHtml(`${getCandidateLastName(entry.item, 'Democrat', { contestType: contestTypeHint, year: Number(entry.item?.year), office: contestTypeHint ? formatContestName(contestTypeHint, Number(entry.item?.year)) : '' })} ${formatAllocatedPct(entry.demPct, entry.pctDigits)}%`)}</span>
+                  <span class="rep">${escapeHtml(`${getCandidateLastName(entry.item, 'Republican', { contestType: contestTypeHint, year: Number(entry.item?.year), office: contestTypeHint ? formatContestName(contestTypeHint, Number(entry.item?.year)) : '' })} ${formatAllocatedPct(entry.repPct, entry.pctDigits)}%`)}</span>
                 </div>
                 <div class="focus-trend-entry-bar" aria-hidden="true">
                   <span style="width:${entry.demPct.toFixed(4)}%;background:#2563eb;"></span>
@@ -21505,6 +21510,15 @@ document.addEventListener('DOMContentLoaded', function() {
       return allocateDisplayVotePcts(dem, rep, other, digits).marginPct;
     }
 
+    function signedMarginPctDisplayValue(demVotes, repVotes, totalVotes) {
+      const rawSigned = signedMarginPctFromVotes(demVotes, repVotes, totalVotes);
+      const displayAbs = marginPctDisplayValue(repVotes, demVotes, totalVotes);
+      if (!Number.isFinite(Number(rawSigned))) return 0;
+      if (rawSigned > 0) return Math.abs(displayAbs);
+      if (rawSigned < 0) return -Math.abs(displayAbs);
+      return 0;
+    }
+
     function leadMarginPctLabel(repVotes, demVotes, totalVotes) {
       const margin = Number(repVotes || 0) - Number(demVotes || 0);
       if (!margin) return 'Tie';
@@ -24286,18 +24300,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const demVotes = Number(row.dem_votes);
         const totalVotes = Number(row.total_votes);
         const rawSigned = getSignedMarginTowardGop(row);
-        // District slices can explicitly mark a source margin as authoritative when their
-        // vote totals were calibrated while preserving that source margin.
-        const explicitSigned = Number(row.margin_pct);
-        if (unitLower !== 'county' && row.margin_pct_authoritative && Number.isFinite(explicitSigned)) {
-          return roundForDisplay(rawSigned, 2);
-        }
         if (!(Number.isFinite(totalVotes) && totalVotes > 0)) return rawSigned;
-        // For ordinary district years, calculate from the final total vote count (including
-        // other votes) before rounding. Stored margins may predate whole-vote allocation.
-        if (unitLower !== 'county') {
-          return roundForDisplay(signedMarginPctFromVotes(demVotes, repVotes, totalVotes), 2);
-        }
         const useCounty = unitLower === 'county';
         const absDisplay = useCounty
           ? countyMarginPctDisplayValue(repVotes, demVotes, totalVotes)
@@ -24354,7 +24357,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	      const previousSigned = previous ? getSignedDisplayMarginTowardGop(previous) : null;
 	      const recentShiftTowardGop = previous ? (latestSigned - previousSigned) : null;
       const recentWindowStart = sorted.length >= 3 ? sorted[Math.max(0, sorted.length - 3)] : first;
-      const recentWindowStartSigned = recentWindowStart ? getSignedMarginTowardGop(recentWindowStart) : null;
+      const recentWindowStartSigned = recentWindowStart ? getSignedDisplayMarginTowardGop(recentWindowStart) : null;
       const recentWindowShiftTowardGop = Number.isFinite(recentWindowStartSigned)
         ? (latestSigned - recentWindowStartSigned)
         : recentShiftTowardGop;
@@ -24366,8 +24369,8 @@ document.addEventListener('DOMContentLoaded', function() {
       let rightwardSteps = 0;
       let leftwardSteps = 0;
       for (let i = 1; i < recentSlice.length; i += 1) {
-        const prev = getSignedMarginTowardGop(recentSlice[i - 1]);
-        const curr = getSignedMarginTowardGop(recentSlice[i]);
+        const prev = getSignedDisplayMarginTowardGop(recentSlice[i - 1]);
+        const curr = getSignedDisplayMarginTowardGop(recentSlice[i]);
         const deltaTowardGop = curr - prev;
         if (deltaTowardGop > 0.5) rightwardSteps += 1;
         if (deltaTowardGop < -0.5) leftwardSteps += 1;
@@ -27710,6 +27713,7 @@ document.addEventListener('DOMContentLoaded', function() {
       );
 
       let prevSignedForFlip = null;
+      let prevSignedForShift = null;
       let prevYearForFlip = null;
       try {
         const prevCached = await ensurePrevDistrictCache(scope, contestType, Number(year));
@@ -27719,13 +27723,20 @@ document.addEventListener('DOMContentLoaded', function() {
           const prevRow = prevResults[String(districtNum)] || prevResults[String(Number(districtNum))] || null;
           if (prevRow) {
             const prevSignedRaw = signedDistrictMarginPct(prevRow, prevCached?.prevNode);
-            if (Number.isFinite(prevSignedRaw)) prevSignedForFlip = prevSignedRaw;
+            if (Number.isFinite(prevSignedRaw)) {
+              prevSignedForFlip = prevSignedRaw;
+              const prevDisplayVotes = districtDisplayVoteSet(prevRow, prevCached?.prevNode);
+              prevSignedForShift = prevDisplayVotes.total > 0
+                ? signedMarginPctDisplayValue(prevDisplayVotes.dem, prevDisplayVotes.rep, prevDisplayVotes.total)
+                : prevSignedRaw;
+            }
           }
         }
       } catch (_) {}
       const marginCall = winnerMarginCall(repVotes, demVotes, totalVotes, repCandidate, demCandidate, signedMarginPct);
-      const districtShiftDelta = (Number.isFinite(Number(prevSignedForFlip)) && Number.isFinite(Number(signedMarginPct)))
-        ? (Number(signedMarginPct) - Number(prevSignedForFlip))
+      const signedDisplayMarginPct = signedMarginPctDisplayValue(demVotes, repVotes, totalVotes);
+      const districtShiftDelta = (Number.isFinite(Number(prevSignedForShift)) && Number.isFinite(Number(signedDisplayMarginPct)))
+        ? (Number(signedDisplayMarginPct) - Number(prevSignedForShift))
         : NaN;
       const districtShiftClass = Number.isFinite(districtShiftDelta)
         ? (Math.abs(districtShiftDelta) < 0.01 ? 'tie' : (districtShiftDelta > 0 ? 'rep' : 'dem'))

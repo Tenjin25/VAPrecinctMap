@@ -1082,22 +1082,26 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   list-style: none;
   cursor: pointer;
   user-select: none;
-  display: inline-flex;
+  display: flex;
   width: 100%;
   max-width: 100%;
+  min-width: 0;
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  min-height: 34px;
-  padding: 8px 12px;
-  border-radius: 10px;
+  min-height: 44px;
+  padding: 11px 14px;
+  border-radius: 12px;
   border: 1px solid rgba(148, 163, 184, 0.22);
   background: rgba(15, 23, 42, 0.18);
   color: rgba(226, 232, 240, 0.96);
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 900;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .hover-tooltip .tooltip-more summary::-webkit-details-marker {

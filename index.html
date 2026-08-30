@@ -4408,6 +4408,7 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   }
 
   .focus-pill {
+    min-width: 0;
     padding: 9px 11px;
     border-radius: 14px;
     border: 1px solid rgba(15, 23, 42, 0.08);
@@ -4430,6 +4431,8 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     font-weight: 900;
     color: #0f172a;
     line-height: 1.2;
+    min-width: 0;
+    max-width: 100%;
     white-space: normal;
     overflow: hidden;
     display: -webkit-box;
@@ -7554,7 +7557,7 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     :root {
       --topbar-h: 0px;
       --desktop-left-w: 500px;
-      --desktop-right-w: 340px;
+      --desktop-right-w: 372px;
       --desktop-right-gap: 14px;
       --desktop-vote-counter-h: 0px;
     }
@@ -7756,7 +7759,7 @@ body.focus-active #hover-tooltip[data-context="preview"] {
       right: 24px !important;
       width: min(var(--desktop-right-w), calc(100vw - 48px)) !important;
       max-width: var(--desktop-right-w) !important;
-      min-width: 0 !important;
+      min-width: min(320px, 100%) !important;
       max-height: min(58vh, 620px) !important;
       overflow-x: hidden;
       overflow-y: auto;

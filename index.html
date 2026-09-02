@@ -10506,8 +10506,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-09-01-va-colorblind-legend-v3';
-    const APP_BUILD_ID = '2026-09-01-va-colorblind-legend-v3';
+    const DATA_CACHE_BUSTER = '2026-09-02-va-original-dropdown-v1';
+    const APP_BUILD_ID = '2026-09-02-va-original-dropdown-v1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -32771,97 +32771,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (sel.dataset.deferredLoading) delete sel.dataset.deferredLoading;
     }
 
-    let earlyContestManifestPromise = null;
-
-    function appendOpenElectionEntriesToContestManifest() {
-      if (typeof OPEN_ELECTIONS_CSV !== 'undefined' && OPEN_ELECTIONS_CSV) {
-        Object.entries(OPEN_ELECTIONS_CSV).forEach(([contestType, yearsMap]) => {
-          Object.keys(yearsMap || {}).map(Number).forEach(year => {
-            const exists = contestManifest.some(entry =>
-              entry && entry.contest_type === contestType && Number(entry.year) === year
-            );
-            if (!exists) {
-              contestManifest.push({
-                year,
-                contest_type: contestType,
-                file: `open_elections_csv_${contestType}_${year}.csv`,
-                rows: 1
-              });
-            }
-          });
-        });
-        return;
-      }
-      if (typeof PRESIDENT_OPEN_ELECTIONS_CSV !== 'undefined' && PRESIDENT_OPEN_ELECTIONS_CSV) {
-        Object.keys(PRESIDENT_OPEN_ELECTIONS_CSV).map(Number).forEach(year => {
-          const exists = contestManifest.some(entry =>
-            entry && entry.contest_type === 'president' && Number(entry.year) === year
-          );
-          if (!exists) {
-            contestManifest.push({
-              year,
-              contest_type: 'president',
-              file: `open_elections_csv_${year}.csv`,
-              rows: 1
-            });
-          }
-        });
-      }
-    }
-
-    async function preloadElectionJsonFallback() {
-      const paths = Array.from(new Set([
-        CONFIG.paths?.election,
-        ...(Array.isArray(CONFIG.paths?.election_fallbacks) ? CONFIG.paths.election_fallbacks : [])
-      ].filter(Boolean)));
-      let lastError = null;
-      for (const path of paths) {
-        try {
-          electionDataJSON = await loadJSON(path);
-          electionData = flattenElectionJSON(electionDataJSON);
-          if (!Array.isArray(electionData) || electionData.length === 0) {
-            throw new Error(`${path} contained no election rows`);
-          }
-          populateContestSelectFromElectionJSON(electionData);
-          return;
-        } catch (err) {
-          lastError = err;
-        }
-      }
-      throw lastError || new Error('No election index source is configured');
-    }
-
-    function preloadContestDropdown() {
-      if (contestManifest.length > 0) {
-        populateContestSelectFromManifest(contestManifest);
-        setContestSelectDeferredLoading(false);
-        return Promise.resolve();
-      }
-      if (earlyContestManifestPromise) return earlyContestManifestPromise;
-      setContestSelectDeferredLoading(true);
-      earlyContestManifestPromise = (async () => {
-        try {
-          if (!CONFIG.paths?.contests_dir) throw new Error('No contest manifest directory configured');
-          const manifest = await loadJSON(`${CONFIG.paths.contests_dir}/manifest.json`);
-          contestManifest = Array.isArray(manifest?.files) ? manifest.files : [];
-          if (contestManifest.length === 0) throw new Error('Contest manifest contained no entries');
-          appendOpenElectionEntriesToContestManifest();
-          try { contestYearsByTypeCache.clear(); } catch (_) {}
-          electionData = [];
-          // Keep the early path independent of district/model state that initializes later.
-          populateContestSelectFromManifest(contestManifest);
-        } catch (manifestErr) {
-          await preloadElectionJsonFallback();
-        }
-        setContestSelectDeferredLoading(false);
-      })().catch(err => {
-        earlyContestManifestPromise = null;
-        setContestSelectDeferredLoading(false);
-        throw err;
-      });
-      return earlyContestManifestPromise;
-    }
-
     function syncCurrentViewLayersAfterHydration() {
       if (currentView === 'districts') {
         addDistrictLayers();
@@ -35548,8 +35457,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    // Populate the small contest index without waiting for Mapbox or window load.
-    preloadContestDropdown().catch(err => console.warn('Early contest index load failed:', err?.message || err));
     window.onload = init;
 </script>
 </body>

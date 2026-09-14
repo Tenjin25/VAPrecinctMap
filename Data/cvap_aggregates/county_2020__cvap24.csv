@@ -1,0 +1,134 @@
+statefp20,countyfp20,county_geoid20,county_name,CVAP_TOT24
+51,001,51001,Accomack County,24528
+51,003,51003,Albemarle County,86729
+51,005,51005,Alleghany County,12044
+51,007,51007,Amelia County,10530
+51,009,51009,Amherst County,24968
+51,011,51011,Appomattox County,12843
+51,013,51013,Arlington County,169651
+51,015,51015,Augusta County,62746
+51,017,51017,Bath County,3379
+51,019,51019,Bedford County,64205
+51,021,51021,Bland County,5343
+51,023,51023,Botetourt County,27532
+51,025,51025,Brunswick County,13044
+51,027,51027,Buchanan County,16100
+51,029,51029,Buckingham County,13798
+51,031,51031,Campbell County,43614
+51,033,51033,Caroline County,24119
+51,035,51035,Carroll County,23675
+51,036,51036,Charles City County,5619
+51,037,51037,Charlotte County,8861
+51,041,51041,Chesterfield County,271891
+51,043,51043,Clarke County,11858
+51,045,51045,Craig County,3730
+51,047,51047,Culpeper County,38088
+51,049,51049,Cumberland County,7872
+51,051,51051,Dickenson County,11106
+51,053,51053,Dinwiddie County,22108
+51,057,51057,Essex County,8571
+51,059,51059,Fairfax County,767585
+51,061,51061,Fauquier County,55047
+51,063,51063,Floyd County,12407
+51,065,51065,Fluvanna County,22386
+51,067,51067,Franklin County,44374
+51,069,51069,Frederick County,69870
+51,071,51071,Giles County,13208
+51,073,51073,Gloucester County,31384
+51,075,51075,Goochland County,22038
+51,077,51077,Grayson County,12656
+51,079,51079,Greene County,15610
+51,081,51081,Greensville County,9418
+51,083,51083,Halifax County,26583
+51,085,51085,Hanover County,86732
+51,087,51087,Henrico County,242594
+51,089,51089,Henry County,39682
+51,091,51091,Highland County,1958
+51,093,51093,Isle of Wight County,30968
+51,095,51095,James City County,62898
+51,097,51097,King and Queen County,5519
+51,099,51099,King George County,20674
+51,101,51101,King William County,14274
+51,103,51103,Lancaster County,9273
+51,105,51105,Lee County,17758
+51,107,51107,Loudoun County,278045
+51,109,51109,Louisa County,31385
+51,111,51111,Lunenburg County,9324
+51,113,51113,Madison County,11082
+51,115,51115,Mathews County,7281
+51,117,51117,Mecklenburg County,24440
+51,119,51119,Middlesex County,9008
+51,121,51121,Montgomery County,78340
+51,125,51125,Nelson County,11909
+51,127,51127,New Kent County,19772
+51,131,51131,Northampton County,9334
+51,133,51133,Northumberland County,10453
+51,135,51135,Nottoway County,12324
+51,137,51137,Orange County,28903
+51,139,51139,Page County,18801
+51,141,51141,Patrick County,14301
+51,143,51143,Pittsylvania County,48622
+51,145,51145,Powhatan County,25478
+51,147,51147,Prince Edward County,18283
+51,149,51149,Prince George County,33838
+51,153,51153,Prince William County,311410
+51,155,51155,Pulaski County,27606
+51,157,51157,Rappahannock County,6078
+51,159,51159,Richmond County,7267
+51,161,51161,Roanoke County,75661
+51,163,51163,Rockbridge County,18506
+51,165,51165,Rockingham County,64097
+51,167,51167,Russell County,20636
+51,169,51169,Scott County,17558
+51,171,51171,Shenandoah County,34273
+51,173,51173,Smyth County,23482
+51,175,51175,Southampton County,14544
+51,177,51177,Spotsylvania County,105348
+51,179,51179,Stafford County,112742
+51,181,51181,Surry County,5375
+51,183,51183,Sussex County,9002
+51,185,51185,Tazewell County,31610
+51,187,51187,Warren County,31282
+51,191,51191,Washington County,44222
+51,193,51193,Westmoreland County,14955
+51,195,51195,Wise County,28414
+51,197,51197,Wythe County,22504
+51,199,51199,York County,53202
+51,510,51510,Alexandria city,111276
+51,520,51520,Bristol city,13341
+51,530,51530,Buena Vista city,5120
+51,540,51540,Charlottesville city,35267
+51,550,51550,Chesapeake city,186988
+51,570,51570,Colonial Heights city,13485
+51,580,51580,Covington city,4257
+51,590,51590,Danville city,31808
+51,595,51595,Emporia city,3913
+51,600,51600,Fairfax city,15814
+51,610,51610,Falls Church city,10414
+51,620,51620,Franklin city,5964
+51,630,51630,Fredericksburg city,21124
+51,640,51640,Galax city,4854
+51,650,51650,Hampton city,105846
+51,660,51660,Harrisonburg city,37592
+51,670,51670,Hopewell city,16664
+51,678,51678,Lexington city,6718
+51,680,51680,Lynchburg city,61948
+51,683,51683,Manassas city,24939
+51,685,51685,Manassas Park city,10382
+51,690,51690,Martinsville city,9578
+51,700,51700,Newport News city,135949
+51,710,51710,Norfolk city,178481
+51,720,51720,Norton city,2853
+51,730,51730,Petersburg city,24863
+51,735,51735,Poquoson city,9569
+51,740,51740,Portsmouth city,73620
+51,750,51750,Radford city,14451
+51,760,51760,Richmond city,177988
+51,770,51770,Roanoke city,71560
+51,775,51775,Salem city,19956
+51,790,51790,Staunton city,20547
+51,800,51800,Suffolk city,73793
+51,810,51810,Virginia Beach city,343385
+51,820,51820,Waynesboro city,17010
+51,830,51830,Williamsburg city,13443
+51,840,51840,Winchester city,19555

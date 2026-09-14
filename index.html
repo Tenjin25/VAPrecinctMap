@@ -10513,8 +10513,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-09-14-va-cvap-demographics-v3';
-    const APP_BUILD_ID = '2026-09-14-va-cvap-demographics-v3';
+    const DATA_CACHE_BUSTER = '2026-09-14-va-cvap-demographics-v4';
+    const APP_BUILD_ID = '2026-09-14-va-cvap-demographics-v4';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -33354,7 +33354,7 @@ document.addEventListener('DOMContentLoaded', function() {
       entries.sort((a, b) => Number(b.value) - Number(a.value));
       const top = entries[0];
       const second = entries[1] || null;
-      if (second && Math.abs(Number(top.value) - Number(second.value)) < 0.15) {
+      if (second && Math.abs(Number(top.value) - Number(second.value)) < 0.005) {
         return { key: 'mixed', pct: Number(top.value), majority: false };
       }
       return { key: top.key, pct: Number(top.value), majority: Number(top.value) >= 50 };

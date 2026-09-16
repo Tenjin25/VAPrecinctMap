@@ -3404,6 +3404,19 @@ body.focus-active #hover-tooltip[data-context="preview"] {
     color: #cbd5e1;
   }
 
+  .hover-tooltip .vhr-demographics .demo-hover-card {
+    margin: 8px 0 0;
+    padding: 9px 10px;
+    background: rgba(15, 23, 42, 0.72);
+    border-color: rgba(148, 163, 184, 0.38);
+  }
+
+  .hover-tooltip .vhr-demographics-divider {
+    height: 1px;
+    margin: 10px 0;
+    background: rgba(148, 163, 184, 0.24);
+  }
+
   .hover-tooltip .demo-race-label {
     color: #e2e8f0;
   }
@@ -22000,7 +22013,8 @@ document.addEventListener('DOMContentLoaded', function() {
       shiftLineText,
       shiftToneClass,
       shiftYearLabel,
-      showShiftLine
+      showShiftLine,
+      leadingContent
     } = {}) {
       const dVotes = Number(demVotes || 0);
       const rVotes = Number(repVotes || 0);
@@ -22085,6 +22099,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="votehub-results-card">
           <div class="vhr-title">${escapeHtml((title || '').toString())}</div>
           ${(subtitle || districtType) ? `<div class="vhr-subtitle">${escapeHtml(String(subtitle || districtType || ''))}</div>` : ''}
+          ${String(leadingContent || '')}
           ${winnerLine}
           ${flipLine}
           ${shiftLine}
@@ -27569,7 +27584,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const winnerParty = winner === 'R' ? 'rep' : (winner === 'D' ? 'dem' : 'tie');
       const defaultVotehubCore = buildVotehubResultsTooltip({
         title: `${countyDisplay}`,
-        subtitle: localityTypeLabel,
+        subtitle: currentVizMode === 'demographics' && demoLine ? 'Demographics' : localityTypeLabel,
         demName: demCandidate,
         repName: repCandidate,
         otherName: 'Other',
@@ -27585,11 +27600,14 @@ document.addEventListener('DOMContentLoaded', function() {
         currentSignedMarginPct: signedMarginPct,
         flipYearLabel: vizPrevCache?.prevYear || null,
         districtType: localityTypeLabel,
-        showWinnerLine: true,
+        showWinnerLine: !(currentVizMode === 'demographics' && demoLine),
         showShiftLine: currentVizMode === 'shift' && Number.isFinite(shiftDelta) && !!vizShiftCache?.prevYear,
         shiftLineText: Number.isFinite(shiftDelta) ? formatShiftLabel(shiftDelta) : '',
         shiftToneClass: shiftClass,
-        shiftYearLabel: vizShiftCache?.prevYear ? `${vizShiftCache.prevYear}→${vizShiftCache.year}` : ''
+        shiftYearLabel: vizShiftCache?.prevYear ? `${vizShiftCache.prevYear}→${vizShiftCache.year}` : '',
+        leadingContent: currentVizMode === 'demographics' && demoLine
+          ? `<div class="vhr-demographics">${demoLine}<div class="vhr-demographics-divider"></div></div>`
+          : ''
       });
       const popChangeVotehubCore = popChangeHeaderMeta
         ? buildPopulationChangeCountyTooltip({
@@ -28084,7 +28102,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const winnerParty = signedMarginPct > 0 ? 'rep' : (signedMarginPct < 0 ? 'dem' : 'tie');
       const inner = buildVotehubResultsTooltip({
         title: districtTitle,
-        subtitle: subtitleByScope,
+        subtitle: currentVizMode === 'demographics' && _demoHTML ? 'Demographics' : subtitleByScope,
         demName: demCandidate,
         repName: repCandidate,
         otherName: 'Other',
@@ -28100,11 +28118,14 @@ document.addEventListener('DOMContentLoaded', function() {
         currentSignedMarginPct: signedMarginPct,
         flipYearLabel: prevYearForFlip,
         districtType: subtitleByScope,
-        showWinnerLine: true,
+        showWinnerLine: !(currentVizMode === 'demographics' && _demoHTML),
         showShiftLine: currentVizMode === 'shift' && Number.isFinite(districtShiftDelta) && !!prevYearForFlip,
         shiftLineText: Number.isFinite(districtShiftDelta) ? formatShiftLabel(districtShiftDelta) : '',
         shiftToneClass: districtShiftClass,
-        shiftYearLabel: prevYearForFlip ? `${prevYearForFlip}→${year}` : ''
+        shiftYearLabel: prevYearForFlip ? `${prevYearForFlip}→${year}` : '',
+        leadingContent: currentVizMode === 'demographics' && _demoHTML
+          ? `<div class="vhr-demographics">${_demoHTML}<div class="vhr-demographics-divider"></div></div>`
+          : ''
       });
       const copyText = `${districtCopyLabel} (Lines ${currentDistrictLinesYear})`;
       showHoverTooltip(

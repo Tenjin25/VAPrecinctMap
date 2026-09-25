@@ -27,6 +27,12 @@ const manualOverrides = {
     '603': 'Evergreen'
   }
 };
+const denominationOverrides = {
+  'NORFOLK CITY': {
+    '106': 'Second Presbyterian Church, PCUSA',
+    '510': 'Third Presbyterian Church, PCUSA'
+  }
+};
 
 function normalizeLocality(raw) {
   return String(raw || '').trim().replace(/\s+/g, ' ').toUpperCase();
@@ -211,7 +217,7 @@ async function main() {
       name = `Precinct ${code}`;
     }
     if (!countyMaps.has(locality)) countyMaps.set(locality, new Map());
-    countyMaps.get(locality).set(code, formatDisplayName(name));
+    countyMaps.get(locality).set(code, denominationOverrides[locality]?.[code] || formatDisplayName(name));
   }
 
   const counties = {};

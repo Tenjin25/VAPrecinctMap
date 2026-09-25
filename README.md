@@ -42,6 +42,10 @@ An interactive, browser-based choropleth map of Virginia election results at the
 
 ---
 
+## Precinct display names
+
+`Data/precinct_friendly_names.json` supplies county-scoped display labels. Verified church affiliations (PCA, PCUSA, EPC, OPC, ECO, or Evangel Presbytery) take precedence over older venue names in geometry, and the app cache-busts the lookup. Friendly names do not change precinct IDs, boundaries, or election-result joins.
+
 ## Project Overview
 
 `index.html` is the canonical production entry point for the Virginia map. It now carries the promoted NCMap-derived Virginia interface, including the aligned selected-locality focus design, Virginia locality normalization, district search shortcuts, the current desktop/mobile UI parity work, and a Virginia-specific chrome palette built around Commonwealth flag-inspired navy, red, and cream accents.

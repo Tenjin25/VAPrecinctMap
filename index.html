@@ -10664,7 +10664,7 @@ document.addEventListener('DOMContentLoaded', function() {
         precincts: withBase('./Data/va_precincts.geojson'),
         precincts_current: withBase('./Data/va_precincts_current.geojson'),
         precinct_centroids: withBase('./Data/va_precinct_centroids.geojson'),
-        precinct_friendly_names: withBase('./Data/precinct_friendly_names.json'),
+        precinct_friendly_names: withCacheBuster(withBase('./Data/precinct_friendly_names.json')),
         precinct_result_geometry_crosswalk: withBase('./Data/precinct_result_geometry_crosswalk.json'),
         districts: withBase('./Data/tl_2024_51_cd119.geojson'),
         districts_2024: withBase('./Data/tl_2024_51_cd119.geojson'),
@@ -30594,6 +30594,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const canonicalCode = rawCode ? resolvePrecinctCanonicalCode(countyName, rawCode) : '';
       const friendly = rawCode ? getPrecinctFriendlyName(countyName, rawCode) : '';
       const friendlyLabel = friendly || '';
+      // Preserve verified affiliations even when geometry has an older venue label.
+      if (friendlyLabel && /,\s*(?:PCA|PCUSA|EPC|OPC|ECO|Evangel Presbytery)\s*$/i.test(friendlyLabel)) return friendlyLabel;
       // Friendly-name JSON is the canonical display source. Geometry and
       // result labels are fallbacks only when the index has no entry.
       if (friendlyLabel) return friendlyLabel;

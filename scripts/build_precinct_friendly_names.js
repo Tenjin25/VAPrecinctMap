@@ -29,8 +29,8 @@ const manualOverrides = {
 };
 const denominationOverrides = {
   'NORFOLK CITY': {
-    '106': 'Second Presbyterian Church, PCUSA',
-    '510': 'Third Presbyterian Church, PCUSA'
+    '106': 'Second Presbyterian Church (PCUSA)',
+    '510': 'Third Presbyterian Church (PCUSA)'
   }
 };
 

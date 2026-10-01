@@ -9,7 +9,54 @@
     "direct_matched_votes": 3380410,
     "allocated_votes": 2373,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 99.9298506584667
+    "direct_match_coverage_pct": 99.9298506584667,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "11",
+      "13",
+      "20",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "39",
+      "40",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46",
+      "47",
+      "48",
+      "49",
+      "50",
+      "52",
+      "53",
+      "54",
+      "56",
+      "61",
+      "62",
+      "65",
+      "67",
+      "68",
+      "71",
+      "72",
+      "74",
+      "75",
+      "81",
+      "82",
+      "83",
+      "84",
+      "86",
+      "100"
+    ],
+    "exact_locality_cluster_districts": [],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -290,15 +337,15 @@
         "color": "#6baed6"
       },
       "3": {
-        "dem_votes": 53935,
+        "dem_votes": 53936,
         "rep_votes": 15750,
         "other_votes": 0,
-        "total_votes": 69685,
+        "total_votes": 69686,
         "dem_candidate": "Jay C. Jones",
         "rep_candidate": "Jason S. Miyares",
         "winner": "Democratic",
-        "margin": 38185,
-        "margin_pct": -54.79658463083877,
+        "margin": 38186,
+        "margin_pct": -54.79723330367649,
         "color": "#08306b"
       },
       "30": {
@@ -554,15 +601,15 @@
         "color": "#fb6a4a"
       },
       "5": {
-        "dem_votes": 29855,
+        "dem_votes": 29856,
         "rep_votes": 8655,
         "other_votes": 0,
-        "total_votes": 38510,
+        "total_votes": 38511,
         "dem_candidate": "Jay C. Jones",
         "rep_candidate": "Jason S. Miyares",
         "winner": "Democratic",
-        "margin": 21200,
-        "margin_pct": -55.05063619839002,
+        "margin": 21201,
+        "margin_pct": -55.05180338085223,
         "color": "#08306b"
       },
       "50": {
@@ -579,14 +626,14 @@
       },
       "51": {
         "dem_votes": 8430,
-        "rep_votes": 29651,
+        "rep_votes": 29650,
         "other_votes": 0,
-        "total_votes": 38081,
+        "total_votes": 38080,
         "dem_candidate": "Jay C. Jones",
         "rep_candidate": "Jason S. Miyares",
         "winner": "Republican",
-        "margin": 21221,
-        "margin_pct": 55.725952574774816,
+        "margin": 21220,
+        "margin_pct": 55.72478991596639,
         "color": "#67000d"
       },
       "52": {
@@ -699,14 +746,14 @@
       },
       "60": {
         "dem_votes": 15859,
-        "rep_votes": 31901,
+        "rep_votes": 31900,
         "other_votes": 0,
-        "total_votes": 47760,
+        "total_votes": 47759,
         "dem_candidate": "Jay C. Jones",
         "rep_candidate": "Jason S. Miyares",
         "winner": "Republican",
-        "margin": 16042,
-        "margin_pct": 33.58877721943049,
+        "margin": 16041,
+        "margin_pct": 33.58738667057518,
         "color": "#a50f15"
       },
       "61": {
@@ -926,15 +973,15 @@
         "color": "#08306b"
       },
       "78": {
-        "dem_votes": 33700,
+        "dem_votes": 33701,
         "rep_votes": 10538,
         "other_votes": 0,
-        "total_votes": 44238,
+        "total_votes": 44239,
         "dem_candidate": "Jay C. Jones",
         "rep_candidate": "Jason S. Miyares",
         "winner": "Democratic",
-        "margin": 23162,
-        "margin_pct": -52.35770152357701,
+        "margin": 23163,
+        "margin_pct": -52.358778453400845,
         "color": "#08306b"
       },
       "79": {

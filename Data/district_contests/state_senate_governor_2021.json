@@ -9,7 +9,42 @@
     "direct_matched_votes": 2086854,
     "allocated_votes": 1201468,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 63.46258061102289
+    "direct_match_coverage_pct": 63.46258061102289,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "17",
+      "20",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30",
+      "37",
+      "39"
+    ],
+    "exact_locality_cluster_districts": [
+      "1",
+      "6",
+      "8"
+    ],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -51,14 +86,14 @@
       },
       "12": {
         "dem_votes": 44792,
-        "rep_votes": 59762,
+        "rep_votes": 59761,
         "other_votes": 784,
-        "total_votes": 105338,
+        "total_votes": 105337,
         "dem_candidate": "Terence Richard McAuliffe",
         "rep_candidate": "Glenn Allen Youngkin",
         "winner": "Republican",
-        "margin": 14970,
-        "margin_pct": 14.211395697658965,
+        "margin": 14969,
+        "margin_pct": 14.210581277234018,
         "color": "#ef3b2c"
       },
       "13": {
@@ -74,15 +109,15 @@
         "color": "#6baed6"
       },
       "14": {
-        "dem_votes": 67185,
+        "dem_votes": 67184,
         "rep_votes": 18003,
         "other_votes": 2532,
-        "total_votes": 87720,
+        "total_votes": 87719,
         "dem_candidate": "Terence Richard McAuliffe",
         "rep_candidate": "Glenn Allen Youngkin",
         "winner": "Democratic",
-        "margin": 49182,
-        "margin_pct": -56.067031463748286,
+        "margin": 49181,
+        "margin_pct": -56.06653062620413,
         "color": "#08306b"
       },
       "15": {
@@ -350,15 +385,15 @@
         "color": "#08519c"
       },
       "35": {
-        "dem_votes": 55761,
+        "dem_votes": 55760,
         "rep_votes": 28558,
         "other_votes": 607,
-        "total_votes": 84926,
+        "total_votes": 84925,
         "dem_candidate": "Terence Richard McAuliffe",
         "rep_candidate": "Glenn Allen Youngkin",
         "winner": "Democratic",
-        "margin": 27203,
-        "margin_pct": -32.031415585333114,
+        "margin": 27202,
+        "margin_pct": -32.030615248748894,
         "color": "#08519c"
       },
       "36": {
@@ -422,15 +457,15 @@
         "color": "#fb6a4a"
       },
       "40": {
-        "dem_votes": 65174,
+        "dem_votes": 65173,
         "rep_votes": 19169,
         "other_votes": 595,
-        "total_votes": 84938,
+        "total_votes": 84937,
         "dem_candidate": "Terence Richard McAuliffe",
         "rep_candidate": "Glenn Allen Youngkin",
         "winner": "Democratic",
-        "margin": 46005,
-        "margin_pct": -54.16303656784949,
+        "margin": 46004,
+        "margin_pct": -54.16249690947408,
         "color": "#08306b"
       },
       "5": {

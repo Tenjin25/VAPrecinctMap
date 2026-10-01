@@ -487,6 +487,32 @@ Corrected totals applied by the script:
 - CD-01: Dem `227,074`, Rep `250,992`, Other `8,529`
 - CD-02: Dem `203,182`, Rep `204,265`, Other `6,695`
 
+#### Statewide conservation and locality-component reconciliation
+
+After generating district slices or applying manual district benchmarks, run:
+
+```powershell
+python scripts/reconcile_va_district_contests.py
+python scripts/reconcile_va_district_contests.py --write
+```
+
+The first command is an audit; `--write` applies the corrections. The script
+uses the official Virginia Supreme Court final 2021 block assignments from
+`Data/SCV Final 2021 Redistricting Plans.zip` and 2020 Census block VAP from
+`Data/va_2020_block_population.csv`.
+
+Counties and independent cities are treated uniformly as Virginia localities.
+A locality is considered wholly contained when at least 99.9% of its VAP is
+assigned to one district. Its official locality vote remains exact even in a
+mixed district that also contains split-locality components. Only the split
+components are reweighted, using largest-remainder rounding, so the sum of all
+districts exactly equals the official statewide Democratic, Republican, and
+other totals.
+
+The write path refuses any file whose largest district-margin change exceeds
+5 points. A larger repair requires an explicit `--max-margin-drift` value after
+reviewing the audit; this protects against accidentally mixing plan vintages.
+
 ---
 
 ## Color Ramp & Rating Categories
@@ -696,6 +722,21 @@ through the NHGIS 2000→2010 and 2010→2020 relationships, and joins the resul
 2020 blocks to VTD20. The generated
 `Data/vtd00_to_vtd20_block_crosswalk.csv` preserves weighted one-to-many links
 for historical splits and mergers.
+
+The 2008 presidential/U.S. Senate and 2009 statewide district slices consume
+that bridge through the dedicated audit-first rebuild:
+
+```bash
+python scripts/rebuild_va_historical_district_contests.py
+python scripts/rebuild_va_historical_district_contests.py --write
+python scripts/reconcile_va_district_contests.py --write
+```
+
+For each old VTD, the rebuild carries its votes through the NHGIS-derived
+`area_share` links into VTD20 and then through the displayed congressional,
+House, and Senate district mappings. Unmatched non-geographic votes retain the
+existing within-locality allocation fallback. The final reconciliation step
+restores exact official statewide party totals with largest-remainder rounding.
 
 ---
 

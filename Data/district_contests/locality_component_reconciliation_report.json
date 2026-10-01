@@ -1,0 +1,3293 @@
+{
+  "mode": "audit",
+  "threshold": 0.999,
+  "locality_definition": "Virginia county or independent city, keyed by Census county-equivalent FIPS",
+  "component_weight": "2020 Census voting-age population by block, assigned by the official SCV Final 2021 block-assignment files",
+  "components": {
+    "congressional": {
+      "whole_by_district": {
+        "2": [
+          "ACCOMACK COUNTY",
+          "FRANKLIN CITY",
+          "ISLE OF WIGHT COUNTY",
+          "NORTHAMPTON COUNTY",
+          "SUFFOLK CITY",
+          "VIRGINIA BEACH CITY"
+        ],
+        "8": [
+          "ALEXANDRIA CITY",
+          "ARLINGTON COUNTY",
+          "FALLS CHURCH CITY"
+        ],
+        "6": [
+          "ALLEGHANY COUNTY",
+          "AUGUSTA COUNTY",
+          "BATH COUNTY",
+          "BOTETOURT COUNTY",
+          "BUENA VISTA CITY",
+          "CLARKE COUNTY",
+          "COVINGTON CITY",
+          "FREDERICK COUNTY",
+          "HARRISONBURG CITY",
+          "HIGHLAND COUNTY",
+          "LEXINGTON CITY",
+          "PAGE COUNTY",
+          "ROANOKE CITY",
+          "ROCKBRIDGE COUNTY",
+          "ROCKINGHAM COUNTY",
+          "SALEM CITY",
+          "SHENANDOAH COUNTY",
+          "STAUNTON CITY",
+          "WARREN COUNTY",
+          "WAYNESBORO CITY",
+          "WINCHESTER CITY"
+        ],
+        "5": [
+          "AMELIA COUNTY",
+          "AMHERST COUNTY",
+          "APPOMATTOX COUNTY",
+          "BUCKINGHAM COUNTY",
+          "CAMPBELL COUNTY",
+          "CHARLOTTE COUNTY",
+          "CHARLOTTESVILLE CITY",
+          "CUMBERLAND COUNTY",
+          "DANVILLE CITY",
+          "FLUVANNA COUNTY",
+          "GOOCHLAND COUNTY",
+          "HALIFAX COUNTY",
+          "LOUISA COUNTY",
+          "LUNENBURG COUNTY",
+          "LYNCHBURG CITY",
+          "MECKLENBURG COUNTY",
+          "NELSON COUNTY",
+          "NOTTOWAY COUNTY",
+          "PITTSYLVANIA COUNTY",
+          "POWHATAN COUNTY",
+          "PRINCE EDWARD COUNTY"
+        ],
+        "9": [
+          "BLAND COUNTY",
+          "BRISTOL CITY",
+          "BUCHANAN COUNTY",
+          "CARROLL COUNTY",
+          "CRAIG COUNTY",
+          "DICKENSON COUNTY",
+          "FLOYD COUNTY",
+          "FRANKLIN COUNTY",
+          "GALAX CITY",
+          "GILES COUNTY",
+          "GRAYSON COUNTY",
+          "HENRY COUNTY",
+          "LEE COUNTY",
+          "MARTINSVILLE CITY",
+          "MONTGOMERY COUNTY",
+          "NORTON CITY",
+          "PATRICK COUNTY",
+          "PULASKI COUNTY",
+          "RADFORD CITY",
+          "RUSSELL COUNTY",
+          "SCOTT COUNTY",
+          "SMYTH COUNTY",
+          "TAZEWELL COUNTY",
+          "WASHINGTON COUNTY",
+          "WISE COUNTY",
+          "WYTHE COUNTY"
+        ],
+        "4": [
+          "BRUNSWICK COUNTY",
+          "CHARLES CITY COUNTY",
+          "COLONIAL HEIGHTS CITY",
+          "DINWIDDIE COUNTY",
+          "EMPORIA CITY",
+          "GREENSVILLE COUNTY",
+          "HOPEWELL CITY",
+          "PETERSBURG CITY",
+          "PRINCE GEORGE COUNTY",
+          "RICHMOND CITY",
+          "SURRY COUNTY",
+          "SUSSEX COUNTY"
+        ],
+        "7": [
+          "CAROLINE COUNTY",
+          "CULPEPER COUNTY",
+          "FREDERICKSBURG CITY",
+          "GREENE COUNTY",
+          "KING GEORGE COUNTY",
+          "MADISON COUNTY",
+          "ORANGE COUNTY",
+          "SPOTSYLVANIA COUNTY",
+          "STAFFORD COUNTY"
+        ],
+        "1": [
+          "ESSEX COUNTY",
+          "GLOUCESTER COUNTY",
+          "JAMES CITY COUNTY",
+          "KING AND QUEEN COUNTY",
+          "KING WILLIAM COUNTY",
+          "LANCASTER COUNTY",
+          "MATHEWS COUNTY",
+          "MIDDLESEX COUNTY",
+          "NEW KENT COUNTY",
+          "NORTHUMBERLAND COUNTY",
+          "POQUOSON CITY",
+          "RICHMOND COUNTY",
+          "WESTMORELAND COUNTY",
+          "WILLIAMSBURG CITY",
+          "YORK COUNTY"
+        ],
+        "11": [
+          "FAIRFAX CITY"
+        ],
+        "10": [
+          "FAUQUIER COUNTY",
+          "LOUDOUN COUNTY",
+          "MANASSAS CITY",
+          "MANASSAS PARK CITY",
+          "RAPPAHANNOCK COUNTY"
+        ],
+        "3": [
+          "HAMPTON CITY",
+          "NEWPORT NEWS CITY",
+          "NORFOLK CITY",
+          "PORTSMOUTH CITY"
+        ]
+      },
+      "partial_by_district": {
+        "5": [
+          "ALBEMARLE COUNTY",
+          "BEDFORD COUNTY",
+          "HANOVER COUNTY"
+        ],
+        "7": [
+          "ALBEMARLE COUNTY",
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "9": [
+          "BEDFORD COUNTY",
+          "ROANOKE COUNTY"
+        ],
+        "2": [
+          "CHESAPEAKE CITY",
+          "SOUTHAMPTON COUNTY"
+        ],
+        "3": [
+          "CHESAPEAKE CITY"
+        ],
+        "1": [
+          "CHESTERFIELD COUNTY",
+          "HANOVER COUNTY",
+          "HENRICO COUNTY"
+        ],
+        "4": [
+          "CHESTERFIELD COUNTY",
+          "HENRICO COUNTY",
+          "SOUTHAMPTON COUNTY"
+        ],
+        "10": [
+          "FAIRFAX COUNTY",
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "11": [
+          "FAIRFAX COUNTY"
+        ],
+        "8": [
+          "FAIRFAX COUNTY"
+        ],
+        "6": [
+          "ROANOKE COUNTY"
+        ]
+      },
+      "exact_clusters": []
+    },
+    "state_house": {
+      "whole_by_district": {
+        "100": [
+          "ACCOMACK COUNTY",
+          "NORTHAMPTON COUNTY"
+        ],
+        "37": [
+          "ALLEGHANY COUNTY",
+          "BOTETOURT COUNTY",
+          "BUENA VISTA CITY",
+          "COVINGTON CITY",
+          "CRAIG COUNTY",
+          "LEXINGTON CITY"
+        ],
+        "72": [
+          "AMELIA COUNTY",
+          "NOTTOWAY COUNTY",
+          "POWHATAN COUNTY"
+        ],
+        "53": [
+          "AMHERST COUNTY"
+        ],
+        "56": [
+          "APPOMATTOX COUNTY",
+          "BUCKINGHAM COUNTY",
+          "CUMBERLAND COUNTY"
+        ],
+        "35": [
+          "BATH COUNTY",
+          "HIGHLAND COUNTY"
+        ],
+        "43": [
+          "BLAND COUNTY",
+          "BUCHANAN COUNTY",
+          "TAZEWELL COUNTY"
+        ],
+        "44": [
+          "BRISTOL CITY",
+          "WASHINGTON COUNTY"
+        ],
+        "83": [
+          "BRUNSWICK COUNTY",
+          "EMPORIA CITY",
+          "GREENSVILLE COUNTY",
+          "SOUTHAMPTON COUNTY",
+          "SUSSEX COUNTY"
+        ],
+        "47": [
+          "CARROLL COUNTY",
+          "FLOYD COUNTY",
+          "GALAX CITY",
+          "PATRICK COUNTY"
+        ],
+        "81": [
+          "CHARLES CITY COUNTY"
+        ],
+        "50": [
+          "CHARLOTTE COUNTY",
+          "LUNENBURG COUNTY",
+          "MECKLENBURG COUNTY"
+        ],
+        "54": [
+          "CHARLOTTESVILLE CITY"
+        ],
+        "31": [
+          "CLARKE COUNTY"
+        ],
+        "74": [
+          "COLONIAL HEIGHTS CITY"
+        ],
+        "49": [
+          "DANVILLE CITY"
+        ],
+        "68": [
+          "ESSEX COUNTY",
+          "KING AND QUEEN COUNTY",
+          "KING WILLIAM COUNTY",
+          "MATHEWS COUNTY",
+          "MIDDLESEX COUNTY"
+        ],
+        "11": [
+          "FAIRFAX CITY"
+        ],
+        "13": [
+          "FALLS CHURCH CITY"
+        ],
+        "84": [
+          "FRANKLIN CITY"
+        ],
+        "39": [
+          "FRANKLIN COUNTY"
+        ],
+        "65": [
+          "FREDERICKSBURG CITY"
+        ],
+        "42": [
+          "GILES COUNTY",
+          "RADFORD CITY"
+        ],
+        "46": [
+          "GRAYSON COUNTY",
+          "SMYTH COUNTY",
+          "WYTHE COUNTY"
+        ],
+        "62": [
+          "GREENE COUNTY",
+          "MADISON COUNTY"
+        ],
+        "34": [
+          "HARRISONBURG CITY"
+        ],
+        "75": [
+          "HOPEWELL CITY"
+        ],
+        "67": [
+          "KING GEORGE COUNTY",
+          "LANCASTER COUNTY",
+          "NORTHUMBERLAND COUNTY",
+          "RICHMOND COUNTY",
+          "WESTMORELAND COUNTY"
+        ],
+        "45": [
+          "LEE COUNTY",
+          "NORTON CITY",
+          "SCOTT COUNTY",
+          "WISE COUNTY"
+        ],
+        "52": [
+          "LYNCHBURG CITY"
+        ],
+        "20": [
+          "MANASSAS CITY",
+          "MANASSAS PARK CITY"
+        ],
+        "48": [
+          "MARTINSVILLE CITY"
+        ],
+        "33": [
+          "PAGE COUNTY",
+          "SHENANDOAH COUNTY"
+        ],
+        "82": [
+          "PETERSBURG CITY",
+          "SURRY COUNTY"
+        ],
+        "86": [
+          "POQUOSON CITY"
+        ],
+        "61": [
+          "RAPPAHANNOCK COUNTY"
+        ],
+        "40": [
+          "SALEM CITY"
+        ],
+        "36": [
+          "STAUNTON CITY",
+          "WAYNESBORO CITY"
+        ],
+        "71": [
+          "WILLIAMSBURG CITY"
+        ],
+        "32": [
+          "WINCHESTER CITY"
+        ]
+      },
+      "partial_by_district": {
+        "54": [
+          "ALBEMARLE COUNTY"
+        ],
+        "55": [
+          "ALBEMARLE COUNTY",
+          "FLUVANNA COUNTY",
+          "LOUISA COUNTY",
+          "NELSON COUNTY"
+        ],
+        "3": [
+          "ALEXANDRIA CITY",
+          "ARLINGTON COUNTY"
+        ],
+        "4": [
+          "ALEXANDRIA CITY",
+          "FAIRFAX COUNTY"
+        ],
+        "5": [
+          "ALEXANDRIA CITY"
+        ],
+        "1": [
+          "ARLINGTON COUNTY"
+        ],
+        "2": [
+          "ARLINGTON COUNTY"
+        ],
+        "35": [
+          "AUGUSTA COUNTY",
+          "ROCKINGHAM COUNTY"
+        ],
+        "36": [
+          "AUGUSTA COUNTY",
+          "ROCKBRIDGE COUNTY"
+        ],
+        "51": [
+          "BEDFORD COUNTY",
+          "CAMPBELL COUNTY",
+          "PITTSYLVANIA COUNTY"
+        ],
+        "53": [
+          "BEDFORD COUNTY",
+          "NELSON COUNTY"
+        ],
+        "52": [
+          "CAMPBELL COUNTY"
+        ],
+        "66": [
+          "CAROLINE COUNTY",
+          "SPOTSYLVANIA COUNTY"
+        ],
+        "67": [
+          "CAROLINE COUNTY"
+        ],
+        "89": [
+          "CHESAPEAKE CITY",
+          "SUFFOLK CITY"
+        ],
+        "90": [
+          "CHESAPEAKE CITY"
+        ],
+        "91": [
+          "CHESAPEAKE CITY",
+          "PORTSMOUTH CITY"
+        ],
+        "92": [
+          "CHESAPEAKE CITY",
+          "NORFOLK CITY"
+        ],
+        "72": [
+          "CHESTERFIELD COUNTY"
+        ],
+        "73": [
+          "CHESTERFIELD COUNTY"
+        ],
+        "74": [
+          "CHESTERFIELD COUNTY"
+        ],
+        "75": [
+          "CHESTERFIELD COUNTY",
+          "PRINCE GEORGE COUNTY"
+        ],
+        "76": [
+          "CHESTERFIELD COUNTY"
+        ],
+        "77": [
+          "CHESTERFIELD COUNTY",
+          "RICHMOND CITY"
+        ],
+        "81": [
+          "CHESTERFIELD COUNTY",
+          "HENRICO COUNTY"
+        ],
+        "61": [
+          "CULPEPER COUNTY",
+          "FAUQUIER COUNTY"
+        ],
+        "62": [
+          "CULPEPER COUNTY",
+          "ORANGE COUNTY"
+        ],
+        "43": [
+          "DICKENSON COUNTY",
+          "RUSSELL COUNTY"
+        ],
+        "45": [
+          "DICKENSON COUNTY"
+        ],
+        "82": [
+          "DINWIDDIE COUNTY",
+          "PRINCE GEORGE COUNTY"
+        ],
+        "83": [
+          "DINWIDDIE COUNTY",
+          "ISLE OF WIGHT COUNTY"
+        ],
+        "10": [
+          "FAIRFAX COUNTY"
+        ],
+        "11": [
+          "FAIRFAX COUNTY"
+        ],
+        "12": [
+          "FAIRFAX COUNTY"
+        ],
+        "13": [
+          "FAIRFAX COUNTY"
+        ],
+        "14": [
+          "FAIRFAX COUNTY"
+        ],
+        "15": [
+          "FAIRFAX COUNTY"
+        ],
+        "16": [
+          "FAIRFAX COUNTY"
+        ],
+        "17": [
+          "FAIRFAX COUNTY"
+        ],
+        "18": [
+          "FAIRFAX COUNTY"
+        ],
+        "19": [
+          "FAIRFAX COUNTY",
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "6": [
+          "FAIRFAX COUNTY"
+        ],
+        "7": [
+          "FAIRFAX COUNTY"
+        ],
+        "8": [
+          "FAIRFAX COUNTY"
+        ],
+        "9": [
+          "FAIRFAX COUNTY"
+        ],
+        "30": [
+          "FAUQUIER COUNTY",
+          "LOUDOUN COUNTY"
+        ],
+        "56": [
+          "FLUVANNA COUNTY",
+          "GOOCHLAND COUNTY",
+          "PRINCE EDWARD COUNTY"
+        ],
+        "31": [
+          "FREDERICK COUNTY",
+          "WARREN COUNTY"
+        ],
+        "32": [
+          "FREDERICK COUNTY"
+        ],
+        "68": [
+          "GLOUCESTER COUNTY"
+        ],
+        "69": [
+          "GLOUCESTER COUNTY",
+          "JAMES CITY COUNTY",
+          "NEWPORT NEWS CITY",
+          "YORK COUNTY"
+        ],
+        "57": [
+          "GOOCHLAND COUNTY",
+          "HENRICO COUNTY"
+        ],
+        "49": [
+          "HALIFAX COUNTY",
+          "PITTSYLVANIA COUNTY"
+        ],
+        "50": [
+          "HALIFAX COUNTY",
+          "PRINCE EDWARD COUNTY"
+        ],
+        "86": [
+          "HAMPTON CITY",
+          "YORK COUNTY"
+        ],
+        "87": [
+          "HAMPTON CITY"
+        ],
+        "59": [
+          "HANOVER COUNTY",
+          "HENRICO COUNTY",
+          "LOUISA COUNTY"
+        ],
+        "60": [
+          "HANOVER COUNTY",
+          "NEW KENT COUNTY"
+        ],
+        "58": [
+          "HENRICO COUNTY"
+        ],
+        "80": [
+          "HENRICO COUNTY"
+        ],
+        "47": [
+          "HENRY COUNTY"
+        ],
+        "48": [
+          "HENRY COUNTY",
+          "PITTSYLVANIA COUNTY"
+        ],
+        "84": [
+          "ISLE OF WIGHT COUNTY",
+          "SUFFOLK CITY"
+        ],
+        "71": [
+          "JAMES CITY COUNTY",
+          "NEW KENT COUNTY"
+        ],
+        "26": [
+          "LOUDOUN COUNTY"
+        ],
+        "27": [
+          "LOUDOUN COUNTY"
+        ],
+        "28": [
+          "LOUDOUN COUNTY"
+        ],
+        "29": [
+          "LOUDOUN COUNTY"
+        ],
+        "41": [
+          "MONTGOMERY COUNTY",
+          "ROANOKE COUNTY"
+        ],
+        "42": [
+          "MONTGOMERY COUNTY",
+          "PULASKI COUNTY"
+        ],
+        "70": [
+          "NEWPORT NEWS CITY"
+        ],
+        "85": [
+          "NEWPORT NEWS CITY"
+        ],
+        "93": [
+          "NORFOLK CITY"
+        ],
+        "94": [
+          "NORFOLK CITY"
+        ],
+        "95": [
+          "NORFOLK CITY",
+          "VIRGINIA BEACH CITY"
+        ],
+        "63": [
+          "ORANGE COUNTY",
+          "SPOTSYLVANIA COUNTY"
+        ],
+        "88": [
+          "PORTSMOUTH CITY"
+        ],
+        "20": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "21": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "22": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "23": [
+          "PRINCE WILLIAM COUNTY",
+          "STAFFORD COUNTY"
+        ],
+        "24": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "25": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "46": [
+          "PULASKI COUNTY"
+        ],
+        "78": [
+          "RICHMOND CITY"
+        ],
+        "79": [
+          "RICHMOND CITY"
+        ],
+        "38": [
+          "ROANOKE CITY"
+        ],
+        "40": [
+          "ROANOKE CITY",
+          "ROANOKE COUNTY"
+        ],
+        "39": [
+          "ROANOKE COUNTY"
+        ],
+        "37": [
+          "ROCKBRIDGE COUNTY"
+        ],
+        "33": [
+          "ROCKINGHAM COUNTY",
+          "WARREN COUNTY"
+        ],
+        "34": [
+          "ROCKINGHAM COUNTY"
+        ],
+        "44": [
+          "RUSSELL COUNTY"
+        ],
+        "65": [
+          "SPOTSYLVANIA COUNTY",
+          "STAFFORD COUNTY"
+        ],
+        "64": [
+          "STAFFORD COUNTY"
+        ],
+        "100": [
+          "VIRGINIA BEACH CITY"
+        ],
+        "96": [
+          "VIRGINIA BEACH CITY"
+        ],
+        "97": [
+          "VIRGINIA BEACH CITY"
+        ],
+        "98": [
+          "VIRGINIA BEACH CITY"
+        ],
+        "99": [
+          "VIRGINIA BEACH CITY"
+        ]
+      },
+      "exact_clusters": []
+    },
+    "state_senate": {
+      "whole_by_district": {
+        "20": [
+          "ACCOMACK COUNTY",
+          "NORTHAMPTON COUNTY"
+        ],
+        "11": [
+          "ALBEMARLE COUNTY",
+          "AMHERST COUNTY",
+          "CHARLOTTESVILLE CITY",
+          "NELSON COUNTY"
+        ],
+        "39": [
+          "ALEXANDRIA CITY"
+        ],
+        "3": [
+          "ALLEGHANY COUNTY",
+          "BOTETOURT COUNTY",
+          "BUENA VISTA CITY",
+          "COVINGTON CITY",
+          "CRAIG COUNTY",
+          "LEXINGTON CITY",
+          "ROCKBRIDGE COUNTY",
+          "STAUNTON CITY",
+          "WAYNESBORO CITY"
+        ],
+        "10": [
+          "AMELIA COUNTY",
+          "APPOMATTOX COUNTY",
+          "BUCKINGHAM COUNTY",
+          "CUMBERLAND COUNTY",
+          "FLUVANNA COUNTY",
+          "GOOCHLAND COUNTY",
+          "POWHATAN COUNTY"
+        ],
+        "2": [
+          "BATH COUNTY",
+          "HARRISONBURG CITY",
+          "HIGHLAND COUNTY",
+          "PAGE COUNTY",
+          "ROCKINGHAM COUNTY"
+        ],
+        "8": [
+          "BEDFORD COUNTY",
+          "CAMPBELL COUNTY",
+          "LYNCHBURG CITY"
+        ],
+        "5": [
+          "BLAND COUNTY",
+          "GILES COUNTY",
+          "PULASKI COUNTY",
+          "RADFORD CITY",
+          "SMYTH COUNTY",
+          "TAZEWELL COUNTY"
+        ],
+        "6": [
+          "BRISTOL CITY",
+          "BUCHANAN COUNTY",
+          "DICKENSON COUNTY",
+          "LEE COUNTY",
+          "NORTON CITY",
+          "RUSSELL COUNTY",
+          "SCOTT COUNTY",
+          "WASHINGTON COUNTY",
+          "WISE COUNTY"
+        ],
+        "17": [
+          "BRUNSWICK COUNTY",
+          "EMPORIA CITY",
+          "FRANKLIN CITY",
+          "GREENSVILLE COUNTY",
+          "ISLE OF WIGHT COUNTY",
+          "SOUTHAMPTON COUNTY",
+          "SUFFOLK CITY"
+        ],
+        "25": [
+          "CAROLINE COUNTY",
+          "ESSEX COUNTY",
+          "KING GEORGE COUNTY",
+          "KING WILLIAM COUNTY",
+          "LANCASTER COUNTY",
+          "MIDDLESEX COUNTY",
+          "NORTHUMBERLAND COUNTY",
+          "RICHMOND COUNTY",
+          "WESTMORELAND COUNTY"
+        ],
+        "7": [
+          "CARROLL COUNTY",
+          "FLOYD COUNTY",
+          "FRANKLIN COUNTY",
+          "GALAX CITY",
+          "GRAYSON COUNTY",
+          "HENRY COUNTY",
+          "MARTINSVILLE CITY",
+          "PATRICK COUNTY"
+        ],
+        "13": [
+          "CHARLES CITY COUNTY",
+          "HOPEWELL CITY",
+          "PETERSBURG CITY",
+          "PRINCE GEORGE COUNTY",
+          "SURRY COUNTY",
+          "SUSSEX COUNTY"
+        ],
+        "9": [
+          "CHARLOTTE COUNTY",
+          "DANVILLE CITY",
+          "HALIFAX COUNTY",
+          "LUNENBURG COUNTY",
+          "MECKLENBURG COUNTY",
+          "NOTTOWAY COUNTY",
+          "PITTSYLVANIA COUNTY"
+        ],
+        "1": [
+          "CLARKE COUNTY",
+          "FREDERICK COUNTY",
+          "SHENANDOAH COUNTY",
+          "WARREN COUNTY",
+          "WINCHESTER CITY"
+        ],
+        "12": [
+          "COLONIAL HEIGHTS CITY"
+        ],
+        "28": [
+          "CULPEPER COUNTY",
+          "GREENE COUNTY",
+          "MADISON COUNTY",
+          "ORANGE COUNTY",
+          "RAPPAHANNOCK COUNTY"
+        ],
+        "37": [
+          "FAIRFAX CITY",
+          "FALLS CHURCH CITY"
+        ],
+        "27": [
+          "FREDERICKSBURG CITY"
+        ],
+        "26": [
+          "GLOUCESTER COUNTY",
+          "MATHEWS COUNTY",
+          "NEW KENT COUNTY"
+        ],
+        "23": [
+          "HAMPTON CITY"
+        ],
+        "30": [
+          "MANASSAS CITY",
+          "MANASSAS PARK CITY"
+        ],
+        "24": [
+          "POQUOSON CITY",
+          "WILLIAMSBURG CITY",
+          "YORK COUNTY"
+        ],
+        "4": [
+          "ROANOKE CITY",
+          "SALEM CITY"
+        ]
+      },
+      "partial_by_district": {
+        "39": [
+          "ARLINGTON COUNTY",
+          "FAIRFAX COUNTY"
+        ],
+        "40": [
+          "ARLINGTON COUNTY"
+        ],
+        "2": [
+          "AUGUSTA COUNTY"
+        ],
+        "3": [
+          "AUGUSTA COUNTY",
+          "ROANOKE COUNTY"
+        ],
+        "18": [
+          "CHESAPEAKE CITY",
+          "PORTSMOUTH CITY"
+        ],
+        "19": [
+          "CHESAPEAKE CITY",
+          "VIRGINIA BEACH CITY"
+        ],
+        "12": [
+          "CHESTERFIELD COUNTY"
+        ],
+        "15": [
+          "CHESTERFIELD COUNTY",
+          "RICHMOND CITY"
+        ],
+        "13": [
+          "DINWIDDIE COUNTY",
+          "HENRICO COUNTY"
+        ],
+        "17": [
+          "DINWIDDIE COUNTY",
+          "PORTSMOUTH CITY"
+        ],
+        "33": [
+          "FAIRFAX COUNTY",
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "34": [
+          "FAIRFAX COUNTY"
+        ],
+        "35": [
+          "FAIRFAX COUNTY"
+        ],
+        "36": [
+          "FAIRFAX COUNTY"
+        ],
+        "37": [
+          "FAIRFAX COUNTY"
+        ],
+        "38": [
+          "FAIRFAX COUNTY"
+        ],
+        "28": [
+          "FAUQUIER COUNTY",
+          "SPOTSYLVANIA COUNTY"
+        ],
+        "31": [
+          "FAUQUIER COUNTY",
+          "LOUDOUN COUNTY"
+        ],
+        "10": [
+          "HANOVER COUNTY",
+          "LOUISA COUNTY",
+          "PRINCE EDWARD COUNTY"
+        ],
+        "26": [
+          "HANOVER COUNTY",
+          "JAMES CITY COUNTY",
+          "KING AND QUEEN COUNTY"
+        ],
+        "14": [
+          "HENRICO COUNTY",
+          "RICHMOND CITY"
+        ],
+        "16": [
+          "HENRICO COUNTY"
+        ],
+        "24": [
+          "JAMES CITY COUNTY",
+          "NEWPORT NEWS CITY"
+        ],
+        "25": [
+          "KING AND QUEEN COUNTY",
+          "SPOTSYLVANIA COUNTY"
+        ],
+        "32": [
+          "LOUDOUN COUNTY"
+        ],
+        "11": [
+          "LOUISA COUNTY"
+        ],
+        "4": [
+          "MONTGOMERY COUNTY",
+          "ROANOKE COUNTY"
+        ],
+        "5": [
+          "MONTGOMERY COUNTY",
+          "WYTHE COUNTY"
+        ],
+        "23": [
+          "NEWPORT NEWS CITY"
+        ],
+        "20": [
+          "NORFOLK CITY",
+          "VIRGINIA BEACH CITY"
+        ],
+        "21": [
+          "NORFOLK CITY"
+        ],
+        "9": [
+          "PRINCE EDWARD COUNTY"
+        ],
+        "29": [
+          "PRINCE WILLIAM COUNTY",
+          "STAFFORD COUNTY"
+        ],
+        "30": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "27": [
+          "SPOTSYLVANIA COUNTY",
+          "STAFFORD COUNTY"
+        ],
+        "22": [
+          "VIRGINIA BEACH CITY"
+        ],
+        "7": [
+          "WYTHE COUNTY"
+        ]
+      },
+      "exact_clusters": [
+        "1",
+        "6",
+        "8"
+      ]
+    }
+  },
+  "files": [
+    {
+      "file": "congressional_attorney_general_2009.json",
+      "scope": "congressional",
+      "contest_type": "attorney_general",
+      "year": 2009,
+      "before": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "official": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "after": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_attorney_general_2013.json",
+      "scope": "congressional",
+      "contest_type": "attorney_general",
+      "year": 2013,
+      "before": {
+        "dem": 1103777,
+        "rep": 1103612,
+        "other": 5462
+      },
+      "official": {
+        "dem": 1103777,
+        "rep": 1103612,
+        "other": 5462
+      },
+      "after": {
+        "dem": 1103777,
+        "rep": 1103612,
+        "other": 5462
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_attorney_general_2017.json",
+      "scope": "congressional",
+      "contest_type": "attorney_general",
+      "year": 2017,
+      "before": {
+        "dem": 1385390,
+        "rep": 1209540,
+        "other": 2614
+      },
+      "official": {
+        "dem": 1385390,
+        "rep": 1209540,
+        "other": 2614
+      },
+      "after": {
+        "dem": 1385390,
+        "rep": 1209540,
+        "other": 2614
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_attorney_general_2021.json",
+      "scope": "congressional",
+      "contest_type": "attorney_general",
+      "year": 2021,
+      "before": {
+        "dem": 1620564,
+        "rep": 1647100,
+        "other": 2983
+      },
+      "official": {
+        "dem": 1620564,
+        "rep": 1647100,
+        "other": 2983
+      },
+      "after": {
+        "dem": 1620564,
+        "rep": 1647100,
+        "other": 2983
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_attorney_general_2025.json",
+      "scope": "congressional",
+      "contest_type": "attorney_general",
+      "year": 2025,
+      "before": {
+        "dem": 1804940,
+        "rep": 1577843,
+        "other": 0
+      },
+      "official": {
+        "dem": 1804940,
+        "rep": 1577843,
+        "other": 0
+      },
+      "after": {
+        "dem": 1804940,
+        "rep": 1577843,
+        "other": 0
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_governor_2009.json",
+      "scope": "congressional",
+      "contest_type": "governor",
+      "year": 2009,
+      "before": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "official": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "after": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_governor_2013.json",
+      "scope": "congressional",
+      "contest_type": "governor",
+      "year": 2013,
+      "before": {
+        "dem": 1069789,
+        "rep": 1013354,
+        "other": 157928
+      },
+      "official": {
+        "dem": 1069789,
+        "rep": 1013354,
+        "other": 157928
+      },
+      "after": {
+        "dem": 1069789,
+        "rep": 1013354,
+        "other": 157928
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_governor_2017.json",
+      "scope": "congressional",
+      "contest_type": "governor",
+      "year": 2017,
+      "before": {
+        "dem": 1408818,
+        "rep": 1175732,
+        "other": 29515
+      },
+      "official": {
+        "dem": 1408818,
+        "rep": 1175732,
+        "other": 29515
+      },
+      "after": {
+        "dem": 1408818,
+        "rep": 1175732,
+        "other": 29515
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_governor_2021.json",
+      "scope": "congressional",
+      "contest_type": "governor",
+      "year": 2021,
+      "before": {
+        "dem": 1599470,
+        "rep": 1663158,
+        "other": 25694
+      },
+      "official": {
+        "dem": 1599470,
+        "rep": 1663158,
+        "other": 25694
+      },
+      "after": {
+        "dem": 1599470,
+        "rep": 1663158,
+        "other": 25694
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_governor_2025.json",
+      "scope": "congressional",
+      "contest_type": "governor",
+      "year": 2025,
+      "before": {
+        "dem": 1976857,
+        "rep": 1449586,
+        "other": 0
+      },
+      "official": {
+        "dem": 1976857,
+        "rep": 1449586,
+        "other": 0
+      },
+      "after": {
+        "dem": 1976857,
+        "rep": 1449586,
+        "other": 0
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_lieutenant_governor_2009.json",
+      "scope": "congressional",
+      "contest_type": "lieutenant_governor",
+      "year": 2009,
+      "before": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "official": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "after": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_lieutenant_governor_2013.json",
+      "scope": "congressional",
+      "contest_type": "lieutenant_governor",
+      "year": 2013,
+      "before": {
+        "dem": 1213155,
+        "rep": 980257,
+        "other": 8225
+      },
+      "official": {
+        "dem": 1213155,
+        "rep": 980257,
+        "other": 8225
+      },
+      "after": {
+        "dem": 1213155,
+        "rep": 980257,
+        "other": 8225
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_lieutenant_governor_2017.json",
+      "scope": "congressional",
+      "contest_type": "lieutenant_governor",
+      "year": 2017,
+      "before": {
+        "dem": 1368412,
+        "rep": 1224520,
+        "other": 2606
+      },
+      "official": {
+        "dem": 1368412,
+        "rep": 1224520,
+        "other": 2606
+      },
+      "after": {
+        "dem": 1368412,
+        "rep": 1224520,
+        "other": 2606
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_lieutenant_governor_2021.json",
+      "scope": "congressional",
+      "contest_type": "lieutenant_governor",
+      "year": 2021,
+      "before": {
+        "dem": 1608030,
+        "rep": 1658332,
+        "other": 3796
+      },
+      "official": {
+        "dem": 1608030,
+        "rep": 1658332,
+        "other": 3796
+      },
+      "after": {
+        "dem": 1608030,
+        "rep": 1658332,
+        "other": 3796
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_lieutenant_governor_2025.json",
+      "scope": "congressional",
+      "contest_type": "lieutenant_governor",
+      "year": 2025,
+      "before": {
+        "dem": 1900104,
+        "rep": 1505395,
+        "other": 0
+      },
+      "official": {
+        "dem": 1900104,
+        "rep": 1505395,
+        "other": 0
+      },
+      "after": {
+        "dem": 1900104,
+        "rep": 1505395,
+        "other": 0
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_president_2008.json",
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2008,
+      "before": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "official": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "after": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_president_2012.json",
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2012,
+      "before": {
+        "dem": 1971820,
+        "rep": 1822522,
+        "other": 63701
+      },
+      "official": {
+        "dem": 1971820,
+        "rep": 1822522,
+        "other": 63701
+      },
+      "after": {
+        "dem": 1971820,
+        "rep": 1822522,
+        "other": 63701
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_president_2016.json",
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2016,
+      "before": {
+        "dem": 1981473,
+        "rep": 1769443,
+        "other": 233715
+      },
+      "official": {
+        "dem": 1981473,
+        "rep": 1769443,
+        "other": 233715
+      },
+      "after": {
+        "dem": 1981473,
+        "rep": 1769443,
+        "other": 233715
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_president_2020.json",
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2020,
+      "before": {
+        "dem": 2413568,
+        "rep": 1962430,
+        "other": 84526
+      },
+      "official": {
+        "dem": 2413568,
+        "rep": 1962430,
+        "other": 84526
+      },
+      "after": {
+        "dem": 2413568,
+        "rep": 1962430,
+        "other": 84526
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [
+        "1",
+        "10"
+      ],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_president_2024.json",
+      "scope": "congressional",
+      "contest_type": "president",
+      "year": 2024,
+      "before": {
+        "dem": 2335395,
+        "rep": 2075085,
+        "other": 95461
+      },
+      "official": {
+        "dem": 2335395,
+        "rep": 2075085,
+        "other": 95461
+      },
+      "after": {
+        "dem": 2335395,
+        "rep": 2075085,
+        "other": 95461
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_us_senate_2008.json",
+      "scope": "congressional",
+      "contest_type": "us_senate",
+      "year": 2008,
+      "before": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "official": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "after": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_us_senate_2012.json",
+      "scope": "congressional",
+      "contest_type": "us_senate",
+      "year": 2012,
+      "before": {
+        "dem": 2010067,
+        "rep": 1785542,
+        "other": 9410
+      },
+      "official": {
+        "dem": 2010067,
+        "rep": 1785542,
+        "other": 9410
+      },
+      "after": {
+        "dem": 2010067,
+        "rep": 1785542,
+        "other": 9410
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_us_senate_2014.json",
+      "scope": "congressional",
+      "contest_type": "us_senate",
+      "year": 2014,
+      "before": {
+        "dem": 1073667,
+        "rep": 1055940,
+        "other": 54913
+      },
+      "official": {
+        "dem": 1073667,
+        "rep": 1055940,
+        "other": 54913
+      },
+      "after": {
+        "dem": 1073667,
+        "rep": 1055940,
+        "other": 54913
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_us_senate_2018.json",
+      "scope": "congressional",
+      "contest_type": "us_senate",
+      "year": 2018,
+      "before": {
+        "dem": 1910370,
+        "rep": 1374313,
+        "other": 67074
+      },
+      "official": {
+        "dem": 1910370,
+        "rep": 1374313,
+        "other": 67074
+      },
+      "after": {
+        "dem": 1910370,
+        "rep": 1374313,
+        "other": 67074
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_us_senate_2020.json",
+      "scope": "congressional",
+      "contest_type": "us_senate",
+      "year": 2020,
+      "before": {
+        "dem": 2466500,
+        "rep": 1934199,
+        "other": 4388
+      },
+      "official": {
+        "dem": 2466500,
+        "rep": 1934199,
+        "other": 4388
+      },
+      "after": {
+        "dem": 2466500,
+        "rep": 1934199,
+        "other": 4388
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "congressional_us_senate_2024.json",
+      "scope": "congressional",
+      "contest_type": "us_senate",
+      "year": 2024,
+      "before": {
+        "dem": 2417115,
+        "rep": 2019911,
+        "other": 8509
+      },
+      "official": {
+        "dem": 2417115,
+        "rep": 2019911,
+        "other": 8509
+      },
+      "after": {
+        "dem": 2417115,
+        "rep": 2019911,
+        "other": 8509
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_attorney_general_2009.json",
+      "scope": "state_house",
+      "contest_type": "attorney_general",
+      "year": 2009,
+      "before": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "official": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "after": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_attorney_general_2013.json",
+      "scope": "state_house",
+      "contest_type": "attorney_general",
+      "year": 2013,
+      "before": {
+        "dem": 1103777,
+        "rep": 1103612,
+        "other": 5462
+      },
+      "official": {
+        "dem": 1103777,
+        "rep": 1103612,
+        "other": 5462
+      },
+      "after": {
+        "dem": 1103777,
+        "rep": 1103612,
+        "other": 5462
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_attorney_general_2017.json",
+      "scope": "state_house",
+      "contest_type": "attorney_general",
+      "year": 2017,
+      "before": {
+        "dem": 1385390,
+        "rep": 1209540,
+        "other": 2614
+      },
+      "official": {
+        "dem": 1385390,
+        "rep": 1209540,
+        "other": 2614
+      },
+      "after": {
+        "dem": 1385390,
+        "rep": 1209540,
+        "other": 2614
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_attorney_general_2021.json",
+      "scope": "state_house",
+      "contest_type": "attorney_general",
+      "year": 2021,
+      "before": {
+        "dem": 1620564,
+        "rep": 1647100,
+        "other": 2983
+      },
+      "official": {
+        "dem": 1620564,
+        "rep": 1647100,
+        "other": 2983
+      },
+      "after": {
+        "dem": 1620564,
+        "rep": 1647100,
+        "other": 2983
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_attorney_general_2025.json",
+      "scope": "state_house",
+      "contest_type": "attorney_general",
+      "year": 2025,
+      "before": {
+        "dem": 1804940,
+        "rep": 1577843,
+        "other": 0
+      },
+      "official": {
+        "dem": 1804940,
+        "rep": 1577843,
+        "other": 0
+      },
+      "after": {
+        "dem": 1804940,
+        "rep": 1577843,
+        "other": 0
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_governor_2009.json",
+      "scope": "state_house",
+      "contest_type": "governor",
+      "year": 2009,
+      "before": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "official": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "after": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_governor_2013.json",
+      "scope": "state_house",
+      "contest_type": "governor",
+      "year": 2013,
+      "before": {
+        "dem": 1069789,
+        "rep": 1013354,
+        "other": 157928
+      },
+      "official": {
+        "dem": 1069789,
+        "rep": 1013354,
+        "other": 157928
+      },
+      "after": {
+        "dem": 1069789,
+        "rep": 1013354,
+        "other": 157928
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_governor_2017.json",
+      "scope": "state_house",
+      "contest_type": "governor",
+      "year": 2017,
+      "before": {
+        "dem": 1408818,
+        "rep": 1175732,
+        "other": 29515
+      },
+      "official": {
+        "dem": 1408818,
+        "rep": 1175732,
+        "other": 29515
+      },
+      "after": {
+        "dem": 1408818,
+        "rep": 1175732,
+        "other": 29515
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_governor_2021.json",
+      "scope": "state_house",
+      "contest_type": "governor",
+      "year": 2021,
+      "before": {
+        "dem": 1599470,
+        "rep": 1663158,
+        "other": 25694
+      },
+      "official": {
+        "dem": 1599470,
+        "rep": 1663158,
+        "other": 25694
+      },
+      "after": {
+        "dem": 1599470,
+        "rep": 1663158,
+        "other": 25694
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_governor_2025.json",
+      "scope": "state_house",
+      "contest_type": "governor",
+      "year": 2025,
+      "before": {
+        "dem": 1976857,
+        "rep": 1449586,
+        "other": 0
+      },
+      "official": {
+        "dem": 1976857,
+        "rep": 1449586,
+        "other": 0
+      },
+      "after": {
+        "dem": 1976857,
+        "rep": 1449586,
+        "other": 0
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_lieutenant_governor_2009.json",
+      "scope": "state_house",
+      "contest_type": "lieutenant_governor",
+      "year": 2009,
+      "before": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "official": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "after": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_lieutenant_governor_2013.json",
+      "scope": "state_house",
+      "contest_type": "lieutenant_governor",
+      "year": 2013,
+      "before": {
+        "dem": 1213155,
+        "rep": 980257,
+        "other": 8225
+      },
+      "official": {
+        "dem": 1213155,
+        "rep": 980257,
+        "other": 8225
+      },
+      "after": {
+        "dem": 1213155,
+        "rep": 980257,
+        "other": 8225
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_lieutenant_governor_2017.json",
+      "scope": "state_house",
+      "contest_type": "lieutenant_governor",
+      "year": 2017,
+      "before": {
+        "dem": 1368412,
+        "rep": 1224520,
+        "other": 2606
+      },
+      "official": {
+        "dem": 1368412,
+        "rep": 1224520,
+        "other": 2606
+      },
+      "after": {
+        "dem": 1368412,
+        "rep": 1224520,
+        "other": 2606
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_lieutenant_governor_2021.json",
+      "scope": "state_house",
+      "contest_type": "lieutenant_governor",
+      "year": 2021,
+      "before": {
+        "dem": 1608030,
+        "rep": 1658332,
+        "other": 3796
+      },
+      "official": {
+        "dem": 1608030,
+        "rep": 1658332,
+        "other": 3796
+      },
+      "after": {
+        "dem": 1608030,
+        "rep": 1658332,
+        "other": 3796
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_lieutenant_governor_2025.json",
+      "scope": "state_house",
+      "contest_type": "lieutenant_governor",
+      "year": 2025,
+      "before": {
+        "dem": 1900104,
+        "rep": 1505395,
+        "other": 0
+      },
+      "official": {
+        "dem": 1900104,
+        "rep": 1505395,
+        "other": 0
+      },
+      "after": {
+        "dem": 1900104,
+        "rep": 1505395,
+        "other": 0
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_president_2008.json",
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2008,
+      "before": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "official": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "after": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_president_2012.json",
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2012,
+      "before": {
+        "dem": 1971820,
+        "rep": 1822522,
+        "other": 63701
+      },
+      "official": {
+        "dem": 1971820,
+        "rep": 1822522,
+        "other": 63701
+      },
+      "after": {
+        "dem": 1971820,
+        "rep": 1822522,
+        "other": 63701
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_president_2016.json",
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2016,
+      "before": {
+        "dem": 1981473,
+        "rep": 1769443,
+        "other": 233715
+      },
+      "official": {
+        "dem": 1981473,
+        "rep": 1769443,
+        "other": 233715
+      },
+      "after": {
+        "dem": 1981473,
+        "rep": 1769443,
+        "other": 233715
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_president_2020.json",
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2020,
+      "before": {
+        "dem": 2413568,
+        "rep": 1962430,
+        "other": 84526
+      },
+      "official": {
+        "dem": 2413568,
+        "rep": 1962430,
+        "other": 84526
+      },
+      "after": {
+        "dem": 2413568,
+        "rep": 1962430,
+        "other": 84526
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [
+        "22"
+      ],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_president_2024.json",
+      "scope": "state_house",
+      "contest_type": "president",
+      "year": 2024,
+      "before": {
+        "dem": 2335395,
+        "rep": 2075085,
+        "other": 95461
+      },
+      "official": {
+        "dem": 2335395,
+        "rep": 2075085,
+        "other": 95461
+      },
+      "after": {
+        "dem": 2335395,
+        "rep": 2075085,
+        "other": 95461
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [
+        "41"
+      ],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_us_senate_2008.json",
+      "scope": "state_house",
+      "contest_type": "us_senate",
+      "year": 2008,
+      "before": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "official": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "after": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_us_senate_2012.json",
+      "scope": "state_house",
+      "contest_type": "us_senate",
+      "year": 2012,
+      "before": {
+        "dem": 2010067,
+        "rep": 1785542,
+        "other": 9410
+      },
+      "official": {
+        "dem": 2010067,
+        "rep": 1785542,
+        "other": 9410
+      },
+      "after": {
+        "dem": 2010067,
+        "rep": 1785542,
+        "other": 9410
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_us_senate_2014.json",
+      "scope": "state_house",
+      "contest_type": "us_senate",
+      "year": 2014,
+      "before": {
+        "dem": 1073667,
+        "rep": 1055940,
+        "other": 54913
+      },
+      "official": {
+        "dem": 1073667,
+        "rep": 1055940,
+        "other": 54913
+      },
+      "after": {
+        "dem": 1073667,
+        "rep": 1055940,
+        "other": 54913
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_us_senate_2018.json",
+      "scope": "state_house",
+      "contest_type": "us_senate",
+      "year": 2018,
+      "before": {
+        "dem": 1910370,
+        "rep": 1374313,
+        "other": 67074
+      },
+      "official": {
+        "dem": 1910370,
+        "rep": 1374313,
+        "other": 67074
+      },
+      "after": {
+        "dem": 1910370,
+        "rep": 1374313,
+        "other": 67074
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_us_senate_2020.json",
+      "scope": "state_house",
+      "contest_type": "us_senate",
+      "year": 2020,
+      "before": {
+        "dem": 2466500,
+        "rep": 1934199,
+        "other": 4388
+      },
+      "official": {
+        "dem": 2466500,
+        "rep": 1934199,
+        "other": 4388
+      },
+      "after": {
+        "dem": 2466500,
+        "rep": 1934199,
+        "other": 4388
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_house_us_senate_2024.json",
+      "scope": "state_house",
+      "contest_type": "us_senate",
+      "year": 2024,
+      "before": {
+        "dem": 2417115,
+        "rep": 2019911,
+        "other": 8509
+      },
+      "official": {
+        "dem": 2417115,
+        "rep": 2019911,
+        "other": 8509
+      },
+      "after": {
+        "dem": 2417115,
+        "rep": 2019911,
+        "other": 8509
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_attorney_general_2009.json",
+      "scope": "state_senate",
+      "contest_type": "attorney_general",
+      "year": 2009,
+      "before": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "official": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "after": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_attorney_general_2013.json",
+      "scope": "state_senate",
+      "contest_type": "attorney_general",
+      "year": 2013,
+      "before": {
+        "dem": 1103777,
+        "rep": 1103612,
+        "other": 5462
+      },
+      "official": {
+        "dem": 1103777,
+        "rep": 1103612,
+        "other": 5462
+      },
+      "after": {
+        "dem": 1103777,
+        "rep": 1103612,
+        "other": 5462
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_attorney_general_2017.json",
+      "scope": "state_senate",
+      "contest_type": "attorney_general",
+      "year": 2017,
+      "before": {
+        "dem": 1385390,
+        "rep": 1209540,
+        "other": 2614
+      },
+      "official": {
+        "dem": 1385390,
+        "rep": 1209540,
+        "other": 2614
+      },
+      "after": {
+        "dem": 1385390,
+        "rep": 1209540,
+        "other": 2614
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_attorney_general_2021.json",
+      "scope": "state_senate",
+      "contest_type": "attorney_general",
+      "year": 2021,
+      "before": {
+        "dem": 1620564,
+        "rep": 1647100,
+        "other": 2983
+      },
+      "official": {
+        "dem": 1620564,
+        "rep": 1647100,
+        "other": 2983
+      },
+      "after": {
+        "dem": 1620564,
+        "rep": 1647100,
+        "other": 2983
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_attorney_general_2025.json",
+      "scope": "state_senate",
+      "contest_type": "attorney_general",
+      "year": 2025,
+      "before": {
+        "dem": 1804940,
+        "rep": 1577843,
+        "other": 0
+      },
+      "official": {
+        "dem": 1804940,
+        "rep": 1577843,
+        "other": 0
+      },
+      "after": {
+        "dem": 1804940,
+        "rep": 1577843,
+        "other": 0
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_governor_2009.json",
+      "scope": "state_senate",
+      "contest_type": "governor",
+      "year": 2009,
+      "before": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "official": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "after": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_governor_2013.json",
+      "scope": "state_senate",
+      "contest_type": "governor",
+      "year": 2013,
+      "before": {
+        "dem": 1069789,
+        "rep": 1013354,
+        "other": 157928
+      },
+      "official": {
+        "dem": 1069789,
+        "rep": 1013354,
+        "other": 157928
+      },
+      "after": {
+        "dem": 1069789,
+        "rep": 1013354,
+        "other": 157928
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_governor_2017.json",
+      "scope": "state_senate",
+      "contest_type": "governor",
+      "year": 2017,
+      "before": {
+        "dem": 1408818,
+        "rep": 1175732,
+        "other": 29515
+      },
+      "official": {
+        "dem": 1408818,
+        "rep": 1175732,
+        "other": 29515
+      },
+      "after": {
+        "dem": 1408818,
+        "rep": 1175732,
+        "other": 29515
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_governor_2021.json",
+      "scope": "state_senate",
+      "contest_type": "governor",
+      "year": 2021,
+      "before": {
+        "dem": 1599470,
+        "rep": 1663158,
+        "other": 25694
+      },
+      "official": {
+        "dem": 1599470,
+        "rep": 1663158,
+        "other": 25694
+      },
+      "after": {
+        "dem": 1599470,
+        "rep": 1663158,
+        "other": 25694
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_governor_2025.json",
+      "scope": "state_senate",
+      "contest_type": "governor",
+      "year": 2025,
+      "before": {
+        "dem": 1976857,
+        "rep": 1449586,
+        "other": 0
+      },
+      "official": {
+        "dem": 1976857,
+        "rep": 1449586,
+        "other": 0
+      },
+      "after": {
+        "dem": 1976857,
+        "rep": 1449586,
+        "other": 0
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_lieutenant_governor_2009.json",
+      "scope": "state_senate",
+      "contest_type": "lieutenant_governor",
+      "year": 2009,
+      "before": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "official": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "after": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_lieutenant_governor_2013.json",
+      "scope": "state_senate",
+      "contest_type": "lieutenant_governor",
+      "year": 2013,
+      "before": {
+        "dem": 1213155,
+        "rep": 980257,
+        "other": 8225
+      },
+      "official": {
+        "dem": 1213155,
+        "rep": 980257,
+        "other": 8225
+      },
+      "after": {
+        "dem": 1213155,
+        "rep": 980257,
+        "other": 8225
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_lieutenant_governor_2017.json",
+      "scope": "state_senate",
+      "contest_type": "lieutenant_governor",
+      "year": 2017,
+      "before": {
+        "dem": 1368412,
+        "rep": 1224520,
+        "other": 2606
+      },
+      "official": {
+        "dem": 1368412,
+        "rep": 1224520,
+        "other": 2606
+      },
+      "after": {
+        "dem": 1368412,
+        "rep": 1224520,
+        "other": 2606
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_lieutenant_governor_2021.json",
+      "scope": "state_senate",
+      "contest_type": "lieutenant_governor",
+      "year": 2021,
+      "before": {
+        "dem": 1608030,
+        "rep": 1658332,
+        "other": 3796
+      },
+      "official": {
+        "dem": 1608030,
+        "rep": 1658332,
+        "other": 3796
+      },
+      "after": {
+        "dem": 1608030,
+        "rep": 1658332,
+        "other": 3796
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_lieutenant_governor_2025.json",
+      "scope": "state_senate",
+      "contest_type": "lieutenant_governor",
+      "year": 2025,
+      "before": {
+        "dem": 1900104,
+        "rep": 1505395,
+        "other": 0
+      },
+      "official": {
+        "dem": 1900104,
+        "rep": 1505395,
+        "other": 0
+      },
+      "after": {
+        "dem": 1900104,
+        "rep": 1505395,
+        "other": 0
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_president_2008.json",
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2008,
+      "before": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "official": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "after": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_president_2012.json",
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2012,
+      "before": {
+        "dem": 1971820,
+        "rep": 1822522,
+        "other": 63701
+      },
+      "official": {
+        "dem": 1971820,
+        "rep": 1822522,
+        "other": 63701
+      },
+      "after": {
+        "dem": 1971820,
+        "rep": 1822522,
+        "other": 63701
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_president_2016.json",
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2016,
+      "before": {
+        "dem": 1981473,
+        "rep": 1769443,
+        "other": 233715
+      },
+      "official": {
+        "dem": 1981473,
+        "rep": 1769443,
+        "other": 233715
+      },
+      "after": {
+        "dem": 1981473,
+        "rep": 1769443,
+        "other": 233715
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_president_2020.json",
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2020,
+      "before": {
+        "dem": 2413568,
+        "rep": 1962430,
+        "other": 84526
+      },
+      "official": {
+        "dem": 2413568,
+        "rep": 1962430,
+        "other": 84526
+      },
+      "after": {
+        "dem": 2413568,
+        "rep": 1962430,
+        "other": 84526
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [
+        "20"
+      ],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_president_2024.json",
+      "scope": "state_senate",
+      "contest_type": "president",
+      "year": 2024,
+      "before": {
+        "dem": 2335395,
+        "rep": 2075085,
+        "other": 95461
+      },
+      "official": {
+        "dem": 2335395,
+        "rep": 2075085,
+        "other": 95461
+      },
+      "after": {
+        "dem": 2335395,
+        "rep": 2075085,
+        "other": 95461
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_us_senate_2008.json",
+      "scope": "state_senate",
+      "contest_type": "us_senate",
+      "year": 2008,
+      "before": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "official": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "after": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_us_senate_2012.json",
+      "scope": "state_senate",
+      "contest_type": "us_senate",
+      "year": 2012,
+      "before": {
+        "dem": 2010067,
+        "rep": 1785542,
+        "other": 9410
+      },
+      "official": {
+        "dem": 2010067,
+        "rep": 1785542,
+        "other": 9410
+      },
+      "after": {
+        "dem": 2010067,
+        "rep": 1785542,
+        "other": 9410
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_us_senate_2014.json",
+      "scope": "state_senate",
+      "contest_type": "us_senate",
+      "year": 2014,
+      "before": {
+        "dem": 1073667,
+        "rep": 1055940,
+        "other": 54913
+      },
+      "official": {
+        "dem": 1073667,
+        "rep": 1055940,
+        "other": 54913
+      },
+      "after": {
+        "dem": 1073667,
+        "rep": 1055940,
+        "other": 54913
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_us_senate_2018.json",
+      "scope": "state_senate",
+      "contest_type": "us_senate",
+      "year": 2018,
+      "before": {
+        "dem": 1910370,
+        "rep": 1374313,
+        "other": 67074
+      },
+      "official": {
+        "dem": 1910370,
+        "rep": 1374313,
+        "other": 67074
+      },
+      "after": {
+        "dem": 1910370,
+        "rep": 1374313,
+        "other": 67074
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_us_senate_2020.json",
+      "scope": "state_senate",
+      "contest_type": "us_senate",
+      "year": 2020,
+      "before": {
+        "dem": 2466500,
+        "rep": 1934199,
+        "other": 4388
+      },
+      "official": {
+        "dem": 2466500,
+        "rep": 1934199,
+        "other": 4388
+      },
+      "after": {
+        "dem": 2466500,
+        "rep": 1934199,
+        "other": 4388
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    },
+    {
+      "file": "state_senate_us_senate_2024.json",
+      "scope": "state_senate",
+      "contest_type": "us_senate",
+      "year": 2024,
+      "before": {
+        "dem": 2417115,
+        "rep": 2019911,
+        "other": 8509
+      },
+      "official": {
+        "dem": 2417115,
+        "rep": 2019911,
+        "other": 8509
+      },
+      "after": {
+        "dem": 2417115,
+        "rep": 2019911,
+        "other": 8509
+      },
+      "before_difference": {
+        "dem": 0,
+        "rep": 0,
+        "other": 0
+      },
+      "protected_districts": [],
+      "whole_component_shortfalls": [],
+      "maximum_margin_drift_pct": 0.0
+    }
+  ]
+}

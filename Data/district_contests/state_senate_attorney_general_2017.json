@@ -9,7 +9,42 @@
     "direct_matched_votes": 2401055,
     "allocated_votes": 196489,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 92.4355853067359
+    "direct_match_coverage_pct": 92.4355853067359,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "17",
+      "20",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30",
+      "37",
+      "39"
+    ],
+    "exact_locality_cluster_districts": [
+      "1",
+      "6",
+      "8"
+    ],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -51,14 +86,14 @@
       },
       "12": {
         "dem_votes": 34570,
-        "rep_votes": 45385,
+        "rep_votes": 45386,
         "other_votes": 70,
-        "total_votes": 80025,
+        "total_votes": 80026,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Republican",
-        "margin": 10815,
-        "margin_pct": 13.514526710402999,
+        "margin": 10816,
+        "margin_pct": 13.515607427586035,
         "color": "#ef3b2c"
       },
       "13": {
@@ -231,14 +266,14 @@
       },
       "26": {
         "dem_votes": 31473,
-        "rep_votes": 52953,
+        "rep_votes": 52954,
         "other_votes": 103,
-        "total_votes": 84529,
+        "total_votes": 84530,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Republican",
-        "margin": 21480,
-        "margin_pct": 25.41139727194217,
+        "margin": 21481,
+        "margin_pct": 25.412279664024606,
         "color": "#cb181d"
       },
       "27": {
@@ -422,15 +457,15 @@
         "color": "#fcae91"
       },
       "40": {
-        "dem_votes": 60959,
+        "dem_votes": 60960,
         "rep_votes": 15421,
         "other_votes": 77,
-        "total_votes": 76457,
+        "total_votes": 76458,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Democratic",
-        "margin": 45538,
-        "margin_pct": -59.5602757105301,
+        "margin": 45539,
+        "margin_pct": -59.56080462476131,
         "color": "#08306b"
       },
       "5": {

@@ -9,20 +9,38 @@
     "direct_matched_votes": 2084910,
     "allocated_votes": 1203412,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 63.40346231299733
+    "direct_match_coverage_pct": 63.40346231299733,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "exact_locality_cluster_districts": [],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
       "1": {
         "dem_votes": 157711,
-        "rep_votes": 214630,
+        "rep_votes": 214631,
         "other_votes": 2446,
-        "total_votes": 374787,
+        "total_votes": 374788,
         "dem_candidate": "Terence Richard McAuliffe",
         "rep_candidate": "Glenn Allen Youngkin",
         "winner": "Republican",
-        "margin": 56919,
-        "margin_pct": 15.18702623089915,
+        "margin": 56920,
+        "margin_pct": 15.187252526761796,
         "color": "#ef3b2c"
       },
       "10": {
@@ -38,15 +56,15 @@
         "color": "#c6dbef"
       },
       "11": {
-        "dem_votes": 201378,
-        "rep_votes": 108690,
-        "other_votes": 2034,
-        "total_votes": 312102,
+        "dem_votes": 201377,
+        "rep_votes": 108691,
+        "other_votes": 2033,
+        "total_votes": 312101,
         "dem_candidate": "Terence Richard McAuliffe",
         "rep_candidate": "Glenn Allen Youngkin",
         "winner": "Democratic",
-        "margin": 92688,
-        "margin_pct": -29.69798335159659,
+        "margin": 92686,
+        "margin_pct": -29.697437688440605,
         "color": "#3182bd"
       },
       "2": {

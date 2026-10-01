@@ -9,20 +9,38 @@
     "direct_matched_votes": 2102864,
     "allocated_votes": 138207,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 93.83299324296284
+    "direct_match_coverage_pct": 93.83299324296284,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "exact_locality_cluster_districts": [],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
       "1": {
         "dem_votes": 92212,
         "rep_votes": 134742,
-        "other_votes": 26411,
-        "total_votes": 253365,
+        "other_votes": 26410,
+        "total_votes": 253364,
         "dem_candidate": "Terence Richard McAuliffe",
         "rep_candidate": "Kenneth Thomas Cuccinelli, II",
         "winner": "Republican",
         "margin": 42530,
-        "margin_pct": 16.786059637282182,
+        "margin_pct": 16.78612589002384,
         "color": "#ef3b2c"
       },
       "10": {
@@ -40,13 +58,13 @@
       "11": {
         "dem_votes": 121881,
         "rep_votes": 79673,
-        "other_votes": 11993,
-        "total_votes": 213547,
+        "other_votes": 11992,
+        "total_votes": 213546,
         "dem_candidate": "Terence Richard McAuliffe",
         "rep_candidate": "Kenneth Thomas Cuccinelli, II",
         "winner": "Democratic",
         "margin": 42208,
-        "margin_pct": -19.765203912955933,
+        "margin_pct": -19.76529647008139,
         "color": "#6baed6"
       },
       "2": {

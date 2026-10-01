@@ -9,7 +9,42 @@
     "direct_matched_votes": 4303400,
     "allocated_votes": 142135,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 96.8027470259485
+    "direct_match_coverage_pct": 96.8027470259485,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "17",
+      "20",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30",
+      "37",
+      "39"
+    ],
+    "exact_locality_cluster_districts": [
+      "1",
+      "6",
+      "8"
+    ],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -51,14 +86,14 @@
       },
       "12": {
         "dem_votes": 68446,
-        "rep_votes": 67464,
+        "rep_votes": 67463,
         "other_votes": 159,
-        "total_votes": 136069,
+        "total_votes": 136068,
         "dem_candidate": "Timothy M. Kaine",
         "rep_candidate": "Hung Cao",
         "winner": "Democratic",
-        "margin": 982,
-        "margin_pct": -0.7216926706303419,
+        "margin": 983,
+        "margin_pct": -0.7224329011964606,
         "color": "#e1f5fe"
       },
       "13": {
@@ -74,15 +109,15 @@
         "color": "#3182bd"
       },
       "14": {
-        "dem_votes": 92611,
+        "dem_votes": 92612,
         "rep_votes": 20599,
         "other_votes": 246,
-        "total_votes": 113456,
+        "total_votes": 113457,
         "dem_candidate": "Timothy M. Kaine",
         "rep_candidate": "Hung Cao",
         "winner": "Democratic",
-        "margin": 72012,
-        "margin_pct": -63.47130164997885,
+        "margin": 72013,
+        "margin_pct": -63.47162361070714,
         "color": "#08306b"
       },
       "15": {
@@ -135,14 +170,14 @@
       },
       "19": {
         "dem_votes": 52578,
-        "rep_votes": 64268,
+        "rep_votes": 64267,
         "other_votes": 117,
-        "total_votes": 116963,
+        "total_votes": 116962,
         "dem_candidate": "Timothy M. Kaine",
         "rep_candidate": "Hung Cao",
         "winner": "Republican",
-        "margin": 11690,
-        "margin_pct": 9.994613681249625,
+        "margin": 11689,
+        "margin_pct": 9.993844154511722,
         "color": "#fb6a4a"
       },
       "2": {
@@ -303,26 +338,26 @@
       },
       "31": {
         "dem_votes": 72470,
-        "rep_votes": 60811,
+        "rep_votes": 60810,
         "other_votes": 358,
-        "total_votes": 133639,
+        "total_votes": 133638,
         "dem_candidate": "Timothy M. Kaine",
         "rep_candidate": "Hung Cao",
         "winner": "Democratic",
-        "margin": 11659,
-        "margin_pct": -8.724249657659815,
+        "margin": 11660,
+        "margin_pct": -8.725063230518264,
         "color": "#9ecae1"
       },
       "32": {
         "dem_votes": 67136,
         "rep_votes": 40725,
-        "other_votes": 513,
-        "total_votes": 108374,
+        "other_votes": 512,
+        "total_votes": 108373,
         "dem_candidate": "Timothy M. Kaine",
         "rep_candidate": "Hung Cao",
         "winner": "Democratic",
         "margin": 26411,
-        "margin_pct": -24.370236403565432,
+        "margin_pct": -24.370461277255405,
         "color": "#3182bd"
       },
       "33": {
@@ -386,15 +421,15 @@
         "color": "#08306b"
       },
       "38": {
-        "dem_votes": 83534,
+        "dem_votes": 83535,
         "rep_votes": 37069,
         "other_votes": 372,
-        "total_votes": 120975,
+        "total_votes": 120976,
         "dem_candidate": "Timothy M. Kaine",
         "rep_candidate": "Hung Cao",
         "winner": "Democratic",
-        "margin": 46465,
-        "margin_pct": -38.408762140938215,
+        "margin": 46466,
+        "margin_pct": -38.40927126041529,
         "color": "#08519c"
       },
       "39": {
@@ -422,15 +457,15 @@
         "color": "#c6dbef"
       },
       "40": {
-        "dem_votes": 100725,
+        "dem_votes": 100726,
         "rep_votes": 27269,
         "other_votes": 365,
-        "total_votes": 128359,
+        "total_votes": 128360,
         "dem_candidate": "Timothy M. Kaine",
         "rep_candidate": "Hung Cao",
         "winner": "Democratic",
-        "margin": 73456,
-        "margin_pct": -57.22699615920972,
+        "margin": 73457,
+        "margin_pct": -57.22732938610159,
         "color": "#08306b"
       },
       "5": {

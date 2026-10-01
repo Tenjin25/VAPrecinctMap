@@ -9,7 +9,42 @@
     "direct_matched_votes": 2048407,
     "allocated_votes": 136113,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 93.76920330324282
+    "direct_match_coverage_pct": 93.76920330324282,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "17",
+      "20",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30",
+      "37",
+      "39"
+    ],
+    "exact_locality_cluster_districts": [
+      "1",
+      "6",
+      "8"
+    ],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -51,14 +86,14 @@
       },
       "12": {
         "dem_votes": 26016,
-        "rep_votes": 39647,
-        "other_votes": 2277,
+        "rep_votes": 39648,
+        "other_votes": 2276,
         "total_votes": 67940,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Edward Walter Gillespie",
         "winner": "Republican",
-        "margin": 13631,
-        "margin_pct": 20.063291139240505,
+        "margin": 13632,
+        "margin_pct": 20.06476302619959,
         "color": "#cb181d"
       },
       "13": {
@@ -74,15 +109,15 @@
         "color": "#3182bd"
       },
       "14": {
-        "dem_votes": 41490,
+        "dem_votes": 41489,
         "rep_votes": 12218,
         "other_votes": 1826,
-        "total_votes": 55534,
+        "total_votes": 55533,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Edward Walter Gillespie",
         "winner": "Democratic",
-        "margin": 29272,
-        "margin_pct": -52.710051499981994,
+        "margin": 29271,
+        "margin_pct": -52.70919993517368,
         "color": "#08306b"
       },
       "15": {
@@ -100,13 +135,13 @@
       "16": {
         "dem_votes": 29670,
         "rep_votes": 32996,
-        "other_votes": 2201,
-        "total_votes": 64867,
+        "other_votes": 2200,
+        "total_votes": 64866,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Edward Walter Gillespie",
         "winner": "Republican",
         "margin": 3326,
-        "margin_pct": 5.127414555937534,
+        "margin_pct": 5.127493602195295,
         "color": "#fcae91"
       },
       "17": {
@@ -422,15 +457,15 @@
         "color": "#f7f7f7"
       },
       "40": {
-        "dem_votes": 43672,
+        "dem_votes": 43671,
         "rep_votes": 16186,
         "other_votes": 1564,
-        "total_votes": 61422,
+        "total_votes": 61421,
         "dem_candidate": "Mark Robert Warner",
         "rep_candidate": "Edward Walter Gillespie",
         "winner": "Democratic",
-        "margin": 27486,
-        "margin_pct": -44.749438312005466,
+        "margin": 27485,
+        "margin_pct": -44.74853877338369,
         "color": "#08306b"
       },
       "5": {

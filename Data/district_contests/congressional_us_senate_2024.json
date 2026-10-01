@@ -9,7 +9,25 @@
     "direct_matched_votes": 4044471,
     "allocated_votes": 401064,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 90.97827370608937
+    "direct_match_coverage_pct": 90.97827370608937,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "exact_locality_cluster_districts": [],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -38,15 +56,15 @@
         "color": "#6baed6"
       },
       "11": {
-        "dem_votes": 273786,
+        "dem_votes": 273785,
         "rep_votes": 131756,
         "other_votes": 1379,
-        "total_votes": 406921,
+        "total_votes": 406920,
         "dem_candidate": "Timothy M. Kaine",
         "rep_candidate": "Hung Cao",
         "winner": "Democratic",
-        "margin": 142030,
-        "margin_pct": -34.90358079332352,
+        "margin": 142029,
+        "margin_pct": -34.903420819817164,
         "color": "#08519c"
       },
       "2": {

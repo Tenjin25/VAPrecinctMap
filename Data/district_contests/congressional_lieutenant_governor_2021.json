@@ -9,20 +9,38 @@
     "direct_matched_votes": 2072602,
     "allocated_votes": 1197556,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 63.37926179713641
+    "direct_match_coverage_pct": 63.37926179713641,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "exact_locality_cluster_districts": [],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
       "1": {
         "dem_votes": 158291,
-        "rep_votes": 214675,
-        "other_votes": 343,
+        "rep_votes": 214674,
+        "other_votes": 344,
         "total_votes": 373309,
         "dem_candidate": "Hala Sophia Ayala",
         "rep_candidate": "Winsome Earle Sears",
         "winner": "Republican",
-        "margin": 56384,
-        "margin_pct": 15.10384158967504,
+        "margin": 56383,
+        "margin_pct": 15.1035737150725,
         "color": "#ef3b2c"
       },
       "10": {
@@ -38,15 +56,15 @@
         "color": "#c6dbef"
       },
       "11": {
-        "dem_votes": 201572,
+        "dem_votes": 201573,
         "rep_votes": 107976,
-        "other_votes": 485,
-        "total_votes": 310033,
+        "other_votes": 486,
+        "total_votes": 310035,
         "dem_candidate": "Hala Sophia Ayala",
         "rep_candidate": "Winsome Earle Sears",
         "winner": "Democratic",
-        "margin": 93596,
-        "margin_pct": -30.189044392048586,
+        "margin": 93597,
+        "margin_pct": -30.189172190236587,
         "color": "#08519c"
       },
       "2": {

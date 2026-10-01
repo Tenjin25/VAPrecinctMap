@@ -9,7 +9,42 @@
     "direct_matched_votes": 2078937,
     "allocated_votes": 133914,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 93.94834988889899
+    "direct_match_coverage_pct": 93.94834988889899,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "17",
+      "20",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30",
+      "37",
+      "39"
+    ],
+    "exact_locality_cluster_districts": [
+      "1",
+      "6",
+      "8"
+    ],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -51,14 +86,14 @@
       },
       "12": {
         "dem_votes": 27226,
-        "rep_votes": 42230,
+        "rep_votes": 42231,
         "other_votes": 274,
-        "total_votes": 69730,
+        "total_votes": 69731,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "Mark Dudley Obenshain",
         "winner": "Republican",
-        "margin": 15004,
-        "margin_pct": 21.517280940771546,
+        "margin": 15005,
+        "margin_pct": 21.51840644763448,
         "color": "#cb181d"
       },
       "13": {
@@ -74,15 +109,15 @@
         "color": "#3182bd"
       },
       "14": {
-        "dem_votes": 47047,
+        "dem_votes": 47048,
         "rep_votes": 14330,
         "other_votes": 168,
-        "total_votes": 61545,
+        "total_votes": 61546,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "Mark Dudley Obenshain",
         "winner": "Democratic",
-        "margin": 32717,
-        "margin_pct": -53.1594768055894,
+        "margin": 32718,
+        "margin_pct": -53.16023787086082,
         "color": "#08306b"
       },
       "15": {
@@ -422,15 +457,15 @@
         "color": "#ef3b2c"
       },
       "40": {
-        "dem_votes": 45727,
+        "dem_votes": 45728,
         "rep_votes": 14837,
         "other_votes": 175,
-        "total_votes": 60739,
+        "total_votes": 60740,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "Mark Dudley Obenshain",
         "winner": "Democratic",
-        "margin": 30890,
-        "margin_pct": -50.85694529050527,
+        "margin": 30891,
+        "margin_pct": -50.85775436285809,
         "color": "#08306b"
       },
       "5": {

@@ -6,8 +6,8 @@
       "year": 2009,
       "file": "congressional_attorney_general_2009.json",
       "rows": 11,
-      "dem_total": 828141,
-      "rep_total": 1123154,
+      "dem_total": 828687,
+      "rep_total": 1124137,
       "major_party_contested": true
     },
     {
@@ -46,8 +46,8 @@
       "year": 2025,
       "file": "congressional_attorney_general_2025.json",
       "rows": 11,
-      "dem_total": 1803760,
-      "rep_total": 1575770,
+      "dem_total": 1804940,
+      "rep_total": 1577843,
       "major_party_contested": true
     },
     {
@@ -56,8 +56,8 @@
       "year": 2009,
       "file": "congressional_governor_2009.json",
       "rows": 11,
-      "dem_total": 818397,
-      "rep_total": 1162635,
+      "dem_total": 818950,
+      "rep_total": 1163651,
       "major_party_contested": true
     },
     {
@@ -106,8 +106,8 @@
       "year": 2009,
       "file": "congressional_lieutenant_governor_2009.json",
       "rows": 11,
-      "dem_total": 849521,
-      "rep_total": 1105852,
+      "dem_total": 850111,
+      "rep_total": 1106793,
       "major_party_contested": true
     },
     {
@@ -146,8 +146,8 @@
       "year": 2025,
       "file": "congressional_lieutenant_governor_2025.json",
       "rows": 11,
-      "dem_total": 1898873,
-      "rep_total": 1503365,
+      "dem_total": 1900104,
+      "rep_total": 1505395,
       "major_party_contested": true
     },
     {
@@ -156,8 +156,8 @@
       "year": 2008,
       "file": "congressional_president_2008.json",
       "rows": 11,
-      "dem_total": 1958324,
-      "rep_total": 1723508,
+      "dem_total": 1959532,
+      "rep_total": 1725005,
       "major_party_contested": true
     },
     {
@@ -166,8 +166,8 @@
       "year": 2012,
       "file": "congressional_president_2012.json",
       "rows": 11,
-      "dem_total": 1970595,
-      "rep_total": 1820995,
+      "dem_total": 1971820,
+      "rep_total": 1822522,
       "major_party_contested": true
     },
     {
@@ -186,8 +186,8 @@
       "year": 2020,
       "file": "congressional_president_2020.json",
       "rows": 11,
-      "dem_total": 2406526,
-      "rep_total": 1969472,
+      "dem_total": 2413568,
+      "rep_total": 1962430,
       "major_party_contested": true
     },
     {
@@ -196,8 +196,8 @@
       "year": 2024,
       "file": "congressional_president_2024.json",
       "rows": 11,
-      "dem_total": 2336694,
-      "rep_total": 2081621,
+      "dem_total": 2335395,
+      "rep_total": 2075085,
       "major_party_contested": true
     },
     {
@@ -226,8 +226,8 @@
       "year": 2008,
       "file": "congressional_us_senate_2008.json",
       "rows": 11,
-      "dem_total": 2367579,
-      "rep_total": 1227936,
+      "dem_total": 2369327,
+      "rep_total": 1228830,
       "major_party_contested": true
     },
     {
@@ -236,8 +236,8 @@
       "year": 2012,
       "file": "congressional_us_senate_2012.json",
       "rows": 11,
-      "dem_total": 2008887,
-      "rep_total": 1784022,
+      "dem_total": 2010067,
+      "rep_total": 1785542,
       "major_party_contested": true
     },
     {
@@ -286,8 +286,8 @@
       "year": 2009,
       "file": "state_house_attorney_general_2009.json",
       "rows": 100,
-      "dem_total": 828141,
-      "rep_total": 1123154,
+      "dem_total": 828687,
+      "rep_total": 1124137,
       "major_party_contested": true
     },
     {
@@ -336,8 +336,8 @@
       "year": 2009,
       "file": "state_house_governor_2009.json",
       "rows": 100,
-      "dem_total": 818397,
-      "rep_total": 1162635,
+      "dem_total": 818950,
+      "rep_total": 1163651,
       "major_party_contested": true
     },
     {
@@ -386,8 +386,8 @@
       "year": 2009,
       "file": "state_house_lieutenant_governor_2009.json",
       "rows": 100,
-      "dem_total": 849521,
-      "rep_total": 1105852,
+      "dem_total": 850111,
+      "rep_total": 1106793,
       "major_party_contested": true
     },
     {
@@ -436,8 +436,8 @@
       "year": 2008,
       "file": "state_house_president_2008.json",
       "rows": 100,
-      "dem_total": 1958324,
-      "rep_total": 1723508,
+      "dem_total": 1959532,
+      "rep_total": 1725005,
       "major_party_contested": true
     },
     {
@@ -446,8 +446,8 @@
       "year": 2012,
       "file": "state_house_president_2012.json",
       "rows": 100,
-      "dem_total": 1970595,
-      "rep_total": 1820995,
+      "dem_total": 1971820,
+      "rep_total": 1822522,
       "major_party_contested": true
     },
     {
@@ -456,8 +456,8 @@
       "year": 2016,
       "file": "state_house_president_2016.json",
       "rows": 100,
-      "dem_total": 1980006,
-      "rep_total": 1770103,
+      "dem_total": 1981473,
+      "rep_total": 1769443,
       "major_party_contested": true
     },
     {
@@ -466,8 +466,8 @@
       "year": 2020,
       "file": "state_house_president_2020.json",
       "rows": 100,
-      "dem_total": 2401855,
-      "rep_total": 1968399,
+      "dem_total": 2413568,
+      "rep_total": 1962430,
       "major_party_contested": true
     },
     {
@@ -476,8 +476,8 @@
       "year": 2024,
       "file": "state_house_president_2024.json",
       "rows": 100,
-      "dem_total": 2332046,
-      "rep_total": 2070420,
+      "dem_total": 2335395,
+      "rep_total": 2075085,
       "major_party_contested": true
     },
     {
@@ -506,8 +506,8 @@
       "year": 2008,
       "file": "state_house_us_senate_2008.json",
       "rows": 100,
-      "dem_total": 2367579,
-      "rep_total": 1227936,
+      "dem_total": 2369327,
+      "rep_total": 1228830,
       "major_party_contested": true
     },
     {
@@ -516,8 +516,8 @@
       "year": 2012,
       "file": "state_house_us_senate_2012.json",
       "rows": 100,
-      "dem_total": 2008887,
-      "rep_total": 1784022,
+      "dem_total": 2010067,
+      "rep_total": 1785542,
       "major_party_contested": true
     },
     {
@@ -566,8 +566,8 @@
       "year": 2009,
       "file": "state_senate_attorney_general_2009.json",
       "rows": 40,
-      "dem_total": 828141,
-      "rep_total": 1123154,
+      "dem_total": 828687,
+      "rep_total": 1124137,
       "major_party_contested": true
     },
     {
@@ -616,8 +616,8 @@
       "year": 2009,
       "file": "state_senate_governor_2009.json",
       "rows": 40,
-      "dem_total": 818397,
-      "rep_total": 1162635,
+      "dem_total": 818950,
+      "rep_total": 1163651,
       "major_party_contested": true
     },
     {
@@ -666,8 +666,8 @@
       "year": 2009,
       "file": "state_senate_lieutenant_governor_2009.json",
       "rows": 40,
-      "dem_total": 849521,
-      "rep_total": 1105852,
+      "dem_total": 850111,
+      "rep_total": 1106793,
       "major_party_contested": true
     },
     {
@@ -716,8 +716,8 @@
       "year": 2008,
       "file": "state_senate_president_2008.json",
       "rows": 40,
-      "dem_total": 1958324,
-      "rep_total": 1723508,
+      "dem_total": 1959532,
+      "rep_total": 1725005,
       "major_party_contested": true
     },
     {
@@ -726,8 +726,8 @@
       "year": 2012,
       "file": "state_senate_president_2012.json",
       "rows": 40,
-      "dem_total": 1970595,
-      "rep_total": 1820995,
+      "dem_total": 1971820,
+      "rep_total": 1822522,
       "major_party_contested": true
     },
     {
@@ -746,8 +746,8 @@
       "year": 2020,
       "file": "state_senate_president_2020.json",
       "rows": 40,
-      "dem_total": 2406310,
-      "rep_total": 1969688,
+      "dem_total": 2413568,
+      "rep_total": 1962430,
       "major_party_contested": true
     },
     {
@@ -756,8 +756,8 @@
       "year": 2024,
       "file": "state_senate_president_2024.json",
       "rows": 40,
-      "dem_total": 2335566,
-      "rep_total": 2074914,
+      "dem_total": 2335395,
+      "rep_total": 2075085,
       "major_party_contested": true
     },
     {
@@ -776,8 +776,8 @@
       "year": 2008,
       "file": "state_senate_us_senate_2008.json",
       "rows": 40,
-      "dem_total": 2367579,
-      "rep_total": 1227936,
+      "dem_total": 2369327,
+      "rep_total": 1228830,
       "major_party_contested": true
     },
     {
@@ -786,8 +786,8 @@
       "year": 2012,
       "file": "state_senate_us_senate_2012.json",
       "rows": 40,
-      "dem_total": 2008887,
-      "rep_total": 1784022,
+      "dem_total": 2010067,
+      "rep_total": 1785542,
       "major_party_contested": true
     },
     {

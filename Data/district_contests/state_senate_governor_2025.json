@@ -9,7 +9,42 @@
     "direct_matched_votes": 3398134,
     "allocated_votes": 28309,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 99.17380794018753
+    "direct_match_coverage_pct": 99.17380794018753,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "17",
+      "20",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30",
+      "37",
+      "39"
+    ],
+    "exact_locality_cluster_districts": [
+      "1",
+      "6",
+      "8"
+    ],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -422,15 +457,15 @@
         "color": "#9ecae1"
       },
       "40": {
-        "dem_votes": 83657,
+        "dem_votes": 83658,
         "rep_votes": 15929,
         "other_votes": 0,
-        "total_votes": 99586,
+        "total_votes": 99587,
         "dem_candidate": "Abigail D. Spanberger",
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
-        "margin": 67728,
-        "margin_pct": -68.00955957664732,
+        "margin": 67729,
+        "margin_pct": -68.00988080773594,
         "color": "#08306b"
       },
       "5": {

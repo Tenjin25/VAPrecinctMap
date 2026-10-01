@@ -1,0 +1,1206 @@
+{
+  "mode": "write",
+  "historical_crosswalk": "Data/vtd00_to_vtd20_block_crosswalk.csv",
+  "files": [
+    {
+      "file": "congressional_attorney_general_2009.json",
+      "rows": 11,
+      "match_coverage_pct": 99.92172295451336,
+      "direct_match_coverage_pct": 92.9283596200954,
+      "mean_abs_margin_change_pct": 0.1868529427229251,
+      "max_abs_margin_change_pct": 0.7283759176063889,
+      "largest_margin_changes": [
+        {
+          "district": "4",
+          "before_margin_pct": -3.4595356351074984,
+          "rebuilt_margin_pct": -2.7311597175011095,
+          "abs_change_pct": 0.7283759176063889
+        },
+        {
+          "district": "3",
+          "before_margin_pct": -13.211306188519487,
+          "rebuilt_margin_pct": -12.655246943449788,
+          "abs_change_pct": 0.5560592450696991
+        },
+        {
+          "district": "5",
+          "before_margin_pct": 26.590805297609986,
+          "rebuilt_margin_pct": 26.357415032585642,
+          "abs_change_pct": 0.2333902650243438
+        },
+        {
+          "district": "7",
+          "before_margin_pct": 21.93735988102373,
+          "rebuilt_margin_pct": 21.805241720758193,
+          "abs_change_pct": 0.1321181602655379
+        },
+        {
+          "district": "8",
+          "before_margin_pct": -24.077291842359962,
+          "rebuilt_margin_pct": -23.96247327116196,
+          "abs_change_pct": 0.11481857119800054
+        },
+        {
+          "district": "1",
+          "before_margin_pct": 36.38851259821186,
+          "rebuilt_margin_pct": 36.487054779492425,
+          "abs_change_pct": 0.09854218128056402
+        },
+        {
+          "district": "10",
+          "before_margin_pct": 22.457429813815878,
+          "rebuilt_margin_pct": 22.53747088040086,
+          "abs_change_pct": 0.08004106658498245
+        },
+        {
+          "district": "9",
+          "before_margin_pct": 33.90312075287842,
+          "rebuilt_margin_pct": 33.98044842774052,
+          "abs_change_pct": 0.07732767486209724
+        },
+        {
+          "district": "2",
+          "before_margin_pct": 23.245588925655795,
+          "rebuilt_margin_pct": 23.227977979432744,
+          "abs_change_pct": 0.01761094622305137
+        },
+        {
+          "district": "11",
+          "before_margin_pct": -1.573748890884264,
+          "rebuilt_margin_pct": -1.557519441933965,
+          "abs_change_pct": 0.016229448950298986
+        }
+      ],
+      "before_totals": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "rebuilt_totals": {
+        "dem": 828141,
+        "rep": 1123153,
+        "other": 1771
+      }
+    },
+    {
+      "file": "congressional_governor_2009.json",
+      "rows": 11,
+      "match_coverage_pct": 99.92096128009479,
+      "direct_match_coverage_pct": 92.96021415513452,
+      "mean_abs_margin_change_pct": 0.19574314325273712,
+      "max_abs_margin_change_pct": 0.8347801781411834,
+      "largest_margin_changes": [
+        {
+          "district": "4",
+          "before_margin_pct": -4.357313215717451,
+          "rebuilt_margin_pct": -3.522533037576267,
+          "abs_change_pct": 0.8347801781411834
+        },
+        {
+          "district": "3",
+          "before_margin_pct": -10.735159788184042,
+          "rebuilt_margin_pct": -10.208073869997861,
+          "abs_change_pct": 0.5270859181861809
+        },
+        {
+          "district": "5",
+          "before_margin_pct": 26.25859723024734,
+          "rebuilt_margin_pct": 26.006909355831827,
+          "abs_change_pct": 0.2516878744155129
+        },
+        {
+          "district": "7",
+          "before_margin_pct": 26.01191128649202,
+          "rebuilt_margin_pct": 25.87616407194142,
+          "abs_change_pct": 0.13574721455059802
+        },
+        {
+          "district": "8",
+          "before_margin_pct": -19.23824133741665,
+          "rebuilt_margin_pct": -19.13329014181216,
+          "abs_change_pct": 0.10495119560448884
+        },
+        {
+          "district": "9",
+          "before_margin_pct": 34.98844513066277,
+          "rebuilt_margin_pct": 35.08060483629018,
+          "abs_change_pct": 0.0921597056274095
+        },
+        {
+          "district": "10",
+          "before_margin_pct": 26.570735558764326,
+          "rebuilt_margin_pct": 26.646593355443066,
+          "abs_change_pct": 0.07585779667873993
+        },
+        {
+          "district": "11",
+          "before_margin_pct": 4.804027517857613,
+          "rebuilt_margin_pct": 4.871250973337272,
+          "abs_change_pct": 0.06722345547965869
+        },
+        {
+          "district": "1",
+          "before_margin_pct": 38.658225582747974,
+          "rebuilt_margin_pct": 38.70988193843771,
+          "abs_change_pct": 0.0516563556897367
+        },
+        {
+          "district": "2",
+          "before_margin_pct": 26.361711898388236,
+          "rebuilt_margin_pct": 26.373245242467835,
+          "abs_change_pct": 0.011533344079598606
+        }
+      ],
+      "before_totals": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "rebuilt_totals": {
+        "dem": 818396,
+        "rep": 1162634,
+        "other": 2502
+      }
+    },
+    {
+      "file": "congressional_lieutenant_governor_2009.json",
+      "rows": 11,
+      "match_coverage_pct": 99.92182685183813,
+      "direct_match_coverage_pct": 92.92489607975193,
+      "mean_abs_margin_change_pct": 0.20325747098679178,
+      "max_abs_margin_change_pct": 0.7035493926500758,
+      "largest_margin_changes": [
+        {
+          "district": "4",
+          "before_margin_pct": -7.640648179847084,
+          "rebuilt_margin_pct": -6.937098787197009,
+          "abs_change_pct": 0.7035493926500758
+        },
+        {
+          "district": "3",
+          "before_margin_pct": -17.026530865568674,
+          "rebuilt_margin_pct": -16.473055201780454,
+          "abs_change_pct": 0.5534756637882197
+        },
+        {
+          "district": "5",
+          "before_margin_pct": 23.70907607509795,
+          "rebuilt_margin_pct": 23.48701997846632,
+          "abs_change_pct": 0.22205609663162917
+        },
+        {
+          "district": "7",
+          "before_margin_pct": 21.370377489612753,
+          "rebuilt_margin_pct": 21.177477224846665,
+          "abs_change_pct": 0.19290026476608801
+        },
+        {
+          "district": "10",
+          "before_margin_pct": 22.08023965828627,
+          "rebuilt_margin_pct": 22.221652242098244,
+          "abs_change_pct": 0.14141258381197375
+        },
+        {
+          "district": "1",
+          "before_margin_pct": 32.88916708696592,
+          "rebuilt_margin_pct": 33.01182852063724,
+          "abs_change_pct": 0.12266143367131832
+        },
+        {
+          "district": "8",
+          "before_margin_pct": -23.32191877741616,
+          "rebuilt_margin_pct": -23.207048655426433,
+          "abs_change_pct": 0.1148701219897248
+        },
+        {
+          "district": "9",
+          "before_margin_pct": 33.458098336579944,
+          "rebuilt_margin_pct": 33.538821494875506,
+          "abs_change_pct": 0.08072315829556231
+        },
+        {
+          "district": "2",
+          "before_margin_pct": 16.91630309068215,
+          "rebuilt_margin_pct": 16.863939725135456,
+          "abs_change_pct": 0.052363365546693075
+        },
+        {
+          "district": "11",
+          "before_margin_pct": -0.19166038417023265,
+          "rebuilt_margin_pct": -0.14116043613707163,
+          "abs_change_pct": 0.05049994803316102
+        }
+      ],
+      "before_totals": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "rebuilt_totals": {
+        "dem": 849522,
+        "rep": 1105855,
+        "other": 1569
+      }
+    },
+    {
+      "file": "congressional_president_2008.json",
+      "rows": 11,
+      "match_coverage_pct": 99.92656972652998,
+      "direct_match_coverage_pct": 84.67748693349377,
+      "mean_abs_margin_change_pct": 0.7558703591531798,
+      "max_abs_margin_change_pct": 2.3261829870853354,
+      "largest_margin_changes": [
+        {
+          "district": "4",
+          "before_margin_pct": -30.07056253539685,
+          "rebuilt_margin_pct": -27.744379548311514,
+          "abs_change_pct": 2.3261829870853354
+        },
+        {
+          "district": "1",
+          "before_margin_pct": 17.15943586728355,
+          "rebuilt_margin_pct": 15.786347915586143,
+          "abs_change_pct": 1.3730879516974053
+        },
+        {
+          "district": "10",
+          "before_margin_pct": -2.497901510912143,
+          "rebuilt_margin_pct": -3.692911640412159,
+          "abs_change_pct": 1.195010129500016
+        },
+        {
+          "district": "3",
+          "before_margin_pct": -34.94091344618333,
+          "rebuilt_margin_pct": -33.96206034845159,
+          "abs_change_pct": 0.9788530977317436
+        },
+        {
+          "district": "8",
+          "before_margin_pct": -37.192259314156814,
+          "rebuilt_margin_pct": -36.582062819448694,
+          "abs_change_pct": 0.61019649470812
+        },
+        {
+          "district": "7",
+          "before_margin_pct": -5.619520288341891,
+          "rebuilt_margin_pct": -5.033846239383957,
+          "abs_change_pct": 0.5856740489579346
+        },
+        {
+          "district": "2",
+          "before_margin_pct": 2.321091520117853,
+          "rebuilt_margin_pct": 1.8040364659328345,
+          "abs_change_pct": 0.5170550541850183
+        },
+        {
+          "district": "11",
+          "before_margin_pct": -18.93132205794607,
+          "rebuilt_margin_pct": -19.282786078604484,
+          "abs_change_pct": 0.3514640206584154
+        },
+        {
+          "district": "9",
+          "before_margin_pct": 19.390916626175436,
+          "rebuilt_margin_pct": 19.595532784197665,
+          "abs_change_pct": 0.20461615802222965
+        },
+        {
+          "district": "5",
+          "before_margin_pct": 5.1968868786082005,
+          "rebuilt_margin_pct": 5.040579788822236,
+          "abs_change_pct": 0.15630708978596441
+        }
+      ],
+      "before_totals": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "rebuilt_totals": {
+        "dem": 1958325,
+        "rep": 1723509,
+        "other": 38695
+      }
+    },
+    {
+      "file": "congressional_us_senate_2008.json",
+      "rows": 11,
+      "match_coverage_pct": 99.92679701391104,
+      "direct_match_coverage_pct": 84.83130924926728,
+      "mean_abs_margin_change_pct": 0.15584252111306654,
+      "max_abs_margin_change_pct": 0.4798306954273954,
+      "largest_margin_changes": [
+        {
+          "district": "4",
+          "before_margin_pct": -46.40611613905383,
+          "rebuilt_margin_pct": -45.92628544362643,
+          "abs_change_pct": 0.4798306954273954
+        },
+        {
+          "district": "3",
+          "before_margin_pct": -52.55722460658083,
+          "rebuilt_margin_pct": -52.08295934609078,
+          "abs_change_pct": 0.4742652604900499
+        },
+        {
+          "district": "5",
+          "before_margin_pct": -23.958954613167478,
+          "rebuilt_margin_pct": -24.151081610799054,
+          "abs_change_pct": 0.1921269976315756
+        },
+        {
+          "district": "2",
+          "before_margin_pct": -26.691633077120013,
+          "rebuilt_margin_pct": -26.846693420055377,
+          "abs_change_pct": 0.1550603429353643
+        },
+        {
+          "district": "11",
+          "before_margin_pct": -35.63434758031505,
+          "rebuilt_margin_pct": -35.524255314302636,
+          "abs_change_pct": 0.11009226601241551
+        },
+        {
+          "district": "9",
+          "before_margin_pct": -25.905974248022346,
+          "rebuilt_margin_pct": -25.80533982142179,
+          "abs_change_pct": 0.10063442660055699
+        },
+        {
+          "district": "10",
+          "before_margin_pct": -21.891202810986847,
+          "rebuilt_margin_pct": -21.806234941958095,
+          "abs_change_pct": 0.08496786902875186
+        },
+        {
+          "district": "8",
+          "before_margin_pct": -48.86069261964153,
+          "rebuilt_margin_pct": -48.78244470300533,
+          "abs_change_pct": 0.0782479166362009
+        },
+        {
+          "district": "1",
+          "before_margin_pct": -15.409733344496871,
+          "rebuilt_margin_pct": -15.37561470547323,
+          "abs_change_pct": 0.03411863902364054
+        },
+        {
+          "district": "7",
+          "before_margin_pct": -27.957800096902403,
+          "rebuilt_margin_pct": -27.962489645357934,
+          "abs_change_pct": 0.004689548455530712
+        }
+      ],
+      "before_totals": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "rebuilt_totals": {
+        "dem": 2367580,
+        "rep": 1227938,
+        "other": 45111
+      }
+    },
+    {
+      "file": "state_house_attorney_general_2009.json",
+      "rows": 100,
+      "match_coverage_pct": 99.92172295451336,
+      "direct_match_coverage_pct": 93.11126186690242,
+      "mean_abs_margin_change_pct": 1.1411392341301416,
+      "max_abs_margin_change_pct": 13.794147659964377,
+      "largest_margin_changes": [
+        {
+          "district": "80",
+          "before_margin_pct": -20.0668449197861,
+          "rebuilt_margin_pct": -6.272697259821723,
+          "abs_change_pct": 13.794147659964377
+        },
+        {
+          "district": "91",
+          "before_margin_pct": -23.986572080060807,
+          "rebuilt_margin_pct": -11.99591902486173,
+          "abs_change_pct": 11.990653055199077
+        },
+        {
+          "district": "59",
+          "before_margin_pct": 34.92284929190446,
+          "rebuilt_margin_pct": 30.027313076135197,
+          "abs_change_pct": 4.8955362157692655
+        },
+        {
+          "district": "81",
+          "before_margin_pct": -8.648038108333743,
+          "rebuilt_margin_pct": -13.52436774123521,
+          "abs_change_pct": 4.8763296329014665
+        },
+        {
+          "district": "89",
+          "before_margin_pct": 17.191202957626313,
+          "rebuilt_margin_pct": 13.873619920131548,
+          "abs_change_pct": 3.3175830374947655
+        },
+        {
+          "district": "54",
+          "before_margin_pct": -29.882445915242517,
+          "rebuilt_margin_pct": -33.061443200762085,
+          "abs_change_pct": 3.178997285519568
+        },
+        {
+          "district": "22",
+          "before_margin_pct": 27.255144254016013,
+          "rebuilt_margin_pct": 30.120394545982016,
+          "abs_change_pct": 2.865250291966003
+        },
+        {
+          "district": "38",
+          "before_margin_pct": -2.5170253336965405,
+          "rebuilt_margin_pct": -5.298675331167209,
+          "abs_change_pct": 2.781649997470668
+        },
+        {
+          "district": "55",
+          "before_margin_pct": 6.465447483411555,
+          "rebuilt_margin_pct": 3.895179092786442,
+          "abs_change_pct": 2.5702683906251136
+        },
+        {
+          "district": "20",
+          "before_margin_pct": 20.811673506611946,
+          "rebuilt_margin_pct": 23.26146969896148,
+          "abs_change_pct": 2.4497961923495346
+        }
+      ],
+      "before_totals": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "rebuilt_totals": {
+        "dem": 828138,
+        "rep": 1123151,
+        "other": 1774
+      }
+    },
+    {
+      "file": "state_house_governor_2009.json",
+      "rows": 100,
+      "match_coverage_pct": 99.92096128009479,
+      "direct_match_coverage_pct": 93.14161532172386,
+      "mean_abs_margin_change_pct": 1.2014698718607189,
+      "max_abs_margin_change_pct": 14.524633894838544,
+      "largest_margin_changes": [
+        {
+          "district": "80",
+          "before_margin_pct": -21.00476779092354,
+          "rebuilt_margin_pct": -6.480133896084996,
+          "abs_change_pct": 14.524633894838544
+        },
+        {
+          "district": "91",
+          "before_margin_pct": -23.76963990951886,
+          "rebuilt_margin_pct": -11.463541666666668,
+          "abs_change_pct": 12.306098242852194
+        },
+        {
+          "district": "59",
+          "before_margin_pct": 35.48292478525037,
+          "rebuilt_margin_pct": 30.38937978269141,
+          "abs_change_pct": 5.093545002558958
+        },
+        {
+          "district": "81",
+          "before_margin_pct": -9.780972269438104,
+          "rebuilt_margin_pct": -14.711399324722654,
+          "abs_change_pct": 4.93042705528455
+        },
+        {
+          "district": "89",
+          "before_margin_pct": 19.463056235848622,
+          "rebuilt_margin_pct": 15.720823798627,
+          "abs_change_pct": 3.742232437221622
+        },
+        {
+          "district": "38",
+          "before_margin_pct": -4.223018121558775,
+          "rebuilt_margin_pct": -7.440239652748058,
+          "abs_change_pct": 3.217221531189283
+        },
+        {
+          "district": "54",
+          "before_margin_pct": -28.07592583533095,
+          "rebuilt_margin_pct": -31.183302871292966,
+          "abs_change_pct": 3.107377035962017
+        },
+        {
+          "district": "22",
+          "before_margin_pct": 30.870656061495755,
+          "rebuilt_margin_pct": 33.914421553090335,
+          "abs_change_pct": 3.0437654915945807
+        },
+        {
+          "district": "28",
+          "before_margin_pct": 21.426721905748316,
+          "rebuilt_margin_pct": 24.2084294401342,
+          "abs_change_pct": 2.781707534385884
+        },
+        {
+          "district": "20",
+          "before_margin_pct": 23.962093862815884,
+          "rebuilt_margin_pct": 26.615424700364777,
+          "abs_change_pct": 2.653330837548893
+        }
+      ],
+      "before_totals": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "rebuilt_totals": {
+        "dem": 818394,
+        "rep": 1162633,
+        "other": 2501
+      }
+    },
+    {
+      "file": "state_house_lieutenant_governor_2009.json",
+      "rows": 100,
+      "match_coverage_pct": 99.92182685183813,
+      "direct_match_coverage_pct": 93.10743625263152,
+      "mean_abs_margin_change_pct": 1.1828873027768552,
+      "max_abs_margin_change_pct": 13.438292076170722,
+      "largest_margin_changes": [
+        {
+          "district": "80",
+          "before_margin_pct": -24.223574887812678,
+          "rebuilt_margin_pct": -10.785282811641956,
+          "abs_change_pct": 13.438292076170722
+        },
+        {
+          "district": "91",
+          "before_margin_pct": -28.590408705554854,
+          "rebuilt_margin_pct": -16.79553264604811,
+          "abs_change_pct": 11.794876059506745
+        },
+        {
+          "district": "59",
+          "before_margin_pct": 30.500253079129408,
+          "rebuilt_margin_pct": 25.703580704219352,
+          "abs_change_pct": 4.796672374910056
+        },
+        {
+          "district": "81",
+          "before_margin_pct": -13.28900405808439,
+          "rebuilt_margin_pct": -17.816060916995195,
+          "abs_change_pct": 4.527056858910806
+        },
+        {
+          "district": "22",
+          "before_margin_pct": 25.545722713864304,
+          "rebuilt_margin_pct": 28.830002896032436,
+          "abs_change_pct": 3.284280182168132
+        },
+        {
+          "district": "89",
+          "before_margin_pct": 13.20158475615508,
+          "rebuilt_margin_pct": 9.997195737521032,
+          "abs_change_pct": 3.204389018634048
+        },
+        {
+          "district": "20",
+          "before_margin_pct": 19.40189642596645,
+          "rebuilt_margin_pct": 22.380608290087366,
+          "abs_change_pct": 2.9787118641209176
+        },
+        {
+          "district": "54",
+          "before_margin_pct": -32.37710967868917,
+          "rebuilt_margin_pct": -35.238998932510974,
+          "abs_change_pct": 2.8618892538218006
+        },
+        {
+          "district": "57",
+          "before_margin_pct": 34.130653266331656,
+          "rebuilt_margin_pct": 36.94511097780444,
+          "abs_change_pct": 2.814457711472784
+        },
+        {
+          "district": "38",
+          "before_margin_pct": -6.149061545176779,
+          "rebuilt_margin_pct": -8.81026925485285,
+          "abs_change_pct": 2.661207709676071
+        }
+      ],
+      "before_totals": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "rebuilt_totals": {
+        "dem": 849523,
+        "rep": 1105851,
+        "other": 1566
+      }
+    },
+    {
+      "file": "state_house_president_2008.json",
+      "rows": 100,
+      "match_coverage_pct": 99.92656972652998,
+      "direct_match_coverage_pct": 84.78602085269361,
+      "mean_abs_margin_change_pct": 1.8517908141711201,
+      "max_abs_margin_change_pct": 18.184295796600686,
+      "largest_margin_changes": [
+        {
+          "district": "80",
+          "before_margin_pct": -47.57710280373832,
+          "rebuilt_margin_pct": -29.392807007137634,
+          "abs_change_pct": 18.184295796600686
+        },
+        {
+          "district": "23",
+          "before_margin_pct": -35.678525541624204,
+          "rebuilt_margin_pct": -23.22180287414719,
+          "abs_change_pct": 12.456722667477013
+        },
+        {
+          "district": "91",
+          "before_margin_pct": -38.4028880866426,
+          "rebuilt_margin_pct": -27.53517404545569,
+          "abs_change_pct": 10.867714041186908
+        },
+        {
+          "district": "89",
+          "before_margin_pct": 3.1231260044616085,
+          "rebuilt_margin_pct": -4.203571599559535,
+          "abs_change_pct": 7.326697604021144
+        },
+        {
+          "district": "20",
+          "before_margin_pct": -13.92388277416788,
+          "rebuilt_margin_pct": -7.306400732675282,
+          "abs_change_pct": 6.6174820414925986
+        },
+        {
+          "district": "21",
+          "before_margin_pct": -3.6880418038481286,
+          "rebuilt_margin_pct": -10.080725335030023,
+          "abs_change_pct": 6.392683531181894
+        },
+        {
+          "district": "19",
+          "before_margin_pct": -36.42134099488858,
+          "rebuilt_margin_pct": -30.169845630053775,
+          "abs_change_pct": 6.251495364834806
+        },
+        {
+          "district": "99",
+          "before_margin_pct": 13.051083787552287,
+          "rebuilt_margin_pct": 7.672798593263898,
+          "abs_change_pct": 5.378285194288389
+        },
+        {
+          "district": "59",
+          "before_margin_pct": 13.664734730271958,
+          "rebuilt_margin_pct": 8.316475057976021,
+          "abs_change_pct": 5.348259672295937
+        },
+        {
+          "district": "30",
+          "before_margin_pct": 4.240111034004164,
+          "rebuilt_margin_pct": -1.075879028634934,
+          "abs_change_pct": 5.315990062639098
+        }
+      ],
+      "before_totals": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "rebuilt_totals": {
+        "dem": 1958320,
+        "rep": 1723507,
+        "other": 38693
+      }
+    },
+    {
+      "file": "state_house_us_senate_2008.json",
+      "rows": 100,
+      "match_coverage_pct": 99.92679701391104,
+      "direct_match_coverage_pct": 84.94118234762279,
+      "mean_abs_margin_change_pct": 0.907094308984512,
+      "max_abs_margin_change_pct": 9.495835895338224,
+      "largest_margin_changes": [
+        {
+          "district": "80",
+          "before_margin_pct": -57.117666682552546,
+          "rebuilt_margin_pct": -47.62183078721432,
+          "abs_change_pct": 9.495835895338224
+        },
+        {
+          "district": "91",
+          "before_margin_pct": -52.97072373309556,
+          "rebuilt_margin_pct": -45.0272884819327,
+          "abs_change_pct": 7.94343525116286
+        },
+        {
+          "district": "59",
+          "before_margin_pct": -15.814351083622466,
+          "rebuilt_margin_pct": -19.476678613499086,
+          "abs_change_pct": 3.6623275298766202
+        },
+        {
+          "district": "22",
+          "before_margin_pct": -18.926355543566224,
+          "rebuilt_margin_pct": -15.392960011970224,
+          "abs_change_pct": 3.5333955315959997
+        },
+        {
+          "district": "81",
+          "before_margin_pct": -46.411384749993566,
+          "rebuilt_margin_pct": -49.35573913779005,
+          "abs_change_pct": 2.944354387796487
+        },
+        {
+          "district": "20",
+          "before_margin_pct": -28.17801701350507,
+          "rebuilt_margin_pct": -25.503282672567014,
+          "abs_change_pct": 2.6747343409380555
+        },
+        {
+          "district": "21",
+          "before_margin_pct": -23.889842983316978,
+          "rebuilt_margin_pct": -26.52022934668497,
+          "abs_change_pct": 2.630386363367993
+        },
+        {
+          "district": "97",
+          "before_margin_pct": -30.83438063493798,
+          "rebuilt_margin_pct": -28.419214666957675,
+          "abs_change_pct": 2.415165967980304
+        },
+        {
+          "district": "89",
+          "before_margin_pct": -25.468035968748463,
+          "rebuilt_margin_pct": -27.648782409573293,
+          "abs_change_pct": 2.18074644082483
+        },
+        {
+          "district": "54",
+          "before_margin_pct": -57.90985010142522,
+          "rebuilt_margin_pct": -59.98870623666709,
+          "abs_change_pct": 2.078856135241871
+        }
+      ],
+      "before_totals": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "rebuilt_totals": {
+        "dem": 2367584,
+        "rep": 1227933,
+        "other": 45111
+      }
+    },
+    {
+      "file": "state_senate_attorney_general_2009.json",
+      "rows": 40,
+      "match_coverage_pct": 99.92172295451336,
+      "direct_match_coverage_pct": 93.11126186690242,
+      "mean_abs_margin_change_pct": 0.5603556459198092,
+      "max_abs_margin_change_pct": 5.197777097366398,
+      "largest_margin_changes": [
+        {
+          "district": "14",
+          "before_margin_pct": -32.70786816068173,
+          "rebuilt_margin_pct": -27.51009106331533,
+          "abs_change_pct": 5.197777097366398
+        },
+        {
+          "district": "29",
+          "before_margin_pct": 10.258668493329418,
+          "rebuilt_margin_pct": 14.013995082808743,
+          "abs_change_pct": 3.755326589479324
+        },
+        {
+          "district": "16",
+          "before_margin_pct": 29.949238578680205,
+          "rebuilt_margin_pct": 27.71548450103085,
+          "abs_change_pct": 2.2337540776493547
+        },
+        {
+          "district": "18",
+          "before_margin_pct": -7.15564296921615,
+          "rebuilt_margin_pct": -5.295716762634587,
+          "abs_change_pct": 1.8599262065815632
+        },
+        {
+          "district": "33",
+          "before_margin_pct": 5.964410962462657,
+          "rebuilt_margin_pct": 6.988447090509604,
+          "abs_change_pct": 1.024036128046947
+        },
+        {
+          "district": "32",
+          "before_margin_pct": 14.648801297842937,
+          "rebuilt_margin_pct": 15.647226173541965,
+          "abs_change_pct": 0.9984248756990279
+        },
+        {
+          "district": "5",
+          "before_margin_pct": 28.151107882310207,
+          "rebuilt_margin_pct": 29.058181967280333,
+          "abs_change_pct": 0.9070740849701266
+        },
+        {
+          "district": "12",
+          "before_margin_pct": 42.36267253122384,
+          "rebuilt_margin_pct": 41.840963385500466,
+          "abs_change_pct": 0.5217091457233778
+        },
+        {
+          "district": "31",
+          "before_margin_pct": 19.456205588895845,
+          "rebuilt_margin_pct": 18.972477740704555,
+          "abs_change_pct": 0.48372784819128967
+        },
+        {
+          "district": "19",
+          "before_margin_pct": 35.93743076173173,
+          "rebuilt_margin_pct": 35.48342503248638,
+          "abs_change_pct": 0.45400572924535254
+        }
+      ],
+      "before_totals": {
+        "dem": 828687,
+        "rep": 1124137,
+        "other": 1772
+      },
+      "rebuilt_totals": {
+        "dem": 828141,
+        "rep": 1123154,
+        "other": 1770
+      }
+    },
+    {
+      "file": "state_senate_governor_2009.json",
+      "rows": 40,
+      "match_coverage_pct": 99.92096128009479,
+      "direct_match_coverage_pct": 93.14161532172386,
+      "mean_abs_margin_change_pct": 0.5864600840804294,
+      "max_abs_margin_change_pct": 5.448798893363755,
+      "largest_margin_changes": [
+        {
+          "district": "14",
+          "before_margin_pct": -34.650572303724005,
+          "rebuilt_margin_pct": -29.20177341036025,
+          "abs_change_pct": 5.448798893363755
+        },
+        {
+          "district": "29",
+          "before_margin_pct": 14.073067339740478,
+          "rebuilt_margin_pct": 17.85053495294023,
+          "abs_change_pct": 3.777467613199752
+        },
+        {
+          "district": "16",
+          "before_margin_pct": 32.068435681853494,
+          "rebuilt_margin_pct": 29.666481079042367,
+          "abs_change_pct": 2.401954602811127
+        },
+        {
+          "district": "18",
+          "before_margin_pct": -5.315514685344735,
+          "rebuilt_margin_pct": -3.653557740376604,
+          "abs_change_pct": 1.6619569449681308
+        },
+        {
+          "district": "32",
+          "before_margin_pct": 19.46032880629021,
+          "rebuilt_margin_pct": 20.668506593069612,
+          "abs_change_pct": 1.2081777867794017
+        },
+        {
+          "district": "33",
+          "before_margin_pct": 11.190795583531111,
+          "rebuilt_margin_pct": 12.29267834940296,
+          "abs_change_pct": 1.1018827658718493
+        },
+        {
+          "district": "5",
+          "before_margin_pct": 29.936693928908465,
+          "rebuilt_margin_pct": 30.927938004314132,
+          "abs_change_pct": 0.9912440754056675
+        },
+        {
+          "district": "19",
+          "before_margin_pct": 38.92436682740345,
+          "rebuilt_margin_pct": 38.329544224315256,
+          "abs_change_pct": 0.5948226030881969
+        },
+        {
+          "district": "31",
+          "before_margin_pct": 23.751644977335868,
+          "rebuilt_margin_pct": 23.196574314679943,
+          "abs_change_pct": 0.5550706626559254
+        },
+        {
+          "district": "30",
+          "before_margin_pct": 28.04837084313067,
+          "rebuilt_margin_pct": 27.541132860766076,
+          "abs_change_pct": 0.5072379823645932
+        }
+      ],
+      "before_totals": {
+        "dem": 818950,
+        "rep": 1163651,
+        "other": 2502
+      },
+      "rebuilt_totals": {
+        "dem": 818397,
+        "rep": 1162636,
+        "other": 2504
+      }
+    },
+    {
+      "file": "state_senate_lieutenant_governor_2009.json",
+      "rows": 40,
+      "match_coverage_pct": 99.92182685183813,
+      "direct_match_coverage_pct": 93.10743625263152,
+      "mean_abs_margin_change_pct": 0.5558396632590437,
+      "max_abs_margin_change_pct": 5.0032841881795385,
+      "largest_margin_changes": [
+        {
+          "district": "14",
+          "before_margin_pct": -36.289402948603076,
+          "rebuilt_margin_pct": -31.286118760423538,
+          "abs_change_pct": 5.0032841881795385
+        },
+        {
+          "district": "29",
+          "before_margin_pct": 8.292619373330727,
+          "rebuilt_margin_pct": 12.244897959183673,
+          "abs_change_pct": 3.9522785858529463
+        },
+        {
+          "district": "16",
+          "before_margin_pct": 26.23937554206418,
+          "rebuilt_margin_pct": 24.12810103743798,
+          "abs_change_pct": 2.111274504626202
+        },
+        {
+          "district": "18",
+          "before_margin_pct": -11.282175706376691,
+          "rebuilt_margin_pct": -9.498782207409306,
+          "abs_change_pct": 1.783393498967385
+        },
+        {
+          "district": "32",
+          "before_margin_pct": 14.32523454414241,
+          "rebuilt_margin_pct": 15.424610051993067,
+          "abs_change_pct": 1.0993755078506577
+        },
+        {
+          "district": "33",
+          "before_margin_pct": 4.905014014325755,
+          "rebuilt_margin_pct": 5.937182905821555,
+          "abs_change_pct": 1.0321688914957994
+        },
+        {
+          "district": "5",
+          "before_margin_pct": 27.994708146247593,
+          "rebuilt_margin_pct": 28.942920561223453,
+          "abs_change_pct": 0.9482124149758597
+        },
+        {
+          "district": "31",
+          "before_margin_pct": 19.48683919486839,
+          "rebuilt_margin_pct": 18.971500295333726,
+          "abs_change_pct": 0.5153388995346653
+        },
+        {
+          "district": "12",
+          "before_margin_pct": 37.3274759859686,
+          "rebuilt_margin_pct": 36.84219069571146,
+          "abs_change_pct": 0.4852852902571385
+        },
+        {
+          "district": "17",
+          "before_margin_pct": 7.511977125111249,
+          "rebuilt_margin_pct": 7.914321332779267,
+          "abs_change_pct": 0.40234420766801815
+        }
+      ],
+      "before_totals": {
+        "dem": 850111,
+        "rep": 1106793,
+        "other": 1569
+      },
+      "rebuilt_totals": {
+        "dem": 849521,
+        "rep": 1105854,
+        "other": 1569
+      }
+    },
+    {
+      "file": "state_senate_president_2008.json",
+      "rows": 40,
+      "match_coverage_pct": 99.92656972652998,
+      "direct_match_coverage_pct": 84.78602085269361,
+      "mean_abs_margin_change_pct": 0.8615964072261887,
+      "max_abs_margin_change_pct": 4.257787236258636,
+      "largest_margin_changes": [
+        {
+          "district": "14",
+          "before_margin_pct": -54.7041847041847,
+          "rebuilt_margin_pct": -50.44639746792606,
+          "abs_change_pct": 4.257787236258636
+        },
+        {
+          "district": "18",
+          "before_margin_pct": -28.150169808029712,
+          "rebuilt_margin_pct": -23.967455562012784,
+          "abs_change_pct": 4.182714246016928
+        },
+        {
+          "district": "16",
+          "before_margin_pct": 6.05167932317415,
+          "rebuilt_margin_pct": 2.8918135083917034,
+          "abs_change_pct": 3.1598658147824463
+        },
+        {
+          "district": "19",
+          "before_margin_pct": 17.020443768453074,
+          "rebuilt_margin_pct": 14.382950234322694,
+          "abs_change_pct": 2.63749353413038
+        },
+        {
+          "district": "31",
+          "before_margin_pct": -3.4826365948357787,
+          "rebuilt_margin_pct": -5.851782465368472,
+          "abs_change_pct": 2.369145870532693
+        },
+        {
+          "district": "5",
+          "before_margin_pct": 12.875872487291733,
+          "rebuilt_margin_pct": 14.987449488411883,
+          "abs_change_pct": 2.11157700112015
+        },
+        {
+          "district": "20",
+          "before_margin_pct": 5.529197801763334,
+          "rebuilt_margin_pct": 3.79746835443038,
+          "abs_change_pct": 1.7317294473329539
+        },
+        {
+          "district": "32",
+          "before_margin_pct": -12.54775941904304,
+          "rebuilt_margin_pct": -10.850393700787402,
+          "abs_change_pct": 1.6973657182556376
+        },
+        {
+          "district": "4",
+          "before_margin_pct": 0.3026390121862642,
+          "rebuilt_margin_pct": -1.0929816500307952,
+          "abs_change_pct": 1.3956206622170595
+        },
+        {
+          "district": "13",
+          "before_margin_pct": -29.24439918533605,
+          "rebuilt_margin_pct": -27.910786682289018,
+          "abs_change_pct": 1.333612503047032
+        }
+      ],
+      "before_totals": {
+        "dem": 1959532,
+        "rep": 1725005,
+        "other": 38723
+      },
+      "rebuilt_totals": {
+        "dem": 1958322,
+        "rep": 1723508,
+        "other": 38691
+      }
+    },
+    {
+      "file": "state_senate_us_senate_2008.json",
+      "rows": 40,
+      "match_coverage_pct": 99.92679701391104,
+      "direct_match_coverage_pct": 84.94118234762279,
+      "mean_abs_margin_change_pct": 0.4667326660826637,
+      "max_abs_margin_change_pct": 3.230490687096662,
+      "largest_margin_changes": [
+        {
+          "district": "14",
+          "before_margin_pct": -67.93157043318284,
+          "rebuilt_margin_pct": -64.70107974608618,
+          "abs_change_pct": 3.230490687096662
+        },
+        {
+          "district": "29",
+          "before_margin_pct": -34.5803665227034,
+          "rebuilt_margin_pct": -31.71709175469411,
+          "abs_change_pct": 2.8632747680092905
+        },
+        {
+          "district": "16",
+          "before_margin_pct": -23.277747967144098,
+          "rebuilt_margin_pct": -25.438159359592856,
+          "abs_change_pct": 2.160411392448758
+        },
+        {
+          "district": "18",
+          "before_margin_pct": -45.09592971131433,
+          "rebuilt_margin_pct": -43.67224190491885,
+          "abs_change_pct": 1.4236878063954777
+        },
+        {
+          "district": "30",
+          "before_margin_pct": -23.41322096391888,
+          "rebuilt_margin_pct": -24.60764089446324,
+          "abs_change_pct": 1.1944199305443597
+        },
+        {
+          "district": "33",
+          "before_margin_pct": -35.47964739434794,
+          "rebuilt_margin_pct": -34.35700119942523,
+          "abs_change_pct": 1.1226461949227158
+        },
+        {
+          "district": "22",
+          "before_margin_pct": -34.99283380152497,
+          "rebuilt_margin_pct": -35.85615914307574,
+          "abs_change_pct": 0.8633253415507767
+        },
+        {
+          "district": "20",
+          "before_margin_pct": -28.779735950840617,
+          "rebuilt_margin_pct": -28.0216251736137,
+          "abs_change_pct": 0.7581107772269178
+        },
+        {
+          "district": "5",
+          "before_margin_pct": -29.97228154678057,
+          "rebuilt_margin_pct": -29.428004686394377,
+          "abs_change_pct": 0.5442768603861943
+        },
+        {
+          "district": "32",
+          "before_margin_pct": -26.71285802596332,
+          "rebuilt_margin_pct": -26.21566741476969,
+          "abs_change_pct": 0.4971906111936306
+        }
+      ],
+      "before_totals": {
+        "dem": 2369327,
+        "rep": 1228830,
+        "other": 45137
+      },
+      "rebuilt_totals": {
+        "dem": 2367579,
+        "rep": 1227940,
+        "other": 45112
+      }
+    }
+  ]
+}

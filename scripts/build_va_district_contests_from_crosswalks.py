@@ -54,6 +54,8 @@ STATE_SENATE_PARTY_BLEND_BY_COUNTY = {
 
 DEFAULT_MARGIN_TARGETS_CSV = "Data/benchmarks/district_margin_targets.csv"
 DEFAULT_RESULT_OVERRIDES_CSV = "Data/benchmarks/district_result_overrides.csv"
+DEFAULT_HISTORICAL_VTD_CROSSWALK = "Data/vtd00_to_vtd20_block_crosswalk.csv"
+HISTORICAL_VTD_MAX_YEAR = 2009
 ASSIGN_MEMBER_VTD = "BlockAssign_ST51_VA_VTD.txt"
 ASSIGN_MEMBER_CD = "BlockAssign_ST51_VA_CD.txt"
 ASSIGN_MEMBER_SLDL = "BlockAssign_ST51_VA_SLDL.txt"
@@ -919,6 +921,67 @@ def resolve_precinct_splits(
     return combine_candidate_splits(county, candidates, precinct_map, code_weights)
 
 
+def build_historical_vtd_scope_mappings(
+    crosswalk_csv: Path,
+    scope_mappings: dict[str, dict],
+) -> dict[str, dict]:
+    """Project Census-2000 VTD codes through the NHGIS block chain to districts."""
+    if not crosswalk_csv.exists():
+        raise FileNotFoundError(f"Historical VTD crosswalk not found: {crosswalk_csv}")
+
+    scope_indexes: dict[str, dict[str, list[str]]] = {}
+    for scope, source in scope_mappings.items():
+        index: dict[str, set[str]] = defaultdict(set)
+        for locality, code in source.get("precinct_map", {}):
+            index[locality].add(code)
+        scope_indexes[scope] = {locality: sorted(codes) for locality, codes in index.items()}
+
+    accumulated: dict[str, dict[tuple[str, str], dict[str, float]]] = {
+        scope: defaultdict(lambda: defaultdict(float)) for scope in SCOPES
+    }
+    source_weights: dict[tuple[str, str], float] = defaultdict(float)
+    with crosswalk_csv.open("r", encoding="utf-8-sig", newline="") as source:
+        for row in csv.DictReader(source):
+            locality = normalize_locality_key(row.get("county_nam", ""))
+            old_code = normalize_precinct_code(row.get("vtdst00", ""))
+            successor_code = normalize_precinct_code(row.get("vtd20_code", ""))
+            try:
+                share = float(row.get("area_share", 0) or 0)
+                source_area = float(row.get("old_vtd_area_weight_m2", 0) or 0)
+            except ValueError:
+                continue
+            if not locality or not old_code or not successor_code or share <= 0:
+                continue
+            source_weights[(locality, old_code)] = max(source_weights[(locality, old_code)], source_area)
+            for scope in SCOPES:
+                successor_splits = resolve_precinct_splits(
+                    locality,
+                    successor_code,
+                    scope_mappings[scope],
+                    scope_indexes[scope],
+                )
+                if not successor_splits:
+                    continue
+                for district_id, district_share in successor_splits:
+                    accumulated[scope][(locality, old_code)][district_id] += share * district_share
+
+    out: dict[str, dict] = {}
+    for scope in SCOPES:
+        precinct_map: dict[tuple[str, str], list[tuple[str, float]]] = {}
+        code_weights: dict[tuple[str, str], float] = {}
+        for key, district_weights in accumulated[scope].items():
+            pairs = normalize_weight_pairs(list(district_weights.items()))
+            if not pairs:
+                continue
+            precinct_map[key] = pairs
+            code_weights[key] = source_weights.get(key, 1.0)
+        out[scope] = {
+            "precinct_map": precinct_map,
+            "code_weights": code_weights,
+        }
+    return out
+
+
 def normalize_weight_pairs(pairs: list[tuple[str, float]]) -> list[tuple[str, float]]:
     vals = [(d, float(v)) for d, v in pairs if float(v) > 0]
     s = float(sum(v for _, v in vals))
@@ -963,6 +1026,7 @@ def build_district_contests(
     scope_mappings: dict[str, dict],
     locality_alias_map: dict[str, str],
     benchmark_filter: set[tuple[str, str, int]] | None = None,
+    historical_scope_mappings: dict[str, dict] | None = None,
 ) -> tuple[dict[tuple[str, str, int, str], dict], dict[tuple[str, str, int], dict], dict[tuple[str, str, int], dict]]:
     # district_key -> accum
     district_acc = defaultdict(
@@ -1015,6 +1079,12 @@ def build_district_contests(
         for county_name, code in explicit_overrides.get(scope, {}).get("precinct_map", {}).keys():
             idx[county_name].add(code)
         explicit_code_index[scope] = {k: sorted(v) for k, v in idx.items()}
+    historical_code_index: dict[str, dict[str, list[str]]] = {}
+    for scope in SCOPES:
+        idx: dict[str, set[str]] = defaultdict(set)
+        for county_name, code in (historical_scope_mappings or {}).get(scope, {}).get("precinct_map", {}).keys():
+            idx[county_name].add(code)
+        historical_code_index[scope] = {k: sorted(v) for k, v in idx.items()}
 
     for csv_path in sorted(openelections_root.rglob("*.csv")):
         year = parse_year_from_filename(csv_path)
@@ -1057,13 +1127,21 @@ def build_district_contests(
                         splits = None
                         prec_code = extract_precinct_code(precinct)
                         if prec_code and not is_non_geographic_precinct(precinct):
+                            if year <= HISTORICAL_VTD_MAX_YEAR and historical_scope_mappings:
+                                splits = resolve_precinct_splits(
+                                    county,
+                                    prec_code,
+                                    historical_scope_mappings.get(scope, {}),
+                                    historical_code_index.get(scope, {}),
+                                )
                             # Prefer geometry-derived precinct splits first.
-                            splits = resolve_precinct_splits(
-                                county,
-                                prec_code,
-                                scope_mappings[scope],
-                                scope_code_index.get(scope, {}),
-                            )
+                            if not splits:
+                                splits = resolve_precinct_splits(
+                                    county,
+                                    prec_code,
+                                    scope_mappings[scope],
+                                    scope_code_index.get(scope, {}),
+                                )
                             # Use explicit district-contest overrides as fallback only for
                             # unresolved codes in legislative scopes.
                             if not splits and scope in {"state_house", "state_senate"}:

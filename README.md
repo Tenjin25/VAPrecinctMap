@@ -723,6 +723,21 @@ through the NHGIS 2000→2010 and 2010→2020 relationships, and joins the resul
 `Data/vtd00_to_vtd20_block_crosswalk.csv` preserves weighted one-to-many links
 for historical splits and mergers.
 
+The 2008 presidential/U.S. Senate and 2009 statewide district slices consume
+that bridge through the dedicated audit-first rebuild:
+
+```bash
+python scripts/rebuild_va_historical_district_contests.py
+python scripts/rebuild_va_historical_district_contests.py --write
+python scripts/reconcile_va_district_contests.py --write
+```
+
+For each old VTD, the rebuild carries its votes through the NHGIS-derived
+`area_share` links into VTD20 and then through the displayed congressional,
+House, and Senate district mappings. Unmatched non-geographic votes retain the
+existing within-locality allocation fallback. The final reconciliation step
+restores exact official statewide party totals with largest-remainder rounding.
+
 ---
 
 ## Front-End Architecture

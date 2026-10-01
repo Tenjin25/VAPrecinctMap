@@ -9,7 +9,42 @@
     "direct_matched_votes": 2068231,
     "allocated_votes": 133406,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 93.94059965380306
+    "direct_match_coverage_pct": 93.94059965380306,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "17",
+      "20",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30",
+      "37",
+      "39"
+    ],
+    "exact_locality_cluster_districts": [
+      "1",
+      "6",
+      "8"
+    ],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -51,14 +86,14 @@
       },
       "12": {
         "dem_votes": 33219,
-        "rep_votes": 35288,
+        "rep_votes": 35287,
         "other_votes": 546,
-        "total_votes": 69053,
+        "total_votes": 69052,
         "dem_candidate": "Ralph Shearer Northam",
         "rep_candidate": "Earl Walker Jackson, Sr.",
         "winner": "Republican",
-        "margin": 2069,
-        "margin_pct": 2.99624925781646,
+        "margin": 2068,
+        "margin_pct": 2.994844465040839,
         "color": "#fcae91"
       },
       "13": {
@@ -74,15 +109,15 @@
         "color": "#08519c"
       },
       "14": {
-        "dem_votes": 49634,
+        "dem_votes": 49633,
         "rep_votes": 11301,
         "other_votes": 348,
-        "total_votes": 61283,
+        "total_votes": 61282,
         "dem_candidate": "Ralph Shearer Northam",
         "rep_candidate": "Earl Walker Jackson, Sr.",
         "winner": "Democratic",
-        "margin": 38333,
-        "margin_pct": -62.55078896268134,
+        "margin": 38332,
+        "margin_pct": -62.55017786625763,
         "color": "#08306b"
       },
       "15": {

@@ -9,20 +9,38 @@
     "direct_matched_votes": 2415119,
     "allocated_votes": 198946,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 92.38940118168446
+    "direct_match_coverage_pct": 92.38940118168446,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "exact_locality_cluster_districts": [],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
       "1": {
         "dem_votes": 126994,
-        "rep_votes": 156709,
+        "rep_votes": 156708,
         "other_votes": 3327,
-        "total_votes": 287030,
+        "total_votes": 287029,
         "dem_candidate": "Ralph Shearer Northam",
         "rep_candidate": "Edward Walter Gillespie",
         "winner": "Republican",
-        "margin": 29715,
-        "margin_pct": 10.35257638574365,
+        "margin": 29714,
+        "margin_pct": 10.352264056941982,
         "color": "#ef3b2c"
       },
       "10": {

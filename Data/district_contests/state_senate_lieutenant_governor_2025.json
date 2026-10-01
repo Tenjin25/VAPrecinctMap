@@ -9,7 +9,42 @@
     "direct_matched_votes": 3377301,
     "allocated_votes": 28198,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 99.17198624929856
+    "direct_match_coverage_pct": 99.17198624929856,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "17",
+      "20",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30",
+      "37",
+      "39"
+    ],
+    "exact_locality_cluster_districts": [
+      "1",
+      "6",
+      "8"
+    ],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -51,14 +86,14 @@
       },
       "12": {
         "dem_votes": 58442,
-        "rep_votes": 53609,
+        "rep_votes": 53610,
         "other_votes": 0,
-        "total_votes": 112051,
+        "total_votes": 112052,
         "dem_candidate": "Ghazala F. Hashmi",
         "rep_candidate": "John J. Reid, II",
         "winner": "Democratic",
-        "margin": 4833,
-        "margin_pct": -4.313214518388948,
+        "margin": 4832,
+        "margin_pct": -4.312283582622354,
         "color": "#c6dbef"
       },
       "13": {
@@ -135,14 +170,14 @@
       },
       "19": {
         "dem_votes": 39770,
-        "rep_votes": 47799,
+        "rep_votes": 47800,
         "other_votes": 0,
-        "total_votes": 87569,
+        "total_votes": 87570,
         "dem_candidate": "Ghazala F. Hashmi",
         "rep_candidate": "John J. Reid, II",
         "winner": "Republican",
-        "margin": 8029,
-        "margin_pct": 9.16876977012413,
+        "margin": 8030,
+        "margin_pct": 9.16980701153363,
         "color": "#fb6a4a"
       },
       "2": {
@@ -422,15 +457,15 @@
         "color": "#c6dbef"
       },
       "40": {
-        "dem_votes": 80694,
+        "dem_votes": 80693,
         "rep_votes": 18305,
         "other_votes": 0,
-        "total_votes": 98999,
+        "total_votes": 98998,
         "dem_candidate": "Ghazala F. Hashmi",
         "rep_candidate": "John J. Reid, II",
         "winner": "Democratic",
-        "margin": 62389,
-        "margin_pct": -63.019828483115994,
+        "margin": 62388,
+        "margin_pct": -63.01945493848361,
         "color": "#08306b"
       },
       "5": {

@@ -9,7 +9,42 @@
     "direct_matched_votes": 2398714,
     "allocated_votes": 196824,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 92.41683227138266
+    "direct_match_coverage_pct": 92.41683227138266,
+    "statewide_vote_reconciled": true,
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "17",
+      "20",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30",
+      "37",
+      "39"
+    ],
+    "exact_locality_cluster_districts": [
+      "1",
+      "6",
+      "8"
+    ],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -51,14 +86,14 @@
       },
       "12": {
         "dem_votes": 34686,
-        "rep_votes": 45302,
+        "rep_votes": 45301,
         "other_votes": 67,
-        "total_votes": 80055,
+        "total_votes": 80054,
         "dem_candidate": "Justin Edward Fairfax",
         "rep_candidate": "Jill Holtzman Vogel",
         "winner": "Republican",
-        "margin": 10616,
-        "margin_pct": 13.260883142839297,
+        "margin": 10615,
+        "margin_pct": 13.259799635246209,
         "color": "#ef3b2c"
       },
       "13": {
@@ -74,15 +109,15 @@
         "color": "#3182bd"
       },
       "14": {
-        "dem_votes": 60700,
+        "dem_votes": 60701,
         "rep_votes": 15349,
         "other_votes": 71,
-        "total_votes": 76120,
+        "total_votes": 76121,
         "dem_candidate": "Justin Edward Fairfax",
         "rep_candidate": "Jill Holtzman Vogel",
         "winner": "Democratic",
-        "margin": 45351,
-        "margin_pct": -59.57829742511823,
+        "margin": 45352,
+        "margin_pct": -59.57882844418755,
         "color": "#08306b"
       },
       "15": {
@@ -99,14 +134,14 @@
       },
       "16": {
         "dem_votes": 39135,
-        "rep_votes": 35700,
+        "rep_votes": 35699,
         "other_votes": 111,
-        "total_votes": 74946,
+        "total_votes": 74945,
         "dem_candidate": "Justin Edward Fairfax",
         "rep_candidate": "Jill Holtzman Vogel",
         "winner": "Democratic",
-        "margin": 3435,
-        "margin_pct": -4.583299975982707,
+        "margin": 3436,
+        "margin_pct": -4.584695443325105,
         "color": "#c6dbef"
       },
       "17": {
@@ -231,14 +266,14 @@
       },
       "26": {
         "dem_votes": 31277,
-        "rep_votes": 53244,
+        "rep_votes": 53243,
         "other_votes": 76,
-        "total_votes": 84597,
+        "total_votes": 84596,
         "dem_candidate": "Justin Edward Fairfax",
         "rep_candidate": "Jill Holtzman Vogel",
         "winner": "Republican",
-        "margin": 21967,
-        "margin_pct": 25.966641843091367,
+        "margin": 21966,
+        "margin_pct": 25.9657667029174,
         "color": "#cb181d"
       },
       "27": {
@@ -422,15 +457,15 @@
         "color": "#fb6a4a"
       },
       "40": {
-        "dem_votes": 60618,
+        "dem_votes": 60619,
         "rep_votes": 15624,
         "other_votes": 78,
-        "total_votes": 76320,
+        "total_votes": 76321,
         "dem_candidate": "Justin Edward Fairfax",
         "rep_candidate": "Jill Holtzman Vogel",
         "winner": "Democratic",
-        "margin": 44994,
-        "margin_pct": -58.95440251572327,
+        "margin": 44995,
+        "margin_pct": -58.95494031786795,
         "color": "#08306b"
       },
       "5": {

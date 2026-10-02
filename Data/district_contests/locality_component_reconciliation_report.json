@@ -6,6 +6,23 @@
   "components": {
     "congressional": {
       "whole_by_district": {
+        "1": [
+          "ESSEX COUNTY",
+          "GLOUCESTER COUNTY",
+          "JAMES CITY COUNTY",
+          "KING AND QUEEN COUNTY",
+          "KING WILLIAM COUNTY",
+          "LANCASTER COUNTY",
+          "MATHEWS COUNTY",
+          "MIDDLESEX COUNTY",
+          "NEW KENT COUNTY",
+          "NORTHUMBERLAND COUNTY",
+          "POQUOSON CITY",
+          "RICHMOND COUNTY",
+          "WESTMORELAND COUNTY",
+          "WILLIAMSBURG CITY",
+          "YORK COUNTY"
+        ],
         "2": [
           "ACCOMACK COUNTY",
           "FRANKLIN CITY",
@@ -14,10 +31,48 @@
           "SUFFOLK CITY",
           "VIRGINIA BEACH CITY"
         ],
-        "8": [
-          "ALEXANDRIA CITY",
-          "ARLINGTON COUNTY",
-          "FALLS CHURCH CITY"
+        "3": [
+          "HAMPTON CITY",
+          "NEWPORT NEWS CITY",
+          "NORFOLK CITY",
+          "PORTSMOUTH CITY"
+        ],
+        "4": [
+          "BRUNSWICK COUNTY",
+          "CHARLES CITY COUNTY",
+          "COLONIAL HEIGHTS CITY",
+          "DINWIDDIE COUNTY",
+          "EMPORIA CITY",
+          "GREENSVILLE COUNTY",
+          "HOPEWELL CITY",
+          "PETERSBURG CITY",
+          "PRINCE GEORGE COUNTY",
+          "RICHMOND CITY",
+          "SURRY COUNTY",
+          "SUSSEX COUNTY"
+        ],
+        "5": [
+          "AMELIA COUNTY",
+          "AMHERST COUNTY",
+          "APPOMATTOX COUNTY",
+          "BUCKINGHAM COUNTY",
+          "CAMPBELL COUNTY",
+          "CHARLOTTE COUNTY",
+          "CHARLOTTESVILLE CITY",
+          "CUMBERLAND COUNTY",
+          "DANVILLE CITY",
+          "FLUVANNA COUNTY",
+          "GOOCHLAND COUNTY",
+          "HALIFAX COUNTY",
+          "LOUISA COUNTY",
+          "LUNENBURG COUNTY",
+          "LYNCHBURG CITY",
+          "MECKLENBURG COUNTY",
+          "NELSON COUNTY",
+          "NOTTOWAY COUNTY",
+          "PITTSYLVANIA COUNTY",
+          "POWHATAN COUNTY",
+          "PRINCE EDWARD COUNTY"
         ],
         "6": [
           "ALLEGHANY COUNTY",
@@ -42,28 +97,21 @@
           "WAYNESBORO CITY",
           "WINCHESTER CITY"
         ],
-        "5": [
-          "AMELIA COUNTY",
-          "AMHERST COUNTY",
-          "APPOMATTOX COUNTY",
-          "BUCKINGHAM COUNTY",
-          "CAMPBELL COUNTY",
-          "CHARLOTTE COUNTY",
-          "CHARLOTTESVILLE CITY",
-          "CUMBERLAND COUNTY",
-          "DANVILLE CITY",
-          "FLUVANNA COUNTY",
-          "GOOCHLAND COUNTY",
-          "HALIFAX COUNTY",
-          "LOUISA COUNTY",
-          "LUNENBURG COUNTY",
-          "LYNCHBURG CITY",
-          "MECKLENBURG COUNTY",
-          "NELSON COUNTY",
-          "NOTTOWAY COUNTY",
-          "PITTSYLVANIA COUNTY",
-          "POWHATAN COUNTY",
-          "PRINCE EDWARD COUNTY"
+        "7": [
+          "CAROLINE COUNTY",
+          "CULPEPER COUNTY",
+          "FREDERICKSBURG CITY",
+          "GREENE COUNTY",
+          "KING GEORGE COUNTY",
+          "MADISON COUNTY",
+          "ORANGE COUNTY",
+          "SPOTSYLVANIA COUNTY",
+          "STAFFORD COUNTY"
+        ],
+        "8": [
+          "ALEXANDRIA CITY",
+          "ARLINGTON COUNTY",
+          "FALLS CHURCH CITY"
         ],
         "9": [
           "BLAND COUNTY",
@@ -93,51 +141,6 @@
           "WISE COUNTY",
           "WYTHE COUNTY"
         ],
-        "4": [
-          "BRUNSWICK COUNTY",
-          "CHARLES CITY COUNTY",
-          "COLONIAL HEIGHTS CITY",
-          "DINWIDDIE COUNTY",
-          "EMPORIA CITY",
-          "GREENSVILLE COUNTY",
-          "HOPEWELL CITY",
-          "PETERSBURG CITY",
-          "PRINCE GEORGE COUNTY",
-          "RICHMOND CITY",
-          "SURRY COUNTY",
-          "SUSSEX COUNTY"
-        ],
-        "7": [
-          "CAROLINE COUNTY",
-          "CULPEPER COUNTY",
-          "FREDERICKSBURG CITY",
-          "GREENE COUNTY",
-          "KING GEORGE COUNTY",
-          "MADISON COUNTY",
-          "ORANGE COUNTY",
-          "SPOTSYLVANIA COUNTY",
-          "STAFFORD COUNTY"
-        ],
-        "1": [
-          "ESSEX COUNTY",
-          "GLOUCESTER COUNTY",
-          "JAMES CITY COUNTY",
-          "KING AND QUEEN COUNTY",
-          "KING WILLIAM COUNTY",
-          "LANCASTER COUNTY",
-          "MATHEWS COUNTY",
-          "MIDDLESEX COUNTY",
-          "NEW KENT COUNTY",
-          "NORTHUMBERLAND COUNTY",
-          "POQUOSON CITY",
-          "RICHMOND COUNTY",
-          "WESTMORELAND COUNTY",
-          "WILLIAMSBURG CITY",
-          "YORK COUNTY"
-        ],
-        "11": [
-          "FAIRFAX CITY"
-        ],
         "10": [
           "FAUQUIER COUNTY",
           "LOUDOUN COUNTY",
@@ -145,26 +148,15 @@
           "MANASSAS PARK CITY",
           "RAPPAHANNOCK COUNTY"
         ],
-        "3": [
-          "HAMPTON CITY",
-          "NEWPORT NEWS CITY",
-          "NORFOLK CITY",
-          "PORTSMOUTH CITY"
+        "11": [
+          "FAIRFAX CITY"
         ]
       },
       "partial_by_district": {
-        "5": [
-          "ALBEMARLE COUNTY",
-          "BEDFORD COUNTY",
-          "HANOVER COUNTY"
-        ],
-        "7": [
-          "ALBEMARLE COUNTY",
-          "PRINCE WILLIAM COUNTY"
-        ],
-        "9": [
-          "BEDFORD COUNTY",
-          "ROANOKE COUNTY"
+        "1": [
+          "CHESTERFIELD COUNTY",
+          "HANOVER COUNTY",
+          "HENRICO COUNTY"
         ],
         "2": [
           "CHESAPEAKE CITY",
@@ -173,15 +165,29 @@
         "3": [
           "CHESAPEAKE CITY"
         ],
-        "1": [
-          "CHESTERFIELD COUNTY",
-          "HANOVER COUNTY",
-          "HENRICO COUNTY"
-        ],
         "4": [
           "CHESTERFIELD COUNTY",
           "HENRICO COUNTY",
           "SOUTHAMPTON COUNTY"
+        ],
+        "5": [
+          "ALBEMARLE COUNTY",
+          "BEDFORD COUNTY",
+          "HANOVER COUNTY"
+        ],
+        "6": [
+          "ROANOKE COUNTY"
+        ],
+        "7": [
+          "ALBEMARLE COUNTY",
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "8": [
+          "FAIRFAX COUNTY"
+        ],
+        "9": [
+          "BEDFORD COUNTY",
+          "ROANOKE COUNTY"
         ],
         "10": [
           "FAIRFAX COUNTY",
@@ -189,21 +195,42 @@
         ],
         "11": [
           "FAIRFAX COUNTY"
-        ],
-        "8": [
-          "FAIRFAX COUNTY"
-        ],
-        "6": [
-          "ROANOKE COUNTY"
         ]
       },
       "exact_clusters": []
     },
     "state_house": {
       "whole_by_district": {
-        "100": [
-          "ACCOMACK COUNTY",
-          "NORTHAMPTON COUNTY"
+        "11": [
+          "FAIRFAX CITY"
+        ],
+        "13": [
+          "FALLS CHURCH CITY"
+        ],
+        "20": [
+          "MANASSAS CITY",
+          "MANASSAS PARK CITY"
+        ],
+        "31": [
+          "CLARKE COUNTY"
+        ],
+        "32": [
+          "WINCHESTER CITY"
+        ],
+        "33": [
+          "PAGE COUNTY",
+          "SHENANDOAH COUNTY"
+        ],
+        "34": [
+          "HARRISONBURG CITY"
+        ],
+        "35": [
+          "BATH COUNTY",
+          "HIGHLAND COUNTY"
+        ],
+        "36": [
+          "STAUNTON CITY",
+          "WAYNESBORO CITY"
         ],
         "37": [
           "ALLEGHANY COUNTY",
@@ -213,22 +240,15 @@
           "CRAIG COUNTY",
           "LEXINGTON CITY"
         ],
-        "72": [
-          "AMELIA COUNTY",
-          "NOTTOWAY COUNTY",
-          "POWHATAN COUNTY"
+        "39": [
+          "FRANKLIN COUNTY"
         ],
-        "53": [
-          "AMHERST COUNTY"
+        "40": [
+          "SALEM CITY"
         ],
-        "56": [
-          "APPOMATTOX COUNTY",
-          "BUCKINGHAM COUNTY",
-          "CUMBERLAND COUNTY"
-        ],
-        "35": [
-          "BATH COUNTY",
-          "HIGHLAND COUNTY"
+        "42": [
+          "GILES COUNTY",
+          "RADFORD CITY"
         ],
         "43": [
           "BLAND COUNTY",
@@ -239,12 +259,16 @@
           "BRISTOL CITY",
           "WASHINGTON COUNTY"
         ],
-        "83": [
-          "BRUNSWICK COUNTY",
-          "EMPORIA CITY",
-          "GREENSVILLE COUNTY",
-          "SOUTHAMPTON COUNTY",
-          "SUSSEX COUNTY"
+        "45": [
+          "LEE COUNTY",
+          "NORTON CITY",
+          "SCOTT COUNTY",
+          "WISE COUNTY"
+        ],
+        "46": [
+          "GRAYSON COUNTY",
+          "SMYTH COUNTY",
+          "WYTHE COUNTY"
         ],
         "47": [
           "CARROLL COUNTY",
@@ -252,66 +276,40 @@
           "GALAX CITY",
           "PATRICK COUNTY"
         ],
-        "81": [
-          "CHARLES CITY COUNTY"
+        "48": [
+          "MARTINSVILLE CITY"
+        ],
+        "49": [
+          "DANVILLE CITY"
         ],
         "50": [
           "CHARLOTTE COUNTY",
           "LUNENBURG COUNTY",
           "MECKLENBURG COUNTY"
         ],
+        "52": [
+          "LYNCHBURG CITY"
+        ],
+        "53": [
+          "AMHERST COUNTY"
+        ],
         "54": [
           "CHARLOTTESVILLE CITY"
         ],
-        "31": [
-          "CLARKE COUNTY"
+        "56": [
+          "APPOMATTOX COUNTY",
+          "BUCKINGHAM COUNTY",
+          "CUMBERLAND COUNTY"
         ],
-        "74": [
-          "COLONIAL HEIGHTS CITY"
-        ],
-        "49": [
-          "DANVILLE CITY"
-        ],
-        "68": [
-          "ESSEX COUNTY",
-          "KING AND QUEEN COUNTY",
-          "KING WILLIAM COUNTY",
-          "MATHEWS COUNTY",
-          "MIDDLESEX COUNTY"
-        ],
-        "11": [
-          "FAIRFAX CITY"
-        ],
-        "13": [
-          "FALLS CHURCH CITY"
-        ],
-        "84": [
-          "FRANKLIN CITY"
-        ],
-        "39": [
-          "FRANKLIN COUNTY"
-        ],
-        "65": [
-          "FREDERICKSBURG CITY"
-        ],
-        "42": [
-          "GILES COUNTY",
-          "RADFORD CITY"
-        ],
-        "46": [
-          "GRAYSON COUNTY",
-          "SMYTH COUNTY",
-          "WYTHE COUNTY"
+        "61": [
+          "RAPPAHANNOCK COUNTY"
         ],
         "62": [
           "GREENE COUNTY",
           "MADISON COUNTY"
         ],
-        "34": [
-          "HARRISONBURG CITY"
-        ],
-        "75": [
-          "HOPEWELL CITY"
+        "65": [
+          "FREDERICKSBURG CITY"
         ],
         "67": [
           "KING GEORGE COUNTY",
@@ -320,59 +318,58 @@
           "RICHMOND COUNTY",
           "WESTMORELAND COUNTY"
         ],
-        "45": [
-          "LEE COUNTY",
-          "NORTON CITY",
-          "SCOTT COUNTY",
-          "WISE COUNTY"
+        "68": [
+          "ESSEX COUNTY",
+          "KING AND QUEEN COUNTY",
+          "KING WILLIAM COUNTY",
+          "MATHEWS COUNTY",
+          "MIDDLESEX COUNTY"
         ],
-        "52": [
-          "LYNCHBURG CITY"
+        "71": [
+          "WILLIAMSBURG CITY"
         ],
-        "20": [
-          "MANASSAS CITY",
-          "MANASSAS PARK CITY"
+        "72": [
+          "AMELIA COUNTY",
+          "NOTTOWAY COUNTY",
+          "POWHATAN COUNTY"
         ],
-        "48": [
-          "MARTINSVILLE CITY"
+        "74": [
+          "COLONIAL HEIGHTS CITY"
         ],
-        "33": [
-          "PAGE COUNTY",
-          "SHENANDOAH COUNTY"
+        "75": [
+          "HOPEWELL CITY"
+        ],
+        "81": [
+          "CHARLES CITY COUNTY"
         ],
         "82": [
           "PETERSBURG CITY",
           "SURRY COUNTY"
         ],
+        "83": [
+          "BRUNSWICK COUNTY",
+          "EMPORIA CITY",
+          "GREENSVILLE COUNTY",
+          "SOUTHAMPTON COUNTY",
+          "SUSSEX COUNTY"
+        ],
+        "84": [
+          "FRANKLIN CITY"
+        ],
         "86": [
           "POQUOSON CITY"
         ],
-        "61": [
-          "RAPPAHANNOCK COUNTY"
-        ],
-        "40": [
-          "SALEM CITY"
-        ],
-        "36": [
-          "STAUNTON CITY",
-          "WAYNESBORO CITY"
-        ],
-        "71": [
-          "WILLIAMSBURG CITY"
-        ],
-        "32": [
-          "WINCHESTER CITY"
+        "100": [
+          "ACCOMACK COUNTY",
+          "NORTHAMPTON COUNTY"
         ]
       },
       "partial_by_district": {
-        "54": [
-          "ALBEMARLE COUNTY"
+        "1": [
+          "ARLINGTON COUNTY"
         ],
-        "55": [
-          "ALBEMARLE COUNTY",
-          "FLUVANNA COUNTY",
-          "LOUISA COUNTY",
-          "NELSON COUNTY"
+        "2": [
+          "ARLINGTON COUNTY"
         ],
         "3": [
           "ALEXANDRIA CITY",
@@ -385,11 +382,97 @@
         "5": [
           "ALEXANDRIA CITY"
         ],
-        "1": [
-          "ARLINGTON COUNTY"
+        "6": [
+          "FAIRFAX COUNTY"
         ],
-        "2": [
-          "ARLINGTON COUNTY"
+        "7": [
+          "FAIRFAX COUNTY"
+        ],
+        "8": [
+          "FAIRFAX COUNTY"
+        ],
+        "9": [
+          "FAIRFAX COUNTY"
+        ],
+        "10": [
+          "FAIRFAX COUNTY"
+        ],
+        "11": [
+          "FAIRFAX COUNTY"
+        ],
+        "12": [
+          "FAIRFAX COUNTY"
+        ],
+        "13": [
+          "FAIRFAX COUNTY"
+        ],
+        "14": [
+          "FAIRFAX COUNTY"
+        ],
+        "15": [
+          "FAIRFAX COUNTY"
+        ],
+        "16": [
+          "FAIRFAX COUNTY"
+        ],
+        "17": [
+          "FAIRFAX COUNTY"
+        ],
+        "18": [
+          "FAIRFAX COUNTY"
+        ],
+        "19": [
+          "FAIRFAX COUNTY",
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "20": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "21": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "22": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "23": [
+          "PRINCE WILLIAM COUNTY",
+          "STAFFORD COUNTY"
+        ],
+        "24": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "25": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "26": [
+          "LOUDOUN COUNTY"
+        ],
+        "27": [
+          "LOUDOUN COUNTY"
+        ],
+        "28": [
+          "LOUDOUN COUNTY"
+        ],
+        "29": [
+          "LOUDOUN COUNTY"
+        ],
+        "30": [
+          "FAUQUIER COUNTY",
+          "LOUDOUN COUNTY"
+        ],
+        "31": [
+          "FREDERICK COUNTY",
+          "WARREN COUNTY"
+        ],
+        "32": [
+          "FREDERICK COUNTY"
+        ],
+        "33": [
+          "ROCKINGHAM COUNTY",
+          "WARREN COUNTY"
+        ],
+        "34": [
+          "ROCKINGHAM COUNTY"
         ],
         "35": [
           "AUGUSTA COUNTY",
@@ -399,17 +482,115 @@
           "AUGUSTA COUNTY",
           "ROCKBRIDGE COUNTY"
         ],
+        "37": [
+          "ROCKBRIDGE COUNTY"
+        ],
+        "38": [
+          "ROANOKE CITY"
+        ],
+        "39": [
+          "ROANOKE COUNTY"
+        ],
+        "40": [
+          "ROANOKE CITY",
+          "ROANOKE COUNTY"
+        ],
+        "41": [
+          "MONTGOMERY COUNTY",
+          "ROANOKE COUNTY"
+        ],
+        "42": [
+          "MONTGOMERY COUNTY",
+          "PULASKI COUNTY"
+        ],
+        "43": [
+          "DICKENSON COUNTY",
+          "RUSSELL COUNTY"
+        ],
+        "44": [
+          "RUSSELL COUNTY"
+        ],
+        "45": [
+          "DICKENSON COUNTY"
+        ],
+        "46": [
+          "PULASKI COUNTY"
+        ],
+        "47": [
+          "HENRY COUNTY"
+        ],
+        "48": [
+          "HENRY COUNTY",
+          "PITTSYLVANIA COUNTY"
+        ],
+        "49": [
+          "HALIFAX COUNTY",
+          "PITTSYLVANIA COUNTY"
+        ],
+        "50": [
+          "HALIFAX COUNTY",
+          "PRINCE EDWARD COUNTY"
+        ],
         "51": [
           "BEDFORD COUNTY",
           "CAMPBELL COUNTY",
           "PITTSYLVANIA COUNTY"
         ],
+        "52": [
+          "CAMPBELL COUNTY"
+        ],
         "53": [
           "BEDFORD COUNTY",
           "NELSON COUNTY"
         ],
-        "52": [
-          "CAMPBELL COUNTY"
+        "54": [
+          "ALBEMARLE COUNTY"
+        ],
+        "55": [
+          "ALBEMARLE COUNTY",
+          "FLUVANNA COUNTY",
+          "LOUISA COUNTY",
+          "NELSON COUNTY"
+        ],
+        "56": [
+          "FLUVANNA COUNTY",
+          "GOOCHLAND COUNTY",
+          "PRINCE EDWARD COUNTY"
+        ],
+        "57": [
+          "GOOCHLAND COUNTY",
+          "HENRICO COUNTY"
+        ],
+        "58": [
+          "HENRICO COUNTY"
+        ],
+        "59": [
+          "HANOVER COUNTY",
+          "HENRICO COUNTY",
+          "LOUISA COUNTY"
+        ],
+        "60": [
+          "HANOVER COUNTY",
+          "NEW KENT COUNTY"
+        ],
+        "61": [
+          "CULPEPER COUNTY",
+          "FAUQUIER COUNTY"
+        ],
+        "62": [
+          "CULPEPER COUNTY",
+          "ORANGE COUNTY"
+        ],
+        "63": [
+          "ORANGE COUNTY",
+          "SPOTSYLVANIA COUNTY"
+        ],
+        "64": [
+          "STAFFORD COUNTY"
+        ],
+        "65": [
+          "SPOTSYLVANIA COUNTY",
+          "STAFFORD COUNTY"
         ],
         "66": [
           "CAROLINE COUNTY",
@@ -418,20 +599,21 @@
         "67": [
           "CAROLINE COUNTY"
         ],
-        "89": [
-          "CHESAPEAKE CITY",
-          "SUFFOLK CITY"
+        "68": [
+          "GLOUCESTER COUNTY"
         ],
-        "90": [
-          "CHESAPEAKE CITY"
+        "69": [
+          "GLOUCESTER COUNTY",
+          "JAMES CITY COUNTY",
+          "NEWPORT NEWS CITY",
+          "YORK COUNTY"
         ],
-        "91": [
-          "CHESAPEAKE CITY",
-          "PORTSMOUTH CITY"
+        "70": [
+          "NEWPORT NEWS CITY"
         ],
-        "92": [
-          "CHESAPEAKE CITY",
-          "NORFOLK CITY"
+        "71": [
+          "JAMES CITY COUNTY",
+          "NEW KENT COUNTY"
         ],
         "72": [
           "CHESTERFIELD COUNTY"
@@ -453,24 +635,18 @@
           "CHESTERFIELD COUNTY",
           "RICHMOND CITY"
         ],
+        "78": [
+          "RICHMOND CITY"
+        ],
+        "79": [
+          "RICHMOND CITY"
+        ],
+        "80": [
+          "HENRICO COUNTY"
+        ],
         "81": [
           "CHESTERFIELD COUNTY",
           "HENRICO COUNTY"
-        ],
-        "61": [
-          "CULPEPER COUNTY",
-          "FAUQUIER COUNTY"
-        ],
-        "62": [
-          "CULPEPER COUNTY",
-          "ORANGE COUNTY"
-        ],
-        "43": [
-          "DICKENSON COUNTY",
-          "RUSSELL COUNTY"
-        ],
-        "45": [
-          "DICKENSON COUNTY"
         ],
         "82": [
           "DINWIDDIE COUNTY",
@@ -480,85 +656,12 @@
           "DINWIDDIE COUNTY",
           "ISLE OF WIGHT COUNTY"
         ],
-        "10": [
-          "FAIRFAX COUNTY"
+        "84": [
+          "ISLE OF WIGHT COUNTY",
+          "SUFFOLK CITY"
         ],
-        "11": [
-          "FAIRFAX COUNTY"
-        ],
-        "12": [
-          "FAIRFAX COUNTY"
-        ],
-        "13": [
-          "FAIRFAX COUNTY"
-        ],
-        "14": [
-          "FAIRFAX COUNTY"
-        ],
-        "15": [
-          "FAIRFAX COUNTY"
-        ],
-        "16": [
-          "FAIRFAX COUNTY"
-        ],
-        "17": [
-          "FAIRFAX COUNTY"
-        ],
-        "18": [
-          "FAIRFAX COUNTY"
-        ],
-        "19": [
-          "FAIRFAX COUNTY",
-          "PRINCE WILLIAM COUNTY"
-        ],
-        "6": [
-          "FAIRFAX COUNTY"
-        ],
-        "7": [
-          "FAIRFAX COUNTY"
-        ],
-        "8": [
-          "FAIRFAX COUNTY"
-        ],
-        "9": [
-          "FAIRFAX COUNTY"
-        ],
-        "30": [
-          "FAUQUIER COUNTY",
-          "LOUDOUN COUNTY"
-        ],
-        "56": [
-          "FLUVANNA COUNTY",
-          "GOOCHLAND COUNTY",
-          "PRINCE EDWARD COUNTY"
-        ],
-        "31": [
-          "FREDERICK COUNTY",
-          "WARREN COUNTY"
-        ],
-        "32": [
-          "FREDERICK COUNTY"
-        ],
-        "68": [
-          "GLOUCESTER COUNTY"
-        ],
-        "69": [
-          "GLOUCESTER COUNTY",
-          "JAMES CITY COUNTY",
-          "NEWPORT NEWS CITY",
-          "YORK COUNTY"
-        ],
-        "57": [
-          "GOOCHLAND COUNTY",
-          "HENRICO COUNTY"
-        ],
-        "49": [
-          "HALIFAX COUNTY",
-          "PITTSYLVANIA COUNTY"
-        ],
-        "50": [
-          "HALIFAX COUNTY",
-          "PRINCE EDWARD COUNTY"
+        "85": [
+          "NEWPORT NEWS CITY"
         ],
         "86": [
           "HAMPTON CITY",
@@ -567,61 +670,23 @@
         "87": [
           "HAMPTON CITY"
         ],
-        "59": [
-          "HANOVER COUNTY",
-          "HENRICO COUNTY",
-          "LOUISA COUNTY"
+        "88": [
+          "PORTSMOUTH CITY"
         ],
-        "60": [
-          "HANOVER COUNTY",
-          "NEW KENT COUNTY"
-        ],
-        "58": [
-          "HENRICO COUNTY"
-        ],
-        "80": [
-          "HENRICO COUNTY"
-        ],
-        "47": [
-          "HENRY COUNTY"
-        ],
-        "48": [
-          "HENRY COUNTY",
-          "PITTSYLVANIA COUNTY"
-        ],
-        "84": [
-          "ISLE OF WIGHT COUNTY",
+        "89": [
+          "CHESAPEAKE CITY",
           "SUFFOLK CITY"
         ],
-        "71": [
-          "JAMES CITY COUNTY",
-          "NEW KENT COUNTY"
+        "90": [
+          "CHESAPEAKE CITY"
         ],
-        "26": [
-          "LOUDOUN COUNTY"
+        "91": [
+          "CHESAPEAKE CITY",
+          "PORTSMOUTH CITY"
         ],
-        "27": [
-          "LOUDOUN COUNTY"
-        ],
-        "28": [
-          "LOUDOUN COUNTY"
-        ],
-        "29": [
-          "LOUDOUN COUNTY"
-        ],
-        "41": [
-          "MONTGOMERY COUNTY",
-          "ROANOKE COUNTY"
-        ],
-        "42": [
-          "MONTGOMERY COUNTY",
-          "PULASKI COUNTY"
-        ],
-        "70": [
-          "NEWPORT NEWS CITY"
-        ],
-        "85": [
-          "NEWPORT NEWS CITY"
+        "92": [
+          "CHESAPEAKE CITY",
+          "NORFOLK CITY"
         ],
         "93": [
           "NORFOLK CITY"
@@ -631,74 +696,6 @@
         ],
         "95": [
           "NORFOLK CITY",
-          "VIRGINIA BEACH CITY"
-        ],
-        "63": [
-          "ORANGE COUNTY",
-          "SPOTSYLVANIA COUNTY"
-        ],
-        "88": [
-          "PORTSMOUTH CITY"
-        ],
-        "20": [
-          "PRINCE WILLIAM COUNTY"
-        ],
-        "21": [
-          "PRINCE WILLIAM COUNTY"
-        ],
-        "22": [
-          "PRINCE WILLIAM COUNTY"
-        ],
-        "23": [
-          "PRINCE WILLIAM COUNTY",
-          "STAFFORD COUNTY"
-        ],
-        "24": [
-          "PRINCE WILLIAM COUNTY"
-        ],
-        "25": [
-          "PRINCE WILLIAM COUNTY"
-        ],
-        "46": [
-          "PULASKI COUNTY"
-        ],
-        "78": [
-          "RICHMOND CITY"
-        ],
-        "79": [
-          "RICHMOND CITY"
-        ],
-        "38": [
-          "ROANOKE CITY"
-        ],
-        "40": [
-          "ROANOKE CITY",
-          "ROANOKE COUNTY"
-        ],
-        "39": [
-          "ROANOKE COUNTY"
-        ],
-        "37": [
-          "ROCKBRIDGE COUNTY"
-        ],
-        "33": [
-          "ROCKINGHAM COUNTY",
-          "WARREN COUNTY"
-        ],
-        "34": [
-          "ROCKINGHAM COUNTY"
-        ],
-        "44": [
-          "RUSSELL COUNTY"
-        ],
-        "65": [
-          "SPOTSYLVANIA COUNTY",
-          "STAFFORD COUNTY"
-        ],
-        "64": [
-          "STAFFORD COUNTY"
-        ],
-        "100": [
           "VIRGINIA BEACH CITY"
         ],
         "96": [
@@ -712,24 +709,28 @@
         ],
         "99": [
           "VIRGINIA BEACH CITY"
+        ],
+        "100": [
+          "VIRGINIA BEACH CITY"
         ]
       },
       "exact_clusters": []
     },
     "state_senate": {
       "whole_by_district": {
-        "20": [
-          "ACCOMACK COUNTY",
-          "NORTHAMPTON COUNTY"
+        "1": [
+          "CLARKE COUNTY",
+          "FREDERICK COUNTY",
+          "SHENANDOAH COUNTY",
+          "WARREN COUNTY",
+          "WINCHESTER CITY"
         ],
-        "11": [
-          "ALBEMARLE COUNTY",
-          "AMHERST COUNTY",
-          "CHARLOTTESVILLE CITY",
-          "NELSON COUNTY"
-        ],
-        "39": [
-          "ALEXANDRIA CITY"
+        "2": [
+          "BATH COUNTY",
+          "HARRISONBURG CITY",
+          "HIGHLAND COUNTY",
+          "PAGE COUNTY",
+          "ROCKINGHAM COUNTY"
         ],
         "3": [
           "ALLEGHANY COUNTY",
@@ -742,26 +743,9 @@
           "STAUNTON CITY",
           "WAYNESBORO CITY"
         ],
-        "10": [
-          "AMELIA COUNTY",
-          "APPOMATTOX COUNTY",
-          "BUCKINGHAM COUNTY",
-          "CUMBERLAND COUNTY",
-          "FLUVANNA COUNTY",
-          "GOOCHLAND COUNTY",
-          "POWHATAN COUNTY"
-        ],
-        "2": [
-          "BATH COUNTY",
-          "HARRISONBURG CITY",
-          "HIGHLAND COUNTY",
-          "PAGE COUNTY",
-          "ROCKINGHAM COUNTY"
-        ],
-        "8": [
-          "BEDFORD COUNTY",
-          "CAMPBELL COUNTY",
-          "LYNCHBURG CITY"
+        "4": [
+          "ROANOKE CITY",
+          "SALEM CITY"
         ],
         "5": [
           "BLAND COUNTY",
@@ -782,6 +766,56 @@
           "WASHINGTON COUNTY",
           "WISE COUNTY"
         ],
+        "7": [
+          "CARROLL COUNTY",
+          "FLOYD COUNTY",
+          "FRANKLIN COUNTY",
+          "GALAX CITY",
+          "GRAYSON COUNTY",
+          "HENRY COUNTY",
+          "MARTINSVILLE CITY",
+          "PATRICK COUNTY"
+        ],
+        "8": [
+          "BEDFORD COUNTY",
+          "CAMPBELL COUNTY",
+          "LYNCHBURG CITY"
+        ],
+        "9": [
+          "CHARLOTTE COUNTY",
+          "DANVILLE CITY",
+          "HALIFAX COUNTY",
+          "LUNENBURG COUNTY",
+          "MECKLENBURG COUNTY",
+          "NOTTOWAY COUNTY",
+          "PITTSYLVANIA COUNTY"
+        ],
+        "10": [
+          "AMELIA COUNTY",
+          "APPOMATTOX COUNTY",
+          "BUCKINGHAM COUNTY",
+          "CUMBERLAND COUNTY",
+          "FLUVANNA COUNTY",
+          "GOOCHLAND COUNTY",
+          "POWHATAN COUNTY"
+        ],
+        "11": [
+          "ALBEMARLE COUNTY",
+          "AMHERST COUNTY",
+          "CHARLOTTESVILLE CITY",
+          "NELSON COUNTY"
+        ],
+        "12": [
+          "COLONIAL HEIGHTS CITY"
+        ],
+        "13": [
+          "CHARLES CITY COUNTY",
+          "HOPEWELL CITY",
+          "PETERSBURG CITY",
+          "PRINCE GEORGE COUNTY",
+          "SURRY COUNTY",
+          "SUSSEX COUNTY"
+        ],
         "17": [
           "BRUNSWICK COUNTY",
           "EMPORIA CITY",
@@ -790,6 +824,18 @@
           "ISLE OF WIGHT COUNTY",
           "SOUTHAMPTON COUNTY",
           "SUFFOLK CITY"
+        ],
+        "20": [
+          "ACCOMACK COUNTY",
+          "NORTHAMPTON COUNTY"
+        ],
+        "23": [
+          "HAMPTON CITY"
+        ],
+        "24": [
+          "POQUOSON CITY",
+          "WILLIAMSBURG CITY",
+          "YORK COUNTY"
         ],
         "25": [
           "CAROLINE COUNTY",
@@ -802,42 +848,13 @@
           "RICHMOND COUNTY",
           "WESTMORELAND COUNTY"
         ],
-        "7": [
-          "CARROLL COUNTY",
-          "FLOYD COUNTY",
-          "FRANKLIN COUNTY",
-          "GALAX CITY",
-          "GRAYSON COUNTY",
-          "HENRY COUNTY",
-          "MARTINSVILLE CITY",
-          "PATRICK COUNTY"
+        "26": [
+          "GLOUCESTER COUNTY",
+          "MATHEWS COUNTY",
+          "NEW KENT COUNTY"
         ],
-        "13": [
-          "CHARLES CITY COUNTY",
-          "HOPEWELL CITY",
-          "PETERSBURG CITY",
-          "PRINCE GEORGE COUNTY",
-          "SURRY COUNTY",
-          "SUSSEX COUNTY"
-        ],
-        "9": [
-          "CHARLOTTE COUNTY",
-          "DANVILLE CITY",
-          "HALIFAX COUNTY",
-          "LUNENBURG COUNTY",
-          "MECKLENBURG COUNTY",
-          "NOTTOWAY COUNTY",
-          "PITTSYLVANIA COUNTY"
-        ],
-        "1": [
-          "CLARKE COUNTY",
-          "FREDERICK COUNTY",
-          "SHENANDOAH COUNTY",
-          "WARREN COUNTY",
-          "WINCHESTER CITY"
-        ],
-        "12": [
-          "COLONIAL HEIGHTS CITY"
+        "27": [
+          "FREDERICKSBURG CITY"
         ],
         "28": [
           "CULPEPER COUNTY",
@@ -846,49 +863,69 @@
           "ORANGE COUNTY",
           "RAPPAHANNOCK COUNTY"
         ],
-        "37": [
-          "FAIRFAX CITY",
-          "FALLS CHURCH CITY"
-        ],
-        "27": [
-          "FREDERICKSBURG CITY"
-        ],
-        "26": [
-          "GLOUCESTER COUNTY",
-          "MATHEWS COUNTY",
-          "NEW KENT COUNTY"
-        ],
-        "23": [
-          "HAMPTON CITY"
-        ],
         "30": [
           "MANASSAS CITY",
           "MANASSAS PARK CITY"
         ],
-        "24": [
-          "POQUOSON CITY",
-          "WILLIAMSBURG CITY",
-          "YORK COUNTY"
+        "37": [
+          "FAIRFAX CITY",
+          "FALLS CHURCH CITY"
         ],
-        "4": [
-          "ROANOKE CITY",
-          "SALEM CITY"
+        "39": [
+          "ALEXANDRIA CITY"
         ]
       },
       "partial_by_district": {
-        "39": [
-          "ARLINGTON COUNTY",
-          "FAIRFAX COUNTY"
-        ],
-        "40": [
-          "ARLINGTON COUNTY"
-        ],
         "2": [
           "AUGUSTA COUNTY"
         ],
         "3": [
           "AUGUSTA COUNTY",
           "ROANOKE COUNTY"
+        ],
+        "4": [
+          "MONTGOMERY COUNTY",
+          "ROANOKE COUNTY"
+        ],
+        "5": [
+          "MONTGOMERY COUNTY",
+          "WYTHE COUNTY"
+        ],
+        "7": [
+          "WYTHE COUNTY"
+        ],
+        "9": [
+          "PRINCE EDWARD COUNTY"
+        ],
+        "10": [
+          "HANOVER COUNTY",
+          "LOUISA COUNTY",
+          "PRINCE EDWARD COUNTY"
+        ],
+        "11": [
+          "LOUISA COUNTY"
+        ],
+        "12": [
+          "CHESTERFIELD COUNTY"
+        ],
+        "13": [
+          "DINWIDDIE COUNTY",
+          "HENRICO COUNTY"
+        ],
+        "14": [
+          "HENRICO COUNTY",
+          "RICHMOND CITY"
+        ],
+        "15": [
+          "CHESTERFIELD COUNTY",
+          "RICHMOND CITY"
+        ],
+        "16": [
+          "HENRICO COUNTY"
+        ],
+        "17": [
+          "DINWIDDIE COUNTY",
+          "PORTSMOUTH CITY"
         ],
         "18": [
           "CHESAPEAKE CITY",
@@ -898,20 +935,53 @@
           "CHESAPEAKE CITY",
           "VIRGINIA BEACH CITY"
         ],
-        "12": [
-          "CHESTERFIELD COUNTY"
+        "20": [
+          "NORFOLK CITY",
+          "VIRGINIA BEACH CITY"
         ],
-        "15": [
-          "CHESTERFIELD COUNTY",
-          "RICHMOND CITY"
+        "21": [
+          "NORFOLK CITY"
         ],
-        "13": [
-          "DINWIDDIE COUNTY",
-          "HENRICO COUNTY"
+        "22": [
+          "VIRGINIA BEACH CITY"
         ],
-        "17": [
-          "DINWIDDIE COUNTY",
-          "PORTSMOUTH CITY"
+        "23": [
+          "NEWPORT NEWS CITY"
+        ],
+        "24": [
+          "JAMES CITY COUNTY",
+          "NEWPORT NEWS CITY"
+        ],
+        "25": [
+          "KING AND QUEEN COUNTY",
+          "SPOTSYLVANIA COUNTY"
+        ],
+        "26": [
+          "HANOVER COUNTY",
+          "JAMES CITY COUNTY",
+          "KING AND QUEEN COUNTY"
+        ],
+        "27": [
+          "SPOTSYLVANIA COUNTY",
+          "STAFFORD COUNTY"
+        ],
+        "28": [
+          "FAUQUIER COUNTY",
+          "SPOTSYLVANIA COUNTY"
+        ],
+        "29": [
+          "PRINCE WILLIAM COUNTY",
+          "STAFFORD COUNTY"
+        ],
+        "30": [
+          "PRINCE WILLIAM COUNTY"
+        ],
+        "31": [
+          "FAUQUIER COUNTY",
+          "LOUDOUN COUNTY"
+        ],
+        "32": [
+          "LOUDOUN COUNTY"
         ],
         "33": [
           "FAIRFAX COUNTY",
@@ -932,82 +1002,12 @@
         "38": [
           "FAIRFAX COUNTY"
         ],
-        "28": [
-          "FAUQUIER COUNTY",
-          "SPOTSYLVANIA COUNTY"
+        "39": [
+          "ARLINGTON COUNTY",
+          "FAIRFAX COUNTY"
         ],
-        "31": [
-          "FAUQUIER COUNTY",
-          "LOUDOUN COUNTY"
-        ],
-        "10": [
-          "HANOVER COUNTY",
-          "LOUISA COUNTY",
-          "PRINCE EDWARD COUNTY"
-        ],
-        "26": [
-          "HANOVER COUNTY",
-          "JAMES CITY COUNTY",
-          "KING AND QUEEN COUNTY"
-        ],
-        "14": [
-          "HENRICO COUNTY",
-          "RICHMOND CITY"
-        ],
-        "16": [
-          "HENRICO COUNTY"
-        ],
-        "24": [
-          "JAMES CITY COUNTY",
-          "NEWPORT NEWS CITY"
-        ],
-        "25": [
-          "KING AND QUEEN COUNTY",
-          "SPOTSYLVANIA COUNTY"
-        ],
-        "32": [
-          "LOUDOUN COUNTY"
-        ],
-        "11": [
-          "LOUISA COUNTY"
-        ],
-        "4": [
-          "MONTGOMERY COUNTY",
-          "ROANOKE COUNTY"
-        ],
-        "5": [
-          "MONTGOMERY COUNTY",
-          "WYTHE COUNTY"
-        ],
-        "23": [
-          "NEWPORT NEWS CITY"
-        ],
-        "20": [
-          "NORFOLK CITY",
-          "VIRGINIA BEACH CITY"
-        ],
-        "21": [
-          "NORFOLK CITY"
-        ],
-        "9": [
-          "PRINCE EDWARD COUNTY"
-        ],
-        "29": [
-          "PRINCE WILLIAM COUNTY",
-          "STAFFORD COUNTY"
-        ],
-        "30": [
-          "PRINCE WILLIAM COUNTY"
-        ],
-        "27": [
-          "SPOTSYLVANIA COUNTY",
-          "STAFFORD COUNTY"
-        ],
-        "22": [
-          "VIRGINIA BEACH CITY"
-        ],
-        "7": [
-          "WYTHE COUNTY"
+        "40": [
+          "ARLINGTON COUNTY"
         ]
       },
       "exact_clusters": [

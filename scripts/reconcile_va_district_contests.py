@@ -129,8 +129,14 @@ def build_locality_components(
             exact_clusters.append(district)
 
     return {
-        "whole_by_district": {key: sorted(set(value)) for key, value in whole_by_district.items()},
-        "partial_by_district": {key: sorted(set(value)) for key, value in partial_by_district.items()},
+        "whole_by_district": {
+            key: sorted(set(whole_by_district[key]))
+            for key in sorted(whole_by_district, key=district_sort_key)
+        },
+        "partial_by_district": {
+            key: sorted(set(partial_by_district[key]))
+            for key in sorted(partial_by_district, key=district_sort_key)
+        },
         "exact_clusters": sorted(set(exact_clusters), key=district_sort_key),
     }
 

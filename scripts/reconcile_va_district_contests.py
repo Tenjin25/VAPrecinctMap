@@ -22,7 +22,6 @@ import argparse
 import csv
 import json
 import math
-import zipfile
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -33,9 +32,9 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 SCOPES = {
-    "congressional": "SCV Final 2021 Redistricting Plans/SCV FINAL CD Blkassign.txt",
-    "state_house": "SCV Final 2021 Redistricting Plans/SCV FINAL HOD blkassign.txt",
-    "state_senate": "SCV Final 2021 Redistricting Plans/SCV FINAL SD blkassign.txt",
+    "congressional": "cd",
+    "state_house": "state_house",
+    "state_senate": "state_senate",
 }
 STATEWIDE_CONTESTS = {"president", "us_senate", "governor", "lieutenant_governor", "attorney_general"}
 BUCKET_FIELDS = {"dem": "dem_votes", "rep": "rep_votes", "other": "other_votes"}
@@ -79,8 +78,8 @@ def largest_remainder(weights: dict[str, float], target: int) -> dict[str, int]:
 
 
 def build_locality_components(
-    official_plans_zip: Path,
-    assignment_member: str,
+    official_assignments_csv: Path,
+    assignment_column: str,
     block_vap_path: Path,
     county_geojson: Path,
     threshold: float,
@@ -95,15 +94,11 @@ def build_locality_components(
         ["block_geoid20", "voting_age_population_2020"]
     ].rename(columns={"block_geoid20": "GEOID20", "voting_age_population_2020": "vap"})
     vap["GEOID20"] = vap["GEOID20"].astype(str).str.strip().str.zfill(15)
-    with zipfile.ZipFile(official_plans_zip, "r") as archive:
-        with archive.open(assignment_member) as source:
-            assignments = pd.read_csv(
-                source,
-                header=None,
-                names=["GEOID20", "district"],
-                dtype=str,
-                skipinitialspace=True,
-            )
+    assignments = pd.read_csv(
+        official_assignments_csv,
+        dtype={"block_geoid20": str, assignment_column: str},
+        usecols=["block_geoid20", assignment_column],
+    ).rename(columns={"block_geoid20": "GEOID20", assignment_column: "district"})
     assignments["GEOID20"] = assignments["GEOID20"].astype(str).str.strip().str.zfill(15)
     assignments["district"] = assignments["district"].map(normalize_district)
     assignments["COUNTYFP20"] = assignments["GEOID20"].str.slice(2, 5)
@@ -331,7 +326,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--write", action="store_true")
     parser.add_argument("--threshold", type=float, default=0.999)
-    parser.add_argument("--official-plans-zip", default="Data/SCV Final 2021 Redistricting Plans.zip")
+    parser.add_argument(
+        "--official-assignments-csv",
+        default="Data/scv_2021_block_assignments.csv.gz",
+        help="Tracked compact table derived from the official SCV Final 2021 block assignments.",
+    )
     parser.add_argument("--block-vap-csv", default="Data/va_2020_block_population.csv")
     parser.add_argument("--county-geojson", default="Data/tl_2020_51_county20.geojson")
     parser.add_argument("--max-margin-drift", type=float, default=5.0)
@@ -349,10 +348,10 @@ def main() -> int:
     protected = load_protected_districts(ROOT / args.margin_targets_csv, ROOT / args.result_overrides_csv)
 
     component_catalog: dict[str, Any] = {}
-    for scope, assignment_member in SCOPES.items():
+    for scope, assignment_column in SCOPES.items():
         component_catalog[scope] = build_locality_components(
-            ROOT / args.official_plans_zip,
-            assignment_member,
+            ROOT / args.official_assignments_csv,
+            assignment_column,
             ROOT / args.block_vap_csv,
             ROOT / args.county_geojson,
             float(args.threshold),

@@ -10635,8 +10635,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-02-kimberly-pope-adams-v3';
-    const APP_BUILD_ID = '2026-10-02-kimberly-pope-adams-v3';
+    const DATA_CACHE_BUSTER = '2026-10-02-kimberly-pope-adams-v4';
+    const APP_BUILD_ID = '2026-10-02-kimberly-pope-adams-v4';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -14392,18 +14392,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return `${full} (${partyCode})`;
     }
 
-    function shouldUseCompactVoteCounterWinnerLabel() {
-      try {
-        return !!(window.matchMedia && window.matchMedia('(max-width: 1180px)').matches);
-      } catch (_) {
-        return true;
-      }
-    }
-
     function formatVoteCounterWinnerLabel(name, partyCode, fallbackText) {
-      if (!shouldUseCompactVoteCounterWinnerLabel()) {
-        return formatVoteCounterCandidateLabel(name, partyCode, fallbackText);
-      }
       const short = shortCandidateLabel(name, fallbackText);
       if (!short || short.toUpperCase() === partyCode.toUpperCase()) return fallbackText;
       return `${short} (${partyCode})`;

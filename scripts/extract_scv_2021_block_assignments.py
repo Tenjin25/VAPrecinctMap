@@ -23,7 +23,7 @@ def main() -> int:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("Data/scv_2021_block_assignments.csv.gz"),
+        default=Path("Data/scv_2021_block_assignments.csv"),
     )
     args = parser.parse_args()
 
@@ -47,11 +47,7 @@ def main() -> int:
         merged = merged.merge(frame, on="block_geoid20", how="outer", validate="one_to_one")
     merged = merged.sort_values("block_geoid20")
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    merged.to_csv(
-        args.output,
-        index=False,
-        compression={"method": "gzip", "compresslevel": 9, "mtime": 0},
-    )
+    merged.to_csv(args.output, index=False)
     print(f"Wrote {len(merged)} block assignments to {args.output}")
     return 0
 

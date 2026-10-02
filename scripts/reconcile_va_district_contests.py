@@ -328,7 +328,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--threshold", type=float, default=0.999)
     parser.add_argument(
         "--official-assignments-csv",
-        default="Data/scv_2021_block_assignments.csv.gz",
+        default="Data/scv_2021_block_assignments.csv",
         help="Tracked compact table derived from the official SCV Final 2021 block assignments.",
     )
     parser.add_argument("--block-vap-csv", default="Data/va_2020_block_population.csv")

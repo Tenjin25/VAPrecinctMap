@@ -497,9 +497,14 @@ python scripts/reconcile_va_district_contests.py --write
 ```
 
 The first command is an audit; `--write` applies the corrections. The script
-uses the official Virginia Supreme Court final 2021 block assignments from
-`Data/SCV Final 2021 Redistricting Plans.zip` and 2020 Census block VAP from
-`Data/va_2020_block_population.csv`.
+uses the tracked `Data/scv_2021_block_assignments.csv.gz` table derived from
+the official Virginia Supreme Court final 2021 block assignments, plus 2020
+Census block VAP from `Data/va_2020_block_population.csv`. To regenerate the
+compact table from the official source archive:
+
+```powershell
+python scripts/extract_scv_2021_block_assignments.py "Data/SCV Final 2021 Redistricting Plans.zip"
+```
 
 Counties and independent cities are treated uniformly as Virginia localities.
 A locality is considered wholly contained when at least 99.9% of its VAP is

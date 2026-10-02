@@ -497,7 +497,7 @@ python scripts/reconcile_va_district_contests.py --write
 ```
 
 The first command is an audit; `--write` applies the corrections. The script
-uses the tracked `Data/scv_2021_block_assignments.csv.gz` table derived from
+uses the tracked `Data/scv_2021_block_assignments.csv` table derived from
 the official Virginia Supreme Court final 2021 block assignments, plus 2020
 Census block VAP from `Data/va_2020_block_population.csv`. To regenerate the
 compact table from the official source archive:

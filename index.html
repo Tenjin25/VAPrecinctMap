@@ -10635,8 +10635,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-01-district-reconciliation-v1';
-    const APP_BUILD_ID = '2026-10-01-district-reconciliation-v1';
+    const DATA_CACHE_BUSTER = '2026-10-02-kimberly-pope-adams-v1';
+    const APP_BUILD_ID = '2026-10-02-kimberly-pope-adams-v1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -20920,6 +20920,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const ticketLead = preferredCandidateDisplayName(raw);
       const cleaned = ticketLead.replace(/\([^)]*\)/g, ' ').replace(/[^A-Za-z .'-]/g, ' ').replace(/\s+/g, ' ').trim();
       if (!cleaned) return fallback;
+      // Her full three-part name is the public-facing candidate name; retaining
+      // only the compound surname makes the compact result label look incomplete.
+      if (cleaned.toUpperCase() === 'KIMBERLY POPE ADAMS') return 'Kimberly Pope Adams';
       const parts = cleaned.split(' ').filter(Boolean);
       if (!parts.length) return fallback;
 

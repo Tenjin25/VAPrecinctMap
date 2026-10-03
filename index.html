@@ -10273,10 +10273,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span class="legend-chip">Dominant 30+</span>
                 <span class="legend-chip">Stronghold 20+</span>
                 <span class="legend-chip">Safe 10+</span>
-                <span class="legend-chip">Likely 5.5+</span>
+                <span class="legend-chip">Likely 5.50+</span>
                 <span class="legend-chip">Lean 1+</span>
-                <span class="legend-chip">Tilt 0.5+</span>
-                <span class="legend-chip">Tossup &lt;0.5</span>
+                <span class="legend-chip">Tilt 0.50+</span>
+                <span class="legend-chip">Tossup &lt;0.50</span>
               </div>
             </div>
         </div>
@@ -10513,8 +10513,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-09-02-va-original-dropdown-v1';
-    const APP_BUILD_ID = '2026-09-02-va-original-dropdown-v1';
+    const DATA_CACHE_BUSTER = '2026-10-03-tooltip-candidate-normalization-v1';
+    const APP_BUILD_ID = '2026-10-03-tooltip-candidate-normalization-v1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -10553,7 +10553,7 @@ document.addEventListener('DOMContentLoaded', function() {
         precincts: withBase('./Data/va_precincts.geojson'),
         precincts_current: withBase('./Data/va_precincts_current.geojson'),
         precinct_centroids: withBase('./Data/va_precinct_centroids.geojson'),
-        precinct_friendly_names: withBase('./Data/precinct_friendly_names.json'),
+        precinct_friendly_names: withCacheBuster(withBase('./Data/precinct_friendly_names.json')),
         precinct_result_geometry_crosswalk: withBase('./Data/precinct_result_geometry_crosswalk.json'),
         districts: withBase('./Data/tl_2024_51_cd119.geojson'),
         districts_2024: withBase('./Data/tl_2024_51_cd119.geojson'),
@@ -14523,7 +14523,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
-      const marginPct = marginPctValue(repVotes, demVotes, totalVotes);
+      const marginPct = competitivenessMarginValue(marginPctValue(repVotes, demVotes, totalVotes));
       const isCountyContext = String(meta?.kind || '').toLowerCase() === 'county';
       const pctDigits = isCountyContext
         ? countyMarginDisplayDigits(marginPct)
@@ -20296,7 +20296,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const demPct = allocated.demPct;
         const repPct = allocated.repPct;
         const otherPct = allocated.otherPct;
-        const marginPct = marginPctValue(repVotes, demVotes, totalVotes);
+        const marginPct = competitivenessMarginValue(marginPctValue(repVotes, demVotes, totalVotes));
         const marginLabel = formatMarginPctForDisplay(marginPctDisplayValue(repVotes, demVotes, totalVotes));
         const winner = demPct > repPct ? 'Democratic' : 'Republican';
         let officeName = formatContestName(contestType, year);
@@ -20317,22 +20317,22 @@ document.addEventListener('DOMContentLoaded', function() {
         if (marginPct >= 40) {
           compLabel = winner === 'Republican' ? "Annihilation Republican (40%+)" : "Annihilation Democratic (40%+)";
           compColor = winner === 'Republican' ? '#7f1d1d' : '#1e3a8a';
-        } else if (marginPct >= 30 && marginPct <= 39.99) {
+        } else if (marginPct >= 30) {
           compLabel = winner === 'Republican' ? "Dominant Republican (30.00-39.99%)" : "Dominant Democratic (30.00-39.99%)";
           compColor = winner === 'Republican' ? '#7f1d1d' : '#1e3a8a';
-        } else if (marginPct >= 20 && marginPct <= 29.99) {
+        } else if (marginPct >= 20) {
           compLabel = winner === 'Republican' ? "Stronghold Republican (20.00-29.99%)" : "Stronghold Democratic (20.00-29.99%)";
           compColor = winner === 'Republican' ? '#dc2626' : '#2563eb';
-        } else if (marginPct >= 10 && marginPct <= 19.99) {
+        } else if (marginPct >= 10) {
           compLabel = winner === 'Republican' ? "Safe Republican (10.00-19.99%)" : "Safe Democratic (10.00-19.99%)";
           compColor = winner === 'Republican' ? '#dc2626' : '#3b82f6';
-        } else if (marginPct >= 5.50 && marginPct <= 9.99) {
+        } else if (marginPct >= 5.50) {
           compLabel = winner === 'Republican' ? "Likely Republican (5.50-9.99%)" : "Likely Democratic (5.51-9.99%)";
           compColor = winner === 'Republican' ? '#ef4444' : '#60a5fa';
-        } else if (marginPct >= 1 && marginPct <= 5.49) {
+        } else if (marginPct >= 1) {
           compLabel = winner === 'Republican' ? "Lean Republican (1.00-5.49%)" : "Lean Democratic (1.00-5.49%)";
           compColor = winner === 'Republican' ? '#f87171' : '#93c5fd';
-        } else if (marginPct >= 0.50 && marginPct <= 0.99) {
+        } else if (marginPct >= 0.50) {
           compLabel = winner === 'Republican' ? "Tilt Republican (0.50-0.99%)" : "Tilt Democratic (0.50-0.99%)";
           compColor = winner === 'Republican' ? '#fff1f2' : '#dbeafe';
         } else {
@@ -21011,6 +21011,17 @@ document.addEventListener('DOMContentLoaded', function() {
       const parts = cleaned.split(' ').filter(Boolean);
       if (!parts.length) return '';
 
+      // Some result feeds combine a surname column with an already-complete
+      // candidate name (for example, "Trump, Donald J. Trump"). Remove that
+      // duplicated leading surname before formatting the tooltip label.
+      if (
+        parts.length >= 3
+        && parts[0].replace(/[^A-Za-z]/g, '').toUpperCase()
+          === parts[parts.length - 1].replace(/[^A-Za-z]/g, '').toUpperCase()
+      ) {
+        parts.shift();
+      }
+
       const isInitialToken = (token) => {
         const normalized = (token || '').toString().replace(/[^A-Za-z]/g, '');
         return normalized.length === 1;
@@ -21672,6 +21683,12 @@ document.addEventListener('DOMContentLoaded', function() {
       return toFixedForDisplay(pct, marginDisplayDigits(pct));
     }
 
+    function competitivenessMarginValue(marginPct) {
+      const pct = Math.abs(Number(marginPct) || 0);
+      // Classify the one-decimal margin shown in county-facing summaries.
+      return roundForDisplay(pct, 1);
+    }
+
     function marginPctDisplayValue(repVotes, demVotes, totalVotes) {
       const t = Number(totalVotes) || 0;
       if (t <= 0) return 0;
@@ -22104,6 +22121,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function compactCompetitivenessLabel(marginPct, party) {
+      marginPct = competitivenessMarginValue(marginPct);
       const side = party === 'rep' ? 'R' : (party === 'dem' ? 'D' : '');
       if (marginPct >= 40) return side ? `Annihilation ${side}` : 'Annihilation';
       if (marginPct >= 30) return side ? `Dominant ${side}` : 'Dominant';
@@ -22116,7 +22134,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function competitivenessTierMeta(marginPct, party) {
-      const pct = Math.abs(Number(marginPct) || 0);
+      const pct = competitivenessMarginValue(marginPct);
       const normalizedParty = party === 'rep' || party === 'R'
         ? 'rep'
         : (party === 'dem' || party === 'D' ? 'dem' : 'tie');
@@ -22269,10 +22287,10 @@ document.addEventListener('DOMContentLoaded', function() {
             <span class="legend-chip">Dominant 30+</span>
             <span class="legend-chip">Stronghold 20+</span>
             <span class="legend-chip">Safe 10+</span>
-            <span class="legend-chip">Likely 5.5+</span>
+            <span class="legend-chip">Likely 5.50+</span>
             <span class="legend-chip">Lean 1+</span>
-            <span class="legend-chip">Tilt 0.5+</span>
-            <span class="legend-chip">Tossup &lt;0.5</span>
+            <span class="legend-chip">Tilt 0.50+</span>
+            <span class="legend-chip">Tossup &lt;0.50</span>
           </div>
         </div>
       `;
@@ -22834,7 +22852,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const demPct = (demVotes / totalVotes) * 100;
         const repPct = (repVotes / totalVotes) * 100;
         const otherPct = (otherVotes / totalVotes) * 100;
-        const marginPct = marginPctValue(repVotes, demVotes, totalVotes);
+        const marginPct = competitivenessMarginValue(marginPctValue(repVotes, demVotes, totalVotes));
         const marginLabel = formatMarginPctForDisplay(marginPctDisplayValue(repVotes, demVotes, totalVotes));
         const officeName = formatContestName(contestType, year);
         let demCandidate = (opts?.demCandidate || '').toString().trim() || getCandidateName(year, officeName, 'Democrat');
@@ -28845,17 +28863,17 @@ document.addEventListener('DOMContentLoaded', function() {
       function cbColorForMargin(marginPct, winner) {
         if (marginPct >= 40) {
           return winner === 'Republican' ? '#cc5500' : '#004d99';
-        } else if (marginPct >= 30 && marginPct <= 39.99) {
+        } else if (marginPct >= 30) {
           return winner === 'Republican' ? '#ff6600' : '#0066cc';
-        } else if (marginPct >= 20 && marginPct <= 29.99) {
+        } else if (marginPct >= 20) {
           return winner === 'Republican' ? '#ff8833' : '#0080ff';
-        } else if (marginPct >= 10 && marginPct <= 19.99) {
+        } else if (marginPct >= 10) {
           return winner === 'Republican' ? '#ffaa55' : '#3399ff';
-        } else if (marginPct >= 5.51 && marginPct <= 9.99) {
+        } else if (marginPct >= 5.5) {
           return winner === 'Republican' ? '#ffcc77' : '#66b3ff';
-        } else if (marginPct >= 1 && marginPct <= 5.5) {
+        } else if (marginPct >= 1) {
           return winner === 'Republican' ? '#ffdd99' : '#99ccff';
-        } else if (marginPct >= 0.51 && marginPct <= 0.99) {
+        } else if (marginPct >= 0.5) {
           return winner === 'Republican' ? '#ffeecc' : '#b3d9ff';
         } else {
           return '#cccccc';
@@ -30433,6 +30451,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const canonicalCode = rawCode ? resolvePrecinctCanonicalCode(countyName, rawCode) : '';
       const friendly = rawCode ? getPrecinctFriendlyName(countyName, rawCode) : '';
       const friendlyLabel = friendly || '';
+      // Preserve verified affiliations even when geometry has an older venue label.
+      if (friendlyLabel && /,\s*(?:PCA|PCUSA|EPC|OPC|ECO|Evangel Presbytery)\s*$/i.test(friendlyLabel)) return friendlyLabel;
       // Friendly-name JSON is the canonical display source. Geometry and
       // result labels are fallbacks only when the index has no entry.
       if (friendlyLabel) return friendlyLabel;
@@ -32169,17 +32189,17 @@ document.addEventListener('DOMContentLoaded', function() {
             let competitiveness;
             if (marginPct >= 40) {
               competitiveness = winner === 'Republican' ? 'Annihilation Republican' : 'Annihilation Democratic';
-            } else if (marginPct >= 30 && marginPct <= 39.99) {
+            } else if (marginPct >= 30) {
               competitiveness = winner === 'Republican' ? 'Dominant Republican' : 'Dominant Democratic';
-            } else if (marginPct >= 20 && marginPct <= 29.99) {
+            } else if (marginPct >= 20) {
               competitiveness = winner === 'Republican' ? 'Stronghold Republican' : 'Stronghold Democratic';
-            } else if (marginPct >= 10 && marginPct <= 19.99) {
+            } else if (marginPct >= 10) {
               competitiveness = winner === 'Republican' ? 'Safe Republican' : 'Safe Democratic';
-            } else if (marginPct >= 5.51 && marginPct <= 9.99) {
+            } else if (marginPct >= 5.5) {
               competitiveness = winner === 'Republican' ? 'Likely Republican' : 'Likely Democratic';
-            } else if (marginPct >= 1 && marginPct <= 5.5) {
+            } else if (marginPct >= 1) {
               competitiveness = winner === 'Republican' ? 'Lean Republican' : 'Lean Democratic';
-            } else if (marginPct >= 0.51 && marginPct <= 0.99) {
+            } else if (marginPct >= 0.5) {
               competitiveness = winner === 'Republican' ? 'Tilt Republican' : 'Tilt Democratic';
             } else {
               competitiveness = winner === 'Democratic' ? 'Tossup (Democratic Win)' : 'Tossup (Republican Win)';
@@ -33232,6 +33252,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function accessibilityMarginColor(marginPct, winner) {
+      marginPct = competitivenessMarginValue(marginPct);
       // Color-blind-friendly blue/orange ramp with saturated competitive tiers.
       const repRamp = ['#ffd29a', '#f6ad55', '#f58a2a', '#ed6a00', '#d65300', '#b33c00', '#8c2d04'];
       const demRamp = ['#bae6fd', '#60a5fa', '#0ea5e9', '#0284c7', '#0369a1', '#075985', '#063f5c'];

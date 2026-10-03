@@ -11,9 +11,26 @@
     "match_coverage_pct": 100.0,
     "direct_match_coverage_pct": 100.0,
     "statewide_vote_reconciled": true,
-    "statewide_vote_reconciliation_method": "RDH election results disaggregated to 2020 Census blocks, joined directly to official SCV Final 2021 block district assignments; party buckets rounded by largest remainder to official statewide totals.",
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; two-sided >=99.9% locality/district cluster constraints; largest-remainder allocation across remaining split-locality components.",
     "block_result_source": "va_2016_gen_2020_blocks.zip",
-    "block_assignment_source": "scv_2021_block_assignments.csv"
+    "block_assignment_source": "scv_2021_block_assignments.csv",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "exact_locality_cluster_districts": [],
+    "locality_cluster_constraints": [],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {

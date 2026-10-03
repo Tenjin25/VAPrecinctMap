@@ -1,6 +1,6 @@
 {
-  "status": "promoted_after_focused_locality_audit",
-  "reason": "Candidate-specific redistribution resolves the original anomalies, and focused reconstructions of the remaining Prince William/Manassas outliers independently reproduce the candidate-specific results in both 2020 statewide contests.",
+  "status": "superseded_by_rdh_block_disaggregation",
+  "reason": "The later RDH block-disaggregated benchmark directly assigns modeled 2020 votes by GEOID20 to official SCV districts and is stronger than redistributing centralized votes from geographic precinct patterns.",
   "method": "Allocate each party's centralized absentee and other non-geographic votes using that party's geographic precinct distribution within the locality; use locality-wide weights only when the party has no matched geographic votes.",
   "direct_match_coverage_pct": {
     "president": 36.51,
@@ -84,5 +84,5 @@
     "post_reconciliation_difference_count": 0,
     "minimum_overlay_share": 0.001
   },
-  "production_action": "Promoted all four 2020 House/Senate district projections after the focused reconstructions agreed across both statewide contests; exact statewide and locality-cluster conservation was reverified."
+  "production_action": "Superseded. All six 2020 statewide district projections now use the RDH block-disaggregated benchmark documented in 2020_rdh_block_district_audit.json."
 }

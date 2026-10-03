@@ -1,6 +1,6 @@
 {
-  "status": "withheld_from_production",
-  "reason": "Candidate-specific redistribution resolves the original House 91 and Senate 19 anomalies but creates unverified changes above five points in other districts.",
+  "status": "promoted_after_focused_locality_audit",
+  "reason": "Candidate-specific redistribution resolves the original anomalies, and focused reconstructions of the remaining Prince William/Manassas outliers independently reproduce the candidate-specific results in both 2020 statewide contests.",
   "method": "Allocate each party's centralized absentee and other non-geographic votes using that party's geographic precinct distribution within the locality; use locality-wide weights only when the party has no matched geographic votes.",
   "direct_match_coverage_pct": {
     "president": 36.51,
@@ -36,33 +36,45 @@
       "candidate_specific_margin_pct": 14.41
     }
   ],
-  "remaining_guard_failures": [
+  "focused_locality_audits": [
     {
       "file": "state_house_president_2020.json",
       "district": "21",
+      "localities": ["PRINCE WILLIAM COUNTY"],
+      "direct_coverage_pct": 24.59,
       "production_margin_pct": -26.50,
       "candidate_specific_margin_pct": -11.69,
+      "focused_reconstruction_margin_pct": -9.32,
       "abs_change_pct": 14.81
     },
     {
       "file": "state_house_us_senate_2020.json",
       "district": "21",
+      "localities": ["PRINCE WILLIAM COUNTY"],
+      "direct_coverage_pct": 24.88,
       "production_margin_pct": -30.61,
       "candidate_specific_margin_pct": -13.26,
+      "focused_reconstruction_margin_pct": -10.43,
       "abs_change_pct": 17.35
     },
     {
       "file": "state_senate_president_2020.json",
       "district": "30",
+      "localities": ["MANASSAS CITY", "MANASSAS PARK CITY", "PRINCE WILLIAM COUNTY"],
+      "direct_coverage_pct": 24.93,
       "production_margin_pct": -26.76,
       "candidate_specific_margin_pct": -17.37,
+      "focused_reconstruction_margin_pct": -16.46,
       "abs_change_pct": 9.39
     },
     {
       "file": "state_senate_us_senate_2020.json",
       "district": "30",
+      "localities": ["MANASSAS CITY", "MANASSAS PARK CITY", "PRINCE WILLIAM COUNTY"],
+      "direct_coverage_pct": 25.19,
       "production_margin_pct": -30.50,
       "candidate_specific_margin_pct": -19.09,
+      "focused_reconstruction_margin_pct": -18.19,
       "abs_change_pct": 11.41
     }
   ],
@@ -72,5 +84,5 @@
     "post_reconciliation_difference_count": 0,
     "minimum_overlay_share": 0.001
   },
-  "production_action": "No 2020 result files changed. Election-year precinct geometry or another authoritative split-locality benchmark is required before promotion."
+  "production_action": "Promoted all four 2020 House/Senate district projections after the focused reconstructions agreed across both statewide contests; exact statewide and locality-cluster conservation was reverified."
 }

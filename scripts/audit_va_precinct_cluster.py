@@ -48,8 +48,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--precinct-geojson", default="Data/va_precincts_current.geojson")
     parser.add_argument("--district-geojson", default="Data/tl_2022_51_sldl.geojson")
     parser.add_argument("--district-field", default="SLDLST")
-    parser.add_argument("--locality", action="append", required=True)
+    parser.add_argument(
+        "--locality",
+        action="append",
+        default=[],
+        help="Locality to audit. If omitted, derive localities intersecting the requested seed districts.",
+    )
     parser.add_argument("--district", action="append", required=True)
+    parser.add_argument(
+        "--include-touching-districts",
+        action="store_true",
+        help="Include every district touching the selected/derived localities so their votes are conserved.",
+    )
     parser.add_argument(
         "--minimum-share",
         type=float,
@@ -68,15 +78,36 @@ def main() -> int:
     precincts = gpd.read_file(ROOT / args.precinct_geojson)
     precincts["locality"] = precincts["county_norm"].map(normalize_locality)
     precincts["code"] = precincts["prec_id"].map(precinct_code)
-    precincts = precincts[precincts["locality"].isin(localities)].copy()
     district_shapes = gpd.read_file(ROOT / args.district_geojson)
     district_shapes["district"] = district_shapes[args.district_field].map(normalize_district)
-    district_shapes = district_shapes[district_shapes["district"].isin(districts)].copy()
     if precincts.empty or district_shapes.empty:
         raise ValueError("Requested precinct or district geometry is empty")
 
     precincts = precincts.to_crs(5070)
     district_shapes = district_shapes.to_crs(5070)
+    if not localities:
+        seeds = district_shapes[district_shapes["district"].isin(districts)].copy()
+        if seeds.empty:
+            raise ValueError("Requested seed district geometry is empty")
+        locality_hits = gpd.overlay(
+            precincts[["locality", "geometry"]],
+            seeds[["district", "geometry"]],
+            how="intersection",
+            keep_geom_type=False,
+        )
+        locality_hits = locality_hits[locality_hits.geometry.area > 0]
+        localities = set(locality_hits["locality"].astype(str))
+    precincts = precincts[precincts["locality"].isin(localities)].copy()
+    if args.include_touching_districts:
+        district_hits = gpd.overlay(
+            precincts[["locality", "geometry"]],
+            district_shapes[["district", "geometry"]],
+            how="intersection",
+            keep_geom_type=False,
+        )
+        district_hits = district_hits[district_hits.geometry.area > 0]
+        districts = set(district_hits["district"].astype(str))
+    district_shapes = district_shapes[district_shapes["district"].isin(districts)].copy()
     precincts["precinct_area"] = precincts.geometry.area
     intersections = gpd.overlay(
         precincts[["locality", "code", "precinct_area", "geometry"]],
@@ -161,7 +192,7 @@ def main() -> int:
         node["margin_pct"] = ((node["rep"] - node["dem"]) / total * 100.0) if total else 0.0
 
     payload = {
-        "method": "2024 precinct returns through current ELECT precinct geometry and official 2022 House districts; sub-0.1% polygon slivers dropped and remaining shares renormalized per the NCPrecinctMap rule; party-specific within-locality allocation for non-geographic rows",
+        "method": "Precinct returns through the selected precinct and district geometry; sub-0.1% polygon slivers dropped and remaining shares renormalized per the NCPrecinctMap rule; party-specific within-locality allocation for non-geographic rows",
         "inputs": {
             "results_csv": args.results_csv,
             "precinct_geojson": args.precinct_geojson,

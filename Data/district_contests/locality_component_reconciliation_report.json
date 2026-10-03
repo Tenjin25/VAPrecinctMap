@@ -11541,7 +11541,14 @@
         "other": 0
       },
       "protected_districts": [
-        "22"
+        "22",
+        "30",
+        "41",
+        "64",
+        "73",
+        "82",
+        "89",
+        "99"
       ],
       "whole_component_shortfalls": [],
       "cluster_constraints": [
@@ -21889,7 +21896,12 @@
         "other": 0
       },
       "protected_districts": [
-        "20"
+        "4",
+        "12",
+        "16",
+        "20",
+        "24",
+        "31"
       ],
       "whole_component_shortfalls": [],
       "cluster_constraints": [

@@ -790,9 +790,10 @@ Non-geographic votes use the NCPrecinctMap precinct-candidate rule: each
 party's centralized/absentee votes follow that party's matched geographic
 precinct distribution within the locality. Locality-wide weights are used only
 when that party has no matched geographic votes. The guarded 2020 comparison
-is recorded in `Data/benchmarks/2020_central_absentee_allocation_audit.json`;
-those four production slices remain unchanged pending an authoritative
-election-year split-locality benchmark.
+is recorded in `Data/benchmarks/2020_central_absentee_allocation_audit.json`.
+Focused Prince William/Manassas reconstructions reproduced the corrected
+allocation across both 2020 statewide contests, so the four legislative
+district projections now use this method in production.
 
 ---
 

@@ -14393,9 +14393,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function formatVoteCounterWinnerLabel(name, partyCode, fallbackText) {
-      const short = shortCandidateLabel(name, fallbackText);
-      if (!short || short.toUpperCase() === partyCode.toUpperCase()) return fallbackText;
-      return `${short} (${partyCode})`;
+      return formatVoteCounterCandidateLabel(name, partyCode, fallbackText);
     }
 
     function formatFocusBarLabel(name, pct, fallbackText, marginPct = null) {
@@ -23098,7 +23096,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const winnerSummary = winnerCall.party === 'tie'
           ? 'Even race'
-          : `${compactKimberlyPopeAdamsSummary(winnerCall.winnerName, winnerCall.shortLabel)} (${winnerCall.party === 'rep' ? 'R' : 'D'})`;
+          : `${winnerCall.winnerName} (${winnerCall.party === 'rep' ? 'R' : 'D'})`;
         const isModeledSenate = isModeledSenateEnhancementContest(contestType, year);
         const modeledBadgeHtml = isModeledSenate ? `<span class="modeled-context-badge modeled-senate">Modeled race</span>` : '';
         const kickerHtml = isModeledSenate ? `Modeled baseline ${modeledBadgeHtml}` : 'Statewide leader';

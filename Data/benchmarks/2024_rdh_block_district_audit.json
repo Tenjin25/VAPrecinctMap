@@ -1,0 +1,802 @@
+{
+  "year": 2024,
+  "input": "va_2024_gen_2020_blocks_csv.zip",
+  "method": "RDH precinct results disaggregated to 2020 Census blocks by modified VAP, joined by GEOID20 to official SCV 2021 district assignments, with largest-remainder integer conservation by party.",
+  "block_rows": 163491,
+  "unique_blocks": 163491,
+  "blocks_missing_all_assignments": 0,
+  "files": [
+    {
+      "file": "congressional_president_2024.json",
+      "district_count": 11,
+      "block_totals": {
+        "dem": 2333778,
+        "rep": 2074097,
+        "other": 95413
+      },
+      "max_abs_margin_change_pct": 0.0532704056674973,
+      "largest_margin_changes": [
+        {
+          "district": "8",
+          "production_margin_pct": -49.32879242959295,
+          "block_benchmark_margin_pct": -49.275522023925454,
+          "abs_change_pct": 0.0532704056674973,
+          "block_votes": {
+            "dem": 285004,
+            "rep": 92725,
+            "other": 12483,
+            "total": 390212
+          }
+        },
+        {
+          "district": "11",
+          "production_margin_pct": -34.05872900924361,
+          "block_benchmark_margin_pct": -34.00611679113995,
+          "abs_change_pct": 0.052612218103661235,
+          "block_votes": {
+            "dem": 273439,
+            "rep": 130783,
+            "other": 15279,
+            "total": 419501
+          }
+        },
+        {
+          "district": "4",
+          "production_margin_pct": -32.63113167944793,
+          "block_benchmark_margin_pct": -32.590702741018326,
+          "abs_change_pct": 0.040428938429606376,
+          "block_votes": {
+            "dem": 250984,
+            "rep": 125925,
+            "other": 6817,
+            "total": 383726
+          }
+        },
+        {
+          "district": "2",
+          "production_margin_pct": 0.23324446678864666,
+          "block_benchmark_margin_pct": 0.2627219735056481,
+          "abs_change_pct": 0.029477506717001417,
+          "block_votes": {
+            "dem": 203172,
+            "rep": 204260,
+            "other": 6694,
+            "total": 414126
+          }
+        },
+        {
+          "district": "1",
+          "production_margin_pct": 4.887333494094103,
+          "block_benchmark_margin_pct": 4.915566680435761,
+          "abs_change_pct": 0.028233186341657834,
+          "block_votes": {
+            "dem": 227074,
+            "rep": 250993,
+            "other": 8530,
+            "total": 486597
+          }
+        },
+        {
+          "district": "3",
+          "production_margin_pct": -34.58141026643929,
+          "block_benchmark_margin_pct": -34.55529351655986,
+          "abs_change_pct": 0.02611674987943502,
+          "block_votes": {
+            "dem": 213132,
+            "rep": 102214,
+            "other": 5641,
+            "total": 320987
+          }
+        },
+        {
+          "district": "10",
+          "production_margin_pct": -8.326476800862238,
+          "block_benchmark_margin_pct": -8.306680395406737,
+          "abs_change_pct": 0.019796405455501542,
+          "block_votes": {
+            "dem": 221131,
+            "rep": 186199,
+            "other": 13199,
+            "total": 420529
+          }
+        },
+        {
+          "district": "7",
+          "production_margin_pct": -2.829759671991721,
+          "block_benchmark_margin_pct": -2.8485092966335124,
+          "abs_change_pct": 0.018749624641791307,
+          "block_votes": {
+            "dem": 203215,
+            "rep": 191705,
+            "other": 9151,
+            "total": 404071
+          }
+        },
+        {
+          "district": "9",
+          "production_margin_pct": 43.90210280656356,
+          "block_benchmark_margin_pct": 43.912450709465496,
+          "abs_change_pct": 0.010347902901933992,
+          "block_votes": {
+            "dem": 112210,
+            "rep": 291613,
+            "other": 4724,
+            "total": 408547
+          }
+        },
+        {
+          "district": "6",
+          "production_margin_pct": 24.070420434148666,
+          "block_benchmark_margin_pct": 24.080748591523587,
+          "abs_change_pct": 0.010328157374921432,
+          "block_votes": {
+            "dem": 152726,
+            "rep": 251675,
+            "other": 6504,
+            "total": 410905
+          }
+        }
+      ]
+    },
+    {
+      "file": "congressional_us_senate_2024.json",
+      "district_count": 11,
+      "block_totals": {
+        "dem": 2415429,
+        "rep": 2018992,
+        "other": 8505
+      },
+      "max_abs_margin_change_pct": 1.831065807299808,
+      "largest_margin_changes": [
+        {
+          "district": "4",
+          "production_margin_pct": -33.866690906257716,
+          "block_benchmark_margin_pct": -35.697756713557524,
+          "abs_change_pct": 1.831065807299808,
+          "block_votes": {
+            "dem": 255666,
+            "rep": 120993,
+            "other": 600,
+            "total": 377259
+          }
+        },
+        {
+          "district": "1",
+          "production_margin_pct": 2.6608084731552526,
+          "block_benchmark_margin_pct": 3.546648191723309,
+          "abs_change_pct": 0.8858397185680564,
+          "block_votes": {
+            "dem": 231534,
+            "rep": 248581,
+            "other": 536,
+            "total": 480651
+          }
+        },
+        {
+          "district": "5",
+          "production_margin_pct": 9.226613492238311,
+          "block_benchmark_margin_pct": 9.782817297850563,
+          "abs_change_pct": 0.5562038056122525,
+          "block_votes": {
+            "dem": 197139,
+            "rep": 239958,
+            "other": 599,
+            "total": 437696
+          }
+        },
+        {
+          "district": "8",
+          "production_margin_pct": -48.977655558712506,
+          "block_benchmark_margin_pct": -49.51970928544768,
+          "abs_change_pct": 0.5420537267351762,
+          "block_votes": {
+            "dem": 287851,
+            "rep": 96800,
+            "other": 1157,
+            "total": 385808
+          }
+        },
+        {
+          "district": "10",
+          "production_margin_pct": -10.313727203444543,
+          "block_benchmark_margin_pct": -9.83026007568022,
+          "abs_change_pct": 0.48346712776432277,
+          "block_votes": {
+            "dem": 227945,
+            "rep": 187029,
+            "other": 1251,
+            "total": 416225
+          }
+        },
+        {
+          "district": "7",
+          "production_margin_pct": -6.4544071926938,
+          "block_benchmark_margin_pct": -6.807202459376373,
+          "abs_change_pct": 0.35279526668257244,
+          "block_votes": {
+            "dem": 212365,
+            "rep": 185240,
+            "other": 870,
+            "total": 398475
+          }
+        },
+        {
+          "district": "6",
+          "production_margin_pct": 18.401740596539273,
+          "block_benchmark_margin_pct": 18.728072013787354,
+          "abs_change_pct": 0.3263314172480811,
+          "block_votes": {
+            "dem": 164513,
+            "rep": 240472,
+            "other": 604,
+            "total": 405589
+          }
+        },
+        {
+          "district": "9",
+          "production_margin_pct": 34.301203870497794,
+          "block_benchmark_margin_pct": 34.019505676690414,
+          "abs_change_pct": 0.2816981938073795,
+          "block_votes": {
+            "dem": 132031,
+            "rep": 268488,
+            "other": 595,
+            "total": 401114
+          }
+        },
+        {
+          "district": "2",
+          "production_margin_pct": -2.7099670596942613,
+          "block_benchmark_margin_pct": -2.5964469673078945,
+          "abs_change_pct": 0.11352009238636684,
+          "block_votes": {
+            "dem": 209607,
+            "rep": 198986,
+            "other": 466,
+            "total": 409059
+          }
+        },
+        {
+          "district": "11",
+          "production_margin_pct": -34.903420819817164,
+          "block_benchmark_margin_pct": -34.86235431573052,
+          "abs_change_pct": 0.04106650408664336,
+          "block_votes": {
+            "dem": 278628,
+            "rep": 134210,
+            "other": 1414,
+            "total": 414252
+          }
+        }
+      ]
+    },
+    {
+      "file": "state_house_president_2024.json",
+      "district_count": 100,
+      "block_totals": {
+        "dem": 2333778,
+        "rep": 2074097,
+        "other": 95413
+      },
+      "max_abs_margin_change_pct": 1.3241624061258506,
+      "largest_margin_changes": [
+        {
+          "district": "35",
+          "production_margin_pct": 42.662860980523845,
+          "block_benchmark_margin_pct": 43.987023386649696,
+          "abs_change_pct": 1.3241624061258506,
+          "block_votes": {
+            "dem": 13287,
+            "rep": 34710,
+            "other": 706,
+            "total": 48703
+          }
+        },
+        {
+          "district": "31",
+          "production_margin_pct": 26.007091786316337,
+          "block_benchmark_margin_pct": 27.313901958104758,
+          "abs_change_pct": 1.3068101717884204,
+          "block_votes": {
+            "dem": 18189,
+            "rep": 32180,
+            "other": 854,
+            "total": 51223
+          }
+        },
+        {
+          "district": "32",
+          "production_margin_pct": 19.556618526354523,
+          "block_benchmark_margin_pct": 20.70044777483323,
+          "abs_change_pct": 1.1438292484787063,
+          "block_votes": {
+            "dem": 16983,
+            "rep": 26044,
+            "other": 745,
+            "total": 43772
+          }
+        },
+        {
+          "district": "34",
+          "production_margin_pct": 6.964840144331627,
+          "block_benchmark_margin_pct": 7.7397479709525845,
+          "abs_change_pct": 0.7749078266209573,
+          "block_votes": {
+            "dem": 16904,
+            "rep": 19803,
+            "other": 749,
+            "total": 37456
+          }
+        },
+        {
+          "district": "36",
+          "production_margin_pct": 18.113765939852897,
+          "block_benchmark_margin_pct": 18.773045136681503,
+          "abs_change_pct": 0.6592791968286065,
+          "block_votes": {
+            "dem": 18784,
+            "rep": 27643,
+            "other": 763,
+            "total": 47190
+          }
+        },
+        {
+          "district": "38",
+          "production_margin_pct": -23.51132157631178,
+          "block_benchmark_margin_pct": -24.090896065564372,
+          "abs_change_pct": 0.5795744892525931,
+          "block_votes": {
+            "dem": 21323,
+            "rep": 12916,
+            "other": 658,
+            "total": 34897
+          }
+        },
+        {
+          "district": "33",
+          "production_margin_pct": 47.36105968982681,
+          "block_benchmark_margin_pct": 47.653078134062476,
+          "abs_change_pct": 0.2920184442356657,
+          "block_votes": {
+            "dem": 12310,
+            "rep": 35315,
+            "other": 651,
+            "total": 48276
+          }
+        },
+        {
+          "district": "37",
+          "production_margin_pct": 39.6499515503876,
+          "block_benchmark_margin_pct": 39.90625570683603,
+          "abs_change_pct": 0.2563041564484294,
+          "block_votes": {
+            "dem": 14483,
+            "rep": 34150,
+            "other": 650,
+            "total": 49283
+          }
+        },
+        {
+          "district": "40",
+          "production_margin_pct": 9.491539691893257,
+          "block_benchmark_margin_pct": 9.257894090183068,
+          "abs_change_pct": 0.23364560171018844,
+          "block_votes": {
+            "dem": 21744,
+            "rep": 26265,
+            "other": 825,
+            "total": 48834
+          }
+        },
+        {
+          "district": "42",
+          "production_margin_pct": 24.990249833673634,
+          "block_benchmark_margin_pct": 24.78974157327916,
+          "abs_change_pct": 0.200508260394475,
+          "block_votes": {
+            "dem": 16848,
+            "rep": 28196,
+            "other": 733,
+            "total": 45777
+          }
+        }
+      ]
+    },
+    {
+      "file": "state_house_us_senate_2024.json",
+      "district_count": 100,
+      "block_totals": {
+        "dem": 2415429,
+        "rep": 2018992,
+        "other": 8505
+      },
+      "max_abs_margin_change_pct": 1.411186468283475,
+      "largest_margin_changes": [
+        {
+          "district": "35",
+          "production_margin_pct": 38.41215189873417,
+          "block_benchmark_margin_pct": 39.82333836701765,
+          "abs_change_pct": 1.411186468283475,
+          "block_votes": {
+            "dem": 14512,
+            "rep": 33763,
+            "other": 66,
+            "total": 48341
+          }
+        },
+        {
+          "district": "34",
+          "production_margin_pct": 2.6936823294439187,
+          "block_benchmark_margin_pct": 3.906292415440578,
+          "abs_change_pct": 1.2126100859966593,
+          "block_votes": {
+            "dem": 17669,
+            "rep": 19108,
+            "other": 61,
+            "total": 36838
+          }
+        },
+        {
+          "district": "100",
+          "production_margin_pct": 1.6712592692161212,
+          "block_benchmark_margin_pct": 2.6937412819281517,
+          "abs_change_pct": 1.0224820127120304,
+          "block_votes": {
+            "dem": 21252,
+            "rep": 22430,
+            "other": 49,
+            "total": 43731
+          }
+        },
+        {
+          "district": "94",
+          "production_margin_pct": -19.34234478484837,
+          "block_benchmark_margin_pct": -18.346883468834687,
+          "abs_change_pct": 0.9954613160136816,
+          "block_votes": {
+            "dem": 15260,
+            "rep": 10521,
+            "other": 49,
+            "total": 25830
+          }
+        },
+        {
+          "district": "54",
+          "production_margin_pct": -59.78011158516574,
+          "block_benchmark_margin_pct": -60.77213435902337,
+          "abs_change_pct": 0.9920227738576273,
+          "block_votes": {
+            "dem": 33605,
+            "rep": 8167,
+            "other": 86,
+            "total": 41858
+          }
+        },
+        {
+          "district": "95",
+          "production_margin_pct": -23.5254475665856,
+          "block_benchmark_margin_pct": -24.38669141796373,
+          "abs_change_pct": 0.8612438513781271,
+          "block_votes": {
+            "dem": 21751,
+            "rep": 13212,
+            "other": 52,
+            "total": 35015
+          }
+        },
+        {
+          "district": "92",
+          "production_margin_pct": -54.48143001515917,
+          "block_benchmark_margin_pct": -55.14172604908947,
+          "abs_change_pct": 0.660296033930301,
+          "block_votes": {
+            "dem": 24468,
+            "rep": 7057,
+            "other": 50,
+            "total": 31575
+          }
+        },
+        {
+          "district": "79",
+          "production_margin_pct": -80.26899834215733,
+          "block_benchmark_margin_pct": -80.85431992697202,
+          "abs_change_pct": 0.5853215848146931,
+          "block_votes": {
+            "dem": 33627,
+            "rep": 3512,
+            "other": 107,
+            "total": 37246
+          }
+        },
+        {
+          "district": "22",
+          "production_margin_pct": -2.669072357369502,
+          "block_benchmark_margin_pct": -2.1693187468920936,
+          "abs_change_pct": 0.4997536104774083,
+          "block_votes": {
+            "dem": 24589,
+            "rep": 23542,
+            "other": 133,
+            "total": 48264
+          }
+        },
+        {
+          "district": "33",
+          "production_margin_pct": 39.29302636526971,
+          "block_benchmark_margin_pct": 39.7772959774349,
+          "abs_change_pct": 0.4842696121651926,
+          "block_votes": {
+            "dem": 14266,
+            "rep": 33163,
+            "other": 78,
+            "total": 47507
+          }
+        }
+      ]
+    },
+    {
+      "file": "state_senate_president_2024.json",
+      "district_count": 40,
+      "block_totals": {
+        "dem": 2333778,
+        "rep": 2074097,
+        "other": 95413
+      },
+      "max_abs_margin_change_pct": 0.8004180049993694,
+      "largest_margin_changes": [
+        {
+          "district": "4",
+          "production_margin_pct": 0.48380717616651797,
+          "block_benchmark_margin_pct": 1.2842251811658874,
+          "abs_change_pct": 0.8004180049993694,
+          "block_votes": {
+            "dem": 54293,
+            "rep": 55732,
+            "other": 2027,
+            "total": 112052
+          }
+        },
+        {
+          "district": "5",
+          "production_margin_pct": 35.743289614152815,
+          "block_benchmark_margin_pct": 36.34678827867262,
+          "abs_change_pct": 0.6034986645198046,
+          "block_votes": {
+            "dem": 32080,
+            "rep": 69539,
+            "other": 1441,
+            "total": 103060
+          }
+        },
+        {
+          "district": "3",
+          "production_margin_pct": 28.44642930984576,
+          "block_benchmark_margin_pct": 28.9740539551289,
+          "abs_change_pct": 0.5276246452831366,
+          "block_votes": {
+            "dem": 41821,
+            "rep": 76651,
+            "other": 1739,
+            "total": 120211
+          }
+        },
+        {
+          "district": "2",
+          "production_margin_pct": 33.18926561255626,
+          "block_benchmark_margin_pct": 33.53684443869728,
+          "abs_change_pct": 0.3475788261410173,
+          "block_votes": {
+            "dem": 35118,
+            "rep": 71427,
+            "other": 1721,
+            "total": 108266
+          }
+        },
+        {
+          "district": "15",
+          "production_margin_pct": -29.023895174742258,
+          "block_benchmark_margin_pct": -28.95373157169821,
+          "abs_change_pct": 0.07016360304404756,
+          "block_votes": {
+            "dem": 62364,
+            "rep": 33985,
+            "other": 1666,
+            "total": 98015
+          }
+        },
+        {
+          "district": "19",
+          "production_margin_pct": 12.063330793328253,
+          "block_benchmark_margin_pct": 12.13339540395277,
+          "abs_change_pct": 0.07006461062451663,
+          "block_votes": {
+            "dem": 50969,
+            "rep": 65304,
+            "other": 1872,
+            "total": 118145
+          }
+        },
+        {
+          "district": "20",
+          "production_margin_pct": 3.033723236883508,
+          "block_benchmark_margin_pct": 3.1024846661369376,
+          "abs_change_pct": 0.06876142925342954,
+          "block_votes": {
+            "dem": 53354,
+            "rep": 56829,
+            "other": 1824,
+            "total": 112007
+          }
+        },
+        {
+          "district": "31",
+          "production_margin_pct": -8.524285555018766,
+          "block_benchmark_margin_pct": -8.591960648681884,
+          "abs_change_pct": 0.06767509366311764,
+          "block_votes": {
+            "dem": 68657,
+            "rep": 57478,
+            "other": 3975,
+            "total": 130110
+          }
+        },
+        {
+          "district": "7",
+          "production_margin_pct": 44.999527081058304,
+          "block_benchmark_margin_pct": 45.065229722064664,
+          "abs_change_pct": 0.0657026410063608,
+          "block_votes": {
+            "dem": 31363,
+            "rep": 83800,
+            "other": 1195,
+            "total": 116358
+          }
+        },
+        {
+          "district": "36",
+          "production_margin_pct": -26.307431717128942,
+          "block_benchmark_margin_pct": -26.372717999226143,
+          "abs_change_pct": 0.06528628209720111,
+          "block_votes": {
+            "dem": 69876,
+            "rep": 39886,
+            "other": 3954,
+            "total": 113716
+          }
+        }
+      ]
+    },
+    {
+      "file": "state_senate_us_senate_2024.json",
+      "district_count": 40,
+      "block_totals": {
+        "dem": 2415429,
+        "rep": 2018992,
+        "other": 8505
+      },
+      "max_abs_margin_change_pct": 2.292554060760672,
+      "largest_margin_changes": [
+        {
+          "district": "16",
+          "production_margin_pct": -22.02299433595401,
+          "block_benchmark_margin_pct": -19.730440275193338,
+          "abs_change_pct": 2.292554060760672,
+          "block_votes": {
+            "dem": 70051,
+            "rep": 46936,
+            "other": 167,
+            "total": 117154
+          }
+        },
+        {
+          "district": "14",
+          "production_margin_pct": -63.47162361070714,
+          "block_benchmark_margin_pct": -65.24283411591563,
+          "abs_change_pct": 1.7712105052084866,
+          "block_votes": {
+            "dem": 94188,
+            "rep": 19712,
+            "other": 252,
+            "total": 114152
+          }
+        },
+        {
+          "district": "20",
+          "production_margin_pct": -1.0633695576936388,
+          "block_benchmark_margin_pct": 0.5483981714037909,
+          "abs_change_pct": 1.6117677290974297,
+          "block_votes": {
+            "dem": 54975,
+            "rep": 55582,
+            "other": 129,
+            "total": 110686
+          }
+        },
+        {
+          "district": "2",
+          "production_margin_pct": 27.467166300087797,
+          "block_benchmark_margin_pct": 28.80284324728769,
+          "abs_change_pct": 1.335676947199893,
+          "block_votes": {
+            "dem": 37979,
+            "rep": 68775,
+            "other": 166,
+            "total": 106920
+          }
+        },
+        {
+          "district": "22",
+          "production_margin_pct": -17.255516045194053,
+          "block_benchmark_margin_pct": -18.264712868015327,
+          "abs_change_pct": 1.0091968228212735,
+          "block_votes": {
+            "dem": 57200,
+            "rep": 39513,
+            "other": 124,
+            "total": 96837
+          }
+        },
+        {
+          "district": "33",
+          "production_margin_pct": -32.09419077217308,
+          "block_benchmark_margin_pct": -32.89780412697499,
+          "abs_change_pct": 0.8036133548019109,
+          "block_votes": {
+            "dem": 69105,
+            "rep": 34812,
+            "other": 324,
+            "total": 104241
+          }
+        },
+        {
+          "district": "4",
+          "production_margin_pct": -3.5789297596698946,
+          "block_benchmark_margin_pct": -2.9281693312317043,
+          "abs_change_pct": 0.6507604284381903,
+          "block_votes": {
+            "dem": 57054,
+            "rep": 53803,
+            "other": 168,
+            "total": 111025
+          }
+        },
+        {
+          "district": "31",
+          "production_margin_pct": -8.725063230518264,
+          "block_benchmark_margin_pct": -8.132905272115423,
+          "abs_change_pct": 0.5921579584028418,
+          "block_votes": {
+            "dem": 69719,
+            "rep": 59206,
+            "other": 340,
+            "total": 129265
+          }
+        },
+        {
+          "district": "29",
+          "production_margin_pct": -21.98231893913635,
+          "block_benchmark_margin_pct": -21.453840802941468,
+          "abs_change_pct": 0.5284781361948809,
+          "block_votes": {
+            "dem": 60930,
+            "rep": 39341,
+            "other": 359,
+            "total": 100630
+          }
+        },
+        {
+          "district": "40",
+          "production_margin_pct": -57.22699615920972,
+          "block_benchmark_margin_pct": -57.63760692649698,
+          "abs_change_pct": 0.41061076728725965,
+          "block_votes": {
+            "dem": 90779,
+            "rep": 24275,
+            "other": 329,
+            "total": 115383
+          }
+        }
+      ]
+    }
+  ]
+}

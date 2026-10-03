@@ -11100,7 +11100,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 930576,
-          "before": 930576,
+          "before": 930577,
           "after": 930576
         },
         {
@@ -11166,7 +11166,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 84759,
-          "before": 84759,
+          "before": 84758,
           "after": 84759
         },
         {
@@ -11255,7 +11255,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 864762,
-          "before": 864762,
+          "before": 864763,
           "after": 864762
         },
         {
@@ -11303,7 +11303,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 505672,
-          "before": 505672,
+          "before": 505671,
           "after": 505672
         },
         {
@@ -11410,7 +11410,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 103765,
-          "before": 103765,
+          "before": 103597,
           "after": 103765
         },
         {
@@ -11458,7 +11458,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 96818,
-          "before": 96818,
+          "before": 96773,
           "after": 96818
         },
         {
@@ -11476,7 +11476,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 15906,
-          "before": 15906,
+          "before": 16010,
           "after": 15906
         },
         {
@@ -11490,7 +11490,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 3626,
-          "before": 3626,
+          "before": 3646,
           "after": 3626
         },
         {
@@ -11507,13 +11507,111 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 13600,
-          "before": 13600,
+          "before": 13689,
           "after": 13600
         }
       ],
       "district_vote_changes": {},
-      "district_margin_drifts_pct": {},
-      "maximum_margin_drift_pct": 0.0
+      "district_margin_drifts_pct": {
+        "1": 0.0023765487716360667,
+        "2": 0.002893903799368047,
+        "3": 0.0027963222923190756,
+        "4": 0.001966756998072583,
+        "5": 0.002519533887429759,
+        "6": 0.0010886797301239426,
+        "7": 0.0016879319730023212,
+        "8": 0.000987815920815649,
+        "9": 0.0012983486276105793,
+        "10": 0.0010436052753917124,
+        "11": 0.0008799992964370063,
+        "12": 0.0010344962371249267,
+        "13": 0.0012383338940793465,
+        "14": 0.0010920501917297543,
+        "15": 0.001046179795544333,
+        "16": 0.0011460777495742036,
+        "17": 0.0010473780359419038,
+        "18": 0.0007943734773334654,
+        "19": 0.0013725897800185294,
+        "21": 0.00019283370692591006,
+        "22": 0.0001159312178975469,
+        "23": 0.0014224864781766655,
+        "24": 0.000789678177131492,
+        "25": 0.0007647972575526296,
+        "26": 0.0009425090347008336,
+        "27": 0.0007344458986295876,
+        "28": 0.0010031116517694727,
+        "29": 0.0004158789301378363,
+        "30": 0.00018432598513840048,
+        "31": 0.015196560122127778,
+        "32": 0.012694580546796175,
+        "33": 0.007032631560363711,
+        "34": 0.002686210689794244,
+        "35": 0.03131592059049382,
+        "36": 0.007187387899005415,
+        "37": 0.00424961138988067,
+        "38": 0.011665722082859986,
+        "39": 0.006568441134916725,
+        "40": 0.00717404779142683,
+        "41": 0.0019504240918233329,
+        "42": 0.009290806185731526,
+        "43": 0.013938345596933743,
+        "44": 0.012811342429820627,
+        "45": 0.0016793126655159085,
+        "46": 0.0027975466742375943,
+        "48": 0.0011009357120030927,
+        "49": 0.00015353024491915335,
+        "50": 0.0002801836694263926,
+        "51": 0.004571521801722156,
+        "52": 0.00032442969242652,
+        "53": 0.0023890660449765733,
+        "54": 0.004115469634633939,
+        "55": 0.0016402046975461104,
+        "56": 0.0012814294749254884,
+        "57": 0.00031510428383851874,
+        "58": 0.0005735303903340316,
+        "59": 0.0019291025257359706,
+        "60": 0.00503027521532573,
+        "61": 0.0010058412254814186,
+        "62": 0.0006316584530488001,
+        "63": 0.0006183079589021645,
+        "64": 0.0003402193457127112,
+        "65": 4.652426519563546e-06,
+        "66": 0.00021699726503410233,
+        "68": 0.0013629434979556265,
+        "69": 0.0012747858477784035,
+        "70": 0.002141793463984243,
+        "71": 0.00020882365358065869,
+        "72": 0.001159732004779812,
+        "73": 0.002133780975329458,
+        "74": 0.001069393487881598,
+        "75": 0.00015305646324037525,
+        "76": 0.0019659302640775422,
+        "77": 0.0049770557750719036,
+        "78": 0.008871047558869805,
+        "79": 0.0069674632097189715,
+        "80": 0.005103087485288427,
+        "81": 0.0015295471265233118,
+        "82": 0.0003371002273730994,
+        "83": 2.6375059074434937e-05,
+        "84": 0.0007705095439689558,
+        "85": 0.004297767057238389,
+        "86": 0.0005681562268184948,
+        "87": 0.003957979109237897,
+        "88": 0.002656383676580276,
+        "89": 0.00035428742995069484,
+        "90": 0.003204899438841835,
+        "91": 0.0028127203171948167,
+        "92": 0.0048176402950232955,
+        "93": 0.004489176449020249,
+        "94": 0.0014177568582063316,
+        "95": 0.002123997671482414,
+        "96": 0.001737111608987263,
+        "97": 0.00010498393668412209,
+        "98": 0.0028133854107288414,
+        "99": 0.0017315441038707746,
+        "100": 0.000458812829553068
+      },
+      "maximum_margin_drift_pct": 0.03131592059049382
     },
     {
       "file": "state_house_president_2020.json",
@@ -11540,16 +11638,7 @@
         "rep": 0,
         "other": 0
       },
-      "protected_districts": [
-        "22",
-        "30",
-        "41",
-        "64",
-        "73",
-        "82",
-        "89",
-        "99"
-      ],
+      "protected_districts": [],
       "whole_component_shortfalls": [],
       "cluster_constraints": [
         {
@@ -14111,7 +14200,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 884302,
-          "before": 884302,
+          "before": 884300,
           "after": 884302
         },
         {
@@ -14159,7 +14248,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 832967,
-          "before": 832967,
+          "before": 832968,
           "after": 832967
         },
         {
@@ -14177,7 +14266,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 85414,
-          "before": 85414,
+          "before": 85415,
           "after": 85414
         },
         {
@@ -14314,7 +14403,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 404421,
-          "before": 404421,
+          "before": 404420,
           "after": 404421
         },
         {
@@ -14346,7 +14435,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 63104,
-          "before": 63104,
+          "before": 63105,
           "after": 63104
         },
         {
@@ -14421,7 +14510,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 29704,
-          "before": 29704,
+          "before": 29708,
           "after": 29704
         },
         {
@@ -14501,7 +14590,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 951,
-          "before": 951,
+          "before": 948,
           "after": 951
         },
         {
@@ -14518,13 +14607,25 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 3743,
-          "before": 3743,
+          "before": 3742,
           "after": 3743
         }
       ],
       "district_vote_changes": {},
-      "district_margin_drifts_pct": {},
-      "maximum_margin_drift_pct": 0.0
+      "district_margin_drifts_pct": {
+        "1": 0.0008654975883288785,
+        "31": 0.0035617363684075087,
+        "41": 0.0003332593858047517,
+        "43": 0.0035113592471631705,
+        "44": 0.002533517356752668,
+        "55": 0.0005636784071612055,
+        "58": 0.0004481921262637911,
+        "61": 0.0022184713966204583,
+        "78": 0.0022672652246882308,
+        "80": 0.0011443509936199803,
+        "99": 1.6793196659481424e-05
+      },
+      "maximum_margin_drift_pct": 0.0035617363684075087
     },
     {
       "file": "state_house_us_senate_2020.json",
@@ -21566,7 +21667,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 580229,
-          "before": 580229,
+          "before": 580227,
           "after": 580229
         },
         {
@@ -21598,7 +21699,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 1156953,
-          "before": 1156953,
+          "before": 1156954,
           "after": 1156953
         },
         {
@@ -21614,7 +21715,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 163412,
-          "before": 163412,
+          "before": 163413,
           "after": 163412
         },
         {
@@ -21672,7 +21773,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 433579,
-          "before": 433579,
+          "before": 433580,
           "after": 433579
         },
         {
@@ -21704,7 +21805,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 827293,
-          "before": 827293,
+          "before": 827292,
           "after": 827293
         },
         {
@@ -21778,7 +21879,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 60452,
-          "before": 60452,
+          "before": 60329,
           "after": 60452
         },
         {
@@ -21810,7 +21911,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 131592,
-          "before": 131592,
+          "before": 131477,
           "after": 131592
         },
         {
@@ -21826,7 +21927,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 26543,
-          "before": 26543,
+          "before": 26698,
           "after": 26543
         },
         {
@@ -21836,9 +21937,9 @@
             "8"
           ],
           "historical_localities": [],
-          "allocation_weight_method": "2020_block_vap_cluster_fallback",
+          "allocation_weight_method": "existing_split_vote_residual",
           "target": 6315,
-          "before": 6315,
+          "before": 6352,
           "after": 6315
         },
         {
@@ -21848,9 +21949,9 @@
             "6"
           ],
           "historical_localities": [],
-          "allocation_weight_method": "2020_block_vap_cluster_fallback",
+          "allocation_weight_method": "existing_split_vote_residual",
           "target": 3010,
-          "before": 3010,
+          "before": 3026,
           "after": 3010
         },
         {
@@ -21860,15 +21961,54 @@
             "1"
           ],
           "historical_localities": [],
-          "allocation_weight_method": "2020_block_vap_cluster_fallback",
+          "allocation_weight_method": "existing_split_vote_residual",
           "target": 5803,
-          "before": 5803,
+          "before": 5833,
           "after": 5803
         }
       ],
       "district_vote_changes": {},
-      "district_margin_drifts_pct": {},
-      "maximum_margin_drift_pct": 0.0
+      "district_margin_drifts_pct": {
+        "1": 0.00966256430584167,
+        "2": 0.008285594271988828,
+        "3": 0.00942367320486781,
+        "4": 0.004392304231382482,
+        "5": 0.01464333946807983,
+        "6": 0.009498782969494357,
+        "7": 0.0015717496655796026,
+        "8": 0.012231255761861348,
+        "10": 0.000694055257039139,
+        "12": 0.0017931142510043685,
+        "13": 0.0007611456155309781,
+        "14": 0.008533185795840836,
+        "15": 0.002545129981537997,
+        "16": 0.00113197556088096,
+        "17": 5.446614904247582e-05,
+        "18": 0.001826726252467381,
+        "19": 0.0036711485780465125,
+        "20": 0.0011637324867859178,
+        "21": 0.006495375709327789,
+        "22": 0.001619434284632959,
+        "23": 0.0008378247478901812,
+        "24": 0.00011533221152593143,
+        "25": 0.0001534774575979725,
+        "26": 0.000722934793142116,
+        "27": 0.00041983141573709304,
+        "28": 0.0008421111079393029,
+        "29": 0.0012347023618524133,
+        "30": 0.0006393423182089464,
+        "31": 0.000526535856382182,
+        "32": 0.002073182210619251,
+        "33": 0.002622701060250421,
+        "34": 0.003392098521416642,
+        "35": 0.003245602734139652,
+        "36": 0.002303111478855868,
+        "37": 0.002843574019735229,
+        "38": 0.003368901568244098,
+        "39": 0.001164791358888806,
+        "40": 0.005846647534077931
+      },
+      "maximum_margin_drift_pct": 0.01464333946807983
     },
     {
       "file": "state_senate_president_2020.json",
@@ -21896,12 +22036,7 @@
         "other": 0
       },
       "protected_districts": [
-        "4",
-        "12",
-        "16",
-        "20",
-        "24",
-        "31"
+        "20"
       ],
       "whole_component_shortfalls": [],
       "cluster_constraints": [
@@ -23670,7 +23805,20 @@
         "other": 0
       },
       "protected_districts": [],
-      "whole_component_shortfalls": [],
+      "whole_component_shortfalls": [
+        {
+          "district": "6",
+          "bucket": "dem",
+          "current": 19940,
+          "whole_locality_floor": 19941
+        },
+        {
+          "district": "6",
+          "bucket": "other",
+          "current": 782,
+          "whole_locality_floor": 784
+        }
+      ],
       "cluster_constraints": [
         {
           "cluster": "cluster_1",
@@ -23691,7 +23839,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 550755,
-          "before": 550755,
+          "before": 550754,
           "after": 550755
         },
         {
@@ -23723,7 +23871,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 1119853,
-          "before": 1119853,
+          "before": 1119855,
           "after": 1119853
         },
         {
@@ -23763,7 +23911,7 @@
           "historical_localities": [],
           "allocation_weight_method": "2020_block_vap_cluster_fallback",
           "target": 19941,
-          "before": 19941,
+          "before": 19940,
           "after": 19941
         },
         {
@@ -23797,7 +23945,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 330488,
-          "before": 330488,
+          "before": 330486,
           "after": 330488
         },
         {
@@ -23829,7 +23977,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 660699,
-          "before": 660699,
+          "before": 660702,
           "after": 660699
         },
         {
@@ -23845,7 +23993,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 231735,
-          "before": 231735,
+          "before": 231734,
           "after": 231735
         },
         {
@@ -23903,7 +24051,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 17131,
-          "before": 17131,
+          "before": 17133,
           "after": 17131
         },
         {
@@ -23935,7 +24083,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 38075,
-          "before": 38075,
+          "before": 38076,
           "after": 38075
         },
         {
@@ -23951,7 +24099,7 @@
           "historical_localities": [],
           "allocation_weight_method": "existing_split_vote_residual",
           "target": 7347,
-          "before": 7347,
+          "before": 7346,
           "after": 7347
         },
         {
@@ -23975,7 +24123,7 @@
           "historical_localities": [],
           "allocation_weight_method": "2020_block_vap_cluster_fallback",
           "target": 784,
-          "before": 784,
+          "before": 782,
           "after": 784
         },
         {
@@ -23992,8 +24140,20 @@
         }
       ],
       "district_vote_changes": {},
-      "district_margin_drifts_pct": {},
-      "maximum_margin_drift_pct": 0.0
+      "district_margin_drifts_pct": {
+        "4": 0.0013582277981285529,
+        "6": 0.00320832689737216,
+        "12": 0.0010044396231342623,
+        "14": 0.0003293239093977718,
+        "16": 0.00021331556406423147,
+        "19": 0.0011338656124726398,
+        "26": 0.0008071602137782463,
+        "27": 0.0013508071177987802,
+        "31": 0.001196619653093478,
+        "38": 0.0005893476914522466,
+        "40": 0.0003476372358051094
+      },
+      "maximum_margin_drift_pct": 0.00320832689737216
     },
     {
       "file": "state_senate_us_senate_2020.json",

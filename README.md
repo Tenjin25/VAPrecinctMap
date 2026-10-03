@@ -793,7 +793,11 @@ when that party has no matched geographic votes. The guarded 2020 comparison
 is recorded in `Data/benchmarks/2020_central_absentee_allocation_audit.json`.
 Focused Prince William/Manassas reconstructions reproduced the corrected
 allocation across both 2020 statewide contests, so the four legislative
-district projections now use this method in production.
+district projections initially used this method. They were subsequently
+superseded by the stronger RDH block-disaggregated benchmark: modeled votes
+are keyed directly by `GEOID20` and joined to the official SCV assignments.
+See `Data/benchmarks/2020_rdh_block_district_audit.json`; the accompanying
+2024 control is `Data/benchmarks/2024_rdh_block_district_audit.json`.
 
 ---
 

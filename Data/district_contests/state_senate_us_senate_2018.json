@@ -11,9 +11,259 @@
     "match_coverage_pct": 100.0,
     "direct_match_coverage_pct": 100.0,
     "statewide_vote_reconciled": true,
-    "statewide_vote_reconciliation_method": "RDH election results disaggregated to 2020 Census blocks, joined directly to official SCV Final 2021 block district assignments; party buckets rounded by largest remainder to official statewide totals.",
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; two-sided >=99.9% locality/district cluster constraints; largest-remainder allocation across remaining split-locality components.",
     "block_result_source": "va_2018_gen_2020_blocks.zip",
-    "block_assignment_source": "scv_2021_block_assignments.csv"
+    "block_assignment_source": "scv_2021_block_assignments.csv",
+    "whole_locality_threshold": 0.999,
+    "whole_locality_exact_districts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "17",
+      "20",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30",
+      "37",
+      "39"
+    ],
+    "exact_locality_cluster_districts": [
+      "1",
+      "6",
+      "8"
+    ],
+    "locality_cluster_constraints": [
+      {
+        "id": "cluster_1",
+        "districts": [
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22"
+        ],
+        "localities": [
+          "ACCOMACK COUNTY",
+          "BRUNSWICK COUNTY",
+          "CHARLES CITY COUNTY",
+          "CHESAPEAKE CITY",
+          "CHESTERFIELD COUNTY",
+          "COLONIAL HEIGHTS CITY",
+          "DINWIDDIE COUNTY",
+          "EMPORIA CITY",
+          "FRANKLIN CITY",
+          "GREENSVILLE COUNTY",
+          "HENRICO COUNTY",
+          "HOPEWELL CITY",
+          "ISLE OF WIGHT COUNTY",
+          "NORFOLK CITY",
+          "NORTHAMPTON COUNTY",
+          "PETERSBURG CITY",
+          "PORTSMOUTH CITY",
+          "PRINCE GEORGE COUNTY",
+          "RICHMOND CITY",
+          "SOUTHAMPTON COUNTY",
+          "SUFFOLK CITY",
+          "SURRY COUNTY",
+          "SUSSEX COUNTY",
+          "VIRGINIA BEACH CITY"
+        ]
+      },
+      {
+        "id": "cluster_2",
+        "districts": [
+          "9",
+          "10",
+          "11",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "38",
+          "39",
+          "40"
+        ],
+        "localities": [
+          "ALBEMARLE COUNTY",
+          "ALEXANDRIA CITY",
+          "AMELIA COUNTY",
+          "AMHERST COUNTY",
+          "APPOMATTOX COUNTY",
+          "ARLINGTON COUNTY",
+          "BUCKINGHAM COUNTY",
+          "CAROLINE COUNTY",
+          "CHARLOTTE COUNTY",
+          "CHARLOTTESVILLE CITY",
+          "CULPEPER COUNTY",
+          "CUMBERLAND COUNTY",
+          "DANVILLE CITY",
+          "ESSEX COUNTY",
+          "FAIRFAX CITY",
+          "FAIRFAX COUNTY",
+          "FALLS CHURCH CITY",
+          "FAUQUIER COUNTY",
+          "FLUVANNA COUNTY",
+          "FREDERICKSBURG CITY",
+          "GLOUCESTER COUNTY",
+          "GOOCHLAND COUNTY",
+          "GREENE COUNTY",
+          "HALIFAX COUNTY",
+          "HAMPTON CITY",
+          "HANOVER COUNTY",
+          "JAMES CITY COUNTY",
+          "KING AND QUEEN COUNTY",
+          "KING GEORGE COUNTY",
+          "KING WILLIAM COUNTY",
+          "LANCASTER COUNTY",
+          "LOUDOUN COUNTY",
+          "LOUISA COUNTY",
+          "LUNENBURG COUNTY",
+          "MADISON COUNTY",
+          "MANASSAS CITY",
+          "MANASSAS PARK CITY",
+          "MATHEWS COUNTY",
+          "MECKLENBURG COUNTY",
+          "MIDDLESEX COUNTY",
+          "NELSON COUNTY",
+          "NEW KENT COUNTY",
+          "NEWPORT NEWS CITY",
+          "NORTHUMBERLAND COUNTY",
+          "NOTTOWAY COUNTY",
+          "ORANGE COUNTY",
+          "PITTSYLVANIA COUNTY",
+          "POQUOSON CITY",
+          "POWHATAN COUNTY",
+          "PRINCE EDWARD COUNTY",
+          "PRINCE WILLIAM COUNTY",
+          "RAPPAHANNOCK COUNTY",
+          "RICHMOND COUNTY",
+          "SPOTSYLVANIA COUNTY",
+          "STAFFORD COUNTY",
+          "WESTMORELAND COUNTY",
+          "WILLIAMSBURG CITY",
+          "YORK COUNTY"
+        ]
+      },
+      {
+        "id": "cluster_3",
+        "districts": [
+          "2",
+          "3",
+          "4",
+          "5",
+          "7"
+        ],
+        "localities": [
+          "ALLEGHANY COUNTY",
+          "AUGUSTA COUNTY",
+          "BATH COUNTY",
+          "BLAND COUNTY",
+          "BOTETOURT COUNTY",
+          "BUENA VISTA CITY",
+          "CARROLL COUNTY",
+          "COVINGTON CITY",
+          "CRAIG COUNTY",
+          "FLOYD COUNTY",
+          "FRANKLIN COUNTY",
+          "GALAX CITY",
+          "GILES COUNTY",
+          "GRAYSON COUNTY",
+          "HARRISONBURG CITY",
+          "HENRY COUNTY",
+          "HIGHLAND COUNTY",
+          "LEXINGTON CITY",
+          "MARTINSVILLE CITY",
+          "MONTGOMERY COUNTY",
+          "PAGE COUNTY",
+          "PATRICK COUNTY",
+          "PULASKI COUNTY",
+          "RADFORD CITY",
+          "ROANOKE CITY",
+          "ROANOKE COUNTY",
+          "ROCKBRIDGE COUNTY",
+          "ROCKINGHAM COUNTY",
+          "SALEM CITY",
+          "SMYTH COUNTY",
+          "STAUNTON CITY",
+          "TAZEWELL COUNTY",
+          "WAYNESBORO CITY",
+          "WYTHE COUNTY"
+        ]
+      },
+      {
+        "id": "cluster_4",
+        "districts": [
+          "8"
+        ],
+        "localities": [
+          "BEDFORD COUNTY",
+          "CAMPBELL COUNTY",
+          "LYNCHBURG CITY"
+        ]
+      },
+      {
+        "id": "cluster_5",
+        "districts": [
+          "6"
+        ],
+        "localities": [
+          "BRISTOL CITY",
+          "BUCHANAN COUNTY",
+          "DICKENSON COUNTY",
+          "LEE COUNTY",
+          "NORTON CITY",
+          "RUSSELL COUNTY",
+          "SCOTT COUNTY",
+          "WASHINGTON COUNTY",
+          "WISE COUNTY"
+        ]
+      },
+      {
+        "id": "cluster_6",
+        "districts": [
+          "1"
+        ],
+        "localities": [
+          "CLARKE COUNTY",
+          "FREDERICK COUNTY",
+          "SHENANDOAH COUNTY",
+          "WARREN COUNTY",
+          "WINCHESTER CITY"
+        ]
+      }
+    ],
+    "protected_benchmark_districts": []
   },
   "general": {
     "results": {
@@ -55,14 +305,14 @@
       },
       "4": {
         "dem_votes": 41634,
-        "rep_votes": 37629,
-        "other_votes": 1649,
-        "total_votes": 80912,
+        "rep_votes": 37630,
+        "other_votes": 1650,
+        "total_votes": 80914,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Democratic",
-        "margin": 4005,
-        "margin_pct": -4.949822028870872,
+        "margin": 4004,
+        "margin_pct": -4.9484638010727435,
         "color": "#c6dbef"
       },
       "5": {
@@ -78,15 +328,15 @@
         "color": "#ef3b2c"
       },
       "6": {
-        "dem_votes": 19940,
+        "dem_votes": 19941,
         "rep_votes": 50760,
-        "other_votes": 782,
-        "total_votes": 71482,
+        "other_votes": 784,
+        "total_votes": 71485,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Republican",
-        "margin": 30820,
-        "margin_pct": 43.115749419434266,
+        "margin": 30819,
+        "margin_pct": 43.112541092536894,
         "color": "#67000d"
       },
       "7": {
@@ -151,14 +401,14 @@
       },
       "12": {
         "dem_votes": 48630,
-        "rep_votes": 48801,
-        "other_votes": 2127,
+        "rep_votes": 48802,
+        "other_votes": 2126,
         "total_votes": 99558,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Republican",
-        "margin": 171,
-        "margin_pct": 0.17175917555595732,
+        "margin": 172,
+        "margin_pct": 0.17276361517909158,
         "color": "#f7f7f7"
       },
       "13": {
@@ -174,15 +424,15 @@
         "color": "#08519c"
       },
       "14": {
-        "dem_votes": 79359,
+        "dem_votes": 79360,
         "rep_votes": 13977,
         "other_votes": 1942,
-        "total_votes": 95278,
+        "total_votes": 95279,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Democratic",
-        "margin": 65382,
-        "margin_pct": -68.6223472365079,
+        "margin": 65383,
+        "margin_pct": -68.6226765604173,
         "color": "#08306b"
       },
       "15": {
@@ -200,13 +450,13 @@
       "16": {
         "dem_votes": 56521,
         "rep_votes": 36950,
-        "other_votes": 2314,
-        "total_votes": 95785,
+        "other_votes": 2313,
+        "total_votes": 95784,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Democratic",
         "margin": 19571,
-        "margin_pct": -20.432217988202744,
+        "margin_pct": -20.43243130376681,
         "color": "#3182bd"
       },
       "17": {
@@ -235,14 +485,14 @@
       },
       "19": {
         "dem_votes": 37318,
-        "rep_votes": 43014,
+        "rep_votes": 43015,
         "other_votes": 1740,
-        "total_votes": 82072,
+        "total_votes": 82073,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Republican",
-        "margin": 5696,
-        "margin_pct": 6.94024758748416,
+        "margin": 5697,
+        "margin_pct": 6.941381453096633,
         "color": "#fb6a4a"
       },
       "20": {
@@ -319,26 +569,26 @@
       },
       "26": {
         "dem_votes": 42941,
-        "rep_votes": 59396,
+        "rep_votes": 59395,
         "other_votes": 2020,
-        "total_votes": 104357,
+        "total_votes": 104356,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Republican",
-        "margin": 16455,
-        "margin_pct": 15.767988730990734,
+        "margin": 16454,
+        "margin_pct": 15.767181570776955,
         "color": "#ef3b2c"
       },
       "27": {
         "dem_votes": 41322,
-        "rep_votes": 36026,
+        "rep_votes": 36025,
         "other_votes": 1646,
-        "total_votes": 78994,
+        "total_votes": 78993,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Democratic",
-        "margin": 5296,
-        "margin_pct": -6.704306656201736,
+        "margin": 5297,
+        "margin_pct": -6.705657463319535,
         "color": "#9ecae1"
       },
       "28": {
@@ -379,14 +629,14 @@
       },
       "31": {
         "dem_votes": 56078,
-        "rep_votes": 39474,
+        "rep_votes": 39473,
         "other_votes": 2211,
-        "total_votes": 97763,
+        "total_votes": 97762,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Democratic",
-        "margin": 16604,
-        "margin_pct": -16.98393052586357,
+        "margin": 16605,
+        "margin_pct": -16.985127145516664,
         "color": "#6baed6"
       },
       "32": {
@@ -462,15 +712,15 @@
         "color": "#08306b"
       },
       "38": {
-        "dem_votes": 67211,
+        "dem_votes": 67210,
         "rep_votes": 25366,
         "other_votes": 2143,
-        "total_votes": 94720,
+        "total_votes": 94719,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Democratic",
-        "margin": 41845,
-        "margin_pct": -44.177576013513516,
+        "margin": 41844,
+        "margin_pct": -44.176986665822064,
         "color": "#08306b"
       },
       "39": {
@@ -486,15 +736,15 @@
         "color": "#08306b"
       },
       "40": {
-        "dem_votes": 78831,
+        "dem_votes": 78830,
         "rep_votes": 14602,
-        "other_votes": 2819,
-        "total_votes": 96252,
+        "other_votes": 2818,
+        "total_votes": 96250,
         "dem_candidate": "Timothy Michael Kaine",
         "rep_candidate": "Corey Alan Stewart",
         "winner": "Democratic",
-        "margin": 64229,
-        "margin_pct": -66.7300419731538,
+        "margin": 64228,
+        "margin_pct": -66.73038961038961,
         "color": "#08306b"
       }
     }

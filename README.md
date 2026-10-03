@@ -531,6 +531,14 @@ The write path refuses any file whose largest district-margin change exceeds
 5 points. A larger repair requires an explicit `--max-margin-drift` value after
 reviewing the audit; this protects against accidentally mixing plan vintages.
 
+For a precinct-level independent check of a suspicious cluster, use
+`scripts/audit_va_precinct_cluster.py`. It projects actual precinct returns
+through the displayed district geometry, drops sub-0.1% polygon overlaps as
+geometry slivers using the NCPrecinctMap rule, renormalizes the retained shares,
+and allocates provisional/non-geographic rows from the locality's party-specific
+geographic distribution. The tracked 2024 U.S. Senate audit for House Districts
+43–45 is `Data/benchmarks/state_house_2024_us_senate_cluster_43_45_audit.json`.
+
 ---
 
 ## Color Ramp & Rating Categories

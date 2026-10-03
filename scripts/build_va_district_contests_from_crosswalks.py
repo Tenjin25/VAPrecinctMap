@@ -760,6 +760,12 @@ def build_explicit_precinct_district_overrides(
         "state_house": defaultdict(lambda: defaultdict(float)),
         "state_senate": defaultdict(lambda: defaultdict(float)),
     }
+    raw_by_year: dict[int, dict[str, dict[tuple[str, str], dict[str, float]]]] = defaultdict(
+        lambda: {
+            "state_house": defaultdict(lambda: defaultdict(float)),
+            "state_senate": defaultdict(lambda: defaultdict(float)),
+        }
+    )
 
     for csv_path in sorted(openelections_root.rglob("*.csv")):
         year = parse_year_from_filename(csv_path)
@@ -790,22 +796,28 @@ def build_explicit_precinct_district_overrides(
                     continue
 
                 raw[contest_type][(county, prec_code)][district_id] += votes
+                raw_by_year[year][contest_type][(county, prec_code)][district_id] += votes
 
-    out: dict[str, dict[str, dict]] = {
-        "state_house": {"precinct_map": {}, "code_weights": {}},
-        "state_senate": {"precinct_map": {}, "code_weights": {}},
-    }
-    for scope in ("state_house", "state_senate"):
-        for key, dist_votes in raw[scope].items():
-            total = float(sum(dist_votes.values()))
-            if total <= 0:
-                continue
-            pairs = [(d, float(v / total)) for d, v in dist_votes.items() if v > 0]
-            s = sum(v for _, v in pairs)
-            if s <= 0:
-                continue
-            out[scope]["precinct_map"][key] = [(d, v / s) for d, v in pairs]
-            out[scope]["code_weights"][key] = total
+    def render(source: dict[str, dict[tuple[str, str], dict[str, float]]]) -> dict[str, dict[str, dict]]:
+        rendered: dict[str, dict[str, dict]] = {
+            "state_house": {"precinct_map": {}, "code_weights": {}},
+            "state_senate": {"precinct_map": {}, "code_weights": {}},
+        }
+        for scope in ("state_house", "state_senate"):
+            for key, dist_votes in source[scope].items():
+                total = float(sum(dist_votes.values()))
+                if total <= 0:
+                    continue
+                pairs = [(d, float(v / total)) for d, v in dist_votes.items() if v > 0]
+                s = sum(v for _, v in pairs)
+                if s <= 0:
+                    continue
+                rendered[scope]["precinct_map"][key] = [(d, v / s) for d, v in pairs]
+                rendered[scope]["code_weights"][key] = total
+        return rendered
+
+    out = render(raw)
+    out["by_year"] = {year: render(source) for year, source in raw_by_year.items()}
     return out
 
 
@@ -1057,6 +1069,7 @@ def build_district_contests(
         lambda: {
             "input_votes": 0.0,
             "direct_matched_votes": 0.0,
+            "same_year_assignment_votes": 0.0,
             "allocated_votes": 0.0,
             "matched_votes": 0.0,
         }
@@ -1093,6 +1106,14 @@ def build_district_contests(
         for county_name, code in explicit_overrides.get(scope, {}).get("precinct_map", {}).keys():
             idx[county_name].add(code)
         explicit_code_index[scope] = {k: sorted(v) for k, v in idx.items()}
+    explicit_year_code_index: dict[int, dict[str, dict[str, list[str]]]] = {}
+    for explicit_year, year_sources in explicit_overrides.get("by_year", {}).items():
+        explicit_year_code_index[explicit_year] = {}
+        for scope in ("state_house", "state_senate"):
+            idx: dict[str, set[str]] = defaultdict(set)
+            for county_name, code in year_sources.get(scope, {}).get("precinct_map", {}).keys():
+                idx[county_name].add(code)
+            explicit_year_code_index[explicit_year][scope] = {k: sorted(v) for k, v in idx.items()}
     historical_code_index: dict[str, dict[str, list[str]]] = {}
     for scope in SCOPES:
         idx: dict[str, set[str]] = defaultdict(set)
@@ -1139,6 +1160,7 @@ def build_district_contests(
                         cov_key = (scope, contest_type, year)
                         coverage[cov_key]["input_votes"] += votes
                         splits = None
+                        used_same_year_assignment = False
                         prec_code = extract_precinct_code(precinct)
                         if prec_code and not is_non_geographic_precinct(precinct):
                             if year <= HISTORICAL_VTD_MAX_YEAR and historical_scope_mappings:
@@ -1148,7 +1170,17 @@ def build_district_contests(
                                     historical_scope_mappings.get(scope, {}),
                                     historical_code_index.get(scope, {}),
                                 )
-                            # Prefer geometry-derived precinct splits first.
+                            # Same-year legislative returns are the official precinct-to-district
+                            # assignment and take precedence over polygon overlays.
+                            if not splits and scope in {"state_house", "state_senate"}:
+                                year_sources = explicit_overrides.get("by_year", {}).get(year, {})
+                                splits = resolve_precinct_splits(
+                                    county,
+                                    prec_code,
+                                    year_sources.get(scope, {}),
+                                    explicit_year_code_index.get(year, {}).get(scope, {}),
+                                )
+                                used_same_year_assignment = bool(splits)
                             if not splits:
                                 splits = resolve_precinct_splits(
                                     county,
@@ -1156,8 +1188,8 @@ def build_district_contests(
                                     scope_mappings[scope],
                                     scope_code_index.get(scope, {}),
                                 )
-                            # Use explicit district-contest overrides as fallback only for
-                            # unresolved codes in legislative scopes.
+                            # Other current-plan legislative returns remain a final fallback
+                            # for unresolved precinct codes when no same-year assignment exists.
                             if not splits and scope in {"state_house", "state_senate"}:
                                 splits = resolve_precinct_splits(
                                     county,
@@ -1168,6 +1200,8 @@ def build_district_contests(
 
                         if splits:
                             coverage[cov_key]["direct_matched_votes"] += votes
+                            if used_same_year_assignment:
+                                coverage[cov_key]["same_year_assignment_votes"] += votes
                             coverage[cov_key]["matched_votes"] += votes
                             county_scope_key = (scope, contest_type, year, county)
                             for district_id, share in splits:
@@ -1566,11 +1600,18 @@ def render_payload_for_group(
 
     cov = coverage_stats.get(
         (scope, contest_type, year),
-        {"input_votes": 0.0, "matched_votes": 0.0, "direct_matched_votes": 0.0, "allocated_votes": 0.0},
+        {
+            "input_votes": 0.0,
+            "matched_votes": 0.0,
+            "direct_matched_votes": 0.0,
+            "same_year_assignment_votes": 0.0,
+            "allocated_votes": 0.0,
+        },
     )
     input_votes = float(cov["input_votes"] or 0.0)
     matched_votes = float(cov["matched_votes"] or 0.0)
     direct_matched_votes = float(cov.get("direct_matched_votes", 0.0) or 0.0)
+    same_year_assignment_votes = float(cov.get("same_year_assignment_votes", 0.0) or 0.0)
     allocated_votes = float(cov.get("allocated_votes", 0.0) or 0.0)
     match_pct = (matched_votes / input_votes * 100.0) if input_votes > 0 else 0.0
     direct_match_pct = (direct_matched_votes / input_votes * 100.0) if input_votes > 0 else 0.0
@@ -1584,6 +1625,10 @@ def render_payload_for_group(
             "input_votes": int(round(input_votes)),
             "matched_votes": int(round(matched_votes)),
             "direct_matched_votes": int(round(direct_matched_votes)),
+            "same_year_assignment_votes": int(round(same_year_assignment_votes)),
+            "same_year_assignment_coverage_pct": (
+                same_year_assignment_votes / input_votes * 100.0 if input_votes > 0 else 0.0
+            ),
             "allocated_votes": int(round(allocated_votes)),
             "match_coverage_pct": match_pct,
             "direct_match_coverage_pct": direct_match_pct,

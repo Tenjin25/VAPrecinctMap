@@ -1,5 +1,5 @@
 {
-  "mode": "audit",
+  "mode": "write",
   "threshold": 0.999,
   "locality_definition": "Virginia county or independent city, keyed by Census county-equivalent FIPS",
   "component_weight": "2020 Census voting-age population by block, assigned by the official SCV Final 2021 block-assignment files",

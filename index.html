@@ -23091,7 +23091,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const winnerSummary = winnerCall.party === 'tie'
           ? 'Even race'
-          : `${winnerCall.winnerName} (${winnerCall.party === 'rep' ? 'R' : 'D'})`;
+          : `${winnerCall.shortLabel} (${winnerCall.party === 'rep' ? 'R' : 'D'})`;
         const isModeledSenate = isModeledSenateEnhancementContest(contestType, year);
         const modeledBadgeHtml = isModeledSenate ? `<span class="modeled-context-badge modeled-senate">Modeled race</span>` : '';
         const kickerHtml = isModeledSenate ? `Modeled baseline ${modeledBadgeHtml}` : 'Statewide leader';

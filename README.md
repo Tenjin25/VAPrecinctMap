@@ -514,6 +514,19 @@ components are reweighted, using largest-remainder rounding, so the sum of all
 districts exactly equals the official statewide Democratic, Republican, and
 other totals.
 
+The same audit also discovers closed multi-district locality clusters. A group
+qualifies only when at least 99.9% of the included localities' VAP lies in the
+included districts **and** at least 99.9% of those districts' VAP comes from the
+included localities. Each qualifying county/independent-city cluster is
+reconciled to its combined official locality vote before the remaining
+statewide residual is allocated. Historical Bedford City votes are routed to
+the modern Bedford County cluster (and former Clifton Forge City to Alleghany
+County) when projecting older elections onto the current plan. Existing
+party-specific split-locality weights are retained when they have credible
+coverage; if either major party's residual is materially missing or inflated,
+the whole cluster falls back to the official-plan 2020 block-VAP distribution
+for both parties rather than using an arbitrary equal split.
+
 The write path refuses any file whose largest district-margin change exceeds
 5 points. A larger repair requires an explicit `--max-margin-drift` value after
 reviewing the audit; this protects against accidentally mixing plan vintages.

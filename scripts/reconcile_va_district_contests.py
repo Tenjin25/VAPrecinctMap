@@ -8,6 +8,8 @@ Virginia counties and independent cities are both treated as localities:
   is assigned to that district;
 * its official locality vote is held exact, including when the district also
   contains portions of other localities;
+* closed multi-district locality clusters are reconciled independently when
+  both sides of the cluster have at least 99.9% VAP containment;
 * only split-locality components are reweighted to make every statewide
   Democratic, Republican, and other total exact;
 * exact district-result overrides and explicit margin targets remain locked.
@@ -38,6 +40,13 @@ SCOPES = {
 }
 STATEWIDE_CONTESTS = {"president", "us_senate", "governor", "lieutenant_governor", "attorney_general"}
 BUCKET_FIELDS = {"dem": "dem_votes", "rep": "rep_votes", "other": "other_votes"}
+HISTORICAL_LOCALITY_SUCCESSORS = {
+    "BEDFORD CITY": "BEDFORD COUNTY",
+    "CLIFTON FORGE CITY": "ALLEGHANY COUNTY",
+}
+LOCALITY_ALIASES = {
+    "KING & QUEEN COUNTY": "KING AND QUEEN COUNTY",
+}
 
 
 def normalize_district(raw: object) -> str:
@@ -114,6 +123,7 @@ def build_locality_components(
     whole_by_district: dict[str, list[str]] = defaultdict(list)
     whole_area_by_district: dict[str, float] = defaultdict(float)
     partial_by_district: dict[str, list[str]] = defaultdict(list)
+    split_vap_by_district: dict[str, float] = defaultdict(float)
     for row in grouped.itertuples(index=False):
         share = float(row.vap) / float(locality_total[row.locality])
         if share >= threshold:
@@ -121,12 +131,77 @@ def build_locality_components(
             whole_area_by_district[row.district] += float(row.vap)
         elif share > (1.0 - threshold):
             partial_by_district[row.district].append(row.locality)
+            split_vap_by_district[row.district] += float(row.vap)
 
     exact_clusters = []
     for district, localities in whole_by_district.items():
         coverage = whole_area_by_district[district] / float(district_total[district])
         if coverage >= threshold:
             exact_clusters.append(district)
+
+    # Build materially connected locality/district components. Tiny cross-boundary
+    # block slivers are ignored when discovering candidates, but the final two-sided
+    # containment test still uses every VAP-bearing block.
+    material_threshold = 1.0 - threshold
+    locality_neighbors: dict[str, set[str]] = defaultdict(set)
+    district_neighbors: dict[str, set[str]] = defaultdict(set)
+    intersection_vap: dict[tuple[str, str], float] = {}
+    for row in grouped.itertuples(index=False):
+        value = float(row.vap)
+        locality = str(row.locality)
+        district = str(row.district)
+        intersection_vap[(locality, district)] = value
+        locality_share = value / float(locality_total[locality])
+        district_share = value / float(district_total[district])
+        if locality_share > material_threshold or district_share > material_threshold:
+            locality_neighbors[locality].add(district)
+            district_neighbors[district].add(locality)
+
+    locality_clusters: list[dict[str, Any]] = []
+    seen_localities: set[str] = set()
+    all_districts = set(str(value) for value in district_total)
+    for seed in sorted(locality_neighbors):
+        if seed in seen_localities:
+            continue
+        cluster_localities: set[str] = set()
+        cluster_districts: set[str] = set()
+        pending_localities = [seed]
+        pending_districts: list[str] = []
+        while pending_localities or pending_districts:
+            while pending_localities:
+                locality = pending_localities.pop()
+                if locality in cluster_localities:
+                    continue
+                cluster_localities.add(locality)
+                seen_localities.add(locality)
+                pending_districts.extend(locality_neighbors.get(locality, ()))
+            while pending_districts:
+                district = pending_districts.pop()
+                if district in cluster_districts:
+                    continue
+                cluster_districts.add(district)
+                pending_localities.extend(district_neighbors.get(district, ()))
+
+        if not cluster_districts or cluster_districts == all_districts:
+            continue
+        locality_vap = sum(float(locality_total[value]) for value in cluster_localities)
+        district_vap = sum(float(district_total[value]) for value in cluster_districts)
+        contained_vap = sum(
+            intersection_vap.get((locality, district), 0.0)
+            for locality in cluster_localities
+            for district in cluster_districts
+        )
+        locality_coverage = contained_vap / locality_vap if locality_vap else 0.0
+        district_coverage = contained_vap / district_vap if district_vap else 0.0
+        if locality_coverage < threshold or district_coverage < threshold:
+            continue
+        locality_clusters.append({
+            "id": f"cluster_{len(locality_clusters) + 1}",
+            "districts": sorted(cluster_districts, key=district_sort_key),
+            "localities": sorted(cluster_localities),
+            "locality_coverage_pct": locality_coverage * 100.0,
+            "district_coverage_pct": district_coverage * 100.0,
+        })
 
     return {
         "whole_by_district": {
@@ -138,6 +213,11 @@ def build_locality_components(
             for key in sorted(partial_by_district, key=district_sort_key)
         },
         "exact_clusters": sorted(set(exact_clusters), key=district_sort_key),
+        "locality_clusters": locality_clusters,
+        "split_vap_by_district": {
+            key: split_vap_by_district[key]
+            for key in sorted(split_vap_by_district, key=district_sort_key)
+        },
     }
 
 
@@ -181,12 +261,24 @@ def load_official(path: Path) -> tuple[dict[str, int], dict[str, dict[str, int]]
     localities: dict[str, dict[str, int]] = {}
     for row in payload.get("rows", []):
         locality = str(row.get("county", "")).strip().upper()
+        locality = LOCALITY_ALIASES.get(locality, locality)
         if not locality:
             continue
-        localities[locality] = {
-            bucket: int(row.get(field, 0) or 0) for bucket, field in BUCKET_FIELDS.items()
-        }
+        totals = localities.setdefault(locality, {bucket: 0 for bucket in BUCKET_FIELDS})
+        for bucket, field in BUCKET_FIELDS.items():
+            totals[bucket] += int(row.get(field, 0) or 0)
     return statewide, localities
+
+
+def official_localities_for_cluster(
+    cluster_localities: list[str],
+    locality_totals: dict[str, dict[str, int]],
+) -> list[str]:
+    included = set(cluster_localities)
+    for historical, successor in HISTORICAL_LOCALITY_SUCCESSORS.items():
+        if historical in locality_totals and successor in included:
+            included.add(historical)
+    return sorted(included)
 
 
 def finalize_row(row: dict[str, Any]) -> None:
@@ -216,6 +308,13 @@ def reconcile_file(
     results = payload.get("general", {}).get("results", {})
     statewide, locality_totals = load_official(official_path)
     before = {bucket: sum(int(row.get(field, 0) or 0) for row in results.values()) for bucket, field in BUCKET_FIELDS.items()}
+    before_rows = {
+        normalize_district(district): {
+            bucket: int(row.get(field, 0) or 0)
+            for bucket, field in BUCKET_FIELDS.items()
+        }
+        for district, row in results.items()
+    }
     before_margins = {
         normalize_district(district): ((int(row.get("rep_votes", 0) or 0) - int(row.get("dem_votes", 0) or 0)) / int(row.get("total_votes", 0) or 1) * 100.0)
         for district, row in results.items()
@@ -236,7 +335,9 @@ def reconcile_file(
             if abs(margin - float(spec["target_margin_pct"])) <= 0.011:
                 locked.add(district)
     whole_by_district = components["whole_by_district"]
+    locality_clusters = components.get("locality_clusters", [])
     shortfalls: list[dict[str, Any]] = []
+    cluster_audit: list[dict[str, Any]] = []
 
     for bucket, field in BUCKET_FIELDS.items():
         fixed: dict[str, int] = {}
@@ -261,13 +362,111 @@ def reconcile_file(
                     "whole_locality_floor": whole_vote,
                 })
 
-        remaining = statewide[bucket] - sum(fixed.values())
-        allocated = largest_remainder(adjustable_weights, remaining)
-        for district, row in results.items():
-            district = normalize_district(district)
-            if district in locked:
+        handled: set[str] = set()
+        for cluster in locality_clusters:
+            districts = [value for value in cluster["districts"] if value in results]
+            if not districts:
                 continue
-            row[field] = fixed[district] + allocated[district]
+            official_localities = official_localities_for_cluster(
+                cluster["localities"], locality_totals
+            )
+            target = sum(
+                locality_totals.get(locality, {}).get(bucket, 0)
+                for locality in official_localities
+            )
+            before_total = sum(int(results[district].get(field, 0) or 0) for district in districts)
+            remaining = target - sum(fixed[district] for district in districts)
+            if remaining < 0:
+                raise ValueError(
+                    f"Cluster floor exceeds official target in {path.name} "
+                    f"{cluster['id']} {bucket}: {remaining}"
+                )
+            weights = {
+                district: adjustable_weights[district]
+                for district in districts
+                if district not in locked
+            }
+            weight_method = "existing_split_vote_residual"
+            cluster_requires_vap = False
+            for major_bucket in ("dem", "rep"):
+                major_field = BUCKET_FIELDS[major_bucket]
+                major_target = sum(
+                    locality_totals.get(locality, {}).get(major_bucket, 0)
+                    for locality in official_localities
+                )
+                major_floor = 0
+                major_existing_residual = 0
+                for district in districts:
+                    current_major = int(results[district].get(major_field, 0) or 0)
+                    if district in locked:
+                        major_floor += current_major
+                        continue
+                    whole_major = sum(
+                        locality_totals.get(locality, {}).get(major_bucket, 0)
+                        for locality in whole_by_district.get(district, [])
+                    )
+                    major_floor += whole_major
+                    major_existing_residual += max(0, current_major - whole_major)
+                major_needed = major_target - major_floor
+                if major_needed > 0:
+                    coverage_ratio = major_existing_residual / float(major_needed)
+                    if coverage_ratio < 0.5 or coverage_ratio > 1.5:
+                        cluster_requires_vap = True
+                        break
+            if cluster_requires_vap or sum(weights.values()) <= 0:
+                weights = {
+                    district: float(components.get("split_vap_by_district", {}).get(district, 0.0))
+                    for district in districts
+                    if district not in locked
+                }
+                weight_method = "2020_block_vap_cluster_fallback"
+            allocated = largest_remainder(weights, remaining)
+            for district in districts:
+                results[district][field] = fixed[district] + allocated.get(district, 0)
+            handled.update(districts)
+            cluster_audit.append({
+                "cluster": cluster["id"],
+                "bucket": bucket,
+                "districts": districts,
+                "historical_localities": sorted(set(official_localities) - set(cluster["localities"])),
+                "allocation_weight_method": weight_method,
+                "target": target,
+                "before": before_total,
+                "after": sum(int(results[district].get(field, 0) or 0) for district in districts),
+            })
+
+        remaining_districts = [
+            normalize_district(district)
+            for district in results
+            if normalize_district(district) not in handled
+        ]
+        remaining_target = statewide[bucket] - sum(
+            int(results[district].get(field, 0) or 0) for district in handled
+        )
+        remaining_fixed = sum(fixed[district] for district in remaining_districts)
+        remaining_weights = {
+            district: adjustable_weights[district]
+            for district in remaining_districts
+            if district not in locked
+        }
+        if sum(remaining_weights.values()) <= 0:
+            remaining_weights = {
+                district: float(components.get("split_vap_by_district", {}).get(district, 0.0))
+                for district in remaining_districts
+                if district not in locked
+            }
+        if remaining_target != remaining_fixed and not remaining_weights:
+            raise ValueError(
+                f"No unconstrained district remains for {path.name} {bucket}: "
+                f"statewide residual={remaining_target - remaining_fixed}, "
+                f"handled={len(handled)}, clusters={len(locality_clusters)}"
+            )
+        allocated = largest_remainder(
+            remaining_weights,
+            remaining_target - remaining_fixed,
+        )
+        for district in remaining_districts:
+            results[district][field] = fixed[district] + allocated.get(district, 0)
 
     for row in results.values():
         finalize_row(row)
@@ -289,11 +488,20 @@ def reconcile_file(
     meta["statewide_vote_reconciled"] = True
     meta["statewide_vote_reconciliation_method"] = (
         "Exact whole-locality components (county or independent city) at >=99.9% coverage; "
-        "largest-remainder allocation across split-locality components."
+        "two-sided >=99.9% locality/district cluster constraints; largest-remainder "
+        "allocation across remaining split-locality components."
     )
     meta["whole_locality_threshold"] = 0.999
     meta["whole_locality_exact_districts"] = sorted(whole_by_district, key=district_sort_key)
     meta["exact_locality_cluster_districts"] = components["exact_clusters"]
+    meta["locality_cluster_constraints"] = [
+        {
+            "id": cluster["id"],
+            "districts": cluster["districts"],
+            "localities": cluster["localities"],
+        }
+        for cluster in locality_clusters
+    ]
     meta["protected_benchmark_districts"] = sorted(locked, key=district_sort_key)
     if write:
         path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
@@ -309,6 +517,26 @@ def reconcile_file(
         "before_difference": {bucket: before[bucket] - statewide[bucket] for bucket in BUCKET_FIELDS},
         "protected_districts": sorted(locked, key=district_sort_key),
         "whole_component_shortfalls": shortfalls,
+        "cluster_constraints": cluster_audit,
+        "district_vote_changes": {
+            normalize_district(district): {
+                "before": before_rows[normalize_district(district)],
+                "after": {
+                    bucket: int(row.get(field, 0) or 0)
+                    for bucket, field in BUCKET_FIELDS.items()
+                },
+            }
+            for district, row in sorted(results.items(), key=lambda item: district_sort_key(normalize_district(item[0])))
+            if margin_drifts[normalize_district(district)] >= 0.05 and any(
+                before_rows[normalize_district(district)][bucket] != int(row.get(field, 0) or 0)
+                for bucket, field in BUCKET_FIELDS.items()
+            )
+        },
+        "district_margin_drifts_pct": {
+            district: drift
+            for district, drift in sorted(margin_drifts.items(), key=lambda item: district_sort_key(item[0]))
+            if drift > 0.000001
+        },
         "maximum_margin_drift_pct": worst_margin_drift,
     }
 
@@ -388,6 +616,7 @@ def main() -> int:
         "threshold": float(args.threshold),
         "locality_definition": "Virginia county or independent city, keyed by Census county-equivalent FIPS",
         "component_weight": "2020 Census voting-age population by block, assigned by the official SCV Final 2021 block-assignment files",
+        "historical_locality_successors": HISTORICAL_LOCALITY_SUCCESSORS,
         "components": component_catalog,
         "files": reports,
     }

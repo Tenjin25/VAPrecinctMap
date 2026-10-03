@@ -10635,8 +10635,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-02-kimberly-pope-adams-v4';
-    const APP_BUILD_ID = '2026-10-02-kimberly-pope-adams-v4';
+    const DATA_CACHE_BUSTER = '2026-10-02-candidate-specific-absentee-v3';
+    const APP_BUILD_ID = '2026-10-02-candidate-specific-absentee-v3';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -22089,7 +22089,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const winnerPartyKey = String(winnerParty || '').toLowerCase();
       const winnerShort = winnerPartyKey === 'rep' ? 'Trump' : (winnerPartyKey === 'dem' ? 'Harris' : 'Tie');
-      const winnerText = (winnerName || winnerShort || '').toString().trim();
+      // Keep the hover call compact even if a caller passes a full candidate name.
+      const winnerText = winnerPartyKey === 'tie'
+        ? 'Tie'
+        : shortCandidateLabel(winnerName || winnerShort, winnerShort);
       const winnerToneClass = winnerPartyKey === 'rep' ? 'rep' : (winnerPartyKey === 'dem' ? 'dem' : 'tie');
       const winnerDisplayText = (winnerLineText || '').toString().trim()
         || (winnerPartyKey === 'tie'
@@ -22747,9 +22750,12 @@ document.addEventListener('DOMContentLoaded', function() {
       if (leadMetaEl) {
         leadMetaEl.textContent = winnerParty === 'tie'
           ? 'Even race'
-          : (winnerCallMeta?.text || (isCountyContext
-            ? compactCountyWinnerMarginLabel(r, d, total, resolvedCandidates.repCandidate, resolvedCandidates.demCandidate)
-            : compactWinnerMarginLabel(r, d, total, resolvedCandidates.repCandidate, resolvedCandidates.demCandidate)));
+          : (winnerCallMeta?.uncontested
+            ? winnerCallMeta.shortLabel
+            : `${shortCandidateLabel(
+                winnerParty === 'rep' ? resolvedCandidates.repCandidate : resolvedCandidates.demCandidate,
+                winnerParty === 'rep' ? 'R' : 'D'
+              )} +${formatAllocatedPct(marginPct, pctDigits)}%`);
         leadMetaEl.dataset.party = winnerParty;
       }
       if (demShareFill) demShareFill.style.width = `${demPct}%`;

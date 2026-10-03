@@ -1,0 +1,1186 @@
+{
+  "method": "2024 precinct returns through current ELECT precinct geometry and official 2022 House districts; sub-0.1% polygon slivers dropped and remaining shares renormalized per the NCPrecinctMap rule; party-specific within-locality allocation for non-geographic rows",
+  "inputs": {
+    "results_csv": "Data/openelections/2024/20241105__va__general__precinct__u_s_senate.csv",
+    "precinct_geojson": "Data/va_precincts_current.geojson",
+    "district_geojson": "Data/tl_2022_51_sldl.geojson",
+    "minimum_share": 0.001
+  },
+  "localities": [
+    "BLAND COUNTY",
+    "BRISTOL CITY",
+    "BUCHANAN COUNTY",
+    "DICKENSON COUNTY",
+    "LEE COUNTY",
+    "NORTON CITY",
+    "RUSSELL COUNTY",
+    "SCOTT COUNTY",
+    "TAZEWELL COUNTY",
+    "WASHINGTON COUNTY",
+    "WISE COUNTY"
+  ],
+  "districts": [
+    "43",
+    "44",
+    "45"
+  ],
+  "coverage": {
+    "input_votes": 126573.0,
+    "direct_geographic_votes": 122910.0,
+    "direct_coverage_pct": 97.10601787110996,
+    "unmatched_allocated_votes": 3663.0
+  },
+  "official_cluster_totals": {
+    "dem": 33972,
+    "rep": 92394,
+    "other": 207
+  },
+  "district_results": {
+    "43": {
+      "dem": 10714,
+      "rep": 30898,
+      "other": 71,
+      "total": 41683,
+      "margin_pct": 48.42261833361322
+    },
+    "44": {
+      "dem": 13152,
+      "rep": 31781,
+      "other": 69,
+      "total": 45002,
+      "margin_pct": 41.39593795831296
+    },
+    "45": {
+      "dem": 10106,
+      "rep": 29715,
+      "other": 67,
+      "total": 39888,
+      "margin_pct": 49.160148415563576
+    }
+  },
+  "unmatched_by_locality_party": [
+    {
+      "locality": "BLAND COUNTY",
+      "bucket": "dem",
+      "votes": 8.0
+    },
+    {
+      "locality": "BLAND COUNTY",
+      "bucket": "rep",
+      "votes": 17.0
+    },
+    {
+      "locality": "BRISTOL CITY",
+      "bucket": "dem",
+      "votes": 51.0
+    },
+    {
+      "locality": "BRISTOL CITY",
+      "bucket": "other",
+      "votes": 1.0
+    },
+    {
+      "locality": "BRISTOL CITY",
+      "bucket": "rep",
+      "votes": 85.0
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "bucket": "dem",
+      "votes": 45.0
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "bucket": "rep",
+      "votes": 116.0
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "bucket": "dem",
+      "votes": 26.0
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "bucket": "rep",
+      "votes": 116.0
+    },
+    {
+      "locality": "LEE COUNTY",
+      "bucket": "dem",
+      "votes": 53.0
+    },
+    {
+      "locality": "LEE COUNTY",
+      "bucket": "other",
+      "votes": 1.0
+    },
+    {
+      "locality": "LEE COUNTY",
+      "bucket": "rep",
+      "votes": 142.0
+    },
+    {
+      "locality": "NORTON CITY",
+      "bucket": "dem",
+      "votes": 18.0
+    },
+    {
+      "locality": "NORTON CITY",
+      "bucket": "rep",
+      "votes": 16.0
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "bucket": "dem",
+      "votes": 52.0
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "bucket": "other",
+      "votes": 1.0
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "bucket": "rep",
+      "votes": 122.0
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "bucket": "dem",
+      "votes": 39.0
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "bucket": "rep",
+      "votes": 136.0
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "bucket": "dem",
+      "votes": 131.0
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "bucket": "other",
+      "votes": 1.0
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "bucket": "rep",
+      "votes": 329.0
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "bucket": "dem",
+      "votes": 544.0
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "bucket": "other",
+      "votes": 5.0
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "bucket": "rep",
+      "votes": 1290.0
+    },
+    {
+      "locality": "WISE COUNTY",
+      "bucket": "dem",
+      "votes": 106.0
+    },
+    {
+      "locality": "WISE COUNTY",
+      "bucket": "other",
+      "votes": 1.0
+    },
+    {
+      "locality": "WISE COUNTY",
+      "bucket": "rep",
+      "votes": 211.0
+    }
+  ],
+  "precinct_weights": [
+    {
+      "locality": "BLAND COUNTY",
+      "precinct": "101",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BLAND COUNTY",
+      "precinct": "102",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BLAND COUNTY",
+      "precinct": "201",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BLAND COUNTY",
+      "precinct": "202",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BLAND COUNTY",
+      "precinct": "301",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BLAND COUNTY",
+      "precinct": "302",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BLAND COUNTY",
+      "precinct": "401",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BRISTOL CITY",
+      "precinct": "1",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "BRISTOL CITY",
+      "precinct": "2",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "BRISTOL CITY",
+      "precinct": "3",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "BRISTOL CITY",
+      "precinct": "4",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "BRISTOL CITY",
+      "precinct": "5",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "102",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "103",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "201",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "202",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "203",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "301",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "302",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "403",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "404",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "405",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "501",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "502",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "503",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "601",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "602",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "603",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "701",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "BUCHANAN COUNTY",
+      "precinct": "702",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "precinct": "101",
+      "districts": {
+        "43": 0.9984063973079446,
+        "45": 0.0015936026920554403
+      }
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "precinct": "201",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "precinct": "202",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "precinct": "203",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "precinct": "301",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "precinct": "302",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "precinct": "303",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "precinct": "304",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "precinct": "401",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "precinct": "501",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "DICKENSON COUNTY",
+      "precinct": "502",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "101",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "102",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "103",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "201",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "202",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "203",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "301",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "302",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "401",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "402",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "403",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "404",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "501",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "502",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "503",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "LEE COUNTY",
+      "precinct": "504",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "NORTON CITY",
+      "precinct": "1",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "101",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "102",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "103",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "201",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "202",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "301",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "302",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "303",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "304",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "401",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "402",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "403",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "501",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "601",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "RUSSELL COUNTY",
+      "precinct": "602",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "101",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "102",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "202",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "203",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "204",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "301",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "302",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "303",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "304",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "401",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "501",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "502",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "503",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "504",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "601",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "602",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "SCOTT COUNTY",
+      "precinct": "603",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "101",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "102",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "103",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "104",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "106",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "109",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "112",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "203",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "204",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "207",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "209",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "214",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "301",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "302",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "303",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "401",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "402",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "501",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "TAZEWELL COUNTY",
+      "precinct": "502",
+      "districts": {
+        "43": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "101",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "102",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "201",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "202",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "203",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "204",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "301",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "302",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "401",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "402",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "501",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "502",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "504",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "601",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "602",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "603",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "701",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "702",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WASHINGTON COUNTY",
+      "precinct": "703",
+      "districts": {
+        "44": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "101",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "102",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "103",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "104",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "201",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "202",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "203",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "301",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "302",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "401",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "402",
+      "districts": {
+        "45": 1.0
+      }
+    },
+    {
+      "locality": "WISE COUNTY",
+      "precinct": "403",
+      "districts": {
+        "45": 1.0
+      }
+    }
+  ]
+}

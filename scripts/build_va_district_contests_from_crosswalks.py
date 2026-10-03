@@ -29,28 +29,16 @@ SCOPES = ("congressional", "state_house", "state_senate")
 STATEWIDE_CONTESTS = ("president", "us_senate", "governor", "lieutenant_governor", "attorney_general")
 DISTRICT_CONTESTS = ("state_house", "state_senate")
 ALL_CONTESTS = set(STATEWIDE_CONTESTS) | set(DISTRICT_CONTESTS)
-# Blend unmatched-vote allocation toward party-specific district shares while
-# retaining a strong anchor to county-level matched turnout shares.
-PARTY_FALLBACK_BLEND = 0.15
-PARTY_FALLBACK_BLEND_CONGRESSIONAL = 0.35
-CONGRESSIONAL_PARTY_BLEND_BY_COUNTY = {
-    "CHESAPEAKE CITY": 0.55,
-}
-STATE_HOUSE_PARTY_BLEND_BY_COUNTY = {
-    "CHESTERFIELD COUNTY": 0.85,
-    "FAIRFAX COUNTY": 0.00,
-    "HENRICO COUNTY": 0.00,
-    "STAFFORD COUNTY": 1.00,
-}
-STATE_SENATE_PARTY_BLEND_BY_COUNTY = {
-    "CHESTERFIELD COUNTY": 0.00,
-    "FAIRFAX COUNTY": 0.00,
-    "HENRICO COUNTY": 0.00,
-    "MONTGOMERY COUNTY": 0.00,
-    "ROANOKE COUNTY": 0.15,
-    "ROANOKE CITY": 0.70,
-    "SALEM CITY": 0.70,
-}
+# NCPrecinctMap precinct-candidate rule: redistribute each party's unmatched
+# votes using that party's geographic precinct distribution in the locality.
+# County-wide turnout/VAP weights remain the fallback when a party has no
+# matched geographic votes.
+PARTY_FALLBACK_BLEND = 1.00
+PARTY_FALLBACK_BLEND_CONGRESSIONAL = 1.00
+MIN_OVERLAY_SHARE = 0.001  # NCPrecinctMap rule: discard sub-0.1% geometry slivers.
+CONGRESSIONAL_PARTY_BLEND_BY_COUNTY: dict[str, float] = {}
+STATE_HOUSE_PARTY_BLEND_BY_COUNTY: dict[str, float] = {}
+STATE_SENATE_PARTY_BLEND_BY_COUNTY: dict[str, float] = {}
 
 DEFAULT_MARGIN_TARGETS_CSV = "Data/benchmarks/district_margin_targets.csv"
 DEFAULT_RESULT_OVERRIDES_CSV = "Data/benchmarks/district_result_overrides.csv"
@@ -315,6 +303,7 @@ def build_scope_mapping_from_overlay(
     district_polys: gpd.GeoDataFrame,
     district_col: str,
     county_name_by_fp: dict[str, str],
+    minimum_share: float = MIN_OVERLAY_SHARE,
 ) -> dict[str, dict]:
     if district_polys.crs is None:
         district_polys = district_polys.set_crs(vtd_polys.crs, allow_override=True)
@@ -340,6 +329,7 @@ def build_scope_mapping_from_overlay(
     )
     grouped["total_weight"] = grouped.groupby(["COUNTYFP20", "VTDST20"])["weight"].transform("sum")
     grouped["share"] = grouped["weight"] / grouped["total_weight"]
+    grouped = grouped[grouped["share"] >= float(minimum_share)].copy()
 
     mapping: dict[tuple[str, str], list[tuple[str, float]]] = defaultdict(list)
     county_weights: dict[str, list[tuple[str, float]]] = defaultdict(list)
@@ -370,6 +360,7 @@ def build_scope_mapping_from_overlay(
     )
     county_grouped["county_total_weight"] = county_grouped.groupby(["COUNTYFP20"])["weight"].transform("sum")
     county_grouped["share"] = county_grouped["weight"] / county_grouped["county_total_weight"]
+    county_grouped = county_grouped[county_grouped["share"] >= float(minimum_share)].copy()
 
     for _, row in county_grouped.iterrows():
         county_fp = str(row["COUNTYFP20"]).zfill(3)
@@ -398,6 +389,7 @@ def build_scope_mapping_from_precinct_overlay(
     precinct_polys: gpd.GeoDataFrame,
     district_polys: gpd.GeoDataFrame,
     district_col: str,
+    minimum_share: float = MIN_OVERLAY_SHARE,
 ) -> dict[str, dict]:
     if district_polys.crs is None:
         district_polys = district_polys.set_crs(precinct_polys.crs, allow_override=True)
@@ -423,6 +415,7 @@ def build_scope_mapping_from_precinct_overlay(
     )
     grouped["total_weight"] = grouped.groupby(["county_nam", "prec_id"])["weight"].transform("sum")
     grouped["share"] = grouped["weight"] / grouped["total_weight"]
+    grouped = grouped[grouped["share"] >= float(minimum_share)].copy()
 
     mapping: dict[tuple[str, str], list[tuple[str, float]]] = defaultdict(list)
     county_weights: dict[str, list[tuple[str, float]]] = defaultdict(list)
@@ -452,6 +445,7 @@ def build_scope_mapping_from_precinct_overlay(
     )
     county_grouped["county_total_weight"] = county_grouped.groupby(["county_nam"])["weight"].transform("sum")
     county_grouped["share"] = county_grouped["weight"] / county_grouped["county_total_weight"]
+    county_grouped = county_grouped[county_grouped["share"] >= float(minimum_share)].copy()
 
     for _, row in county_grouped.iterrows():
         county_name = str(row["county_nam"]).strip().upper()
@@ -556,6 +550,7 @@ def build_all_scope_mappings(
     state_house_geojson: Path,
     state_senate_geojson: Path,
     mapping_source: str = "overlay",
+    minimum_overlay_share: float = MIN_OVERLAY_SHARE,
 ) -> dict[str, dict]:
     mapping_source = (mapping_source or "overlay").strip().lower()
 
@@ -565,15 +560,21 @@ def build_all_scope_mappings(
         precinct_polys = load_precinct_polygons(precinct_geojson)
         cd_polys = gpd.read_file(congressional_geojson)
         cd_col = pick_district_column(cd_polys, ["DISTRICT", "CD119FP", "CD118FP", "district_id", "district"])
-        congressional_map = build_scope_mapping_from_precinct_overlay(precinct_polys, cd_polys, cd_col)
+        congressional_map = build_scope_mapping_from_precinct_overlay(
+            precinct_polys, cd_polys, cd_col, minimum_overlay_share
+        )
         sldl_polys = gpd.read_file(state_house_geojson)
         sldu_polys = gpd.read_file(state_senate_geojson)
         sldl_col = pick_district_column(sldl_polys, ["SLDLST", "DISTRICT", "district_id", "district"])
         sldu_col = pick_district_column(sldu_polys, ["SLDUST", "DISTRICT", "district_id", "district"])
         return {
             "congressional": congressional_map,
-            "state_house": build_scope_mapping_from_precinct_overlay(precinct_polys, sldl_polys, sldl_col),
-            "state_senate": build_scope_mapping_from_precinct_overlay(precinct_polys, sldu_polys, sldu_col),
+            "state_house": build_scope_mapping_from_precinct_overlay(
+                precinct_polys, sldl_polys, sldl_col, minimum_overlay_share
+            ),
+            "state_senate": build_scope_mapping_from_precinct_overlay(
+                precinct_polys, sldu_polys, sldu_col, minimum_overlay_share
+            ),
         }
 
     def build_blockassign() -> dict[str, dict]:
@@ -746,6 +747,12 @@ def build_explicit_precinct_district_overrides(
         "state_house": defaultdict(lambda: defaultdict(float)),
         "state_senate": defaultdict(lambda: defaultdict(float)),
     }
+    raw_by_year: dict[int, dict[str, dict[tuple[str, str], dict[str, float]]]] = defaultdict(
+        lambda: {
+            "state_house": defaultdict(lambda: defaultdict(float)),
+            "state_senate": defaultdict(lambda: defaultdict(float)),
+        }
+    )
 
     for csv_path in sorted(openelections_root.rglob("*.csv")):
         year = parse_year_from_filename(csv_path)
@@ -776,22 +783,28 @@ def build_explicit_precinct_district_overrides(
                     continue
 
                 raw[contest_type][(county, prec_code)][district_id] += votes
+                raw_by_year[year][contest_type][(county, prec_code)][district_id] += votes
 
-    out: dict[str, dict[str, dict]] = {
-        "state_house": {"precinct_map": {}, "code_weights": {}},
-        "state_senate": {"precinct_map": {}, "code_weights": {}},
-    }
-    for scope in ("state_house", "state_senate"):
-        for key, dist_votes in raw[scope].items():
-            total = float(sum(dist_votes.values()))
-            if total <= 0:
-                continue
-            pairs = [(d, float(v / total)) for d, v in dist_votes.items() if v > 0]
-            s = sum(v for _, v in pairs)
-            if s <= 0:
-                continue
-            out[scope]["precinct_map"][key] = [(d, v / s) for d, v in pairs]
-            out[scope]["code_weights"][key] = total
+    def render(source: dict[str, dict[tuple[str, str], dict[str, float]]]) -> dict[str, dict[str, dict]]:
+        rendered: dict[str, dict[str, dict]] = {
+            "state_house": {"precinct_map": {}, "code_weights": {}},
+            "state_senate": {"precinct_map": {}, "code_weights": {}},
+        }
+        for scope in ("state_house", "state_senate"):
+            for key, dist_votes in source[scope].items():
+                total = float(sum(dist_votes.values()))
+                if total <= 0:
+                    continue
+                pairs = [(d, float(v / total)) for d, v in dist_votes.items() if v > 0]
+                s = sum(v for _, v in pairs)
+                if s <= 0:
+                    continue
+                rendered[scope]["precinct_map"][key] = [(d, v / s) for d, v in pairs]
+                rendered[scope]["code_weights"][key] = total
+        return rendered
+
+    out = render(raw)
+    out["by_year"] = {year: render(source) for year, source in raw_by_year.items()}
     return out
 
 
@@ -1043,6 +1056,7 @@ def build_district_contests(
         lambda: {
             "input_votes": 0.0,
             "direct_matched_votes": 0.0,
+            "same_year_assignment_votes": 0.0,
             "allocated_votes": 0.0,
             "matched_votes": 0.0,
         }
@@ -1079,6 +1093,14 @@ def build_district_contests(
         for county_name, code in explicit_overrides.get(scope, {}).get("precinct_map", {}).keys():
             idx[county_name].add(code)
         explicit_code_index[scope] = {k: sorted(v) for k, v in idx.items()}
+    explicit_year_code_index: dict[int, dict[str, dict[str, list[str]]]] = {}
+    for explicit_year, year_sources in explicit_overrides.get("by_year", {}).items():
+        explicit_year_code_index[explicit_year] = {}
+        for scope in ("state_house", "state_senate"):
+            idx: dict[str, set[str]] = defaultdict(set)
+            for county_name, code in year_sources.get(scope, {}).get("precinct_map", {}).keys():
+                idx[county_name].add(code)
+            explicit_year_code_index[explicit_year][scope] = {k: sorted(v) for k, v in idx.items()}
     historical_code_index: dict[str, dict[str, list[str]]] = {}
     for scope in SCOPES:
         idx: dict[str, set[str]] = defaultdict(set)
@@ -1125,6 +1147,7 @@ def build_district_contests(
                         cov_key = (scope, contest_type, year)
                         coverage[cov_key]["input_votes"] += votes
                         splits = None
+                        used_same_year_assignment = False
                         prec_code = extract_precinct_code(precinct)
                         if prec_code and not is_non_geographic_precinct(precinct):
                             if year <= HISTORICAL_VTD_MAX_YEAR and historical_scope_mappings:
@@ -1134,7 +1157,17 @@ def build_district_contests(
                                     historical_scope_mappings.get(scope, {}),
                                     historical_code_index.get(scope, {}),
                                 )
-                            # Prefer geometry-derived precinct splits first.
+                            # Same-year legislative returns are the official precinct-to-district
+                            # assignment and take precedence over polygon overlays.
+                            if not splits and scope in {"state_house", "state_senate"}:
+                                year_sources = explicit_overrides.get("by_year", {}).get(year, {})
+                                splits = resolve_precinct_splits(
+                                    county,
+                                    prec_code,
+                                    year_sources.get(scope, {}),
+                                    explicit_year_code_index.get(year, {}).get(scope, {}),
+                                )
+                                used_same_year_assignment = bool(splits)
                             if not splits:
                                 splits = resolve_precinct_splits(
                                     county,
@@ -1142,8 +1175,8 @@ def build_district_contests(
                                     scope_mappings[scope],
                                     scope_code_index.get(scope, {}),
                                 )
-                            # Use explicit district-contest overrides as fallback only for
-                            # unresolved codes in legislative scopes.
+                            # Other current-plan legislative returns remain a final fallback
+                            # for unresolved precinct codes when no same-year assignment exists.
                             if not splits and scope in {"state_house", "state_senate"}:
                                 splits = resolve_precinct_splits(
                                     county,
@@ -1154,6 +1187,8 @@ def build_district_contests(
 
                         if splits:
                             coverage[cov_key]["direct_matched_votes"] += votes
+                            if used_same_year_assignment:
+                                coverage[cov_key]["same_year_assignment_votes"] += votes
                             coverage[cov_key]["matched_votes"] += votes
                             county_scope_key = (scope, contest_type, year, county)
                             for district_id, share in splits:
@@ -1552,11 +1587,18 @@ def render_payload_for_group(
 
     cov = coverage_stats.get(
         (scope, contest_type, year),
-        {"input_votes": 0.0, "matched_votes": 0.0, "direct_matched_votes": 0.0, "allocated_votes": 0.0},
+        {
+            "input_votes": 0.0,
+            "matched_votes": 0.0,
+            "direct_matched_votes": 0.0,
+            "same_year_assignment_votes": 0.0,
+            "allocated_votes": 0.0,
+        },
     )
     input_votes = float(cov["input_votes"] or 0.0)
     matched_votes = float(cov["matched_votes"] or 0.0)
     direct_matched_votes = float(cov.get("direct_matched_votes", 0.0) or 0.0)
+    same_year_assignment_votes = float(cov.get("same_year_assignment_votes", 0.0) or 0.0)
     allocated_votes = float(cov.get("allocated_votes", 0.0) or 0.0)
     match_pct = (matched_votes / input_votes * 100.0) if input_votes > 0 else 0.0
     direct_match_pct = (direct_matched_votes / input_votes * 100.0) if input_votes > 0 else 0.0
@@ -1570,6 +1612,10 @@ def render_payload_for_group(
             "input_votes": int(round(input_votes)),
             "matched_votes": int(round(matched_votes)),
             "direct_matched_votes": int(round(direct_matched_votes)),
+            "same_year_assignment_votes": int(round(same_year_assignment_votes)),
+            "same_year_assignment_coverage_pct": (
+                same_year_assignment_votes / input_votes * 100.0 if input_votes > 0 else 0.0
+            ),
             "allocated_votes": int(round(allocated_votes)),
             "match_coverage_pct": match_pct,
             "direct_match_coverage_pct": direct_match_pct,
@@ -1662,6 +1708,15 @@ def parse_args() -> argparse.Namespace:
         help="Flag benchmark rows as needing calibration when abs(actual-target) is >= this value.",
     )
     parser.add_argument("--result-overrides-csv", default=DEFAULT_RESULT_OVERRIDES_CSV)
+    parser.add_argument(
+        "--minimum-overlay-share",
+        type=float,
+        default=MIN_OVERLAY_SHARE,
+        help="Drop smaller overlay shares and renormalize (default: 0.001, matching NCPrecinctMap).",
+    )
+    parser.add_argument("--scope", action="append", choices=SCOPES, default=[])
+    parser.add_argument("--contest-type", action="append", choices=sorted(ALL_CONTESTS), default=[])
+    parser.add_argument("--year", action="append", type=int, default=[])
     parser.add_argument("--output-dir", default="Data/district_contests")
     return parser.parse_args()
 
@@ -1681,17 +1736,17 @@ def main() -> int:
     result_overrides_csv = Path(args.result_overrides_csv) if args.result_overrides_csv else Path("")
     output_dir = Path(args.output_dir)
 
-    for p in (
+    required_paths = [
         openelections_dir,
-        assign_zip,
-        tabblock_zip,
         county_geojson,
-        vtd_zip,
         precinct_geojson,
         congressional_geojson,
         state_house_geojson,
         state_senate_geojson,
-    ):
+    ]
+    if args.mapping_source in {"blockassign", "auto"}:
+        required_paths.extend([assign_zip, tabblock_zip, vtd_zip])
+    for p in required_paths:
         if not p.exists():
             raise FileNotFoundError(f"Required input not found: {p}")
 
@@ -1705,9 +1760,28 @@ def main() -> int:
         state_house_geojson,
         state_senate_geojson,
         args.mapping_source,
+        float(args.minimum_overlay_share),
     )
     locality_alias_map = build_locality_alias_map(county_geojson)
-    district_acc, totals, coverage = build_district_contests(openelections_dir, scope_maps, locality_alias_map)
+    benchmark_filter = None
+    if args.scope or args.contest_type or args.year:
+        scopes = set(args.scope or SCOPES)
+        contests = set(args.contest_type or ALL_CONTESTS)
+        years = set(args.year)
+        if not years:
+            raise ValueError("--year is required when using --scope or --contest-type filters")
+        benchmark_filter = {
+            (scope, contest, year)
+            for scope in scopes
+            for contest in contests
+            for year in years
+        }
+    district_acc, totals, coverage = build_district_contests(
+        openelections_dir,
+        scope_maps,
+        locality_alias_map,
+        benchmark_filter=benchmark_filter,
+    )
     margin_targets = load_district_margin_targets(margin_targets_csv) if args.margin_targets_csv else {}
     result_overrides = load_district_result_overrides(result_overrides_csv) if args.result_overrides_csv else {}
     raw_margin_snapshot = build_raw_margin_snapshot(district_acc, margin_targets)

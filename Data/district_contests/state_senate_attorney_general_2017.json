@@ -11,7 +11,7 @@
     "match_coverage_pct": 100.0,
     "direct_match_coverage_pct": 92.4355853067359,
     "statewide_vote_reconciled": true,
-    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; two-sided >=99.9% locality/district cluster constraints; largest-remainder allocation across remaining split-locality components.",
     "whole_locality_threshold": 0.999,
     "whole_locality_exact_districts": [
       "1",
@@ -44,7 +44,224 @@
       "6",
       "8"
     ],
-    "protected_benchmark_districts": []
+    "protected_benchmark_districts": [],
+    "locality_cluster_constraints": [
+      {
+        "id": "cluster_1",
+        "districts": [
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22"
+        ],
+        "localities": [
+          "ACCOMACK COUNTY",
+          "BRUNSWICK COUNTY",
+          "CHARLES CITY COUNTY",
+          "CHESAPEAKE CITY",
+          "CHESTERFIELD COUNTY",
+          "COLONIAL HEIGHTS CITY",
+          "DINWIDDIE COUNTY",
+          "EMPORIA CITY",
+          "FRANKLIN CITY",
+          "GREENSVILLE COUNTY",
+          "HENRICO COUNTY",
+          "HOPEWELL CITY",
+          "ISLE OF WIGHT COUNTY",
+          "NORFOLK CITY",
+          "NORTHAMPTON COUNTY",
+          "PETERSBURG CITY",
+          "PORTSMOUTH CITY",
+          "PRINCE GEORGE COUNTY",
+          "RICHMOND CITY",
+          "SOUTHAMPTON COUNTY",
+          "SUFFOLK CITY",
+          "SURRY COUNTY",
+          "SUSSEX COUNTY",
+          "VIRGINIA BEACH CITY"
+        ]
+      },
+      {
+        "id": "cluster_2",
+        "districts": [
+          "9",
+          "10",
+          "11",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "38",
+          "39",
+          "40"
+        ],
+        "localities": [
+          "ALBEMARLE COUNTY",
+          "ALEXANDRIA CITY",
+          "AMELIA COUNTY",
+          "AMHERST COUNTY",
+          "APPOMATTOX COUNTY",
+          "ARLINGTON COUNTY",
+          "BUCKINGHAM COUNTY",
+          "CAROLINE COUNTY",
+          "CHARLOTTE COUNTY",
+          "CHARLOTTESVILLE CITY",
+          "CULPEPER COUNTY",
+          "CUMBERLAND COUNTY",
+          "DANVILLE CITY",
+          "ESSEX COUNTY",
+          "FAIRFAX CITY",
+          "FAIRFAX COUNTY",
+          "FALLS CHURCH CITY",
+          "FAUQUIER COUNTY",
+          "FLUVANNA COUNTY",
+          "FREDERICKSBURG CITY",
+          "GLOUCESTER COUNTY",
+          "GOOCHLAND COUNTY",
+          "GREENE COUNTY",
+          "HALIFAX COUNTY",
+          "HAMPTON CITY",
+          "HANOVER COUNTY",
+          "JAMES CITY COUNTY",
+          "KING AND QUEEN COUNTY",
+          "KING GEORGE COUNTY",
+          "KING WILLIAM COUNTY",
+          "LANCASTER COUNTY",
+          "LOUDOUN COUNTY",
+          "LOUISA COUNTY",
+          "LUNENBURG COUNTY",
+          "MADISON COUNTY",
+          "MANASSAS CITY",
+          "MANASSAS PARK CITY",
+          "MATHEWS COUNTY",
+          "MECKLENBURG COUNTY",
+          "MIDDLESEX COUNTY",
+          "NELSON COUNTY",
+          "NEW KENT COUNTY",
+          "NEWPORT NEWS CITY",
+          "NORTHUMBERLAND COUNTY",
+          "NOTTOWAY COUNTY",
+          "ORANGE COUNTY",
+          "PITTSYLVANIA COUNTY",
+          "POQUOSON CITY",
+          "POWHATAN COUNTY",
+          "PRINCE EDWARD COUNTY",
+          "PRINCE WILLIAM COUNTY",
+          "RAPPAHANNOCK COUNTY",
+          "RICHMOND COUNTY",
+          "SPOTSYLVANIA COUNTY",
+          "STAFFORD COUNTY",
+          "WESTMORELAND COUNTY",
+          "WILLIAMSBURG CITY",
+          "YORK COUNTY"
+        ]
+      },
+      {
+        "id": "cluster_3",
+        "districts": [
+          "2",
+          "3",
+          "4",
+          "5",
+          "7"
+        ],
+        "localities": [
+          "ALLEGHANY COUNTY",
+          "AUGUSTA COUNTY",
+          "BATH COUNTY",
+          "BLAND COUNTY",
+          "BOTETOURT COUNTY",
+          "BUENA VISTA CITY",
+          "CARROLL COUNTY",
+          "COVINGTON CITY",
+          "CRAIG COUNTY",
+          "FLOYD COUNTY",
+          "FRANKLIN COUNTY",
+          "GALAX CITY",
+          "GILES COUNTY",
+          "GRAYSON COUNTY",
+          "HARRISONBURG CITY",
+          "HENRY COUNTY",
+          "HIGHLAND COUNTY",
+          "LEXINGTON CITY",
+          "MARTINSVILLE CITY",
+          "MONTGOMERY COUNTY",
+          "PAGE COUNTY",
+          "PATRICK COUNTY",
+          "PULASKI COUNTY",
+          "RADFORD CITY",
+          "ROANOKE CITY",
+          "ROANOKE COUNTY",
+          "ROCKBRIDGE COUNTY",
+          "ROCKINGHAM COUNTY",
+          "SALEM CITY",
+          "SMYTH COUNTY",
+          "STAUNTON CITY",
+          "TAZEWELL COUNTY",
+          "WAYNESBORO CITY",
+          "WYTHE COUNTY"
+        ]
+      },
+      {
+        "id": "cluster_4",
+        "districts": [
+          "8"
+        ],
+        "localities": [
+          "BEDFORD COUNTY",
+          "CAMPBELL COUNTY",
+          "LYNCHBURG CITY"
+        ]
+      },
+      {
+        "id": "cluster_5",
+        "districts": [
+          "6"
+        ],
+        "localities": [
+          "BRISTOL CITY",
+          "BUCHANAN COUNTY",
+          "DICKENSON COUNTY",
+          "LEE COUNTY",
+          "NORTON CITY",
+          "RUSSELL COUNTY",
+          "SCOTT COUNTY",
+          "WASHINGTON COUNTY",
+          "WISE COUNTY"
+        ]
+      },
+      {
+        "id": "cluster_6",
+        "districts": [
+          "1"
+        ],
+        "localities": [
+          "CLARKE COUNTY",
+          "FREDERICK COUNTY",
+          "SHENANDOAH COUNTY",
+          "WARREN COUNTY",
+          "WINCHESTER CITY"
+        ]
+      }
+    ]
   },
   "general": {
     "results": {
@@ -86,14 +303,14 @@
       },
       "12": {
         "dem_votes": 34570,
-        "rep_votes": 45386,
+        "rep_votes": 45385,
         "other_votes": 70,
-        "total_votes": 80026,
+        "total_votes": 80025,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Republican",
-        "margin": 10816,
-        "margin_pct": 13.515607427586035,
+        "margin": 10815,
+        "margin_pct": 13.514526710402999,
         "color": "#ef3b2c"
       },
       "13": {
@@ -111,13 +328,13 @@
       "14": {
         "dem_votes": 60531,
         "rep_votes": 15452,
-        "other_votes": 86,
-        "total_votes": 76069,
+        "other_votes": 85,
+        "total_votes": 76068,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Democratic",
         "margin": 45079,
-        "margin_pct": -59.26067123269662,
+        "margin_pct": -59.261450281327235,
         "color": "#08306b"
       },
       "15": {
@@ -134,14 +351,14 @@
       },
       "16": {
         "dem_votes": 39181,
-        "rep_votes": 35683,
+        "rep_votes": 35682,
         "other_votes": 77,
-        "total_votes": 74941,
+        "total_votes": 74940,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Democratic",
-        "margin": 3498,
-        "margin_pct": -4.667671901896158,
+        "margin": 3499,
+        "margin_pct": -4.6690685882038965,
         "color": "#c6dbef"
       },
       "17": {
@@ -170,14 +387,14 @@
       },
       "19": {
         "dem_votes": 25543,
-        "rep_votes": 34890,
+        "rep_votes": 34889,
         "other_votes": 56,
-        "total_votes": 60489,
+        "total_votes": 60488,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Republican",
-        "margin": 9347,
-        "margin_pct": 15.452396303460134,
+        "margin": 9346,
+        "margin_pct": 15.450998545165984,
         "color": "#ef3b2c"
       },
       "2": {
@@ -266,26 +483,26 @@
       },
       "26": {
         "dem_votes": 31473,
-        "rep_votes": 52954,
+        "rep_votes": 52955,
         "other_votes": 103,
-        "total_votes": 84530,
+        "total_votes": 84531,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Republican",
-        "margin": 21481,
-        "margin_pct": 25.412279664024606,
+        "margin": 21482,
+        "margin_pct": 25.413162035229682,
         "color": "#cb181d"
       },
       "27": {
         "dem_votes": 27027,
-        "rep_votes": 29640,
+        "rep_votes": 29641,
         "other_votes": 59,
-        "total_votes": 56726,
+        "total_votes": 56727,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Republican",
-        "margin": 2613,
-        "margin_pct": 4.606353347671262,
+        "margin": 2614,
+        "margin_pct": 4.608034974527121,
         "color": "#fcae91"
       },
       "28": {
@@ -303,25 +520,25 @@
       "29": {
         "dem_votes": 31841,
         "rep_votes": 22036,
-        "other_votes": 80,
-        "total_votes": 53957,
+        "other_votes": 81,
+        "total_votes": 53958,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Democratic",
         "margin": 9805,
-        "margin_pct": -18.171877606242006,
+        "margin_pct": -18.171540828051448,
         "color": "#6baed6"
       },
       "3": {
         "dem_votes": 24205,
         "rep_votes": 43346,
-        "other_votes": 83,
-        "total_votes": 67634,
+        "other_votes": 82,
+        "total_votes": 67633,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Republican",
         "margin": 19141,
-        "margin_pct": 28.300854599757518,
+        "margin_pct": 28.30127304718111,
         "color": "#cb181d"
       },
       "30": {
@@ -338,14 +555,14 @@
       },
       "31": {
         "dem_votes": 39212,
-        "rep_votes": 32626,
+        "rep_votes": 32627,
         "other_votes": 62,
-        "total_votes": 71900,
+        "total_votes": 71901,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Democratic",
-        "margin": 6586,
-        "margin_pct": -9.159944367176633,
+        "margin": 6585,
+        "margin_pct": -9.158426169316144,
         "color": "#9ecae1"
       },
       "32": {
@@ -398,14 +615,14 @@
       },
       "36": {
         "dem_votes": 43012,
-        "rep_votes": 25388,
+        "rep_votes": 25389,
         "other_votes": 62,
-        "total_votes": 68462,
+        "total_votes": 68463,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Democratic",
-        "margin": 17624,
-        "margin_pct": -25.74274780170021,
+        "margin": 17623,
+        "margin_pct": -25.74091114908783,
         "color": "#3182bd"
       },
       "37": {
@@ -423,13 +640,13 @@
       "38": {
         "dem_votes": 51017,
         "rep_votes": 24196,
-        "other_votes": 83,
-        "total_votes": 75296,
+        "other_votes": 84,
+        "total_votes": 75297,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Democratic",
         "margin": 26821,
-        "margin_pct": -35.62075010624734,
+        "margin_pct": -35.620277036269705,
         "color": "#08519c"
       },
       "39": {
@@ -446,14 +663,14 @@
       },
       "4": {
         "dem_votes": 30905,
-        "rep_votes": 32472,
+        "rep_votes": 32471,
         "other_votes": 52,
-        "total_votes": 63429,
+        "total_votes": 63428,
         "dem_candidate": "Mark Rankin Herring",
         "rep_candidate": "John Donley Adams",
         "winner": "Republican",
-        "margin": 1567,
-        "margin_pct": 2.4704788030711504,
+        "margin": 1566,
+        "margin_pct": 2.468941161632087,
         "color": "#fcae91"
       },
       "40": {

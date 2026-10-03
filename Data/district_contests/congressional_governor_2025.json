@@ -17,7 +17,7 @@
     "target_method": "District turnout reweighted from baseline to hit statewide dem/rep totals while preserving VPAP dem/rep/other vote shares; final margin_pct derived from allocated votes.",
     "vpap_margin_source": "2025 Governor's Election",
     "statewide_vote_reconciled": true,
-    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; two-sided >=99.9% locality/district cluster constraints; largest-remainder allocation across remaining split-locality components.",
     "whole_locality_threshold": 0.999,
     "whole_locality_exact_districts": [
       "1",
@@ -33,7 +33,8 @@
       "11"
     ],
     "exact_locality_cluster_districts": [],
-    "protected_benchmark_districts": []
+    "protected_benchmark_districts": [],
+    "locality_cluster_constraints": []
   },
   "general": {
     "results": {

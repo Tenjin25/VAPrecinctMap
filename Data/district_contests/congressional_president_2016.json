@@ -11,7 +11,7 @@
     "match_coverage_pct": 100.0,
     "direct_match_coverage_pct": 85.34725047313039,
     "statewide_vote_reconciled": true,
-    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; two-sided >=99.9% locality/district cluster constraints; largest-remainder allocation across remaining split-locality components.",
     "whole_locality_threshold": 0.999,
     "whole_locality_exact_districts": [
       "1",
@@ -27,7 +27,8 @@
       "11"
     ],
     "exact_locality_cluster_districts": [],
-    "protected_benchmark_districts": []
+    "protected_benchmark_districts": [],
+    "locality_cluster_constraints": []
   },
   "general": {
     "results": {

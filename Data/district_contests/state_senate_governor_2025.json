@@ -11,7 +11,7 @@
     "match_coverage_pct": 100.0,
     "direct_match_coverage_pct": 99.17380794018753,
     "statewide_vote_reconciled": true,
-    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; two-sided >=99.9% locality/district cluster constraints; largest-remainder allocation across remaining split-locality components.",
     "whole_locality_threshold": 0.999,
     "whole_locality_exact_districts": [
       "1",
@@ -44,7 +44,224 @@
       "6",
       "8"
     ],
-    "protected_benchmark_districts": []
+    "protected_benchmark_districts": [],
+    "locality_cluster_constraints": [
+      {
+        "id": "cluster_1",
+        "districts": [
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22"
+        ],
+        "localities": [
+          "ACCOMACK COUNTY",
+          "BRUNSWICK COUNTY",
+          "CHARLES CITY COUNTY",
+          "CHESAPEAKE CITY",
+          "CHESTERFIELD COUNTY",
+          "COLONIAL HEIGHTS CITY",
+          "DINWIDDIE COUNTY",
+          "EMPORIA CITY",
+          "FRANKLIN CITY",
+          "GREENSVILLE COUNTY",
+          "HENRICO COUNTY",
+          "HOPEWELL CITY",
+          "ISLE OF WIGHT COUNTY",
+          "NORFOLK CITY",
+          "NORTHAMPTON COUNTY",
+          "PETERSBURG CITY",
+          "PORTSMOUTH CITY",
+          "PRINCE GEORGE COUNTY",
+          "RICHMOND CITY",
+          "SOUTHAMPTON COUNTY",
+          "SUFFOLK CITY",
+          "SURRY COUNTY",
+          "SUSSEX COUNTY",
+          "VIRGINIA BEACH CITY"
+        ]
+      },
+      {
+        "id": "cluster_2",
+        "districts": [
+          "9",
+          "10",
+          "11",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "38",
+          "39",
+          "40"
+        ],
+        "localities": [
+          "ALBEMARLE COUNTY",
+          "ALEXANDRIA CITY",
+          "AMELIA COUNTY",
+          "AMHERST COUNTY",
+          "APPOMATTOX COUNTY",
+          "ARLINGTON COUNTY",
+          "BUCKINGHAM COUNTY",
+          "CAROLINE COUNTY",
+          "CHARLOTTE COUNTY",
+          "CHARLOTTESVILLE CITY",
+          "CULPEPER COUNTY",
+          "CUMBERLAND COUNTY",
+          "DANVILLE CITY",
+          "ESSEX COUNTY",
+          "FAIRFAX CITY",
+          "FAIRFAX COUNTY",
+          "FALLS CHURCH CITY",
+          "FAUQUIER COUNTY",
+          "FLUVANNA COUNTY",
+          "FREDERICKSBURG CITY",
+          "GLOUCESTER COUNTY",
+          "GOOCHLAND COUNTY",
+          "GREENE COUNTY",
+          "HALIFAX COUNTY",
+          "HAMPTON CITY",
+          "HANOVER COUNTY",
+          "JAMES CITY COUNTY",
+          "KING AND QUEEN COUNTY",
+          "KING GEORGE COUNTY",
+          "KING WILLIAM COUNTY",
+          "LANCASTER COUNTY",
+          "LOUDOUN COUNTY",
+          "LOUISA COUNTY",
+          "LUNENBURG COUNTY",
+          "MADISON COUNTY",
+          "MANASSAS CITY",
+          "MANASSAS PARK CITY",
+          "MATHEWS COUNTY",
+          "MECKLENBURG COUNTY",
+          "MIDDLESEX COUNTY",
+          "NELSON COUNTY",
+          "NEW KENT COUNTY",
+          "NEWPORT NEWS CITY",
+          "NORTHUMBERLAND COUNTY",
+          "NOTTOWAY COUNTY",
+          "ORANGE COUNTY",
+          "PITTSYLVANIA COUNTY",
+          "POQUOSON CITY",
+          "POWHATAN COUNTY",
+          "PRINCE EDWARD COUNTY",
+          "PRINCE WILLIAM COUNTY",
+          "RAPPAHANNOCK COUNTY",
+          "RICHMOND COUNTY",
+          "SPOTSYLVANIA COUNTY",
+          "STAFFORD COUNTY",
+          "WESTMORELAND COUNTY",
+          "WILLIAMSBURG CITY",
+          "YORK COUNTY"
+        ]
+      },
+      {
+        "id": "cluster_3",
+        "districts": [
+          "2",
+          "3",
+          "4",
+          "5",
+          "7"
+        ],
+        "localities": [
+          "ALLEGHANY COUNTY",
+          "AUGUSTA COUNTY",
+          "BATH COUNTY",
+          "BLAND COUNTY",
+          "BOTETOURT COUNTY",
+          "BUENA VISTA CITY",
+          "CARROLL COUNTY",
+          "COVINGTON CITY",
+          "CRAIG COUNTY",
+          "FLOYD COUNTY",
+          "FRANKLIN COUNTY",
+          "GALAX CITY",
+          "GILES COUNTY",
+          "GRAYSON COUNTY",
+          "HARRISONBURG CITY",
+          "HENRY COUNTY",
+          "HIGHLAND COUNTY",
+          "LEXINGTON CITY",
+          "MARTINSVILLE CITY",
+          "MONTGOMERY COUNTY",
+          "PAGE COUNTY",
+          "PATRICK COUNTY",
+          "PULASKI COUNTY",
+          "RADFORD CITY",
+          "ROANOKE CITY",
+          "ROANOKE COUNTY",
+          "ROCKBRIDGE COUNTY",
+          "ROCKINGHAM COUNTY",
+          "SALEM CITY",
+          "SMYTH COUNTY",
+          "STAUNTON CITY",
+          "TAZEWELL COUNTY",
+          "WAYNESBORO CITY",
+          "WYTHE COUNTY"
+        ]
+      },
+      {
+        "id": "cluster_4",
+        "districts": [
+          "8"
+        ],
+        "localities": [
+          "BEDFORD COUNTY",
+          "CAMPBELL COUNTY",
+          "LYNCHBURG CITY"
+        ]
+      },
+      {
+        "id": "cluster_5",
+        "districts": [
+          "6"
+        ],
+        "localities": [
+          "BRISTOL CITY",
+          "BUCHANAN COUNTY",
+          "DICKENSON COUNTY",
+          "LEE COUNTY",
+          "NORTON CITY",
+          "RUSSELL COUNTY",
+          "SCOTT COUNTY",
+          "WASHINGTON COUNTY",
+          "WISE COUNTY"
+        ]
+      },
+      {
+        "id": "cluster_6",
+        "districts": [
+          "1"
+        ],
+        "localities": [
+          "CLARKE COUNTY",
+          "FREDERICK COUNTY",
+          "SHENANDOAH COUNTY",
+          "WARREN COUNTY",
+          "WINCHESTER CITY"
+        ]
+      }
+    ]
   },
   "general": {
     "results": {
@@ -86,14 +303,14 @@
       },
       "12": {
         "dem_votes": 61015,
-        "rep_votes": 51495,
+        "rep_votes": 51494,
         "other_votes": 0,
-        "total_votes": 112510,
+        "total_votes": 112509,
         "dem_candidate": "Abigail D. Spanberger",
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
-        "margin": 9520,
-        "margin_pct": -8.461470091547419,
+        "margin": 9521,
+        "margin_pct": -8.4624341163818,
         "color": "#9ecae1"
       },
       "13": {
@@ -109,15 +326,15 @@
         "color": "#3182bd"
       },
       "14": {
-        "dem_votes": 82271,
+        "dem_votes": 82270,
         "rep_votes": 14421,
         "other_votes": 0,
-        "total_votes": 96692,
+        "total_votes": 96691,
         "dem_candidate": "Abigail D. Spanberger",
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
-        "margin": 67850,
-        "margin_pct": -70.17126546146527,
+        "margin": 67849,
+        "margin_pct": -70.17095696600511,
         "color": "#08306b"
       },
       "15": {
@@ -266,14 +483,14 @@
       },
       "26": {
         "dem_votes": 50778,
-        "rep_votes": 66591,
+        "rep_votes": 66592,
         "other_votes": 0,
-        "total_votes": 117369,
+        "total_votes": 117370,
         "dem_candidate": "Abigail D. Spanberger",
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Republican",
-        "margin": 15813,
-        "margin_pct": 13.47289318303811,
+        "margin": 15814,
+        "margin_pct": 13.473630399591036,
         "color": "#ef3b2c"
       },
       "27": {
@@ -445,15 +662,15 @@
         "color": "#08306b"
       },
       "4": {
-        "dem_votes": 43073,
+        "dem_votes": 43074,
         "rep_votes": 36603,
         "other_votes": 0,
-        "total_votes": 79676,
+        "total_votes": 79677,
         "dem_candidate": "Abigail D. Spanberger",
         "rep_candidate": "Winsome Earle-Sears",
         "winner": "Democratic",
-        "margin": 6470,
-        "margin_pct": -8.120387569657112,
+        "margin": 6471,
+        "margin_pct": -8.121540720659663,
         "color": "#9ecae1"
       },
       "40": {

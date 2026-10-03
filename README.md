@@ -514,9 +514,37 @@ components are reweighted, using largest-remainder rounding, so the sum of all
 districts exactly equals the official statewide Democratic, Republican, and
 other totals.
 
+The same audit also discovers closed multi-district locality clusters. A group
+qualifies only when at least 99.9% of the included localities' VAP lies in the
+included districts **and** at least 99.9% of those districts' VAP comes from the
+included localities. Each qualifying county/independent-city cluster is
+reconciled to its combined official locality vote before the remaining
+statewide residual is allocated. Historical Bedford City votes are routed to
+the modern Bedford County cluster (and former Clifton Forge City to Alleghany
+County) when projecting older elections onto the current plan. Existing
+party-specific split-locality weights are retained when they have credible
+coverage; if either major party's residual is materially missing or inflated,
+the whole cluster falls back to the official-plan 2020 block-VAP distribution
+for both parties rather than using an arbitrary equal split.
+
 The write path refuses any file whose largest district-margin change exceeds
 5 points. A larger repair requires an explicit `--max-margin-drift` value after
 reviewing the audit; this protects against accidentally mixing plan vintages.
+
+For a precinct-level independent check of a suspicious cluster, use
+`scripts/audit_va_precinct_cluster.py`. It projects actual precinct returns
+through the displayed district geometry, drops sub-0.1% polygon overlaps as
+geometry slivers using the NCPrecinctMap rule, renormalizes the retained shares,
+and allocates provisional/non-geographic rows from the locality's party-specific
+geographic distribution. The tracked 2024 U.S. Senate audit for House Districts
+43–45 is `Data/benchmarks/state_house_2024_us_senate_cluster_43_45_audit.json`.
+
+The production district builder applies the same NC-style 0.1% minimum overlay
+share and renormalizes each retained precinct/district mapping. Its unmatched
+vote path prefers party-specific geographic precinct distributions, then falls
+back to locality weights. `--scope`, `--contest-type`, and `--year` can build a
+single candidate slice in a separate output directory for review before it is
+promoted into `Data/district_contests/`.
 
 ---
 
@@ -742,6 +770,30 @@ For each old VTD, the rebuild carries its votes through the NHGIS-derived
 House, and Senate district mappings. Unmatched non-geographic votes retain the
 existing within-locality allocation fallback. The final reconciliation step
 restores exact official statewide party totals with largest-remainder rounding.
+
+To rebuild every statewide contest projection without mixing election and
+precinct vintages, use the year-aware coordinator:
+
+```bash
+python scripts/rebuild_va_statewide_district_contests_by_era.py
+python scripts/rebuild_va_statewide_district_contests_by_era.py --write
+```
+
+It stages 2008-2009 through the NHGIS VTD00 bridge, 2012-2021 through the
+Census-2020/VTD20 layer, and 2022-present through the current ELECT layer. It
+then applies the 0.1% sliver cutoff, exact statewide/locality-cluster
+reconciliation, and a five-point production margin-drift guard. The default
+command is audit-only; `--write` promotes staged files only when that guard
+passes.
+
+Non-geographic votes use the NCPrecinctMap precinct-candidate rule: each
+party's centralized/absentee votes follow that party's matched geographic
+precinct distribution within the locality. Locality-wide weights are used only
+when that party has no matched geographic votes. The guarded 2020 comparison
+is recorded in `Data/benchmarks/2020_central_absentee_allocation_audit.json`.
+Focused Prince William/Manassas reconstructions reproduced the corrected
+allocation across both 2020 statewide contests, so the four legislative
+district projections now use this method in production.
 
 ---
 

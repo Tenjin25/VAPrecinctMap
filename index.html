@@ -10635,8 +10635,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-03-tooltip-candidate-normalization-v1';
-    const APP_BUILD_ID = '2026-10-03-tooltip-candidate-normalization-v1';
+    const DATA_CACHE_BUSTER = '2026-10-03-tooltip-candidate-normalization-v2';
+    const APP_BUILD_ID = '2026-10-03-tooltip-candidate-normalization-v2';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -21163,6 +21163,10 @@ document.addEventListener('DOMContentLoaded', function() {
           .join(' ');
         return suffix ? `${displayName}, ${suffix}` : displayName;
       };
+
+      // A compact winner label may already be just a surname. Do not run it
+      // through the first-name/last-name assembly, which would duplicate it.
+      if (parts.length === 1) return appendSuffixText(toTitleCaseName(parts[0]));
 
       // Preserve public legislative names that start with an initial followed by
       // the actual given/public name, such as "R. Lee Ware" or "C. Todd Gilbert".

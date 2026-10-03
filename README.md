@@ -771,6 +771,21 @@ House, and Senate district mappings. Unmatched non-geographic votes retain the
 existing within-locality allocation fallback. The final reconciliation step
 restores exact official statewide party totals with largest-remainder rounding.
 
+To rebuild every statewide contest projection without mixing election and
+precinct vintages, use the year-aware coordinator:
+
+```bash
+python scripts/rebuild_va_statewide_district_contests_by_era.py
+python scripts/rebuild_va_statewide_district_contests_by_era.py --write
+```
+
+It stages 2008-2009 through the NHGIS VTD00 bridge, 2012-2021 through the
+Census-2020/VTD20 layer, and 2022-present through the current ELECT layer. It
+then applies the 0.1% sliver cutoff, exact statewide/locality-cluster
+reconciliation, and a five-point production margin-drift guard. The default
+command is audit-only; `--write` promotes staged files only when that guard
+passes.
+
 ---
 
 ## Front-End Architecture

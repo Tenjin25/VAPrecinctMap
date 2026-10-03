@@ -36,6 +36,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--margin-targets-csv", default=builder.DEFAULT_MARGIN_TARGETS_CSV)
     parser.add_argument("--result-overrides-csv", default=builder.DEFAULT_RESULT_OVERRIDES_CSV)
     parser.add_argument("--output-dir", default="Data/district_contests")
+    parser.add_argument(
+        "--minimum-overlay-share",
+        type=float,
+        default=builder.MIN_OVERLAY_SHARE,
+        help="Drop smaller overlay shares and renormalize (default: 0.001, matching NCPrecinctMap).",
+    )
     parser.add_argument("--min-match-coverage", type=float, default=99.0)
     parser.add_argument("--max-margin-drift", type=float, default=20.0)
     return parser.parse_args()
@@ -95,6 +101,7 @@ def main() -> int:
         paths["state_house"],
         paths["state_senate"],
         "overlay",
+        float(args.minimum_overlay_share),
     )
     historical_maps = builder.build_historical_vtd_scope_mappings(paths["historical"], scope_maps)
     locality_aliases = builder.build_locality_alias_map(paths["county"])

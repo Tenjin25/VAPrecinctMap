@@ -33,6 +33,7 @@ ALL_CONTESTS = set(STATEWIDE_CONTESTS) | set(DISTRICT_CONTESTS)
 # retaining a strong anchor to county-level matched turnout shares.
 PARTY_FALLBACK_BLEND = 0.15
 PARTY_FALLBACK_BLEND_CONGRESSIONAL = 0.35
+MIN_OVERLAY_SHARE = 0.001  # NCPrecinctMap rule: discard sub-0.1% geometry slivers.
 CONGRESSIONAL_PARTY_BLEND_BY_COUNTY = {
     "CHESAPEAKE CITY": 0.55,
 }
@@ -315,6 +316,7 @@ def build_scope_mapping_from_overlay(
     district_polys: gpd.GeoDataFrame,
     district_col: str,
     county_name_by_fp: dict[str, str],
+    minimum_share: float = MIN_OVERLAY_SHARE,
 ) -> dict[str, dict]:
     if district_polys.crs is None:
         district_polys = district_polys.set_crs(vtd_polys.crs, allow_override=True)
@@ -340,6 +342,7 @@ def build_scope_mapping_from_overlay(
     )
     grouped["total_weight"] = grouped.groupby(["COUNTYFP20", "VTDST20"])["weight"].transform("sum")
     grouped["share"] = grouped["weight"] / grouped["total_weight"]
+    grouped = grouped[grouped["share"] >= float(minimum_share)].copy()
 
     mapping: dict[tuple[str, str], list[tuple[str, float]]] = defaultdict(list)
     county_weights: dict[str, list[tuple[str, float]]] = defaultdict(list)
@@ -370,6 +373,7 @@ def build_scope_mapping_from_overlay(
     )
     county_grouped["county_total_weight"] = county_grouped.groupby(["COUNTYFP20"])["weight"].transform("sum")
     county_grouped["share"] = county_grouped["weight"] / county_grouped["county_total_weight"]
+    county_grouped = county_grouped[county_grouped["share"] >= float(minimum_share)].copy()
 
     for _, row in county_grouped.iterrows():
         county_fp = str(row["COUNTYFP20"]).zfill(3)
@@ -398,6 +402,7 @@ def build_scope_mapping_from_precinct_overlay(
     precinct_polys: gpd.GeoDataFrame,
     district_polys: gpd.GeoDataFrame,
     district_col: str,
+    minimum_share: float = MIN_OVERLAY_SHARE,
 ) -> dict[str, dict]:
     if district_polys.crs is None:
         district_polys = district_polys.set_crs(precinct_polys.crs, allow_override=True)
@@ -423,6 +428,7 @@ def build_scope_mapping_from_precinct_overlay(
     )
     grouped["total_weight"] = grouped.groupby(["county_nam", "prec_id"])["weight"].transform("sum")
     grouped["share"] = grouped["weight"] / grouped["total_weight"]
+    grouped = grouped[grouped["share"] >= float(minimum_share)].copy()
 
     mapping: dict[tuple[str, str], list[tuple[str, float]]] = defaultdict(list)
     county_weights: dict[str, list[tuple[str, float]]] = defaultdict(list)
@@ -452,6 +458,7 @@ def build_scope_mapping_from_precinct_overlay(
     )
     county_grouped["county_total_weight"] = county_grouped.groupby(["county_nam"])["weight"].transform("sum")
     county_grouped["share"] = county_grouped["weight"] / county_grouped["county_total_weight"]
+    county_grouped = county_grouped[county_grouped["share"] >= float(minimum_share)].copy()
 
     for _, row in county_grouped.iterrows():
         county_name = str(row["county_nam"]).strip().upper()
@@ -556,6 +563,7 @@ def build_all_scope_mappings(
     state_house_geojson: Path,
     state_senate_geojson: Path,
     mapping_source: str = "overlay",
+    minimum_overlay_share: float = MIN_OVERLAY_SHARE,
 ) -> dict[str, dict]:
     mapping_source = (mapping_source or "overlay").strip().lower()
 
@@ -565,15 +573,21 @@ def build_all_scope_mappings(
         precinct_polys = load_precinct_polygons(precinct_geojson)
         cd_polys = gpd.read_file(congressional_geojson)
         cd_col = pick_district_column(cd_polys, ["DISTRICT", "CD119FP", "CD118FP", "district_id", "district"])
-        congressional_map = build_scope_mapping_from_precinct_overlay(precinct_polys, cd_polys, cd_col)
+        congressional_map = build_scope_mapping_from_precinct_overlay(
+            precinct_polys, cd_polys, cd_col, minimum_overlay_share
+        )
         sldl_polys = gpd.read_file(state_house_geojson)
         sldu_polys = gpd.read_file(state_senate_geojson)
         sldl_col = pick_district_column(sldl_polys, ["SLDLST", "DISTRICT", "district_id", "district"])
         sldu_col = pick_district_column(sldu_polys, ["SLDUST", "DISTRICT", "district_id", "district"])
         return {
             "congressional": congressional_map,
-            "state_house": build_scope_mapping_from_precinct_overlay(precinct_polys, sldl_polys, sldl_col),
-            "state_senate": build_scope_mapping_from_precinct_overlay(precinct_polys, sldu_polys, sldu_col),
+            "state_house": build_scope_mapping_from_precinct_overlay(
+                precinct_polys, sldl_polys, sldl_col, minimum_overlay_share
+            ),
+            "state_senate": build_scope_mapping_from_precinct_overlay(
+                precinct_polys, sldu_polys, sldu_col, minimum_overlay_share
+            ),
         }
 
     def build_blockassign() -> dict[str, dict]:
@@ -1662,6 +1676,15 @@ def parse_args() -> argparse.Namespace:
         help="Flag benchmark rows as needing calibration when abs(actual-target) is >= this value.",
     )
     parser.add_argument("--result-overrides-csv", default=DEFAULT_RESULT_OVERRIDES_CSV)
+    parser.add_argument(
+        "--minimum-overlay-share",
+        type=float,
+        default=MIN_OVERLAY_SHARE,
+        help="Drop smaller overlay shares and renormalize (default: 0.001, matching NCPrecinctMap).",
+    )
+    parser.add_argument("--scope", action="append", choices=SCOPES, default=[])
+    parser.add_argument("--contest-type", action="append", choices=sorted(ALL_CONTESTS), default=[])
+    parser.add_argument("--year", action="append", type=int, default=[])
     parser.add_argument("--output-dir", default="Data/district_contests")
     return parser.parse_args()
 
@@ -1681,17 +1704,17 @@ def main() -> int:
     result_overrides_csv = Path(args.result_overrides_csv) if args.result_overrides_csv else Path("")
     output_dir = Path(args.output_dir)
 
-    for p in (
+    required_paths = [
         openelections_dir,
-        assign_zip,
-        tabblock_zip,
         county_geojson,
-        vtd_zip,
         precinct_geojson,
         congressional_geojson,
         state_house_geojson,
         state_senate_geojson,
-    ):
+    ]
+    if args.mapping_source in {"blockassign", "auto"}:
+        required_paths.extend([assign_zip, tabblock_zip, vtd_zip])
+    for p in required_paths:
         if not p.exists():
             raise FileNotFoundError(f"Required input not found: {p}")
 
@@ -1705,9 +1728,28 @@ def main() -> int:
         state_house_geojson,
         state_senate_geojson,
         args.mapping_source,
+        float(args.minimum_overlay_share),
     )
     locality_alias_map = build_locality_alias_map(county_geojson)
-    district_acc, totals, coverage = build_district_contests(openelections_dir, scope_maps, locality_alias_map)
+    benchmark_filter = None
+    if args.scope or args.contest_type or args.year:
+        scopes = set(args.scope or SCOPES)
+        contests = set(args.contest_type or ALL_CONTESTS)
+        years = set(args.year)
+        if not years:
+            raise ValueError("--year is required when using --scope or --contest-type filters")
+        benchmark_filter = {
+            (scope, contest, year)
+            for scope in scopes
+            for contest in contests
+            for year in years
+        }
+    district_acc, totals, coverage = build_district_contests(
+        openelections_dir,
+        scope_maps,
+        locality_alias_map,
+        benchmark_filter=benchmark_filter,
+    )
     margin_targets = load_district_margin_targets(margin_targets_csv) if args.margin_targets_csv else {}
     result_overrides = load_district_result_overrides(result_overrides_csv) if args.result_overrides_csv else {}
     raw_margin_snapshot = build_raw_margin_snapshot(district_acc, margin_targets)

@@ -13,7 +13,7 @@
     "historical_vtd_crosswalk": "Data/vtd00_to_vtd20_block_crosswalk.csv",
     "historical_vtd_crosswalk_method": "Census-2000 VTD to VTD20 via NHGIS 2000-2010 and 2010-2020 block relationships; area-share transfer into current district mappings.",
     "statewide_vote_reconciled": true,
-    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; largest-remainder allocation across split-locality components.",
+    "statewide_vote_reconciliation_method": "Exact whole-locality components (county or independent city) at >=99.9% coverage; two-sided >=99.9% locality/district cluster constraints; largest-remainder allocation across remaining split-locality components.",
     "whole_locality_threshold": 0.999,
     "whole_locality_exact_districts": [
       "1",
@@ -29,7 +29,8 @@
       "11"
     ],
     "exact_locality_cluster_districts": [],
-    "protected_benchmark_districts": []
+    "protected_benchmark_districts": [],
+    "locality_cluster_constraints": []
   },
   "general": {
     "results": {

@@ -582,7 +582,12 @@ def parse_args() -> argparse.Namespace:
         default="Data/precinct_result_geometry_crosswalk.json",
     )
     parser.add_argument("--minimum-parent-coverage", type=float, default=0.05)
-    parser.add_argument("--minimum-target-weight", type=float, default=0.005)
+    parser.add_argument(
+        "--minimum-target-weight",
+        type=float,
+        default=0.001,
+        help="Drop sub-0.1%% target slivers and renormalize, matching NCPrecinctMap.",
+    )
     return parser.parse_args()
 
 

@@ -539,6 +539,13 @@ and allocates provisional/non-geographic rows from the locality's party-specific
 geographic distribution. The tracked 2024 U.S. Senate audit for House Districts
 43–45 is `Data/benchmarks/state_house_2024_us_senate_cluster_43_45_audit.json`.
 
+The production district builder applies the same NC-style 0.1% minimum overlay
+share and renormalizes each retained precinct/district mapping. Its unmatched
+vote path prefers party-specific geographic precinct distributions, then falls
+back to locality weights. `--scope`, `--contest-type`, and `--year` can build a
+single candidate slice in a separate output directory for review before it is
+promoted into `Data/district_contests/`.
+
 ---
 
 ## Color Ramp & Rating Categories

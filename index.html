@@ -14393,9 +14393,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function formatVoteCounterWinnerLabel(name, partyCode, fallbackText) {
-      const short = shortCandidateLabel(name, fallbackText);
-      if (!short || short.toUpperCase() === partyCode.toUpperCase()) return fallbackText;
-      return `${short} (${partyCode})`;
+      return formatVoteCounterCandidateLabel(name, partyCode, fallbackText);
     }
 
     function formatFocusBarLabel(name, pct, fallbackText, marginPct = null) {
@@ -21050,6 +21048,11 @@ document.addEventListener('DOMContentLoaded', function() {
       return displayName;
     }
 
+    function compactKimberlyPopeAdamsSummary(name, fallback = '') {
+      const displayName = fullCandidateLabel(name, fallback);
+      return displayName.toUpperCase() === 'KIMBERLY POPE ADAMS' ? 'Adams' : displayName;
+    }
+
     function preferredCandidateDisplayName(name) {
       const raw = stripRunningMateName((name || '').toString().trim());
       if (!raw) return '';
@@ -22089,10 +22092,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const winnerPartyKey = String(winnerParty || '').toLowerCase();
       const winnerShort = winnerPartyKey === 'rep' ? 'Trump' : (winnerPartyKey === 'dem' ? 'Harris' : 'Tie');
-      // Keep the hover call compact even if a caller passes a full candidate name.
       const winnerText = winnerPartyKey === 'tie'
         ? 'Tie'
-        : shortCandidateLabel(winnerName || winnerShort, winnerShort);
+        : compactKimberlyPopeAdamsSummary(winnerName || winnerShort, winnerShort);
       const winnerToneClass = winnerPartyKey === 'rep' ? 'rep' : (winnerPartyKey === 'dem' ? 'dem' : 'tie');
       const winnerDisplayText = (winnerLineText || '').toString().trim()
         || (winnerPartyKey === 'tie'
@@ -22748,14 +22750,17 @@ document.addEventListener('DOMContentLoaded', function() {
       barRepLabelEl.textContent = `${shortCandidateLabel(resolvedCandidates.repCandidate, 'Rep')} ${formatAllocatedPct(repPct, pctDigits)}%`;
       if (totalMetaEl) totalMetaEl.textContent = `${formatVoteCountForDisplay(total)} total votes`;
       if (leadMetaEl) {
+        const winnerCandidate = winnerParty === 'rep'
+          ? resolvedCandidates.repCandidate
+          : resolvedCandidates.demCandidate;
+        const isKimberlyPopeAdams = fullCandidateLabel(winnerCandidate, '').toUpperCase() === 'KIMBERLY POPE ADAMS';
         leadMetaEl.textContent = winnerParty === 'tie'
           ? 'Even race'
-          : (winnerCallMeta?.uncontested
-            ? winnerCallMeta.shortLabel
-            : `${shortCandidateLabel(
-                winnerParty === 'rep' ? resolvedCandidates.repCandidate : resolvedCandidates.demCandidate,
-                winnerParty === 'rep' ? 'R' : 'D'
-              )} +${formatAllocatedPct(marginPct, pctDigits)}%`);
+          : (isKimberlyPopeAdams && !winnerCallMeta?.uncontested
+            ? `Adams +${formatAllocatedPct(marginPct, pctDigits)}%`
+            : (winnerCallMeta?.text || (isCountyContext
+              ? compactCountyWinnerMarginLabel(r, d, total, resolvedCandidates.repCandidate, resolvedCandidates.demCandidate)
+              : compactWinnerMarginLabel(r, d, total, resolvedCandidates.repCandidate, resolvedCandidates.demCandidate))));
         leadMetaEl.dataset.party = winnerParty;
       }
       if (demShareFill) demShareFill.style.width = `${demPct}%`;
@@ -23091,7 +23096,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const winnerSummary = winnerCall.party === 'tie'
           ? 'Even race'
-          : `${winnerCall.shortLabel} (${winnerCall.party === 'rep' ? 'R' : 'D'})`;
+          : `${winnerCall.winnerName} (${winnerCall.party === 'rep' ? 'R' : 'D'})`;
         const isModeledSenate = isModeledSenateEnhancementContest(contestType, year);
         const modeledBadgeHtml = isModeledSenate ? `<span class="modeled-context-badge modeled-senate">Modeled race</span>` : '';
         const kickerHtml = isModeledSenate ? `Modeled baseline ${modeledBadgeHtml}` : 'Statewide leader';

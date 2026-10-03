@@ -1,0 +1,76 @@
+{
+  "status": "withheld_from_production",
+  "reason": "Candidate-specific redistribution resolves the original House 91 and Senate 19 anomalies but creates unverified changes above five points in other districts.",
+  "method": "Allocate each party's centralized absentee and other non-geographic votes using that party's geographic precinct distribution within the locality; use locality-wide weights only when the party has no matched geographic votes.",
+  "direct_match_coverage_pct": {
+    "president": 36.51,
+    "us_senate": 36.50
+  },
+  "original_flagged_districts": [
+    {
+      "file": "state_house_president_2020.json",
+      "district": "91",
+      "production_margin_pct": -40.00,
+      "old_15pct_blend_margin_pct": -23.26,
+      "candidate_specific_margin_pct": -38.86
+    },
+    {
+      "file": "state_house_us_senate_2020.json",
+      "district": "91",
+      "production_margin_pct": -42.77,
+      "old_15pct_blend_margin_pct": -24.98,
+      "candidate_specific_margin_pct": -41.20
+    },
+    {
+      "file": "state_senate_president_2020.json",
+      "district": "19",
+      "production_margin_pct": 12.63,
+      "old_15pct_blend_margin_pct": 1.92,
+      "candidate_specific_margin_pct": 16.27
+    },
+    {
+      "file": "state_senate_us_senate_2020.json",
+      "district": "19",
+      "production_margin_pct": 11.26,
+      "old_15pct_blend_margin_pct": 1.04,
+      "candidate_specific_margin_pct": 14.41
+    }
+  ],
+  "remaining_guard_failures": [
+    {
+      "file": "state_house_president_2020.json",
+      "district": "21",
+      "production_margin_pct": -26.50,
+      "candidate_specific_margin_pct": -11.69,
+      "abs_change_pct": 14.81
+    },
+    {
+      "file": "state_house_us_senate_2020.json",
+      "district": "21",
+      "production_margin_pct": -30.61,
+      "candidate_specific_margin_pct": -13.26,
+      "abs_change_pct": 17.35
+    },
+    {
+      "file": "state_senate_president_2020.json",
+      "district": "30",
+      "production_margin_pct": -26.76,
+      "candidate_specific_margin_pct": -17.37,
+      "abs_change_pct": 9.39
+    },
+    {
+      "file": "state_senate_us_senate_2020.json",
+      "district": "30",
+      "production_margin_pct": -30.50,
+      "candidate_specific_margin_pct": -19.09,
+      "abs_change_pct": 11.41
+    }
+  ],
+  "constraints": {
+    "statewide_party_totals_exact": true,
+    "locality_cluster_totals_exact": true,
+    "post_reconciliation_difference_count": 0,
+    "minimum_overlay_share": 0.001
+  },
+  "production_action": "No 2020 result files changed. Election-year precinct geometry or another authoritative split-locality benchmark is required before promotion."
+}

@@ -29,29 +29,16 @@ SCOPES = ("congressional", "state_house", "state_senate")
 STATEWIDE_CONTESTS = ("president", "us_senate", "governor", "lieutenant_governor", "attorney_general")
 DISTRICT_CONTESTS = ("state_house", "state_senate")
 ALL_CONTESTS = set(STATEWIDE_CONTESTS) | set(DISTRICT_CONTESTS)
-# Blend unmatched-vote allocation toward party-specific district shares while
-# retaining a strong anchor to county-level matched turnout shares.
-PARTY_FALLBACK_BLEND = 0.15
-PARTY_FALLBACK_BLEND_CONGRESSIONAL = 0.35
+# NCPrecinctMap precinct-candidate rule: redistribute each party's unmatched
+# votes using that party's geographic precinct distribution in the locality.
+# County-wide turnout/VAP weights remain the fallback when a party has no
+# matched geographic votes.
+PARTY_FALLBACK_BLEND = 1.00
+PARTY_FALLBACK_BLEND_CONGRESSIONAL = 1.00
 MIN_OVERLAY_SHARE = 0.001  # NCPrecinctMap rule: discard sub-0.1% geometry slivers.
-CONGRESSIONAL_PARTY_BLEND_BY_COUNTY = {
-    "CHESAPEAKE CITY": 0.55,
-}
-STATE_HOUSE_PARTY_BLEND_BY_COUNTY = {
-    "CHESTERFIELD COUNTY": 0.85,
-    "FAIRFAX COUNTY": 0.00,
-    "HENRICO COUNTY": 0.00,
-    "STAFFORD COUNTY": 1.00,
-}
-STATE_SENATE_PARTY_BLEND_BY_COUNTY = {
-    "CHESTERFIELD COUNTY": 0.00,
-    "FAIRFAX COUNTY": 0.00,
-    "HENRICO COUNTY": 0.00,
-    "MONTGOMERY COUNTY": 0.00,
-    "ROANOKE COUNTY": 0.15,
-    "ROANOKE CITY": 0.70,
-    "SALEM CITY": 0.70,
-}
+CONGRESSIONAL_PARTY_BLEND_BY_COUNTY: dict[str, float] = {}
+STATE_HOUSE_PARTY_BLEND_BY_COUNTY: dict[str, float] = {}
+STATE_SENATE_PARTY_BLEND_BY_COUNTY: dict[str, float] = {}
 
 DEFAULT_MARGIN_TARGETS_CSV = "Data/benchmarks/district_margin_targets.csv"
 DEFAULT_RESULT_OVERRIDES_CSV = "Data/benchmarks/district_result_overrides.csv"

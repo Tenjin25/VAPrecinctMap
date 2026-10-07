@@ -2687,6 +2687,12 @@ body.focus-active #hover-tooltip[data-context="preview"] {
 .vote-label.dem { color: #2563eb; }
 .vote-label.rep { color: #dc2626; }
 .vote-label.other { color: #6b7280; }
+body.ballot-measure-mode .vote-label.dem,
+body.ballot-measure-mode .vote-count.dem { color: #15803d; }
+body.ballot-measure-mode .focus-bar-segment.dem,
+body.ballot-measure-mode .vote-share-fill.dem { background: linear-gradient(90deg, #86efac 0%, #16a34a 100%); }
+body.ballot-measure-mode .focus-bar-segment.rep,
+body.ballot-measure-mode .vote-share-fill.rep { background: linear-gradient(90deg, #fca5a5 0%, #dc2626 100%); }
 
 .vote-count {
   font-size: 24px;
@@ -10635,8 +10641,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-07-compact-historical-leads-v9';
-    const APP_BUILD_ID = '2026-10-07-compact-historical-leads-v9';
+    const DATA_CACHE_BUSTER = '2026-10-07-amendment-compact-winners-v3';
+    const APP_BUILD_ID = '2026-10-07-amendment-compact-winners-v3';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -19728,7 +19734,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	        'treasurer': 'Treasurer',
 	        'us_house': 'US House',
 	        'state_senate': 'State Senate',
-          'state_house': 'House of Delegates'
+          'state_house': 'House of Delegates',
+          'constitutional_amendment': 'Proposed Constitutional Amendment'
 	      };
 
 	      if (contestType.startsWith('a') && contestType.length <= 3) {
@@ -19965,7 +19972,11 @@ document.addEventListener('DOMContentLoaded', function() {
             continue;
           }
 
-          if (next.key) lastCompletedContestSelection = next.key;
+          if (next.key) {
+            lastCompletedContestSelection = next.key;
+            // Once results are ready, return the mobile map to an unobstructed state.
+            try { minimizeLegendOnMobile(); } catch (_) {}
+          }
           queueCountyDetailsRefresh();
           try { refreshStartHereHint(); } catch (_) {}
           break;
@@ -21280,7 +21291,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       options = (options && typeof options === 'object' && !Array.isArray(options)) ? options : {};
       const { includeUnknownHispanic = false, extraClass = '' } = options;
-      const chips = [];
+      const demographics = [];
       const w = numericOrNull(whitePct);
       const b = numericOrNull(blackPct);
       const h = numericOrNull(hispanicPct);
@@ -21288,14 +21299,18 @@ document.addEventListener('DOMContentLoaded', function() {
       const a = numericOrNull(extraRaces.asianPct);
       const p = numericOrNull(extraRaces.pacificPct);
       const m = numericOrNull(extraRaces.multiracialPct);
-      if (w !== null) chips.push(`<span class="demo-race-chip white">White ${w.toFixed(2)}%</span>`);
-      if (b !== null) chips.push(`<span class="demo-race-chip black">Black ${b.toFixed(2)}%</span>`);
-      if (n !== null) chips.push(`<span class="demo-race-chip native">Native ${n.toFixed(2)}%</span>`);
-      if (a !== null) chips.push(`<span class="demo-race-chip asian">Asian ${a.toFixed(2)}%</span>`);
-      if (p !== null) chips.push(`<span class="demo-race-chip pacific">Pacific ${p.toFixed(2)}%</span>`);
-      if (m !== null) chips.push(`<span class="demo-race-chip multiracial">Multiracial ${m.toFixed(2)}%</span>`);
-      if (h !== null) chips.push(`<span class="demo-race-chip hispanic">Hispanic ${h.toFixed(2)}%</span>`);
-      else if (includeUnknownHispanic) chips.push(`<span class="demo-race-chip unknown">Hispanic N/A</span>`);
+      if (w !== null) demographics.push({ label: 'White', className: 'white', value: w });
+      if (b !== null) demographics.push({ label: 'Black', className: 'black', value: b });
+      if (n !== null) demographics.push({ label: 'Native', className: 'native', value: n });
+      if (a !== null) demographics.push({ label: 'Asian', className: 'asian', value: a });
+      if (p !== null) demographics.push({ label: 'Pacific', className: 'pacific', value: p });
+      if (m !== null) demographics.push({ label: 'Multiracial', className: 'multiracial', value: m });
+      if (h !== null) demographics.push({ label: 'Hispanic', className: 'hispanic', value: h });
+      demographics.sort((left, right) => right.value - left.value);
+      const chips = demographics.map(({ label, className, value }) =>
+        `<span class="demo-race-chip ${className}">${label} ${value.toFixed(2)}%</span>`
+      );
+      if (h === null && includeUnknownHispanic) chips.push(`<span class="demo-race-chip unknown">Hispanic N/A</span>`);
       if (!chips.length) return '';
       return `<div class="demo-race-row ${extraClass}"><span class="demo-race-label">Race</span>${chips.join('')}</div>`;
     }
@@ -21806,8 +21821,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     function competitivenessMarginValue(marginPct) {
       const pct = Math.abs(Number(marginPct) || 0);
-      // Classify the one-decimal margin shown in county-facing summaries.
-      return roundForDisplay(pct, 1);
+      // Classify the same two-decimal margin shown throughout the atlas.
+      // This keeps rating thresholds aligned with displayed values (for example,
+      // 0.96% remains Tilt instead of rounding to 1.0% and becoming Lean).
+      return roundForDisplay(pct, 2);
     }
 
     function marginPctDisplayValue(repVotes, demVotes, totalVotes) {
@@ -22606,6 +22623,21 @@ document.addEventListener('DOMContentLoaded', function() {
       const content = document.getElementById('legend-content');
       if (!content) return;
 
+      const selectedContest = String(currentContestMeta?.contestType || getSelectedContestTypeYear()?.contestType || '');
+      if (isBallotMeasureContest(selectedContest) && (mode === 'margins' || mode === 'winners')) {
+        if (header) header.textContent = mode === 'winners' ? 'Amendment result' : 'Amendment margin';
+        if (subtitle) subtitle.textContent = mode === 'winners'
+          ? 'Green indicates a Yes majority; red indicates a No majority.'
+          : 'Darker shades indicate a larger Yes or No lead.';
+        if (badge) badge.textContent = mode === 'winners' ? 'Yes / No' : 'Margin';
+        if (footer) footer.textContent = 'Gray indicates a tie or missing data.';
+        content.innerHTML = `
+          <div class="legend-swatch-card"><span class="legend-color" style="background:#16a34a;"></span><span>Yes lead</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background:#dc2626;"></span><span>No lead</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background:#94a3b8;"></span><span>Tie or no data</span></div>`;
+        return;
+      }
+
       if (mode === 'winners') {
         if (header) header.textContent = 'Winners';
         if (subtitle) subtitle.textContent = 'Each geography is shaded by the party currently ahead in the selected contest.';
@@ -23053,7 +23085,9 @@ document.addEventListener('DOMContentLoaded', function() {
           compColor = winnerCall.party === 'rep' ? '#f87171' : '#93c5fd';
         } else if (marginPct >= 0.5) {
           compLabel = winnerCall.party === 'rep' ? 'Tilt Republican (0.50-0.99%)' : 'Tilt Democratic (0.50-0.99%)';
-          compColor = winnerCall.party === 'rep' ? '#fff1f2' : '#dbeafe';
+          // This color is used as text on the statewide rating pill. Keep it
+          // darker than the pale Tilt map fills so the label remains legible.
+          compColor = winnerCall.party === 'rep' ? '#be123c' : '#1d4ed8';
         } else {
           compLabel = winnerCall.party === 'dem' ? 'Tossup (Democratic Win - <0.50%)' : (winnerCall.party === 'rep' ? 'Tossup (Republican Win - <0.50%)' : 'Tossup');
           compColor = winnerCall.party === 'dem' ? '#2563eb' : (winnerCall.party === 'rep' ? '#dc2626' : '#64748b');
@@ -27985,6 +28019,7 @@ document.addEventListener('DOMContentLoaded', function() {
         : getDistrictHoverTitle(scope, districtNum);
       const districtCopyLabel = hoverTitle;
       if (!contestValue) {
+        const compactDemoHTML = _demoHTML ? `<div class="vhr-demographics">${_demoHTML}</div>` : '';
         const pinnedShell = !!(tooltipPinned || (forceTooltip && isTouchInteractionMode()));
         const copyText = `${districtCopyLabel} (Lines ${currentDistrictLinesYear})`;
         if (isDesktopTooltipMode()) {
@@ -27993,7 +28028,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.point.y,
             buildTooltipShell(
               hoverTitle,
-              _demoHTML + '<div style="color:#94a3b8;margin-top:6px;">Select a contest to see results</div>',
+              compactDemoHTML + '<div style="color:#94a3b8;margin-top:6px;">Select a contest to see results</div>',
               { pinned: pinnedShell, copyText }
             ),
             { force: !!forceTooltip, pinned: pinnedShell, context: pinnedShell ? 'pinned' : 'detail', copyText }
@@ -28008,7 +28043,7 @@ document.addEventListener('DOMContentLoaded', function() {
           e.point.y,
           buildTooltipShell(
             hoverTitle,
-            `${_demoHTML}<div class="tooltip-kicker">Start</div><div style="color:rgba(226,232,240,0.92);font-weight:650;margin-top:6px;">${escapeHtml(startText)}</div>`,
+            `${compactDemoHTML}<div class="tooltip-kicker">Start</div><div style="color:rgba(226,232,240,0.92);font-weight:650;margin-top:6px;">${escapeHtml(startText)}</div>`,
             { pinned: pinnedShell, copyText }
           ),
           { force: !!forceTooltip, pinned: pinnedShell, context: pinnedShell ? 'pinned' : 'detail', copyText }
@@ -32721,16 +32756,24 @@ document.addEventListener('DOMContentLoaded', function() {
       let demographicInfo = '';
       const desc = getDistrictDescription('congressional', districtNum);
       if (districtInfo) {
-        const extraRaceLines = buildDistrictExtraRaceLinesHTML(districtInfo, 30);
+        const demoRaceChips = buildRaceChipRowHTML(
+          districtInfo.white_vap_pct,
+          districtInfo.black_vap_pct,
+          districtInfo.hispanic_vap_pct,
+          districtInfo.native_vap_pct,
+          {
+            asianPct: districtInfo.asian_vap_pct,
+            pacificPct: districtInfo.pacific_vap_pct,
+            multiracialPct: districtInfo.multiracial_vap_pct
+          },
+          { extraClass: 'sidebar-demo-race-row' }
+        );
         demographicInfo = `
           <div style="margin-bottom: 12px;">
             ${desc ? `<div style="margin:0 0 10px 0;color:#475569;font-weight:800;">${desc}</div>` : ''}
             <h5 style="margin:0 0 6px 0;">Demographics (VAP)</h5>
             <div style="font-size:14px;"><strong>${Number.isFinite(Number(cvapTotal)) ? 'CVAP (18+):' : 'Total Population:'}</strong> ${Math.round(Number.isFinite(Number(cvapTotal)) ? Number(cvapTotal) : Number(districtInfo.total_population || 0)).toLocaleString()}</div>
-            <div style="font-size:14px;"><strong>White:</strong> ${districtInfo.white_vap_pct}%</div>
-            <div style="font-size:14px;"><strong>Black:</strong> ${districtInfo.black_vap_pct}%</div>
-            <div style="font-size:14px;"><strong>Hispanic:</strong> ${districtInfo.hispanic_vap_pct}%</div>
-            ${extraRaceLines}
+            ${demoRaceChips}
           </div>
         `;
       } else if (desc) {
@@ -32809,16 +32852,24 @@ document.addEventListener('DOMContentLoaded', function() {
       let demographicInfo = '';
       const desc = getDistrictDescription(scope, districtNum);
       if (infoRow) {
-        const extraRaceLines = buildDistrictExtraRaceLinesHTML(infoRow, 30);
+        const demoRaceChips = buildRaceChipRowHTML(
+          infoRow.white_vap_pct,
+          infoRow.black_vap_pct,
+          infoRow.hispanic_vap_pct,
+          infoRow.native_vap_pct,
+          {
+            asianPct: infoRow.asian_vap_pct,
+            pacificPct: infoRow.pacific_vap_pct,
+            multiracialPct: infoRow.multiracial_vap_pct
+          },
+          { extraClass: 'sidebar-demo-race-row' }
+        );
         demographicInfo = `
           <div style="margin-bottom: 12px;">
             ${desc ? `<div style="margin:0 0 10px 0;color:#475569;font-weight:800;">${desc}</div>` : ''}
             <h5 style="margin:0 0 6px 0;">Demographics (VAP)</h5>
             <div style="font-size:14px;"><strong>${Number.isFinite(Number(cvapTotal)) ? 'CVAP (18+):' : 'Total Population:'}</strong> ${Math.round(Number.isFinite(Number(cvapTotal)) ? Number(cvapTotal) : Number(infoRow.total_population || 0)).toLocaleString()}</div>
-            <div style="font-size:14px;"><strong>White:</strong> ${infoRow.white_vap_pct}%</div>
-            <div style="font-size:14px;"><strong>Black:</strong> ${infoRow.black_vap_pct}%</div>
-            <div style="font-size:14px;"><strong>Hispanic:</strong> ${infoRow.hispanic_vap_pct}%</div>
-            ${extraRaceLines}
+            ${demoRaceChips}
           </div>
         `;
       } else if (desc) {
@@ -33072,6 +33123,10 @@ document.addEventListener('DOMContentLoaded', function() {
         populateContestSelectFromElectionJSON(electionData);
       }
 
+      // The contest list is usable as soon as its manifest is ready. Do not keep
+      // mobile users locked out while optional geometry and demographic files load.
+      setContestSelectDeferredLoading(false);
+
       try {
         let loadedAnyDistrictManifest = false;
         districtManifestByLines = { '2022': [], '2024': [], '2026': [] };
@@ -33241,15 +33296,9 @@ document.addEventListener('DOMContentLoaded', function() {
           started = true;
           hydrateAtlasDataAndDistrictSources().then(resolve).catch(reject);
         };
-        const kickoff = () => {
-          if (typeof window.requestIdleCallback === 'function') {
-            window.requestIdleCallback(() => start(), { timeout: 2600 });
-          } else {
-            setTimeout(start, 360);
-          }
-        };
-        map.once('idle', kickoff);
-        setTimeout(kickoff, 1600);
+        // Fetch the small contest manifest immediately. Heavy optional resources
+        // remain asynchronous after the selector is populated and unlocked.
+        setTimeout(start, 0);
       });
     }
 
@@ -33461,6 +33510,28 @@ document.addEventListener('DOMContentLoaded', function() {
       return isColorblindModeActive()
         ? accessibilityMarginColor(marginPctAbs, winner)
         : categoryColorForMargin(marginPctAbs, winner);
+    }
+
+    function isBallotMeasureContest(contestType) {
+      return String(contestType || '').trim().toLowerCase() === 'constitutional_amendment';
+    }
+
+    function colorForContestMarginMode(contestType, marginPctAbs, winner) {
+      if (!isBallotMeasureContest(contestType)) return colorForMarginMode(marginPctAbs, winner);
+      const m = Math.abs(Number(marginPctAbs) || 0);
+      if (winner === 'T') return '#94a3b8';
+      const yes = winner === 'D';
+      if (m >= 30) return yes ? '#14532d' : '#7f1d1d';
+      if (m >= 20) return yes ? '#166534' : '#991b1b';
+      if (m >= 10) return yes ? '#15803d' : '#b91c1c';
+      if (m >= 5) return yes ? '#16a34a' : '#dc2626';
+      if (m >= 1) return yes ? '#4ade80' : '#f87171';
+      return yes ? '#bbf7d0' : '#fecaca';
+    }
+
+    function colorForContestWinnerMode(contestType, winner) {
+      if (!isBallotMeasureContest(contestType)) return colorForWinnerMode(winner);
+      return winner === 'D' ? '#16a34a' : (winner === 'R' ? '#dc2626' : '#94a3b8');
     }
 
     function colorForWinnerMode(winner) {
@@ -33936,6 +34007,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (!contestKey) {
         currentContestMeta = { contestType: '', year: '' };
+        try { document.body.classList.remove('ballot-measure-mode'); } catch (_) {}
         try { syncModelTuningControls(); } catch (_) {}
         try { applyLayerOpacityTuning(); } catch (_) {}
         splitTicketCountyOverlayMargins = {};
@@ -33971,6 +34043,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const contestType = contestKey.substring(0, lastUnderscoreIndex);
       const year = contestKey.substring(lastUnderscoreIndex + 1);
       currentContestMeta = { contestType, year };
+      try { document.body.classList.toggle('ballot-measure-mode', isBallotMeasureContest(contestType)); } catch (_) {}
       const nextApplySig = buildContestApplySignature(contestKey, contestType, year);
       try { syncModelTuningControls(); } catch (_) {}
       try { updateContextBanner(); } catch (_) {}
@@ -35002,14 +35075,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const f = flipInfo(prevSigned, signedMarginPct);
             color = f.flipped ? colorForFlipMode(f.to) : colorForFlipMode('T');
           } else if (mode === 'winners') {
-            color = colorForWinnerMode(winner);
+            color = colorForContestWinnerMode(contestType, winner);
           } else if (mode === 'shift' && prevCountyTotals) {
             const prev = prevCountyTotals[countyName];
             const prevSigned = prev ? signedMarginPctFromVotes(prev.dem, prev.rep, prev.total) : 0;
             const shift = signedMarginPct - prevSigned;
             color = colorForShiftMode(shift);
           } else {
-            color = colorForMarginMode(marginPctAbs, winner === 'T' ? 'R' : winner);
+            color = colorForContestMarginMode(contestType, marginPctAbs, winner);
           }
 
           if (countiesProcessed < 5) {
@@ -35158,7 +35231,7 @@ document.addEventListener('DOMContentLoaded', function() {
               const f = flipInfo(prevSigned, curSigned);
               color = f.flipped ? colorForFlipMode(f.to) : colorForFlipMode('T');
             } else if (mode === 'winners') {
-              color = colorForWinnerMode(winner);
+              color = colorForContestWinnerMode(contestType, winner);
             } else if (mode === 'shift' && prevPrecinctMarginByNorm) {
               const curSigned = isNaN(signedMarginPct) ? signedMarginPctFromVotes(demVotes, repVotes, totalVotes) : signedMarginPct;
               let prevSigned = 0;
@@ -35168,7 +35241,7 @@ document.addEventListener('DOMContentLoaded', function() {
               color = colorForShiftMode(curSigned - prevSigned);
             } else {
               const curSigned = isNaN(signedMarginPct) ? signedMarginPctFromVotes(demVotes, repVotes, totalVotes) : signedMarginPct;
-              color = colorForMarginMode(Math.abs(curSigned), winner === 'T' ? 'R' : winner);
+              color = colorForContestMarginMode(contestType, Math.abs(curSigned), winner);
             }
 
             precinctNames.forEach(precinctName => {
@@ -35489,13 +35562,13 @@ document.addEventListener('DOMContentLoaded', function() {
               const f = flipInfo(prevSigned, signed);
               color = f.flipped ? colorForFlipMode(f.to) : colorForFlipMode('T');
             } else if (mode === 'winners') {
-              color = colorForWinnerMode(winner);
+              color = colorForContestWinnerMode(contestType, winner);
             } else if (mode === 'shift' && prevResults && prevYear) {
               const prevRow = prevResults[String(districtId)] || prevResults[String(Number(districtId))] || null;
               const prevSigned = prevRow ? Number(prevRow.margin_pct || 0) : 0;
               color = colorForShiftMode(signed - prevSigned);
             } else {
-              color = colorForMarginMode(Math.abs(signed), winner === 'T' ? 'R' : winner);
+              color = colorForContestMarginMode(contestType, Math.abs(signed), winner);
             }
 
             if (!isNaN(districtNum)) {
@@ -35737,7 +35810,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    window.onload = init;
+    // Start as soon as Mapbox is ready instead of waiting for every page asset.
+    // This avoids a long mobile stall before contest hydration can begin.
+    if (map.loaded()) init();
+    else map.once('load', init);
 </script>
 </body>
 </html>

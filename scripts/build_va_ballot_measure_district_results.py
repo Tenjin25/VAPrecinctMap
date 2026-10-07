@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Build reusable Yes/No county and district results from a VA OpenElections CSV.
 
-The district allocation reuses the atlas's precinct-to-district overlay mappings.
-Precincts that cannot be matched directly are allocated within their locality using
-the matched vote distribution, falling back to the locality's geographic weights.
+District allocation uses the SCV final 2021 plan's block assignments, weighted by
+2020 Census voting-age population within each current voting precinct.
 """
 
 from __future__ import annotations
@@ -34,9 +33,9 @@ NO_COLOR = "#dc2626"
 TIE_COLOR = "#94a3b8"
 
 ASSIGNMENT_MEMBERS = {
-    "congressional": "BlockAssign_ST51_VA_CD.txt",
-    "state_house": "BlockAssign_ST51_VA_SLDL.txt",
-    "state_senate": "BlockAssign_ST51_VA_SLDU.txt",
+    "congressional": "SCV Final 2021 Redistricting Plans/SCV FINAL CD Blkassign.txt",
+    "state_house": "SCV Final 2021 Redistricting Plans/SCV FINAL HOD blkassign.txt",
+    "state_senate": "SCV Final 2021 Redistricting Plans/SCV FINAL SD blkassign.txt",
 }
 
 
@@ -91,11 +90,15 @@ def build_block_vap_scope_mappings(
         for scope, member in ASSIGNMENT_MEMBERS.items():
             assignment = pd.read_csv(
                 archive.open(member),
-                sep="|",
-                usecols=["BLOCKID", "DISTRICT"],
+                sep=",",
+                header=None,
+                names=["block_geoid20", "district"],
                 dtype=str,
-            ).rename(columns={"BLOCKID": "block_geoid20", "DISTRICT": "district"})
+                skipinitialspace=True,
+            )
             assignment["block_geoid20"] = assignment["block_geoid20"].str.strip()
+            assignment["district"] = assignment["district"].str.strip()
+            assignment_source = f"{assignments_zip.name}: {member}"
             assignment["district"] = assignment["district"].map(district_builder.normalize_district_id)
             frame = joined.merge(assignment, on="block_geoid20", how="inner")
             grouped = frame.groupby(["county_norm", "prec_id", "district"], as_index=False).agg(
@@ -139,7 +142,8 @@ def build_block_vap_scope_mappings(
                 "county_weights": county_weights,
                 "code_weights": code_weights,
                 "weighting": {
-                    "method": "2020 Census block assignment weighted by voting-age population",
+                    "method": "SCV final 2021 plan block assignment weighted by 2020 Census voting-age population",
+                    "district_assignment_source": assignment_source,
                     "fallback_order": ["voting_age_population_2020", "total_population_2020", "block_land_area_m2"],
                     "precinct_weight_method_counts": dict(method_counts),
                     "blocks_assigned_to_current_precincts": int(len(joined)),
@@ -291,7 +295,7 @@ def main() -> int:
     parser.add_argument("--district-output-dir", type=Path, default=ROOT / "Data/district_contests")
     parser.add_argument("--current-precincts", type=Path, default=ROOT / "Data/va_precincts_current.geojson")
     parser.add_argument("--tabblocks", type=Path, default=ROOT / "Data/tl_2020_51_tabblock20.zip")
-    parser.add_argument("--assignments", type=Path, default=ROOT / "Data/BlockAssign_ST51_VA.zip")
+    parser.add_argument("--assignments", type=Path, default=ROOT / "Data/SCV Final 2021 Redistricting Plans.zip")
     parser.add_argument("--pl94", type=Path, default=ROOT / "Data/va2020.pl.zip")
     parser.add_argument("--block-population", type=Path, default=ROOT / "Data/va_2020_block_population.csv")
     args = parser.parse_args()

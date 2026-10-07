@@ -10641,8 +10641,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-07-constitutional-amendment-vap-v2';
-    const APP_BUILD_ID = '2026-10-07-constitutional-amendment-vap-v2';
+    const DATA_CACHE_BUSTER = '2026-10-07-amendment-compact-winners-v3';
+    const APP_BUILD_ID = '2026-10-07-amendment-compact-winners-v3';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -22128,7 +22128,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const winnerShort = winnerPartyKey === 'rep' ? 'Trump' : (winnerPartyKey === 'dem' ? 'Harris' : 'Tie');
       const winnerText = winnerPartyKey === 'tie'
         ? 'Tie'
-        : compactKimberlyPopeAdamsSummary(winnerName || winnerShort, winnerShort);
+        : shortCandidateLabel(winnerName || winnerShort, winnerShort);
       const winnerToneClass = winnerPartyKey === 'rep' ? 'rep' : (winnerPartyKey === 'dem' ? 'dem' : 'tie');
       const winnerDisplayText = (winnerLineText || '').toString().trim()
         || (winnerPartyKey === 'tie'
@@ -22807,9 +22807,9 @@ document.addEventListener('DOMContentLoaded', function() {
           ? 'Even race'
           : (isKimberlyPopeAdams && !winnerCallMeta?.uncontested
             ? `Adams +${formatAllocatedPct(marginPct, pctDigits)}%`
-            : (winnerCallMeta?.text || (isCountyContext
-              ? compactCountyWinnerMarginLabel(r, d, total, resolvedCandidates.repCandidate, resolvedCandidates.demCandidate)
-              : compactWinnerMarginLabel(r, d, total, resolvedCandidates.repCandidate, resolvedCandidates.demCandidate))));
+            : (winnerCallMeta?.uncontested
+              ? winnerCallMeta.text
+              : `${shortCandidateLabel(winnerCandidate, winnerParty === 'rep' ? 'R' : 'D')} +${formatAllocatedPct(marginPct, pctDigits)}%`));
         leadMetaEl.dataset.party = winnerParty;
       }
       if (demShareFill) demShareFill.style.width = `${demPct}%`;
@@ -32051,7 +32051,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
               trends.push({
                 year: year,
-                display: `${year}: ${candidateInfo}+${formatCountyMarginPctForDisplay(marginAbs)}%`,
+                display: `${year}: ${shortCandidateLabel(candidateInfo, winner)} +${formatCountyMarginPctForDisplay(marginAbs)}%`,
                 margin: margin,
                 type: 'president'
               });
@@ -32088,7 +32088,7 @@ document.addEventListener('DOMContentLoaded', function() {
             candidateInfo = margin > 0 ? getCandidateName(year, 'Governor', 'Democrat') : getCandidateName(year, 'Governor', 'Republican');
             trends.push({
               year: year,
-              display: `${year}: ${candidateInfo}+${formatCountyMarginPctForDisplay(marginAbs)}%`,
+              display: `${year}: ${shortCandidateLabel(candidateInfo, winner)} +${formatCountyMarginPctForDisplay(marginAbs)}%`,
               margin: margin,
               type: 'governor'
             });
@@ -32655,8 +32655,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const winName = winnerParty === 'R'
-        ? fullCandidateLabel(repCandidate, 'Republican')
-        : (winnerParty === 'D' ? fullCandidateLabel(demCandidate, 'Democratic') : 'Tie');
+        ? shortCandidateLabel(repCandidate, 'Republican')
+        : (winnerParty === 'D' ? shortCandidateLabel(demCandidate, 'Democratic') : 'Tie');
       const winColor = winnerParty === 'R' ? '#dc2626' : (winnerParty === 'D' ? '#2563eb' : '#6b7280');
       const marginLineText = winnerCall.uncontested
         ? `Result: ${winnerCall.shortLabel}`

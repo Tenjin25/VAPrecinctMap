@@ -2687,6 +2687,12 @@ body.focus-active #hover-tooltip[data-context="preview"] {
 .vote-label.dem { color: #2563eb; }
 .vote-label.rep { color: #dc2626; }
 .vote-label.other { color: #6b7280; }
+body.ballot-measure-mode .vote-label.dem,
+body.ballot-measure-mode .vote-count.dem { color: #15803d; }
+body.ballot-measure-mode .focus-bar-segment.dem,
+body.ballot-measure-mode .vote-share-fill.dem { background: linear-gradient(90deg, #86efac 0%, #16a34a 100%); }
+body.ballot-measure-mode .focus-bar-segment.rep,
+body.ballot-measure-mode .vote-share-fill.rep { background: linear-gradient(90deg, #fca5a5 0%, #dc2626 100%); }
 
 .vote-count {
   font-size: 24px;
@@ -10635,8 +10641,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-06-mobile-contest-ready-v4';
-    const APP_BUILD_ID = '2026-10-06-mobile-contest-ready-v4';
+    const DATA_CACHE_BUSTER = '2026-10-07-constitutional-amendment-vap-v1';
+    const APP_BUILD_ID = '2026-10-07-constitutional-amendment-vap-v1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -19728,7 +19734,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	        'treasurer': 'Treasurer',
 	        'us_house': 'US House',
 	        'state_senate': 'State Senate',
-          'state_house': 'House of Delegates'
+          'state_house': 'House of Delegates',
+          'constitutional_amendment': 'Proposed Constitutional Amendment'
 	      };
 
 	      if (contestType.startsWith('a') && contestType.length <= 3) {
@@ -22615,6 +22622,21 @@ document.addEventListener('DOMContentLoaded', function() {
       const footer = document.getElementById('legend-footer');
       const content = document.getElementById('legend-content');
       if (!content) return;
+
+      const selectedContest = String(currentContestMeta?.contestType || getSelectedContestTypeYear()?.contestType || '');
+      if (isBallotMeasureContest(selectedContest) && (mode === 'margins' || mode === 'winners')) {
+        if (header) header.textContent = mode === 'winners' ? 'Amendment result' : 'Amendment margin';
+        if (subtitle) subtitle.textContent = mode === 'winners'
+          ? 'Green indicates a Yes majority; red indicates a No majority.'
+          : 'Darker shades indicate a larger Yes or No lead.';
+        if (badge) badge.textContent = mode === 'winners' ? 'Yes / No' : 'Margin';
+        if (footer) footer.textContent = 'Gray indicates a tie or missing data.';
+        content.innerHTML = `
+          <div class="legend-swatch-card"><span class="legend-color" style="background:#16a34a;"></span><span>Yes lead</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background:#dc2626;"></span><span>No lead</span></div>
+          <div class="legend-swatch-card"><span class="legend-color" style="background:#94a3b8;"></span><span>Tie or no data</span></div>`;
+        return;
+      }
 
       if (mode === 'winners') {
         if (header) header.textContent = 'Winners';
@@ -33490,6 +33512,28 @@ document.addEventListener('DOMContentLoaded', function() {
         : categoryColorForMargin(marginPctAbs, winner);
     }
 
+    function isBallotMeasureContest(contestType) {
+      return String(contestType || '').trim().toLowerCase() === 'constitutional_amendment';
+    }
+
+    function colorForContestMarginMode(contestType, marginPctAbs, winner) {
+      if (!isBallotMeasureContest(contestType)) return colorForMarginMode(marginPctAbs, winner);
+      const m = Math.abs(Number(marginPctAbs) || 0);
+      if (winner === 'T') return '#94a3b8';
+      const yes = winner === 'D';
+      if (m >= 30) return yes ? '#14532d' : '#7f1d1d';
+      if (m >= 20) return yes ? '#166534' : '#991b1b';
+      if (m >= 10) return yes ? '#15803d' : '#b91c1c';
+      if (m >= 5) return yes ? '#16a34a' : '#dc2626';
+      if (m >= 1) return yes ? '#4ade80' : '#f87171';
+      return yes ? '#bbf7d0' : '#fecaca';
+    }
+
+    function colorForContestWinnerMode(contestType, winner) {
+      if (!isBallotMeasureContest(contestType)) return colorForWinnerMode(winner);
+      return winner === 'D' ? '#16a34a' : (winner === 'R' ? '#dc2626' : '#94a3b8');
+    }
+
     function colorForWinnerMode(winner) {
       const cb = isColorblindModeActive();
       if (winner === 'R') return cb ? '#d65300' : '#dc2626';
@@ -33963,6 +34007,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (!contestKey) {
         currentContestMeta = { contestType: '', year: '' };
+        try { document.body.classList.remove('ballot-measure-mode'); } catch (_) {}
         try { syncModelTuningControls(); } catch (_) {}
         try { applyLayerOpacityTuning(); } catch (_) {}
         splitTicketCountyOverlayMargins = {};
@@ -33998,6 +34043,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const contestType = contestKey.substring(0, lastUnderscoreIndex);
       const year = contestKey.substring(lastUnderscoreIndex + 1);
       currentContestMeta = { contestType, year };
+      try { document.body.classList.toggle('ballot-measure-mode', isBallotMeasureContest(contestType)); } catch (_) {}
       const nextApplySig = buildContestApplySignature(contestKey, contestType, year);
       try { syncModelTuningControls(); } catch (_) {}
       try { updateContextBanner(); } catch (_) {}
@@ -35029,14 +35075,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const f = flipInfo(prevSigned, signedMarginPct);
             color = f.flipped ? colorForFlipMode(f.to) : colorForFlipMode('T');
           } else if (mode === 'winners') {
-            color = colorForWinnerMode(winner);
+            color = colorForContestWinnerMode(contestType, winner);
           } else if (mode === 'shift' && prevCountyTotals) {
             const prev = prevCountyTotals[countyName];
             const prevSigned = prev ? signedMarginPctFromVotes(prev.dem, prev.rep, prev.total) : 0;
             const shift = signedMarginPct - prevSigned;
             color = colorForShiftMode(shift);
           } else {
-            color = colorForMarginMode(marginPctAbs, winner === 'T' ? 'R' : winner);
+            color = colorForContestMarginMode(contestType, marginPctAbs, winner);
           }
 
           if (countiesProcessed < 5) {
@@ -35185,7 +35231,7 @@ document.addEventListener('DOMContentLoaded', function() {
               const f = flipInfo(prevSigned, curSigned);
               color = f.flipped ? colorForFlipMode(f.to) : colorForFlipMode('T');
             } else if (mode === 'winners') {
-              color = colorForWinnerMode(winner);
+              color = colorForContestWinnerMode(contestType, winner);
             } else if (mode === 'shift' && prevPrecinctMarginByNorm) {
               const curSigned = isNaN(signedMarginPct) ? signedMarginPctFromVotes(demVotes, repVotes, totalVotes) : signedMarginPct;
               let prevSigned = 0;
@@ -35195,7 +35241,7 @@ document.addEventListener('DOMContentLoaded', function() {
               color = colorForShiftMode(curSigned - prevSigned);
             } else {
               const curSigned = isNaN(signedMarginPct) ? signedMarginPctFromVotes(demVotes, repVotes, totalVotes) : signedMarginPct;
-              color = colorForMarginMode(Math.abs(curSigned), winner === 'T' ? 'R' : winner);
+              color = colorForContestMarginMode(contestType, Math.abs(curSigned), winner);
             }
 
             precinctNames.forEach(precinctName => {
@@ -35516,13 +35562,13 @@ document.addEventListener('DOMContentLoaded', function() {
               const f = flipInfo(prevSigned, signed);
               color = f.flipped ? colorForFlipMode(f.to) : colorForFlipMode('T');
             } else if (mode === 'winners') {
-              color = colorForWinnerMode(winner);
+              color = colorForContestWinnerMode(contestType, winner);
             } else if (mode === 'shift' && prevResults && prevYear) {
               const prevRow = prevResults[String(districtId)] || prevResults[String(Number(districtId))] || null;
               const prevSigned = prevRow ? Number(prevRow.margin_pct || 0) : 0;
               color = colorForShiftMode(signed - prevSigned);
             } else {
-              color = colorForMarginMode(Math.abs(signed), winner === 'T' ? 'R' : winner);
+              color = colorForContestMarginMode(contestType, Math.abs(signed), winner);
             }
 
             if (!isNaN(districtNum)) {

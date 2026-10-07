@@ -10635,8 +10635,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-07-compact-hover-winners-v6';
-    const APP_BUILD_ID = '2026-10-07-compact-hover-winners-v6';
+    const DATA_CACHE_BUSTER = '2026-10-07-compact-focus-winners-v7';
+    const APP_BUILD_ID = '2026-10-07-compact-focus-winners-v7';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -14393,7 +14393,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function formatVoteCounterWinnerLabel(name, partyCode, fallbackText) {
-      return formatVoteCounterCandidateLabel(name, partyCode, fallbackText);
+      const short = shortCandidateLabel(name, '');
+      if (!short || short.toUpperCase() === partyCode.toUpperCase()) return fallbackText;
+      return `${short} (${partyCode})`;
     }
 
     function formatFocusBarLabel(name, pct, fallbackText, marginPct = null) {
@@ -22775,9 +22777,9 @@ document.addEventListener('DOMContentLoaded', function() {
           ? 'Even race'
           : (isKimberlyPopeAdams && !winnerCallMeta?.uncontested
             ? `Adams +${formatAllocatedPct(marginPct, pctDigits)}%`
-            : (winnerCallMeta?.text || (isCountyContext
-              ? compactCountyWinnerMarginLabel(r, d, total, resolvedCandidates.repCandidate, resolvedCandidates.demCandidate)
-              : compactWinnerMarginLabel(r, d, total, resolvedCandidates.repCandidate, resolvedCandidates.demCandidate))));
+            : (winnerCallMeta?.uncontested
+              ? winnerCallMeta.text
+              : `${shortCandidateLabel(winnerCandidate, winnerParty === 'rep' ? 'R' : 'D')} +${formatAllocatedPct(marginPct, pctDigits)}%`));
         leadMetaEl.dataset.party = winnerParty;
       }
       if (demShareFill) demShareFill.style.width = `${demPct}%`;

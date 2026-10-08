@@ -399,6 +399,7 @@
         document.querySelectorAll('[data-region-jump]').forEach(btn => {
           const key = (btn.getAttribute('data-region-jump') || '').toLowerCase();
           if (!btn.getAttribute('aria-label')) btn.setAttribute('aria-label', `Jump to ${key || 'region'}`);
+          if (!btn.hasAttribute('aria-pressed')) btn.setAttribute('aria-pressed', 'false');
           if (!btn.getAttribute('data-testid') && key) btn.setAttribute('data-testid', `region-jump-${key}`);
         });
       }
@@ -4160,6 +4161,31 @@ body.ballot-measure-mode .vote-share-fill.rep { background: linear-gradient(90de
     transform: translateY(1px);
   }
 
+  .map-location-chip {
+    display: inline-flex;
+    align-items: center;
+    max-width: min(100%, 360px);
+    margin-top: 6px;
+    padding: 5px 9px;
+    border: 1px solid rgba(29, 78, 216, 0.18);
+    border-radius: 999px;
+    color: #1e3a8a;
+    background: rgba(239, 246, 255, 0.94);
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .region-jump-btn.active {
+    color: #ffffff;
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.22);
+  }
+
   .region-jump-more {
     flex: 1 1 100%;
   }
@@ -4188,6 +4214,31 @@ body.ballot-measure-mode .vote-share-fill.rep { background: linear-gradient(90de
 
   .region-jump-more[open] summary::after {
     transform: rotate(180deg);
+  }
+
+  .region-jump-more.has-active-region summary {
+    color: #1d4ed8;
+  }
+
+  .geography-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .geography-breadcrumb-separator {
+    color: #94a3b8;
+    font-weight: 600;
+  }
+
+  .geography-breadcrumb-current {
+    color: #0f172a;
+    font-weight: 850;
   }
 
   .region-jump-more-grid {
@@ -9833,6 +9884,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (typeof syncFlySearchInputs === 'function') syncFlySearchInputs('');
       } catch (_) {}
       try {
+        if (typeof setActiveRegionKey === 'function') setActiveRegionKey('');
+        if (typeof updateContextBanner === 'function') updateContextBanner();
+      } catch (_) {}
+      try {
         if (map && typeof map.fitBounds === 'function' && CONFIG?.fitBounds) {
           map.fitBounds(CONFIG.fitBounds, { padding: computeMapViewportPadding(24), duration: 900 });
         }
@@ -10119,6 +10174,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </form>
     <div class="map-topbar-quick-stats" data-viewport-precinct-count>Viewing precincts...</div>
     <div class="recount-radar-badge" id="recount-radar-badge" data-testid="recount-radar-badge" aria-live="polite"></div>
+    <div class="map-location-chip" id="map-location-chip" aria-live="polite" hidden></div>
     <button type="button" class="mobile-topbar-toggle" id="mobile-topbar-toggle" aria-controls="map-topbar-details" aria-expanded="false">Show details</button>
     <div class="map-topbar-details" id="map-topbar-details">
       <div class="map-topbar-hints" aria-label="Search examples">
@@ -10146,6 +10202,9 @@ document.addEventListener('DOMContentLoaded', function() {
           <span class="context-banner-value" id="context-focus" data-testid="context-focus">Statewide</span>
         </div>
       </div>
+      <nav class="geography-breadcrumb" id="geography-breadcrumb" aria-label="Current geography" aria-live="polite">
+        <span class="geography-breadcrumb-current">Virginia</span>
+      </nav>
     </div>
   </div>
 
@@ -10696,8 +10755,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-07-amendment-region-jumps-v7';
-    const APP_BUILD_ID = '2026-10-07-amendment-region-jumps-v7';
+    const DATA_CACHE_BUSTER = '2026-10-07-ui-context-v8';
+    const APP_BUILD_ID = '2026-10-07-ui-context-v8';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -10853,6 +10912,46 @@ document.addEventListener('DOMContentLoaded', function() {
         counties: ['Accomack', 'Northampton']
       }
     };
+
+    let activeRegionKey = '';
+
+    function setActiveRegionKey(regionKey = '') {
+      const next = REGION_JUMPS[regionKey] ? regionKey : '';
+      activeRegionKey = next;
+      document.querySelectorAll('[data-region-jump]').forEach(btn => {
+        const active = !!next && btn.dataset.regionJump === next;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      document.querySelectorAll('.region-jump-more').forEach(details => {
+        details.classList.toggle('has-active-region', !!details.querySelector('.region-jump-btn.active'));
+      });
+    }
+
+    function reconcileActiveRegionForLocality(localityName) {
+      if (!activeRegionKey) return;
+      const localityNorm = normalizeRegionCountyName(localityName);
+      if (!localityNorm || !getRegionCountySet(activeRegionKey).has(localityNorm)) {
+        setActiveRegionKey('');
+      }
+    }
+
+    function syncActiveRegionWithViewport() {
+      if (!activeRegionKey || !map || typeof map.getCenter !== 'function') return;
+      const bounds = REGION_JUMPS[activeRegionKey]?.bounds;
+      const center = map.getCenter();
+      if (!Array.isArray(bounds) || bounds.length < 2 || !center) return;
+      const west = Number(bounds[0]?.[0]);
+      const south = Number(bounds[0]?.[1]);
+      const east = Number(bounds[1]?.[0]);
+      const north = Number(bounds[1]?.[1]);
+      if (![west, south, east, north, Number(center.lng), Number(center.lat)].every(Number.isFinite)) return;
+      const inside = center.lng >= west && center.lng <= east && center.lat >= south && center.lat <= north;
+      if (!inside) {
+        setActiveRegionKey('');
+        updateContextBanner();
+      }
+    }
 
     function normalizeRegionCountyName(name) {
       return (name || '')
@@ -11237,6 +11336,7 @@ document.addEventListener('DOMContentLoaded', function() {
       queueHoverRefresh();
     });
     map.on('moveend', () => {
+      try { syncActiveRegionWithViewport(); } catch (_) {}
       if (isTouchInteractionMode()) {
         try { queueFollowHoverRefresh(); } catch (_) {}
         return;
@@ -20771,6 +20871,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const districtId = Number(districtNum);
       if (!scope || !Number.isFinite(districtId)) return false;
 
+      setActiveRegionKey('');
       const title = getDistrictTitleForScope(scope, districtId);
       if (scope === 'congressional') {
         showDistrictDetails(districtId);
@@ -20780,6 +20881,8 @@ document.addEventListener('DOMContentLoaded', function() {
         showStateDistrictDetails(districtId, chamber);
       }
       window.lastSelectedCounty = title;
+      updateContextBanner();
+      try { settleMobilePanelsAfterMapAction(); } catch (_) {}
       try { setDistrictHoverOutline(scope, districtId); } catch (_) {}
 
       const selectedContest = (contestValue || document.getElementById('contestSelect')?.value || '').toString().trim();
@@ -20934,6 +21037,7 @@ document.addEventListener('DOMContentLoaded', function() {
       updateContestSelectForCurrentView();
 
       // Clear pinned geography selection before rebuilding the new view.
+      setActiveRegionKey('');
       window.lastSelectedCounty = '';
       if (voteCounterPinned) {
         clearPinnedVoteCounterState();
@@ -25862,11 +25966,58 @@ document.addEventListener('DOMContentLoaded', function() {
       if (pinnedMeta?.kind === 'region' && pinnedMeta.regionLabel) {
         return pinnedMeta.regionLabel;
       }
+      if (pinnedMeta?.kind === 'precinct' && pinnedMeta.precinct) {
+        return pinnedMeta.precinct;
+      }
+      if (pinnedMeta?.kind === 'district' && pinnedMeta.districtNum) {
+        return getDistrictTitleForScope(pinnedMeta.scope, pinnedMeta.districtNum);
+      }
+      if (pinnedMeta?.kind === 'county' && pinnedMeta.county) {
+        return displayCountyName(pinnedMeta.county);
+      }
       const raw = (window.lastSelectedCounty || '').toString().trim();
       if (!raw) return 'Statewide';
       if (/district|cd\s|hd\s|sd\s/i.test(raw)) return raw;
       if (raw.includes(' - ')) return raw;
       return `${displayCountyName(raw)}`;
+    }
+
+    function updateGeographyBreadcrumb() {
+      const breadcrumb = document.getElementById('geography-breadcrumb');
+      if (!breadcrumb) return;
+      const parts = ['Virginia'];
+      const region = activeRegionKey ? REGION_JUMPS[activeRegionKey] : null;
+      if (region?.label) parts.push(region.label);
+      const focus = getReadableFocusLabel();
+      if (focus && focus !== 'Statewide' && focus !== region?.label) parts.push(focus);
+      breadcrumb.replaceChildren();
+      parts.forEach((part, index) => {
+        if (index > 0) {
+          const separator = document.createElement('span');
+          separator.className = 'geography-breadcrumb-separator';
+          separator.setAttribute('aria-hidden', 'true');
+          separator.textContent = '›';
+          breadcrumb.appendChild(separator);
+        }
+        const item = document.createElement('span');
+        if (index === parts.length - 1) {
+          item.className = 'geography-breadcrumb-current';
+          item.setAttribute('aria-current', 'location');
+        }
+        item.textContent = part;
+        breadcrumb.appendChild(item);
+      });
+    }
+
+    function updateMapLocationChip() {
+      const chip = document.getElementById('map-location-chip');
+      if (!chip) return;
+      const focus = getReadableFocusLabel();
+      const regionLabel = activeRegionKey ? REGION_JUMPS[activeRegionKey]?.label : '';
+      const label = focus && focus !== 'Statewide' ? focus : (regionLabel || '');
+      chip.hidden = !label;
+      chip.textContent = label ? `Viewing: ${label}` : '';
+      chip.title = label || '';
     }
 
     function updateContextBanner() {
@@ -25881,6 +26032,8 @@ document.addEventListener('DOMContentLoaded', function() {
       if (modeEl) modeEl.textContent = getReadableModeLabel(currentVizMode);
       if (contestEl) contestEl.textContent = contestValue ? `${formatContestLabel(contestType, year)}` : 'Select a contest';
       if (focusEl) focusEl.textContent = getReadableFocusLabel();
+      updateGeographyBreadcrumb();
+      updateMapLocationChip();
       updateControlSummary(contestValue);
       try { updateFiltersActiveChip(); } catch (_) {}
       try {
@@ -27463,12 +27616,14 @@ document.addEventListener('DOMContentLoaded', function() {
     async function jumpToRegion(regionKey) {
       const region = REGION_JUMPS[regionKey];
       if (!region || !map) return;
+      setActiveRegionKey(regionKey);
+      window.lastSelectedCounty = '';
+      try { clearSelectedPrecinctNorm(); } catch (_) {}
+      try { clearPinnedVoteCounterState(); } catch (_) {}
+      updateContextBanner();
       map.fitBounds(region.bounds, { padding: computeMapViewportPadding(28), duration: 900 });
-      try {
-        if (typeof window.collapseMobileTopbar === 'function') {
-          window.collapseMobileTopbar();
-        }
-      } catch (_) {}
+      try { settleMobilePanelsAfterMapAction(); } catch (_) {}
+      document.querySelectorAll('.region-jump-more[open]').forEach(details => { details.open = false; });
       const contestValue = document.getElementById('contestSelect')?.value || '';
       if (!contestValue) {
         setStatus(`Jumped to ${region.label}`);
@@ -28718,6 +28873,14 @@ document.addEventListener('DOMContentLoaded', function() {
       try { updateMobileOverlayOffsets(); } catch (_) {}
     }
 
+    function settleMobilePanelsAfterMapAction() {
+      if (!isMobileViewportNow()) return;
+      closeAllMobileSheets();
+      try {
+        if (typeof window.collapseMobileTopbar === 'function') window.collapseMobileTopbar();
+      } catch (_) {}
+    }
+
     function swipeMobileSheet(key, direction = 'up') {
       if (!isMobileViewportNow()) return;
       if (!MOBILE_SHEET_PANEL_IDS[key]) return;
@@ -29044,6 +29207,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const countyNameElement = document.getElementById('county-name');
       const countySubheadElement = document.getElementById('county-subhead');
       const countyDisplay = displayCountyName(countyName);
+      reconcileActiveRegionForLocality(countyDisplay);
       window.lastSelectedCounty = countyDisplay;
       updateContextBanner();
       if (countyNameElement) setFocusNameWithTierBadge(countyNameElement, `${countyDisplay}`);
@@ -31964,6 +32128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       setSelectedPrecinctNorm((hit?.properties?.precinct_norm || matchedTarget || '').toString().trim().toUpperCase());
+      reconcileActiveRegionForLocality(county);
 
       const coords = hit.geometry && hit.geometry.type === 'Point' ? hit.geometry.coordinates : null;
       syncFlySearchInputs(matchedTarget);
@@ -31971,6 +32136,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (coords && coords.length >= 2) {
         zoomToClickedPrecinctFeature(hit, { padding: 42, duration: 920, maxZoom: 13.8 });
       }
+      try { settleMobilePanelsAfterMapAction(); } catch (_) {}
 
       const resolvedCode = matchedTarget.includes(' - ') ? matchedTarget.split(' - ')[1].trim().toUpperCase() : code;
       const displayTitle = `${displayPrecinctLocalityName(county)} - ${formatPrecinctDisplayLabel(county, resolvedCode)}`;
@@ -32056,6 +32222,7 @@ document.addEventListener('DOMContentLoaded', function() {
           setFlySearchFeedback('#10b981');
           map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], { padding: computeMapViewportPadding(28), duration: 1000 });
           showCountyDetails(lastSelectedCounty);
+          try { settleMobilePanelsAfterMapAction(); } catch (_) {}
         } else {
           console.warn('[DIAGNOSTIC] County not found:', countyName, 'normalized:', normTarget);
           setFlySearchFeedback('#ef4444');

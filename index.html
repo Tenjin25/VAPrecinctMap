@@ -4160,6 +4160,47 @@ body.ballot-measure-mode .vote-share-fill.rep { background: linear-gradient(90de
     transform: translateY(1px);
   }
 
+  .region-jump-more {
+    flex: 1 1 100%;
+  }
+
+  .region-jump-more summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .region-jump-more summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .region-jump-more summary::after {
+    content: '\25BE';
+    font-size: 10px;
+    transition: transform 0.18s ease;
+  }
+
+  .region-jump-more[open] summary::after {
+    transform: rotate(180deg);
+  }
+
+  .region-jump-more-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .region-jump-more-grid .region-jump-btn {
+    width: 100%;
+  }
+
   .main-controls {
     top: calc(36px + var(--topbar-h, 156px));
     width: min(var(--desktop-left-w), calc(100vw - 40px));
@@ -4335,6 +4376,10 @@ body.ballot-measure-mode .vote-share-fill.rep { background: linear-gradient(90de
       padding: 8px 10px;
       font-size: 11px;
       text-align: center;
+    }
+
+    .region-jump-more {
+      grid-column: 1 / -1;
     }
 
     .view-toggle-row {
@@ -10242,13 +10287,20 @@ document.addEventListener('DOMContentLoaded', function() {
                   <button type="button" class="region-jump-btn" data-region-jump="nova">Northern Virginia</button>
                   <button type="button" class="region-jump-btn" data-region-jump="richmondmetro">Richmond Metro</button>
                   <button type="button" class="region-jump-btn" data-region-jump="hamptonroads">Hampton Roads</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="charlottesville">Charlottesville</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="roanoke">Roanoke</button>
                   <button type="button" class="region-jump-btn" data-region-jump="shenandoah">Shenandoah</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="newriver">New River</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="southside">Southside</button>
+                  <button type="button" class="region-jump-btn" data-region-jump="roanoke">Roanoke Valley</button>
                   <button type="button" class="region-jump-btn" data-region-jump="southwest">Southwest</button>
-                  <button type="button" class="region-jump-btn" data-region-jump="easternshore">Eastern Shore</button>
+                  <details class="region-jump-more">
+                    <summary>More regions</summary>
+                    <div class="region-jump-more-grid">
+                      <button type="button" class="region-jump-btn" data-region-jump="fredericksburg">Fredericksburg</button>
+                      <button type="button" class="region-jump-btn" data-region-jump="lynchburg">Lynchburg</button>
+                      <button type="button" class="region-jump-btn" data-region-jump="charlottesville">Charlottesville</button>
+                      <button type="button" class="region-jump-btn" data-region-jump="newriver">New River Valley</button>
+                      <button type="button" class="region-jump-btn" data-region-jump="southside">Southside</button>
+                      <button type="button" class="region-jump-btn" data-region-jump="easternshore">Eastern Shore</button>
+                    </div>
+                  </details>
                 </div>
             </div>
             <div class="control-group" style="margin-bottom:10px;">
@@ -10641,8 +10693,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-07-amendment-compact-winners-v3';
-    const APP_BUILD_ID = '2026-10-07-amendment-compact-winners-v3';
+    const DATA_CACHE_BUSTER = '2026-10-07-amendment-region-jumps-v4';
+    const APP_BUILD_ID = '2026-10-07-amendment-region-jumps-v4';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -10741,6 +10793,16 @@ document.addEventListener('DOMContentLoaded', function() {
         label: 'Charlottesville',
         bounds: [[-79.15, 37.65], [-77.85, 38.45]],
         counties: ['Charlottesville', 'Albemarle', 'Fluvanna', 'Greene', 'Louisa', 'Nelson']
+      },
+      fredericksburg: {
+        label: 'Fredericksburg',
+        bounds: [[-78.15, 37.75], [-76.75, 38.75]],
+        counties: ['Fredericksburg', 'Stafford', 'Spotsylvania', 'King George', 'Caroline']
+      },
+      lynchburg: {
+        label: 'Lynchburg',
+        bounds: [[-80.05, 36.95], [-78.65, 38.05]],
+        counties: ['Lynchburg', 'Amherst', 'Bedford', 'Campbell', 'Appomattox']
       },
       roanoke: {
         label: 'Roanoke Valley',

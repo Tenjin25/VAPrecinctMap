@@ -7,7 +7,8 @@
 - Add Fredericksburg, Lynchburg, Northern Neck & Middle Peninsula, Northern Piedmont, and Alleghany Highlands regional jumps.
 - Expand the Southside jump west through Martinsville, Henry, and Patrick and east through Brunswick, Greensville, and Emporia.
 - Add active-region styling, a live geography breadcrumb, automatic region clearing after out-of-region pans, and mobile-sheet settling after map navigation.
-- Preserve the latest compact winner-name changes from `main` and refresh the application/data cache token to `2026-10-07-ui-context-v8`.
+- Standardize the Fly-to suggestions to the spaced `CD 2`, `HD 57`, and `SD 31` style while retaining support for hyphenated searches.
+- Preserve the latest compact winner-name changes from `main` and refresh the application/data cache token to `2026-10-07-district-labels-v9`.
 
 ## 2026-10-06
 

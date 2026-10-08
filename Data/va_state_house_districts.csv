@@ -1,101 +1,101 @@
-district,name,total_population,white_vap_pct,black_vap_pct,hispanic_vap_pct
-1,State House District 1,0,0,0,0
-2,State House District 2,0,0,0,0
-3,State House District 3,0,0,0,0
-4,State House District 4,0,0,0,0
-5,State House District 5,0,0,0,0
-6,State House District 6,0,0,0,0
-7,State House District 7,0,0,0,0
-8,State House District 8,0,0,0,0
-9,State House District 9,0,0,0,0
-10,State House District 10,0,0,0,0
-11,State House District 11,0,0,0,0
-12,State House District 12,0,0,0,0
-13,State House District 13,0,0,0,0
-14,State House District 14,0,0,0,0
-15,State House District 15,0,0,0,0
-16,State House District 16,0,0,0,0
-17,State House District 17,0,0,0,0
-18,State House District 18,0,0,0,0
-19,State House District 19,0,0,0,0
-20,State House District 20,0,0,0,0
-21,State House District 21,0,0,0,0
-22,State House District 22,0,0,0,0
-23,State House District 23,0,0,0,0
-24,State House District 24,0,0,0,0
-25,State House District 25,0,0,0,0
-26,State House District 26,0,0,0,0
-27,State House District 27,0,0,0,0
-28,State House District 28,0,0,0,0
-29,State House District 29,0,0,0,0
-30,State House District 30,0,0,0,0
-31,State House District 31,0,0,0,0
-32,State House District 32,0,0,0,0
-33,State House District 33,0,0,0,0
-34,State House District 34,0,0,0,0
-35,State House District 35,0,0,0,0
-36,State House District 36,0,0,0,0
-37,State House District 37,0,0,0,0
-38,State House District 38,0,0,0,0
-39,State House District 39,0,0,0,0
-40,State House District 40,0,0,0,0
-41,State House District 41,0,0,0,0
-42,State House District 42,0,0,0,0
-43,State House District 43,0,0,0,0
-44,State House District 44,0,0,0,0
-45,State House District 45,0,0,0,0
-46,State House District 46,0,0,0,0
-47,State House District 47,0,0,0,0
-48,State House District 48,0,0,0,0
-49,State House District 49,0,0,0,0
-50,State House District 50,0,0,0,0
-51,State House District 51,0,0,0,0
-52,State House District 52,0,0,0,0
-53,State House District 53,0,0,0,0
-54,State House District 54,0,0,0,0
-55,State House District 55,0,0,0,0
-56,State House District 56,0,0,0,0
-57,State House District 57,0,0,0,0
-58,State House District 58,0,0,0,0
-59,State House District 59,0,0,0,0
-60,State House District 60,0,0,0,0
-61,State House District 61,0,0,0,0
-62,State House District 62,0,0,0,0
-63,State House District 63,0,0,0,0
-64,State House District 64,0,0,0,0
-65,State House District 65,0,0,0,0
-66,State House District 66,0,0,0,0
-67,State House District 67,0,0,0,0
-68,State House District 68,0,0,0,0
-69,State House District 69,0,0,0,0
-70,State House District 70,0,0,0,0
-71,State House District 71,0,0,0,0
-72,State House District 72,0,0,0,0
-73,State House District 73,0,0,0,0
-74,State House District 74,0,0,0,0
-75,State House District 75,0,0,0,0
-76,State House District 76,0,0,0,0
-77,State House District 77,0,0,0,0
-78,State House District 78,0,0,0,0
-79,State House District 79,0,0,0,0
-80,State House District 80,0,0,0,0
-81,State House District 81,0,0,0,0
-82,State House District 82,0,0,0,0
-83,State House District 83,0,0,0,0
-84,State House District 84,0,0,0,0
-85,State House District 85,0,0,0,0
-86,State House District 86,0,0,0,0
-87,State House District 87,0,0,0,0
-88,State House District 88,0,0,0,0
-89,State House District 89,0,0,0,0
-90,State House District 90,0,0,0,0
-91,State House District 91,0,0,0,0
-92,State House District 92,0,0,0,0
-93,State House District 93,0,0,0,0
-94,State House District 94,0,0,0,0
-95,State House District 95,0,0,0,0
-96,State House District 96,0,0,0,0
-97,State House District 97,0,0,0,0
-98,State House District 98,0,0,0,0
-99,State House District 99,0,0,0,0
-100,State House District 100,0,0,0,0
+district,name,total_population,white_vap_pct,black_vap_pct,hispanic_vap_pct,native_vap_pct,asian_vap_pct,pacific_vap_pct,multiracial_vap_pct
+1,District 1,62193,74.58,4.98,8.44,0.05,8.44,0.09,0.16
+2,District 2,61903,67.16,9.49,10.64,0.15,8.37,0.01,0.55
+3,District 3,57732,58.58,15.35,16.03,0.13,7.46,0.01,0.55
+4,District 4,51820,42.42,26.56,16.51,0.21,9.38,0.01,0.62
+5,District 5,65873,64.67,16.89,9.63,0.23,5.14,0.04,0.64
+6,District 6,55572,71.24,1.7,4.77,0.03,19.8,0.01,0.3
+7,District 7,62690,67.86,6.98,9.48,0.03,11.73,0.01,0.29
+8,District 8,52852,53.71,8.76,11.03,0.1,22.63,0.1,0.49
+9,District 9,57513,51.43,7.49,11.22,0.27,26.92,0.04,0.2
+10,District 10,58318,55.04,6.2,10.57,0.19,24.59,0.09,0.33
+11,District 11,60747,55.45,11.61,9.93,0.16,19.53,0.03,0.33
+12,District 12,60272,61.77,5.95,9.22,0.16,19.54,0.04,0.63
+13,District 13,55648,57.67,5.53,16.58,0.05,17.41,0.02,0.27
+14,District 14,52257,48.47,11.65,15.76,0.08,20.57,0.04,0.6
+15,District 15,62296,61.77,7.06,11.21,0.04,16.36,0.11,0.52
+16,District 16,54815,52.69,19.41,17.43,0.07,8.09,0.03,0.32
+17,District 17,61622,50.91,18.88,12.27,0.08,14.41,0.0,0.35
+18,District 18,57832,49.23,11.42,12.87,0.12,22.35,0.09,0.29
+19,District 19,54440,35.9,28.34,20.19,0.1,10.17,0.16,1.07
+20,District 20,48975,43.33,14.51,29.48,0.19,8.67,0.18,1.2
+21,District 21,55032,57.07,13.74,14.95,0.03,10.86,0.04,0.23
+22,District 22,58375,64.47,11.54,11.96,0.04,8.2,0.0,0.64
+23,District 23,57064,32.38,37.61,17.15,0.07,8.45,0.07,1.01
+24,District 24,56378,39.27,25.25,20.09,0.13,10.74,0.04,1.1
+25,District 25,55796,46.16,20.26,19.28,0.08,9.34,0.25,0.56
+26,District 26,51759,43.03,11.91,7.94,0.28,33.35,0.09,0.91
+27,District 27,53100,49.12,7.91,18.72,0.13,21.18,0.06,0.26
+28,District 28,59068,62.82,8.33,7.44,0.11,17.9,0.06,0.16
+29,District 29,59244,64.67,9.08,10.11,0.1,13.42,0.02,0.47
+30,District 30,63735,77.41,4.61,6.77,0.09,7.87,0.07,0.41
+31,District 31,67373,84.3,5.61,6.15,0.08,1.62,0.04,0.22
+32,District 32,63165,83.96,5.55,6.2,0.11,1.8,0.02,0.12
+33,District 33,67416,91.79,2.12,4.15,0.06,0.72,0.02,0.04
+34,District 34,64041,80.29,5.13,9.81,0.02,1.95,0.08,0.25
+35,District 35,70637,89.82,4.13,3.84,0.11,0.58,0.07,0.08
+36,District 36,68248,86.36,6.68,2.95,0.14,0.91,0.0,0.32
+37,District 37,69870,91.04,3.94,1.72,0.2,0.67,0.1,0.29
+38,District 38,61988,59.9,31.14,3.98,0.15,2.06,0.18,0.36
+39,District 39,67621,88.99,6.72,1.81,0.13,0.66,0.02,0.16
+40,District 40,67889,84.94,7.27,2.93,0.11,2.77,0.01,0.22
+41,District 41,69740,86.41,3.23,3.78,0.11,4.04,0.16,0.2
+42,District 42,68756,89.65,5.78,1.96,0.05,1.36,0.09,0.13
+43,District 43,69397,94.64,2.99,0.91,0.07,0.39,0.11,0.1
+44,District 44,70981,94.75,2.43,1.32,0.07,0.45,0.03,0.13
+45,District 45,68523,92.81,4.23,1.26,0.16,0.28,0.03,0.06
+46,District 46,67821,92.91,3.25,1.67,0.06,0.35,0.13,0.17
+47,District 47,66456,91.09,4.62,2.7,0.07,0.28,0.0,0.07
+48,District 48,68255,67.75,26.97,3.09,0.07,0.36,0.01,0.19
+49,District 49,64344,57.12,38.15,2.03,0.08,0.58,0.0,0.21
+50,District 50,68415,63.09,32.42,1.68,0.1,0.53,0.26,0.17
+51,District 51,67758,84.95,10.6,1.95,0.1,0.69,0.03,0.14
+52,District 52,67826,68.14,23.93,3.76,0.08,1.32,0.03,0.6
+53,District 53,69790,82.26,13.04,1.89,0.19,0.74,0.03,0.29
+54,District 54,68070,70.92,14.98,5.03,0.06,5.89,0.02,0.29
+55,District 55,65292,85.09,7.76,3.3,0.14,2.11,0.0,0.07
+56,District 56,72701,73.25,21.12,2.71,0.09,0.41,0.03,0.17
+57,District 57,60727,71.19,7.81,4.87,0.14,13.84,0.17,0.36
+58,District 58,60241,75.97,12.5,4.42,0.01,4.25,0.05,0.71
+59,District 59,69044,76.04,14.39,2.84,0.18,3.18,0.04,0.3
+60,District 60,67201,84.5,8.88,2.24,0.11,1.81,0.08,0.23
+61,District 61,64516,81.55,7.0,7.09,0.14,1.47,0.05,0.36
+62,District 62,65814,77.74,13.48,4.87,0.1,1.41,0.11,0.34
+63,District 63,63662,74.4,12.95,7.33,0.15,2.49,0.0,0.2
+64,District 64,60767,59.66,19.83,12.55,0.1,3.33,0.02,1.14
+65,District 65,66497,66.42,18.48,7.88,0.14,2.41,0.0,1.48
+66,District 66,63296,62.39,23.29,7.86,0.17,2.21,0.3,0.44
+67,District 67,70813,71.21,21.47,3.36,0.14,1.21,0.01,0.12
+68,District 68,70015,79.19,15.09,2.58,0.36,0.45,0.12,0.16
+69,District 69,68183,71.39,15.11,7.18,0.18,3.06,0.17,0.51
+70,District 70,64187,52.34,31.67,8.3,0.31,3.78,0.07,0.52
+71,District 71,68854,76.33,13.03,4.14,0.21,2.49,0.07,0.52
+72,District 72,71150,77.48,14.96,3.63,0.09,1.4,0.01,0.18
+73,District 73,67274,75.61,11.32,4.28,0.04,5.32,0.0,0.37
+74,District 74,67070,62.92,26.35,4.98,0.16,2.17,0.0,0.52
+75,District 75,67691,50.07,34.7,9.14,0.21,2.21,0.35,0.61
+76,District 76,62266,47.49,38.13,9.36,0.01,2.56,0.17,0.56
+77,District 77,60016,42.92,46.74,6.39,0.08,1.32,0.03,0.45
+78,District 78,72400,73.09,15.56,5.02,0.13,2.82,0.05,0.57
+79,District 79,70169,32.53,57.39,3.95,0.15,1.41,0.08,0.69
+80,District 80,64563,37.74,50.54,5.9,0.06,3.18,0.01,0.42
+81,District 81,63185,39.96,50.54,4.89,0.75,1.12,0.05,0.23
+82,District 82,66101,47.15,46.63,3.25,0.05,0.91,0.01,0.37
+83,District 83,74138,53.49,40.2,2.16,0.19,0.52,0.12,0.41
+84,District 84,67983,50.31,41.65,3.51,0.16,1.38,0.01,0.57
+85,District 85,64766,38.94,49.37,5.98,0.19,1.94,0.08,0.73
+86,District 86,63857,61.93,25.78,5.12,0.27,3.37,0.12,0.51
+87,District 87,67432,29.26,58.02,5.68,0.23,2.11,0.02,1.04
+88,District 88,63373,41.38,48.56,4.3,0.25,1.68,0.03,0.86
+89,District 89,64184,59.56,30.09,4.39,0.19,2.57,0.1,0.34
+90,District 90,69059,73.39,14.69,4.62,0.21,4.24,0.06,0.51
+91,District 91,65407,38.86,49.26,6.6,0.07,2.3,0.03,0.53
+92,District 92,66980,37.41,50.87,5.44,0.29,2.4,0.04,0.83
+93,District 93,63193,37.11,47.03,7.35,0.13,4.08,0.04,1.23
+94,District 94,61946,62.47,20.49,10.18,0.37,2.66,0.02,0.93
+95,District 95,60552,47.56,32.79,9.66,0.13,6.15,0.0,0.61
+96,District 96,62588,47.37,26.38,9.16,0.19,12.45,0.16,1.15
+97,District 97,65230,61.14,20.36,8.46,0.08,5.06,0.01,1.21
+98,District 98,66018,71.94,11.32,7.05,0.22,5.54,0.22,0.53
+99,District 99,64789,78.97,9.11,5.81,0.06,2.96,0.07,0.55
+100,District 100,63716,71.45,19.27,4.44,0.1,2.55,0.01,0.17

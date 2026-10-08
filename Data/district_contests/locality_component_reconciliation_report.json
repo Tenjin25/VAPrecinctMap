@@ -1024,9 +1024,9 @@
       "contest_type": "attorney_general",
       "year": 2009,
       "before": {
-        "dem": 828687,
-        "rep": 1124137,
-        "other": 1772
+        "dem": 828139,
+        "rep": 1123154,
+        "other": 1771
       },
       "official": {
         "dem": 828687,
@@ -1039,13 +1039,13 @@
         "other": 1772
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -548,
+        "rep": -983,
+        "other": -1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.03415646631563796
     },
     {
       "file": "congressional_attorney_general_2013.json",
@@ -1055,7 +1055,7 @@
       "before": {
         "dem": 1103777,
         "rep": 1103612,
-        "other": 5462
+        "other": 5461
       },
       "official": {
         "dem": 1103777,
@@ -1070,11 +1070,11 @@
       "before_difference": {
         "dem": 0,
         "rep": 0,
-        "other": 0
+        "other": -1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 9.359328615232698e-05
     },
     {
       "file": "congressional_attorney_general_2017.json",
@@ -1082,7 +1082,7 @@
       "contest_type": "attorney_general",
       "year": 2017,
       "before": {
-        "dem": 1385390,
+        "dem": 1385391,
         "rep": 1209540,
         "other": 2614
       },
@@ -1097,13 +1097,13 @@
         "other": 2614
       },
       "before_difference": {
-        "dem": 0,
+        "dem": 1,
         "rep": 0,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0002559658304051027
     },
     {
       "file": "congressional_attorney_general_2021.json",
@@ -1112,8 +1112,8 @@
       "year": 2021,
       "before": {
         "dem": 1620564,
-        "rep": 1647100,
-        "other": 2983
+        "rep": 1647101,
+        "other": 2984
       },
       "official": {
         "dem": 1620564,
@@ -1127,12 +1127,12 @@
       },
       "before_difference": {
         "dem": 0,
-        "rep": 0,
-        "other": 0
+        "rep": 1,
+        "other": 1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.00022784619501159398
     },
     {
       "file": "congressional_attorney_general_2025.json",
@@ -1140,8 +1140,8 @@
       "contest_type": "attorney_general",
       "year": 2025,
       "before": {
-        "dem": 1804940,
-        "rep": 1577843,
+        "dem": 1803761,
+        "rep": 1575770,
         "other": 0
       },
       "official": {
@@ -1155,13 +1155,13 @@
         "other": 0
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": -1179,
+        "rep": -2073,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.10723531564600108
     },
     {
       "file": "congressional_governor_2009.json",
@@ -1169,8 +1169,8 @@
       "contest_type": "governor",
       "year": 2009,
       "before": {
-        "dem": 818950,
-        "rep": 1163651,
+        "dem": 818397,
+        "rep": 1162635,
         "other": 2502
       },
       "official": {
@@ -1184,13 +1184,13 @@
         "other": 2502
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": -553,
+        "rep": -1016,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.029947123970887723
     },
     {
       "file": "congressional_governor_2013.json",
@@ -1200,7 +1200,7 @@
       "before": {
         "dem": 1069789,
         "rep": 1013354,
-        "other": 157928
+        "other": 157930
       },
       "official": {
         "dem": 1069789,
@@ -1215,11 +1215,11 @@
       "before_difference": {
         "dem": 0,
         "rep": 0,
-        "other": 0
+        "other": 2
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 9.255712545552797e-05
     },
     {
       "file": "congressional_governor_2017.json",
@@ -1228,7 +1228,7 @@
       "year": 2017,
       "before": {
         "dem": 1408818,
-        "rep": 1175732,
+        "rep": 1175733,
         "other": 29515
       },
       "official": {
@@ -1243,12 +1243,12 @@
       },
       "before_difference": {
         "dem": 0,
-        "rep": 0,
+        "rep": 1,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.00031232880166776056
     },
     {
       "file": "congressional_governor_2021.json",
@@ -1256,9 +1256,9 @@
       "contest_type": "governor",
       "year": 2021,
       "before": {
-        "dem": 1599470,
-        "rep": 1663158,
-        "other": 25694
+        "dem": 1599471,
+        "rep": 1663156,
+        "other": 25695
       },
       "official": {
         "dem": 1599470,
@@ -1271,13 +1271,13 @@
         "other": 25694
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 1,
+        "rep": -2,
+        "other": 1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0005456631559859204
     },
     {
       "file": "congressional_governor_2025.json",
@@ -1287,7 +1287,7 @@
       "before": {
         "dem": 1976857,
         "rep": 1449586,
-        "other": 0
+        "other": 6988
       },
       "official": {
         "dem": 1976857,
@@ -1302,11 +1302,11 @@
       "before_difference": {
         "dem": 0,
         "rep": 0,
-        "other": 0
+        "other": 6988
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.16683071279454253
     },
     {
       "file": "congressional_lieutenant_governor_2009.json",
@@ -1314,9 +1314,9 @@
       "contest_type": "lieutenant_governor",
       "year": 2009,
       "before": {
-        "dem": 850111,
-        "rep": 1106793,
-        "other": 1569
+        "dem": 849520,
+        "rep": 1105851,
+        "other": 1570
       },
       "official": {
         "dem": 850111,
@@ -1329,13 +1329,13 @@
         "other": 1569
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -591,
+        "rep": -942,
+        "other": 1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.02540823185773089
     },
     {
       "file": "congressional_lieutenant_governor_2013.json",
@@ -1343,7 +1343,7 @@
       "contest_type": "lieutenant_governor",
       "year": 2013,
       "before": {
-        "dem": 1213155,
+        "dem": 1213156,
         "rep": 980257,
         "other": 8225
       },
@@ -1358,13 +1358,13 @@
         "other": 8225
       },
       "before_difference": {
-        "dem": 0,
+        "dem": 1,
         "rep": 0,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0003530449000272995
     },
     {
       "file": "congressional_lieutenant_governor_2017.json",
@@ -1373,7 +1373,7 @@
       "year": 2017,
       "before": {
         "dem": 1368412,
-        "rep": 1224520,
+        "rep": 1224518,
         "other": 2606
       },
       "official": {
@@ -1388,12 +1388,12 @@
       },
       "before_difference": {
         "dem": 0,
-        "rep": 0,
+        "rep": -2,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0005104187626869816
     },
     {
       "file": "congressional_lieutenant_governor_2021.json",
@@ -1401,9 +1401,9 @@
       "contest_type": "lieutenant_governor",
       "year": 2021,
       "before": {
-        "dem": 1608030,
-        "rep": 1658332,
-        "other": 3796
+        "dem": 1608029,
+        "rep": 1658333,
+        "other": 3794
       },
       "official": {
         "dem": 1608030,
@@ -1416,13 +1416,13 @@
         "other": 3796
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1,
+        "rep": 1,
+        "other": -2
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0002678746025406298
     },
     {
       "file": "congressional_lieutenant_governor_2025.json",
@@ -1430,8 +1430,8 @@
       "contest_type": "lieutenant_governor",
       "year": 2025,
       "before": {
-        "dem": 1900104,
-        "rep": 1505395,
+        "dem": 1898873,
+        "rep": 1503365,
         "other": 0
       },
       "official": {
@@ -1445,13 +1445,13 @@
         "other": 0
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": -1231,
+        "rep": -2030,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.10937899242259164
     },
     {
       "file": "congressional_president_2008.json",
@@ -1459,9 +1459,9 @@
       "contest_type": "president",
       "year": 2008,
       "before": {
-        "dem": 1959532,
-        "rep": 1725005,
-        "other": 38723
+        "dem": 1958582,
+        "rep": 1721998,
+        "other": 39945
       },
       "official": {
         "dem": 1959532,
@@ -1474,13 +1474,13 @@
         "other": 38723
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -950,
+        "rep": -3007,
+        "other": 1222
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.15866276043938754
     },
     {
       "file": "congressional_president_2012.json",
@@ -1488,9 +1488,9 @@
       "contest_type": "president",
       "year": 2012,
       "before": {
-        "dem": 1971820,
-        "rep": 1822522,
-        "other": 63701
+        "dem": 2002506,
+        "rep": 1852721,
+        "other": 11
       },
       "official": {
         "dem": 1971820,
@@ -1503,13 +1503,80 @@
         "other": 63701
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 30686,
+        "rep": 30199,
+        "other": -63690
       },
       "protected_districts": [],
-      "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "whole_component_shortfalls": [
+        {
+          "district": "1",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 2633
+        },
+        {
+          "district": "10",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 3304
+        },
+        {
+          "district": "11",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 203
+        },
+        {
+          "district": "2",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 4343
+        },
+        {
+          "district": "3",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 4124
+        },
+        {
+          "district": "4",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 2793
+        },
+        {
+          "district": "5",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 4894
+        },
+        {
+          "district": "6",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 6443
+        },
+        {
+          "district": "7",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 3596
+        },
+        {
+          "district": "8",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 3090
+        },
+        {
+          "district": "9",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 7269
+        }
+      ],
+      "maximum_margin_drift_pct": 0.8071888527379656
     },
     {
       "file": "congressional_president_2016.json",
@@ -1517,9 +1584,9 @@
       "contest_type": "president",
       "year": 2016,
       "before": {
-        "dem": 1981473,
-        "rep": 1769443,
-        "other": 233715
+        "dem": 1982842,
+        "rep": 1769888,
+        "other": 231902
       },
       "official": {
         "dem": 1981473,
@@ -1532,13 +1599,13 @@
         "other": 233715
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 1369,
+        "rep": 445,
+        "other": -1813
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.08862259312435583
     },
     {
       "file": "congressional_president_2020.json",
@@ -1546,9 +1613,9 @@
       "contest_type": "president",
       "year": 2020,
       "before": {
-        "dem": 2413568,
-        "rep": 1962430,
-        "other": 84526
+        "dem": 2414048,
+        "rep": 1961970,
+        "other": 84505
       },
       "official": {
         "dem": 2413568,
@@ -1561,16 +1628,16 @@
         "other": 84526
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 480,
+        "rep": -460,
+        "other": -21
       },
       "protected_districts": [
         "1",
         "10"
       ],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.06689896513018567
     },
     {
       "file": "congressional_president_2024.json",
@@ -1578,9 +1645,9 @@
       "contest_type": "president",
       "year": 2024,
       "before": {
-        "dem": 2335395,
-        "rep": 2075085,
-        "other": 95461
+        "dem": 2339477,
+        "rep": 2078889,
+        "other": 95537
       },
       "official": {
         "dem": 2335395,
@@ -1593,13 +1660,13 @@
         "other": 95461
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 4082,
+        "rep": 3804,
+        "other": 76
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.05886492035774893
     },
     {
       "file": "congressional_us_senate_2008.json",
@@ -1607,9 +1674,9 @@
       "contest_type": "us_senate",
       "year": 2008,
       "before": {
-        "dem": 2369327,
-        "rep": 1228830,
-        "other": 45137
+        "dem": 2367579,
+        "rep": 1227935,
+        "other": 45111
       },
       "official": {
         "dem": 2369327,
@@ -1622,13 +1689,13 @@
         "other": 45137
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1748,
+        "rep": -895,
+        "other": -26
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.010029925646303894
     },
     {
       "file": "congressional_us_senate_2012.json",
@@ -1636,9 +1703,9 @@
       "contest_type": "us_senate",
       "year": 2012,
       "before": {
-        "dem": 2010067,
-        "rep": 1785542,
-        "other": 9410
+        "dem": 2008888,
+        "rep": 1784023,
+        "other": 9407
       },
       "official": {
         "dem": 2010067,
@@ -1651,13 +1718,13 @@
         "other": 9410
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1179,
+        "rep": -1519,
+        "other": -3
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.041912220160920555
     },
     {
       "file": "congressional_us_senate_2014.json",
@@ -1667,7 +1734,7 @@
       "before": {
         "dem": 1073667,
         "rep": 1055940,
-        "other": 54913
+        "other": 54914
       },
       "official": {
         "dem": 1073667,
@@ -1682,11 +1749,11 @@
       "before_difference": {
         "dem": 0,
         "rep": 0,
-        "other": 0
+        "other": 1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 7.323600242514772e-05
     },
     {
       "file": "congressional_us_senate_2018.json",
@@ -1694,9 +1761,9 @@
       "contest_type": "us_senate",
       "year": 2018,
       "before": {
-        "dem": 1910370,
-        "rep": 1374313,
-        "other": 67074
+        "dem": 1911135,
+        "rep": 1373546,
+        "other": 67078
       },
       "official": {
         "dem": 1910370,
@@ -1709,13 +1776,13 @@
         "other": 67074
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 765,
+        "rep": -767,
+        "other": 4
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.10527433916742979
     },
     {
       "file": "congressional_us_senate_2020.json",
@@ -1723,9 +1790,9 @@
       "contest_type": "us_senate",
       "year": 2020,
       "before": {
-        "dem": 2466500,
-        "rep": 1934199,
-        "other": 4388
+        "dem": 2466851,
+        "rep": 1933807,
+        "other": 4427
       },
       "official": {
         "dem": 2466500,
@@ -1738,13 +1805,13 @@
         "other": 4388
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 351,
+        "rep": -392,
+        "other": 39
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.04013678393202014
     },
     {
       "file": "congressional_us_senate_2024.json",
@@ -1752,7 +1819,7 @@
       "contest_type": "us_senate",
       "year": 2024,
       "before": {
-        "dem": 2417115,
+        "dem": 2417116,
         "rep": 2019911,
         "other": 8509
       },
@@ -1767,13 +1834,13 @@
         "other": 8509
       },
       "before_difference": {
-        "dem": 0,
+        "dem": 1,
         "rep": 0,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0001599735063564367
     },
     {
       "file": "state_house_attorney_general_2009.json",
@@ -1781,9 +1848,9 @@
       "contest_type": "attorney_general",
       "year": 2009,
       "before": {
-        "dem": 828687,
-        "rep": 1124137,
-        "other": 1772
+        "dem": 828137,
+        "rep": 1123154,
+        "other": 1778
       },
       "official": {
         "dem": 828687,
@@ -1796,13 +1863,13 @@
         "other": 1772
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -550,
+        "rep": -983,
+        "other": 6
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.031183393077967025
     },
     {
       "file": "state_house_attorney_general_2013.json",
@@ -1810,9 +1877,9 @@
       "contest_type": "attorney_general",
       "year": 2013,
       "before": {
-        "dem": 1103777,
-        "rep": 1103612,
-        "other": 5462
+        "dem": 1103779,
+        "rep": 1103616,
+        "other": 5459
       },
       "official": {
         "dem": 1103777,
@@ -1825,13 +1892,13 @@
         "other": 5462
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 2,
+        "rep": 4,
+        "other": -3
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.003386845492109103
     },
     {
       "file": "state_house_attorney_general_2017.json",
@@ -1839,9 +1906,9 @@
       "contest_type": "attorney_general",
       "year": 2017,
       "before": {
-        "dem": 1385390,
-        "rep": 1209540,
-        "other": 2614
+        "dem": 1385389,
+        "rep": 1209541,
+        "other": 2615
       },
       "official": {
         "dem": 1385390,
@@ -1854,13 +1921,13 @@
         "other": 2614
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1,
+        "rep": 1,
+        "other": 1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0012482146364405367
     },
     {
       "file": "state_house_attorney_general_2021.json",
@@ -1868,9 +1935,9 @@
       "contest_type": "attorney_general",
       "year": 2021,
       "before": {
-        "dem": 1620564,
-        "rep": 1647100,
-        "other": 2983
+        "dem": 1620557,
+        "rep": 1647105,
+        "other": 2984
       },
       "official": {
         "dem": 1620564,
@@ -1883,13 +1950,13 @@
         "other": 2983
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -7,
+        "rep": 5,
+        "other": 1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.002494698765126202
     },
     {
       "file": "state_house_attorney_general_2025.json",
@@ -1897,8 +1964,8 @@
       "contest_type": "attorney_general",
       "year": 2025,
       "before": {
-        "dem": 1804940,
-        "rep": 1577843,
+        "dem": 1804937,
+        "rep": 1577845,
         "other": 0
       },
       "official": {
@@ -1912,13 +1979,13 @@
         "other": 0
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": -3,
+        "rep": 2,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0013905488553120904
     },
     {
       "file": "state_house_governor_2009.json",
@@ -1926,9 +1993,9 @@
       "contest_type": "governor",
       "year": 2009,
       "before": {
-        "dem": 818950,
-        "rep": 1163651,
-        "other": 2502
+        "dem": 818396,
+        "rep": 1162634,
+        "other": 2497
       },
       "official": {
         "dem": 818950,
@@ -1941,13 +2008,13 @@
         "other": 2502
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -554,
+        "rep": -1017,
+        "other": -5
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.030777848907395544
     },
     {
       "file": "state_house_governor_2013.json",
@@ -1955,9 +2022,9 @@
       "contest_type": "governor",
       "year": 2013,
       "before": {
-        "dem": 1069789,
-        "rep": 1013354,
-        "other": 157928
+        "dem": 1069788,
+        "rep": 1013352,
+        "other": 157929
       },
       "official": {
         "dem": 1069789,
@@ -1970,13 +2037,13 @@
         "other": 157928
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1,
+        "rep": -2,
+        "other": 1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0022051033086896155
     },
     {
       "file": "state_house_governor_2017.json",
@@ -1984,8 +2051,8 @@
       "contest_type": "governor",
       "year": 2017,
       "before": {
-        "dem": 1408818,
-        "rep": 1175732,
+        "dem": 1408817,
+        "rep": 1175736,
         "other": 29515
       },
       "official": {
@@ -1999,13 +2066,13 @@
         "other": 29515
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": -1,
+        "rep": 4,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.002793876446423482
     },
     {
       "file": "state_house_governor_2021.json",
@@ -2013,8 +2080,8 @@
       "contest_type": "governor",
       "year": 2021,
       "before": {
-        "dem": 1599470,
-        "rep": 1663158,
+        "dem": 1599473,
+        "rep": 1663162,
         "other": 25694
       },
       "official": {
@@ -2028,13 +2095,13 @@
         "other": 25694
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": 3,
+        "rep": 4,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0018702861661363812
     },
     {
       "file": "state_house_governor_2025.json",
@@ -2043,7 +2110,7 @@
       "year": 2025,
       "before": {
         "dem": 1976857,
-        "rep": 1449586,
+        "rep": 1449590,
         "other": 0
       },
       "official": {
@@ -2058,12 +2125,12 @@
       },
       "before_difference": {
         "dem": 0,
-        "rep": 0,
+        "rep": 4,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.002102533629809944
     },
     {
       "file": "state_house_lieutenant_governor_2009.json",
@@ -2071,9 +2138,9 @@
       "contest_type": "lieutenant_governor",
       "year": 2009,
       "before": {
-        "dem": 850111,
-        "rep": 1106793,
-        "other": 1569
+        "dem": 849524,
+        "rep": 1105854,
+        "other": 1565
       },
       "official": {
         "dem": 850111,
@@ -2086,13 +2153,13 @@
         "other": 1569
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -587,
+        "rep": -939,
+        "other": -4
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.03128440664391974
     },
     {
       "file": "state_house_lieutenant_governor_2013.json",
@@ -2100,9 +2167,9 @@
       "contest_type": "lieutenant_governor",
       "year": 2013,
       "before": {
-        "dem": 1213155,
-        "rep": 980257,
-        "other": 8225
+        "dem": 1213161,
+        "rep": 980252,
+        "other": 8223
       },
       "official": {
         "dem": 1213155,
@@ -2115,13 +2182,13 @@
         "other": 8225
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 6,
+        "rep": -5,
+        "other": -2
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0036543247489730923
     },
     {
       "file": "state_house_lieutenant_governor_2017.json",
@@ -2129,9 +2196,9 @@
       "contest_type": "lieutenant_governor",
       "year": 2017,
       "before": {
-        "dem": 1368412,
-        "rep": 1224520,
-        "other": 2606
+        "dem": 1368420,
+        "rep": 1224522,
+        "other": 2610
       },
       "official": {
         "dem": 1368412,
@@ -2144,13 +2211,13 @@
         "other": 2606
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 8,
+        "rep": 2,
+        "other": 4
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.002241109801719432
     },
     {
       "file": "state_house_lieutenant_governor_2021.json",
@@ -2159,7 +2226,7 @@
       "year": 2021,
       "before": {
         "dem": 1608030,
-        "rep": 1658332,
+        "rep": 1658333,
         "other": 3796
       },
       "official": {
@@ -2174,12 +2241,12 @@
       },
       "before_difference": {
         "dem": 0,
-        "rep": 0,
+        "rep": 1,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.001368938849800827
     },
     {
       "file": "state_house_lieutenant_governor_2025.json",
@@ -2188,7 +2255,7 @@
       "year": 2025,
       "before": {
         "dem": 1900104,
-        "rep": 1505395,
+        "rep": 1505397,
         "other": 0
       },
       "official": {
@@ -2203,12 +2270,12 @@
       },
       "before_difference": {
         "dem": 0,
-        "rep": 0,
+        "rep": 2,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0015150144081381711
     },
     {
       "file": "state_house_president_2008.json",
@@ -2216,9 +2283,9 @@
       "contest_type": "president",
       "year": 2008,
       "before": {
-        "dem": 1959532,
-        "rep": 1725005,
-        "other": 38723
+        "dem": 1959366,
+        "rep": 1721122,
+        "other": 40041
       },
       "official": {
         "dem": 1959532,
@@ -2231,13 +2298,13 @@
         "other": 38723
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -166,
+        "rep": -3883,
+        "other": 1318
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.14379189092266564
     },
     {
       "file": "state_house_president_2012.json",
@@ -2245,9 +2312,9 @@
       "contest_type": "president",
       "year": 2012,
       "before": {
-        "dem": 1971820,
-        "rep": 1822522,
-        "other": 63701
+        "dem": 2003761,
+        "rep": 1851371,
+        "other": 100
       },
       "official": {
         "dem": 1971820,
@@ -2260,13 +2327,254 @@
         "other": 63701
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 31941,
+        "rep": 28849,
+        "other": -63601
       },
       "protected_districts": [],
-      "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "whole_component_shortfalls": [
+        {
+          "district": "100",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 259
+        },
+        {
+          "district": "11",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 203
+        },
+        {
+          "district": "13",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 130
+        },
+        {
+          "district": "20",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 337
+        },
+        {
+          "district": "31",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 227
+        },
+        {
+          "district": "32",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 265
+        },
+        {
+          "district": "33",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 526
+        },
+        {
+          "district": "34",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 374
+        },
+        {
+          "district": "35",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 85
+        },
+        {
+          "district": "36",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 371
+        },
+        {
+          "district": "37",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 702
+        },
+        {
+          "district": "39",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 903
+        },
+        {
+          "district": "40",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 259
+        },
+        {
+          "district": "42",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 315
+        },
+        {
+          "district": "43",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 422
+        },
+        {
+          "district": "44",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 539
+        },
+        {
+          "district": "45",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 539
+        },
+        {
+          "district": "46",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 765
+        },
+        {
+          "district": "47",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 1010
+        },
+        {
+          "district": "48",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 118
+        },
+        {
+          "district": "49",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 246
+        },
+        {
+          "district": "50",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 355
+        },
+        {
+          "district": "52",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 694
+        },
+        {
+          "district": "53",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 194
+        },
+        {
+          "district": "54",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 450
+        },
+        {
+          "district": "56",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 368
+        },
+        {
+          "district": "61",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 66
+        },
+        {
+          "district": "62",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 273
+        },
+        {
+          "district": "65",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 270
+        },
+        {
+          "district": "67",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 503
+        },
+        {
+          "district": "68",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 389
+        },
+        {
+          "district": "71",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 163
+        },
+        {
+          "district": "72",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 427
+        },
+        {
+          "district": "74",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 139
+        },
+        {
+          "district": "75",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 113
+        },
+        {
+          "district": "81",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 64
+        },
+        {
+          "district": "82",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 187
+        },
+        {
+          "district": "83",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 277
+        },
+        {
+          "district": "84",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 31
+        },
+        {
+          "district": "86",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 115
+        }
+      ],
+      "maximum_margin_drift_pct": 2.104254149183049
     },
     {
       "file": "state_house_president_2016.json",
@@ -2274,9 +2582,9 @@
       "contest_type": "president",
       "year": 2016,
       "before": {
-        "dem": 1981473,
-        "rep": 1769443,
-        "other": 233715
+        "dem": 1983395,
+        "rep": 1768419,
+        "other": 232026
       },
       "official": {
         "dem": 1981473,
@@ -2289,13 +2597,13 @@
         "other": 233715
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 1922,
+        "rep": -1024,
+        "other": -1689
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.10063679073190457
     },
     {
       "file": "state_house_president_2020.json",
@@ -2303,9 +2611,9 @@
       "contest_type": "president",
       "year": 2020,
       "before": {
-        "dem": 2413568,
-        "rep": 1962430,
-        "other": 84526
+        "dem": 2408558,
+        "rep": 1961670,
+        "other": 84474
       },
       "official": {
         "dem": 2413568,
@@ -2318,15 +2626,15 @@
         "other": 84526
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -5010,
+        "rep": -760,
+        "other": -52
       },
       "protected_districts": [
         "22"
       ],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.09537970420468633
     },
     {
       "file": "state_house_president_2024.json",
@@ -2334,9 +2642,9 @@
       "contest_type": "president",
       "year": 2024,
       "before": {
-        "dem": 2335395,
-        "rep": 2075085,
-        "other": 95461
+        "dem": 2331036,
+        "rep": 2071131,
+        "other": 95600
       },
       "official": {
         "dem": 2335395,
@@ -2349,15 +2657,15 @@
         "other": 95461
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -4359,
+        "rep": -3954,
+        "other": 139
       },
       "protected_districts": [
         "41"
       ],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.05783582691928846
     },
     {
       "file": "state_house_us_senate_2008.json",
@@ -2365,9 +2673,9 @@
       "contest_type": "us_senate",
       "year": 2008,
       "before": {
-        "dem": 2369327,
-        "rep": 1228830,
-        "other": 45137
+        "dem": 2367576,
+        "rep": 1227939,
+        "other": 45111
       },
       "official": {
         "dem": 2369327,
@@ -2380,13 +2688,13 @@
         "other": 45137
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1751,
+        "rep": -891,
+        "other": -26
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.015294427800824906
     },
     {
       "file": "state_house_us_senate_2012.json",
@@ -2394,9 +2702,9 @@
       "contest_type": "us_senate",
       "year": 2012,
       "before": {
-        "dem": 2010067,
-        "rep": 1785542,
-        "other": 9410
+        "dem": 2008887,
+        "rep": 1784022,
+        "other": 9415
       },
       "official": {
         "dem": 2010067,
@@ -2409,13 +2717,13 @@
         "other": 9410
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1180,
+        "rep": -1520,
+        "other": 5
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.030602931557357493
     },
     {
       "file": "state_house_us_senate_2014.json",
@@ -2423,8 +2731,8 @@
       "contest_type": "us_senate",
       "year": 2014,
       "before": {
-        "dem": 1073667,
-        "rep": 1055940,
+        "dem": 1073674,
+        "rep": 1055946,
         "other": 54913
       },
       "official": {
@@ -2438,13 +2746,13 @@
         "other": 54913
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": 7,
+        "rep": 6,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0031392744726641553
     },
     {
       "file": "state_house_us_senate_2018.json",
@@ -2452,9 +2760,9 @@
       "contest_type": "us_senate",
       "year": 2018,
       "before": {
-        "dem": 1910370,
-        "rep": 1374313,
-        "other": 67074
+        "dem": 1911827,
+        "rep": 1372823,
+        "other": 67114
       },
       "official": {
         "dem": 1910370,
@@ -2467,13 +2775,13 @@
         "other": 67074
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 1457,
+        "rep": -1490,
+        "other": 40
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.11552868456279675
     },
     {
       "file": "state_house_us_senate_2020.json",
@@ -2481,9 +2789,9 @@
       "contest_type": "us_senate",
       "year": 2020,
       "before": {
-        "dem": 2466500,
-        "rep": 1934199,
-        "other": 4388
+        "dem": 2464315,
+        "rep": 1936345,
+        "other": 4432
       },
       "official": {
         "dem": 2466500,
@@ -2496,13 +2804,20 @@
         "other": 4388
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -2185,
+        "rep": 2146,
+        "other": 44
       },
       "protected_districts": [],
-      "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "whole_component_shortfalls": [
+        {
+          "district": "20",
+          "bucket": "other",
+          "current": 18,
+          "whole_locality_floor": 19
+        }
+      ],
+      "maximum_margin_drift_pct": 0.12615408289502117
     },
     {
       "file": "state_house_us_senate_2024.json",
@@ -2510,9 +2825,9 @@
       "contest_type": "us_senate",
       "year": 2024,
       "before": {
-        "dem": 2417115,
-        "rep": 2019911,
-        "other": 8509
+        "dem": 2304207,
+        "rep": 2046773,
+        "other": 94554
       },
       "official": {
         "dem": 2417115,
@@ -2525,13 +2840,38 @@
         "other": 8509
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -112908,
+        "rep": 26862,
+        "other": 86045
       },
       "protected_districts": [],
-      "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "whole_component_shortfalls": [
+        {
+          "district": "43",
+          "bucket": "dem",
+          "current": 6448,
+          "whole_locality_floor": 7992
+        },
+        {
+          "district": "44",
+          "bucket": "dem",
+          "current": 10377,
+          "whole_locality_floor": 10888
+        },
+        {
+          "district": "45",
+          "bucket": "dem",
+          "current": 6461,
+          "whole_locality_floor": 9837
+        },
+        {
+          "district": "46",
+          "bucket": "dem",
+          "current": 8659,
+          "whole_locality_floor": 9505
+        }
+      ],
+      "maximum_margin_drift_pct": 12.879109493939659
     },
     {
       "file": "state_senate_attorney_general_2009.json",
@@ -2539,9 +2879,9 @@
       "contest_type": "attorney_general",
       "year": 2009,
       "before": {
-        "dem": 828687,
-        "rep": 1124137,
-        "other": 1772
+        "dem": 828140,
+        "rep": 1123152,
+        "other": 1773
       },
       "official": {
         "dem": 828687,
@@ -2554,13 +2894,13 @@
         "other": 1772
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -547,
+        "rep": -985,
+        "other": 1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.028742336288276604
     },
     {
       "file": "state_senate_attorney_general_2013.json",
@@ -2568,8 +2908,8 @@
       "contest_type": "attorney_general",
       "year": 2013,
       "before": {
-        "dem": 1103777,
-        "rep": 1103612,
+        "dem": 1103775,
+        "rep": 1103611,
         "other": 5462
       },
       "official": {
@@ -2583,13 +2923,13 @@
         "other": 5462
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": -2,
+        "rep": -1,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0011255068629338894
     },
     {
       "file": "state_senate_attorney_general_2017.json",
@@ -2597,8 +2937,8 @@
       "contest_type": "attorney_general",
       "year": 2017,
       "before": {
-        "dem": 1385390,
-        "rep": 1209540,
+        "dem": 1385389,
+        "rep": 1209538,
         "other": 2614
       },
       "official": {
@@ -2612,13 +2952,13 @@
         "other": 2614
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": -1,
+        "rep": -2,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0010807171830364837
     },
     {
       "file": "state_senate_attorney_general_2021.json",
@@ -2626,9 +2966,9 @@
       "contest_type": "attorney_general",
       "year": 2021,
       "before": {
-        "dem": 1620564,
+        "dem": 1620567,
         "rep": 1647100,
-        "other": 2983
+        "other": 2982
       },
       "official": {
         "dem": 1620564,
@@ -2641,13 +2981,13 @@
         "other": 2983
       },
       "before_difference": {
-        "dem": 0,
+        "dem": 3,
         "rep": 0,
-        "other": 0
+        "other": -1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0011468415982349711
     },
     {
       "file": "state_senate_attorney_general_2025.json",
@@ -2655,8 +2995,8 @@
       "contest_type": "attorney_general",
       "year": 2025,
       "before": {
-        "dem": 1804940,
-        "rep": 1577843,
+        "dem": 1804941,
+        "rep": 1577844,
         "other": 0
       },
       "official": {
@@ -2670,13 +3010,13 @@
         "other": 0
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": 1,
+        "rep": 1,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0008760004667176524
     },
     {
       "file": "state_senate_governor_2009.json",
@@ -2684,8 +3024,8 @@
       "contest_type": "governor",
       "year": 2009,
       "before": {
-        "dem": 818950,
-        "rep": 1163651,
+        "dem": 818398,
+        "rep": 1162637,
         "other": 2502
       },
       "official": {
@@ -2699,13 +3039,13 @@
         "other": 2502
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": -552,
+        "rep": -1014,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.02407183015555603
     },
     {
       "file": "state_senate_governor_2013.json",
@@ -2713,9 +3053,9 @@
       "contest_type": "governor",
       "year": 2013,
       "before": {
-        "dem": 1069789,
-        "rep": 1013354,
-        "other": 157928
+        "dem": 1069792,
+        "rep": 1013355,
+        "other": 157929
       },
       "official": {
         "dem": 1069789,
@@ -2728,13 +3068,13 @@
         "other": 157928
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 3,
+        "rep": 1,
+        "other": 1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0011726343504285808
     },
     {
       "file": "state_senate_governor_2017.json",
@@ -2742,9 +3082,9 @@
       "contest_type": "governor",
       "year": 2017,
       "before": {
-        "dem": 1408818,
-        "rep": 1175732,
-        "other": 29515
+        "dem": 1408820,
+        "rep": 1175734,
+        "other": 29513
       },
       "official": {
         "dem": 1408818,
@@ -2757,13 +3097,13 @@
         "other": 29515
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 2,
+        "rep": 2,
+        "other": -2
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0013061650992653995
     },
     {
       "file": "state_senate_governor_2021.json",
@@ -2771,8 +3111,8 @@
       "contest_type": "governor",
       "year": 2021,
       "before": {
-        "dem": 1599470,
-        "rep": 1663158,
+        "dem": 1599473,
+        "rep": 1663159,
         "other": 25694
       },
       "official": {
@@ -2786,13 +3126,13 @@
         "other": 25694
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": 3,
+        "rep": 1,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0008144204249465048
     },
     {
       "file": "state_senate_governor_2025.json",
@@ -2800,7 +3140,7 @@
       "contest_type": "governor",
       "year": 2025,
       "before": {
-        "dem": 1976857,
+        "dem": 1976856,
         "rep": 1449586,
         "other": 0
       },
@@ -2815,13 +3155,13 @@
         "other": 0
       },
       "before_difference": {
-        "dem": 0,
+        "dem": -1,
         "rep": 0,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0003212310886198111
     },
     {
       "file": "state_senate_lieutenant_governor_2009.json",
@@ -2829,8 +3169,8 @@
       "contest_type": "lieutenant_governor",
       "year": 2009,
       "before": {
-        "dem": 850111,
-        "rep": 1106793,
+        "dem": 849523,
+        "rep": 1105851,
         "other": 1569
       },
       "official": {
@@ -2844,13 +3184,13 @@
         "other": 1569
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": -588,
+        "rep": -942,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.021941301719174966
     },
     {
       "file": "state_senate_lieutenant_governor_2013.json",
@@ -2858,8 +3198,8 @@
       "contest_type": "lieutenant_governor",
       "year": 2013,
       "before": {
-        "dem": 1213155,
-        "rep": 980257,
+        "dem": 1213156,
+        "rep": 980258,
         "other": 8225
       },
       "official": {
@@ -2873,13 +3213,13 @@
         "other": 8225
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": 1,
+        "rep": 1,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.001404792775621111
     },
     {
       "file": "state_senate_lieutenant_governor_2017.json",
@@ -2887,8 +3227,8 @@
       "contest_type": "lieutenant_governor",
       "year": 2017,
       "before": {
-        "dem": 1368412,
-        "rep": 1224520,
+        "dem": 1368410,
+        "rep": 1224523,
         "other": 2606
       },
       "official": {
@@ -2902,13 +3242,13 @@
         "other": 2606
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": -2,
+        "rep": 3,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0013954673423972608
     },
     {
       "file": "state_senate_lieutenant_governor_2021.json",
@@ -2916,9 +3256,9 @@
       "contest_type": "lieutenant_governor",
       "year": 2021,
       "before": {
-        "dem": 1608030,
-        "rep": 1658332,
-        "other": 3796
+        "dem": 1608028,
+        "rep": 1658334,
+        "other": 3797
       },
       "official": {
         "dem": 1608030,
@@ -2931,13 +3271,13 @@
         "other": 3796
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -2,
+        "rep": 2,
+        "other": 1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0011470126056636332
     },
     {
       "file": "state_senate_lieutenant_governor_2025.json",
@@ -2945,8 +3285,8 @@
       "contest_type": "lieutenant_governor",
       "year": 2025,
       "before": {
-        "dem": 1900104,
-        "rep": 1505395,
+        "dem": 1900105,
+        "rep": 1505393,
         "other": 0
       },
       "official": {
@@ -2960,13 +3300,13 @@
         "other": 0
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
+        "dem": 1,
+        "rep": -2,
         "other": 0
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0010372414094987903
     },
     {
       "file": "state_senate_president_2008.json",
@@ -2974,9 +3314,9 @@
       "contest_type": "president",
       "year": 2008,
       "before": {
-        "dem": 1959532,
-        "rep": 1725005,
-        "other": 38723
+        "dem": 1956790,
+        "rep": 1723746,
+        "other": 39991
       },
       "official": {
         "dem": 1959532,
@@ -2989,13 +3329,44 @@
         "other": 38723
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -2742,
+        "rep": -1259,
+        "other": 1268
       },
       "protected_districts": [],
-      "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "whole_component_shortfalls": [
+        {
+          "district": "1",
+          "bucket": "dem",
+          "current": 35558,
+          "whole_locality_floor": 35595
+        },
+        {
+          "district": "6",
+          "bucket": "dem",
+          "current": 34572,
+          "whole_locality_floor": 34683
+        },
+        {
+          "district": "1",
+          "bucket": "rep",
+          "current": 49558,
+          "whole_locality_floor": 49598
+        },
+        {
+          "district": "6",
+          "bucket": "rep",
+          "current": 57194,
+          "whole_locality_floor": 57373
+        },
+        {
+          "district": "8",
+          "bucket": "rep",
+          "current": 59251,
+          "whole_locality_floor": 59502
+        }
+      ],
+      "maximum_margin_drift_pct": 0.1976896800985486
     },
     {
       "file": "state_senate_president_2012.json",
@@ -3003,9 +3374,9 @@
       "contest_type": "president",
       "year": 2012,
       "before": {
-        "dem": 1971820,
-        "rep": 1822522,
-        "other": 63701
+        "dem": 2002086,
+        "rep": 1853111,
+        "other": 40
       },
       "official": {
         "dem": 1971820,
@@ -3018,13 +3389,158 @@
         "other": 63701
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 30266,
+        "rep": 30589,
+        "other": -63661
       },
       "protected_districts": [],
-      "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "whole_component_shortfalls": [
+        {
+          "district": "1",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 2114
+        },
+        {
+          "district": "10",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 1071
+        },
+        {
+          "district": "11",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 1710
+        },
+        {
+          "district": "12",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 139
+        },
+        {
+          "district": "13",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 601
+        },
+        {
+          "district": "17",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 992
+        },
+        {
+          "district": "2",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 1234
+        },
+        {
+          "district": "20",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 259
+        },
+        {
+          "district": "23",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 916
+        },
+        {
+          "district": "24",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 844
+        },
+        {
+          "district": "25",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 993
+        },
+        {
+          "district": "26",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 666
+        },
+        {
+          "district": "27",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 270
+        },
+        {
+          "district": "28",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 928
+        },
+        {
+          "district": "3",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 1265
+        },
+        {
+          "district": "30",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 337
+        },
+        {
+          "district": "37",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 333
+        },
+        {
+          "district": "39",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 1093
+        },
+        {
+          "district": "4",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 1289
+        },
+        {
+          "district": "5",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 1316
+        },
+        {
+          "district": "6",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 1542
+        },
+        {
+          "district": "7",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 2945
+        },
+        {
+          "district": "8",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 1659
+        },
+        {
+          "district": "9",
+          "bucket": "other",
+          "current": 1,
+          "whole_locality_floor": 1498
+        }
+      ],
+      "maximum_margin_drift_pct": 1.336231565248056
     },
     {
       "file": "state_senate_president_2016.json",
@@ -3032,9 +3548,9 @@
       "contest_type": "president",
       "year": 2016,
       "before": {
-        "dem": 1981473,
-        "rep": 1769443,
-        "other": 233715
+        "dem": 1982495,
+        "rep": 1770181,
+        "other": 231951
       },
       "official": {
         "dem": 1981473,
@@ -3047,13 +3563,32 @@
         "other": 233715
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 1022,
+        "rep": 738,
+        "other": -1764
       },
       "protected_districts": [],
-      "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "whole_component_shortfalls": [
+        {
+          "district": "1",
+          "bucket": "other",
+          "current": 5790,
+          "whole_locality_floor": 5803
+        },
+        {
+          "district": "6",
+          "bucket": "other",
+          "current": 3005,
+          "whole_locality_floor": 3010
+        },
+        {
+          "district": "8",
+          "bucket": "other",
+          "current": 6302,
+          "whole_locality_floor": 6315
+        }
+      ],
+      "maximum_margin_drift_pct": 0.051741976328457895
     },
     {
       "file": "state_senate_president_2020.json",
@@ -3061,9 +3596,9 @@
       "contest_type": "president",
       "year": 2020,
       "before": {
-        "dem": 2413568,
-        "rep": 1962430,
-        "other": 84526
+        "dem": 2412288,
+        "rep": 1963694,
+        "other": 84537
       },
       "official": {
         "dem": 2413568,
@@ -3076,15 +3611,40 @@
         "other": 84526
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1280,
+        "rep": 1264,
+        "other": 11
       },
       "protected_districts": [
         "20"
       ],
-      "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "whole_component_shortfalls": [
+        {
+          "district": "1",
+          "bucket": "dem",
+          "current": 41173,
+          "whole_locality_floor": 41176
+        },
+        {
+          "district": "6",
+          "bucket": "dem",
+          "current": 21147,
+          "whole_locality_floor": 21148
+        },
+        {
+          "district": "8",
+          "bucket": "dem",
+          "current": 38292,
+          "whole_locality_floor": 38294
+        },
+        {
+          "district": "6",
+          "bucket": "other",
+          "current": 1147,
+          "whole_locality_floor": 1149
+        }
+      ],
+      "maximum_margin_drift_pct": 0.09787220343675607
     },
     {
       "file": "state_senate_president_2024.json",
@@ -3092,9 +3652,9 @@
       "contest_type": "president",
       "year": 2024,
       "before": {
-        "dem": 2335395,
-        "rep": 2075085,
-        "other": 95461
+        "dem": 2334281,
+        "rep": 2076264,
+        "other": 95399
       },
       "official": {
         "dem": 2335395,
@@ -3107,13 +3667,38 @@
         "other": 95461
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1114,
+        "rep": 1179,
+        "other": -62
       },
       "protected_districts": [],
-      "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "whole_component_shortfalls": [
+        {
+          "district": "1",
+          "bucket": "dem",
+          "current": 42552,
+          "whole_locality_floor": 42555
+        },
+        {
+          "district": "8",
+          "bucket": "dem",
+          "current": 36963,
+          "whole_locality_floor": 36968
+        },
+        {
+          "district": "1",
+          "bucket": "rep",
+          "current": 76624,
+          "whole_locality_floor": 76625
+        },
+        {
+          "district": "6",
+          "bucket": "rep",
+          "current": 85488,
+          "whole_locality_floor": 85490
+        }
+      ],
+      "maximum_margin_drift_pct": 0.08551399257964754
     },
     {
       "file": "state_senate_us_senate_2008.json",
@@ -3121,9 +3706,9 @@
       "contest_type": "us_senate",
       "year": 2008,
       "before": {
-        "dem": 2369327,
-        "rep": 1228830,
-        "other": 45137
+        "dem": 2367582,
+        "rep": 1227936,
+        "other": 45116
       },
       "official": {
         "dem": 2369327,
@@ -3136,13 +3721,13 @@
         "other": 45137
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1745,
+        "rep": -894,
+        "other": -21
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.006989037110432861
     },
     {
       "file": "state_senate_us_senate_2012.json",
@@ -3150,9 +3735,9 @@
       "contest_type": "us_senate",
       "year": 2012,
       "before": {
-        "dem": 2010067,
-        "rep": 1785542,
-        "other": 9410
+        "dem": 2008888,
+        "rep": 1784023,
+        "other": 9406
       },
       "official": {
         "dem": 2010067,
@@ -3165,13 +3750,13 @@
         "other": 9410
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1179,
+        "rep": -1519,
+        "other": -4
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.032107474718912066
     },
     {
       "file": "state_senate_us_senate_2014.json",
@@ -3179,9 +3764,9 @@
       "contest_type": "us_senate",
       "year": 2014,
       "before": {
-        "dem": 1073667,
-        "rep": 1055940,
-        "other": 54913
+        "dem": 1073669,
+        "rep": 1055939,
+        "other": 54915
       },
       "official": {
         "dem": 1073667,
@@ -3194,13 +3779,13 @@
         "other": 54913
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 2,
+        "rep": -1,
+        "other": 2
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0014718869590844008
     },
     {
       "file": "state_senate_us_senate_2018.json",
@@ -3208,9 +3793,9 @@
       "contest_type": "us_senate",
       "year": 2018,
       "before": {
-        "dem": 1910370,
-        "rep": 1374313,
-        "other": 67074
+        "dem": 1910589,
+        "rep": 1374063,
+        "other": 67105
       },
       "official": {
         "dem": 1910370,
@@ -3223,13 +3808,32 @@
         "other": 67074
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": 219,
+        "rep": -250,
+        "other": 31
       },
       "protected_districts": [],
-      "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "whole_component_shortfalls": [
+        {
+          "district": "6",
+          "bucket": "rep",
+          "current": 50756,
+          "whole_locality_floor": 50760
+        },
+        {
+          "district": "8",
+          "bucket": "rep",
+          "current": 52775,
+          "whole_locality_floor": 52778
+        },
+        {
+          "district": "1",
+          "bucket": "other",
+          "current": 1658,
+          "whole_locality_floor": 1662
+        }
+      ],
+      "maximum_margin_drift_pct": 0.023518256096382473
     },
     {
       "file": "state_senate_us_senate_2020.json",
@@ -3237,9 +3841,9 @@
       "contest_type": "us_senate",
       "year": 2020,
       "before": {
-        "dem": 2466500,
-        "rep": 1934199,
-        "other": 4388
+        "dem": 2465174,
+        "rep": 1935501,
+        "other": 4411
       },
       "official": {
         "dem": 2466500,
@@ -3252,13 +3856,38 @@
         "other": 4388
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -1326,
+        "rep": 1302,
+        "other": 23
       },
       "protected_districts": [],
-      "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "whole_component_shortfalls": [
+        {
+          "district": "8",
+          "bucket": "dem",
+          "current": 41735,
+          "whole_locality_floor": 41737
+        },
+        {
+          "district": "1",
+          "bucket": "rep",
+          "current": 70326,
+          "whole_locality_floor": 70327
+        },
+        {
+          "district": "6",
+          "bucket": "rep",
+          "current": 77074,
+          "whole_locality_floor": 77081
+        },
+        {
+          "district": "1",
+          "bucket": "other",
+          "current": 91,
+          "whole_locality_floor": 94
+        }
+      ],
+      "maximum_margin_drift_pct": 0.10038721923875116
     },
     {
       "file": "state_senate_us_senate_2024.json",
@@ -3266,9 +3895,9 @@
       "contest_type": "us_senate",
       "year": 2024,
       "before": {
-        "dem": 2417115,
-        "rep": 2019911,
-        "other": 8509
+        "dem": 2417112,
+        "rep": 2019914,
+        "other": 8510
       },
       "official": {
         "dem": 2417115,
@@ -3281,13 +3910,13 @@
         "other": 8509
       },
       "before_difference": {
-        "dem": 0,
-        "rep": 0,
-        "other": 0
+        "dem": -3,
+        "rep": 3,
+        "other": 1
       },
       "protected_districts": [],
       "whole_component_shortfalls": [],
-      "maximum_margin_drift_pct": 0.0
+      "maximum_margin_drift_pct": 0.0008135728584495183
     }
   ]
 }

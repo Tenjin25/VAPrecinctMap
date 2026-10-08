@@ -1,0 +1,76 @@
+{
+  "method": "Reverse-normalized 2025 current-precinct to 2020 Census VTD allocation",
+  "warning": "Post-2020 precinct-change allocations are estimates.",
+  "vtd20_rows": 2465,
+  "block_crosswalk_stats": {
+    "blocks_total": 163491,
+    "blocks_with_population": 163491,
+    "blocks_assigned_to_current": 163160,
+    "blocks_unassigned_to_current": 331,
+    "total_population_unassigned_to_current": 170,
+    "voting_age_population_unassigned_to_current": 143,
+    "blocks_with_complete_transition": 163160
+  },
+  "contests": {
+    "governor": {
+      "output": "Data\\dra\\2025\\2025_va_governor_dra_vtd20.csv",
+      "source_precincts": 2533,
+      "unresolved_precincts": [],
+      "source_totals": {
+        "D": 1976857,
+        "R": 1449586,
+        "Other": 0
+      },
+      "output_totals": {
+        "D": 1976857,
+        "R": 1449586,
+        "Other": 0
+      }
+    },
+    "lieutenant_governor": {
+      "output": "Data\\dra\\2025\\2025_va_lieutenant_governor_dra_vtd20.csv",
+      "source_precincts": 2533,
+      "unresolved_precincts": [],
+      "source_totals": {
+        "D": 1900104,
+        "R": 1505395,
+        "Other": 0
+      },
+      "output_totals": {
+        "D": 1900104,
+        "R": 1505395,
+        "Other": 0
+      }
+    },
+    "attorney_general": {
+      "output": "Data\\dra\\2025\\2025_va_attorney_general_dra_vtd20.csv",
+      "source_precincts": 2533,
+      "unresolved_precincts": [],
+      "source_totals": {
+        "D": 1804940,
+        "R": 1577843,
+        "Other": 0
+      },
+      "output_totals": {
+        "D": 1804940,
+        "R": 1577843,
+        "Other": 0
+      }
+    },
+    "house_of_delegates": {
+      "output": "Data\\dra\\2025\\2025_va_house_of_delegates_dra_vtd20.csv",
+      "source_precincts": 2533,
+      "unresolved_precincts": [],
+      "source_totals": {
+        "D": 1926996,
+        "R": 1373057,
+        "Other": 14955
+      },
+      "output_totals": {
+        "D": 1926996,
+        "R": 1373057,
+        "Other": 14955
+      }
+    }
+  }
+}

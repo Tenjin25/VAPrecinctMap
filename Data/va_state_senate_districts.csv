@@ -1,41 +1,41 @@
-district,name,total_population,white_vap_pct,black_vap_pct,hispanic_vap_pct
-1,State Senate District 1,0,0,0,0
-2,State Senate District 2,0,0,0,0
-3,State Senate District 3,0,0,0,0
-4,State Senate District 4,0,0,0,0
-5,State Senate District 5,0,0,0,0
-6,State Senate District 6,0,0,0,0
-7,State Senate District 7,0,0,0,0
-8,State Senate District 8,0,0,0,0
-9,State Senate District 9,0,0,0,0
-10,State Senate District 10,0,0,0,0
-11,State Senate District 11,0,0,0,0
-12,State Senate District 12,0,0,0,0
-13,State Senate District 13,0,0,0,0
-14,State Senate District 14,0,0,0,0
-15,State Senate District 15,0,0,0,0
-16,State Senate District 16,0,0,0,0
-17,State Senate District 17,0,0,0,0
-18,State Senate District 18,0,0,0,0
-19,State Senate District 19,0,0,0,0
-20,State Senate District 20,0,0,0,0
-21,State Senate District 21,0,0,0,0
-22,State Senate District 22,0,0,0,0
-23,State Senate District 23,0,0,0,0
-24,State Senate District 24,0,0,0,0
-25,State Senate District 25,0,0,0,0
-26,State Senate District 26,0,0,0,0
-27,State Senate District 27,0,0,0,0
-28,State Senate District 28,0,0,0,0
-29,State Senate District 29,0,0,0,0
-30,State Senate District 30,0,0,0,0
-31,State Senate District 31,0,0,0,0
-32,State Senate District 32,0,0,0,0
-33,State Senate District 33,0,0,0,0
-34,State Senate District 34,0,0,0,0
-35,State Senate District 35,0,0,0,0
-36,State Senate District 36,0,0,0,0
-37,State Senate District 37,0,0,0,0
-38,State Senate District 38,0,0,0,0
-39,State Senate District 39,0,0,0,0
-40,State Senate District 40,0,0,0,0
+district,name,total_population,white_vap_pct,black_vap_pct,hispanic_vap_pct,native_vap_pct,asian_vap_pct,pacific_vap_pct,multiracial_vap_pct
+1,District 1,166827,85.38,4.93,5.97,0.08,1.55,0.03,0.14
+2,District 2,165805,86.93,4.04,5.96,0.07,1.07,0.07,0.14
+3,District 3,170392,87.79,6.31,2.27,0.14,1.01,0.05,0.29
+4,District 4,163646,78.09,14.5,3.23,0.11,2.18,0.08,0.23
+5,District 5,176441,89.89,4.0,2.27,0.08,1.78,0.13,0.18
+6,District 6,171976,94.09,3.19,1.18,0.11,0.34,0.06,0.11
+7,District 7,172865,84.26,11.03,2.64,0.1,0.46,0.02,0.1
+8,District 8,169775,78.66,15.49,2.58,0.11,1.02,0.03,0.38
+9,District 9,169821,62.49,32.91,2.12,0.06,0.45,0.0,0.2
+10,District 10,180978,77.51,16.07,2.64,0.14,0.89,0.12,0.22
+11,District 11,166330,77.81,12.62,3.83,0.12,3.33,0.02,0.18
+12,District 12,167241,72.2,16.35,4.8,0.07,3.56,0.0,0.39
+13,District 13,165579,41.16,50.1,4.54,0.38,1.08,0.13,0.35
+14,District 14,177706,50.76,39.38,4.15,0.11,1.97,0.06,0.54
+15,District 15,153369,43.4,42.63,8.85,0.07,2.2,0.12,0.53
+16,District 16,153701,67.29,15.75,5.18,0.09,8.89,0.09,0.56
+17,District 17,172498,52.79,39.65,3.1,0.16,1.1,0.06,0.59
+18,District 18,158528,44.11,45.47,4.94,0.15,2.07,0.06,0.65
+19,District 19,162230,69.4,14.87,6.84,0.24,4.97,0.13,0.66
+20,District 20,164611,73.18,15.3,5.58,0.13,2.72,0.01,0.41
+21,District 21,158739,42.99,41.68,7.83,0.24,3.22,0.03,1.01
+22,District 22,157145,51.76,26.5,8.98,0.15,8.6,0.07,0.86
+23,District 23,162233,37.63,50.58,5.39,0.26,2.13,0.07,0.83
+24,District 24,158897,62.03,22.6,7.5,0.25,4.06,0.12,0.52
+25,District 25,167151,68.05,22.21,4.83,0.26,1.44,0.16,0.27
+26,District 26,174335,82.46,9.97,3.28,0.12,1.39,0.06,0.32
+27,District 27,155561,62.74,19.84,10.02,0.11,3.06,0.01,1.09
+28,District 28,162543,79.5,10.43,5.96,0.14,1.48,0.06,0.32
+29,District 29,141479,45.3,22.38,18.58,0.09,9.0,0.12,0.89
+30,District 30,132833,52.82,14.22,19.32,0.09,9.98,0.08,0.74
+31,District 31,155618,70.66,6.79,9.53,0.08,9.93,0.03,0.36
+32,District 32,138605,50.1,9.62,10.29,0.2,26.52,0.09,0.51
+33,District 33,142779,47.04,21.4,16.14,0.09,11.21,0.08,0.62
+34,District 34,147445,50.19,19.95,14.57,0.07,11.72,0.11,0.44
+35,District 35,143318,52.39,10.38,13.32,0.12,20.29,0.02,0.52
+36,District 36,143829,52.81,7.03,10.43,0.21,26.54,0.06,0.29
+37,District 37,143110,59.98,5.99,11.71,0.09,19.03,0.04,0.42
+38,District 38,142747,64.73,6.45,8.89,0.05,16.35,0.03,0.35
+39,District 39,149813,56.83,19.41,12.45,0.2,7.15,0.02,0.62
+40,District 40,149708,67.61,9.11,11.58,0.1,8.2,0.05,0.38

@@ -1,12 +1,12 @@
-district,name,total_population,white_vap_pct,black_vap_pct,hispanic_vap_pct
-1,Congressional District 1,0,0,0,0
-2,Congressional District 2,0,0,0,0
-3,Congressional District 3,0,0,0,0
-4,Congressional District 4,0,0,0,0
-5,Congressional District 5,0,0,0,0
-6,Congressional District 6,0,0,0,0
-7,Congressional District 7,0,0,0,0
-8,Congressional District 8,0,0,0,0
-9,Congressional District 9,0,0,0,0
-10,Congressional District 10,0,0,0,0
-11,Congressional District 11,0,0,0,0
+district,name,total_population,white_vap_pct,black_vap_pct,hispanic_vap_pct,native_vap_pct,asian_vap_pct,pacific_vap_pct,multiracial_vap_pct
+1,District 1,602286,75.57,13.37,4.07,0.13,4.04,0.07,0.39
+2,District 2,593149,63.05,22.48,6.21,0.15,4.62,0.08,0.63
+3,District 3,583704,43.47,43.4,6.51,0.24,2.6,0.06,0.79
+4,District 4,604179,46.85,42.35,5.65,0.19,1.84,0.08,0.48
+5,District 5,627283,72.97,20.31,2.84,0.1,1.43,0.05,0.23
+6,District 6,603898,84.06,7.82,4.49,0.1,1.31,0.06,0.21
+7,District 7,556254,57.97,21.38,11.95,0.13,4.66,0.09,0.76
+8,District 8,529590,58.88,13.47,13.29,0.11,10.76,0.04,0.46
+9,District 9,625274,89.48,5.78,2.11,0.11,1.05,0.06,0.14
+10,District 10,521242,61.26,9.52,12.27,0.12,13.57,0.06,0.49
+11,District 11,531348,56.86,8.88,10.46,0.12,20.23,0.06,0.41

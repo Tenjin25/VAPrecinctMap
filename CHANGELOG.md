@@ -6,7 +6,8 @@
 - Simplify Quick Jumps to six primary destinations with additional Virginia regions grouped under an expandable **More regions** control.
 - Add Fredericksburg, Lynchburg, Northern Neck & Middle Peninsula, Northern Piedmont, and Alleghany Highlands regional jumps.
 - Expand the Southside jump west through Martinsville, Henry, and Patrick and east through Brunswick, Greensville, and Emporia.
-- Preserve the latest compact winner-name changes from `main` and refresh the application/data cache token to `2026-10-07-amendment-region-jumps-v7`.
+- Add active-region styling, a live geography breadcrumb, automatic region clearing after out-of-region pans, and mobile-sheet settling after map navigation.
+- Preserve the latest compact winner-name changes from `main` and refresh the application/data cache token to `2026-10-07-ui-context-v8`.
 
 ## 2026-10-06
 

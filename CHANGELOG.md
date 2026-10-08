@@ -1,5 +1,13 @@
 # Change history
 
+## 2026-10-07
+
+- Add the 2026 constitutional-amendment contest with VAP-weighted county, congressional, House of Delegates, and state Senate results.
+- Simplify Quick Jumps to six primary destinations with additional Virginia regions grouped under an expandable **More regions** control.
+- Add Fredericksburg, Lynchburg, Northern Neck & Middle Peninsula, Northern Piedmont, and Alleghany Highlands regional jumps.
+- Expand the Southside jump west through Martinsville, Henry, and Patrick and east through Brunswick, Greensville, and Emporia.
+- Preserve the latest compact winner-name changes from `main` and refresh the application/data cache token to `2026-10-07-amendment-region-jumps-v7`.
+
 ## 2026-10-06
 
 - Unlock the contest selector as soon as its manifest is ready instead of waiting for optional district geometry and demographic files.

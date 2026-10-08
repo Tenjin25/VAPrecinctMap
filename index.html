@@ -10755,8 +10755,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-08-water-masked-district-lines-v10';
-    const APP_BUILD_ID = '2026-10-08-water-masked-district-lines-v10';
+    const DATA_CACHE_BUSTER = '2026-10-08-coastal-district-lines-v11';
+    const APP_BUILD_ID = '2026-10-08-coastal-district-lines-v11';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -21012,9 +21012,6 @@ document.addEventListener('DOMContentLoaded', function() {
            map.removeLayer(`${type}-stroke-hover`);
          }
        });
-      if (map.getLayer('district-water-mask')) {
-        map.removeLayer('district-water-mask');
-      }
       if (map.getLayer('county-label')) {
         map.removeLayer('county-label');
       }
@@ -31220,18 +31217,39 @@ document.addEventListener('DOMContentLoaded', function() {
         return baseStops.map((z, i) => [z, values[i]]);
       }
 
+      function coastalCongressionalDistrictExpr() {
+        const keys = ['DISTRICT', 'CD118FP', 'CD119FP', 'district_id', 'district', 'CD', 'cd'];
+        const clauses = [];
+        keys.forEach(key => {
+          [1, 2, 3].forEach(districtNum => {
+            clauses.push(['==', ['to-number', ['get', key], -1], districtNum]);
+          });
+        });
+        return ['any', ...clauses];
+      }
+
       return {
         congressional: {
           casing: {
             'line-color': 'rgba(248, 250, 252, 0.96)',
             'line-opacity': zoomInterpLinear(stops([0.34, 0.42, 0.52, 0.66, 0.84, 0.94])),
-            'line-width': zoomInterpLinear(stops([1.70, 2.00, 2.26, 2.65, 3.16, 3.70])),
+            'line-width': [
+              'case',
+              coastalCongressionalDistrictExpr(),
+              zoomInterpLinear(stops([1.05, 1.20, 1.35, 1.55, 1.85, 2.15])),
+              zoomInterpLinear(stops([1.70, 2.00, 2.26, 2.65, 3.16, 3.70]))
+            ],
             'line-blur': zoomInterpLinear(stops([0.52, 0.40, 0.28, 0.12, 0.0, 0.0]))
           },
           base: {
             'line-color': '#1f2937',
             'line-opacity': zoomInterpLinear(stops([0.26, 0.32, 0.40, 0.54, 0.72, 0.86])),
-            'line-width': zoomInterpLinear(stops([0.96, 1.12, 1.26, 1.50, 1.82, 2.10])),
+            'line-width': [
+              'case',
+              coastalCongressionalDistrictExpr(),
+              zoomInterpLinear(stops([0.58, 0.68, 0.78, 0.92, 1.10, 1.28])),
+              zoomInterpLinear(stops([0.96, 1.12, 1.26, 1.50, 1.82, 2.10]))
+            ],
             'line-blur': zoomInterpLinear(stops([0.32, 0.24, 0.16, 0.06, 0.0, 0.0]))
           },
           hover: {
@@ -31297,38 +31315,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
 
-    function addCongressionalWaterMask(beforeId = null) {
-      const maskId = 'district-water-mask';
-      if (map.getLayer(maskId)) return;
-      try {
-        const styleLayers = map.getStyle()?.layers || [];
-        const waterLayer = [...styleLayers].reverse().find(layer => {
-          if (!layer || layer.id === maskId || layer.type !== 'fill' || !layer.source) return false;
-          const id = String(layer.id || '').toLowerCase();
-          const sourceLayer = String(layer['source-layer'] || '').toLowerCase();
-          return sourceLayer === 'water' || id === 'water' || id.startsWith('water-');
-        });
-        if (!waterLayer) return;
-
-        const maskLayer = {
-          id: maskId,
-          type: 'fill',
-          source: waterLayer.source,
-          paint: {
-            ...(waterLayer.paint || {}),
-            'fill-opacity': 1
-          }
-        };
-        if (waterLayer['source-layer']) maskLayer['source-layer'] = waterLayer['source-layer'];
-        if (waterLayer.filter) maskLayer.filter = waterLayer.filter;
-        if (Number.isFinite(Number(waterLayer.minzoom))) maskLayer.minzoom = Number(waterLayer.minzoom);
-        if (Number.isFinite(Number(waterLayer.maxzoom))) maskLayer.maxzoom = Number(waterLayer.maxzoom);
-        map.addLayer(maskLayer, (beforeId && map.getLayer(beforeId)) ? beforeId : undefined);
-      } catch (err) {
-        console.warn('Unable to add congressional water mask:', err?.message || err);
-      }
-    }
-
     function addDistrictLayers() {
       if (!map.getSource('districts')) return;
       if (!map.getLayer('district-fill')) {
@@ -31365,8 +31351,6 @@ document.addEventListener('DOMContentLoaded', function() {
           filter: ['==', ['get', '_'], '__'],
           paint: DISTRICT_LINE_STYLE.congressional.hover
         });
-        addCongressionalWaterMask(baseSymbolLayerId);
-
         // Add click handler for districts with full trends popup
         map.on('click', 'district-fill', async (e) => {
           if (e.features && e.features[0] && e.features[0].properties) {

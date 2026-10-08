@@ -8,8 +8,7 @@
 - Expand the Southside jump west through Martinsville, Henry, and Patrick and east through Brunswick, Greensville, and Emporia.
 - Add active-region styling, a live geography breadcrumb, automatic region clearing after out-of-region pans, and mobile-sheet settling after map navigation.
 - Standardize the Fly-to suggestions to the spaced `CD 2`, `HD 57`, and `SD 31` style while retaining support for hyphenated searches.
-- Use slimmer boundary casing and strokes for coastal CD 1, CD 2, and CD 3 without masking rivers or changing inland congressional districts; retain full-width hover outlines.
-- Preserve the latest compact winner-name changes from `main` and refresh the application/data cache token to `2026-10-08-coastal-district-lines-v11`.
+- Preserve the latest compact winner-name changes from `main` and refresh the application/data cache token to `2026-10-07-district-labels-v9`.
 
 ## 2026-10-06
 

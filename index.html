@@ -10297,6 +10297,8 @@ document.addEventListener('DOMContentLoaded', function() {
                       <button type="button" class="region-jump-btn" data-region-jump="lynchburg">Lynchburg</button>
                       <button type="button" class="region-jump-btn" data-region-jump="charlottesville">Charlottesville</button>
                       <button type="button" class="region-jump-btn" data-region-jump="newriver">New River Valley</button>
+                      <button type="button" class="region-jump-btn" data-region-jump="northernpiedmont">Northern Piedmont</button>
+                      <button type="button" class="region-jump-btn" data-region-jump="alleghanyhighlands">Alleghany Highlands</button>
                       <button type="button" class="region-jump-btn" data-region-jump="northernneck">Northern Neck &amp; Middle Peninsula</button>
                       <button type="button" class="region-jump-btn" data-region-jump="southside">Southside</button>
                       <button type="button" class="region-jump-btn" data-region-jump="easternshore">Eastern Shore</button>
@@ -10694,8 +10696,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-07-amendment-region-jumps-v5';
-    const APP_BUILD_ID = '2026-10-07-amendment-region-jumps-v5';
+    const DATA_CACHE_BUSTER = '2026-10-07-amendment-region-jumps-v6';
+    const APP_BUILD_ID = '2026-10-07-amendment-region-jumps-v6';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -10805,6 +10807,16 @@ document.addEventListener('DOMContentLoaded', function() {
         bounds: [[-80.05, 36.95], [-78.65, 38.05]],
         counties: ['Lynchburg', 'Amherst', 'Bedford', 'Campbell', 'Appomattox']
       },
+      northernpiedmont: {
+        label: 'Northern Piedmont',
+        bounds: [[-79.00, 37.75], [-77.30, 39.10]],
+        counties: ['Fauquier', 'Culpeper', 'Rappahannock', 'Madison', 'Orange']
+      },
+      alleghanyhighlands: {
+        label: 'Alleghany Highlands',
+        bounds: [[-80.55, 37.25], [-78.60, 39.00]],
+        counties: ['Alleghany', 'Bath', 'Highland', 'Covington', 'Rockbridge', 'Lexington', 'Buena Vista']
+      },
       northernneck: {
         label: 'Northern Neck & Middle Peninsula',
         bounds: [[-77.45, 37.05], [-75.90, 38.35]],
@@ -10827,8 +10839,8 @@ document.addEventListener('DOMContentLoaded', function() {
       },
       southside: {
         label: 'Southside',
-        bounds: [[-80.15, 36.35], [-77.15, 37.35]],
-        counties: ['Danville', 'Pittsylvania', 'Halifax', 'Mecklenburg', 'Brunswick', 'Lunenburg', 'Charlotte', 'Prince Edward', 'Nottoway']
+        bounds: [[-80.65, 36.35], [-77.15, 37.35]],
+        counties: ['Danville', 'Pittsylvania', 'Halifax', 'Mecklenburg', 'Brunswick', 'Lunenburg', 'Charlotte', 'Prince Edward', 'Nottoway', 'Martinsville', 'Henry', 'Patrick']
       },
       southwest: {
         label: 'Southwest Virginia',

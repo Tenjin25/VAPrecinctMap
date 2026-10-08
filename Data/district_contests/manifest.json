@@ -829,36 +829,6 @@
       "dem_total": 2417115,
       "rep_total": 2019911,
       "major_party_contested": true
-    },
-    {
-      "scope": "congressional",
-      "contest_type": "constitutional_amendment",
-      "year": 2026,
-      "file": "congressional_constitutional_amendment_2026.json",
-      "rows": 11,
-      "dem_total": 1604276,
-      "rep_total": 1499393,
-      "major_party_contested": true
-    },
-    {
-      "scope": "state_house",
-      "contest_type": "constitutional_amendment",
-      "year": 2026,
-      "file": "state_house_constitutional_amendment_2026.json",
-      "rows": 100,
-      "dem_total": 1604276,
-      "rep_total": 1499393,
-      "major_party_contested": true
-    },
-    {
-      "scope": "state_senate",
-      "contest_type": "constitutional_amendment",
-      "year": 2026,
-      "file": "state_senate_constitutional_amendment_2026.json",
-      "rows": 40,
-      "dem_total": 1604276,
-      "rep_total": 1499393,
-      "major_party_contested": true
     }
   ]
 }

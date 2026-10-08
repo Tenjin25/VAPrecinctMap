@@ -233,15 +233,6 @@
       "dem_total": 1804940,
       "rep_total": 1577843,
       "major_party_contested": true
-    },
-    {
-      "contest_type": "constitutional_amendment",
-      "year": 2026,
-      "file": "constitutional_amendment_2026.json",
-      "rows": 133,
-      "dem_total": 1604276,
-      "rep_total": 1499393,
-      "major_party_contested": true
     }
   ]
 }

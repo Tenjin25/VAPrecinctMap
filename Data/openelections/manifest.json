@@ -119,11 +119,6 @@
       "input_file": "Virginia_Elections_Database__2024_U_S_Senate_General_Election_including_precincts.csv",
       "output_file": "Data/openelections/2024/20241105__va__general__precinct__u_s_senate.csv",
       "rows": 7456
-    },
-    {
-      "input_file": "Election Results_cafbef5b-ca58-468a-9604-45d8f695b35d.csv",
-      "output_file": "Data/openelections/2026/20260421__va__general__precinct__multi_office__cafbef5b_ca58_468a_9604_45d8f695b35d.csv",
-      "rows": 5164
     }
   ]
 }

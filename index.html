@@ -10755,8 +10755,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-07-district-labels-v9';
-    const APP_BUILD_ID = '2026-10-07-district-labels-v9';
+    const DATA_CACHE_BUSTER = '2026-10-17-candidate-name-normalization-v2';
+    const APP_BUILD_ID = '2026-10-17-candidate-name-normalization-v2';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -21267,11 +21267,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const aliasMap = {
         'ABIGAIL ANNE DAVIS SPANBERGER': 'Abigail D. Spanberger',
         'ABIGAIL D SPANBERGER': 'Abigail D. Spanberger',
+        'BEN L CLINE': 'Ben Cline',
+        'BENJAMIN LEE CLINE': 'Ben Cline',
         'CHARLENA JONES': 'Charlena Jones',
         'CHARNIELE L HERRING': 'Charniele L. Herring',
         'COREY ALAN STEWART': 'Corey A. Stewart',
         'DANIEL MAC ARTHUR GADE': 'Daniel Gade',
         'DANIEL M GADE': 'Daniel Gade',
+        'DONALD S BEYER JR': 'Don Beyer',
+        'DONALD STERNOFF BEYER JR': 'Don Beyer',
         'EARL WALKER JACKSON': 'E.W. Jackson',
         'EARL WALKER JACKSON SR': 'E.W. Jackson',
         'EARL W JACKSON': 'E.W. Jackson',
@@ -21280,6 +21284,10 @@ document.addEventListener('DOMContentLoaded', function() {
         'E W JACKSON SR': 'E.W. Jackson',
         'EW JACKSON': 'E.W. Jackson',
         'EW JACKSON SR': 'E.W. Jackson',
+        'EDWARD WALTER GILLESPIE': 'Ed Gillespie',
+        'GEORGE FELIX ALLEN': 'George Allen',
+        'GERALD E "GERRY" CONNOLLY': 'Gerry Connolly',
+        'GERALD EDWARD CONNOLLY': 'Gerry Connolly',
         'GLENN ALLEN YOUNGKIN': 'Glenn A. Youngkin',
         'HERBERT CARROLL JONES JR': 'Herb Jones',
         'WINSOME EARLE SEARS': 'Winsome Earle-Sears',
@@ -21287,6 +21295,8 @@ document.addEventListener('DOMContentLoaded', function() {
         'JASON S MIYARES': 'Jason S. Miyares',
         'JASON STUART REDDING MIYARES': 'Jason S. Miyares',
         'JAY C JONES': 'Jay C. Jones',
+        'JEN A KIGGANS': 'Jen Kiggans',
+        'JENNIFER ANN KIGGANS': 'Jen Kiggans',
         'JILL E STEIN': 'Jill E. Stein',
         'JOHN MCCAIN': 'John McCain',
         'JOSEPH ROBINETTE BIDEN': 'Joseph R. Biden',
@@ -21296,15 +21306,30 @@ document.addEventListener('DOMContentLoaded', function() {
         'KENNETH THOMAS CUCCINELLI': 'Ken T. Cuccinelli',
         'KENNETH THOMAS CUCCINELLI II': 'Ken T. Cuccinelli, II',
         'KIMBERLY POPE ADAMS': 'Kimberly Pope Adams',
+        'IAN T LOVEJOY': 'Ian T. Lovejoy',
+        'IAN TRAVIS LOVEJOY': 'Ian T. Lovejoy',
+        'JOSH E THOMAS': 'Josh Thomas',
+        'JOSHUA E THOMAS': 'Josh Thomas',
         'MARK D OBENSHAIN': 'Mark D. Obenshain',
         'MARK DUDLEY OBENSHAIN': 'Mark D. Obenshain',
         'MARK L EARLEY': 'Mark L. Earley',
         'MARK L EARLEY JR': 'Mark L. Earley, Jr.',
         'MARK RANKIN HERRING': 'Mark R. Herring',
+        'MARK R WARNER': 'Mark R. Warner',
+        'MARK ROBERT WARNER': 'Mark R. Warner',
+        'MICHAEL A CHERRY': 'Mike A. Cherry',
+        'MIKE A CHERRY': 'Mike A. Cherry',
         'MICHAEL J JONES': 'Michael J. Jones',
         'JAY C JONES JR': 'Jay C. Jones, Jr.',
         'SAUNDRA T DAVIS': 'Saundra T. Davis',
         'SEAN C STEINWAY': 'Sean C. Steinway',
+        'R CREIGH DEEDS': 'R. Creigh Deeds',
+        'ROBERT CREIGH DEEDS': 'R. Creigh Deeds',
+        'ROBERT C "BOBBY" SCOTT': 'Bobby Scott',
+        'ROBERT CORTEZ SCOTT': 'Bobby Scott',
+        'ROBERT F MCDONNELL': 'Bob McDonnell',
+        'ROBERT J WITTMAN': 'Rob Wittman',
+        'ROBERT JOSEPH WITTMAN': 'Rob Wittman',
         'TERANCE R MCAULIFFE': 'Terry R. McAuliffe',
         'TERANCE RICHARD MCAULIFFE': 'Terry R. McAuliffe',
         'TERENCE R MCAULIFFE': 'Terry R. McAuliffe',
@@ -21313,7 +21338,12 @@ document.addEventListener('DOMContentLoaded', function() {
         'TERRANCE RICHARD MCAULIFFE': 'Terry R. McAuliffe',
         'TERRY MCAULIFFE': 'Terry R. McAuliffe',
         'TERRY R MCAULIFFE': 'Terry R. McAuliffe',
-        'WILLIAM P DAVIS': 'William P. Davis',
+        'TIM KAINE': 'Tim Kaine',
+        'TIMOTHY KAINE': 'Tim Kaine',
+        'TIMOTHY M KAINE': 'Tim Kaine',
+        'TIMOTHY MICHAEL KAINE': 'Tim Kaine',
+        'WILLIAM BILL T BOLLING': 'Bill Bolling',
+        'WILLIAM P DAVIS': 'Will P. Davis',
         'WILL P DAVIS': 'Will P. Davis',
         'JAMES JIM S GILMORE III': 'Jim S. Gilmore, III',
         'JAMES JIM S GILMORE': 'Jim S. Gilmore'
@@ -21364,6 +21394,19 @@ document.addEventListener('DOMContentLoaded', function() {
       // A compact winner label may already be just a surname. Do not run it
       // through the first-name/last-name assembly, which would duplicate it.
       if (parts.length === 1) return appendSuffixText(toTitleCaseName(parts[0]));
+
+      // Prefer an explicitly supplied public nickname over a formal given name.
+      // This covers ballot forms such as William J. "Bill" Moher III and
+      // Robert C. "Bobby" Scott without requiring a one-off alias for each.
+      const quotedNicknameMatch = cleaned.match(/["“]([^"”]+)["”]/);
+      if (quotedNicknameMatch && quotedNicknameMatch[1]) {
+        const nicknameRaw = quotedNicknameMatch[1].trim();
+        const nickname = /^(?:[A-Za-z]\.){2,}$/.test(nicknameRaw)
+          ? nicknameRaw.toUpperCase()
+          : toTitleCaseName(nicknameRaw);
+        const surname = toTitleCaseName((parts[parts.length - 1] || '').replace(/["“”]/g, ''));
+        if (nickname && surname) return appendSuffixText(`${nickname} ${surname}`);
+      }
 
       // Preserve public legislative names that start with an initial followed by
       // the actual given/public name, such as "R. Lee Ware" or "C. Todd Gilbert".

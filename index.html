@@ -31797,7 +31797,12 @@ document.addEventListener('DOMContentLoaded', function() {
       counties
         .filter(county => county.toLowerCase().includes(raw.toLowerCase()))
         .slice(0, parsed.kind === 'county' ? 8 : 5)
-        .forEach(county => addSuggestion(county, county, 'county', 'County'));
+        .forEach(county => addSuggestion(
+          county,
+          county,
+          'county',
+          /^city of\s+/i.test(county) ? 'Independent City' : 'County'
+        ));
 
       if (!suggestions.length && raw.length >= 2) {
         addSuggestion(raw, raw, 'query', 'Search');
@@ -31835,7 +31840,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
       hideAllSearchDropdowns();
       suppressHoverRefresh(1400, { clearPointer: true });
-      await handleSearchSelection(query);
+      const selectionCompleted = await handleSearchSelection(query);
+      if (selectionCompleted === false) return;
       try {
         if (typeof window.collapseMobileTopbar === 'function') {
           window.collapseMobileTopbar();
@@ -31992,8 +31998,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const counties = countiesGeoJSON && countiesGeoJSON.features
         ? countiesGeoJSON.features.map(f => {
             const p = f.properties || {};
-            return p.NAME20 || p.County || p.COUNTYNAME || p.NAME || '';
-          }).filter(Boolean).sort()
+            const rawName = p.NAMELSAD20 || p.NameLSAD20 || p.NAMELSAD || p.NameLSAD
+              || p.NAME20 || p.County || p.COUNTYNAME || p.NAME || '';
+            return rawName ? displayCountyName(rawName) : '';
+          }).filter(Boolean).sort((a, b) => a.localeCompare(b))
         : [];
 
       if (counties.length > 0) {
@@ -32064,7 +32072,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (currentView === 'districts' || currentView === 'state_house' || currentView === 'state_senate') {
         await setMapView('counties');
       }
-      handleCountySelection(query);
+      return handleCountySelection(query);
     }
 
     async function ensureSearchGeoJSON(sourceId, fallbackPath) {
@@ -32234,27 +32242,65 @@ document.addEventListener('DOMContentLoaded', function() {
           return (name || '').toString().replace(/[^a-z0-9 ]/gi, '').replace(/\s+/g, ' ').trim().toUpperCase();
         }
         const normTarget = normalize(countyName);
-        let found = false;
-        // First try exact match
-        src.features.forEach(f => {
-          const props = f.properties || {};
-          const rawName = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name || '';
-          const n = normalize(rawName);
-          if (n === normTarget) {
-            found = f;
-          }
+        const hasExplicitLocalityType = /^(?:CITY OF\s+)|\b(?:CITY|COUNTY)\b/i.test((countyName || '').toString().trim());
+        const canonicalTarget = hasExplicitLocalityType
+          ? canonicalizeVirginiaLocalityKey(countyName)
+          : '';
+        const featureSearchMeta = src.features.map(feature => {
+          const props = feature.properties || {};
+          const rawName = props.NAMELSAD20 || props.NameLSAD20 || props.NAMELSAD || props.NameLSAD
+            || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name || '';
+          const canonical = canonicalizeVirginiaLocalityKey(rawName);
+          return {
+            feature,
+            rawName,
+            canonical,
+            base: normalize(localityBaseName(canonical)),
+            display: displayCountyName(canonical)
+          };
         });
-        // If no exact match, try containment (user types 'Jackson' vs 'Jackson County')
-        if (!found) {
-          src.features.forEach(f => {
-            const props = f.properties || {};
-            const rawName = props.NAMELSAD20 || props.NAME20 || props.county_name || props.County || props.COUNTYNAME || props.NAME || props.name || '';
-            const n = normalize(rawName);
-            if (n.indexOf(normTarget) !== -1 || normTarget.indexOf(n) !== -1) {
-              if (!found) found = f; // pick first sensible hit
-            }
+
+        let matches = [];
+        if (hasExplicitLocalityType && canonicalTarget) {
+          matches = featureSearchMeta.filter(item => item.canonical === canonicalTarget);
+        } else {
+          // A bare base name such as "Franklin" may identify both a county and an
+          // independent city. Preserve every exact base-name match so the user can choose.
+          matches = featureSearchMeta.filter(item => item.base === normTarget);
+        }
+
+        // Retain convenient partial-name search only when it resolves uniquely.
+        if (!matches.length) {
+          matches = featureSearchMeta.filter(item => {
+            const displayNorm = normalize(item.display);
+            const canonicalNorm = normalize(item.canonical);
+            return displayNorm.includes(normTarget)
+              || canonicalNorm.includes(normTarget)
+              || normTarget.includes(displayNorm)
+              || normTarget.includes(canonicalNorm);
           });
         }
+
+        if (matches.length > 1) {
+          const choices = matches
+            .sort((a, b) => a.display.localeCompare(b.display))
+            .map(item => ({
+              label: item.display,
+              value: item.display,
+              tone: 'county',
+              meta: localityNoun(item.canonical) === 'city' ? 'Independent City' : 'County'
+            }));
+          const ownerInput = getFlySearchInputs().find(input => input === document.activeElement)
+            || getFlySearchInputs()[0];
+          if (ownerInput) {
+            renderSearchDropdown(ensureSearchDropdown(ownerInput), choices, ownerInput);
+          }
+          setFlySearchFeedback('#f59e0b');
+          setStatus(`"${countyName}" matches more than one Virginia locality. Choose a county or independent city.`);
+          return false;
+        }
+
+        const found = matches.length === 1 ? matches[0].feature : false;
 
         if (found) {
           const props = found.properties || {};
@@ -32266,12 +32312,15 @@ document.addEventListener('DOMContentLoaded', function() {
           map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], { padding: computeMapViewportPadding(28), duration: 1000 });
           showCountyDetails(lastSelectedCounty);
           try { settleMobilePanelsAfterMapAction(); } catch (_) {}
+          return true;
         } else {
           console.warn('[DIAGNOSTIC] County not found:', countyName, 'normalized:', normTarget);
           setFlySearchFeedback('#ef4444');
           setStatus(`County "${countyName}" was not found on the map.`);
+          return false;
         }
       }
+      return false;
     }
 
     function getHistoricalTrends(countyName, isDistrict = false, districtNum = null) {

@@ -4,7 +4,15 @@ An interactive, browser-based choropleth map of Virginia election results at the
 
 ---
 
-## Latest Update (May 12, 2026)
+## Latest Update (October 18, 2026)
+
+- Made Fly-to locality search collision-safe for Virginia county/independent-city pairs.
+- Bare searches for `Fairfax`, `Franklin`, `Richmond`, or `Roanoke` now present both matching localities instead of selecting the first geographic feature.
+- Qualified forms such as `Franklin County`, `City of Franklin`, and `Franklin City` resolve directly through the canonical locality key.
+- Search suggestions now use full Census locality labels and distinguish counties from independent cities.
+- Refreshed the application and data cache token for the locality-search release.
+
+### Previous update (May 12, 2026)
 
 - Added compact VoteHub-style hover cards for:
   - Precinct mode

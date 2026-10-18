@@ -1,5 +1,14 @@
 # Change history
 
+## 2026-10-18
+
+- Prevent bare locality searches from silently selecting the first matching Virginia geography when a county and independent city share a base name.
+- Show explicit county and independent-city choices for the four Census-name collisions: Fairfax, Franklin, Richmond, and Roanoke.
+- Match qualified searches such as `Richmond County`, `City of Richmond`, and `Richmond City` directly to their canonical geography.
+- Build Fly-to suggestions from full Census locality labels instead of ambiguous base names and identify independent cities in suggestion metadata.
+- Keep the mobile search sheet open while the user resolves an ambiguous locality.
+- Refresh the application and data cache token to `2026-10-18-locality-search-disambiguation-v1`.
+
 ## 2026-10-07
 
 - Add the 2026 constitutional-amendment contest with VAP-weighted county, congressional, House of Delegates, and state Senate results.

@@ -9575,6 +9575,7 @@ body.ballot-measure-mode .vote-share-fill.rep { background: linear-gradient(90de
     box-shadow: 0 10px 24px rgba(6, 31, 63, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
   }
 
+  .controls-title-pill::before,
   .controls-collapsed-label::before {
     background: linear-gradient(135deg, var(--virginia-gold-soft) 0%, var(--virginia-gold) 100%) !important;
     box-shadow: 0 0 0 4px rgba(199, 154, 59, 0.18) !important;
@@ -10755,8 +10756,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-23-independent-city-copy-v2';
-    const APP_BUILD_ID = '2026-10-23-independent-city-copy-v2';
+    const DATA_CACHE_BUSTER = '2026-10-23-expanded-title-dot-v3';
+    const APP_BUILD_ID = '2026-10-23-expanded-title-dot-v3';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();

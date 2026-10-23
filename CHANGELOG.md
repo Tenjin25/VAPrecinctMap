@@ -2,8 +2,9 @@
 
 ## 2026-10-23
 
+- Match the expanded **The Commonwealth Explorer** title dot to the minimized title pill's gold marker.
 - Explicitly include Virginia independent cities in the Fly-to headline, accessible search label, and control-panel guidance.
-- Refresh the application and data cache token to `2026-10-23-independent-city-copy-v2`.
+- Refresh the application and data cache token to `2026-10-23-expanded-title-dot-v3`.
 - Move **The Commonwealth Explorer** into the control panel's primary title pill, matching the NCPrecinctMap control hierarchy.
 - Use the search panel headline for its action—flying to a county, independent city, district, or precinct—and keep the project title visible in the collapsed controls state.
 - Retry JSON and CSV requests after transient network failures, rate limits, and HTTP `5xx` responses before failing application startup.

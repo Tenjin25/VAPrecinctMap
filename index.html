@@ -10756,8 +10756,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-23-expanded-title-dot-v3';
-    const APP_BUILD_ID = '2026-10-23-expanded-title-dot-v3';
+    const DATA_CACHE_BUSTER = '2026-10-23-precinct-cvap-loader-v4';
+    const APP_BUILD_ID = '2026-10-23-precinct-cvap-loader-v4';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -10806,8 +10806,10 @@ document.addEventListener('DOMContentLoaded', function() {
         state_senate_2022: withBase('./Data/tl_2022_51_sldu.geojson'),
         county_demographics: withBase('./Data/cvap_aggregates/county_2020__demographics_cvap24.json'),
         county_population_estimates: withBase('./Data/county_population_estimates_2025.csv'),
+        precinct_demographics: withBase('./Data/cvap_aggregates/precinct_2020__cvap24.csv'),
         cvap_aggregates: {
           county_2020: withBase('./Data/cvap_aggregates/county_2020__cvap24.csv'),
+          precinct_2020: withBase('./Data/cvap_aggregates/precinct_2020__cvap24.csv'),
           cd118_2022: withBase('./Data/cvap_aggregates/cd118_2022_lines__cvap24.csv'),
           state_house_2022: withBase('./Data/cvap_aggregates/state_house_2022_lines__cvap24.csv'),
           state_senate_2022: withBase('./Data/cvap_aggregates/state_senate_2022_lines__cvap24.csv'),
@@ -16148,17 +16150,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function fetchWithTransientRetry(path, options = {}, maxAttempts = 3) {
+      const requestTarget = (path ?? '').toString().trim();
+      if (!requestTarget) throw new Error('Fetch path is required.');
       const attempts = Math.max(1, Number(maxAttempts) || 1);
       let lastError = null;
       for (let attempt = 0; attempt < attempts; attempt++) {
         try {
-          const response = await fetch(path, {
+          const response = await fetch(requestTarget, {
             ...options,
             cache: attempt === 0 ? (options.cache || 'force-cache') : 'reload'
           });
           if (response.ok) return response;
 
-          const error = new Error(`${path} fetch failed: ${response.status}`);
+          const error = new Error(`${requestTarget} fetch failed: ${response.status}`);
           error.status = response.status;
           if (!isTransientFetchStatus(response.status) || attempt === attempts - 1) throw error;
           lastError = error;
@@ -16172,7 +16176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const delayMs = attempt === 0 ? 350 : 900;
         await new Promise(resolve => setTimeout(resolve, delayMs));
       }
-      throw lastError || new Error(`${path} fetch failed`);
+      throw lastError || new Error(`${requestTarget} fetch failed`);
     }
 
     async function loadJSON(path) {
@@ -21764,7 +21768,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function buildPrecinctDemographicsHoverHTML(demo, precinctNormRaw = '') {
       if (!demo) return '';
       const vap = numericOrZero(demo.vap_18plus);
-      const cvap = precinctNormRaw ? getCvapPrecinctTotal(precinctNormRaw) : null;
+      const embeddedCvap = demo.demographic_basis === 'cvap' ? numericOrNull(demo.vap_18plus) : null;
+      const loadedCvap = precinctNormRaw ? getCvapPrecinctTotal(precinctNormRaw) : null;
+      const cvap = Number.isFinite(Number(loadedCvap)) ? Number(loadedCvap) : embeddedCvap;
       const metricValue = Number.isFinite(Number(cvap)) ? Number(cvap) : vap;
       const metricLabel = Number.isFinite(Number(cvap)) ? 'CVAP (18+):' : 'VAP (18+):';
       const races = buildRaceChipRowHTML(
@@ -21798,14 +21804,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const codeNorm = (codeRaw || '').toString().trim().toUpperCase();
         if (!countyNorm || !codeNorm) return;
 
-        const vap = numericOrZero(rawRow.vap_18plus);
-        const whiteVotes = numericOrZero(rawRow.white_vap);
-        const blackVotes = numericOrZero(rawRow.black_vap);
-        const nativeVotes = numericOrNull(rawRow.native_vap);
-        const asianVotes = numericOrNull(rawRow.asian_vap);
-        const pacificVotes = numericOrNull(rawRow.pacific_vap);
-        const multiracialVotes = numericOrNull(rawRow.multiracial_vap);
-        const hispanicVotes = numericOrNull(rawRow.hispanic_vap);
+        const cvapTotal = numericOrNull(rawRow.CVAP_TOT24 ?? rawRow.cvap_total_24);
+        const usesCvap = cvapTotal !== null;
+        const vap = usesCvap ? cvapTotal : numericOrZero(rawRow.vap_18plus);
+        const whiteVotes = numericOrZero(usesCvap ? rawRow.CVAP_WHT24 : rawRow.white_vap);
+        const blackVotes = numericOrZero(usesCvap ? rawRow.CVAP_BLA24 : rawRow.black_vap);
+        const nativeVotes = numericOrNull(usesCvap ? rawRow.CVAP_AMI24 : rawRow.native_vap);
+        const asianVotes = numericOrNull(usesCvap ? rawRow.CVAP_ASI24 : rawRow.asian_vap);
+        const pacificVotes = numericOrNull(usesCvap ? rawRow.CVAP_NHP24 : rawRow.pacific_vap);
+        const multiracialVotes = numericOrNull(usesCvap ? rawRow.CVAP_2OM24 : rawRow.multiracial_vap);
+        const hispanicVotes = numericOrNull(usesCvap ? rawRow.CVAP_HSP24 : rawRow.hispanic_vap);
 
         const whitePctRaw = numericOrNull(rawRow.white_vap_pct);
         const blackPctRaw = numericOrNull(rawRow.black_vap_pct);
@@ -21836,6 +21844,7 @@ document.addEventListener('DOMContentLoaded', function() {
           precinct_id: `${countyNorm} - ${codeNorm}`,
           county_norm: countyNorm,
           precinct_code: codeNorm,
+          demographic_basis: usesCvap ? 'cvap' : 'vap',
           vap_18plus: vap,
           white_vap: whiteVotes,
           black_vap: blackVotes,

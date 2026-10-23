@@ -2,6 +2,9 @@
 
 ## 2026-10-23
 
+- Wire the precinct-level 2020–2024 ACS CVAP aggregate into demographics shading and precinct hover totals.
+- Reject empty fetch paths instead of accidentally downloading and parsing `index.html` as CSV.
+- Add the validated 2,465-row precinct CVAP deployment artifact and refresh the cache token to `2026-10-23-precinct-cvap-loader-v4`.
 - Match the expanded **The Commonwealth Explorer** title dot to the minimized title pill's gold marker.
 - Explicitly include Virginia independent cities in the Fly-to headline, accessible search label, and control-panel guidance.
 - Refresh the application and data cache token to `2026-10-23-expanded-title-dot-v3`.

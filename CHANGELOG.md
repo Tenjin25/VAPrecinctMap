@@ -2,6 +2,9 @@
 
 ## 2026-10-23
 
+- Move **The Commonwealth Explorer** into the control panel's primary title pill, matching the NCPrecinctMap control hierarchy.
+- Use the search panel headline for its action—flying to a county, district, or precinct—and keep the project title visible in the collapsed controls state.
+- Refresh the application and data cache token to `2026-10-23-control-panel-title-v1`.
 - Retry JSON and CSV requests after transient network failures, rate limits, and HTTP `5xx` responses before failing application startup.
 - Use a cache reload for retry attempts so an initial service error cannot strand the current page load.
 - Remove the stale North Carolina county-geometry fallback from Virginia startup and search initialization.

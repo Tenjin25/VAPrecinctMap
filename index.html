@@ -10154,12 +10154,12 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="map-topbar-meta">
       <div class="map-topbar-badge"><span class="badge-state-name">Virginia</span> <span class="badge-atlas-name">Atlas</span></div>
       <div class="map-topbar-copy">
-        <strong>Fly to a county, district, or precinct</strong>
+        <strong>Fly to a county, independent city, district, or precinct</strong>
         <span>Try Fairfax County, CD 2, HD 57, SD 31, or City of Lynchburg 101.</span>
       </div>
     </div>
     <form class="fly-search-bar" id="fly-search-form" role="search">
-      <label class="sr-only" for="county-search">Fly to county, district, or precinct</label>
+      <label class="sr-only" for="county-search">Fly to county, independent city, district, or precinct</label>
       <div class="fly-search-field">
         <span class="fly-search-icon" aria-hidden="true">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -10213,7 +10213,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <h4 id="county-name">Select a Locality</h4>
       <div class="focus-subhead" id="county-subhead" aria-live="polite"></div>
       <div id="county-info-content">
-        Pick a contest, then click a county or district for an instant summary. Open "Vote details" or "History" for deeper context.
+        Pick a contest, then click a county, independent city, or district for an instant summary. Open "Vote details" or "History" for deeper context.
       </div>
     </div>
     <div class="statewide-results" id="statewide-results" style="margin-top: 10px;">
@@ -10312,7 +10312,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   </details>
                 </div>
                 <div class="controls-panel-note">
-                  Start here: pick a contest, then click a county or district for the full story. Shortcuts: `P` precincts, `L` basemap, `C` copy link.
+                  Start here: pick a contest, then click a county, independent city, or district for the full story. Shortcuts: `P` precincts, `L` basemap, `C` copy link.
                 </div>
             </div>
             <div class="control-summary" id="control-summary">
@@ -10755,8 +10755,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-23-control-panel-title-v1';
-    const APP_BUILD_ID = '2026-10-23-control-panel-title-v1';
+    const DATA_CACHE_BUSTER = '2026-10-23-independent-city-copy-v2';
+    const APP_BUILD_ID = '2026-10-23-independent-city-copy-v2';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();

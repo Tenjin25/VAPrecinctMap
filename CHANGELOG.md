@@ -1,5 +1,13 @@
 # Change history
 
+## 2026-10-23
+
+- Retry JSON and CSV requests after transient network failures, rate limits, and HTTP `5xx` responses before failing application startup.
+- Use a cache reload for retry attempts so an initial service error cannot strand the current page load.
+- Remove the stale North Carolina county-geometry fallback from Virginia startup and search initialization.
+- Surface a Virginia-specific loading error if the county geometry remains unavailable after all retry attempts.
+- Refresh the application and data cache token to `2026-10-23-transient-data-retry-v1`.
+
 ## 2026-10-18
 
 - Prevent bare locality searches from silently selecting the first matching Virginia geography when a county and independent city share a base name.

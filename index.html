@@ -10755,8 +10755,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-10-18-locality-search-disambiguation-v1';
-    const APP_BUILD_ID = '2026-10-18-locality-search-disambiguation-v1';
+    const DATA_CACHE_BUSTER = '2026-10-23-transient-data-retry-v1';
+    const APP_BUILD_ID = '2026-10-23-transient-data-retry-v1';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -16141,12 +16141,44 @@ document.addEventListener('DOMContentLoaded', function() {
       queueVoteBreakdownLayoutMeasure();
     });
 
+    function isTransientFetchStatus(status) {
+      const code = Number(status);
+      return code === 408 || code === 425 || code === 429 || (code >= 500 && code <= 504);
+    }
+
+    async function fetchWithTransientRetry(path, options = {}, maxAttempts = 3) {
+      const attempts = Math.max(1, Number(maxAttempts) || 1);
+      let lastError = null;
+      for (let attempt = 0; attempt < attempts; attempt++) {
+        try {
+          const response = await fetch(path, {
+            ...options,
+            cache: attempt === 0 ? (options.cache || 'force-cache') : 'reload'
+          });
+          if (response.ok) return response;
+
+          const error = new Error(`${path} fetch failed: ${response.status}`);
+          error.status = response.status;
+          if (!isTransientFetchStatus(response.status) || attempt === attempts - 1) throw error;
+          lastError = error;
+        } catch (error) {
+          const status = Number(error?.status);
+          const retryable = !status || isTransientFetchStatus(status);
+          if (!retryable || attempt === attempts - 1) throw error;
+          lastError = error;
+        }
+
+        const delayMs = attempt === 0 ? 350 : 900;
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+      }
+      throw lastError || new Error(`${path} fetch failed`);
+    }
+
     async function loadJSON(path) {
       const requestPath = withCacheBuster(path);
       if (jsonInflightByPath.has(requestPath)) return jsonInflightByPath.get(requestPath);
       const p = atlasPerf(`json:${requestPath}`, async () => {
-        const r = await fetch(requestPath, { cache: 'force-cache' });
-        if (!r.ok) throw new Error(`${requestPath} fetch failed: ${r.status}`);
+        const r = await fetchWithTransientRetry(requestPath, { cache: 'force-cache' });
         return r.json();
       });
       jsonInflightByPath.set(requestPath, p);
@@ -16161,8 +16193,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	      const requestPath = withCacheBuster(path);
 	      if (csvInflightByPath.has(requestPath)) return csvInflightByPath.get(requestPath);
 	      const p = atlasPerf(`csv:${requestPath}`, async () => {
-	        const r = await fetch(requestPath, { cache: 'force-cache' });
-	        if (!r.ok) throw new Error(`${requestPath} fetch failed: ${r.status}`);
+	        const r = await fetchWithTransientRetry(requestPath, { cache: 'force-cache' });
 	        return r.text();
 	      });
 	      csvInflightByPath.set(requestPath, p);
@@ -31980,12 +32011,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!countiesGeoJSON) {
         try {
           countiesGeoJSON = await loadJSON(CONFIG.paths.counties);
-        } catch (_) {
-          try {
-            countiesGeoJSON = await loadJSON(withBase('./data/tl_2020_37_county20.geojson'));
-          } catch (_) {
-            countiesGeoJSON = null;
-          }
+        } catch (err) {
+          console.warn('Virginia county search geometry failed to load:', err?.message || err);
+          countiesGeoJSON = null;
         }
         if (countiesGeoJSON && countiesGeoJSON.features) {
           window.countiesData = countiesGeoJSON;
@@ -33708,9 +33736,8 @@ document.addEventListener('DOMContentLoaded', function() {
           let counties = null;
           try {
             counties = await loadJSON(CONFIG.paths.counties);
-          } catch (_) {
-            // Fallback for alternate local layouts.
-            counties = await loadJSON(withBase('./data/tl_2020_37_county20.geojson'));
+          } catch (err) {
+            throw new Error(`Virginia county geometry could not be loaded after retries: ${err?.message || err}`);
           }
           map.addSource('counties', { type: 'geojson', data: counties });
           window.countiesData = counties;

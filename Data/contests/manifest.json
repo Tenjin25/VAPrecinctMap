@@ -100,6 +100,15 @@
       "major_party_contested": true
     },
     {
+      "contest_type": "us_senate",
+      "year": 2026,
+      "file": "us_senate_2026.json",
+      "rows": 133,
+      "dem_total": 1732418,
+      "rep_total": 1182840,
+      "major_party_contested": true
+    },
+    {
       "contest_type": "governor",
       "year": 2009,
       "file": "governor_2009.json",

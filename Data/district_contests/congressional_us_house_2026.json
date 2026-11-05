@@ -1,0 +1,152 @@
+{
+  "meta": {
+    "scope": "congressional",
+    "contest_type": "us_house",
+    "year": 2026,
+    "district_count": 11,
+    "input_votes": 2916057,
+    "matched_votes": 2916057,
+    "direct_matched_votes": 2916057,
+    "same_year_assignment_votes": 0,
+    "same_year_assignment_coverage_pct": 0.0,
+    "allocated_votes": 0,
+    "match_coverage_pct": 100.0,
+    "direct_match_coverage_pct": 100.0
+  },
+  "general": {
+    "results": {
+      "1": {
+        "dem_votes": 197107,
+        "rep_votes": 192716,
+        "other_votes": 0,
+        "total_votes": 389823,
+        "dem_candidate": "Shannon L. Taylor",
+        "rep_candidate": "Robert J. \"Rob\" Wittman",
+        "winner": "Democratic",
+        "margin": 4391,
+        "margin_pct": -1.126408652131865,
+        "color": "#c6dbef"
+      },
+      "2": {
+        "dem_votes": 154934,
+        "rep_votes": 136922,
+        "other_votes": 6866,
+        "total_votes": 298722,
+        "dem_candidate": "Elaine G. Luria",
+        "rep_candidate": "Jen A. Kiggans",
+        "winner": "Democratic",
+        "margin": 18012,
+        "margin_pct": -6.029686464338081,
+        "color": "#9ecae1"
+      },
+      "3": {
+        "dem_votes": 110278,
+        "rep_votes": 44803,
+        "other_votes": 5660,
+        "total_votes": 160741,
+        "dem_candidate": "Robert C. \"Bobby\" Scott",
+        "rep_candidate": "Edwin Rivera, Jr.",
+        "winner": "Democratic",
+        "margin": 65475,
+        "margin_pct": -40.73322923211875,
+        "color": "#08306b"
+      },
+      "4": {
+        "dem_votes": 187964,
+        "rep_votes": 75584,
+        "other_votes": 3784,
+        "total_votes": 267332,
+        "dem_candidate": "Jennifer L. McClellan",
+        "rep_candidate": "Robert P. \"Family Man\" Murray, Jr.",
+        "winner": "Democratic",
+        "margin": 112380,
+        "margin_pct": -42.03761614771146,
+        "color": "#08306b"
+      },
+      "5": {
+        "dem_votes": 120312,
+        "rep_votes": 151771,
+        "other_votes": 5072,
+        "total_votes": 277155,
+        "dem_candidate": "Tom S. P. Perriello",
+        "rep_candidate": "John J. McGuire III",
+        "winner": "Republican",
+        "margin": 31459,
+        "margin_pct": 11.350688243040898,
+        "color": "#ef3b2c"
+      },
+      "6": {
+        "dem_votes": 106484,
+        "rep_votes": 141209,
+        "other_votes": 0,
+        "total_votes": 247693,
+        "dem_candidate": "Beth A. Macy",
+        "rep_candidate": "Ben L. Cline",
+        "winner": "Republican",
+        "margin": 34725,
+        "margin_pct": 14.019370753311557,
+        "color": "#ef3b2c"
+      },
+      "7": {
+        "dem_votes": 113407,
+        "rep_votes": 91801,
+        "other_votes": 5558,
+        "total_votes": 210766,
+        "dem_candidate": "Eugene S. Vindman",
+        "rep_candidate": "Doug A. Ollivant",
+        "winner": "Democratic",
+        "margin": 21606,
+        "margin_pct": -10.251179032671304,
+        "color": "#6baed6"
+      },
+      "8": {
+        "dem_votes": 175593,
+        "rep_votes": 46994,
+        "other_votes": 5976,
+        "total_votes": 228563,
+        "dem_candidate": "Donald S. Beyer, Jr.",
+        "rep_candidate": "Tony A. Sabio",
+        "winner": "Democratic",
+        "margin": 128599,
+        "margin_pct": -56.26413724006073,
+        "color": "#08306b"
+      },
+      "9": {
+        "dem_votes": 82652,
+        "rep_votes": 162708,
+        "other_votes": 0,
+        "total_votes": 245360,
+        "dem_candidate": "Joy A. Powers",
+        "rep_candidate": "H. Morgan Griffith",
+        "winner": "Republican",
+        "margin": 80056,
+        "margin_pct": 32.62797522008478,
+        "color": "#a50f15"
+      },
+      "10": {
+        "dem_votes": 162630,
+        "rep_votes": 95648,
+        "other_votes": 5199,
+        "total_votes": 263477,
+        "dem_candidate": "Suhas Subramanyam",
+        "rep_candidate": "Dave T. Beckwith",
+        "winner": "Democratic",
+        "margin": 66982,
+        "margin_pct": -25.422332879150744,
+        "color": "#3182bd"
+      },
+      "11": {
+        "dem_votes": 242435,
+        "rep_votes": 80005,
+        "other_votes": 3985,
+        "total_votes": 326425,
+        "dem_candidate": "James R. Walkinshaw",
+        "rep_candidate": "Arthur G. Purves",
+        "winner": "Democratic",
+        "margin": 162430,
+        "margin_pct": -49.760281841158,
+        "color": "#08306b"
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "scope": "state_house",
+    "contest_type": "state_house",
+    "year": 2026,
+    "district_count": 1,
+    "input_votes": 14675,
+    "matched_votes": 14675,
+    "direct_matched_votes": 14675,
+    "same_year_assignment_votes": 0,
+    "same_year_assignment_coverage_pct": 0.0,
+    "allocated_votes": 0,
+    "match_coverage_pct": 100.0,
+    "direct_match_coverage_pct": 100.0
+  },
+  "general": {
+    "results": {
+      "20": {
+        "dem_votes": 10194,
+        "rep_votes": 4481,
+        "other_votes": 0,
+        "total_votes": 14675,
+        "dem_candidate": "Sonia Ruth Vasquez Luna",
+        "rep_candidate": "Nathaniel \"Nate\" Fritzen",
+        "winner": "Democratic",
+        "margin": 5713,
+        "margin_pct": -38.93015332197615,
+        "color": "#08519c"
+      }
+    }
+  }
+}

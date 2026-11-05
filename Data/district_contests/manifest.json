@@ -52,6 +52,16 @@
     },
     {
       "scope": "congressional",
+      "contest_type": "constitutional_amendment",
+      "year": 2026,
+      "file": "congressional_constitutional_amendment_2026.json",
+      "rows": 11,
+      "dem_total": 1604276,
+      "rep_total": 1499393,
+      "major_party_contested": true
+    },
+    {
+      "scope": "congressional",
       "contest_type": "governor",
       "year": 2009,
       "file": "congressional_governor_2009.json",
@@ -222,6 +232,16 @@
     },
     {
       "scope": "congressional",
+      "contest_type": "us_house",
+      "year": 2026,
+      "file": "congressional_us_house_2026.json",
+      "rows": 11,
+      "dem_total": 1653796,
+      "rep_total": 1220161,
+      "major_party_contested": true
+    },
+    {
+      "scope": "congressional",
       "contest_type": "us_senate",
       "year": 2008,
       "file": "congressional_us_senate_2008.json",
@@ -281,6 +301,16 @@
       "major_party_contested": true
     },
     {
+      "scope": "congressional",
+      "contest_type": "us_senate",
+      "year": 2026,
+      "file": "congressional_us_senate_2026.json",
+      "rows": 11,
+      "dem_total": 1732418,
+      "rep_total": 1182840,
+      "major_party_contested": true
+    },
+    {
       "scope": "state_house",
       "contest_type": "attorney_general",
       "year": 2009,
@@ -328,6 +358,16 @@
       "rows": 100,
       "dem_total": 1804940,
       "rep_total": 1577843,
+      "major_party_contested": true
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "constitutional_amendment",
+      "year": 2026,
+      "file": "state_house_constitutional_amendment_2026.json",
+      "rows": 100,
+      "dem_total": 1604276,
+      "rep_total": 1499393,
       "major_party_contested": true
     },
     {
@@ -502,6 +542,16 @@
     },
     {
       "scope": "state_house",
+      "contest_type": "state_house",
+      "year": 2026,
+      "file": "state_house_state_house_2026.json",
+      "rows": 1,
+      "dem_total": 10194,
+      "rep_total": 4481,
+      "major_party_contested": true
+    },
+    {
+      "scope": "state_house",
       "contest_type": "us_senate",
       "year": 2008,
       "file": "state_house_us_senate_2008.json",
@@ -561,6 +611,16 @@
       "major_party_contested": true
     },
     {
+      "scope": "state_house",
+      "contest_type": "us_senate",
+      "year": 2026,
+      "file": "state_house_us_senate_2026.json",
+      "rows": 100,
+      "dem_total": 1732418,
+      "rep_total": 1182840,
+      "major_party_contested": true
+    },
+    {
       "scope": "state_senate",
       "contest_type": "attorney_general",
       "year": 2009,
@@ -608,6 +668,16 @@
       "rows": 40,
       "dem_total": 1804940,
       "rep_total": 1577843,
+      "major_party_contested": true
+    },
+    {
+      "scope": "state_senate",
+      "contest_type": "constitutional_amendment",
+      "year": 2026,
+      "file": "state_senate_constitutional_amendment_2026.json",
+      "rows": 40,
+      "dem_total": 1604276,
+      "rep_total": 1499393,
       "major_party_contested": true
     },
     {
@@ -831,33 +901,13 @@
       "major_party_contested": true
     },
     {
-      "scope": "congressional",
-      "contest_type": "constitutional_amendment",
-      "year": 2026,
-      "file": "congressional_constitutional_amendment_2026.json",
-      "rows": 11,
-      "dem_total": 1604276,
-      "rep_total": 1499393,
-      "major_party_contested": true
-    },
-    {
-      "scope": "state_house",
-      "contest_type": "constitutional_amendment",
-      "year": 2026,
-      "file": "state_house_constitutional_amendment_2026.json",
-      "rows": 100,
-      "dem_total": 1604276,
-      "rep_total": 1499393,
-      "major_party_contested": true
-    },
-    {
       "scope": "state_senate",
-      "contest_type": "constitutional_amendment",
+      "contest_type": "us_senate",
       "year": 2026,
-      "file": "state_senate_constitutional_amendment_2026.json",
+      "file": "state_senate_us_senate_2026.json",
       "rows": 40,
-      "dem_total": 1604276,
-      "rep_total": 1499393,
+      "dem_total": 1732418,
+      "rep_total": 1182840,
       "major_party_contested": true
     }
   ]

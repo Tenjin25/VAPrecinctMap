@@ -1,5 +1,11 @@
 # Change history
 
+## 2026-11-05
+
+- Add unofficial 2026 U.S. Senate results by county, congressional district, House of Delegates district, and state Senate district.
+- Add unofficial 2026 U.S. House results for all eleven congressional districts and the House of Delegates District 20 special election.
+- Keep district result keys and manifest entries in numerical order and refresh the application/data cache token to `2026-11-05-unofficial-2026-results-v1`.
+
 ## 2026-10-23
 
 - Wire the precinct-level 2020–2024 ACS CVAP aggregate into demographics shading and precinct hover totals.

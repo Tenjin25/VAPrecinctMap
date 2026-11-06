@@ -26,7 +26,7 @@ def normalize_key(value: str) -> str:
 
 def normalize_openelections_locality(value: str, year: int | None = None) -> str:
     text = (value or "").strip()
-    if year == 2025:
+    if year in {2025, 2026}:
         text = text.replace("&", " AND ")
     return re.sub(r"\s+", " ", text).upper()
 
@@ -102,7 +102,7 @@ def classify_contest(office: str) -> str | None:
     norm = normalize_office(office)
     if norm == "PRESIDENT":
         return "president"
-    if norm in {"US SENATE", "U S SENATE"}:
+    if norm in {"US SENATE", "U S SENATE", "MEMBER UNITED STATES SENATE"}:
         return "us_senate"
     if norm == "GOVERNOR":
         return "governor"

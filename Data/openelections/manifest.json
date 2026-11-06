@@ -1,16 +1,6 @@
 {
   "files": [
     {
-      "input_file": "Election Results_9b503992-5765-47e2-989d-5ed01f31621e.csv",
-      "output_file": "Data/openelections/2025/20251104__va__general__precinct__multi_office__9b503992_5765_47e2_989d_5ed01f31621e.csv",
-      "rows": 27798
-    },
-    {
-      "input_file": "Election Results_a6f500ae-6aed-4237-b29a-8a94a22dfbbb.csv",
-      "output_file": "Data/openelections/2023/20231107__va__general__precinct__multi_office__a6f500ae_6aed_4237_b29a_8a94a22dfbbb.csv",
-      "rows": 42770
-    },
-    {
       "input_file": "Virginia_Elections_Database__2008_President_General_Election_including_precincts.csv",
       "output_file": "Data/openelections/2008/20081104__va__general__precinct__president.csv",
       "rows": 15073
@@ -111,6 +101,11 @@
       "rows": 7701
     },
     {
+      "input_file": "Election Results_a6f500ae-6aed-4237-b29a-8a94a22dfbbb.csv",
+      "output_file": "Data/openelections/2023/20231107__va__general__precinct__multi_office__a6f500ae_6aed_4237_b29a_8a94a22dfbbb.csv",
+      "rows": 42770
+    },
+    {
       "input_file": "Virginia_Elections_Database__2024_President_General_Election_including_precincts.csv",
       "output_file": "Data/openelections/2024/20241105__va__general__precinct__president.csv",
       "rows": 16840
@@ -121,9 +116,19 @@
       "rows": 7456
     },
     {
+      "input_file": "Election Results_9b503992-5765-47e2-989d-5ed01f31621e.csv",
+      "output_file": "Data/openelections/2025/20251104__va__general__precinct__multi_office__9b503992_5765_47e2_989d_5ed01f31621e.csv",
+      "rows": 27798
+    },
+    {
       "input_file": "Election Results_cafbef5b-ca58-468a-9604-45d8f695b35d.csv",
       "output_file": "Data/openelections/2026/20260421__va__general__precinct__multi_office__cafbef5b_ca58_468a_9604_45d8f695b35d.csv",
       "rows": 5164
+    },
+    {
+      "input_file": "export-2026-November-General.json",
+      "output_file": "Data/openelections/2026/20261103__va__general__precinct__multi_office__export_2026_november_general.csv",
+      "rows": 46450
     }
   ]
 }

@@ -5,6 +5,8 @@
 - Add unofficial 2026 U.S. Senate results by county, congressional district, House of Delegates district, and state Senate district.
 - Add unofficial 2026 U.S. House results for all eleven congressional districts and the House of Delegates District 20 special election.
 - Keep district result keys and manifest entries in numerical order and refresh the application/data cache token to `2026-11-05-unofficial-2026-results-v1`.
+- Refresh every 2026 statewide and congressional result except HD-20 from Virginia's 8:46 PM official media export, including write-ins.
+- Replace the voided April referendum layer with November Constitutional Amendment Questions 1, 2, and 3, rebuild DRA import CSVs, and bump the cache token to `2026-11-05-unofficial-2026-results-v2`.
 
 ## 2026-10-23
 

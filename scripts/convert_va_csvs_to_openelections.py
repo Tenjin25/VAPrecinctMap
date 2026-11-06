@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Convert Virginia election CSVs in ./Data to OpenElections-style precinct CSVs.
+Convert Virginia election exports in ./Data to OpenElections-style precinct CSVs.
 
 Supported input formats:
 1) Virginia_Elections_Database__<YEAR>_<OFFICE>_General_Election_including_precincts.csv
 2) Election Results_<GUID>.csv (Virginia Department of Elections export)
+3) export-<election>.json (Virginia Election Night Reporting media export)
 """
 
 from __future__ import annotations
@@ -12,6 +13,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -23,6 +25,7 @@ WIDE_PATTERN = re.compile(
     re.IGNORECASE,
 )
 LONG_PATTERN = re.compile(r"^Election Results_(?P<id>.+)\.csv$", re.IGNORECASE)
+MEDIA_EXPORT_PATTERN = re.compile(r"^export-(?P<election>.+)\.json$", re.IGNORECASE)
 
 YEAR_TO_GENERAL_DATE = {
     2008: "2008-11-04",
@@ -37,6 +40,7 @@ YEAR_TO_GENERAL_DATE = {
     2021: "2021-11-02",
     2024: "2024-11-05",
     2025: "2025-11-04",
+    2026: "2026-11-03",
 }
 
 OFFICE_TOKEN_TO_LABEL = {
@@ -162,7 +166,10 @@ def normalize_precinct(raw: str) -> str:
 
 def normalize_party(raw_party: str, candidate: str) -> str:
     party = clean_text(raw_party).upper()
-    if not party and clean_text(candidate).upper() == "ALL OTHERS":
+    candidate_key = clean_text(candidate).upper()
+    if candidate_key in {"WRITE-IN", "WRITE IN", "WRITE IN VOTES"}:
+        return "WRI"
+    if not party and candidate_key == "ALL OTHERS":
         return "OTH"
     if party in PARTY_MAP:
         return PARTY_MAP[party]
@@ -287,9 +294,13 @@ def convert_long_file(
     output_root: Path,
     locality_alias_map: dict[str, str],
 ) -> ConvertedFile:
-    with csv_path.open("r", encoding="utf-8-sig", newline="") as f:
-        reader = csv.DictReader(f)
-        rows = list(reader)
+    try:
+        with csv_path.open("r", encoding="utf-8-sig", newline="") as f:
+            rows = list(csv.DictReader(f))
+    except UnicodeDecodeError:
+        # Current VADOE exports may contain Windows-1252 candidate-name bytes.
+        with csv_path.open("r", encoding="cp1252", newline="") as f:
+            rows = list(csv.DictReader(f))
 
     rows_out: List[Dict[str, str]] = []
     election_date = ""
@@ -303,6 +314,8 @@ def convert_long_file(
         candidate = clean_text(row.get("CandidateName", ""))
         party = normalize_party(row.get("Party", ""), candidate)
         votes = parse_int(row.get("TOTAL_VOTES", ""))
+        if votes <= 0:
+            votes = parse_int(row.get("WriteInVote", ""))
         district = derive_district(row)
 
         if not election_date:
@@ -340,6 +353,101 @@ def convert_long_file(
     return ConvertedFile(csv_path.name, str(out_path), row_count)
 
 
+def convert_media_export_json(
+    json_path: Path,
+    output_root: Path,
+    locality_alias_map: dict[str, str],
+) -> ConvertedFile:
+    raw = json.loads(json_path.read_text(encoding="utf-8-sig"))
+    election_date = clean_text(str(raw.get("electionDate", "")))
+    if not election_date:
+        raise ValueError(f"Missing electionDate in {json_path.name}")
+
+    rows_out: List[Dict[str, str]] = []
+    offices: set[str] = set()
+    for locality in raw.get("localResults", []):
+        county = normalize_locality(str(locality.get("name", "")), locality_alias_map)
+        if not county:
+            continue
+        for contest in locality.get("ballotItems", []):
+            office = clean_text(str(contest.get("name", "")))
+            if not office:
+                continue
+            offices.add(office)
+            district_match = re.search(r"\((\d+)(?:st|nd|rd|th) District\)", office, re.IGNORECASE)
+            district = district_match.group(1) if district_match else ""
+            for option in contest.get("ballotOptions", []):
+                candidate = clean_text(str(option.get("name", "")))
+                party = normalize_party(str(option.get("politicalParty") or ""), candidate)
+                precinct_vote_sum = 0
+                for precinct_result in option.get("precinctResults") or []:
+                    precinct = normalize_precinct(str(precinct_result.get("name", "")))
+                    votes = parse_int(str(precinct_result.get("voteCount", 0)))
+                    if not precinct or not candidate or votes <= 0:
+                        continue
+                    precinct_vote_sum += votes
+                    rows_out.append({
+                        "county": county,
+                        "precinct": precinct,
+                        "office": office,
+                        "district": district,
+                        "party": party,
+                        "candidate": candidate,
+                        "votes": str(votes),
+                    })
+                # ENR's media export keeps some locality-wide early/absentee
+                # returns in the option total rather than in precinctResults.
+                # Preserve them as a non-geographic row so statewide totals are
+                # exact and downstream crosswalks can allocate within locality.
+                residual = parse_int(str(option.get("voteCount", 0))) - precinct_vote_sum
+                if residual > 0 and candidate:
+                    rows_out.append({
+                        "county": county,
+                        "precinct": "CENTRAL ABSENTEE",
+                        "office": office,
+                        "district": district,
+                        "party": party,
+                        "candidate": candidate,
+                        "votes": str(residual),
+                    })
+
+    # A handful of locality option totals can differ slightly from the
+    # statewide contest total during the unofficial canvass. Reconcile each
+    # option proportionally so the OpenElections file matches ENR's published
+    # statewide totals exactly while retaining precinct/locality distribution.
+    state_targets = {}
+    for contest in raw.get("results", {}).get("ballotItems", []):
+        office = clean_text(str(contest.get("name", "")))
+        for option in contest.get("ballotOptions", []):
+            candidate = clean_text(str(option.get("name", "")))
+            state_targets[(office, candidate)] = parse_int(str(option.get("voteCount", 0)))
+    grouped_indices: dict[tuple[str, str], list[int]] = {}
+    for index, row in enumerate(rows_out):
+        grouped_indices.setdefault((row["office"], row["candidate"]), []).append(index)
+    for key, target in state_targets.items():
+        indices = grouped_indices.get(key, [])
+        current = sum(parse_int(rows_out[index]["votes"]) for index in indices)
+        if not indices or current <= 0 or current == target:
+            continue
+        exact = [(index, target * parse_int(rows_out[index]["votes"]) / current) for index in indices]
+        allocated = {index: int(math.floor(value)) for index, value in exact}
+        remainder = target - sum(allocated.values())
+        for index, _ in sorted(exact, key=lambda item: (-(item[1] - math.floor(item[1])), item[0]))[:remainder]:
+            allocated[index] += 1
+        for index in indices:
+            rows_out[index]["votes"] = str(allocated[index])
+    rows_out = [row for row in rows_out if parse_int(row["votes"]) > 0]
+
+    year = int(election_date[:4])
+    date_token = format_date_for_filename(election_date)
+    office_slug = slugify(next(iter(offices))) if len(offices) == 1 else "multi_office"
+    source_slug = slugify(json_path.stem)
+    out_name = f"{date_token}__va__general__precinct__{office_slug}__{source_slug}.csv"
+    out_path = output_root / str(year) / out_name
+    row_count = write_open_elections_csv(out_path, rows_out)
+    return ConvertedFile(json_path.name, str(out_path), row_count)
+
+
 def convert_all(
     input_dir: Path,
     output_root: Path,
@@ -354,6 +462,9 @@ def convert_all(
         if LONG_PATTERN.match(name):
             converted.append(convert_long_file(csv_path, output_root, locality_alias_map))
             continue
+    for json_path in sorted(input_dir.glob("*.json")):
+        if MEDIA_EXPORT_PATTERN.match(json_path.name):
+            converted.append(convert_media_export_json(json_path, output_root, locality_alias_map))
     return converted
 
 
@@ -374,12 +485,36 @@ def save_manifest(output_root: Path, converted_files: Iterable[ConvertedFile]) -
     return manifest_path
 
 
+def upsert_manifest(output_root: Path, converted_files: Iterable[ConvertedFile]) -> Path:
+    manifest_path = output_root / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {"files": []}
+    converted = list(converted_files)
+    input_names = {item.input_file for item in converted}
+    files = [item for item in manifest.get("files", []) if item.get("input_file") not in input_names]
+    files.extend(
+        {
+            "input_file": item.input_file,
+            "output_file": item.output_file.replace("\\", "/"),
+            "rows": item.output_rows,
+        }
+        for item in converted
+    )
+    manifest["files"] = files
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    return manifest_path
+
+
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Convert VA election CSVs to OpenElections-style CSVs.")
+    parser = argparse.ArgumentParser(description="Convert VA election exports to OpenElections-style CSVs.")
     parser.add_argument(
         "--input-dir",
         default="Data",
         help="Directory containing source CSV files (default: Data).",
+    )
+    parser.add_argument(
+        "--input-file",
+        help="Convert one supported source CSV and upsert only its manifest entry.",
     )
     parser.add_argument(
         "--output-dir",
@@ -406,8 +541,22 @@ def main() -> int:
         raise FileNotFoundError(f"County GeoJSON not found: {county_geojson}")
 
     locality_alias_map = build_locality_alias_map(county_geojson)
-    converted = convert_all(input_dir, output_dir, locality_alias_map)
-    manifest_path = save_manifest(output_dir, converted)
+    if args.input_file:
+        input_file = Path(args.input_file)
+        if not input_file.exists():
+            raise FileNotFoundError(f"Input file not found: {input_file}")
+        if WIDE_PATTERN.match(input_file.name):
+            converted = [convert_wide_file(input_file, output_dir, locality_alias_map)]
+        elif LONG_PATTERN.match(input_file.name):
+            converted = [convert_long_file(input_file, output_dir, locality_alias_map)]
+        elif MEDIA_EXPORT_PATTERN.match(input_file.name):
+            converted = [convert_media_export_json(input_file, output_dir, locality_alias_map)]
+        else:
+            raise ValueError(f"Unsupported input filename: {input_file.name}")
+        manifest_path = upsert_manifest(output_dir, converted)
+    else:
+        converted = convert_all(input_dir, output_dir, locality_alias_map)
+        manifest_path = save_manifest(output_dir, converted)
 
     print(f"Converted {len(converted)} files into {output_dir}")
     total_rows = 0

@@ -1,6 +1,168 @@
 {
   "files": [
     {
+      "contest_type": "attorney_general",
+      "year": 2009,
+      "file": "attorney_general_2009.json",
+      "rows": 134,
+      "dem_total": 828687,
+      "rep_total": 1124137,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "attorney_general",
+      "year": 2013,
+      "file": "attorney_general_2013.json",
+      "rows": 133,
+      "dem_total": 1103777,
+      "rep_total": 1103612,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "attorney_general",
+      "year": 2017,
+      "file": "attorney_general_2017.json",
+      "rows": 133,
+      "dem_total": 1385390,
+      "rep_total": 1209540,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "attorney_general",
+      "year": 2021,
+      "file": "attorney_general_2021.json",
+      "rows": 133,
+      "dem_total": 1620564,
+      "rep_total": 1647100,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "attorney_general",
+      "year": 2025,
+      "file": "attorney_general_2025.json",
+      "rows": 133,
+      "dem_total": 1804940,
+      "rep_total": 1577843,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "constitutional_amendment_1",
+      "year": 2026,
+      "file": "constitutional_amendment_1_2026.json",
+      "rows": 133,
+      "dem_total": 2194631,
+      "rep_total": 1318460,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "constitutional_amendment_2",
+      "year": 2026,
+      "file": "constitutional_amendment_2_2026.json",
+      "rows": 133,
+      "dem_total": 2037967,
+      "rep_total": 1506935,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "constitutional_amendment_3",
+      "year": 2026,
+      "file": "constitutional_amendment_3_2026.json",
+      "rows": 133,
+      "dem_total": 2001152,
+      "rep_total": 1536994,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "governor",
+      "year": 2009,
+      "file": "governor_2009.json",
+      "rows": 134,
+      "dem_total": 818950,
+      "rep_total": 1163651,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "governor",
+      "year": 2013,
+      "file": "governor_2013.json",
+      "rows": 133,
+      "dem_total": 1069789,
+      "rep_total": 1013354,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "governor",
+      "year": 2017,
+      "file": "governor_2017.json",
+      "rows": 133,
+      "dem_total": 1408818,
+      "rep_total": 1175732,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "governor",
+      "year": 2021,
+      "file": "governor_2021.json",
+      "rows": 133,
+      "dem_total": 1599470,
+      "rep_total": 1663158,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "governor",
+      "year": 2025,
+      "file": "governor_2025.json",
+      "rows": 133,
+      "dem_total": 1976857,
+      "rep_total": 1449586,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "lieutenant_governor",
+      "year": 2009,
+      "file": "lieutenant_governor_2009.json",
+      "rows": 134,
+      "dem_total": 850111,
+      "rep_total": 1106793,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "lieutenant_governor",
+      "year": 2013,
+      "file": "lieutenant_governor_2013.json",
+      "rows": 133,
+      "dem_total": 1213155,
+      "rep_total": 980257,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "lieutenant_governor",
+      "year": 2017,
+      "file": "lieutenant_governor_2017.json",
+      "rows": 133,
+      "dem_total": 1368412,
+      "rep_total": 1224520,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "lieutenant_governor",
+      "year": 2021,
+      "file": "lieutenant_governor_2021.json",
+      "rows": 133,
+      "dem_total": 1608030,
+      "rep_total": 1658332,
+      "major_party_contested": true
+    },
+    {
+      "contest_type": "lieutenant_governor",
+      "year": 2025,
+      "file": "lieutenant_governor_2025.json",
+      "rows": 133,
+      "dem_total": 1900104,
+      "rep_total": 1505395,
+      "major_party_contested": true
+    },
+    {
       "contest_type": "president",
       "year": 2008,
       "file": "president_2008.json",
@@ -104,152 +266,8 @@
       "year": 2026,
       "file": "us_senate_2026.json",
       "rows": 133,
-      "dem_total": 1732418,
-      "rep_total": 1182840,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "governor",
-      "year": 2009,
-      "file": "governor_2009.json",
-      "rows": 134,
-      "dem_total": 818950,
-      "rep_total": 1163651,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "governor",
-      "year": 2013,
-      "file": "governor_2013.json",
-      "rows": 133,
-      "dem_total": 1069789,
-      "rep_total": 1013354,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "governor",
-      "year": 2017,
-      "file": "governor_2017.json",
-      "rows": 133,
-      "dem_total": 1408818,
-      "rep_total": 1175732,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "governor",
-      "year": 2021,
-      "file": "governor_2021.json",
-      "rows": 133,
-      "dem_total": 1599470,
-      "rep_total": 1663158,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "governor",
-      "year": 2025,
-      "file": "governor_2025.json",
-      "rows": 133,
-      "dem_total": 1976857,
-      "rep_total": 1449586,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "lieutenant_governor",
-      "year": 2009,
-      "file": "lieutenant_governor_2009.json",
-      "rows": 134,
-      "dem_total": 850111,
-      "rep_total": 1106793,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "lieutenant_governor",
-      "year": 2013,
-      "file": "lieutenant_governor_2013.json",
-      "rows": 133,
-      "dem_total": 1213155,
-      "rep_total": 980257,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "lieutenant_governor",
-      "year": 2017,
-      "file": "lieutenant_governor_2017.json",
-      "rows": 133,
-      "dem_total": 1368412,
-      "rep_total": 1224520,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "lieutenant_governor",
-      "year": 2021,
-      "file": "lieutenant_governor_2021.json",
-      "rows": 133,
-      "dem_total": 1608030,
-      "rep_total": 1658332,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "lieutenant_governor",
-      "year": 2025,
-      "file": "lieutenant_governor_2025.json",
-      "rows": 133,
-      "dem_total": 1900104,
-      "rep_total": 1505395,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "attorney_general",
-      "year": 2009,
-      "file": "attorney_general_2009.json",
-      "rows": 134,
-      "dem_total": 828687,
-      "rep_total": 1124137,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "attorney_general",
-      "year": 2013,
-      "file": "attorney_general_2013.json",
-      "rows": 133,
-      "dem_total": 1103777,
-      "rep_total": 1103612,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "attorney_general",
-      "year": 2017,
-      "file": "attorney_general_2017.json",
-      "rows": 133,
-      "dem_total": 1385390,
-      "rep_total": 1209540,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "attorney_general",
-      "year": 2021,
-      "file": "attorney_general_2021.json",
-      "rows": 133,
-      "dem_total": 1620564,
-      "rep_total": 1647100,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "attorney_general",
-      "year": 2025,
-      "file": "attorney_general_2025.json",
-      "rows": 133,
-      "dem_total": 1804940,
-      "rep_total": 1577843,
-      "major_party_contested": true
-    },
-    {
-      "contest_type": "constitutional_amendment",
-      "year": 2026,
-      "file": "constitutional_amendment_2026.json",
-      "rows": 133,
-      "dem_total": 1604276,
-      "rep_total": 1499393,
+      "dem_total": 2182958,
+      "rep_total": 1376709,
       "major_party_contested": true
     }
   ]

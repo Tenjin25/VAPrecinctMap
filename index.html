@@ -10756,8 +10756,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-11-05-unofficial-2026-results-v1';
-    const APP_BUILD_ID = '2026-11-05-unofficial-2026-results-v1';
+    const DATA_CACHE_BUSTER = '2026-11-05-unofficial-2026-results-v2';
+    const APP_BUILD_ID = '2026-11-05-unofficial-2026-results-v2';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -19954,6 +19954,11 @@ document.addEventListener('DOMContentLoaded', function() {
           'constitutional_amendment': 'Proposed Constitutional Amendment'
 	      };
 
+          if (contestType.startsWith('constitutional_amendment_')) {
+            const question = contestType.replace('constitutional_amendment_', '').replace(/^0+/, '');
+            return `Proposed Constitutional Amendment Question ${question}`;
+          }
+
 	      if (contestType.startsWith('a') && contestType.length <= 3) {
 	        return `Amendment ${contestType.substring(1).toUpperCase()}`;
 	      }
@@ -20279,6 +20284,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        if (contestType === 'insurance_commissioner') return 'Insurance Commissioner';
 	        if (contestType === 'agriculture_commissioner') return 'Agriculture Commissioner';
 	        if (contestType === 'superintendent') return 'Superintendent of Public Instruction';
+	        if (contestType.startsWith('constitutional_amendment_')) return 'Proposed Constitutional Amendments';
 	        if (contestType.startsWith('nc_supreme_court_')) return 'NC Supreme Court';
 	        if (contestType.startsWith('nc_court_of_appeals_')) return 'Court of Appeals';
 	        return formatContestName(contestType, '');
@@ -20462,6 +20468,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        if (contestType === 'insurance_commissioner') return 'Insurance Commissioner';
 	        if (contestType === 'agriculture_commissioner') return 'Agriculture Commissioner';
 	        if (contestType === 'superintendent') return 'Superintendent of Public Instruction';
+	        if (contestType.startsWith('constitutional_amendment_')) return 'Proposed Constitutional Amendments';
 	        return formatContestName(contestType, '');
 	      }
 
@@ -33889,7 +33896,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function isBallotMeasureContest(contestType) {
-      return String(contestType || '').trim().toLowerCase() === 'constitutional_amendment';
+      return String(contestType || '').trim().toLowerCase().startsWith('constitutional_amendment');
     }
 
     function colorForContestMarginMode(contestType, marginPctAbs, winner) {

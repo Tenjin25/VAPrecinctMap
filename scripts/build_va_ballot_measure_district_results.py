@@ -11,6 +11,7 @@ import argparse
 import csv
 import json
 import math
+import re
 import sys
 import zipfile
 from collections import defaultdict
@@ -251,16 +252,16 @@ def aggregate_scope(rows: list[dict], scope: str, mapping: dict, aliases: dict[s
     }
 
 
-def write_county_json(path: Path, county_totals: dict[str, dict[str, int]]) -> None:
+def write_county_json(path: Path, county_totals: dict[str, dict[str, int]], contest_type: str) -> None:
     rows = []
     for county in sorted(county_totals):
         totals = county_totals[county]
         rows.append({"locality": county, "county": county, **result_row(totals["yes"], totals["no"])})
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps({"year": 2026, "contest_type": "constitutional_amendment", "rows": rows}, indent=2), encoding="utf-8")
+    path.write_text(json.dumps({"year": 2026, "contest_type": contest_type, "rows": rows}, indent=2), encoding="utf-8")
 
 
-def write_district_output(output_dir: Path, scope: str, totals: dict, coverage: dict) -> Path:
+def write_district_output(output_dir: Path, scope: str, totals: dict, coverage: dict, contest_type: str) -> Path:
     def numeric_district_key(item):
         district = str(item[0])
         return (0, int(district)) if district.isdigit() else (1, district)
@@ -270,10 +271,10 @@ def write_district_output(output_dir: Path, scope: str, totals: dict, coverage: 
         for district, values in sorted(totals.items(), key=numeric_district_key)
     }
     payload = {
-        "meta": {"scope": scope, "contest_type": "constitutional_amendment", "year": 2026, "district_count": len(results), **coverage},
+        "meta": {"scope": scope, "contest_type": contest_type, "year": 2026, "district_count": len(results), **coverage},
         "general": {"results": results},
     }
-    json_path = output_dir / f"{scope}_constitutional_amendment_2026.json"
+    json_path = output_dir / f"{scope}_{contest_type}_2026.json"
     json_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     return json_path
 
@@ -282,6 +283,7 @@ def upsert_manifest(path: Path, entries: list[dict]) -> None:
     manifest = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"files": []}
     new_keys = {(entry.get("scope"), entry.get("contest_type"), int(entry.get("year", 0))) for entry in entries}
     kept = [entry for entry in manifest.get("files", []) if (entry.get("scope"), entry.get("contest_type"), int(entry.get("year", 0))) not in new_keys]
+    kept = [entry for entry in kept if not (entry.get("contest_type") == "constitutional_amendment" and int(entry.get("year", 0)) == 2026)]
     manifest["files"] = kept + entries
     path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
@@ -289,9 +291,9 @@ def upsert_manifest(path: Path, entries: list[dict]) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Aggregate a Virginia Yes/No ballot measure by current districts.")
     parser.add_argument("--input", type=Path, required=True, help="VADOE export or OpenElections-style precinct CSV")
-    parser.add_argument("--office", default="Proposed Constitutional Amendment")
+    parser.add_argument("--office", action="append", help="Exact ballot-measure office label; may be repeated")
     parser.add_argument("--openelections-output-dir", type=Path, default=ROOT / "Data/openelections")
-    parser.add_argument("--county-output", type=Path, default=ROOT / "Data/contests/constitutional_amendment_2026.json")
+    parser.add_argument("--county-output-dir", type=Path, default=ROOT / "Data/contests")
     parser.add_argument("--district-output-dir", type=Path, default=ROOT / "Data/district_contests")
     parser.add_argument("--current-precincts", type=Path, default=ROOT / "Data/va_precincts_current.geojson")
     parser.add_argument("--tabblocks", type=Path, default=ROOT / "Data/tl_2020_51_tabblock20.zip")
@@ -325,41 +327,52 @@ def main() -> int:
         args.block_population,
     )
     aliases = district_builder.build_locality_alias_map(county_geojson)
-    rows = load_measure_rows(oe_input, args.office)
-    county_totals = aggregate_counties(rows)
-    write_county_json(args.county_output, county_totals)
-
     args.district_output_dir.mkdir(parents=True, exist_ok=True)
     district_entries = []
-    outputs = [oe_input, args.county_output]
-    for scope in SCOPES:
-        totals, coverage = aggregate_scope(rows, scope, mappings[scope], aliases)
-        coverage["weighting"] = mappings[scope]["weighting"]
-        json_path = write_district_output(args.district_output_dir, scope, totals, coverage)
-        outputs.append(json_path)
-        yes_total = sum(values["yes"] for values in totals.values())
-        no_total = sum(values["no"] for values in totals.values())
-        district_entries.append({
-            "scope": scope,
-            "contest_type": "constitutional_amendment",
+    county_entries = []
+    outputs = [oe_input]
+    offices = args.office or [
+        "Proposed Constitutional Amendment Question 1",
+        "Proposed Constitutional Amendment Question 2",
+        "Proposed Constitutional Amendment Question 3",
+    ]
+    for office in offices:
+        question_match = re.search(r"Question\s+(\d+)$", office, re.IGNORECASE)
+        if not question_match:
+            raise ValueError(f"Cannot derive amendment question number from {office!r}")
+        contest_type = f"constitutional_amendment_{int(question_match.group(1))}"
+        rows = load_measure_rows(oe_input, office)
+        county_totals = aggregate_counties(rows)
+        county_output = args.county_output_dir / f"{contest_type}_2026.json"
+        write_county_json(county_output, county_totals, contest_type)
+        outputs.append(county_output)
+        county_entries.append({
+            "contest_type": contest_type,
             "year": 2026,
-            "file": json_path.name,
-            "rows": len(totals),
-            "dem_total": yes_total,
-            "rep_total": no_total,
+            "file": county_output.name,
+            "rows": len(county_totals),
+            "dem_total": sum(v["yes"] for v in county_totals.values()),
+            "rep_total": sum(v["no"] for v in county_totals.values()),
             "major_party_contested": True,
         })
+        for scope in SCOPES:
+            totals, coverage = aggregate_scope(rows, scope, mappings[scope], aliases)
+            coverage["weighting"] = mappings[scope]["weighting"]
+            json_path = write_district_output(args.district_output_dir, scope, totals, coverage, contest_type)
+            outputs.append(json_path)
+            district_entries.append({
+                "scope": scope,
+                "contest_type": contest_type,
+                "year": 2026,
+                "file": json_path.name,
+                "rows": len(totals),
+                "dem_total": sum(values["yes"] for values in totals.values()),
+                "rep_total": sum(values["no"] for values in totals.values()),
+                "major_party_contested": True,
+            })
 
     upsert_manifest(args.district_output_dir / "manifest.json", district_entries)
-    upsert_manifest(ROOT / "Data/contests/manifest.json", [{
-        "contest_type": "constitutional_amendment",
-        "year": 2026,
-        "file": args.county_output.name,
-        "rows": len(county_totals),
-        "dem_total": sum(v["yes"] for v in county_totals.values()),
-        "rep_total": sum(v["no"] for v in county_totals.values()),
-        "major_party_contested": True,
-    }])
+    upsert_manifest(ROOT / "Data/contests/manifest.json", county_entries)
 
     for output in outputs:
         print(output)

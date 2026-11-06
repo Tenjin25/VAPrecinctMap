@@ -27,7 +27,7 @@ except ImportError as exc:
 
 SCOPES = ("congressional", "state_house", "state_senate")
 STATEWIDE_CONTESTS = ("president", "us_senate", "governor", "lieutenant_governor", "attorney_general")
-DISTRICT_CONTESTS = ("state_house", "state_senate")
+DISTRICT_CONTESTS = ("us_house", "state_house", "state_senate")
 ALL_CONTESTS = set(STATEWIDE_CONTESTS) | set(DISTRICT_CONTESTS)
 # NCPrecinctMap precinct-candidate rule: redistribute each party's unmatched
 # votes using that party's geographic precinct distribution in the locality.
@@ -107,7 +107,7 @@ def classify_office(office: str, year: int) -> tuple[str, str, str | None] | Non
     raw_u = (office or "").upper()
     if norm == "PRESIDENT":
         return ("statewide", "president", None)
-    if norm in {"US SENATE", "U S SENATE"}:
+    if norm in {"US SENATE", "U S SENATE", "MEMBER UNITED STATES SENATE"}:
         return ("statewide", "us_senate", None)
     if norm == "GOVERNOR":
         return ("statewide", "governor", None)
@@ -116,12 +116,16 @@ def classify_office(office: str, year: int) -> tuple[str, str, str | None] | Non
     if norm == "ATTORNEY GENERAL":
         return ("statewide", "attorney_general", None)
 
+    m_us_house = re.search(r"MEMBER,\s*HOUSE OF REPRESENTATIVES\s*\((\d+)(?:ST|ND|RD|TH)\s+DISTRICT\)", raw_u)
+    if m_us_house:
+        return ("district", "us_house", str(int(m_us_house.group(1))))
+
     m_house = re.search(r"MEMBER,\s*HOUSE OF DELEGATES\s*\((\d+)(?:ST|ND|RD|TH)\s+DISTRICT\)", raw_u)
-    if m_house and year in {2023, 2025}:
+    if m_house and year in {2023, 2025, 2026}:
         return ("district", "state_house", str(int(m_house.group(1))))
 
     m_sen = re.search(r"MEMBER,\s*SENATE OF VIRGINIA\s*\((\d+)(?:ST|ND|RD|TH)\s+DISTRICT\)", raw_u)
-    if m_sen and year in {2023, 2025}:
+    if m_sen and year in {2023, 2025, 2026}:
         return ("district", "state_senate", str(int(m_sen.group(1))))
 
     return None
@@ -1212,7 +1216,7 @@ def build_district_contests(
                 else:
                     if not office_district:
                         continue
-                    scope = contest_type
+                    scope = "congressional" if contest_type == "us_house" else contest_type
                     if allowed_scopes is not None and scope not in allowed_scopes:
                         continue
                     district_id = normalize_district_id(office_district)
@@ -1531,9 +1535,9 @@ def build_raw_margin_snapshot(
     return out
 
 
-def district_sort_key(d: str) -> tuple[int, str]:
+def district_sort_key(d: str) -> tuple[int, int | str]:
     if re.fullmatch(r"\d+", d or ""):
-        return (0, str(int(d)))
+        return (0, int(d))
     return (1, d or "")
 
 

@@ -52,12 +52,32 @@
     },
     {
       "scope": "congressional",
-      "contest_type": "constitutional_amendment",
+      "contest_type": "constitutional_amendment_1",
       "year": 2026,
-      "file": "congressional_constitutional_amendment_2026.json",
+      "file": "congressional_constitutional_amendment_1_2026.json",
       "rows": 11,
-      "dem_total": 1604276,
-      "rep_total": 1499393,
+      "dem_total": 2194631,
+      "rep_total": 1318460,
+      "major_party_contested": true
+    },
+    {
+      "scope": "congressional",
+      "contest_type": "constitutional_amendment_2",
+      "year": 2026,
+      "file": "congressional_constitutional_amendment_2_2026.json",
+      "rows": 11,
+      "dem_total": 2037967,
+      "rep_total": 1506935,
+      "major_party_contested": true
+    },
+    {
+      "scope": "congressional",
+      "contest_type": "constitutional_amendment_3",
+      "year": 2026,
+      "file": "congressional_constitutional_amendment_3_2026.json",
+      "rows": 11,
+      "dem_total": 2001152,
+      "rep_total": 1536994,
       "major_party_contested": true
     },
     {
@@ -236,8 +256,8 @@
       "year": 2026,
       "file": "congressional_us_house_2026.json",
       "rows": 11,
-      "dem_total": 1653796,
-      "rep_total": 1220161,
+      "dem_total": 2091180,
+      "rep_total": 1419266,
       "major_party_contested": true
     },
     {
@@ -306,8 +326,8 @@
       "year": 2026,
       "file": "congressional_us_senate_2026.json",
       "rows": 11,
-      "dem_total": 1732418,
-      "rep_total": 1182840,
+      "dem_total": 2182958,
+      "rep_total": 1376709,
       "major_party_contested": true
     },
     {
@@ -362,12 +382,32 @@
     },
     {
       "scope": "state_house",
-      "contest_type": "constitutional_amendment",
+      "contest_type": "constitutional_amendment_1",
       "year": 2026,
-      "file": "state_house_constitutional_amendment_2026.json",
+      "file": "state_house_constitutional_amendment_1_2026.json",
       "rows": 100,
-      "dem_total": 1604276,
-      "rep_total": 1499393,
+      "dem_total": 2194631,
+      "rep_total": 1318460,
+      "major_party_contested": true
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "constitutional_amendment_2",
+      "year": 2026,
+      "file": "state_house_constitutional_amendment_2_2026.json",
+      "rows": 100,
+      "dem_total": 2037967,
+      "rep_total": 1506935,
+      "major_party_contested": true
+    },
+    {
+      "scope": "state_house",
+      "contest_type": "constitutional_amendment_3",
+      "year": 2026,
+      "file": "state_house_constitutional_amendment_3_2026.json",
+      "rows": 100,
+      "dem_total": 2001152,
+      "rep_total": 1536994,
       "major_party_contested": true
     },
     {
@@ -616,8 +656,8 @@
       "year": 2026,
       "file": "state_house_us_senate_2026.json",
       "rows": 100,
-      "dem_total": 1732418,
-      "rep_total": 1182840,
+      "dem_total": 2182958,
+      "rep_total": 1376709,
       "major_party_contested": true
     },
     {
@@ -672,12 +712,32 @@
     },
     {
       "scope": "state_senate",
-      "contest_type": "constitutional_amendment",
+      "contest_type": "constitutional_amendment_1",
       "year": 2026,
-      "file": "state_senate_constitutional_amendment_2026.json",
+      "file": "state_senate_constitutional_amendment_1_2026.json",
       "rows": 40,
-      "dem_total": 1604276,
-      "rep_total": 1499393,
+      "dem_total": 2194631,
+      "rep_total": 1318460,
+      "major_party_contested": true
+    },
+    {
+      "scope": "state_senate",
+      "contest_type": "constitutional_amendment_2",
+      "year": 2026,
+      "file": "state_senate_constitutional_amendment_2_2026.json",
+      "rows": 40,
+      "dem_total": 2037967,
+      "rep_total": 1506935,
+      "major_party_contested": true
+    },
+    {
+      "scope": "state_senate",
+      "contest_type": "constitutional_amendment_3",
+      "year": 2026,
+      "file": "state_senate_constitutional_amendment_3_2026.json",
+      "rows": 40,
+      "dem_total": 2001152,
+      "rep_total": 1536994,
       "major_party_contested": true
     },
     {
@@ -906,8 +966,8 @@
       "year": 2026,
       "file": "state_senate_us_senate_2026.json",
       "rows": 40,
-      "dem_total": 1732418,
-      "rep_total": 1182840,
+      "dem_total": 2182958,
+      "rep_total": 1376709,
       "major_party_contested": true
     }
   ]

@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "scope": "congressional",
+    "contest_type": "constitutional_amendment_2",
+    "year": 2026,
+    "district_count": 11,
+    "input_votes": 3544902,
+    "matched_votes": 3544902,
+    "direct_matched_votes": 3116799,
+    "allocated_votes": 428103,
+    "match_coverage_pct": 100.0,
+    "direct_match_coverage_pct": 87.92341791112985,
+    "weighting": {
+      "method": "SCV final 2021 plan block assignment weighted by 2020 Census voting-age population",
+      "district_assignment_source": "SCV Final 2021 Redistricting Plans.zip: SCV Final 2021 Redistricting Plans/SCV FINAL CD Blkassign.txt",
+      "fallback_order": [
+        "voting_age_population_2020",
+        "total_population_2020",
+        "block_land_area_m2"
+      ],
+      "precinct_weight_method_counts": {
+        "voting_age_population_2020": 2536
+      },
+      "blocks_assigned_to_current_precincts": 163160
+    }
+  },
+  "general": {
+    "results": {
+      "1": {
+        "dem_votes": 225710,
+        "rep_votes": 179899,
+        "other_votes": 0,
+        "total_votes": 405609,
+        "dem_candidate": "Yes",
+        "rep_candidate": "No",
+        "winner": "Yes",
+        "margin": 45811,
+        "margin_pct": -11.294374631726614,
+        "color": "#16a34a"
+      },
+      "2": {
+        "dem_votes": 185311,
+        "rep_votes": 148101,
+        "other_votes": 0,
+        "total_votes": 333412,
+        "dem_candidate": "Yes",
+        "rep_candidate": "No",
+        "winner": "Yes",
+        "margin": 37210,
+        "margin_pct": -11.160366153587752,
+        "color": "#16a34a"
+      },
+      "3": {
+        "dem_votes": 154498,
+        "rep_votes": 90833,
+        "other_votes": 0,
+        "total_votes": 245331,
+        "dem_candidate": "Yes",
+        "rep_candidate": "No",
+        "winner": "Yes",
+        "margin": 63665,
+        "margin_pct": -25.950654421984993,
+        "color": "#16a34a"
+      },
+      "4": {
+        "dem_votes": 202069,
+        "rep_votes": 105732,
+        "other_votes": 0,
+        "total_votes": 307801,
+        "dem_candidate": "Yes",
+        "rep_candidate": "No",
+        "winner": "Yes",
+        "margin": 96337,
+        "margin_pct": -31.298468815890786,
+        "color": "#16a34a"
+      },
+      "5": {
+        "dem_votes": 168601,
+        "rep_votes": 189999,
+        "other_votes": 0,
+        "total_votes": 358600,
+        "dem_candidate": "Yes",
+        "rep_candidate": "No",
+        "winner": "No",
+        "margin": 21398,
+        "margin_pct": 5.9670942554378135,
+        "color": "#dc2626"
+      },
+      "6": {
+        "dem_votes": 143913,
+        "rep_votes": 170941,
+        "other_votes": 0,
+        "total_votes": 314854,
+        "dem_candidate": "Yes",
+        "rep_candidate": "No",
+        "winner": "No",
+        "margin": 27028,
+        "margin_pct": 8.584296213483075,
+        "color": "#dc2626"
+      },
+      "7": {
+        "dem_votes": 179908,
+        "rep_votes": 140377,
+        "other_votes": 0,
+        "total_votes": 320285,
+        "dem_candidate": "Yes",
+        "rep_candidate": "No",
+        "winner": "Yes",
+        "margin": 39531,
+        "margin_pct": -12.342445009913046,
+        "color": "#16a34a"
+      },
+      "8": {
+        "dem_votes": 244058,
+        "rep_votes": 65782,
+        "other_votes": 0,
+        "total_votes": 309840,
+        "dem_candidate": "Yes",
+        "rep_candidate": "No",
+        "winner": "Yes",
+        "margin": 178276,
+        "margin_pct": -57.53808417247611,
+        "color": "#16a34a"
+      },
+      "9": {
+        "dem_votes": 99707,
+        "rep_votes": 192503,
+        "other_votes": 0,
+        "total_votes": 292210,
+        "dem_candidate": "Yes",
+        "rep_candidate": "No",
+        "winner": "No",
+        "margin": 92796,
+        "margin_pct": 31.756613394476574,
+        "color": "#dc2626"
+      },
+      "10": {
+        "dem_votes": 200626,
+        "rep_votes": 125054,
+        "other_votes": 0,
+        "total_votes": 325680,
+        "dem_candidate": "Yes",
+        "rep_candidate": "No",
+        "winner": "Yes",
+        "margin": 75572,
+        "margin_pct": -23.20437239007615,
+        "color": "#16a34a"
+      },
+      "11": {
+        "dem_votes": 233566,
+        "rep_votes": 97714,
+        "other_votes": 0,
+        "total_votes": 331280,
+        "dem_candidate": "Yes",
+        "rep_candidate": "No",
+        "winner": "Yes",
+        "margin": 135852,
+        "margin_pct": -41.008210577155275,
+        "color": "#16a34a"
+      }
+    }
+  }
+}

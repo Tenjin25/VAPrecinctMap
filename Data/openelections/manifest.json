@@ -128,7 +128,7 @@
     {
       "input_file": "export-2026-November-General.json",
       "output_file": "Data/openelections/2026/20261103__va__general__precinct__multi_office__export_2026_november_general.csv",
-      "rows": 46450
+      "rows": 46338
     }
   ]
 }

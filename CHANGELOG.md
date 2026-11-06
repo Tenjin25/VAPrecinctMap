@@ -1,5 +1,11 @@
 # Change history
 
+## 2026-11-06
+
+- Refresh the 2026 statewide, congressional, and November amendment returns from Virginia's 1:08 PM unofficial media export while leaving HD-20 unchanged.
+- Restore the voided April congressional-redistricting referendum as a separately labeled historical layer and give all three November amendments descriptive ballot-subject labels.
+- Rebuild DRA imports at 2020 Census block level to prevent DRA's VTD disaggregation from displaying negative Other votes, and bump the cache token to `2026-11-06-unofficial-2026-results-v3`.
+
 ## 2026-11-05
 
 - Add unofficial 2026 U.S. Senate results by county, congressional district, House of Delegates district, and state Senate district.

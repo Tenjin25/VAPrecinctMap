@@ -283,7 +283,6 @@ def upsert_manifest(path: Path, entries: list[dict]) -> None:
     manifest = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"files": []}
     new_keys = {(entry.get("scope"), entry.get("contest_type"), int(entry.get("year", 0))) for entry in entries}
     kept = [entry for entry in manifest.get("files", []) if (entry.get("scope"), entry.get("contest_type"), int(entry.get("year", 0))) not in new_keys]
-    kept = [entry for entry in kept if not (entry.get("contest_type") == "constitutional_amendment" and int(entry.get("year", 0)) == 2026)]
     manifest["files"] = kept + entries
     path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 

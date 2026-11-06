@@ -10756,8 +10756,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-11-05-unofficial-2026-results-v2';
-    const APP_BUILD_ID = '2026-11-05-unofficial-2026-results-v2';
+    const DATA_CACHE_BUSTER = '2026-11-06-unofficial-2026-results-v3';
+    const APP_BUILD_ID = '2026-11-06-unofficial-2026-results-v3';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -19951,12 +19951,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	        'us_house': 'US House',
 	        'state_senate': 'State Senate',
           'state_house': 'House of Delegates',
-          'constitutional_amendment': 'Proposed Constitutional Amendment'
+          'constitutional_amendment': 'Temporary Congressional Redistricting Amendment (April; voided)'
 	      };
 
           if (contestType.startsWith('constitutional_amendment_')) {
             const question = contestType.replace('constitutional_amendment_', '').replace(/^0+/, '');
-            return `Proposed Constitutional Amendment Question ${question}`;
+            const amendmentNames = {
+              '1': 'Reproductive Freedom Amendment',
+              '2': 'Marriage Equality Amendment',
+              '3': 'Voting Rights Restoration Amendment'
+            };
+            return `Question ${question}: ${amendmentNames[question] || 'Proposed Constitutional Amendment'}`;
           }
 
 	      if (contestType.startsWith('a') && contestType.length <= 3) {

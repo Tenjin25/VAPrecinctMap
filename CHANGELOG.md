@@ -2,7 +2,7 @@
 
 ## 2026-11-06
 
-- Show each constitutional amendment by its descriptive ballot title in the contest dropdown and legend, keep the April redistricting amendment in the shared amendment group, use compact legend headings, allow Statewide contest labels to wrap, omit the redundant year from space-limited amendment labels, and bump the cache token to `2026-11-06-unofficial-2026-results-v7`.
+- Show each constitutional amendment by its descriptive ballot title, use shortened Q1/Q2/Q3 labels in the dropdown, keep the April redistricting amendment in the shared amendment group, use compact legend headings, allow Statewide contest labels to wrap, omit the redundant year from space-limited amendment labels, and bump the cache token to `2026-11-06-unofficial-2026-results-v8`.
 - Refresh the 2026 statewide, congressional, and November amendment returns from Virginia's 1:08 PM unofficial media export while leaving HD-20 unchanged.
 - Restore the voided April congressional-redistricting referendum as a separately labeled historical layer and give all three November amendments descriptive ballot-subject labels.
 - Rebuild DRA imports at 2020 Census block level to prevent DRA's VTD disaggregation from displaying negative Other votes, and bump the cache token to `2026-11-06-unofficial-2026-results-v3`.

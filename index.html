@@ -10757,8 +10757,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-11-06-unofficial-2026-results-v7';
-    const APP_BUILD_ID = '2026-11-06-unofficial-2026-results-v7';
+    const DATA_CACHE_BUSTER = '2026-11-06-unofficial-2026-results-v8';
+    const APP_BUILD_ID = '2026-11-06-unofficial-2026-results-v8';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -20010,6 +20010,20 @@ document.addEventListener('DOMContentLoaded', function() {
       return Number.isFinite(Number(year)) ? `${officeName} ${year}` : officeName;
     }
 
+    function formatContestOptionName(contestType, year) {
+      if (contestType === 'constitutional_amendment') return 'April Redistricting (voided)';
+      if (String(contestType || '').startsWith('constitutional_amendment_')) {
+        const question = String(contestType).replace('constitutional_amendment_', '').replace(/^0+/, '');
+        const shortNames = {
+          '1': 'Reproductive Freedom',
+          '2': 'Marriage Equality',
+          '3': 'Voting Rights Restoration'
+        };
+        return `Q${question}: ${shortNames[question] || 'Constitutional Amendment'}`;
+      }
+      return formatContestName(contestType, year);
+    }
+
     function populateContestSelectFromElectionJSON(electionData) {
       if (!Array.isArray(electionData) || electionData.length === 0) return;
       if (contestManifest && contestManifest.length > 0) {
@@ -20363,7 +20377,7 @@ document.addEventListener('DOMContentLoaded', function() {
               opt.textContent = modeledOptionLabel;
             } else
 	          if (isJudicial || modeledDef || isBallotMeasureContest(item.contestType)) {
-              opt.textContent = `${formatContestName(item.contestType, item.year)} (${item.year})${modeledSuffix}`;
+              opt.textContent = `${formatContestOptionName(item.contestType, item.year)} (${item.year})${modeledSuffix}`;
 	          } else {
               opt.textContent = `${label} (${item.year})${modeledSuffix}`;
 	          }

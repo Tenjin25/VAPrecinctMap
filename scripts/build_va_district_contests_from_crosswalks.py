@@ -50,6 +50,57 @@ ASSIGN_MEMBER_SLDL = "BlockAssign_ST51_VA_SLDL.txt"
 ASSIGN_MEMBER_SLDU = "BlockAssign_ST51_VA_SLDU.txt"
 
 
+def active_openelections_csvs(openelections_root: Path) -> list[Path]:
+    """Return source CSVs, excluding superseded multi-office snapshots.
+
+    Single-office historical files can legitimately share an election date, so
+    only multi-office exports are governed by the conversion manifest.
+    """
+    all_csvs = sorted(openelections_root.rglob("*.csv"))
+    manifest_path = openelections_root / "manifest.json"
+    if not manifest_path.exists():
+        return all_csvs
+
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    active_multi_office_names = {
+        Path(str(entry.get("output_file", ""))).name
+        for entry in manifest.get("files", [])
+        if "__multi_office__" in Path(str(entry.get("output_file", ""))).name
+    }
+    return [
+        path
+        for path in all_csvs
+        if "__multi_office__" not in path.name or path.name in active_multi_office_names
+    ]
+
+
+def preaggregate_csv_rows(csv_path: Path) -> list[dict[str, str]]:
+    """Collapse identical precinct/candidate rows before crosswalk allocation."""
+    totals: dict[tuple[str, str, str, str, str], float] = defaultdict(float)
+    with csv_path.open("r", encoding="utf-8-sig", newline="") as source:
+        for row in csv.DictReader(source):
+            try:
+                votes = float(row.get("votes") or 0)
+            except ValueError:
+                votes = 0.0
+            if votes <= 0:
+                continue
+            key = tuple((row.get(field) or "").strip() for field in ("office", "county", "precinct", "party", "candidate"))
+            totals[key] += votes
+
+    return [
+        {
+            "office": office,
+            "county": county,
+            "precinct": precinct,
+            "party": party,
+            "candidate": candidate,
+            "votes": str(votes),
+        }
+        for (office, county, precinct, party, candidate), votes in sorted(totals.items())
+    ]
+
+
 def find_member(zip_path: Path, suffix: str) -> str:
     with zipfile.ZipFile(zip_path, "r") as zf:
         matches = [m for m in zf.namelist() if m.endswith(suffix)]
@@ -758,11 +809,9 @@ def build_explicit_precinct_district_overrides(
         }
     )
 
-    for csv_path in sorted(openelections_root.rglob("*.csv")):
+    for csv_path in active_openelections_csvs(openelections_root):
         year = parse_year_from_filename(csv_path)
-        with csv_path.open("r", encoding="utf-8", newline="") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
+        for row in preaggregate_csv_rows(csv_path):
                 office = row.get("office", "")
                 classified = classify_office(office, year)
                 if not classified:
@@ -1112,13 +1161,11 @@ def build_district_contests(
             idx[county_name].add(code)
         historical_code_index[scope] = {k: sorted(v) for k, v in idx.items()}
 
-    for csv_path in sorted(openelections_root.rglob("*.csv")):
+    for csv_path in active_openelections_csvs(openelections_root):
         year = parse_year_from_filename(csv_path)
         if needed_years and year not in needed_years:
             continue
-        with csv_path.open("r", encoding="utf-8", newline="") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
+        for row in preaggregate_csv_rows(csv_path):
                 office = row.get("office", "")
                 classified = classify_office(office, year)
                 if not classified:

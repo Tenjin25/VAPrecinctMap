@@ -20,6 +20,51 @@ from pathlib import Path
 CONTEST_ORDER = ["president", "us_senate", "governor", "lieutenant_governor", "attorney_general"]
 
 
+def active_openelections_csvs(openelections_root: Path) -> list[Path]:
+    """Keep all single-office files and only manifest-listed multi-office snapshots."""
+    all_csvs = sorted(openelections_root.rglob("*.csv"))
+    manifest_path = openelections_root / "manifest.json"
+    if not manifest_path.exists():
+        return all_csvs
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    active_multi_office_names = {
+        Path(str(entry.get("output_file", ""))).name
+        for entry in manifest.get("files", [])
+        if "__multi_office__" in Path(str(entry.get("output_file", ""))).name
+    }
+    return [
+        path
+        for path in all_csvs
+        if "__multi_office__" not in path.name or path.name in active_multi_office_names
+    ]
+
+
+def preaggregate_csv_rows(csv_path: Path) -> list[dict[str, str]]:
+    """Collapse identical precinct/candidate rows before county aggregation."""
+    totals: dict[tuple[str, str, str, str, str], float] = defaultdict(float)
+    with csv_path.open("r", encoding="utf-8-sig", newline="") as source:
+        for row in csv.DictReader(source):
+            try:
+                votes = float(row.get("votes") or 0)
+            except ValueError:
+                votes = 0.0
+            if votes <= 0:
+                continue
+            key = tuple((row.get(field) or "").strip() for field in ("office", "county", "precinct", "party", "candidate"))
+            totals[key] += votes
+    return [
+        {
+            "office": office,
+            "county": county,
+            "precinct": precinct,
+            "party": party,
+            "candidate": candidate,
+            "votes": str(votes),
+        }
+        for (office, county, precinct, party, candidate), votes in sorted(totals.items())
+    ]
+
+
 def normalize_key(value: str) -> str:
     return re.sub(r"\s+", " ", (value or "").strip()).upper()
 
@@ -155,11 +200,9 @@ def build_slices(openelections_dir: Path, locality_alias_map: dict[str, str]) ->
         )
     )
 
-    for csv_path in sorted(openelections_dir.rglob("*.csv")):
+    for csv_path in active_openelections_csvs(openelections_dir):
         year = parse_year_from_filename(csv_path)
-        with csv_path.open("r", encoding="utf-8", newline="") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
+        for row in preaggregate_csv_rows(csv_path):
                 contest_type = classify_contest(row.get("office", ""))
                 if not contest_type:
                     continue

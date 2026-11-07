@@ -174,7 +174,7 @@ def result_row(yes_votes: int, no_votes: int) -> dict:
 def load_measure_rows(path: Path, office: str) -> list[dict]:
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
         rows = [row for row in csv.DictReader(handle) if (row.get("office") or "").strip() == office]
-    out = []
+    aggregated = defaultdict(int)
     for row in rows:
         choice = (row.get("candidate") or "").strip().lower()
         if choice not in {"yes", "no"}:
@@ -182,7 +182,16 @@ def load_measure_rows(path: Path, office: str) -> list[dict]:
         votes = int(float((row.get("votes") or "0").replace(",", "")))
         if votes <= 0:
             continue
-        out.append({**row, "choice": choice, "votes_int": votes})
+        key = (
+            (row.get("county") or "").strip(),
+            (row.get("precinct") or "").strip(),
+            choice,
+        )
+        aggregated[key] += votes
+    out = [
+        {"county": county, "precinct": precinct, "choice": choice, "votes_int": votes}
+        for (county, precinct, choice), votes in sorted(aggregated.items())
+    ]
     if not out:
         raise ValueError(f"No Yes/No rows found for office {office!r} in {path}")
     return out

@@ -10756,8 +10756,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-11-06-unofficial-2026-results-v3';
-    const APP_BUILD_ID = '2026-11-06-unofficial-2026-results-v3';
+    const DATA_CACHE_BUSTER = '2026-11-06-unofficial-2026-results-v4';
+    const APP_BUILD_ID = '2026-11-06-unofficial-2026-results-v4';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -20289,7 +20289,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        if (contestType === 'insurance_commissioner') return 'Insurance Commissioner';
 	        if (contestType === 'agriculture_commissioner') return 'Agriculture Commissioner';
 	        if (contestType === 'superintendent') return 'Superintendent of Public Instruction';
-	        if (contestType.startsWith('constitutional_amendment_')) return 'Proposed Constitutional Amendments';
+	        if (contestType.startsWith('constitutional_amendment')) return 'Constitutional Amendments';
 	        if (contestType.startsWith('nc_supreme_court_')) return 'NC Supreme Court';
 	        if (contestType.startsWith('nc_court_of_appeals_')) return 'Court of Appeals';
 	        return formatContestName(contestType, '');
@@ -20358,7 +20358,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (modeledOptionLabel) {
               opt.textContent = modeledOptionLabel;
             } else
-	          if (isJudicial || modeledDef) {
+	          if (isJudicial || modeledDef || isBallotMeasureContest(item.contestType)) {
               opt.textContent = `${formatContestName(item.contestType, item.year)} (${item.year})${modeledSuffix}`;
 	          } else {
               opt.textContent = `${label} (${item.year})${modeledSuffix}`;
@@ -20473,7 +20473,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        if (contestType === 'insurance_commissioner') return 'Insurance Commissioner';
 	        if (contestType === 'agriculture_commissioner') return 'Agriculture Commissioner';
 	        if (contestType === 'superintendent') return 'Superintendent of Public Instruction';
-	        if (contestType.startsWith('constitutional_amendment_')) return 'Proposed Constitutional Amendments';
+	        if (contestType.startsWith('constitutional_amendment')) return 'Constitutional Amendments';
 	        return formatContestName(contestType, '');
 	      }
 
@@ -22905,7 +22905,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const selectedContest = String(currentContestMeta?.contestType || getSelectedContestTypeYear()?.contestType || '');
       if (isBallotMeasureContest(selectedContest) && (mode === 'margins' || mode === 'winners')) {
-        if (header) header.textContent = mode === 'winners' ? 'Amendment result' : 'Amendment margin';
+        const amendmentTitle = formatContestName(selectedContest, currentContestMeta?.year);
+        if (header) header.textContent = mode === 'winners'
+          ? `${amendmentTitle} result`
+          : `${amendmentTitle} margin`;
         if (subtitle) subtitle.textContent = mode === 'winners'
           ? 'Green indicates a Yes majority; red indicates a No majority.'
           : 'Darker shades indicate a larger Yes or No lead.';

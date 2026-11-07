@@ -10756,8 +10756,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-11-06-unofficial-2026-results-v5';
-    const APP_BUILD_ID = '2026-11-06-unofficial-2026-results-v5';
+    const DATA_CACHE_BUSTER = '2026-11-06-unofficial-2026-results-v6';
+    const APP_BUILD_ID = '2026-11-06-unofficial-2026-results-v6';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -20003,6 +20003,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const modeledOptionLabel = String(modeledDef?.optionLabel || '').trim();
       if (modeledOptionLabel) return modeledOptionLabel;
       const officeName = formatContestName(contestType, year);
+      // Amendment titles are already specific and can be quite long. Keep the
+      // year in the dropdown, but omit it from compact panels and status text.
+      if (String(contestType || '').startsWith('constitutional_amendment')) return officeName;
       return Number.isFinite(Number(year)) ? `${officeName} ${year}` : officeName;
     }
 

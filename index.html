@@ -2559,9 +2559,10 @@ body.focus-active #hover-tooltip[data-context="preview"] {
   font-size: 12px;
   color: #6b7280;
   line-height: 1.1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
 }
 
 .vote-counter-context .context-actions {
@@ -10756,8 +10757,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-11-06-unofficial-2026-results-v6';
-    const APP_BUILD_ID = '2026-11-06-unofficial-2026-results-v6';
+    const DATA_CACHE_BUSTER = '2026-11-06-unofficial-2026-results-v7';
+    const APP_BUILD_ID = '2026-11-06-unofficial-2026-results-v7';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();

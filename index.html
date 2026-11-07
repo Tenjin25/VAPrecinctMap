@@ -10756,8 +10756,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-11-06-unofficial-2026-results-v4';
-    const APP_BUILD_ID = '2026-11-06-unofficial-2026-results-v4';
+    const DATA_CACHE_BUSTER = '2026-11-06-unofficial-2026-results-v5';
+    const APP_BUILD_ID = '2026-11-06-unofficial-2026-results-v5';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -22906,12 +22906,16 @@ document.addEventListener('DOMContentLoaded', function() {
       const selectedContest = String(currentContestMeta?.contestType || getSelectedContestTypeYear()?.contestType || '');
       if (isBallotMeasureContest(selectedContest) && (mode === 'margins' || mode === 'winners')) {
         const amendmentTitle = formatContestName(selectedContest, currentContestMeta?.year);
+        const amendmentQuestion = selectedContest.match(/^constitutional_amendment_(\d+)$/i);
+        const compactAmendmentTitle = amendmentQuestion
+          ? `Question ${Number(amendmentQuestion[1])}`
+          : 'April amendment';
         if (header) header.textContent = mode === 'winners'
-          ? `${amendmentTitle} result`
-          : `${amendmentTitle} margin`;
+          ? `${compactAmendmentTitle} result`
+          : `${compactAmendmentTitle} margin`;
         if (subtitle) subtitle.textContent = mode === 'winners'
-          ? 'Green indicates a Yes majority; red indicates a No majority.'
-          : 'Darker shades indicate a larger Yes or No lead.';
+          ? `${amendmentTitle}. Green indicates a Yes majority; red indicates a No majority.`
+          : `${amendmentTitle}. Darker shades indicate a larger Yes or No lead.`;
         if (badge) badge.textContent = mode === 'winners' ? 'Yes / No' : 'Margin';
         if (footer) footer.textContent = 'Gray indicates a tie or missing data.';
         content.innerHTML = `

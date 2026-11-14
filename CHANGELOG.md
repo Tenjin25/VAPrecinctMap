@@ -1,5 +1,9 @@
 # Change history
 
+## 2026-11-14
+
+- Refresh the November 2026 U.S. Senate, U.S. House, and constitutional-amendment results from Virginia's November 13 post-canvass media export; rebuild the county, district, and block-level DRA files while leaving HD-20 unchanged; and bump the cache token to `2026-11-14-post-canvass-2026-results-v1`.
+
 ## 2026-11-06
 
 - Pre-aggregate identical precinct/candidate rows before crosswalk allocation and restrict multi-office inputs to the active exports listed in the OpenElections manifest, preventing superseded snapshots from being merged twice.

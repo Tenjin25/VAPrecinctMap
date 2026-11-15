@@ -6973,7 +6973,7 @@ body.ballot-measure-mode .vote-share-fill.rep { background: linear-gradient(90de
 
   .statewide-breakdown-head {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
     min-width: 0;
   }
@@ -6997,9 +6997,8 @@ body.ballot-measure-mode .vote-share-fill.rep { background: linear-gradient(90de
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #64748b;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
   }
 
   .statewide-breakdown-value {
@@ -10733,8 +10732,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-11-14-statewide-candidate-labels-v2';
-    const APP_BUILD_ID = '2026-11-14-statewide-candidate-labels-v2';
+    const DATA_CACHE_BUSTER = '2026-11-14-statewide-candidate-wrap-v3';
+    const APP_BUILD_ID = '2026-11-14-statewide-candidate-wrap-v3';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();

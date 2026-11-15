@@ -6992,38 +6992,14 @@ body.ballot-measure-mode .vote-share-fill.rep { background: linear-gradient(90de
 
   .statewide-breakdown-label {
     min-width: 0;
-    display: inline-flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    column-gap: 4px;
-    row-gap: 1px;
     font-size: 11px;
     font-weight: 800;
-    letter-spacing: 0.03em;
-    line-height: 1.25;
-    color: #64748b;
-    overflow: visible;
-    white-space: normal;
-  }
-
-  .statewide-breakdown-party {
-    font: inherit;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: inherit;
-  }
-
-  .statewide-breakdown-separator {
-    color: inherit;
-  }
-
-  .statewide-breakdown-candidate {
-    min-width: 0;
-    font: inherit;
-    letter-spacing: 0.01em;
-    color: inherit;
-    overflow-wrap: anywhere;
-    text-transform: none;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .statewide-breakdown-value {
@@ -10757,8 +10733,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache destroyer token for static data requests.
     // Bump this value when you want browsers/CDNs to fetch fresh files immediately.
-    const DATA_CACHE_BUSTER = '2026-11-14-post-canvass-2026-results-v1';
-    const APP_BUILD_ID = '2026-11-14-post-canvass-2026-results-v1';
+    const DATA_CACHE_BUSTER = '2026-11-14-statewide-candidate-labels-v2';
+    const APP_BUILD_ID = '2026-11-14-statewide-candidate-labels-v2';
 
     function withCacheBuster(path) {
       const p = (path || '').toString().trim();
@@ -23437,11 +23413,7 @@ document.addEventListener('DOMContentLoaded', function() {
           `<div class="statewide-breakdown-item">` +
             `<div class="statewide-breakdown-head">` +
               `<span class="statewide-dot ${item.key}"></span>` +
-              `<span class="statewide-breakdown-label">` +
-                `<span class="statewide-breakdown-party">${escapeHtml(item.label)}</span>` +
-                `<span class="statewide-breakdown-separator">:</span>` +
-                `<span class="statewide-breakdown-candidate">${escapeHtml(item.candidate)}</span>` +
-              `</span>` +
+              `<span class="statewide-breakdown-label">${escapeHtml(item.label)}: ${escapeHtml(item.candidate)}</span>` +
             `</div>` +
             `<div class="statewide-breakdown-value" style="color:${item.color};">` +
               `${item.votes.toLocaleString()}` +

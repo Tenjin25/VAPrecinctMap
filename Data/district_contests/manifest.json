@@ -66,8 +66,8 @@
       "year": 2026,
       "file": "congressional_constitutional_amendment_1_2026.json",
       "rows": 11,
-      "dem_total": 2260062,
-      "rep_total": 1334911,
+      "dem_total": 2260197,
+      "rep_total": 1335081,
       "major_party_contested": true
     },
     {
@@ -76,8 +76,8 @@
       "year": 2026,
       "file": "congressional_constitutional_amendment_2_2026.json",
       "rows": 11,
-      "dem_total": 2100062,
-      "rep_total": 1527911,
+      "dem_total": 2100170,
+      "rep_total": 1528110,
       "major_party_contested": true
     },
     {
@@ -86,8 +86,8 @@
       "year": 2026,
       "file": "congressional_constitutional_amendment_3_2026.json",
       "rows": 11,
-      "dem_total": 2061695,
-      "rep_total": 1558931,
+      "dem_total": 2061817,
+      "rep_total": 1559114,
       "major_party_contested": true
     },
     {
@@ -266,8 +266,8 @@
       "year": 2026,
       "file": "congressional_us_house_2026.json",
       "rows": 11,
-      "dem_total": 2156733,
-      "rep_total": 1436329,
+      "dem_total": 2156844,
+      "rep_total": 1436523,
       "major_party_contested": true
     },
     {
@@ -336,8 +336,8 @@
       "year": 2026,
       "file": "congressional_us_senate_2026.json",
       "rows": 11,
-      "dem_total": 2251568,
-      "rep_total": 1393704,
+      "dem_total": 2251718,
+      "rep_total": 1393863,
       "major_party_contested": true
     },
     {
@@ -406,8 +406,8 @@
       "year": 2026,
       "file": "state_house_constitutional_amendment_1_2026.json",
       "rows": 100,
-      "dem_total": 2260062,
-      "rep_total": 1334911,
+      "dem_total": 2260197,
+      "rep_total": 1335081,
       "major_party_contested": true
     },
     {
@@ -416,8 +416,8 @@
       "year": 2026,
       "file": "state_house_constitutional_amendment_2_2026.json",
       "rows": 100,
-      "dem_total": 2100062,
-      "rep_total": 1527911,
+      "dem_total": 2100170,
+      "rep_total": 1528110,
       "major_party_contested": true
     },
     {
@@ -426,8 +426,8 @@
       "year": 2026,
       "file": "state_house_constitutional_amendment_3_2026.json",
       "rows": 100,
-      "dem_total": 2061695,
-      "rep_total": 1558931,
+      "dem_total": 2061817,
+      "rep_total": 1559114,
       "major_party_contested": true
     },
     {
@@ -676,8 +676,8 @@
       "year": 2026,
       "file": "state_house_us_senate_2026.json",
       "rows": 100,
-      "dem_total": 2251568,
-      "rep_total": 1393704,
+      "dem_total": 2251718,
+      "rep_total": 1393863,
       "major_party_contested": true
     },
     {
@@ -746,8 +746,8 @@
       "year": 2026,
       "file": "state_senate_constitutional_amendment_1_2026.json",
       "rows": 40,
-      "dem_total": 2260062,
-      "rep_total": 1334911,
+      "dem_total": 2260197,
+      "rep_total": 1335081,
       "major_party_contested": true
     },
     {
@@ -756,8 +756,8 @@
       "year": 2026,
       "file": "state_senate_constitutional_amendment_2_2026.json",
       "rows": 40,
-      "dem_total": 2100062,
-      "rep_total": 1527911,
+      "dem_total": 2100170,
+      "rep_total": 1528110,
       "major_party_contested": true
     },
     {
@@ -766,8 +766,8 @@
       "year": 2026,
       "file": "state_senate_constitutional_amendment_3_2026.json",
       "rows": 40,
-      "dem_total": 2061695,
-      "rep_total": 1558931,
+      "dem_total": 2061817,
+      "rep_total": 1559114,
       "major_party_contested": true
     },
     {
@@ -996,8 +996,8 @@
       "year": 2026,
       "file": "state_senate_us_senate_2026.json",
       "rows": 40,
-      "dem_total": 2251568,
-      "rep_total": 1393704,
+      "dem_total": 2251718,
+      "rep_total": 1393863,
       "major_party_contested": true
     }
   ]

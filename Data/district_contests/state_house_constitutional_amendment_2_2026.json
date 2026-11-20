@@ -4,12 +4,12 @@
     "contest_type": "constitutional_amendment_2",
     "year": 2026,
     "district_count": 100,
-    "input_votes": 3627973,
-    "matched_votes": 3627973,
-    "direct_matched_votes": 3620740,
-    "allocated_votes": 7233,
+    "input_votes": 3628280,
+    "matched_votes": 3628280,
+    "direct_matched_votes": 3621050,
+    "allocated_votes": 7230,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 99.80063247438721,
+    "direct_match_coverage_pct": 99.80073202729668,
     "weighting": {
       "method": "SCV final 2021 plan block assignment weighted by 2020 Census voting-age population",
       "district_assignment_source": "SCV Final 2021 Redistricting Plans.zip: SCV Final 2021 Redistricting Plans/SCV FINAL HOD blkassign.txt",
@@ -447,27 +447,27 @@
         "color": "#dc2626"
       },
       "36": {
-        "dem_votes": 18335,
+        "dem_votes": 18334,
         "rep_votes": 19460,
         "other_votes": 0,
-        "total_votes": 37795,
+        "total_votes": 37794,
         "dem_candidate": "Yes",
         "rep_candidate": "No",
         "winner": "No",
-        "margin": 1125,
-        "margin_pct": 2.9765842042598227,
+        "margin": 1126,
+        "margin_pct": 2.9793088850082023,
         "color": "#dc2626"
       },
       "37": {
-        "dem_votes": 14005,
-        "rep_votes": 23526,
+        "dem_votes": 14006,
+        "rep_votes": 23525,
         "other_votes": 0,
         "total_votes": 37531,
         "dem_candidate": "Yes",
         "rep_candidate": "No",
         "winner": "No",
-        "margin": 9521,
-        "margin_pct": 25.368362153952734,
+        "margin": 9519,
+        "margin_pct": 25.363033225866616,
         "color": "#dc2626"
       },
       "38": {
@@ -555,15 +555,15 @@
         "color": "#dc2626"
       },
       "45": {
-        "dem_votes": 6167,
-        "rep_votes": 20721,
+        "dem_votes": 6235,
+        "rep_votes": 20891,
         "other_votes": 0,
-        "total_votes": 26888,
+        "total_votes": 27126,
         "dem_candidate": "Yes",
         "rep_candidate": "No",
         "winner": "No",
-        "margin": 14554,
-        "margin_pct": 54.12823564415352,
+        "margin": 14656,
+        "margin_pct": 54.029344540293444,
         "color": "#dc2626"
       },
       "46": {
@@ -640,14 +640,14 @@
       },
       "52": {
         "dem_votes": 15446,
-        "rep_votes": 19281,
+        "rep_votes": 19282,
         "other_votes": 0,
-        "total_votes": 34727,
+        "total_votes": 34728,
         "dem_candidate": "Yes",
         "rep_candidate": "No",
         "winner": "No",
-        "margin": 3835,
-        "margin_pct": 11.043280444610822,
+        "margin": 3836,
+        "margin_pct": 11.045841971895877,
         "color": "#dc2626"
       },
       "53": {
@@ -1215,15 +1215,15 @@
         "color": "#16a34a"
       },
       "100": {
-        "dem_votes": 19956,
-        "rep_votes": 16675,
+        "dem_votes": 19996,
+        "rep_votes": 16704,
         "other_votes": 0,
-        "total_votes": 36631,
+        "total_votes": 36700,
         "dem_candidate": "Yes",
         "rep_candidate": "No",
         "winner": "Yes",
-        "margin": 3281,
-        "margin_pct": -8.956894433676394,
+        "margin": 3292,
+        "margin_pct": -8.970027247956404,
         "color": "#16a34a"
       }
     }

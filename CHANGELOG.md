@@ -1,5 +1,9 @@
 # Change history
 
+## 2026-11-20
+
+- Refresh November 2026 Senate, House, and three constitutional amendment returns from Virginia's November 20 official export; rebuild county, district, and DRA files, preserve the April amendment and HD-20, and bump the cache token to `2026-11-20-va-results-refresh-v1`.
+
 ## 2026-11-14
 
 - Refresh the November 2026 U.S. Senate, U.S. House, and constitutional-amendment results from Virginia's November 13 post-canvass media export; rebuild the county, district, and block-level DRA files while leaving HD-20 unchanged; and bump the cache token to `2026-11-14-post-canvass-2026-results-v1`.

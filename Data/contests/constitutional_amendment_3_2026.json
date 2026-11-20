@@ -5,15 +5,15 @@
     {
       "locality": "ACCOMACK COUNTY",
       "county": "ACCOMACK COUNTY",
-      "dem_votes": 6625,
-      "rep_votes": 7336,
+      "dem_votes": 6673,
+      "rep_votes": 7357,
       "other_votes": 0,
-      "total_votes": 13961,
+      "total_votes": 14030,
       "dem_candidate": "Yes",
       "rep_candidate": "No",
       "winner": "No",
-      "margin": 711,
-      "margin_pct": 5.092758398395531,
+      "margin": 684,
+      "margin_pct": 4.875267284390591,
       "color": "#dc2626"
     },
     {
@@ -957,15 +957,15 @@
     {
       "locality": "LEE COUNTY",
       "county": "LEE COUNTY",
-      "dem_votes": 1538,
-      "rep_votes": 4808,
+      "dem_votes": 1612,
+      "rep_votes": 4970,
       "other_votes": 0,
-      "total_votes": 6346,
+      "total_votes": 6582,
       "dem_candidate": "Yes",
       "rep_candidate": "No",
       "winner": "No",
-      "margin": 3270,
-      "margin_pct": 51.5285219035613,
+      "margin": 3358,
+      "margin_pct": 51.01792768155576,
       "color": "#dc2626"
     },
     {

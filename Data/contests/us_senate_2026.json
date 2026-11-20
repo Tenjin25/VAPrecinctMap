@@ -3,23 +3,23 @@
     "contest_type": "us_senate",
     "year": 2026,
     "rows": 133,
-    "dem_total": 2251568,
-    "rep_total": 1393704,
-    "other_total": 9800,
-    "total_votes": 3655072
+    "dem_total": 2251718,
+    "rep_total": 1393863,
+    "other_total": 9801,
+    "total_votes": 3655382
   },
   "rows": [
     {
       "county": "ACCOMACK COUNTY",
-      "dem_votes": 6971,
-      "rep_votes": 7103,
+      "dem_votes": 7029,
+      "rep_votes": 7114,
       "other_votes": 14,
-      "total_votes": 14088,
+      "total_votes": 14157,
       "dem_candidate": "Mark R. Warner",
       "rep_candidate": "Bert Mizusawa",
       "winner": "Republican",
-      "margin": 132,
-      "margin_pct": 0.9369676320272573,
+      "margin": 85,
+      "margin_pct": 0.6004096913187823,
       "color": "#fee8c8"
     },
     {
@@ -895,15 +895,15 @@
     },
     {
       "county": "LEE COUNTY",
-      "dem_votes": 1584,
-      "rep_votes": 4815,
-      "other_votes": 10,
-      "total_votes": 6409,
+      "dem_votes": 1676,
+      "rep_votes": 4963,
+      "other_votes": 11,
+      "total_votes": 6650,
       "dem_candidate": "Mark R. Warner",
       "rep_candidate": "Bert Mizusawa",
       "winner": "Republican",
-      "margin": 3231,
-      "margin_pct": 50.41348104228429,
+      "margin": 3287,
+      "margin_pct": 49.42857142857143,
       "color": "#67000d"
     },
     {

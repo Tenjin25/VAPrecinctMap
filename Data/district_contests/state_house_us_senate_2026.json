@@ -4,14 +4,14 @@
     "contest_type": "us_senate",
     "year": 2026,
     "district_count": 100,
-    "input_votes": 3655072,
-    "matched_votes": 3655072,
-    "direct_matched_votes": 3649090,
+    "input_votes": 3655382,
+    "matched_votes": 3655382,
+    "direct_matched_votes": 3649400,
     "same_year_assignment_votes": 24121,
-    "same_year_assignment_coverage_pct": 0.6599322804037786,
+    "same_year_assignment_coverage_pct": 0.659876313884568,
     "allocated_votes": 5982,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 99.8363370133338
+    "direct_match_coverage_pct": 99.83635089301201
   },
   "general": {
     "results": {
@@ -544,15 +544,15 @@
         "color": "#a50f15"
       },
       "45": {
-        "dem_votes": 7264,
-        "rep_votes": 19613,
-        "other_votes": 81,
-        "total_votes": 26958,
+        "dem_votes": 7356,
+        "rep_votes": 19761,
+        "other_votes": 82,
+        "total_votes": 27199,
         "dem_candidate": "Mark R. Warner",
         "rep_candidate": "Bert Mizusawa",
         "winner": "Republican",
-        "margin": 12349,
-        "margin_pct": 45.80829438385637,
+        "margin": 12405,
+        "margin_pct": 45.60829442258907,
         "color": "#67000d"
       },
       "46": {
@@ -1204,15 +1204,15 @@
         "color": "#6baed6"
       },
       "100": {
-        "dem_votes": 19857,
-        "rep_votes": 16978,
+        "dem_votes": 19915,
+        "rep_votes": 16989,
         "other_votes": 59,
-        "total_votes": 36894,
+        "total_votes": 36963,
         "dem_candidate": "Mark R. Warner",
         "rep_candidate": "Bert Mizusawa",
         "winner": "Democratic",
-        "margin": 2879,
-        "margin_pct": -7.803436873204316,
+        "margin": 2926,
+        "margin_pct": -7.916024132240349,
         "color": "#9ecae1"
       }
     }

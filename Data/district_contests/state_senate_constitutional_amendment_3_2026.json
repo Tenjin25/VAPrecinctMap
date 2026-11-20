@@ -4,12 +4,12 @@
     "contest_type": "constitutional_amendment_3",
     "year": 2026,
     "district_count": 40,
-    "input_votes": 3620626,
-    "matched_votes": 3620626,
-    "direct_matched_votes": 3613443,
+    "input_votes": 3620931,
+    "matched_votes": 3620931,
+    "direct_matched_votes": 3613748,
     "allocated_votes": 7183,
     "match_coverage_pct": 100.0,
-    "direct_match_coverage_pct": 99.80160889304777,
+    "direct_match_coverage_pct": 99.80162560402283,
     "weighting": {
       "method": "SCV final 2021 plan block assignment weighted by 2020 Census voting-age population",
       "district_assignment_source": "SCV Final 2021 Redistricting Plans.zip: SCV Final 2021 Redistricting Plans/SCV FINAL SD blkassign.txt",
@@ -87,15 +87,15 @@
         "color": "#dc2626"
       },
       "6": {
-        "dem_votes": 20137,
-        "rep_votes": 50756,
+        "dem_votes": 20211,
+        "rep_votes": 50918,
         "other_votes": 0,
-        "total_votes": 70893,
+        "total_votes": 71129,
         "dem_candidate": "Yes",
         "rep_candidate": "No",
         "winner": "No",
-        "margin": 30619,
-        "margin_pct": 43.19044193361827,
+        "margin": 30707,
+        "margin_pct": 43.17085858088824,
         "color": "#dc2626"
       },
       "7": {
@@ -255,15 +255,15 @@
         "color": "#dc2626"
       },
       "20": {
-        "dem_votes": 48079,
-        "rep_votes": 42815,
+        "dem_votes": 48127,
+        "rep_votes": 42836,
         "other_votes": 0,
-        "total_votes": 90894,
+        "total_votes": 90963,
         "dem_candidate": "Yes",
         "rep_candidate": "No",
         "winner": "Yes",
-        "margin": 5264,
-        "margin_pct": -5.791361365986754,
+        "margin": 5291,
+        "margin_pct": -5.816650726119412,
         "color": "#16a34a"
       },
       "21": {

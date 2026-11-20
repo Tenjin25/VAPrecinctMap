@@ -67,10 +67,13 @@ ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Bloxom (Town of Bloxom),,,Ros
 ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Bloxom (Town of Bloxom),,,"Samuel H. Bloxom, Jr.",65
 ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Bloxom (Town of Bloxom),,,Thomas W. Beasley,60
 ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Bloxom (Town of Bloxom),,WRI,Write-In,38
+ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Hallwood (Town of Hallwood),,,Alexis Gaffney,4
 ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Hallwood (Town of Hallwood),,,Dawn A. Thornton,21
+ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Hallwood (Town of Hallwood),,,Dustyn Gibson,4
 ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Hallwood (Town of Hallwood),,,"John W. Smith, Jr.",28
 ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Hallwood (Town of Hallwood),,,Pamela G. Riffey,26
-ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Hallwood (Town of Hallwood),,WRI,Write-In,24
+ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Hallwood (Town of Hallwood),,,"Timothy Clougherty, Sr",4
+ACCOMACK COUNTY,401 - BLOXOM,Member Town Council - Hallwood (Town of Hallwood),,WRI,Write-In,12
 ACCOMACK COUNTY,401 - BLOXOM,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,198
 ACCOMACK COUNTY,401 - BLOXOM,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",2
 ACCOMACK COUNTY,401 - BLOXOM,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,2
@@ -86,21 +89,21 @@ ACCOMACK COUNTY,401 - BLOXOM,Proposed Constitutional Amendment Question 2,,,Yes,
 ACCOMACK COUNTY,401 - BLOXOM,Proposed Constitutional Amendment Question 3,,,No,307
 ACCOMACK COUNTY,401 - BLOXOM,Proposed Constitutional Amendment Question 3,,,Yes,203
 ACCOMACK COUNTY,402 - PARKSLEY,Member Town Council - Parksley (Town of Parksley),,,Kimberly C. Smith,210
-ACCOMACK COUNTY,402 - PARKSLEY,Member Town Council - Parksley (Town of Parksley),,,Mark S. Layne,168
-ACCOMACK COUNTY,402 - PARKSLEY,Member Town Council - Parksley (Town of Parksley),,,Rick W. Mattson,147
+ACCOMACK COUNTY,402 - PARKSLEY,Member Town Council - Parksley (Town of Parksley),,,Mark S. Layne,170
+ACCOMACK COUNTY,402 - PARKSLEY,Member Town Council - Parksley (Town of Parksley),,,Rick W. Mattson,148
 ACCOMACK COUNTY,402 - PARKSLEY,Member Town Council - Parksley (Town of Parksley),,WRI,Write-In,39
-ACCOMACK COUNTY,402 - PARKSLEY,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,250
+ACCOMACK COUNTY,402 - PARKSLEY,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,256
 ACCOMACK COUNTY,402 - PARKSLEY,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",6
 ACCOMACK COUNTY,402 - PARKSLEY,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,5
-ACCOMACK COUNTY,402 - PARKSLEY,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,385
-ACCOMACK COUNTY,402 - PARKSLEY,"Member, United States Senate",,REP,Bert Mizusawa,378
-ACCOMACK COUNTY,402 - PARKSLEY,"Member, United States Senate",,DEM,Mark R. Warner,268
-ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 1,,,No,362
-ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 1,,,Yes,281
-ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 2,,,No,394
-ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 2,,,Yes,249
-ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 3,,,No,399
-ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 3,,,Yes,246
+ACCOMACK COUNTY,402 - PARKSLEY,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,386
+ACCOMACK COUNTY,402 - PARKSLEY,"Member, United States Senate",,REP,Bert Mizusawa,379
+ACCOMACK COUNTY,402 - PARKSLEY,"Member, United States Senate",,DEM,Mark R. Warner,274
+ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 1,,,No,364
+ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 1,,,Yes,286
+ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 2,,,No,399
+ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 2,,,Yes,251
+ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 3,,,No,401
+ACCOMACK COUNTY,402 - PARKSLEY,Proposed Constitutional Amendment Question 3,,,Yes,251
 ACCOMACK COUNTY,403 - SAXIS,Mayor - Saxis (Town of Saxis),,,"Bryan P. Shreaves, Jr.",74
 ACCOMACK COUNTY,403 - SAXIS,Mayor - Saxis (Town of Saxis),,WRI,Write-In,6
 ACCOMACK COUNTY,403 - SAXIS,Member Town Council - Saxis (Town of Saxis),,,"Aubrey Lee Miles, Jr.",78
@@ -114,178 +117,188 @@ ACCOMACK COUNTY,403 - SAXIS,Member Town Council - Saxis (Town of Saxis),,WRI,Wri
 ACCOMACK COUNTY,403 - SAXIS,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,40
 ACCOMACK COUNTY,403 - SAXIS,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",1
 ACCOMACK COUNTY,403 - SAXIS,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,2
-ACCOMACK COUNTY,403 - SAXIS,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,133
-ACCOMACK COUNTY,403 - SAXIS,"Member, United States Senate",,REP,Bert Mizusawa,129
+ACCOMACK COUNTY,403 - SAXIS,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,134
+ACCOMACK COUNTY,403 - SAXIS,"Member, United States Senate",,REP,Bert Mizusawa,130
 ACCOMACK COUNTY,403 - SAXIS,"Member, United States Senate",,DEM,Mark R. Warner,48
 ACCOMACK COUNTY,403 - SAXIS,"Member, United States Senate",,WRI,Write-In,2
 ACCOMACK COUNTY,403 - SAXIS,Proposed Constitutional Amendment Question 1,,,No,119
-ACCOMACK COUNTY,403 - SAXIS,Proposed Constitutional Amendment Question 1,,,Yes,58
+ACCOMACK COUNTY,403 - SAXIS,Proposed Constitutional Amendment Question 1,,,Yes,59
 ACCOMACK COUNTY,403 - SAXIS,Proposed Constitutional Amendment Question 2,,,No,122
-ACCOMACK COUNTY,403 - SAXIS,Proposed Constitutional Amendment Question 2,,,Yes,51
+ACCOMACK COUNTY,403 - SAXIS,Proposed Constitutional Amendment Question 2,,,Yes,52
 ACCOMACK COUNTY,403 - SAXIS,Proposed Constitutional Amendment Question 3,,,No,127
-ACCOMACK COUNTY,403 - SAXIS,Proposed Constitutional Amendment Question 3,,,Yes,49
-ACCOMACK COUNTY,501 - MAPPSVILLE,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,354
+ACCOMACK COUNTY,403 - SAXIS,Proposed Constitutional Amendment Question 3,,,Yes,50
+ACCOMACK COUNTY,501 - MAPPSVILLE,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,358
 ACCOMACK COUNTY,501 - MAPPSVILLE,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",7
 ACCOMACK COUNTY,501 - MAPPSVILLE,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,2
-ACCOMACK COUNTY,501 - MAPPSVILLE,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,226
-ACCOMACK COUNTY,501 - MAPPSVILLE,"Member, United States Senate",,REP,Bert Mizusawa,220
-ACCOMACK COUNTY,501 - MAPPSVILLE,"Member, United States Senate",,DEM,Mark R. Warner,364
+ACCOMACK COUNTY,501 - MAPPSVILLE,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,228
+ACCOMACK COUNTY,501 - MAPPSVILLE,"Member, United States Senate",,REP,Bert Mizusawa,221
+ACCOMACK COUNTY,501 - MAPPSVILLE,"Member, United States Senate",,DEM,Mark R. Warner,369
 ACCOMACK COUNTY,501 - MAPPSVILLE,"Member, United States Senate",,WRI,Write-In,1
-ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 1,,,No,228
-ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 1,,,Yes,347
-ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 2,,,No,257
-ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 2,,,Yes,316
-ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 3,,,No,247
-ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 3,,,Yes,324
-ACCOMACK COUNTY,502 - RUE,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,413
+ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 1,,,No,231
+ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 1,,,Yes,350
+ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 2,,,No,259
+ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 2,,,Yes,320
+ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 3,,,No,250
+ACCOMACK COUNTY,501 - MAPPSVILLE,Proposed Constitutional Amendment Question 3,,,Yes,328
+ACCOMACK COUNTY,502 - RUE,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,420
 ACCOMACK COUNTY,502 - RUE,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",7
 ACCOMACK COUNTY,502 - RUE,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,3
-ACCOMACK COUNTY,502 - RUE,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,114
+ACCOMACK COUNTY,502 - RUE,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,115
 ACCOMACK COUNTY,502 - RUE,"Member, House of Representatives (2nd District)",2,WRI,Write-In,1
-ACCOMACK COUNTY,502 - RUE,"Member, United States Senate",,REP,Bert Mizusawa,118
-ACCOMACK COUNTY,502 - RUE,"Member, United States Senate",,DEM,Mark R. Warner,413
+ACCOMACK COUNTY,502 - RUE,"Member, United States Senate",,REP,Bert Mizusawa,119
+ACCOMACK COUNTY,502 - RUE,"Member, United States Senate",,DEM,Mark R. Warner,421
 ACCOMACK COUNTY,502 - RUE,"Member, United States Senate",,WRI,Write-In,1
-ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 1,,,No,149
-ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 1,,,Yes,374
-ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 2,,,No,204
-ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 2,,,Yes,326
-ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 3,,,No,142
-ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 3,,,Yes,389
-ACCOMACK COUNTY,601 - ACCOMAC,Mayor - Accomac (Town of Accomac),,WRI,Write-In,42
-ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,,Christopher W. Newman,81
-ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,,Jon J. Mindurski,67
-ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,,Mary E. Dahlke,66
-ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,,Thomas E. Hines,105
-ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,WRI,Write-In,62
-ACCOMACK COUNTY,601 - ACCOMAC,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,593
+ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 1,,,No,151
+ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 1,,,Yes,381
+ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 2,,,No,209
+ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 2,,,Yes,330
+ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 3,,,No,143
+ACCOMACK COUNTY,502 - RUE,Proposed Constitutional Amendment Question 3,,,Yes,397
+ACCOMACK COUNTY,601 - ACCOMAC,Mayor - Accomac (Town of Accomac),,,Christopher W. Newman,8
+ACCOMACK COUNTY,601 - ACCOMAC,Mayor - Accomac (Town of Accomac),,WRI,Write-In,34
+ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,,Christopher W. Newman,83
+ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,,Jennifer Matthews,9
+ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,,Jon J. Mindurski,68
+ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,,Mary E. Dahlke,68
+ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,,Russell Williams,11
+ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,,Thomas E. Hines,107
+ACCOMACK COUNTY,601 - ACCOMAC,Member Town Council - Accomac (Town of Accomac),,WRI,Write-In,42
+ACCOMACK COUNTY,601 - ACCOMAC,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,603
 ACCOMACK COUNTY,601 - ACCOMAC,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",5
 ACCOMACK COUNTY,601 - ACCOMAC,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,13
-ACCOMACK COUNTY,601 - ACCOMAC,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,610
-ACCOMACK COUNTY,601 - ACCOMAC,"Member, United States Senate",,REP,Bert Mizusawa,607
-ACCOMACK COUNTY,601 - ACCOMAC,"Member, United States Senate",,DEM,Mark R. Warner,611
+ACCOMACK COUNTY,601 - ACCOMAC,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,614
+ACCOMACK COUNTY,601 - ACCOMAC,"Member, United States Senate",,REP,Bert Mizusawa,610
+ACCOMACK COUNTY,601 - ACCOMAC,"Member, United States Senate",,DEM,Mark R. Warner,623
 ACCOMACK COUNTY,601 - ACCOMAC,"Member, United States Senate",,WRI,Write-In,1
-ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 1,,,No,600
-ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 1,,,Yes,615
-ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 2,,,No,637
-ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 2,,,Yes,577
-ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 3,,,No,648
-ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 3,,,Yes,571
+ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 1,,,No,604
+ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 1,,,Yes,625
+ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 2,,,No,641
+ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 2,,,Yes,587
+ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 3,,,No,654
+ACCOMACK COUNTY,601 - ACCOMAC,Proposed Constitutional Amendment Question 3,,,Yes,579
 ACCOMACK COUNTY,602 - TANGIER,Mayor - Tangier (Town of Tangier),,,James Wyatt Eskridge,121
-ACCOMACK COUNTY,602 - TANGIER,Mayor - Tangier (Town of Tangier),,WRI,Write-In,16
+ACCOMACK COUNTY,602 - TANGIER,Mayor - Tangier (Town of Tangier),,WRI,Write-In,17
 ACCOMACK COUNTY,602 - TANGIER,Member Town Council - Tangier (Town of Tangier),,,Anna E. Pruitt-Parks,116
+ACCOMACK COUNTY,602 - TANGIER,Member Town Council - Tangier (Town of Tangier),,,Elizabeth Inez Pruitt,92
 ACCOMACK COUNTY,602 - TANGIER,Member Town Council - Tangier (Town of Tangier),,,Elizabeth P. Thomas,131
 ACCOMACK COUNTY,602 - TANGIER,Member Town Council - Tangier (Town of Tangier),,,Kelly Charnock Wheatley,123
 ACCOMACK COUNTY,602 - TANGIER,Member Town Council - Tangier (Town of Tangier),,,Tracy King Pruitt,122
 ACCOMACK COUNTY,602 - TANGIER,Member Town Council - Tangier (Town of Tangier),,,"William T. ""Tommy"" Eskridge III",113
-ACCOMACK COUNTY,602 - TANGIER,Member Town Council - Tangier (Town of Tangier),,WRI,Write-In,131
+ACCOMACK COUNTY,602 - TANGIER,Member Town Council - Tangier (Town of Tangier),,WRI,Write-In,43
 ACCOMACK COUNTY,602 - TANGIER,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,17
 ACCOMACK COUNTY,602 - TANGIER,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",1
 ACCOMACK COUNTY,602 - TANGIER,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,1
-ACCOMACK COUNTY,602 - TANGIER,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,130
-ACCOMACK COUNTY,602 - TANGIER,"Member, United States Senate",,REP,Bert Mizusawa,121
+ACCOMACK COUNTY,602 - TANGIER,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,131
+ACCOMACK COUNTY,602 - TANGIER,"Member, United States Senate",,REP,Bert Mizusawa,122
 ACCOMACK COUNTY,602 - TANGIER,"Member, United States Senate",,DEM,Mark R. Warner,26
-ACCOMACK COUNTY,602 - TANGIER,Proposed Constitutional Amendment Question 1,,,No,100
+ACCOMACK COUNTY,602 - TANGIER,Proposed Constitutional Amendment Question 1,,,No,101
 ACCOMACK COUNTY,602 - TANGIER,Proposed Constitutional Amendment Question 1,,,Yes,31
-ACCOMACK COUNTY,602 - TANGIER,Proposed Constitutional Amendment Question 2,,,No,113
+ACCOMACK COUNTY,602 - TANGIER,Proposed Constitutional Amendment Question 2,,,No,114
 ACCOMACK COUNTY,602 - TANGIER,Proposed Constitutional Amendment Question 2,,,Yes,30
 ACCOMACK COUNTY,602 - TANGIER,Proposed Constitutional Amendment Question 3,,,No,107
-ACCOMACK COUNTY,602 - TANGIER,Proposed Constitutional Amendment Question 3,,,Yes,34
-ACCOMACK COUNTY,701 - NANDUA,Mayor - Onancock (Town of Onancock),,,Fletcher D. Fosque,456
-ACCOMACK COUNTY,701 - NANDUA,Mayor - Onancock (Town of Onancock),,WRI,Write-In,51
-ACCOMACK COUNTY,701 - NANDUA,Mayor - Onley (Town of Onley),,,"Henry E. ""Ned"" Finney",166
+ACCOMACK COUNTY,602 - TANGIER,Proposed Constitutional Amendment Question 3,,,Yes,35
+ACCOMACK COUNTY,701 - NANDUA,Mayor - Onancock (Town of Onancock),,,Fletcher D. Fosque,458
+ACCOMACK COUNTY,701 - NANDUA,Mayor - Onancock (Town of Onancock),,WRI,Write-In,52
+ACCOMACK COUNTY,701 - NANDUA,Mayor - Onley (Town of Onley),,,"Henry E. ""Ned"" Finney",169
 ACCOMACK COUNTY,701 - NANDUA,Mayor - Onley (Town of Onley),,WRI,Write-In,15
 ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onancock (Town of Onancock),,,Ann M. Quigley,294
-ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onancock (Town of Onancock),,,Ashley G. Pettit,301
-ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onancock (Town of Onancock),,,Cynthia W. Holdren,309
-ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onancock (Town of Onancock),,WRI,Write-In,66
+ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onancock (Town of Onancock),,,Ashley G. Pettit,302
+ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onancock (Town of Onancock),,,Cynthia W. Holdren,310
+ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onancock (Town of Onancock),,WRI,Write-In,67
 ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onley (Town of Onley),,,Brian A. Corbin,115
-ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onley (Town of Onley),,,"Daniel Keith Bloxom, Jr.",106
-ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onley (Town of Onley),,,Jason A. Campbell,119
+ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onley (Town of Onley),,,"Daniel Keith Bloxom, Jr.",107
+ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onley (Town of Onley),,,Jason A. Campbell,121
 ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onley (Town of Onley),,,Rodney C. Lang,127
-ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onley (Town of Onley),,,"W. R. ""Bill"" Ferguson",128
+ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onley (Town of Onley),,,"W. R. ""Bill"" Ferguson",129
 ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onley (Town of Onley),,,Woody W. Zember,128
 ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Onley (Town of Onley),,WRI,Write-In,31
-ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Special (Town of Onancock),,,"K. C. ""Kasey"" Grier",413
-ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Special (Town of Onancock),,WRI,Write-In,30
-ACCOMACK COUNTY,701 - NANDUA,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,944
+ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Special (Town of Onancock),,,"K. C. ""Kasey"" Grier",415
+ACCOMACK COUNTY,701 - NANDUA,Member Town Council - Special (Town of Onancock),,WRI,Write-In,31
+ACCOMACK COUNTY,701 - NANDUA,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,954
 ACCOMACK COUNTY,701 - NANDUA,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",5
-ACCOMACK COUNTY,701 - NANDUA,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,14
-ACCOMACK COUNTY,701 - NANDUA,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,899
+ACCOMACK COUNTY,701 - NANDUA,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,15
+ACCOMACK COUNTY,701 - NANDUA,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,901
 ACCOMACK COUNTY,701 - NANDUA,"Member, House of Representatives (2nd District)",2,WRI,Write-In,2
-ACCOMACK COUNTY,701 - NANDUA,"Member, United States Senate",,REP,Bert Mizusawa,871
-ACCOMACK COUNTY,701 - NANDUA,"Member, United States Senate",,DEM,Mark R. Warner,988
+ACCOMACK COUNTY,701 - NANDUA,"Member, United States Senate",,REP,Bert Mizusawa,872
+ACCOMACK COUNTY,701 - NANDUA,"Member, United States Senate",,DEM,Mark R. Warner,1000
 ACCOMACK COUNTY,701 - NANDUA,"Member, United States Senate",,WRI,Write-In,1
-ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 1,,,No,808
-ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 1,,,Yes,1024
-ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 2,,,No,891
-ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 2,,,Yes,947
-ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 3,,,No,924
-ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 3,,,Yes,918
+ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 1,,,No,811
+ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 1,,,Yes,1034
+ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 2,,,No,897
+ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 2,,,Yes,954
+ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 3,,,No,926
+ACCOMACK COUNTY,701 - NANDUA,Proposed Constitutional Amendment Question 3,,,Yes,929
 ACCOMACK COUNTY,801 - BOBTOWN,Mayor - Keller (Town of Keller),,,S. Beth J. Hart,39
 ACCOMACK COUNTY,801 - BOBTOWN,Mayor - Keller (Town of Keller),,WRI,Write-In,2
 ACCOMACK COUNTY,801 - BOBTOWN,Member Town Council - Keller (Town of Keller),,,Anna L. Hart,34
 ACCOMACK COUNTY,801 - BOBTOWN,Member Town Council - Keller (Town of Keller),,,Linda A. Guy,31
+ACCOMACK COUNTY,801 - BOBTOWN,Member Town Council - Keller (Town of Keller),,,Patricia Nottingham,5
 ACCOMACK COUNTY,801 - BOBTOWN,Member Town Council - Keller (Town of Keller),,,Rose Ann Moore,35
-ACCOMACK COUNTY,801 - BOBTOWN,Member Town Council - Keller (Town of Keller),,,Teresa E. Guy,33
-ACCOMACK COUNTY,801 - BOBTOWN,Member Town Council - Keller (Town of Keller),,WRI,Write-In,11
-ACCOMACK COUNTY,801 - BOBTOWN,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,235
+ACCOMACK COUNTY,801 - BOBTOWN,Member Town Council - Keller (Town of Keller),,,Susan Smith,5
+ACCOMACK COUNTY,801 - BOBTOWN,Member Town Council - Keller (Town of Keller),,,Teresa E. Guy,35
+ACCOMACK COUNTY,801 - BOBTOWN,Member Town Council - Keller (Town of Keller),,WRI,Write-In,1
+ACCOMACK COUNTY,801 - BOBTOWN,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,238
 ACCOMACK COUNTY,801 - BOBTOWN,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",2
 ACCOMACK COUNTY,801 - BOBTOWN,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,4
-ACCOMACK COUNTY,801 - BOBTOWN,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,379
-ACCOMACK COUNTY,801 - BOBTOWN,"Member, United States Senate",,REP,Bert Mizusawa,376
-ACCOMACK COUNTY,801 - BOBTOWN,"Member, United States Senate",,DEM,Mark R. Warner,243
+ACCOMACK COUNTY,801 - BOBTOWN,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,380
+ACCOMACK COUNTY,801 - BOBTOWN,"Member, United States Senate",,REP,Bert Mizusawa,377
+ACCOMACK COUNTY,801 - BOBTOWN,"Member, United States Senate",,DEM,Mark R. Warner,246
 ACCOMACK COUNTY,801 - BOBTOWN,"Member, United States Senate",,WRI,Write-In,1
 ACCOMACK COUNTY,801 - BOBTOWN,Proposed Constitutional Amendment Question 1,,,No,340
-ACCOMACK COUNTY,801 - BOBTOWN,Proposed Constitutional Amendment Question 1,,,Yes,279
+ACCOMACK COUNTY,801 - BOBTOWN,Proposed Constitutional Amendment Question 1,,,Yes,283
 ACCOMACK COUNTY,801 - BOBTOWN,Proposed Constitutional Amendment Question 2,,,No,348
-ACCOMACK COUNTY,801 - BOBTOWN,Proposed Constitutional Amendment Question 2,,,Yes,267
+ACCOMACK COUNTY,801 - BOBTOWN,Proposed Constitutional Amendment Question 2,,,Yes,271
 ACCOMACK COUNTY,801 - BOBTOWN,Proposed Constitutional Amendment Question 3,,,No,377
-ACCOMACK COUNTY,801 - BOBTOWN,Proposed Constitutional Amendment Question 3,,,Yes,234
-ACCOMACK COUNTY,802 - MELFA,Mayor - Melfa (Town of Melfa),,WRI,Write-In,50
+ACCOMACK COUNTY,801 - BOBTOWN,Proposed Constitutional Amendment Question 3,,,Yes,238
+ACCOMACK COUNTY,802 - MELFA,Mayor - Melfa (Town of Melfa),,,Charles Wilbur,25
+ACCOMACK COUNTY,802 - MELFA,Mayor - Melfa (Town of Melfa),,WRI,Write-In,26
+ACCOMACK COUNTY,802 - MELFA,Member Town Council - Melfa (Town of Melfa),,,Carol Read,5
+ACCOMACK COUNTY,802 - MELFA,Member Town Council - Melfa (Town of Melfa),,,Greg Spady,9
 ACCOMACK COUNTY,802 - MELFA,Member Town Council - Melfa (Town of Melfa),,,James R. Wilson,130
+ACCOMACK COUNTY,802 - MELFA,Member Town Council - Melfa (Town of Melfa),,,Jamie Collins,9
 ACCOMACK COUNTY,802 - MELFA,Member Town Council - Melfa (Town of Melfa),,,Ricky C. Marsh,110
-ACCOMACK COUNTY,802 - MELFA,Member Town Council - Melfa (Town of Melfa),,,Robert Douglas Mears,118
-ACCOMACK COUNTY,802 - MELFA,Member Town Council - Melfa (Town of Melfa),,WRI,Write-In,75
-ACCOMACK COUNTY,802 - MELFA,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,412
+ACCOMACK COUNTY,802 - MELFA,Member Town Council - Melfa (Town of Melfa),,,Robert Douglas Mears,119
+ACCOMACK COUNTY,802 - MELFA,Member Town Council - Melfa (Town of Melfa),,WRI,Write-In,52
+ACCOMACK COUNTY,802 - MELFA,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,414
 ACCOMACK COUNTY,802 - MELFA,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",3
 ACCOMACK COUNTY,802 - MELFA,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,6
-ACCOMACK COUNTY,802 - MELFA,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,312
+ACCOMACK COUNTY,802 - MELFA,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,313
 ACCOMACK COUNTY,802 - MELFA,"Member, House of Representatives (2nd District)",2,WRI,Write-In,1
 ACCOMACK COUNTY,802 - MELFA,"Member, United States Senate",,REP,Bert Mizusawa,301
-ACCOMACK COUNTY,802 - MELFA,"Member, United States Senate",,DEM,Mark R. Warner,425
+ACCOMACK COUNTY,802 - MELFA,"Member, United States Senate",,DEM,Mark R. Warner,427
 ACCOMACK COUNTY,802 - MELFA,"Member, United States Senate",,WRI,Write-In,1
-ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 1,,,No,290
-ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 1,,,Yes,422
-ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 2,,,No,329
-ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 2,,,Yes,385
-ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 3,,,No,335
-ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 3,,,Yes,384
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Mayor - Wachapreague (Town of Wachapreague),,,Arthur J. Mendez,106
+ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 1,,,No,291
+ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 1,,,Yes,424
+ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 2,,,No,330
+ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 2,,,Yes,387
+ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 3,,,No,337
+ACCOMACK COUNTY,802 - MELFA,Proposed Constitutional Amendment Question 3,,,Yes,385
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Mayor - Wachapreague (Town of Wachapreague),,,Arthur J. Mendez,108
 ACCOMACK COUNTY,803 - WACHAPREAGUE,Mayor - Wachapreague (Town of Wachapreague),,WRI,Write-In,17
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,,Aileen Z. Joeckel,87
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,,Glenn J. Schagelin,95
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,,James E. Bell,89
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,,Aileen Z. Joeckel,88
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,,Glenn J. Schagelin,97
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,,James E. Bell,90
 ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,,Robert E. Hipple Jr.,35
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,,Robert F. Bilicki,96
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,,Stephen B. Joseph,96
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,,Robert F. Bilicki,97
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,,Stephen B. Joseph,97
 ACCOMACK COUNTY,803 - WACHAPREAGUE,Member Town Council - Wachapreague (Town of Wachapreague),,WRI,Write-In,89
-ACCOMACK COUNTY,803 - WACHAPREAGUE,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,179
+ACCOMACK COUNTY,803 - WACHAPREAGUE,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,181
 ACCOMACK COUNTY,803 - WACHAPREAGUE,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",2
 ACCOMACK COUNTY,803 - WACHAPREAGUE,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,3
 ACCOMACK COUNTY,803 - WACHAPREAGUE,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,327
 ACCOMACK COUNTY,803 - WACHAPREAGUE,"Member, House of Representatives (2nd District)",2,WRI,Write-In,1
 ACCOMACK COUNTY,803 - WACHAPREAGUE,"Member, United States Senate",,REP,Bert Mizusawa,310
-ACCOMACK COUNTY,803 - WACHAPREAGUE,"Member, United States Senate",,DEM,Mark R. Warner,191
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 1,,,No,285
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 1,,,Yes,215
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 2,,,No,288
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 2,,,Yes,209
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 3,,,No,299
-ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 3,,,Yes,202
+ACCOMACK COUNTY,803 - WACHAPREAGUE,"Member, United States Senate",,DEM,Mark R. Warner,193
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 1,,,No,286
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 1,,,Yes,216
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 2,,,No,289
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 2,,,Yes,210
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 3,,,No,300
+ACCOMACK COUNTY,803 - WACHAPREAGUE,Proposed Constitutional Amendment Question 3,,,Yes,203
 ACCOMACK COUNTY,901 - PAINTER,Mayor - Belle Haven (Town of Belle Haven),,,David A. McCaleb,128
 ACCOMACK COUNTY,901 - PAINTER,Mayor - Belle Haven (Town of Belle Haven),,,Lawrence Burr Willcox II,28
 ACCOMACK COUNTY,901 - PAINTER,Mayor - Belle Haven (Town of Belle Haven),,WRI,Write-In,3
-ACCOMACK COUNTY,901 - PAINTER,Mayor - Painter (Town of Painter),,,Connie Widgeon Campbell,79
+ACCOMACK COUNTY,901 - PAINTER,Mayor - Painter (Town of Painter),,,Connie Widgeon Campbell,80
 ACCOMACK COUNTY,901 - PAINTER,Mayor - Painter (Town of Painter),,WRI,Write-In,7
 ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Belle Haven (Town of Belle Haven),,,Cecil Mears Ashby,109
 ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Belle Haven (Town of Belle Haven),,,Douglas R. Wehner,99
@@ -293,28 +306,29 @@ ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Belle Haven (Town of Belle H
 ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Belle Haven (Town of Belle Haven),,,Larry S. Baxter,89
 ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Belle Haven (Town of Belle Haven),,,Troy A. Brown,90
 ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Belle Haven (Town of Belle Haven),,WRI,Write-In,10
-ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,Eric Talmadge Harris,41
-ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,F. C. Duer III,39
-ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,James N. Sturgis,57
-ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,Josephine B. Hearne,42
-ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,"Samuel L. Lewis, Jr.",45
-ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,Thomas L. Willett,42
+ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,Eric Talmadge Harris,42
+ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,F. C. Duer III,40
+ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,James N. Sturgis,58
+ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,Josephine B. Hearne,43
+ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,"Samuel L. Lewis, Jr.",46
+ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,,Thomas L. Willett,43
 ACCOMACK COUNTY,901 - PAINTER,Member Town Council - Painter (Town of Painter),,WRI,Write-In,13
-ACCOMACK COUNTY,901 - PAINTER,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,1071
-ACCOMACK COUNTY,901 - PAINTER,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",4
+ACCOMACK COUNTY,901 - PAINTER,"Member, House of Representatives (2nd District)",2,DEM,Elaine G. Luria,1077
+ACCOMACK COUNTY,901 - PAINTER,"Member, House of Representatives (2nd District)",2,IND,"Geral D. ""Bishop"" Staten",5
 ACCOMACK COUNTY,901 - PAINTER,"Member, House of Representatives (2nd District)",2,IND,J. Matt Baker,12
-ACCOMACK COUNTY,901 - PAINTER,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,601
+ACCOMACK COUNTY,901 - PAINTER,"Member, House of Representatives (2nd District)",2,REP,Jen A. Kiggans,603
 ACCOMACK COUNTY,901 - PAINTER,"Member, House of Representatives (2nd District)",2,WRI,Write-In,2
-ACCOMACK COUNTY,901 - PAINTER,"Member, United States Senate",,REP,Bert Mizusawa,577
-ACCOMACK COUNTY,901 - PAINTER,"Member, United States Senate",,DEM,Mark R. Warner,1109
+ACCOMACK COUNTY,901 - PAINTER,"Member, United States Senate",,REP,Bert Mizusawa,578
+ACCOMACK COUNTY,901 - PAINTER,"Member, United States Senate",,DEM,Mark R. Warner,1117
 ACCOMACK COUNTY,901 - PAINTER,"Member, United States Senate",,WRI,Write-In,1
-ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 1,,,No,593
-ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 1,,,Yes,1070
-ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 2,,,No,717
-ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 2,,,Yes,952
-ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 3,,,No,640
-ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 3,,,Yes,1026
-ACCOMACK COUNTY,901 - PAINTER,Recorder - Belle Haven (Town of Belle Haven),,WRI,Write-In,30
+ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 1,,,No,597
+ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 1,,,Yes,1075
+ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 2,,,No,721
+ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 2,,,Yes,957
+ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 3,,,No,644
+ACCOMACK COUNTY,901 - PAINTER,Proposed Constitutional Amendment Question 3,,,Yes,1030
+ACCOMACK COUNTY,901 - PAINTER,Recorder - Belle Haven (Town of Belle Haven),,,Jonathon E. Kilmon,16
+ACCOMACK COUNTY,901 - PAINTER,Recorder - Belle Haven (Town of Belle Haven),,WRI,Write-In,14
 ALBEMARLE COUNTY,101 - WOODBROOK,"Member, House of Representatives (5th District)",5,IND,Cooke C. Harvey,23
 ALBEMARLE COUNTY,101 - WOODBROOK,"Member, House of Representatives (5th District)",5,REP,John J. McGuire III,564
 ALBEMARLE COUNTY,101 - WOODBROOK,"Member, House of Representatives (5th District)",5,DEM,Tom S. P. Perriello,1556
@@ -1336,14 +1350,14 @@ ALLEGHANY COUNTY,402 - JACKSON HEIGHTS,Proposed Constitutional Amendment Questio
 ALLEGHANY COUNTY,402 - JACKSON HEIGHTS,Proposed Constitutional Amendment Question 3,,,Yes,176
 ALLEGHANY COUNTY,402 - JACKSON HEIGHTS,Sales Tax,,,No,408
 ALLEGHANY COUNTY,402 - JACKSON HEIGHTS,Sales Tax,,,Yes,151
-ALLEGHANY COUNTY,501 - IRON GATE,Mayor (Town of Iron Gate),,,Charles W. Unroe,29
-ALLEGHANY COUNTY,501 - IRON GATE,Mayor (Town of Iron Gate),,WRI,Write-In,12
+ALLEGHANY COUNTY,501 - IRON GATE,Mayor (Town of Iron Gate),,,Charles W. Unroe,12
+ALLEGHANY COUNTY,501 - IRON GATE,Mayor (Town of Iron Gate),,WRI,Write-In,29
 ALLEGHANY COUNTY,501 - IRON GATE,Member School Board,,,"Randall ""Randy"" Tucker",163
 ALLEGHANY COUNTY,501 - IRON GATE,Member School Board,,WRI,Write-In,4
 ALLEGHANY COUNTY,501 - IRON GATE,Member Town Council (Town of Iron Gate),,,Elizabeth M. Rhodes,9
 ALLEGHANY COUNTY,501 - IRON GATE,Member Town Council (Town of Iron Gate),,,Patricia A. Shifflett,5
 ALLEGHANY COUNTY,501 - IRON GATE,Member Town Council (Town of Iron Gate),,,"Richard ""Randy"" Unroe",5
-ALLEGHANY COUNTY,501 - IRON GATE,Member Town Council (Town of Iron Gate),,WRI,Write-In,27
+ALLEGHANY COUNTY,501 - IRON GATE,Member Town Council (Town of Iron Gate),,WRI,Write-In,25
 ALLEGHANY COUNTY,501 - IRON GATE,"Member, House of Representatives (6th District)",6,REP,Ben L. Cline,118
 ALLEGHANY COUNTY,501 - IRON GATE,"Member, House of Representatives (6th District)",6,DEM,Beth A. Macy,73
 ALLEGHANY COUNTY,501 - IRON GATE,"Member, House of Representatives (6th District)",6,WRI,Write-In,1
@@ -9849,7 +9863,7 @@ CHESTERFIELD COUNTY,401 - HARBOUR POINTE,Sales Tax,,,Yes,832
 CHESTERFIELD COUNTY,402 - GENITO,Member School Board (Clover Hill District),,,Christina Romers Brady,1153
 CHESTERFIELD COUNTY,402 - GENITO,Member School Board (Clover Hill District),,,Elizabeth L. Schultz,731
 CHESTERFIELD COUNTY,402 - GENITO,Member School Board (Clover Hill District),,WRI,Write-In,16
-CHESTERFIELD COUNTY,402 - GENITO,"Member, House of Representatives (1st District)",1,REP,"Robert J. ""Rob"" Wittman",18
+CHESTERFIELD COUNTY,402 - GENITO,"Member, House of Representatives (1st District)",1,REP,"Robert J. ""Rob"" Wittman",16
 CHESTERFIELD COUNTY,402 - GENITO,"Member, House of Representatives (1st District)",1,DEM,Shannon L. Taylor,28
 CHESTERFIELD COUNTY,402 - GENITO,"Member, House of Representatives (4th District)",4,DEM,Jennifer L. McClellan,1254
 CHESTERFIELD COUNTY,402 - GENITO,"Member, House of Representatives (4th District)",4,IND,"Joan E. ""Andrews"" Bell",35
@@ -17989,7 +18003,7 @@ FREDERICK COUNTY,105 - MIDDLETOWN,Member Board of Supervisors - Special (Back Cr
 FREDERICK COUNTY,105 - MIDDLETOWN,Member Town Council (Town of Middletown),,,Diane H. Newman Shannon,517
 FREDERICK COUNTY,105 - MIDDLETOWN,Member Town Council (Town of Middletown),,,Jacob D. Skeith,339
 FREDERICK COUNTY,105 - MIDDLETOWN,Member Town Council (Town of Middletown),,,Jeffrey H. Pennington,381
-FREDERICK COUNTY,105 - MIDDLETOWN,Member Town Council (Town of Middletown),,WRI,Write-In,10
+FREDERICK COUNTY,105 - MIDDLETOWN,Member Town Council (Town of Middletown),,WRI,Write-In,33
 FREDERICK COUNTY,105 - MIDDLETOWN,"Member, House of Representatives (6th District)",6,REP,Ben L. Cline,347
 FREDERICK COUNTY,105 - MIDDLETOWN,"Member, House of Representatives (6th District)",6,DEM,Beth A. Macy,390
 FREDERICK COUNTY,105 - MIDDLETOWN,"Member, House of Representatives (6th District)",6,WRI,Write-In,4
@@ -23945,15 +23959,15 @@ LANCASTER COUNTY,501 - PRECINCT 5-1,Proposed Constitutional Amendment Question 2
 LANCASTER COUNTY,501 - PRECINCT 5-1,Proposed Constitutional Amendment Question 2,,,Yes,750
 LANCASTER COUNTY,501 - PRECINCT 5-1,Proposed Constitutional Amendment Question 3,,,No,761
 LANCASTER COUNTY,501 - PRECINCT 5-1,Proposed Constitutional Amendment Question 3,,,Yes,618
-LEE COUNTY,101 - ELYDALE,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,240
+LEE COUNTY,101 - ELYDALE,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,239
 LEE COUNTY,101 - ELYDALE,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,75
-LEE COUNTY,101 - ELYDALE,"Member, United States Senate",,REP,Bert Mizusawa,224
+LEE COUNTY,101 - ELYDALE,"Member, United States Senate",,REP,Bert Mizusawa,223
 LEE COUNTY,101 - ELYDALE,"Member, United States Senate",,DEM,Mark R. Warner,90
-LEE COUNTY,101 - ELYDALE,Proposed Constitutional Amendment Question 1,,,No,209
+LEE COUNTY,101 - ELYDALE,Proposed Constitutional Amendment Question 1,,,No,208
 LEE COUNTY,101 - ELYDALE,Proposed Constitutional Amendment Question 1,,,Yes,95
-LEE COUNTY,101 - ELYDALE,Proposed Constitutional Amendment Question 2,,,No,239
+LEE COUNTY,101 - ELYDALE,Proposed Constitutional Amendment Question 2,,,No,238
 LEE COUNTY,101 - ELYDALE,Proposed Constitutional Amendment Question 2,,,Yes,68
-LEE COUNTY,101 - ELYDALE,Proposed Constitutional Amendment Question 3,,,No,224
+LEE COUNTY,101 - ELYDALE,Proposed Constitutional Amendment Question 3,,,No,223
 LEE COUNTY,101 - ELYDALE,Proposed Constitutional Amendment Question 3,,,Yes,78
 LEE COUNTY,102 - EWING,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,272
 LEE COUNTY,102 - EWING,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,57
@@ -23997,28 +24011,28 @@ LEE COUNTY,202 - FLATWOODS,Proposed Constitutional Amendment Question 2,,,No,449
 LEE COUNTY,202 - FLATWOODS,Proposed Constitutional Amendment Question 2,,,Yes,99
 LEE COUNTY,202 - FLATWOODS,Proposed Constitutional Amendment Question 3,,,No,427
 LEE COUNTY,202 - FLATWOODS,Proposed Constitutional Amendment Question 3,,,Yes,121
-LEE COUNTY,203 - JONESVILLE,Mayor - Jonesville (Town of Jonesville),,,Jerry L. Harris,204
+LEE COUNTY,203 - JONESVILLE,Mayor - Jonesville (Town of Jonesville),,,Jerry L. Harris,203
 LEE COUNTY,203 - JONESVILLE,Mayor - Jonesville (Town of Jonesville),,WRI,Write-In,27
-LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,B. Kenny Hounshell,147
-LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,Danielle R. Stapleton,134
+LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,B. Kenny Hounshell,144
+LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,Danielle R. Stapleton,133
 LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,Linda Sue Fee,2
-LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,Michael J. Litton,141
-LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,Rebecca Riggs Hines,148
+LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,Michael J. Litton,140
+LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,Rebecca Riggs Hines,145
 LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,Robert Michael Collins,4
-LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,Summer M. Wynn,147
+LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,,Summer M. Wynn,145
 LEE COUNTY,203 - JONESVILLE,Member Town Council - Jonesville (Town of Jonesville),,WRI,Write-In,64
-LEE COUNTY,203 - JONESVILLE,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,768
+LEE COUNTY,203 - JONESVILLE,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,767
 LEE COUNTY,203 - JONESVILLE,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,196
 LEE COUNTY,203 - JONESVILLE,"Member, House of Representatives (9th District)",9,WRI,Write-In,2
-LEE COUNTY,203 - JONESVILLE,"Member, United States Senate",,REP,Bert Mizusawa,709
+LEE COUNTY,203 - JONESVILLE,"Member, United States Senate",,REP,Bert Mizusawa,708
 LEE COUNTY,203 - JONESVILLE,"Member, United States Senate",,DEM,Mark R. Warner,254
 LEE COUNTY,203 - JONESVILLE,"Member, United States Senate",,WRI,Write-In,1
 LEE COUNTY,203 - JONESVILLE,Proposed Constitutional Amendment Question 1,,,No,673
-LEE COUNTY,203 - JONESVILLE,Proposed Constitutional Amendment Question 1,,,Yes,281
+LEE COUNTY,203 - JONESVILLE,Proposed Constitutional Amendment Question 1,,,Yes,280
 LEE COUNTY,203 - JONESVILLE,Proposed Constitutional Amendment Question 2,,,No,775
-LEE COUNTY,203 - JONESVILLE,Proposed Constitutional Amendment Question 2,,,Yes,183
+LEE COUNTY,203 - JONESVILLE,Proposed Constitutional Amendment Question 2,,,Yes,182
 LEE COUNTY,203 - JONESVILLE,Proposed Constitutional Amendment Question 3,,,No,705
-LEE COUNTY,203 - JONESVILLE,Proposed Constitutional Amendment Question 3,,,Yes,251
+LEE COUNTY,203 - JONESVILLE,Proposed Constitutional Amendment Question 3,,,Yes,250
 LEE COUNTY,301 - BEN HUR,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,515
 LEE COUNTY,301 - BEN HUR,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,139
 LEE COUNTY,301 - BEN HUR,"Member, House of Representatives (9th District)",9,WRI,Write-In,1
@@ -24042,51 +24056,51 @@ LEE COUNTY,302 - WOODWAY,Proposed Constitutional Amendment Question 2,,,No,292
 LEE COUNTY,302 - WOODWAY,Proposed Constitutional Amendment Question 2,,,Yes,54
 LEE COUNTY,302 - WOODWAY,Proposed Constitutional Amendment Question 3,,,No,267
 LEE COUNTY,302 - WOODWAY,Proposed Constitutional Amendment Question 3,,,Yes,79
-LEE COUNTY,401 - STICKLEYVILLE,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,378
+LEE COUNTY,401 - STICKLEYVILLE,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,379
 LEE COUNTY,401 - STICKLEYVILLE,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,105
 LEE COUNTY,401 - STICKLEYVILLE,"Member, House of Representatives (9th District)",9,WRI,Write-In,2
 LEE COUNTY,401 - STICKLEYVILLE,"Member, United States Senate",,REP,Bert Mizusawa,354
-LEE COUNTY,401 - STICKLEYVILLE,"Member, United States Senate",,DEM,Mark R. Warner,131
+LEE COUNTY,401 - STICKLEYVILLE,"Member, United States Senate",,DEM,Mark R. Warner,132
 LEE COUNTY,401 - STICKLEYVILLE,"Member, United States Senate",,WRI,Write-In,1
-LEE COUNTY,401 - STICKLEYVILLE,Proposed Constitutional Amendment Question 1,,,No,352
+LEE COUNTY,401 - STICKLEYVILLE,Proposed Constitutional Amendment Question 1,,,No,353
 LEE COUNTY,401 - STICKLEYVILLE,Proposed Constitutional Amendment Question 1,,,Yes,125
 LEE COUNTY,401 - STICKLEYVILLE,Proposed Constitutional Amendment Question 2,,,No,377
-LEE COUNTY,401 - STICKLEYVILLE,Proposed Constitutional Amendment Question 2,,,Yes,100
-LEE COUNTY,401 - STICKLEYVILLE,Proposed Constitutional Amendment Question 3,,,No,358
+LEE COUNTY,401 - STICKLEYVILLE,Proposed Constitutional Amendment Question 2,,,Yes,101
+LEE COUNTY,401 - STICKLEYVILLE,Proposed Constitutional Amendment Question 3,,,No,359
 LEE COUNTY,401 - STICKLEYVILLE,Proposed Constitutional Amendment Question 3,,,Yes,119
-LEE COUNTY,402 - JASPER,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,217
+LEE COUNTY,402 - JASPER,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,218
 LEE COUNTY,402 - JASPER,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,41
 LEE COUNTY,402 - JASPER,"Member, United States Senate",,REP,Bert Mizusawa,195
-LEE COUNTY,402 - JASPER,"Member, United States Senate",,DEM,Mark R. Warner,59
+LEE COUNTY,402 - JASPER,"Member, United States Senate",,DEM,Mark R. Warner,60
 LEE COUNTY,402 - JASPER,"Member, United States Senate",,WRI,Write-In,1
-LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 1,,,No,181
-LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 1,,,Yes,73
-LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 2,,,No,197
-LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 2,,,Yes,58
-LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 3,,,No,185
-LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 3,,,Yes,68
-LEE COUNTY,403 - SEMINARY,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,275
+LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 1,,,No,184
+LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 1,,,Yes,72
+LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 2,,,No,200
+LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 2,,,Yes,57
+LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 3,,,No,188
+LEE COUNTY,402 - JASPER,Proposed Constitutional Amendment Question 3,,,Yes,67
+LEE COUNTY,403 - SEMINARY,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,276
 LEE COUNTY,403 - SEMINARY,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,53
 LEE COUNTY,403 - SEMINARY,"Member, House of Representatives (9th District)",9,WRI,Write-In,1
-LEE COUNTY,403 - SEMINARY,"Member, United States Senate",,REP,Bert Mizusawa,265
+LEE COUNTY,403 - SEMINARY,"Member, United States Senate",,REP,Bert Mizusawa,266
 LEE COUNTY,403 - SEMINARY,"Member, United States Senate",,DEM,Mark R. Warner,61
 LEE COUNTY,403 - SEMINARY,"Member, United States Senate",,WRI,Write-In,2
-LEE COUNTY,403 - SEMINARY,Proposed Constitutional Amendment Question 1,,,No,265
+LEE COUNTY,403 - SEMINARY,Proposed Constitutional Amendment Question 1,,,No,266
 LEE COUNTY,403 - SEMINARY,Proposed Constitutional Amendment Question 1,,,Yes,63
-LEE COUNTY,403 - SEMINARY,Proposed Constitutional Amendment Question 2,,,No,275
+LEE COUNTY,403 - SEMINARY,Proposed Constitutional Amendment Question 2,,,No,276
 LEE COUNTY,403 - SEMINARY,Proposed Constitutional Amendment Question 2,,,Yes,52
-LEE COUNTY,403 - SEMINARY,Proposed Constitutional Amendment Question 3,,,No,274
+LEE COUNTY,403 - SEMINARY,Proposed Constitutional Amendment Question 3,,,No,275
 LEE COUNTY,403 - SEMINARY,Proposed Constitutional Amendment Question 3,,,Yes,53
-LEE COUNTY,404 - DRYDEN,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,462
+LEE COUNTY,404 - DRYDEN,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,459
 LEE COUNTY,404 - DRYDEN,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,109
 LEE COUNTY,404 - DRYDEN,"Member, House of Representatives (9th District)",9,WRI,Write-In,2
-LEE COUNTY,404 - DRYDEN,"Member, United States Senate",,REP,Bert Mizusawa,425
+LEE COUNTY,404 - DRYDEN,"Member, United States Senate",,REP,Bert Mizusawa,422
 LEE COUNTY,404 - DRYDEN,"Member, United States Senate",,DEM,Mark R. Warner,142
-LEE COUNTY,404 - DRYDEN,Proposed Constitutional Amendment Question 1,,,No,427
+LEE COUNTY,404 - DRYDEN,Proposed Constitutional Amendment Question 1,,,No,424
 LEE COUNTY,404 - DRYDEN,Proposed Constitutional Amendment Question 1,,,Yes,144
-LEE COUNTY,404 - DRYDEN,Proposed Constitutional Amendment Question 2,,,No,464
+LEE COUNTY,404 - DRYDEN,Proposed Constitutional Amendment Question 2,,,No,461
 LEE COUNTY,404 - DRYDEN,Proposed Constitutional Amendment Question 2,,,Yes,105
-LEE COUNTY,404 - DRYDEN,Proposed Constitutional Amendment Question 3,,,No,430
+LEE COUNTY,404 - DRYDEN,Proposed Constitutional Amendment Question 3,,,No,427
 LEE COUNTY,404 - DRYDEN,Proposed Constitutional Amendment Question 3,,,Yes,136
 LEE COUNTY,501 - SAINT CHARLES,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,185
 LEE COUNTY,501 - SAINT CHARLES,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,42
@@ -24102,7 +24116,7 @@ LEE COUNTY,501 - SAINT CHARLES,Proposed Constitutional Amendment Question 3,,,Ye
 LEE COUNTY,502 - PENNINGTON,Mayor - Pennington Gap (Town of Pennington Gap),,,Terry K. Pope,295
 LEE COUNTY,502 - PENNINGTON,Mayor - Pennington Gap (Town of Pennington Gap),,WRI,Write-In,12
 LEE COUNTY,502 - PENNINGTON,Member Town Council - Pennington Gap (Pennington Gap),,,Darrell W. Hayes,156
-LEE COUNTY,502 - PENNINGTON,Member Town Council - Pennington Gap (Pennington Gap),,,E. Ty Harber Jr.,178
+LEE COUNTY,502 - PENNINGTON,Member Town Council - Pennington Gap (Pennington Gap),,,E. Ty Harber Jr.,179
 LEE COUNTY,502 - PENNINGTON,Member Town Council - Pennington Gap (Pennington Gap),,,Jimmy L. Warner,189
 LEE COUNTY,502 - PENNINGTON,Member Town Council - Pennington Gap (Pennington Gap),,,Loretta L. See,93
 LEE COUNTY,502 - PENNINGTON,Member Town Council - Pennington Gap (Pennington Gap),,,Megan L.L. Kennedy,103
@@ -24110,17 +24124,18 @@ LEE COUNTY,502 - PENNINGTON,Member Town Council - Pennington Gap (Pennington Gap
 LEE COUNTY,502 - PENNINGTON,Member Town Council - Pennington Gap (Pennington Gap),,,Paul Doug Alsup,204
 LEE COUNTY,502 - PENNINGTON,Member Town Council - Pennington Gap (Pennington Gap),,,Travis C. Mullins,212
 LEE COUNTY,502 - PENNINGTON,Member Town Council - Pennington Gap (Pennington Gap),,WRI,Write-In,12
-LEE COUNTY,502 - PENNINGTON,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,373
-LEE COUNTY,502 - PENNINGTON,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,72
+LEE COUNTY,502 - PENNINGTON,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,555
+LEE COUNTY,502 - PENNINGTON,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,133
 LEE COUNTY,502 - PENNINGTON,"Member, House of Representatives (9th District)",9,WRI,Write-In,1
-LEE COUNTY,502 - PENNINGTON,"Member, United States Senate",,REP,Bert Mizusawa,334
-LEE COUNTY,502 - PENNINGTON,"Member, United States Senate",,DEM,Mark R. Warner,112
-LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 1,,,No,345
-LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 1,,,Yes,97
-LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 2,,,No,364
-LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 2,,,Yes,77
-LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 3,,,No,333
-LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 3,,,Yes,112
+LEE COUNTY,502 - PENNINGTON,"Member, United States Senate",,REP,Bert Mizusawa,486
+LEE COUNTY,502 - PENNINGTON,"Member, United States Senate",,DEM,Mark R. Warner,202
+LEE COUNTY,502 - PENNINGTON,"Member, United States Senate",,WRI,Write-In,1
+LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 1,,,No,493
+LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 1,,,Yes,186
+LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 2,,,No,534
+LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 2,,,Yes,146
+LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 3,,,No,494
+LEE COUNTY,502 - PENNINGTON,Proposed Constitutional Amendment Question 3,,,Yes,188
 LEE COUNTY,503 - ROBBINS CHAPEL,"Member, House of Representatives (9th District)",9,REP,H. Morgan Griffith,62
 LEE COUNTY,503 - ROBBINS CHAPEL,"Member, House of Representatives (9th District)",9,DEM,Joy A. Powers,15
 LEE COUNTY,503 - ROBBINS CHAPEL,"Member, United States Senate",,REP,Bert Mizusawa,58
@@ -26895,7 +26910,7 @@ LYNCHBURG CITY,302 - THIRD WARD SECOND PRECINCT,"Member, United States Senate",,
 LYNCHBURG CITY,302 - THIRD WARD SECOND PRECINCT,"Member, United States Senate",,WRI,Write-In,22
 LYNCHBURG CITY,302 - THIRD WARD SECOND PRECINCT,Proposed Constitutional Amendment Question 1,,,No,2986
 LYNCHBURG CITY,302 - THIRD WARD SECOND PRECINCT,Proposed Constitutional Amendment Question 1,,,Yes,65
-LYNCHBURG CITY,302 - THIRD WARD SECOND PRECINCT,Proposed Constitutional Amendment Question 2,,,No,2958
+LYNCHBURG CITY,302 - THIRD WARD SECOND PRECINCT,Proposed Constitutional Amendment Question 2,,,No,2959
 LYNCHBURG CITY,302 - THIRD WARD SECOND PRECINCT,Proposed Constitutional Amendment Question 2,,,Yes,90
 LYNCHBURG CITY,302 - THIRD WARD SECOND PRECINCT,Proposed Constitutional Amendment Question 3,,,No,2868
 LYNCHBURG CITY,302 - THIRD WARD SECOND PRECINCT,Proposed Constitutional Amendment Question 3,,,Yes,160
@@ -27607,7 +27622,7 @@ MATHEWS COUNTY,003 - PIANKATANK,Proposed Constitutional Amendment Question 3,,,N
 MATHEWS COUNTY,003 - PIANKATANK,Proposed Constitutional Amendment Question 3,,,Yes,649
 MATHEWS COUNTY,003 - PIANKATANK,Sales Tax,,,No,1061
 MATHEWS COUNTY,003 - PIANKATANK,Sales Tax,,,Yes,945
-MECKLENBURG COUNTY,101 - PALMER SPRINGS,Member School Board (District 1),,IND,Roger G. Clark,15
+MECKLENBURG COUNTY,101 - PALMER SPRINGS,Member School Board (District 1),,,Roger G. Clark,15
 MECKLENBURG COUNTY,101 - PALMER SPRINGS,Member School Board (District 1),,WRI,Write-In,33
 MECKLENBURG COUNTY,101 - PALMER SPRINGS,"Member, House of Representatives (5th District)",5,IND,Cooke C. Harvey,6
 MECKLENBURG COUNTY,101 - PALMER SPRINGS,"Member, House of Representatives (5th District)",5,REP,John J. McGuire III,216
@@ -27620,7 +27635,7 @@ MECKLENBURG COUNTY,101 - PALMER SPRINGS,Proposed Constitutional Amendment Questi
 MECKLENBURG COUNTY,101 - PALMER SPRINGS,Proposed Constitutional Amendment Question 2,,,Yes,221
 MECKLENBURG COUNTY,101 - PALMER SPRINGS,Proposed Constitutional Amendment Question 3,,,No,238
 MECKLENBURG COUNTY,101 - PALMER SPRINGS,Proposed Constitutional Amendment Question 3,,,Yes,256
-MECKLENBURG COUNTY,102 - ANTIOCH CHURCH,Member School Board (District 1),,IND,Roger G. Clark,8
+MECKLENBURG COUNTY,102 - ANTIOCH CHURCH,Member School Board (District 1),,,Roger G. Clark,8
 MECKLENBURG COUNTY,102 - ANTIOCH CHURCH,Member School Board (District 1),,WRI,Write-In,9
 MECKLENBURG COUNTY,102 - ANTIOCH CHURCH,"Member, House of Representatives (5th District)",5,IND,Cooke C. Harvey,2
 MECKLENBURG COUNTY,102 - ANTIOCH CHURCH,"Member, House of Representatives (5th District)",5,REP,John J. McGuire III,170
@@ -27636,7 +27651,7 @@ MECKLENBURG COUNTY,102 - ANTIOCH CHURCH,Proposed Constitutional Amendment Questi
 MECKLENBURG COUNTY,102 - ANTIOCH CHURCH,Proposed Constitutional Amendment Question 3,,,Yes,81
 MECKLENBURG COUNTY,103 - CLARKSVILLE SOUTH,Mayor (Town of Clarksville),,,Bruce F. Woerner,146
 MECKLENBURG COUNTY,103 - CLARKSVILLE SOUTH,Mayor (Town of Clarksville),,WRI,Write-In,3
-MECKLENBURG COUNTY,103 - CLARKSVILLE SOUTH,Member School Board (District 1),,IND,Roger G. Clark,25
+MECKLENBURG COUNTY,103 - CLARKSVILLE SOUTH,Member School Board (District 1),,,Roger G. Clark,25
 MECKLENBURG COUNTY,103 - CLARKSVILLE SOUTH,Member School Board (District 1),,WRI,Write-In,28
 MECKLENBURG COUNTY,103 - CLARKSVILLE SOUTH,Member Town Council (Town of Clarksville),,,Garland D. Pittard,94
 MECKLENBURG COUNTY,103 - CLARKSVILLE SOUTH,Member Town Council (Town of Clarksville),,,Michelle D. Hektor,57
@@ -27697,9 +27712,9 @@ MECKLENBURG COUNTY,301 - BRACEY,Proposed Constitutional Amendment Question 2,,,N
 MECKLENBURG COUNTY,301 - BRACEY,Proposed Constitutional Amendment Question 2,,,Yes,305
 MECKLENBURG COUNTY,301 - BRACEY,Proposed Constitutional Amendment Question 3,,,No,653
 MECKLENBURG COUNTY,301 - BRACEY,Proposed Constitutional Amendment Question 3,,,Yes,294
-MECKLENBURG COUNTY,302 - LACROSSE,Member Town Council (Town of Lacrosse),,IND,"F.A. Hendrick, Jr",3
+MECKLENBURG COUNTY,302 - LACROSSE,Member Town Council (Town of Lacrosse),,,"F.A. Hendrick, Jr",3
 MECKLENBURG COUNTY,302 - LACROSSE,Member Town Council (Town of Lacrosse),,,G. Bryant Thomas,144
-MECKLENBURG COUNTY,302 - LACROSSE,Member Town Council (Town of Lacrosse),,IND,Sandra F. Tanner,4
+MECKLENBURG COUNTY,302 - LACROSSE,Member Town Council (Town of Lacrosse),,,Sandra F. Tanner,4
 MECKLENBURG COUNTY,302 - LACROSSE,Member Town Council (Town of Lacrosse),,WRI,Write-In,14
 MECKLENBURG COUNTY,302 - LACROSSE,"Member, House of Representatives (5th District)",5,IND,Cooke C. Harvey,8
 MECKLENBURG COUNTY,302 - LACROSSE,"Member, House of Representatives (5th District)",5,REP,John J. McGuire III,267
@@ -27730,7 +27745,7 @@ MECKLENBURG COUNTY,401 - SOUTH HILL WEST,Proposed Constitutional Amendment Quest
 MECKLENBURG COUNTY,401 - SOUTH HILL WEST,Proposed Constitutional Amendment Question 3,,,Yes,650
 MECKLENBURG COUNTY,501 - SOUTH HILL EAST,Member Town Council (South Hill Ward 2),,,Ashley Cox Hardee,376
 MECKLENBURG COUNTY,501 - SOUTH HILL EAST,Member Town Council (South Hill Ward 2),,,"G. Randy Crocker, Jr.",303
-MECKLENBURG COUNTY,501 - SOUTH HILL EAST,Member Town Council (South Hill Ward 2),,IND,R. Alex Graham,146
+MECKLENBURG COUNTY,501 - SOUTH HILL EAST,Member Town Council (South Hill Ward 2),,,R. Alex Graham,146
 MECKLENBURG COUNTY,501 - SOUTH HILL EAST,Member Town Council (South Hill Ward 2),,WRI,Write-In,133
 MECKLENBURG COUNTY,501 - SOUTH HILL EAST,Member Town Council (Town of Lacrosse),,,G. Bryant Thomas,7
 MECKLENBURG COUNTY,501 - SOUTH HILL EAST,Member Town Council (Town of Lacrosse),,WRI,Write-In,2
@@ -31219,7 +31234,8 @@ NORTHAMPTON COUNTY,501 - PRECINCT 5-1,Proposed Constitutional Amendment Question
 NORTHAMPTON COUNTY,501 - PRECINCT 5-1,Proposed Constitutional Amendment Question 2,,,Yes,507
 NORTHAMPTON COUNTY,501 - PRECINCT 5-1,Proposed Constitutional Amendment Question 3,,,No,483
 NORTHAMPTON COUNTY,501 - PRECINCT 5-1,Proposed Constitutional Amendment Question 3,,,Yes,507
-NORTHAMPTON COUNTY,501 - PRECINCT 5-1,Recorder - Belle Haven (Town of Belle Haven),,WRI,Write-In,10
+NORTHAMPTON COUNTY,501 - PRECINCT 5-1,Recorder - Belle Haven (Town of Belle Haven),,,Jonathon E. Kilmon,2
+NORTHAMPTON COUNTY,501 - PRECINCT 5-1,Recorder - Belle Haven (Town of Belle Haven),,WRI,Write-In,8
 NORTHAMPTON COUNTY,501 - PRECINCT 5-1,Treasurer (Northampton County),,,Kristin N. Willis,455
 NORTHAMPTON COUNTY,501 - PRECINCT 5-1,Treasurer (Northampton County),,,Nolan T. Rayfield,497
 NORTHAMPTON COUNTY,501 - PRECINCT 5-1,Treasurer (Northampton County),,WRI,Write-In,3
@@ -31321,13 +31337,13 @@ NOTTOWAY COUNTY,101 - PRECINCT 1-1,Mayor (Town of Burkeville),,,Gerald E. Smith,
 NOTTOWAY COUNTY,101 - PRECINCT 1-1,Mayor (Town of Burkeville),,WRI,Write-In,10
 NOTTOWAY COUNTY,101 - PRECINCT 1-1,Mayor (Town of Crewe),,,Ela Engmann,10
 NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Burkeville),,,Brandon S. Cummings,110
+NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Burkeville),,,Christopher Burke,2
 NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Burkeville),,,Ella Johnson,6
-NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Burkeville),,,Gary Lee Simmons,5
 NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Burkeville),,,"James G. ""Jay"" Horn Jr.",97
-NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Burkeville),,,Josh Knight,4
 NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Burkeville),,,Kevin E. Jones Jr.,121
+NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Burkeville),,,Robert Carwile,2
 NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Burkeville),,,Tahra J. Daniels,103
-NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Burkeville),,WRI,Write-In,26
+NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Burkeville),,WRI,Write-In,28
 NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Crewe),,,Anne O. Stinson,2
 NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Crewe),,,Anthony M. Munir,5
 NOTTOWAY COUNTY,101 - PRECINCT 1-1,Member Town Council (Town of Crewe),,,"Marvin E. ""Marv"" Farmer",2
@@ -37938,8 +37954,8 @@ ROCKBRIDGE COUNTY,101 - AIRPORT,"Member, United States Senate",,DEM,Mark R. Warn
 ROCKBRIDGE COUNTY,101 - AIRPORT,"Member, United States Senate",,WRI,Write-In,3
 ROCKBRIDGE COUNTY,101 - AIRPORT,Proposed Constitutional Amendment Question 1,,,No,748
 ROCKBRIDGE COUNTY,101 - AIRPORT,Proposed Constitutional Amendment Question 1,,,Yes,823
-ROCKBRIDGE COUNTY,101 - AIRPORT,Proposed Constitutional Amendment Question 2,,,No,775
-ROCKBRIDGE COUNTY,101 - AIRPORT,Proposed Constitutional Amendment Question 2,,,Yes,795
+ROCKBRIDGE COUNTY,101 - AIRPORT,Proposed Constitutional Amendment Question 2,,,No,774
+ROCKBRIDGE COUNTY,101 - AIRPORT,Proposed Constitutional Amendment Question 2,,,Yes,798
 ROCKBRIDGE COUNTY,101 - AIRPORT,Proposed Constitutional Amendment Question 3,,,No,867
 ROCKBRIDGE COUNTY,101 - AIRPORT,Proposed Constitutional Amendment Question 3,,,Yes,702
 ROCKBRIDGE COUNTY,103 - PLANK ROAD,"Member, House of Representatives (6th District)",6,REP,Ben L. Cline,237
@@ -38110,7 +38126,6 @@ ROCKBRIDGE COUNTY,504 - ROCKBRIDGE,Proposed Constitutional Amendment Question 2,
 ROCKBRIDGE COUNTY,504 - ROCKBRIDGE,Proposed Constitutional Amendment Question 2,,,Yes,269
 ROCKBRIDGE COUNTY,504 - ROCKBRIDGE,Proposed Constitutional Amendment Question 3,,,No,508
 ROCKBRIDGE COUNTY,504 - ROCKBRIDGE,Proposed Constitutional Amendment Question 3,,,Yes,238
-ROCKBRIDGE COUNTY,CENTRAL ABSENTEE,Proposed Constitutional Amendment Question 2,,,Yes,3
 ROCKINGHAM COUNTY,101 - BROADWAY,"Member, House of Representatives (6th District)",6,REP,Ben L. Cline,1088
 ROCKINGHAM COUNTY,101 - BROADWAY,"Member, House of Representatives (6th District)",6,DEM,Beth A. Macy,700
 ROCKINGHAM COUNTY,101 - BROADWAY,"Member, House of Representatives (6th District)",6,WRI,Write-In,2

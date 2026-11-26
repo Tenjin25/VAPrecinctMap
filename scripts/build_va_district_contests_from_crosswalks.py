@@ -43,6 +43,8 @@ STATE_SENATE_PARTY_BLEND_BY_COUNTY: dict[str, float] = {}
 DEFAULT_MARGIN_TARGETS_CSV = "Data/benchmarks/district_margin_targets.csv"
 DEFAULT_RESULT_OVERRIDES_CSV = "Data/benchmarks/district_result_overrides.csv"
 DEFAULT_HISTORICAL_VTD_CROSSWALK = "Data/vtd00_to_vtd20_block_crosswalk.csv"
+DEFAULT_OFFICIAL_BLOCK_ASSIGNMENTS = "Data/scv_2021_block_assignments.csv"
+DEFAULT_BLOCK_VAP = "Data/va_2020_block_population.csv"
 HISTORICAL_VTD_MAX_YEAR = 2009
 ASSIGN_MEMBER_VTD = "BlockAssign_ST51_VA_VTD.txt"
 ASSIGN_MEMBER_CD = "BlockAssign_ST51_VA_CD.txt"
@@ -277,6 +279,35 @@ def load_county_name_map(county_geojson: Path) -> dict[str, str]:
     return out
 
 
+def load_whole_congressional_localities(
+    county_geojson: Path, official_assignments_csv: Path, block_vap_csv: Path
+) -> dict[str, str]:
+    """Use the reconciliation rule to identify localities wholly in one CD."""
+    county_names = load_county_name_map(county_geojson)
+    assignments = pd.read_csv(
+        official_assignments_csv,
+        dtype={"block_geoid20": str, "cd": str},
+        usecols=["block_geoid20", "cd"],
+    )
+    vap = pd.read_csv(
+        block_vap_csv,
+        dtype={"block_geoid20": str},
+        usecols=["block_geoid20", "voting_age_population_2020"],
+    )
+    blocks = assignments.merge(vap, on="block_geoid20", how="left")
+    blocks["county_fp"] = blocks["block_geoid20"].str.slice(2, 5)
+    blocks["district"] = blocks["cd"].map(normalize_district_id)
+    blocks["vap"] = pd.to_numeric(blocks["voting_age_population_2020"], errors="coerce").fillna(0)
+    grouped = blocks.groupby(["county_fp", "district"], as_index=False)["vap"].sum()
+    totals = grouped.groupby("county_fp")["vap"].transform("sum")
+    whole = grouped[(totals > 0) & (grouped["vap"] / totals >= 0.999)]
+    return {
+        county_names[row.county_fp]: row.district
+        for row in whole.itertuples(index=False)
+        if row.county_fp in county_names and row.district
+    }
+
+
 def load_block_weights(tabblock_zip: Path) -> pd.DataFrame:
     shp = find_member(tabblock_zip, ".shp")
     uri = f"zip://{tabblock_zip.resolve().as_posix()}!{shp}"
@@ -445,6 +476,7 @@ def build_scope_mapping_from_precinct_overlay(
     district_polys: gpd.GeoDataFrame,
     district_col: str,
     minimum_share: float = MIN_OVERLAY_SHARE,
+    whole_locality_districts: dict[str, str] | None = None,
 ) -> dict[str, dict]:
     if district_polys.crs is None:
         district_polys = district_polys.set_crs(precinct_polys.crs, allow_override=True)
@@ -494,6 +526,13 @@ def build_scope_mapping_from_precinct_overlay(
             continue
         mapping[key] = [(d, v / s) for d, v in vals]
 
+    # A displayed polygon can cross a district line by a small amount even when
+    # the official block assignment places the entire locality in one district.
+    for (county, code), vals in list(mapping.items()):
+        whole_district = (whole_locality_districts or {}).get(county)
+        if whole_district and vals != [(whole_district, 1.0)]:
+            mapping[(county, code)] = [(whole_district, 1.0)]
+
     county_grouped = (
         inter.groupby(["county_nam", district_col], as_index=False)["weight"]
         .sum()
@@ -516,6 +555,10 @@ def build_scope_mapping_from_precinct_overlay(
             del county_weights[county]
             continue
         county_weights[county] = [(d, v / s) for d, v in vals]
+
+    for county, district in (whole_locality_districts or {}).items():
+        if county in county_weights:
+            county_weights[county] = [(district, 1.0)]
 
     return {
         "precinct_map": mapping,
@@ -606,6 +649,8 @@ def build_all_scope_mappings(
     state_senate_geojson: Path,
     mapping_source: str = "overlay",
     minimum_overlay_share: float = MIN_OVERLAY_SHARE,
+    official_assignments_csv: Path = Path(DEFAULT_OFFICIAL_BLOCK_ASSIGNMENTS),
+    block_vap_csv: Path = Path(DEFAULT_BLOCK_VAP),
 ) -> dict[str, dict]:
     mapping_source = (mapping_source or "overlay").strip().lower()
 
@@ -615,8 +660,12 @@ def build_all_scope_mappings(
         precinct_polys = load_precinct_polygons(precinct_geojson)
         cd_polys = gpd.read_file(congressional_geojson)
         cd_col = pick_district_column(cd_polys, ["DISTRICT", "CD119FP", "CD118FP", "district_id", "district"])
+        whole_congressional_localities = load_whole_congressional_localities(
+            county_geojson, official_assignments_csv, block_vap_csv
+        )
         congressional_map = build_scope_mapping_from_precinct_overlay(
-            precinct_polys, cd_polys, cd_col, minimum_overlay_share
+            precinct_polys, cd_polys, cd_col, minimum_overlay_share,
+            whole_congressional_localities,
         )
         sldl_polys = gpd.read_file(state_house_geojson)
         sldu_polys = gpd.read_file(state_senate_geojson)
@@ -1735,6 +1784,8 @@ def parse_args() -> argparse.Namespace:
         help="Tabblock ZIP for weights (supports 2020 GEOID20 schema or 2010 GEOID10 schema).",
     )
     parser.add_argument("--county-geojson", default="Data/tl_2020_51_county20.geojson")
+    parser.add_argument("--official-block-assignments-csv", default=DEFAULT_OFFICIAL_BLOCK_ASSIGNMENTS)
+    parser.add_argument("--block-vap-csv", default=DEFAULT_BLOCK_VAP)
     parser.add_argument("--vtd-zip", default="Data/tl_2020_51_vtd20.zip")
     parser.add_argument("--precinct-geojson", default="Data/va_precincts.geojson")
     parser.add_argument("--congressional-geojson", default="Data/tl_2024_51_cd119.geojson")
@@ -1778,6 +1829,8 @@ def main() -> int:
     assign_zip = Path(args.assign_zip)
     tabblock_zip = Path(args.tabblock_zip)
     county_geojson = Path(args.county_geojson)
+    official_assignments_csv = Path(args.official_block_assignments_csv)
+    block_vap_csv = Path(args.block_vap_csv)
     vtd_zip = Path(args.vtd_zip)
     precinct_geojson = Path(args.precinct_geojson)
     congressional_geojson = Path(args.congressional_geojson)
@@ -1795,6 +1848,8 @@ def main() -> int:
         state_house_geojson,
         state_senate_geojson,
     ]
+    if args.mapping_source in {"overlay", "auto"}:
+        required_paths.extend([official_assignments_csv, block_vap_csv])
     if args.mapping_source in {"blockassign", "auto"}:
         required_paths.extend([assign_zip, tabblock_zip, vtd_zip])
     for p in required_paths:
@@ -1812,6 +1867,8 @@ def main() -> int:
         state_senate_geojson,
         args.mapping_source,
         float(args.minimum_overlay_share),
+        official_assignments_csv,
+        block_vap_csv,
     )
     locality_alias_map = build_locality_alias_map(county_geojson)
     benchmark_filter = None

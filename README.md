@@ -426,11 +426,13 @@ python scripts/build_va_district_contests_from_crosswalks.py \
     [--output-dir Data/district_contests] \
     [--result-overrides-csv Data/benchmarks/district_result_overrides.csv] \
     [--county-geojson Data/tl_2020_51_county20.geojson] \
+    [--official-block-assignments-csv Data/scv_2021_block_assignments.csv] \
+    [--block-vap-csv Data/va_2020_block_population.csv] \
     [--tabblock-zip Data/tl_2020_51_tabblock20.zip] \
     [--assign-zip Data/BlockAssign_ST51_VA.zip] \
-    [--cd-geojson Data/tl_2024_51_cd119.geojson] \
-    [--sldl-geojson Data/tl_2022_51_sldl.geojson] \
-    [--sldu-geojson Data/tl_2022_51_sldu.geojson] \
+    [--congressional-geojson Data/tl_2024_51_cd119.geojson] \
+    [--state-house-geojson Data/tl_2022_51_sldl.geojson] \
+    [--state-senate-geojson Data/tl_2022_51_sldu.geojson] \
     [--precinct-geojson Data/va_precincts.geojson]
 ```
 
@@ -442,10 +444,10 @@ Because statewide election results are reported by precinct (not by legislative 
 
 For statewide contests (President, U.S. Senate, Governor, Lieutenant Governor, Attorney General):
 
-1. Each VTD polygon is spatially intersected with each district polygon (projected to Web Mercator EPSG:3857 for area calculations).
-2. For each VTD, the fraction of its total area that falls within each district is computed (`intersection_area / vtd_total_area`).
-3. If a precinct falls entirely within one district (share ≈ 1.0), its votes go entirely to that district.
-4. If a precinct straddles a district boundary, its votes are split proportionally by area share.
+1. Each displayed precinct polygon is spatially intersected with each district polygon (projected to Web Mercator EPSG:3857 for area calculations).
+2. For each precinct, the fraction of its total area that falls within each district is computed (`intersection_area / precinct_total_area`). Overlaps below 0.1% are discarded and the remaining shares renormalized.
+3. For congressional projections, a locality with at least 99.9% of its 2020 Census voting-age population assigned to one district by the official block file is kept wholly in that district, even if a displayed precinct polygon crosses its line slightly.
+4. Otherwise, if a precinct straddles a district boundary, its votes are split proportionally by area share.
 5. Unmatched and non-geographic votes are distributed within their county or independent city using each party's matched geographic precinct distribution, falling back to locality-wide district weights when that party has no matched votes.
 
 #### Unmatched and non-geographic votes

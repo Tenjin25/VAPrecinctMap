@@ -16,15 +16,15 @@
   "general": {
     "results": {
       "1": {
-        "dem_votes": 221881,
-        "rep_votes": 181632,
+        "dem_votes": 221877,
+        "rep_votes": 181630,
         "other_votes": 862,
-        "total_votes": 404375,
+        "total_votes": 404369,
         "dem_candidate": "Mark R. Warner",
         "rep_candidate": "Bert Mizusawa",
         "winner": "Democratic",
-        "margin": 40249,
-        "margin_pct": -9.95338485316847,
+        "margin": 40247,
+        "margin_pct": -9.953037943066851,
         "color": "#9ecae1"
       },
       "2": {
@@ -40,15 +40,15 @@
         "color": "#6baed6"
       },
       "3": {
-        "dem_votes": 193028,
-        "rep_votes": 61946,
+        "dem_votes": 193032,
+        "rep_votes": 61948,
         "other_votes": 475,
-        "total_votes": 255449,
+        "total_votes": 255455,
         "dem_candidate": "Mark R. Warner",
         "rep_candidate": "Bert Mizusawa",
         "winner": "Democratic",
-        "margin": 131082,
-        "margin_pct": -51.31435237562096,
+        "margin": 131084,
+        "margin_pct": -51.31393004638781,
         "color": "#08306b"
       },
       "4": {

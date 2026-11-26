@@ -136,10 +136,9 @@ For **VA-01**, the 2026 Senate vote breaks down further:
 | Henrico County portion | 62,097 | 29,252 | 227 | 22.6% | D+32,845 |
 | Chesterfield County portion | 49,595 | 35,617 | 201 | 21.1% | D+13,978 |
 | Hanover County portion | 22,382 | 27,916 | 89 | 12.5% | R+5,534 |
-| Newport News City overlay edge | 4 | 2 | 0 | <0.01% | D+2 |
-| **VA-01 total** | **221,881** | **181,632** | **862** | **100%** | **D+40,249** |
+| **VA-01 total** | **221,877** | **181,630** | **862** | **100%** | **D+40,247** |
 
-The county portions are estimates from the same precinct overlay and party-specific unmatched-vote allocation used by the district builder. Their displayed integer votes use largest-remainder rounding so the components sum to the published VA-01 total. The six-vote Newport News City edge comes from the precinct overlay; the official locality/district assignment puts Newport News City in VA-03.
+The county portions are estimates from the same precinct overlay and party-specific unmatched-vote allocation used by the district builder. Their displayed integer votes use largest-remainder rounding so the components sum to the published VA-01 total. The official block assignment places all of Newport News City in VA-03. A 0.24% overlap of precinct 319 previously assigned six of its Senate votes to VA-01; the builder now applies the 99.9% whole-locality rule before allocating precinct votes, placing all six in VA-03.
 
 The **VA-01 U.S. House returns** show the geographic shift in the contest itself. These are votes cast for the district's House candidates in each locality or district portion, so no precinct overlay allocation is needed. Margins use the same winner-surname format as the map; the last column is the 2026 Democratic minus Republican vote margin.
 

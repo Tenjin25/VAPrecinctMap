@@ -618,12 +618,12 @@ This alias map is applied to every `county` field in source CSVs before any aggr
 
 This also handles county/city name collisions: if both `RICHMOND COUNTY` and `RICHMOND CITY` exist, the bare alias `RICHMOND` is considered ambiguous and is dropped, so joins stay deterministic.
 
-| Shared name | County display label | County region | Independent-city display label | City region |
-|---|---|---|---|---|
-| Fairfax | `Fairfax County` | Northern Virginia | `City of Fairfax` | Northern Virginia |
-| Franklin | `Franklin County` | Roanoke Valley | `City of Franklin` | Western Tidewater |
-| Richmond | `Richmond County` | Northern Neck | `City of Richmond` | Richmond Metro |
-| Roanoke | `Roanoke County` | Roanoke Valley | `City of Roanoke` | Roanoke Valley |
+| Shared name | County display label | County region | Independent-city display label | City region | Geographic relationship |
+|---|---|---|---|---|---|
+| Fairfax | `Fairfax County` | Northern Virginia | `City of Fairfax` | Northern Virginia | City is surrounded by the county |
+| Franklin | `Franklin County` | Roanoke Valley | `City of Franklin` | Western Tidewater | More than 100 miles apart |
+| Richmond | `Richmond County` | Northern Neck | `City of Richmond` | Richmond Metro | In different regions |
+| Roanoke | `Roanoke County` | Roanoke Valley | `City of Roanoke` | Roanoke Valley | City borders the county |
 
 Use the full county or city label for each pair; the shared name alone does not identify a unique locality. The front end displays independent cities as `City of ...`, while canonical keys use the `... CITY` suffix. Regions here are geographic descriptions, not part of the canonical key.
 

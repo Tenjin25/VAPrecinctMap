@@ -621,11 +621,11 @@ This also handles county/city name collisions: if both `RICHMOND COUNTY` and `RI
 | Shared name | County display label | County region | Independent-city display label | City region | Geographic relationship |
 |---|---|---|---|---|---|
 | Fairfax | `Fairfax County` | Northern Virginia | `City of Fairfax` | Northern Virginia | City is surrounded by the county |
-| Franklin | `Franklin County` | Roanoke Valley | `City of Franklin` | Western Tidewater | More than 100 miles apart |
+| Franklin | `Franklin County` | Roanoke Valley | `City of Franklin` | Western Tidewater | About 164 miles between Census reference points; about 147 miles between nearest boundaries |
 | Richmond | `Richmond County` | Northern Neck | `City of Richmond` | Richmond Metro | In different regions |
 | Roanoke | `Roanoke County` | Roanoke Valley | `City of Roanoke` | Roanoke Valley | City borders the county |
 
-Use the full county or city label for each pair; the shared name alone does not identify a unique locality. The front end displays independent cities as `City of ...`, while canonical keys use the `... CITY` suffix. Regions here are geographic descriptions, not part of the canonical key.
+Use the full county or city label for each pair; the shared name alone does not identify a unique locality. The Franklin distances are straight-line measurements from the project's 2020 Census county GeoJSON, not driving distances. The front end displays independent cities as `City of ...`, while canonical keys use the `... CITY` suffix. Regions here are geographic descriptions, not part of the canonical key.
 
 On the front end, the same principle now applies to search, hover, tooltip, vote-counter pinning, and the selected-locality detail panel:
 

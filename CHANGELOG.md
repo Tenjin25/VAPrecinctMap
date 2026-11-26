@@ -8,16 +8,26 @@
 
 | District | Exact whole-locality component | Allocated split-locality component |
 |---|---|---|
-| Congressional 2 | Accomack, Isle of Wight, and Northampton counties; cities of Franklin, Suffolk, and Virginia Beach | City of Chesapeake; Southampton County |
-| Congressional 3 | Cities of Hampton, Newport News, Norfolk, and Portsmouth | City of Chesapeake |
-| Congressional 11 | City of Fairfax | Fairfax County |
-| House 20 | Cities of Manassas and Manassas Park | Prince William County |
-| House 44 | City of Bristol; Washington County | Russell County |
-| Senate 4 | Cities of Roanoke and Salem | Montgomery and Roanoke counties |
-| Senate 7 | Carroll, Floyd, Franklin, Grayson, Henry, and Patrick counties; cities of Galax and Martinsville | Wythe County |
-| Senate 20 | Accomack and Northampton counties | Cities of Norfolk and Virginia Beach |
+| VA-02 | Accomack, Isle of Wight, and Northampton counties; cities of Franklin, Suffolk, and Virginia Beach | City of Chesapeake; Southampton County |
+| VA-03 | Cities of Hampton, Newport News, Norfolk, and Portsmouth | City of Chesapeake |
+| VA-11 | City of Fairfax | Fairfax County |
+| HD-20 | Cities of Manassas and Manassas Park | Prince William County |
+| HD-44 | City of Bristol; Washington County | Russell County |
+| SD-4 | Cities of Roanoke and Salem | Montgomery and Roanoke counties |
+| SD-7 | Carroll, Floyd, Franklin, Grayson, Henry, and Patrick counties; cities of Galax and Martinsville | Wythe County |
+| SD-20 | Accomack and Northampton counties | Cities of Norfolk and Virginia Beach |
 
 The table shows selected mixed districts; the linked report lists all whole and split components. The component classification uses 2020 Census voting-age population assigned to the official 2021 district plan.
+
+For a numeric example, the 2024 presidential result in **VA-11** keeps the City of Fairfax's reported **8,797 Democratic / 4,302 Republican / 468 other** votes exact. Its allocated Fairfax County portion adds **258,618 / 123,431 / 14,505**, producing the published district total of **267,415 / 127,733 / 14,973**. The county portion is estimated; the independent city's vote is not reweighted.
+
+The tracked reconciliation run shows what applying the rule changed across the available statewide-race district slices:
+
+| Check | Observed result |
+|---|---|
+| Statewide party totals | Exact official Democratic, Republican, and other totals in all 78 slices |
+| District margins | 157 district rows across four slices moved; largest change was 0.0313 percentage point (HD-35, 2016 presidential result) |
+| District winners | None changed; every recorded margin movement was smaller than that district's final absolute margin |
 
 ## 2026-11-20
 

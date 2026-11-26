@@ -2,9 +2,11 @@
 
 An interactive, browser-based choropleth map of Virginia election results at the precinct, county, and legislative/congressional district level, covering every major statewide general election from 2008 through 2025.
 
+Last updated: November 25, 2026.
+
 ---
 
-## Latest Update (October 18, 2026)
+## Locality search update (October 18, 2026)
 
 - Made Fly-to locality search collision-safe for Virginia county/independent-city pairs.
 - Bare searches for `Fairfax`, `Franklin`, `Richmond`, or `Roanoke` now present both matching localities instead of selecting the first geographic feature.

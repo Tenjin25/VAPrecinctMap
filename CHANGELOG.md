@@ -105,10 +105,12 @@ The before → after columns above show the first 2024 reconciliation run. The t
 
 #### Congressional districts
 
-| District | 2024 president | 2025 governor | 2026 U.S. Senate | 2026 U.S. House |
-|---|---|---|---|---|
-| VA-01 | Trump +4.89% | Spanberger +2.24% | Warner +9.95% | Taylor +2.93% |
-| VA-02 | Trump +0.24% | Spanberger +7.42% | Warner +15.24% | Luria +8.96% |
+| District | 2020 president | 2024 president | 2024 U.S. House | 2025 governor | 2026 U.S. Senate | 2026 U.S. House |
+|---|---|---|---|---|---|---|
+| VA-01 | Trump +6.67% | Trump +4.89% | Wittman +12.79% | Spanberger +2.24% | Warner +9.95% | Taylor +2.93% |
+| VA-02 | Biden +2.04% | Trump +0.24% | Kiggans +3.84% | Spanberger +7.42% | Warner +15.24% | Luria +8.96% |
+
+Both districts elected a Republican to the U.S. House in 2024 and a Democrat in 2026. VA-01 was the only one of Virginia's 11 congressional districts to move toward Democrats between the 2020 and 2024 presidential results on the displayed lines: Trump's lead narrowed from 6.67% to 4.89%, a 1.78-point shift.
 
 #### House of Delegates districts
 
@@ -131,7 +133,7 @@ The before → after columns above show the first 2024 reconciliation run. The t
 | SD-4 | Trump +0.49% | Spanberger +8.12% | Warner +17.85% |
 | SD-20 | Trump +3.03% | Spanberger +5.34% | Warner +12.56% |
 
-The 2025 House and 2026 U.S. House columns are directly reported district races. The presidential, governor, and U.S. Senate columns are statewide contests projected onto district lines. Five of the nine listed House of Delegates districts also elected a Democratic delegate in 2025.
+The 2024 and 2026 U.S. House columns and the 2025 House of Delegates column are directly reported district races. The presidential, governor, and U.S. Senate columns are statewide contests projected onto district lines. Five of the nine listed House of Delegates districts also elected a Democratic delegate in 2025.
 
 For VA-01's 2026 U.S. Senate result, the reported votes for its 15 whole localities total **87,803 Democratic / 88,845 Republican / 345 other**. Subtracting those from the district total leaves **134,078 / 92,787 / 517** for the district's portions of Chesterfield, Hanover, and Henrico counties, producing **221,881 / 181,632 / 862** districtwide. The 2026 Senate slice is outside the tracked 78-slice reconciliation report.
 

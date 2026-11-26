@@ -62,7 +62,7 @@ Recent `index.html` changes restored precinct-mode behavior to match the simpler
 
 The app expects a Mapbox token to be supplied at runtime through `window.MAPBOX_TOKEN` or `localStorage.mapbox_token`; the production entry point no longer ships with a hardcoded token fallback.
 
-Virginia holds elections on a distinct off-year cycle (gubernatorial and state legislative races in odd years, federal races in even years), and its 133 independent cities alongside 95 counties create one of the more complex local-government geographies in the United States.  This project assembles precinct-level election returns from 2008 through 2025 into a single interactive map that lets users:
+Virginia holds elections on a distinct off-year cycle (gubernatorial and state legislative races in odd years, federal races in even years), and its 133 county-equivalent localities (95 counties and 38 independent cities) create one of the more complex local-government geographies in the United States.  This project assembles precinct-level election returns from 2008 through 2025 into a single interactive map that lets users:
 
 - Switch between **five election contests** (President, U.S. Senate, Governor, Lieutenant Governor, Attorney General) across **multiple years**
 - View results simultaneously at the **county**, **precinct**, **congressional district**, **House of Delegates (HoD) district**, and **state-senate district** level
@@ -618,10 +618,19 @@ This alias map is applied to every `county` field in source CSVs before any aggr
 
 This also handles county/city name collisions: if both `RICHMOND COUNTY` and `RICHMOND CITY` exist, the bare alias `RICHMOND` is considered ambiguous and is dropped, so joins stay deterministic.
 
+| Shared name | County display label | County region | Independent-city display label | City region |
+|---|---|---|---|---|
+| Fairfax | `Fairfax County` | Northern Virginia | `City of Fairfax` | Northern Virginia |
+| Franklin | `Franklin County` | Roanoke Valley | `City of Franklin` | Western Tidewater |
+| Richmond | `Richmond County` | Northern Neck | `City of Richmond` | Richmond Metro |
+| Roanoke | `Roanoke County` | Roanoke Valley | `City of Roanoke` | Roanoke Valley |
+
+Use the full county or city label for each pair; the shared name alone does not identify a unique locality. The front end displays independent cities as `City of ...`, while canonical keys use the `... CITY` suffix. Regions here are geographic descriptions, not part of the canonical key.
+
 On the front end, the same principle now applies to search, hover, tooltip, vote-counter pinning, and the selected-locality detail panel:
 
 - Independent cities are always treated as distinct geographic units, never as part of counties
-- Display labels keep the Virginia suffix explicit (`Richmond City`, `Richmond County`, `Fairfax City`, `Fairfax County`)
+- Display labels identify the locality type explicitly (`City of Richmond`, `Richmond County`, `City of Fairfax`, `Fairfax County`)
 - Bare ambiguous names are surfaced as suggestions rather than silently resolving to the wrong locality
 - County-style suffix localities such as `James City County` and `Charles City County` remain counties and are not mis-normalized into independent cities
 

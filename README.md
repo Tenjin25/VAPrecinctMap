@@ -6,25 +6,7 @@ Last updated: November 25, 2026.
 
 ---
 
-## Locality search update (October 18, 2026)
-
-- Made Fly-to locality search collision-safe for Virginia county/independent-city pairs.
-- Bare searches for `Fairfax`, `Franklin`, `Richmond`, or `Roanoke` now present both matching localities instead of selecting the first geographic feature.
-- Qualified forms such as `Franklin County`, `City of Franklin`, and `Franklin City` resolve directly through the canonical locality key.
-- Search suggestions now use full Census locality labels and distinguish counties from independent cities.
-- Refreshed the application and data cache token for the locality-search release.
-
-### Previous update (May 12, 2026)
-
-- Added compact VoteHub-style hover cards for:
-  - Precinct mode
-  - Congressional districts
-  - House of Delegates districts
-  - State Senate districts
-- Kept county/locality hover on the existing richer atlas-style tooltip path (unchanged).
-- Added winner-line margin display (with `%`) and optional flip callouts (`Flipped R→D` / `Flipped D→R`) with party-color emphasis.
-- Re-aligned compact-card decimal behavior to the existing front-end display pipeline to reduce drift between row shares and winner margin text.
-- Preserved map coloring logic, selected locality panel structure, trend/timeline systems, and mobile docking behavior.
+For dated interface and data changes, see [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
@@ -35,6 +17,7 @@ Last updated: November 25, 2026.
 3. [Repository Structure](#repository-structure)
 4. [Data Sources](#data-sources)
 5. [Methodology](#methodology)
+   - [How votes are aggregated](#how-votes-are-aggregated)
    - [Step 1 — Convert boundary ZIPs to GeoJSON](#step-1--convert-boundary-zips-to-geojson)
    - [Step 2 — Normalize election CSVs to OpenElections format](#step-2--normalize-election-csvs-to-openelections-format)
    - [Step 3 — Build precinct polygon GeoJSON](#step-3--build-precinct-polygon-geojson)
@@ -241,6 +224,18 @@ The Trajectory Snapshot’s “Meaning” line uses `city` vs `county` based on 
 
 The pipeline runs in six sequential steps.  All scripts are in `scripts/` and accept command-line arguments with sensible defaults so they can be run from the repository root.
 
+### How votes are aggregated
+
+| Output | Aggregation |
+|---|---|
+| County and independent-city results | Select active election exports, collapse identical precinct/candidate rows, normalize each locality to a Census-derived county or independent-city name, then sum candidate votes by contest and year. Party totals are grouped as Democratic, Republican, and other. |
+| District results for statewide races | Map precinct votes onto the displayed congressional, House of Delegates, and state Senate districts using the appropriate precinct vintage and geographic crosswalk. Split precincts contribute to each intersecting district; unmatched or non-geographic votes are allocated within their locality. |
+| Direct district races | Read the district number from the race's office label and sum its reported votes directly, without geographic apportionment. |
+
+District projections are reconciled to official statewide totals. Whole localities and qualifying locality clusters keep their exact reported totals; remaining split-locality components are adjusted with largest-remainder rounding. The sections below document the scripts, inputs, and checks.
+
+For district examples showing exact whole-locality votes beside allocated split-locality votes, see the [Virginia aggregation table in the changelog](CHANGELOG.md#2026-11-25-virginia-district-aggregation).
+
 ### Step 1 — Convert boundary ZIPs to GeoJSON
 
 **Script**: `scripts/build_va_geojson_from_zips.py`
@@ -383,7 +378,7 @@ python scripts/build_va_county_contests_from_openelections.py \
     [--county-geojson Data/tl_2020_51_county20.geojson]
 ```
 
-Reads all OpenElections CSVs and aggregates votes at the county level, grouped by contest type and year.  Produces one JSON file per `(contest_type, year)` pair plus a `manifest.json`.
+Reads the active OpenElections CSVs listed in the manifest and aggregates votes by county or independent city, contest type, and year. Produces one JSON file per `(contest_type, year)` pair plus a `manifest.json`.
 
 **Output schema per contest file** (`Data/contests/<contest_type>_<year>.json`):
 
@@ -451,23 +446,11 @@ For statewide contests (President, U.S. Senate, Governor, Lieutenant Governor, A
 2. For each VTD, the fraction of its total area that falls within each district is computed (`intersection_area / vtd_total_area`).
 3. If a precinct falls entirely within one district (share ≈ 1.0), its votes go entirely to that district.
 4. If a precinct straddles a district boundary, its votes are split proportionally by area share.
-5. County-level fallback shares are computed simultaneously and blended in for precincts whose geometry cannot be reliably matched to any OpenElections precinct code.
+5. Unmatched and non-geographic votes are distributed within their county or independent city using each party's matched geographic precinct distribution, falling back to locality-wide district weights when that party has no matched votes.
 
-#### County-specific blend factors
+#### Unmatched and non-geographic votes
 
-Some precincts in certain counties produce systematically poor area-share matches due to changed precinct boundaries between the Census 2020 VTD vintage and the election year.  A per-county `PARTY_FALLBACK_BLEND` factor (ranging from 0.15 to 1.00) controls how much of the district total is anchored to the county-wide party share rather than the precinct-centroid spatial match:
-
-| County | Scope | Blend factor |
-|---|---|---|
-| Chesapeake City | Congressional | 0.55 |
-| Stafford County | House of Delegates (HoD) | 1.00 |
-| Chesterfield County | State Senate | 0.95 |
-| Montgomery County | State Senate | 0.70 |
-| Roanoke County | State Senate | 0.70 |
-| Roanoke City | State Senate | 0.70 |
-| Salem City | State Senate | 0.70 |
-
-The default global blend for congressional districts is 0.35; for House of Delegates and state-senate districts it is 0.15.
+These votes have no reliable precinct geometry. The current builder allocates them within their locality using that party's matched geographic precinct distribution. If a party has no matched geographic votes, it uses locality-wide district weights.
 
 #### Direct district contests (2023, 2025)
 
@@ -970,7 +953,7 @@ Standard library only (`csv`, `json`, `re`, `zipfile`, `argparse`, `collections`
 
 - **Precinct boundary vintage mismatch** — Elections from 2023 onward use the current locality-maintained ELECT geometry, while older elections use the Census-2020-derived layer. Exact election-year boundary archives are not yet available for every historical cycle. The generated geometry-version crosswalk records old-to-current overlaps; block-weighted crosswalks are the preferred next step for accurately handling historical precinct splits and mergers.
 
-- **Absentee / provisional / early-vote precincts** — Non-geographic precincts (absentee, provisional, mail, curbside) are excluded from district apportionment because they cannot be assigned a spatial location.  Their votes are included in county-level totals but cannot be attributed to a sub-county district.
+- **Absentee / provisional / early-vote precincts** — Non-geographic votes have no direct spatial location, so their sub-locality district allocation is estimated from matched geographic votes within the same county or independent city, with locality-wide weights as a fallback.
 
 - **District boundary mismatch** — Congressional and state legislative boundaries change after each decennial redistricting cycle.  The 2022 redistricting lines are used for all years shown, which introduces a known anachronism for pre-2022 election results.
 

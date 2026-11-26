@@ -1,5 +1,24 @@
 # Change history
 
+## 2026-11-25: Virginia district aggregation
+
+- Moved dated interface notes out of the README and added a concise aggregation overview there. The allocation below was already in the pipeline; this entry documents how it works.
+- For statewide contests projected onto the displayed district lines, a county or independent city contained at least 99.9% in one district contributes its exact reported locality vote. Only split-locality components use geographic allocation. Qualifying multi-district locality clusters are reconciled to their combined official vote, and largest-remainder rounding preserves statewide party totals.
+- Virginia treats independent cities as separate county-equivalent localities. The examples below come from the tracked [locality-component reconciliation report](Data/district_contests/locality_component_reconciliation_report.json); they describe statewide-race projections, not direct district races.
+
+| District | Exact whole-locality component | Allocated split-locality component |
+|---|---|---|
+| Congressional 2 | Accomack, Isle of Wight, and Northampton counties; cities of Franklin, Suffolk, and Virginia Beach | City of Chesapeake; Southampton County |
+| Congressional 3 | Cities of Hampton, Newport News, Norfolk, and Portsmouth | City of Chesapeake |
+| Congressional 11 | City of Fairfax | Fairfax County |
+| House 20 | Cities of Manassas and Manassas Park | Prince William County |
+| House 44 | City of Bristol; Washington County | Russell County |
+| Senate 4 | Cities of Roanoke and Salem | Montgomery and Roanoke counties |
+| Senate 7 | Carroll, Floyd, Franklin, Grayson, Henry, and Patrick counties; cities of Galax and Martinsville | Wythe County |
+| Senate 20 | Accomack and Northampton counties | Cities of Norfolk and Virginia Beach |
+
+The table shows selected mixed districts; the linked report lists all whole and split components. The component classification uses 2020 Census voting-age population assigned to the official 2021 district plan.
+
 ## 2026-11-20
 
 - Refresh November 2026 Senate, House, and three constitutional amendment returns from Virginia's November 20 official export; rebuild county, district, and DRA files, preserve the April amendment and HD-20, and bump the cache token to `2026-11-20-va-results-refresh-v1`.
@@ -67,6 +86,12 @@
 - Start atlas hydration as soon as the Mapbox map is ready, avoiding mobile delays caused by waiting for every window asset.
 - Preserve two-decimal margin precision for close results and competitiveness thresholds (for example, 0.45%).
 - Refresh application and data cache tokens, plus shared-module asset tokens where present; repair shared module loading where needed.
+
+## 2026-05-12
+
+- Add compact VoteHub-style hover cards for precincts, congressional districts, House of Delegates districts, and state Senate districts; retain the richer locality tooltip.
+- Show the winner-line margin with `%` and optional party-colored flip callouts.
+- Align compact-card decimals with the front-end display pipeline while preserving map colors, the selected-locality panel, trends, and mobile docking.
 
 ## March–October 2026
 

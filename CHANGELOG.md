@@ -141,6 +141,18 @@ For **VA-01**, the 2026 Senate vote breaks down further:
 
 The county portions are estimates from the same precinct overlay and party-specific unmatched-vote allocation used by the district builder. Their displayed integer votes use largest-remainder rounding so the components sum to the published VA-01 total. The six-vote Newport News City edge comes from the precinct overlay; the official locality/district assignment puts Newport News City in VA-03.
 
+The **VA-01 U.S. House returns** show the geographic shift in the contest itself. These are votes cast for the district's House candidates in each locality or district portion, so no precinct overlay allocation is needed. Margins use the same winner-surname format as the map; the last column is the 2026 Democratic minus Republican vote margin.
+
+| VA-01 component | 2022 House | 2024 House | 2026 House | 2024 → 2026 shift | 2026 net votes |
+|---|---:|---:|---:|---:|---:|
+| Henrico County portion | Jones +7.52% | Mehta +8.77% | Taylor +25.93% | D+17.16 pp | D+23,395 |
+| Chesterfield County portion | Wittman +5.59% | Wittman +3.36% | Taylor +12.41% | D+15.77 pp | D+11,705 |
+| Hanover County portion | Wittman +32.40% | Wittman +31.62% | Wittman +18.09% | D+13.53 pp | R+9,305 |
+| Other 15 counties and independent cities | Wittman +21.50% | Wittman +22.70% | Wittman +7.72% | D+14.98 pp | R+13,688 |
+| **VA-01 total** | **Wittman +13.01%** | **Wittman +12.78%** | **Taylor +2.93%** | **D+15.71 pp** | **D+12,107** |
+
+Henrico and Chesterfield together gave Taylor a **35,100-vote** lead in 2026, exceeding Wittman's combined **22,993-vote** lead in Hanover and the other 15 localities. Chesterfield changed from a Wittman lead in both earlier House races to a Taylor lead; Wittman's Hanover lead also narrowed. The table describes where the winning margin came from, not why individual voters changed their choices. Sources: Virginia's [2022 official VA-01 results by locality](https://results.elections.virginia.gov/vaelections/2022%20November%20General/Site/Member_House_of_Representatives_(01).html), [2024 VA-01 results by locality](https://historical.elections.virginia.gov/contest/161739), and the repository's [2026 election export](Data/openelections/2026/20261103__va__general__precinct__multi_office__export_2026_november_general.csv), which sums to the [published 2026 district result](Data/district_contests/congressional_us_house_2026.json).
+
 #### House of Delegates districts
 
 | District | 2024 president | 2025 governor | 2025 House race | 2026 U.S. Senate |

@@ -8,102 +8,103 @@
 
 ### Congressional districts
 
-| District | Exact whole-locality component | Allocated split-locality component |
-|---|---|---|
-| VA-01 | Essex County; Gloucester County; James City County; King and Queen County; King William County; Lancaster County; Mathews County; Middlesex County; New Kent County; Northumberland County; City of Poquoson; Richmond County; Westmoreland County; City of Williamsburg; York County | Chesterfield County; Hanover County; Henrico County |
-| VA-02 | Accomack County; City of Franklin; Isle of Wight County; Northampton County; City of Suffolk; City of Virginia Beach | City of Chesapeake; Southampton County |
-| VA-03 | City of Hampton; City of Newport News; City of Norfolk; City of Portsmouth | City of Chesapeake |
-| VA-04 | Brunswick County; Charles City County; City of Colonial Heights; Dinwiddie County; City of Emporia; Greensville County; City of Hopewell; City of Petersburg; Prince George County; City of Richmond; Surry County; Sussex County | Chesterfield County; Henrico County; Southampton County |
-| VA-05 | Amelia County; Amherst County; Appomattox County; Buckingham County; Campbell County; Charlotte County; City of Charlottesville; Cumberland County; City of Danville; Fluvanna County; Goochland County; Halifax County; Louisa County; Lunenburg County; City of Lynchburg; Mecklenburg County; Nelson County; Nottoway County; Pittsylvania County; Powhatan County; Prince Edward County | Albemarle County; Bedford County; Hanover County |
-| VA-06 | Alleghany County; Augusta County; Bath County; Botetourt County; City of Buena Vista; Clarke County; City of Covington; Frederick County; City of Harrisonburg; Highland County; City of Lexington; Page County; City of Roanoke; Rockbridge County; Rockingham County; City of Salem; Shenandoah County; City of Staunton; Warren County; City of Waynesboro; City of Winchester | Roanoke County |
-| VA-07 | Caroline County; Culpeper County; City of Fredericksburg; Greene County; King George County; Madison County; Orange County; Spotsylvania County; Stafford County | Albemarle County; Prince William County |
-| VA-08 | City of Alexandria; Arlington County; City of Falls Church | Fairfax County |
-| VA-09 | Bland County; City of Bristol; Buchanan County; Carroll County; Craig County; Dickenson County; Floyd County; Franklin County; City of Galax; Giles County; Grayson County; Henry County; Lee County; City of Martinsville; Montgomery County; City of Norton; Patrick County; Pulaski County; City of Radford; Russell County; Scott County; Smyth County; Tazewell County; Washington County; Wise County; Wythe County | Bedford County; Roanoke County |
-| VA-10 | Fauquier County; Loudoun County; City of Manassas; City of Manassas Park; Rappahannock County | Fairfax County; Prince William County |
-| VA-11 | City of Fairfax | Fairfax County |
+| District | Exact whole-locality component | Allocated split-locality component | Example before → after |
+|---|---|---|---|
+| VA-01 | Essex County; Gloucester County; James City County; King and Queen County; King William County; Lancaster County; Mathews County; Middlesex County; New Kent County; Northumberland County; City of Poquoson; Richmond County; Westmoreland County; City of Williamsburg; York County | Chesterfield County; Hanover County; Henrico County | — |
+| VA-02 | Accomack County; City of Franklin; Isle of Wight County; Northampton County; City of Suffolk; City of Virginia Beach | City of Chesapeake; Southampton County | 2024 president: R+0.260% → R+0.233% |
+| VA-03 | City of Hampton; City of Newport News; City of Norfolk; City of Portsmouth | City of Chesapeake | — |
+| VA-04 | Brunswick County; Charles City County; City of Colonial Heights; Dinwiddie County; City of Emporia; Greensville County; City of Hopewell; City of Petersburg; Prince George County; City of Richmond; Surry County; Sussex County | Chesterfield County; Henrico County; Southampton County | — |
+| VA-05 | Amelia County; Amherst County; Appomattox County; Buckingham County; Campbell County; Charlotte County; City of Charlottesville; Cumberland County; City of Danville; Fluvanna County; Goochland County; Halifax County; Louisa County; Lunenburg County; City of Lynchburg; Mecklenburg County; Nelson County; Nottoway County; Pittsylvania County; Powhatan County; Prince Edward County | Albemarle County; Bedford County; Hanover County | — |
+| VA-06 | Alleghany County; Augusta County; Bath County; Botetourt County; City of Buena Vista; Clarke County; City of Covington; Frederick County; City of Harrisonburg; Highland County; City of Lexington; Page County; City of Roanoke; Rockbridge County; Rockingham County; City of Salem; Shenandoah County; City of Staunton; Warren County; City of Waynesboro; City of Winchester | Roanoke County | — |
+| VA-07 | Caroline County; Culpeper County; City of Fredericksburg; Greene County; King George County; Madison County; Orange County; Spotsylvania County; Stafford County | Albemarle County; Prince William County | — |
+| VA-08 | City of Alexandria; Arlington County; City of Falls Church | Fairfax County | — |
+| VA-09 | Bland County; City of Bristol; Buchanan County; Carroll County; Craig County; Dickenson County; Floyd County; Franklin County; City of Galax; Giles County; Grayson County; Henry County; Lee County; City of Martinsville; Montgomery County; City of Norton; Patrick County; Pulaski County; City of Radford; Russell County; Scott County; Smyth County; Tazewell County; Washington County; Wise County; Wythe County | Bedford County; Roanoke County | — |
+| VA-10 | Fauquier County; Loudoun County; City of Manassas; City of Manassas Park; Rappahannock County | Fairfax County; Prince William County | — |
+| VA-11 | City of Fairfax | Fairfax County | 2024 president: D+34.000% → D+34.059%; 2026 Senate breakdown below |
 
 ### House of Delegates districts
 
-| District | Exact whole-locality component | Allocated split-locality component |
-|---|---|---|
-| HD-11 | City of Fairfax | Fairfax County |
-| HD-13 | City of Falls Church | Fairfax County |
-| HD-20 | City of Manassas; City of Manassas Park | Prince William County |
-| HD-31 | Clarke County | Frederick County; Warren County |
-| HD-32 | City of Winchester | Frederick County |
-| HD-33 | Page County; Shenandoah County | Rockingham County; Warren County |
-| HD-34 | City of Harrisonburg | Rockingham County |
-| HD-35 | Bath County; Highland County | Augusta County; Rockingham County |
-| HD-36 | City of Staunton; City of Waynesboro | Augusta County; Rockbridge County |
-| HD-37 | Alleghany County; Botetourt County; City of Buena Vista; City of Covington; Craig County; City of Lexington | Rockbridge County |
-| HD-39 | Franklin County | Roanoke County |
-| HD-40 | City of Salem | City of Roanoke; Roanoke County |
-| HD-42 | Giles County; City of Radford | Montgomery County; Pulaski County |
-| HD-43 | Bland County; Buchanan County; Tazewell County | Dickenson County; Russell County |
-| HD-44 | City of Bristol; Washington County | Russell County |
-| HD-45 | Lee County; City of Norton; Scott County; Wise County | Dickenson County |
-| HD-46 | Grayson County; Smyth County; Wythe County | Pulaski County |
-| HD-47 | Carroll County; Floyd County; City of Galax; Patrick County | Henry County |
-| HD-48 | City of Martinsville | Henry County; Pittsylvania County |
-| HD-49 | City of Danville | Halifax County; Pittsylvania County |
-| HD-50 | Charlotte County; Lunenburg County; Mecklenburg County | Halifax County; Prince Edward County |
-| HD-52 | City of Lynchburg | Campbell County |
-| HD-53 | Amherst County | Bedford County; Nelson County |
-| HD-54 | City of Charlottesville | Albemarle County |
-| HD-56 | Appomattox County; Buckingham County; Cumberland County | Fluvanna County; Goochland County; Prince Edward County |
-| HD-61 | Rappahannock County | Culpeper County; Fauquier County |
-| HD-62 | Greene County; Madison County | Culpeper County; Orange County |
-| HD-65 | City of Fredericksburg | Spotsylvania County; Stafford County |
-| HD-67 | King George County; Lancaster County; Northumberland County; Richmond County; Westmoreland County | Caroline County |
-| HD-68 | Essex County; King and Queen County; King William County; Mathews County; Middlesex County | Gloucester County |
-| HD-71 | City of Williamsburg | James City County; New Kent County |
-| HD-72 | Amelia County; Nottoway County; Powhatan County | Chesterfield County |
-| HD-74 | City of Colonial Heights | Chesterfield County |
-| HD-75 | City of Hopewell | Chesterfield County; Prince George County |
-| HD-81 | Charles City County | Chesterfield County; Henrico County |
-| HD-82 | City of Petersburg; Surry County | Dinwiddie County; Prince George County |
-| HD-83 | Brunswick County; City of Emporia; Greensville County; Southampton County; Sussex County | Dinwiddie County; Isle of Wight County |
-| HD-84 | City of Franklin | Isle of Wight County; City of Suffolk |
-| HD-86 | City of Poquoson | City of Hampton; York County |
-| HD-100 | Accomack County; Northampton County | City of Virginia Beach |
+| District | Exact whole-locality component | Allocated split-locality component | Example before → after |
+|---|---|---|---|
+| HD-11 | City of Fairfax | Fairfax County | — |
+| HD-13 | City of Falls Church | Fairfax County | — |
+| HD-20 | City of Manassas; City of Manassas Park | Prince William County | — |
+| HD-31 | Clarke County | Frederick County; Warren County | — |
+| HD-32 | City of Winchester | Frederick County | — |
+| HD-33 | Page County; Shenandoah County | Rockingham County; Warren County | — |
+| HD-34 | City of Harrisonburg | Rockingham County | — |
+| HD-35 | Bath County; Highland County | Augusta County; Rockingham County | — |
+| HD-36 | City of Staunton; City of Waynesboro | Augusta County; Rockbridge County | — |
+| HD-37 | Alleghany County; Botetourt County; City of Buena Vista; City of Covington; Craig County; City of Lexington | Rockbridge County | — |
+| HD-39 | Franklin County | Roanoke County | — |
+| HD-40 | City of Salem | City of Roanoke; Roanoke County | — |
+| HD-42 | Giles County; City of Radford | Montgomery County; Pulaski County | — |
+| HD-43 | Bland County; Buchanan County; Tazewell County | Dickenson County; Russell County | — |
+| HD-44 | City of Bristol; Washington County | Russell County | — |
+| HD-45 | Lee County; City of Norton; Scott County; Wise County | Dickenson County | 2024 U.S. Senate: R+66.940% → R+54.061% |
+| HD-46 | Grayson County; Smyth County; Wythe County | Pulaski County | — |
+| HD-47 | Carroll County; Floyd County; City of Galax; Patrick County | Henry County | — |
+| HD-48 | City of Martinsville | Henry County; Pittsylvania County | — |
+| HD-49 | City of Danville | Halifax County; Pittsylvania County | — |
+| HD-50 | Charlotte County; Lunenburg County; Mecklenburg County | Halifax County; Prince Edward County | — |
+| HD-52 | City of Lynchburg | Campbell County | — |
+| HD-53 | Amherst County | Bedford County; Nelson County | — |
+| HD-54 | City of Charlottesville | Albemarle County | — |
+| HD-56 | Appomattox County; Buckingham County; Cumberland County | Fluvanna County; Goochland County; Prince Edward County | — |
+| HD-61 | Rappahannock County | Culpeper County; Fauquier County | — |
+| HD-62 | Greene County; Madison County | Culpeper County; Orange County | — |
+| HD-65 | City of Fredericksburg | Spotsylvania County; Stafford County | — |
+| HD-67 | King George County; Lancaster County; Northumberland County; Richmond County; Westmoreland County | Caroline County | — |
+| HD-68 | Essex County; King and Queen County; King William County; Mathews County; Middlesex County | Gloucester County | — |
+| HD-71 | City of Williamsburg | James City County; New Kent County | — |
+| HD-72 | Amelia County; Nottoway County; Powhatan County | Chesterfield County | — |
+| HD-74 | City of Colonial Heights | Chesterfield County | — |
+| HD-75 | City of Hopewell | Chesterfield County; Prince George County | — |
+| HD-81 | Charles City County | Chesterfield County; Henrico County | — |
+| HD-82 | City of Petersburg; Surry County | Dinwiddie County; Prince George County | — |
+| HD-83 | Brunswick County; City of Emporia; Greensville County; Southampton County; Sussex County | Dinwiddie County; Isle of Wight County | — |
+| HD-84 | City of Franklin | Isle of Wight County; City of Suffolk | 2024 U.S. Senate: D+14.438% → D+17.808% |
+| HD-86 | City of Poquoson | City of Hampton; York County | — |
+| HD-100 | Accomack County; Northampton County | City of Virginia Beach | — |
 
 ### State Senate districts
 
-| District | Exact whole-locality component | Allocated split-locality component |
-|---|---|---|
-| SD-2 | Bath County; City of Harrisonburg; Highland County; Page County; Rockingham County | Augusta County |
-| SD-3 | Alleghany County; Botetourt County; City of Buena Vista; City of Covington; Craig County; City of Lexington; Rockbridge County; City of Staunton; City of Waynesboro | Augusta County; Roanoke County |
-| SD-4 | City of Roanoke; City of Salem | Montgomery County; Roanoke County |
-| SD-5 | Bland County; Giles County; Pulaski County; City of Radford; Smyth County; Tazewell County | Montgomery County; Wythe County |
-| SD-7 | Carroll County; Floyd County; Franklin County; City of Galax; Grayson County; Henry County; City of Martinsville; Patrick County | Wythe County |
-| SD-9 | Charlotte County; City of Danville; Halifax County; Lunenburg County; Mecklenburg County; Nottoway County; Pittsylvania County | Prince Edward County |
-| SD-10 | Amelia County; Appomattox County; Buckingham County; Cumberland County; Fluvanna County; Goochland County; Powhatan County | Hanover County; Louisa County; Prince Edward County |
-| SD-11 | Albemarle County; Amherst County; City of Charlottesville; Nelson County | Louisa County |
-| SD-12 | City of Colonial Heights | Chesterfield County |
-| SD-13 | Charles City County; City of Hopewell; City of Petersburg; Prince George County; Surry County; Sussex County | Dinwiddie County; Henrico County |
-| SD-17 | Brunswick County; City of Emporia; City of Franklin; Greensville County; Isle of Wight County; Southampton County; City of Suffolk | Dinwiddie County; City of Portsmouth |
-| SD-20 | Accomack County; Northampton County | City of Norfolk; City of Virginia Beach |
-| SD-23 | City of Hampton | City of Newport News |
-| SD-24 | City of Poquoson; City of Williamsburg; York County | James City County; City of Newport News |
-| SD-25 | Caroline County; Essex County; King George County; King William County; Lancaster County; Middlesex County; Northumberland County; Richmond County; Westmoreland County | King and Queen County; Spotsylvania County |
-| SD-26 | Gloucester County; Mathews County; New Kent County | Hanover County; James City County; King and Queen County |
-| SD-27 | City of Fredericksburg | Spotsylvania County; Stafford County |
-| SD-28 | Culpeper County; Greene County; Madison County; Orange County; Rappahannock County | Fauquier County; Spotsylvania County |
-| SD-30 | City of Manassas; City of Manassas Park | Prince William County |
-| SD-37 | City of Fairfax; City of Falls Church | Fairfax County |
-| SD-39 | City of Alexandria | Arlington County; Fairfax County |
+| District | Exact whole-locality component | Allocated split-locality component | Example before → after |
+|---|---|---|---|
+| SD-2 | Bath County; City of Harrisonburg; Highland County; Page County; Rockingham County | Augusta County | — |
+| SD-3 | Alleghany County; Botetourt County; City of Buena Vista; City of Covington; Craig County; City of Lexington; Rockbridge County; City of Staunton; City of Waynesboro | Augusta County; Roanoke County | — |
+| SD-4 | City of Roanoke; City of Salem | Montgomery County; Roanoke County | 2024 president: R+1.291% → R+1.248% |
+| SD-5 | Bland County; Giles County; Pulaski County; City of Radford; Smyth County; Tazewell County | Montgomery County; Wythe County | — |
+| SD-7 | Carroll County; Floyd County; Franklin County; City of Galax; Grayson County; Henry County; City of Martinsville; Patrick County | Wythe County | — |
+| SD-9 | Charlotte County; City of Danville; Halifax County; Lunenburg County; Mecklenburg County; Nottoway County; Pittsylvania County | Prince Edward County | — |
+| SD-10 | Amelia County; Appomattox County; Buckingham County; Cumberland County; Fluvanna County; Goochland County; Powhatan County | Hanover County; Louisa County; Prince Edward County | — |
+| SD-11 | Albemarle County; Amherst County; City of Charlottesville; Nelson County | Louisa County | — |
+| SD-12 | City of Colonial Heights | Chesterfield County | — |
+| SD-13 | Charles City County; City of Hopewell; City of Petersburg; Prince George County; Surry County; Sussex County | Dinwiddie County; Henrico County | — |
+| SD-17 | Brunswick County; City of Emporia; City of Franklin; Greensville County; Isle of Wight County; Southampton County; City of Suffolk | Dinwiddie County; City of Portsmouth | — |
+| SD-20 | Accomack County; Northampton County | City of Norfolk; City of Virginia Beach | 2024 president: R+3.090% → R+3.021% |
+| SD-23 | City of Hampton | City of Newport News | — |
+| SD-24 | City of Poquoson; City of Williamsburg; York County | James City County; City of Newport News | — |
+| SD-25 | Caroline County; Essex County; King George County; King William County; Lancaster County; Middlesex County; Northumberland County; Richmond County; Westmoreland County | King and Queen County; Spotsylvania County | — |
+| SD-26 | Gloucester County; Mathews County; New Kent County | Hanover County; James City County; King and Queen County | — |
+| SD-27 | City of Fredericksburg | Spotsylvania County; Stafford County | — |
+| SD-28 | Culpeper County; Greene County; Madison County; Orange County; Rappahannock County | Fauquier County; Spotsylvania County | — |
+| SD-30 | City of Manassas; City of Manassas Park | Prince William County | — |
+| SD-37 | City of Fairfax; City of Falls Church | Fairfax County | — |
+| SD-39 | City of Alexandria | Arlington County; Fairfax County | — |
 
-These tables list all 72 mixed districts in the tracked report. Districts containing only split localities are excluded because they have no exact whole-locality component. The component classification uses 2020 Census voting-age population assigned to the official 2021 district plan.
+These tables list all 72 mixed districts in the tracked report. Districts containing only split localities are excluded because they have no exact whole-locality component. The component classification uses 2020 Census voting-age population assigned to the official 2021 district plan. The before → after examples compare vote-derived margins in the first reconciliation commit (`4cdfcc7`) with its parent; they are historical comparisons, not 2026 changes.
 
 For a numeric example, the 2024 presidential result in **VA-11** keeps the City of Fairfax's reported **8,797 Democratic / 4,302 Republican / 468 other** votes exact. Its allocated Fairfax County portion adds **258,618 / 123,431 / 14,505**, producing the published district total of **267,415 / 127,733 / 14,973**. The county portion is estimated; the independent city's vote is not reweighted.
 
-The tracked reconciliation run shows what applying the rule changed across the available statewide-race district slices:
+For a recent example, the current **2026 U.S. Senate** files give VA-11 the City of Fairfax's **8,540 Democratic / 2,800 Republican / 27 other** votes plus an allocated Fairfax County portion of **249,707 / 78,012 / 1,320**, totaling **258,247 / 80,812 / 1,347** (D+52.125%). This is a breakdown of the current district result; the 2026 contest is outside the tracked 78-slice reconciliation report.
 
-| Check | Observed result |
+The original reconciliation commit and the later tracked report capture different comparisons:
+
+| Comparison | Observed result |
 |---|---|
-| Statewide party totals | Exact official Democratic, Republican, and other totals in all 78 slices |
-| District margins | 157 district rows across four slices moved; largest change was 0.0313 percentage point (HD-35, 2016 presidential result) |
-| District winners | None changed; every recorded margin movement was smaller than that district's final absolute margin |
+| First reconciliation commit (`4cdfcc7` versus its parent) | Votes changed in 2,080 district rows across 78 statewide slices. The largest vote-derived margin movement was 12.879 percentage points (HD-45, 2024 U.S. Senate). Five split-only House districts changed winner in that Senate projection: HD-30, HD-41, HD-64, HD-66, and HD-69. |
+| Later tracked reconciliation report | Official Democratic, Republican, and other statewide totals match in all 78 slices. Margin changes appear in 157 district rows across four slices; the largest was 0.0313 percentage point (HD-35, 2016 presidential result), and no winners changed in that later run. |
 
 ## 2026-11-20
 

@@ -234,7 +234,7 @@ The pipeline runs in six sequential steps.  All scripts are in `scripts/` and ac
 
 District projections are reconciled to official statewide totals. Whole localities and qualifying locality clusters keep their exact reported totals; remaining split-locality components are adjusted with largest-remainder rounding. The sections below document the scripts, inputs, and checks.
 
-For district examples showing exact whole-locality votes beside allocated split-locality votes, see the [Virginia aggregation table in the changelog](CHANGELOG.md#2026-11-25-virginia-district-aggregation).
+For the complete list of mixed districts showing exact whole-locality votes beside allocated split-locality votes, see the [Virginia aggregation tables in the changelog](CHANGELOG.md#2026-11-25-virginia-district-aggregation).
 
 ### Step 1 — Convert boundary ZIPs to GeoJSON
 

@@ -112,6 +112,35 @@ The before → after columns above show the first 2024 reconciliation run. The t
 
 Both districts elected a Republican to the U.S. House in 2024 and a Democrat in 2026. VA-01 was the only one of Virginia's 11 congressional districts to move toward Democrats between the 2020 and 2024 presidential results on the displayed lines: Trump's lead narrowed from 6.67% to 4.89%, a 1.78-point shift.
 
+The largest locality contributions to each congressional district's **2026 U.S. Senate vote** show how different county and city geography feeds the district totals. Shares are percentages of that district's votes; a split locality contributes only its portion inside the district.
+
+| District | Largest locality contributions |
+|---|---|
+| VA-01 | Henrico County 22.6%; Chesterfield County 21.1%; Hanover County 12.5% |
+| VA-02 | City of Virginia Beach 54.6%; City of Chesapeake 17.6%; City of Suffolk 13.4% |
+| VA-03 | City of Norfolk 27.2%; City of Newport News 23.5%; City of Hampton 19.8% |
+| VA-04 | City of Richmond 29.6%; Chesterfield County 28.4%; Henrico County 19.7% |
+| VA-05 | Albemarle County 16.5%; City of Lynchburg 8.6%; Pittsylvania County 7.3% |
+| VA-06 | Frederick County 12.6%; Rockingham County 11.7%; Augusta County 10.7% |
+| VA-07 | Prince William County 31.8%; Stafford County 20.6%; Spotsylvania County 19.1% |
+| VA-08 | Fairfax County 44.6%; Arlington County 32.3%; City of Alexandria 20.6% |
+| VA-09 | Montgomery County 12.8%; Bedford County 10.1%; Franklin County 7.9% |
+| VA-10 | Loudoun County 55.6%; Prince William County 24.4%; Fauquier County 10.6% |
+| VA-11 | Fairfax County 96.7%; City of Fairfax 3.3% |
+
+For **VA-01**, the 2026 Senate vote breaks down further:
+
+| Geographic component | Democratic | Republican | Other | Share of VA-01 votes | Net margin votes |
+|---|---:|---:|---:|---:|---:|
+| 15 whole counties and independent cities | 87,803 | 88,845 | 345 | 43.8% | R+1,042 |
+| Henrico County portion | 62,097 | 29,252 | 227 | 22.6% | D+32,845 |
+| Chesterfield County portion | 49,595 | 35,617 | 201 | 21.1% | D+13,978 |
+| Hanover County portion | 22,382 | 27,916 | 89 | 12.5% | R+5,534 |
+| Newport News City overlay edge | 4 | 2 | 0 | <0.01% | D+2 |
+| **VA-01 total** | **221,881** | **181,632** | **862** | **100%** | **D+40,249** |
+
+The county portions are estimates from the same precinct overlay and party-specific unmatched-vote allocation used by the district builder. Their displayed integer votes use largest-remainder rounding so the components sum to the published VA-01 total. The six-vote Newport News City edge comes from the precinct overlay; the official locality/district assignment puts Newport News City in VA-03.
+
 #### House of Delegates districts
 
 | District | 2024 president | 2025 governor | 2025 House race | 2026 U.S. Senate |
@@ -135,7 +164,7 @@ Both districts elected a Republican to the U.S. House in 2024 and a Democrat in 
 
 The 2024 and 2026 U.S. House columns and the 2025 House of Delegates column are directly reported district races. The presidential, governor, and U.S. Senate columns are statewide contests projected onto district lines. Five of the nine listed House of Delegates districts also elected a Democratic delegate in 2025.
 
-For VA-01's 2026 U.S. Senate result, the reported votes for its 15 whole localities total **87,803 Democratic / 88,845 Republican / 345 other**. Subtracting those from the district total leaves **134,078 / 92,787 / 517** for the district's portions of Chesterfield, Hanover, and Henrico counties, producing **221,881 / 181,632 / 862** districtwide. The 2026 Senate slice is outside the tracked 78-slice reconciliation report.
+The 2026 Senate slice is outside the tracked 78-slice reconciliation report.
 
 The original reconciliation commit and the later tracked report capture different comparisons:
 

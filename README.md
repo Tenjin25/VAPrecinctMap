@@ -450,6 +450,8 @@ For statewide contests (President, U.S. Senate, Governor, Lieutenant Governor, A
 4. Otherwise, if a precinct straddles a district boundary, its votes are split proportionally by area share.
 5. Unmatched and non-geographic votes are distributed within their county or independent city using each party's matched geographic precinct distribution, falling back to locality-wide district weights when that party has no matched votes.
 
+For the 2026 congressional projection, same-year U.S. House returns provide direct precinct-to-district assignments. For the 2026 House of Delegates and state Senate projections, official assignments from the 2025 House and 2023 state Senate returns take priority. Precincts created afterward use current precinct boundaries before the older geographic overlay.
+
 #### Unmatched and non-geographic votes
 
 These votes have no reliable precinct geometry. The current builder allocates them within their locality using that party's matched geographic precinct distribution. If a party has no matched geographic votes, it uses locality-wide district weights.

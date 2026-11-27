@@ -1,5 +1,13 @@
 # Change history
 
+## 2026-11-27: 2026 U.S. Senate district precinct assignments
+
+- Reused the official 2025 House of Delegates precinct assignments for the 2026 statewide-race House projections after any same-year House assignment. Together these assignments cover 99.74% of 2026 Senate votes; the remaining precincts use the existing geographic fallback.
+- HD-59's 2026 U.S. Senate projection changed from Warner +7.68% (26,649–22,841) to Warner +0.06% (23,393–23,364). This corrects the same geometry-overlay issue that affected the 2025 governor projection before official House precinct assignments were used. Statewide Democratic, Republican, and other totals remain exact after reconciliation.
+- Reused the official 2023 state Senate precinct assignments for the unchanged 2026 plan. They cover 99.00% of the 2026 Senate vote. SD-14 moved from Warner +74.23% to +75.77%, SD-16 from +37.14% to +35.07%, and SD-20 from +12.57% to +10.86%. The rebuilt state Senate layer agrees with the independent block-level DRA aggregation within 0.08 percentage point in every district.
+- For 2026 precincts missing from those legislative returns, use current precinct boundaries before the older precinct overlay. Hampton University's new precinct 113 lies wholly in HD-87; the older fallback had sent part of its vote to HD-86. The corrected HD-86 and HD-87 Senate totals now match their block-level DRA totals. The three 2026 amendment layers were checked against DRA; their largest district-margin gap is 0.44 percentage point.
+- Used the same-year 2026 U.S. House returns to assign precincts to congressional districts for the Senate projection. They cover 99.93% of Senate votes. VA-04 moved from Warner +47.76% to +48.95%; the maximum congressional margin gap against DRA fell from 1.19 points to 0.013 point.
+
 ## 2026-11-25: Virginia district aggregation
 
 - Moved dated interface notes out of the README and added a concise aggregation overview there. The allocation below was already in the pipeline; this entry documents how it works.
@@ -107,38 +115,38 @@ The before → after columns above show the first 2024 reconciliation run. The t
 
 | District | 2020 president | 2024 president | 2024 U.S. House | 2025 governor | 2026 U.S. Senate | 2026 U.S. House |
 |---|---|---|---|---|---|---|
-| VA-01 | Trump +6.67% | Trump +4.89% | Wittman +12.79% | Spanberger +2.24% | Warner +9.95% | Taylor +2.93% |
-| VA-02 | Biden +2.04% | Trump +0.24% | Kiggans +3.84% | Spanberger +7.42% | Warner +15.24% | Luria +8.96% |
+| VA-01 | Trump +6.67% | Trump +4.89% | Wittman +12.79% | Spanberger +2.24% | Warner +9.62% | Taylor +2.93% |
+| VA-02 | Biden +2.04% | Trump +0.24% | Kiggans +3.84% | Spanberger +7.42% | Warner +15.18% | Luria +8.96% |
 
 Both districts elected a Republican to the U.S. House in 2024 and a Democrat in 2026. VA-01 was the only one of Virginia's 11 congressional districts to move toward Democrats between the 2020 and 2024 presidential results on the displayed lines: Trump's lead narrowed from 6.67% to 4.89%, a 1.78-point shift.
 
-The largest locality contributions to each congressional district's **2026 U.S. Senate vote** show how different county and city geography feeds the district totals. Shares are percentages of that district's votes; a split locality contributes only its portion inside the district.
+The largest locality contributions to each congressional district's **2026 U.S. Senate vote**, independently aggregated from the block-level DRA file, show how different county and city geography feeds the district totals. Shares are percentages of that district's votes; a split locality contributes only its portion inside the district. The DRA and precinct-based district projections can differ slightly in their allocation of unmatched votes.
 
 | District | Largest locality contributions |
 |---|---|
-| VA-01 | Henrico County 22.6%; Chesterfield County 21.1%; Hanover County 12.5% |
-| VA-02 | City of Virginia Beach 54.6%; City of Chesapeake 17.6%; City of Suffolk 13.4% |
-| VA-03 | City of Norfolk 27.2%; City of Newport News 23.5%; City of Hampton 19.8% |
-| VA-04 | City of Richmond 29.6%; Chesterfield County 28.4%; Henrico County 19.7% |
-| VA-05 | Albemarle County 16.5%; City of Lynchburg 8.6%; Pittsylvania County 7.3% |
-| VA-06 | Frederick County 12.6%; Rockingham County 11.7%; Augusta County 10.7% |
-| VA-07 | Prince William County 31.8%; Stafford County 20.6%; Spotsylvania County 19.1% |
-| VA-08 | Fairfax County 44.6%; Arlington County 32.3%; City of Alexandria 20.6% |
-| VA-09 | Montgomery County 12.8%; Bedford County 10.1%; Franklin County 7.9% |
-| VA-10 | Loudoun County 55.6%; Prince William County 24.4%; Fauquier County 10.6% |
+| VA-01 | Chesterfield County 22.9%; Henrico County 21.8%; Hanover County 12.4% |
+| VA-02 | City of Virginia Beach 54.8%; City of Chesapeake 17.3%; City of Suffolk 13.5% |
+| VA-03 | City of Norfolk 27.1%; City of Newport News 23.4%; City of Hampton 19.7% |
+| VA-04 | City of Richmond 30.3%; Chesterfield County 26.2%; Henrico County 20.5% |
+| VA-05 | Albemarle County 16.3%; City of Lynchburg 8.5%; Pittsylvania County 7.2% |
+| VA-06 | Frederick County 12.7%; Rockingham County 11.7%; Augusta County 10.8% |
+| VA-07 | Prince William County 31.4%; Stafford County 20.8%; Spotsylvania County 19.3% |
+| VA-08 | Fairfax County 43.5%; Arlington County 33.0%; City of Alexandria 21.0% |
+| VA-09 | Montgomery County 12.9%; Bedford County 8.2%; Franklin County 8.0% |
+| VA-10 | Loudoun County 55.1%; Prince William County 24.9%; Fauquier County 10.5% |
 | VA-11 | Fairfax County 96.7%; City of Fairfax 3.3% |
 
 For **VA-01**, the 2026 Senate vote breaks down further:
 
 | Geographic component | Democratic | Republican | Other | Share of VA-01 votes | Net margin votes |
 |---|---:|---:|---:|---:|---:|
-| 15 whole counties and independent cities | 87,803 | 88,845 | 345 | 43.8% | R+1,042 |
-| Henrico County portion | 62,097 | 29,252 | 227 | 22.6% | D+32,845 |
-| Chesterfield County portion | 49,595 | 35,617 | 201 | 21.1% | D+13,978 |
-| Hanover County portion | 22,382 | 27,916 | 89 | 12.5% | R+5,534 |
-| **VA-01 total** | **221,877** | **181,630** | **862** | **100%** | **D+40,247** |
+| 15 whole counties and independent cities | 87,803 | 88,845 | 345 | 42.8% | R+1,042 |
+| Henrico County portion | 59,767 | 30,203 | 216 | 21.8% | D+29,564 |
+| Chesterfield County portion | 55,585 | 38,671 | 217 | 22.9% | D+16,914 |
+| Hanover County portion | 22,821 | 28,497 | 90 | 12.4% | R+5,676 |
+| **VA-01 DRA total** | **225,976** | **186,216** | **868** | **100%** | **D+39,760** |
 
-The county portions are estimates from the same precinct overlay and party-specific unmatched-vote allocation used by the district builder. Their displayed integer votes use largest-remainder rounding so the components sum to the published VA-01 total. The official block assignment places all of Newport News City in VA-03. A 0.24% overlap of precinct 319 previously assigned six of its Senate votes to VA-01; the builder now applies the 99.9% whole-locality rule before allocating precinct votes, placing all six in VA-03.
+These components come from the block-level DRA export and official district block assignments; they sum to its VA-01 total. The precinct-based district JSON gives Warner a 39,749-vote lead in VA-01, an 11-vote difference from this independent reconstruction. The official block assignment places all of Newport News City in VA-03.
 
 The **VA-01 U.S. House returns** show the geographic shift in the contest itself. These are votes cast for the district's House candidates in each locality or district portion, so no precinct overlay allocation is needed. Margins use the same winner-surname format as the map; the last column is the 2026 Democratic minus Republican vote margin.
 
@@ -156,22 +164,22 @@ Henrico and Chesterfield together gave Taylor a **35,100-vote** lead in 2026, ex
 
 | District | 2024 president | 2025 governor | 2025 House race | 2026 U.S. Senate |
 |---|---|---|---|---|
-| HD-30 | Trump +1.28% | Spanberger +5.04% | McAuliff +1.94% | Warner +13.73% |
-| HD-34 | Trump +6.97% | Spanberger +3.06% | Wilt +0.88% | Warner +14.42% |
-| HD-41 | Trump +2.88% | Spanberger +9.74% | Franklin +6.70% | Warner +16.02% |
-| HD-64 | Trump +2.02% | Spanberger +9.32% | Carroll +6.50% | Warner +19.18% |
-| HD-66 | Trump +2.45% | Spanberger +9.72% | Cole +4.38% | Warner +19.18% |
-| HD-69 | Trump +1.58% | Spanberger +4.52% | Downey +3.31% | Warner +9.93% |
-| HD-74 | Trump +8.25% | Spanberger +1.28% | Cherry +5.06% | Warner +9.63% |
-| HD-99 | Trump +4.74% | Spanberger +0.48% | Tata +7.92% | Warner +11.84% |
-| HD-100 | Trump +5.19% | Spanberger +0.68% | Bloxom +5.86% | Warner +7.92% |
+| HD-30 | Trump +1.28% | Spanberger +5.04% | McAuliff +1.94% | Warner +14.10% |
+| HD-34 | Trump +6.97% | Spanberger +3.06% | Wilt +0.88% | Warner +13.41% |
+| HD-41 | Trump +2.88% | Spanberger +9.74% | Franklin +6.70% | Warner +18.47% |
+| HD-64 | Trump +2.02% | Spanberger +9.32% | Carroll +6.50% | Warner +18.23% |
+| HD-66 | Trump +2.45% | Spanberger +9.72% | Cole +4.38% | Warner +19.36% |
+| HD-69 | Trump +1.58% | Spanberger +4.52% | Downey +3.31% | Warner +10.63% |
+| HD-74 | Trump +8.25% | Spanberger +1.28% | Cherry +5.06% | Warner +10.29% |
+| HD-99 | Trump +4.74% | Spanberger +0.48% | Tata +7.92% | Warner +7.69% |
+| HD-100 | Trump +5.19% | Spanberger +0.68% | Bloxom +5.86% | Warner +8.13% |
 
 #### State Senate districts
 
 | District | 2024 president | 2025 governor | 2026 U.S. Senate |
 |---|---|---|---|
-| SD-4 | Trump +0.49% | Spanberger +8.12% | Warner +17.85% |
-| SD-20 | Trump +3.03% | Spanberger +5.34% | Warner +12.56% |
+| SD-4 | Trump +0.49% | Spanberger +8.12% | Warner +16.92% |
+| SD-20 | Trump +3.03% | Spanberger +5.34% | Warner +10.86% |
 
 The 2024 and 2026 U.S. House columns and the 2025 House of Delegates column are directly reported district races. The presidential, governor, and U.S. Senate columns are statewide contests projected onto district lines. Five of the nine listed House of Delegates districts also elected a Democratic delegate in 2025.
 
